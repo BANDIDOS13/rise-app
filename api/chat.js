@@ -1,31 +1,18 @@
-// RISE AI Coach — Vercel Serverless API
-// This endpoint connects to a real AI (Claude or GPT) for intelligent coaching
-// Deploy: push to GitHub, Vercel auto-deploys /api/chat.js as a serverless function
-//
-// SETUP: Add your API key in Vercel Dashboard → Settings → Environment Variables
-//   ANTHROPIC_API_KEY=sk-ant-... (for Claude)
-//   or OPENAI_API_KEY=sk-... (for GPT)
-
+// RISE AI Coach — Vercel Edge Function
 export const config = { runtime: 'edge' };
 
 const SYSTEM_PROMPT = `Tu es RISE Coach, un coach de vie IA intégré dans l'app RISE — AI Life OS.
-
 TON RÔLE:
 - Coach motivationnel, bienveillant mais direct
 - Expert en: sport, nutrition, business, finances, productivité, bien-être mental, relations
 - Tu tutoies toujours l'utilisateur
 - Réponses structurées avec emojis, listes, plans d'action concrets
 - Tu donnes des VRAIS conseils actionnables, pas du blabla
-
-CONTEXTE UTILISATEUR (fourni dynamiquement):
-- Nom, âge, objectifs, niveau, streak, historique
-
 RÈGLES:
 - Jamais de réponse générique ou vague
 - Toujours un plan d'action concret avec des étapes
 - Adapte le niveau au profil (débutant vs avancé)
 - Encourage mais ne mens jamais
-- Si tu ne sais pas, dis-le et redirige
 - Termine par une question ou un call-to-action
 - Réponses en français sauf si on te parle en anglais
 - Maximum 300 mots par réponse (concis et dense)`;
@@ -60,24 +47,18 @@ export default async function handler(req) {
     } else if (openaiKey) {
       return await callGPT(openaiKey, message, userContext, history || []);
     } else {
-      return new Response(JSON.stringify({
-        reply: null,
-        fallback: true,
-        error: 'No API key configured. Using local AI engine.'
-      }), {
-        headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-      });
+      return jsonResp({ reply: null, fallback: true, error: 'NO_KEY: No API key configured' });
     }
   } catch (err) {
-    return new Response(JSON.stringify({
-      reply: null,
-      fallback: true,
-      error: err.message
-    }), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-    });
+    return jsonResp({ reply: null, fallback: true, error: 'CATCH: ' + err.message }, 500);
   }
+}
+
+function jsonResp(obj, status = 200) {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+  });
 }
 
 async function callClaude(apiKey, message, userContext, history) {
@@ -86,27 +67,36 @@ async function callClaude(apiKey, message, userContext, history) {
     { role: 'user', content: message }
   ];
 
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 800,
-      system: SYSTEM_PROMPT + userContext,
-      messages,
-    }),
-  });
+  const body = {
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: 800,
+    system: SYSTEM_PROMPT + userContext,
+    messages,
+  };
+
+  let res;
+  try {
+    res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (fetchErr) {
+    return jsonResp({ reply: null, fallback: true, error: 'FETCH_ERR: ' + fetchErr.message });
+  }
 
   const data = await res.json();
-  const reply = data.content?.[0]?.text || null;
 
-  return new Response(JSON.stringify({ reply, fallback: !reply }), {
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-  });
+  if (data.error) {
+    return jsonResp({ reply: null, fallback: true, error: 'CLAUDE_ERR: ' + (data.error.message || JSON.stringify(data.error)) });
+  }
+
+  const reply = data.content?.[0]?.text || null;
+  return jsonResp({ reply, fallback: !reply });
 }
 
 async function callGPT(apiKey, message, userContext, history) {
@@ -116,23 +106,26 @@ async function callGPT(apiKey, message, userContext, history) {
     { role: 'user', content: message }
   ];
 
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      max_tokens: 800,
-      messages,
-    }),
-  });
+  let res;
+  try {
+    res = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 800, messages }),
+    });
+  } catch (fetchErr) {
+    return jsonResp({ reply: null, fallback: true, error: 'FETCH_ERR: ' + fetchErr.message });
+  }
 
   const data = await res.json();
-  const reply = data.choices?.[0]?.message?.content || null;
 
-  return new Response(JSON.stringify({ reply, fallback: !reply }), {
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
-  });
-}
+  if (data.error) {
+    return jsonResp({ reply: null, fallback: true, error: 'GPT_ERR: ' + (data.error.message || JSON.stringify(data.error)) });
+  }
+
+  const reply = data.choices?.[0]?.message?.content || null;
+  return jsonResp({ reply, fallback: !reply });
+      }
