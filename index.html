@@ -172,6 +172,84 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
 .ai-loading{display:flex;align-items:center;gap:8px;color:var(--tx3);font-size:13px;font-style:italic}
 .ai-loading::before{content:'';width:14px;height:14px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* MOOD FACTORS */
+.mood-factor{font-size:11px;padding:4px 8px;border-radius:20px;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;transition:all .2s;color:var(--tx3)}
+.mood-factor.active{background:var(--acm);border-color:var(--ac);color:var(--ac)}
+/* NOTES SMART */
+.note-folder-badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.note-tag{display:inline-flex;padding:2px 7px;border-radius:4px;background:rgba(167,139,250,.1);color:var(--pu);font-size:10px;font-weight:600;margin-right:3px}
+.note-pinned{border-left:3px solid var(--ac)}
+/* MBTI */
+.mbti-type-card{background:linear-gradient(135deg,var(--acm),transparent);border:1.5px solid rgba(212,170,74,.3);border-radius:var(--r);padding:20px;text-align:center}
+.mbti-type-code{font-family:var(--fd);font-size:48px;font-weight:900;color:var(--ac);letter-spacing:4px}
+.mbti-type-name{font-size:18px;font-weight:700;margin:6px 0}
+.mbti-dim{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)}
+.mbti-dim:last-child{border:none}
+.mbti-dim-label{font-size:11px;width:90px;flex-shrink:0;color:var(--tx3)}
+.mbti-dim-bar{flex:1;height:8px;background:var(--bd);border-radius:4px;overflow:hidden;position:relative}
+.mbti-dim-fill{height:100%;border-radius:4px;transition:width .6s}
+.mbti-dim-val{font-size:11px;font-weight:700;width:35px;text-align:right;color:var(--ac);flex-shrink:0}
+/* RELATIONS */
+.contact-card{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px;transition:border-color .2s}
+.contact-card:hover{border-color:var(--ac)}
+.contact-avatar{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#000;flex-shrink:0}
+.contact-strength{display:flex;gap:2px}.contact-dot{width:8px;height:8px;border-radius:50%}
+/* VOICE */
+#voice-btn.listening{background:rgba(224,92,92,.15);border-color:var(--rd);animation:pulse 1s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+
+/* CEO BOARD */
+.kpi-alert{display:flex;align-items:flex-start;gap:10px;padding:10px;background:rgba(224,92,92,.06);border:1px solid rgba(224,92,92,.2);border-radius:var(--rs);margin-bottom:8px}
+.kpi-alert .ico{font-size:18px;flex-shrink:0;margin-top:1px}
+.kpi-alert.warning{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)}
+.kpi-alert.success{background:rgba(62,207,142,.06);border-color:rgba(62,207,142,.2)}
+/* PROJECTS */
+.proj-kanban{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.proj-col{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:10px;min-width:150px;flex-shrink:0}
+.proj-col-h{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between}
+.proj-card{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:9px;margin-bottom:6px}
+.proj-card-name{font-size:12px;font-weight:700}.proj-card-meta{font-size:10px;color:var(--tx3);margin-top:3px}
+.proj-bar{height:3px;background:var(--bd);border-radius:2px;margin-top:6px;overflow:hidden}
+.proj-bar-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:width .5s}
+/* SOCIAL */
+.social-post{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px;transition:border-color .2s}
+.social-post:hover{border-color:var(--bd2)}
+.social-post-header{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.social-avatar{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#000;flex-shrink:0}
+.social-post-body{font-size:13px;line-height:1.6;color:var(--tx2);margin-bottom:10px}
+.social-post-actions{display:flex;gap:12px;align-items:center}
+.social-action-btn{background:none;border:none;cursor:pointer;font-size:12px;color:var(--tx3);padding:4px 8px;border-radius:6px;transition:all .2s;display:flex;align-items:center;gap:4px}
+.social-action-btn:hover{background:var(--sf2);color:var(--ac)}
+.social-action-btn.liked{color:var(--rd)}
+/* LEADERBOARD */
+.lb-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+.lb-item:last-child{border:none}.lb-rank{font-family:var(--fd);font-size:16px;font-weight:800;width:28px;text-align:center;flex-shrink:0}
+.lb-rank.gold{color:#ffd700}.lb-rank.silver{color:#c0c0c0}.lb-rank.bronze{color:#cd7f32}
+/* BADGES */
+.badge-item{display:flex;align-items:center;gap:12px;padding:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px;transition:all .2s}
+.badge-item.unlocked{border-color:rgba(212,170,74,.3);background:var(--acm)}
+.badge-ico{font-size:24px;width:40px;text-align:center;flex-shrink:0}
+.badge-info{flex:1}.badge-name{font-size:13px;font-weight:700}.badge-desc{font-size:11px;color:var(--tx3);margin-top:2px}
+.badge-xp{font-size:11px;font-weight:700;color:var(--ac)}
+/* ROUTINE */
+.routine-step{display:flex;align-items:center;gap:12px;padding:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px;transition:all .2s;cursor:pointer}
+.routine-step.checked{border-color:var(--gr);background:rgba(62,207,142,.05)}
+.routine-step-ico{font-size:20px;width:32px;text-align:center;flex-shrink:0}
+.routine-step-info{flex:1}.routine-step-name{font-size:13px;font-weight:600}.routine-step-time{font-size:11px;color:var(--tx3)}
+.routine-check-ico{font-size:16px;color:var(--gr);width:20px;text-align:center}
+/* VISION */
+.horizon-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px;transition:border-color .2s}
+.horizon-card:hover{border-color:var(--ac)}
+.horizon-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.horizon-ico{font-size:22px}.horizon-title{font-family:var(--fd);font-size:14px;font-weight:800}
+.horizon-sub{font-size:11px;color:var(--tx3)}
+/* AI TOOLS */
+.aitool-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.aitool-card{padding:14px;background:var(--sf2);border:1.5px solid var(--bd);border-radius:var(--r);cursor:pointer;transition:all .2s;text-align:center}
+.aitool-card:hover{border-color:var(--ac);background:var(--acm)}
+.aitool-ico{font-size:24px;margin-bottom:6px}.aitool-name{font-size:12px;font-weight:700}.aitool-desc{font-size:10px;color:var(--tx3);margin-top:2px}
+.aitool-result{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;font-size:13px;line-height:1.7;color:var(--tx2);min-height:80px;white-space:pre-wrap}
+
 /* THEMES */
 body[data-theme="purple"]{--ac:#a78bfa;--ac2:#c4b5fd;--acm:rgba(167,139,250,.07)}
 body[data-theme="blue"]{--ac:#4a9ed4;--ac2:#74b9e8;--acm:rgba(74,158,212,.07)}
@@ -275,9 +353,22 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
     <div class="sb-item" onclick="nav('sleep',this)"><span class="ico">😴</span>Sommeil</div>
     <div class="sb-sec">Organisation</div>
     <div class="sb-item" onclick="nav('calendar',this)"><span class="ico">📅</span>Calendrier & RDV</div>
+    <div class="sb-sec">Business+</div>
+    <div class="sb-item" onclick="nav('ceoboard',this)"><span class="ico">📊</span>CEO Board</div>
+    <div class="sb-item" onclick="nav('projects',this)"><span class="ico">🗂️</span>Projets</div>
+    <div class="sb-item" onclick="nav('aitools',this)"><span class="ico">🛠️</span>Outils IA</div>
+    <div class="sb-sec">Lifestyle</div>
+    <div class="sb-item" onclick="nav('routine',this)"><span class="ico">☀️</span>Routines</div>
+    <div class="sb-item" onclick="nav('vision',this)"><span class="ico">🔭</span>Vision de vie</div>
+    <div class="sb-item" onclick="nav('social',this)"><span class="ico">👥</span>RISE Social</div>
+    <div class="sb-item" onclick="nav('badges',this)"><span class="ico">🏅</span>Badges & Saisons</div>
     <div class="sb-sec">Communauté</div>
     <div class="sb-item" onclick="nav('affiliation',this)"><span class="ico">🤝</span>Affiliation</div>
     <div class="sb-item" onclick="nav('suggestions',this)"><span class="ico">💡</span>Suggestions</div>
+    <div class="sb-sec">Psychologie & Relations</div>
+    <div class="sb-item" onclick="nav('mbti',this)"><span class="ico">🧬</span>Profil MBTI</div>
+    <div class="sb-item" onclick="nav('relations',this)"><span class="ico">🤝</span>Relations/CRM</div>
+    <div class="sb-item" onclick="nav('voice',this)"><span class="ico">🎙️</span>Assistant Vocal</div>
     <div class="sb-sec">Compte</div>
     <div class="sb-item" onclick="nav('achievements',this)"><span class="ico">🏆</span>Achievements</div>
     <div class="sb-item" onclick="nav('export',this)"><span class="ico">💾</span>Export</div>
@@ -504,18 +595,102 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
       <div class="card"><div class="card-h">Créer une habitude</div><div class="g2" style="gap:8px;margin-bottom:8px"><input class="inp" id="h-nm" placeholder="Nom de l'habitude"><input class="inp" id="h-ico" placeholder="Emoji (ex: 🏃)"></div><button class="btn btn-gold btn-sm" onclick="addHabit()">+ Créer</button></div>
     </div>
 
-    <!-- MOOD -->
+    <!-- MOOD ENRICHI -->
     <div class="page" id="page-mood">
-      <div class="pg-title">Humeur</div>
-      <div class="card"><div class="card-h">Comment tu te sens ?</div><div class="mood-grid"><div class="mood-opt" onclick="selMood(0,this)"><div class="mi">😫</div><div class="ml">Terrible</div></div><div class="mood-opt" onclick="selMood(1,this)"><div class="mi">😔</div><div class="ml">Moyen</div></div><div class="mood-opt" onclick="selMood(2,this)"><div class="mi">😐</div><div class="ml">Neutre</div></div><div class="mood-opt" onclick="selMood(3,this)"><div class="mi">🙂</div><div class="ml">Bien</div></div><div class="mood-opt" onclick="selMood(4,this)"><div class="mi">🚀</div><div class="ml">Excellent</div></div></div><textarea class="inp" id="mood-note" placeholder="Note (optionnelle)..." rows="2" style="resize:none;margin-bottom:9px"></textarea><button class="btn btn-gold" onclick="saveMood()">Enregistrer</button></div>
-      <div class="card"><div class="card-h">Historique</div><div id="mood-hist"></div></div>
+      <div class="pg-title">😊 Humeur <small>Tracker enrichi</small></div>
+      <!-- Log humeur -->
+      <div class="card">
+        <div class="card-h">Comment tu te sens maintenant ?</div>
+        <div class="mood-grid" style="margin-bottom:12px">
+          <div class="mood-opt" onclick="selMood(0,this)"><div class="mi">😫</div><div class="ml">Terrible</div></div>
+          <div class="mood-opt" onclick="selMood(1,this)"><div class="mi">😔</div><div class="ml">Moyen</div></div>
+          <div class="mood-opt" onclick="selMood(2,this)"><div class="mi">😐</div><div class="ml">Neutre</div></div>
+          <div class="mood-opt" onclick="selMood(3,this)"><div class="mi">🙂</div><div class="ml">Bien</div></div>
+          <div class="mood-opt" onclick="selMood(4,this)"><div class="mi">🚀</div><div class="ml">Excellent</div></div>
+        </div>
+        <!-- Énergie par moment -->
+        <div style="margin-bottom:10px">
+          <div style="font-size:11px;color:var(--tx3);margin-bottom:6px">Niveau d'énergie (1-5)</div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:11px;color:var(--tx3)">😴</span>
+            <input type="range" id="mood-energy" min="1" max="5" value="3" style="flex:1">
+            <span style="font-size:11px;color:var(--tx3)">⚡</span>
+            <span id="mood-energy-val" style="font-size:13px;font-weight:700;color:var(--ac);width:20px">3</span>
+          </div>
+        </div>
+        <!-- Facteurs -->
+        <div style="margin-bottom:10px">
+          <div style="font-size:11px;color:var(--tx3);margin-bottom:6px">Facteurs (clique pour activer)</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap" id="mood-factors">
+            <span class="mood-factor" data-k="sleep" onclick="toggleMoodFactor(this)">😴 Sommeil</span>
+            <span class="mood-factor" data-k="sport" onclick="toggleMoodFactor(this)">🏃 Sport</span>
+            <span class="mood-factor" data-k="food" onclick="toggleMoodFactor(this)">🥗 Nutrition</span>
+            <span class="mood-factor" data-k="social" onclick="toggleMoodFactor(this)">👥 Social</span>
+            <span class="mood-factor" data-k="work" onclick="toggleMoodFactor(this)">💼 Travail</span>
+            <span class="mood-factor" data-k="finance" onclick="toggleMoodFactor(this)">💰 Finances</span>
+            <span class="mood-factor" data-k="nature" onclick="toggleMoodFactor(this)">🌿 Nature</span>
+            <span class="mood-factor" data-k="learning" onclick="toggleMoodFactor(this)">📚 Apprentissage</span>
+          </div>
+        </div>
+        <textarea class="inp" id="mood-note" placeholder="Note libre..." rows="2" style="resize:none;margin-bottom:9px"></textarea>
+        <button class="btn btn-gold" onclick="saveMood()">Enregistrer</button>
+      </div>
+      <!-- Heatmap 30 jours -->
+      <div class="card">
+        <div class="card-h">Heatmap 30 jours</div>
+        <div id="mood-heatmap" style="display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px"></div>
+        <div style="display:flex;align-items:center;gap:4px;font-size:10px;color:var(--tx3)"><span>😫</span><div style="display:flex;gap:1px">${[0,1,2,3,4].map(i=>`<div style="width:10px;height:10px;border-radius:2px;background:${['#3a2020','#4a3020','#3d3d20','#204a20','#1d7d3d'][i]}"></div>`).join('')}</div><span>🚀</span></div>
+      </div>
+      <!-- Corrélations -->
+      <div class="card">
+        <div class="card-h">📊 Patterns & Corrélations</div>
+        <div id="mood-patterns"></div>
+      </div>
+      <div class="card"><div class="card-h">Historique récent</div><div id="mood-hist"></div></div>
     </div>
 
-    <!-- NOTES -->
+    <!-- NOTES INTELLIGENTES -->
     <div class="page" id="page-notes">
-      <div class="pg-title">Notes</div>
-      <div class="search-wrap"><span class="search-ico">🔍</span><input class="inp" id="notes-q" placeholder="Rechercher..." oninput="renderNotes()"></div>
-      <div class="card"><input class="inp" id="nt-title" placeholder="Titre..." style="margin-bottom:7px"><textarea class="inp" id="nt-body" placeholder="Contenu..." rows="4" style="margin-bottom:9px"></textarea><button class="btn btn-gold btn-sm" onclick="saveNote()">Sauvegarder</button></div>
+      <div class="pg-title">📝 Notes <small>Intelligentes</small></div>
+      <!-- Dossiers -->
+      <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none" id="notes-folders">
+        <button onclick="setNoteFolder('all',this)" class="btn btn-gold btn-sm" data-folder="all">📁 Toutes</button>
+        <button onclick="setNoteFolder('perso',this)" class="btn btn-sf btn-sm" data-folder="perso" style="border-color:#d4aa4a33">👤 Perso</button>
+        <button onclick="setNoteFolder('business',this)" class="btn btn-sf btn-sm" data-folder="business" style="border-color:#4a9ed433">💼 Business</button>
+        <button onclick="setNoteFolder('sante',this)" class="btn btn-sf btn-sm" data-folder="sante" style="border-color:#3ecf8e33">💪 Santé</button>
+        <button onclick="setNoteFolder('idees',this)" class="btn btn-sf btn-sm" data-folder="idees" style="border-color:#a78bfa33">💡 Idées</button>
+        <button onclick="setNoteFolder('urgent',this)" class="btn btn-sf btn-sm" data-folder="urgent" style="border-color:#e05c5c33">🚨 Urgent</button>
+      </div>
+      <div class="search-wrap"><span class="search-ico">🔍</span><input class="inp" id="notes-q" placeholder="Rechercher dans les notes..." oninput="renderNotes()"></div>
+      <!-- Editor -->
+      <div class="card" id="note-editor-card">
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+          <input class="inp" id="nt-title" placeholder="Titre de la note..." style="flex:1;min-width:150px">
+          <select class="inp" id="nt-folder" style="max-width:130px">
+            <option value="perso">👤 Perso</option>
+            <option value="business">💼 Business</option>
+            <option value="sante">💪 Santé</option>
+            <option value="idees">💡 Idées</option>
+            <option value="urgent">🚨 Urgent</option>
+          </select>
+        </div>
+        <!-- Markdown toolbar -->
+        <div style="display:flex;gap:4px;margin-bottom:6px;flex-wrap:wrap">
+          <button class="btn-icon" onclick="insertMd('**','**')" title="Gras" style="font-size:11px;font-weight:900;width:28px;height:28px">B</button>
+          <button class="btn-icon" onclick="insertMd('*','*')" title="Italique" style="font-size:11px;font-style:italic;width:28px;height:28px">I</button>
+          <button class="btn-icon" onclick="insertMd('## ','')" title="Titre" style="font-size:11px;width:28px;height:28px">H</button>
+          <button class="btn-icon" onclick="insertMd('- ','')" title="Liste" style="font-size:11px;width:28px;height:28px">•</button>
+          <button class="btn-icon" onclick="insertMd('`','`')" title="Code" style="font-size:11px;width:28px;height:28px">&lt;/&gt;</button>
+          <button class="btn-icon" onclick="insertMd('> ','')" title="Citation" style="font-size:11px;width:28px;height:28px">"</button>
+        </div>
+        <textarea class="inp" id="nt-body" placeholder="Contenu... (Markdown supporté)" rows="5" style="margin-bottom:8px;resize:vertical;font-family:var(--fb)"></textarea>
+        <input class="inp" id="nt-tags" placeholder="Tags (séparés par virgule)..." style="margin-bottom:8px">
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-gold btn-sm" onclick="saveNote()" style="flex:2">💾 Sauvegarder</button>
+          <button class="btn btn-sf btn-sm" onclick="analyzeNote()" style="flex:1">🤖 Analyser IA</button>
+        </div>
+        <div id="note-ai-analysis" style="display:none;margin-top:8px;font-size:12px;color:var(--tx2);line-height:1.6;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:10px"></div>
+      </div>
       <div id="notes-list"></div>
     </div>
 
@@ -793,6 +968,313 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
       <div class="card">
         <div class="card-h">🔥 Suggestions populaires</div>
         <div id="suggestions-list"></div>
+      </div>
+    </div>
+
+
+    <!-- CEO BOARD -->
+    <div class="page" id="page-ceoboard">
+      <div class="pg-title">📊 CEO Board <small>Vue d'ensemble</small></div>
+      <!-- KPI Row -->
+      <div class="g4" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="ceo-score">0</div><div class="sc-l">RISE Score</div></div>
+        <div class="sc gr"><div class="sc-v" id="ceo-rev">0€</div><div class="sc-l">Revenus mois</div></div>
+        <div class="sc bl"><div class="sc-v" id="ceo-pipe">0€</div><div class="sc-l">Pipeline</div></div>
+        <div class="sc"><div class="sc-v" id="ceo-tasks">0</div><div class="sc-l">Tâches actives</div></div>
+      </div>
+      <!-- Alertes intelligentes -->
+      <div class="card">
+        <div class="card-h gold">🚨 Alertes intelligentes</div>
+        <div id="ceo-alerts"></div>
+      </div>
+      <!-- Revenus chart -->
+      <div class="card">
+        <div class="card-h">📈 Revenus 6 mois</div>
+        <div id="ceo-chart" style="height:90px;position:relative"></div>
+      </div>
+      <!-- Activité du jour -->
+      <div class="card">
+        <div class="card-h">⚡ Activité du jour</div>
+        <div id="ceo-today"></div>
+      </div>
+      <!-- Projects status -->
+      <div class="card">
+        <div class="card-h">🗂️ Projets actifs</div>
+        <div id="ceo-projects"></div>
+      </div>
+    </div>
+
+    <!-- GESTION PROJETS -->
+    <div class="page" id="page-projects">
+      <div class="pg-title">🗂️ Projets <small>Kanban board</small></div>
+      <div class="proj-kanban" id="proj-kanban"></div>
+      <div class="card" style="margin-top:12px">
+        <div class="card-h">+ Nouveau projet</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="proj-name" placeholder="Nom du projet">
+          <input class="inp" id="proj-deadline" type="date">
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="proj-budget" type="number" placeholder="Budget (€)">
+          <select class="inp" id="proj-priority">
+            <option value="normal">Normal</option>
+            <option value="high">🔴 Haute</option>
+            <option value="urgent">🚨 Urgent</option>
+          </select>
+        </div>
+        <textarea class="inp" id="proj-desc" placeholder="Description..." rows="2" style="margin-bottom:8px;resize:none"></textarea>
+        <button class="btn btn-gold btn-sm" onclick="addProject()">+ Créer le projet</button>
+      </div>
+    </div>
+
+    <!-- OUTILS IA BUSINESS -->
+    <div class="page" id="page-aitools">
+      <div class="pg-title">🛠️ Outils IA <small>Business booster</small></div>
+      <div class="aitool-grid">
+        <div class="aitool-card" onclick="runAITool('contrat')"><div class="aitool-ico">📄</div><div class="aitool-name">Contrat IA</div><div class="aitool-desc">Génère un contrat pro</div></div>
+        <div class="aitool-card" onclick="runAITool('pitch')"><div class="aitool-ico">🎯</div><div class="aitool-name">Pitch IA</div><div class="aitool-desc">Structure ton pitch</div></div>
+        <div class="aitool-card" onclick="runAITool('pricing')"><div class="aitool-ico">💰</div><div class="aitool-name">Pricing IA</div><div class="aitool-desc">Stratégie de prix</div></div>
+        <div class="aitool-card" onclick="runAITool('concurrent')"><div class="aitool-ico">🔍</div><div class="aitool-name">Analyse concurrents</div><div class="aitool-desc">Analyse différentielle</div></div>
+        <div class="aitool-card" onclick="runAITool('email')"><div class="aitool-ico">📧</div><div class="aitool-name">Email pro</div><div class="aitool-desc">Rédige un email parfait</div></div>
+        <div class="aitool-card" onclick="runAITool('ideas')"><div class="aitool-ico">💡</div><div class="aitool-name">Idées business</div><div class="aitool-desc">Brainstorm IA</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h gold">Contexte de ta demande</div>
+        <textarea class="inp" id="aitool-context" placeholder="Décris ton besoin... (ex: 'contrat de prestation pour développement web 3 mois 15K€')" rows="3" style="resize:none;margin-bottom:8px"></textarea>
+        <div id="aitool-result" class="aitool-result">Sélectionne un outil et décris ton besoin ci-dessus.</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn btn-sf btn-sm" onclick="copyAIToolResult()">📋 Copier</button>
+          <button class="btn btn-sf btn-sm" onclick="saveAsNote()">📝 Sauver en note</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROUTINE BUILDER -->
+    <div class="page" id="page-routine">
+      <div class="pg-title">☀️ Routines <small>Matin & Soir</small></div>
+      <div class="g2" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="routine-matin-pct">0%</div><div class="sc-l">☀️ Matin</div></div>
+        <div class="sc"><div class="sc-v" id="routine-soir-pct">0%</div><div class="sc-l">🌙 Soir</div></div>
+      </div>
+      <!-- Toggle matin/soir -->
+      <div class="ftabs" style="margin-bottom:12px">
+        <div class="ftab active" id="rt-matin" onclick="switchRoutine('matin',this)">☀️ Routine Matin</div>
+        <div class="ftab" id="rt-soir" onclick="switchRoutine('soir',this)">🌙 Routine Soir</div>
+      </div>
+      <div class="card">
+        <div class="card-h" id="routine-title">Routine Matin</div>
+        <div id="routine-steps"></div>
+        <div style="margin-top:10px;text-align:center" id="routine-progress-text"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">+ Ajouter une étape</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="routine-step-name" placeholder="Ex: Méditation, Lecture...">
+          <input class="inp" id="routine-step-time" type="number" placeholder="Durée (min)" value="5">
+        </div>
+        <input class="inp" id="routine-step-ico" placeholder="Emoji (ex: 🧘)" style="margin-bottom:8px">
+        <button class="btn btn-gold btn-sm" onclick="addRoutineStep()">+ Ajouter</button>
+      </div>
+      <div class="card">
+        <div class="card-h">💡 Routine suggérée par l'IA</div>
+        <button class="btn btn-sf btn-sm" onclick="generateRoutine()">✨ Générer ma routine IA</button>
+        <div id="routine-ai-suggest" style="margin-top:8px;font-size:12px;color:var(--tx3)"></div>
+      </div>
+    </div>
+
+    <!-- VISION DE VIE -->
+    <div class="page" id="page-vision">
+      <div class="pg-title">🔭 Vision de vie <small>CT · MT · LT</small></div>
+      <div style="font-size:12px;color:var(--tx3);margin-bottom:12px;line-height:1.6">Ta vision sur 3 horizons de temps. Chaque action d'aujourd'hui est un investissement dans ta vie de demain.</div>
+      <!-- Court terme - cette semaine -->
+      <div class="horizon-card">
+        <div class="horizon-header"><span class="horizon-ico">⚡</span><div><div class="horizon-title">Court terme — Cette semaine</div><div class="horizon-sub">Actions immédiates, 1-7 jours</div></div><button class="btn-icon" onclick="addVisionItem('ct')" style="margin-left:auto">+</button></div>
+        <div id="vision-ct"></div>
+      </div>
+      <!-- Moyen terme - 90 jours -->
+      <div class="horizon-card">
+        <div class="horizon-header"><span class="horizon-ico">🎯</span><div><div class="horizon-title">Moyen terme — 90 Jours</div><div class="horizon-sub">Objectifs trimestriels, 1-3 mois</div></div><button class="btn-icon" onclick="addVisionItem('mt')" style="margin-left:auto">+</button></div>
+        <div id="vision-mt"></div>
+      </div>
+      <!-- Long terme - vision de vie -->
+      <div class="horizon-card">
+        <div class="horizon-header"><span class="horizon-ico">🔭</span><div><div class="horizon-title">Long terme — Vision de vie</div><div class="horizon-sub">Ta vie idéale, 1-10 ans</div></div><button class="btn-icon" onclick="addVisionItem('lt')" style="margin-left:auto">+</button></div>
+        <div id="vision-lt"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">🤖 Analyse de ta vision par l'IA</div>
+        <div id="vision-ai" style="font-size:13px;color:var(--tx2);line-height:1.7;min-height:60px">Remplis tes horizons pour obtenir une analyse de cohérence et des recommandations.</div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="analyzeVision()">✨ Analyser ma vision</button>
+      </div>
+    </div>
+
+    <!-- RISE SOCIAL -->
+    <div class="page" id="page-social">
+      <div class="pg-title">👥 RISE Social <small>Communauté</small></div>
+      <div class="ftabs">
+        <div class="ftab active" id="sf-feed" onclick="switchSocial('feed',this)">🔥 Feed</div>
+        <div class="ftab" id="sf-rank" onclick="switchSocial('rank',this)">🏆 Classement</div>
+        <div class="ftab" id="sf-post" onclick="switchSocial('post',this)">+ Partager</div>
+      </div>
+      <!-- Feed -->
+      <div id="social-feed"></div>
+      <!-- Classement (hidden initially) -->
+      <div id="social-ranking" style="display:none">
+        <div class="card"><div class="card-h gold">🏆 Top RISE Score</div><div id="leaderboard-list"></div></div>
+      </div>
+      <!-- Créer un post -->
+      <div id="social-create" style="display:none">
+        <div class="card">
+          <div class="card-h">Partage ta victoire</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px" id="post-type-btns">
+            <button onclick="setPostType('streak',this)" class="btn btn-sf btn-sm">🔥 Streak</button>
+            <button onclick="setPostType('revenue',this)" class="btn btn-sf btn-sm">💰 Revenus</button>
+            <button onclick="setPostType('habit',this)" class="btn btn-sf btn-sm">💪 Habitude</button>
+            <button onclick="setPostType('goal',this)" class="btn btn-sf btn-sm">🎯 Objectif</button>
+            <button onclick="setPostType('learning',this)" class="btn btn-sf btn-sm">📚 Formation</button>
+            <button onclick="setPostType('insight',this)" class="btn btn-sf btn-sm">💡 Insight</button>
+          </div>
+          <textarea class="inp" id="post-text" placeholder="Partage ton succès, ton insight, ta progression..." rows="4" style="resize:none;margin-bottom:8px"></textarea>
+          <button class="btn btn-gold btn-sm" onclick="createPost()">✈️ Publier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BADGES & SAISONS -->
+    <div class="page" id="page-badges">
+      <div class="pg-title">🏅 Badges & Saisons</div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="badges-total">0</div><div class="sc-l">Badges total</div></div>
+        <div class="sc gr"><div class="sc-v" id="badges-unlocked">0</div><div class="sc-l">Débloqués</div></div>
+        <div class="sc bl"><div class="sc-v" id="season-level">0</div><div class="sc-l">Niveau saison</div></div>
+      </div>
+      <!-- Saison progress -->
+      <div class="card">
+        <div class="card-h gold">🌟 Saison actuelle — Printemps 2026</div>
+        <div id="season-progress-bar" style="margin-bottom:8px"></div>
+        <div id="season-rewards"></div>
+      </div>
+      <!-- Défis -->
+      <div class="card">
+        <div class="card-h">🎯 Défis actifs</div>
+        <div id="challenges-list"></div>
+      </div>
+      <!-- Badges -->
+      <div class="ftabs" style="margin-top:12px">
+        <div class="ftab active" id="bf-all" onclick="filterBadges('all',this)">Tous</div>
+        <div class="ftab" id="bf-unlocked" onclick="filterBadges('unlocked',this)">Débloqués</div>
+        <div class="ftab" id="bf-locked" onclick="filterBadges('locked',this)">Verrouillés</div>
+      </div>
+      <div id="badges-grid" style="margin-top:8px"></div>
+    </div>
+
+
+    <!-- MBTI & PROFIL PSYCHOLOGIQUE -->
+    <div class="page" id="page-mbti">
+      <div class="pg-title">🧬 Profil MBTI <small>Identité & Forces</small></div>
+      <!-- Profil actuel -->
+      <div class="card" id="mbti-profile-card">
+        <div class="card-h gold">Ton type de personnalité</div>
+        <div id="mbti-current-profile">
+          <div style="text-align:center;padding:20px">
+            <div style="font-size:48px;margin-bottom:10px">🧬</div>
+            <div style="font-size:14px;font-weight:700;margin-bottom:6px">Découvre ton profil MBTI</div>
+            <div style="font-size:12px;color:var(--tx3);line-height:1.6;margin-bottom:14px">16 types de personnalité. Comprends tes forces, tes faiblesses, et comment tu interagis avec le monde.</div>
+            <button class="btn btn-gold btn-sm" onclick="startMBTITest()">🎯 Passer le test (5 min)</button>
+          </div>
+        </div>
+      </div>
+      <!-- Test rapide -->
+      <div class="card" id="mbti-test-card" style="display:none">
+        <div class="card-h">Test MBTI rapide</div>
+        <div id="mbti-q-container"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+          <div style="font-size:11px;color:var(--tx3)" id="mbti-progress-lbl">Question 1/12</div>
+          <div class="xp-bar" style="flex:1;margin:0 10px"><div class="xp-fill" id="mbti-progress-bar" style="width:8%"></div></div>
+        </div>
+      </div>
+      <!-- Forces et faiblesses -->
+      <div class="card" id="mbti-strengths" style="display:none">
+        <div class="card-h">💪 Tes Forces & Faiblesses</div>
+        <div id="mbti-sf-content"></div>
+      </div>
+      <!-- Coaching IA selon MBTI -->
+      <div class="card" id="mbti-coaching" style="display:none">
+        <div class="card-h">🤖 Coaching personnalisé selon ton type</div>
+        <div id="mbti-coaching-content" style="font-size:13px;color:var(--tx2);line-height:1.7"></div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="getMBTICoaching()">✨ Actualiser le coaching</button>
+      </div>
+    </div>
+
+    <!-- RELATIONS/CRM PERSO -->
+    <div class="page" id="page-relations">
+      <div class="pg-title">🤝 Relations <small>CRM Personnel</small></div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="rel-count">0</div><div class="sc-l">Contacts</div></div>
+        <div class="sc"><div class="sc-v" id="rel-bday-soon">0</div><div class="sc-l">🎂 Prochain</div></div>
+        <div class="sc gr"><div class="sc-v" id="rel-strong">0</div><div class="sc-l">Relation forte</div></div>
+      </div>
+      <!-- Anniversaires proches -->
+      <div class="card" id="rel-bday-card">
+        <div class="card-h gold">🎂 Anniversaires à venir</div>
+        <div id="rel-bday-list"></div>
+      </div>
+      <!-- Contacts -->
+      <div class="card">
+        <div class="card-h">Mes contacts</div>
+        <div class="search-wrap" style="margin-bottom:8px"><span class="search-ico">🔍</span><input class="inp" id="rel-q" placeholder="Rechercher..." oninput="renderRelations()"></div>
+        <div id="relations-list"></div>
+      </div>
+      <!-- Ajouter un contact -->
+      <div class="card">
+        <div class="card-h">+ Ajouter un contact</div>
+        <div class="g2" style="gap:8px;margin-bottom:7px">
+          <input class="inp" id="rel-name" placeholder="Prénom Nom">
+          <input class="inp" id="rel-role" placeholder="Rôle (ami, client, mentor...)">
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:7px">
+          <input class="inp" id="rel-email" placeholder="Email">
+          <input class="inp" id="rel-birthday" type="date" placeholder="Anniversaire">
+        </div>
+        <input class="inp" id="rel-notes" placeholder="Notes (comment se sont-ils rencontrés...)" style="margin-bottom:8px">
+        <select class="inp" id="rel-strength" style="margin-bottom:8px">
+          <option value="1">🌱 Connaissance</option>
+          <option value="2">👋 Contact</option>
+          <option value="3" selected>🤝 Relation</option>
+          <option value="4">💛 Proche</option>
+          <option value="5">❤️ Intime</option>
+        </select>
+        <button class="btn btn-gold btn-sm" onclick="addContact()">+ Ajouter</button>
+      </div>
+    </div>
+
+    <!-- ASSISTANT VOCAL -->
+    <div class="page" id="page-voice">
+      <div class="pg-title">🎙️ Assistant Vocal <small>Parle à RISE</small></div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:14px;color:var(--tx3);margin-bottom:16px" id="voice-status">Clique sur le micro et parle à RISE</div>
+        <!-- Microphone button -->
+        <div style="display:flex;justify-content:center;margin-bottom:16px">
+          <button id="voice-btn" onclick="toggleVoice()" style="width:100px;height:100px;border-radius:50%;background:var(--sf2);border:3px solid var(--bd);cursor:pointer;font-size:40px;transition:all .3s;display:flex;align-items:center;justify-content:center">🎙️</button>
+        </div>
+        <div id="voice-transcript" style="min-height:50px;padding:12px;background:var(--sf2);border-radius:var(--rs);font-size:14px;color:var(--tx2);margin-bottom:12px;font-style:italic">...</div>
+        <div id="voice-response" style="text-align:left;font-size:13px;line-height:1.7;color:var(--tx2)"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">Commandes vocales</div>
+        <div style="font-size:12px;color:var(--tx2);line-height:1.9">
+          <div>🎯 "Ajoute une tâche : [nom de la tâche]"</div>
+          <div>💰 "Enregistre un revenu de [montant]"</div>
+          <div>😊 "Mon humeur est [excellent/bien/neutre...]"</div>
+          <div>📓 "Note : [texte de ta note]"</div>
+          <div>🎯 "Mon objectif est [description]"</div>
+          <div>❓ "Coach, [ta question]"</div>
+          <div>📊 "Montre-moi mon score RISE"</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Historique vocal</div>
+        <div id="voice-history"></div>
       </div>
     </div>
 
@@ -1603,6 +2085,734 @@ applyUserTheme();
 
 // Render citation on home by default
 setTimeout(renderCitation,500);
+
+
+// ══ BADGES SYSTEM (150+) ══
+var ALL_BADGES = [
+  // STREAK
+  {id:'s3',ico:'🔥',name:'3 jours',desc:'Streak 3 jours',cat:'streak',xp:30,check:s=>s.streak>=3},
+  {id:'s7',ico:'⚡',name:'Semaine',desc:'Streak 7 jours',cat:'streak',xp:70,check:s=>s.streak>=7},
+  {id:'s14',ico:'💪',name:'Quinzaine',desc:'Streak 14 jours',cat:'streak',xp:150,check:s=>s.streak>=14},
+  {id:'s30',ico:'🏆',name:'Un mois',desc:'Streak 30 jours',cat:'streak',xp:300,check:s=>s.streak>=30},
+  {id:'s60',ico:'👑',name:'Deux mois',desc:'Streak 60 jours',cat:'streak',xp:600,check:s=>s.streak>=60},
+  {id:'s100',ico:'💎',name:'Centurion',desc:'Streak 100 jours',cat:'streak',xp:1000,check:s=>s.streak>=100},
+  // XP
+  {id:'x100',ico:'⚡',name:'Débutant',desc:'100 XP',cat:'xp',xp:20,check:s=>s.xp>=100},
+  {id:'x500',ico:'🌟',name:'Actif',desc:'500 XP',cat:'xp',xp:50,check:s=>s.xp>=500},
+  {id:'x1000',ico:'🔮',name:'Champion',desc:'1000 XP',cat:'xp',xp:100,check:s=>s.xp>=1000},
+  {id:'x5000',ico:'🎖️',name:'Elite',desc:'5000 XP',cat:'xp',xp:200,check:s=>s.xp>=5000},
+  // BUSINESS
+  {id:'b_first',ico:'💰',name:'Premier €',desc:'Premier revenu',cat:'business',xp:50,check:s=>s.revenue.length>=1},
+  {id:'b_10k',ico:'💵',name:'5 chiffres',desc:'10K€ ce mois',cat:'business',xp:200,check:s=>{var m=new Date().getMonth(),y=new Date().getFullYear();return s.revenue.filter(r=>r.month===m&&r.year===y).reduce((t,r)=>t+r.amount,0)>=10000;}},
+  {id:'b_30k',ico:'💸',name:'30K mois',desc:'30K€ ce mois',cat:'business',xp:500,check:s=>{var m=new Date().getMonth(),y=new Date().getFullYear();return s.revenue.filter(r=>r.month===m&&r.year===y).reduce((t,r)=>t+r.amount,0)>=30000;}},
+  {id:'b_pipe',ico:'📊',name:'Vendeur',desc:'Premier prospect',cat:'business',xp:30,check:s=>s.pipeline.length>=1},
+  {id:'b_proj',ico:'🗂️',name:'Manager',desc:'Premier projet',cat:'business',xp:50,check:s=>(s.projects||[]).length>=1},
+  // HEALTH
+  {id:'h_habit',ico:'💪',name:'Premier habit',desc:'Première habitude',cat:'health',xp:30,check:s=>s.habits.length>=1},
+  {id:'h_5habits',ico:'🏋️',name:'Routinier',desc:'5 habitudes actives',cat:'health',xp:100,check:s=>s.habits.length>=5},
+  {id:'h_sleep',ico:'😴',name:'Dormeur',desc:'7 nuits loggées',cat:'health',xp:70,check:s=>(s.sleepLogs||[]).length>=7},
+  {id:'h_sport',ico:'🏃',name:'Sportif',desc:'10 séances sport',cat:'health',xp:100,check:s=>(s.sportLogs||[]).length>=10},
+  {id:'h_mood',ico:'😊',name:'Conscient',desc:'30 humeurs loggées',cat:'health',xp:100,check:s=>s.mood.length>=30},
+  // LEARNING
+  {id:'l_course',ico:'📚',name:'Étudiant',desc:'Premier cours',cat:'learning',xp:50,check:s=>s.courses.length>=1},
+  {id:'l_finish',ico:'🎓',name:'Diplômé',desc:'Cours terminé',cat:'learning',xp:200,check:s=>s.courses.some(c=>c.done.length===c.lessons)},
+  {id:'l_lang',ico:'🌍',name:'Polyglotte',desc:'10 mots appris',cat:'learning',xp:70,check:s=>(s.langWords||[]).filter(w=>w.known).length>=10},
+  {id:'l_pomo',ico:'⏱️',name:'Focus',desc:'10 Pomodoros',cat:'learning',xp:100,check:s=>(s.pomoDone||0)>=10},
+  {id:'l_journal',ico:'📓',name:'Introspectif',desc:'14 entrées journal',cat:'learning',xp:100,check:s=>(s.journal||[]).length>=14},
+  // SOCIAL
+  {id:'soc_post',ico:'📣',name:'Communiqué',desc:'Premier post social',cat:'social',xp:30,check:s=>(s.socialPosts||[]).length>=1},
+  {id:'soc_vision',ico:'🔭',name:'Visionnaire',desc:'Vision de vie complète',cat:'social',xp:100,check:s=>(s.vision||{ct:[],mt:[],lt:[]}).lt.length>=1},
+  {id:'soc_aff',ico:'🤝',name:'Ambassadeur',desc:'Code affiliation actif',cat:'social',xp:50,check:s=>!!s.affCode},
+  // SPECIAL
+  {id:'sp_night',ico:'🦉',name:'Noctambule',desc:'Actif après 23h',cat:'special',xp:20,check:s=>new Date().getHours()>=23},
+  {id:'sp_early',ico:'🌅',name:'Lève-tôt',desc:'Actif avant 7h',cat:'special',xp:20,check:s=>new Date().getHours()<7},
+  {id:'sp_score80',ico:'🌟',name:'High performer',desc:'Score RISE 80+',cat:'special',xp:200,check:s=>calcScore().total>=80},
+  {id:'sp_allhabits',ico:'✨',name:'Perfectionniste',desc:'Toutes habitudes du jour',cat:'special',xp:100,check:s=>s.habits.length>0&&s.habits.every(h=>h.log.includes(new Date().toDateString()))},
+];
+
+S.earnedBadges=S.earnedBadges||[];
+function checkBadges(){
+  ALL_BADGES.forEach(b=>{
+    if(!S.earnedBadges.includes(b.id)&&b.check(S)){
+      S.earnedBadges.push(b.id);
+      // Confetti notification
+      var el=document.createElement('div');
+      el.style.cssText='position:fixed;top:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000;font-size:13px;font-weight:700;padding:10px 20px;border-radius:100px;z-index:9999;animation:toastIn .3s ease;white-space:nowrap';
+      el.textContent=b.ico+' Badge débloqué : '+b.name+' +'+b.xp+' XP!';
+      document.body.appendChild(el);
+      setTimeout(()=>{el.style.opacity='0';el.style.transition='opacity .3s';setTimeout(()=>el.remove(),300);},3000);
+      S.xp+=b.xp;
+    }
+  });
+}
+
+// ══ CHALLENGES (Défis) ══
+var CHALLENGES = [
+  {id:'ch_water',ico:'💧',name:'Hydratation 7 jours',desc:'Valide l\'habitude eau 7 jours de suite',xp:100,target:7,progress:s=>s.habits.find(h=>h.name.toLowerCase().includes('eau'))?.log.length||0},
+  {id:'ch_pomo10',ico:'⏱️',name:'10 Pomodoros',desc:'Complète 10 sessions de focus',xp:150,target:10,progress:s=>s.pomoDone||0},
+  {id:'ch_journal7',ico:'📓',name:'Journal 7 jours',desc:'Écris dans ton journal 7 fois',xp:100,target:7,progress:s=>(s.journal||[]).length},
+  {id:'ch_sport5',ico:'🏋️',name:'5 séances sport',desc:'Enregistre 5 séances sportives',xp:150,target:5,progress:s=>(s.sportLogs||[]).length},
+  {id:'ch_revenue',ico:'💰',name:'Premier revenu',desc:'Enregistre ton premier revenu',xp:200,target:1,progress:s=>s.revenue.length},
+  {id:'ch_notes10',ico:'📝',name:'10 notes',desc:'Crée 10 notes',xp:80,target:10,progress:s=>s.notes.length},
+];
+
+// ══ CEO BOARD ══
+function renderCeoBoard(){
+  var mTot=S.revenue.filter(r=>r.month===new Date().getMonth()&&r.year===new Date().getFullYear()).reduce((s,r)=>s+r.amount,0);
+  var pipeVal=S.pipeline.filter(p=>p.stage!=='gagne'&&p.stage!=='perdu').reduce((t,p)=>t+p.val,0);
+  var{total}=calcScore();
+  var el=document.getElementById('ceo-score');if(el)el.textContent=total;
+  var er=document.getElementById('ceo-rev');if(er)er.textContent=fmt(mTot);
+  var ep=document.getElementById('ceo-pipe');if(ep)ep.textContent=fmt(pipeVal);
+  var et=document.getElementById('ceo-tasks');if(et)et.textContent=S.todos.filter(t=>!t.done).length;
+  // Alertes intelligentes
+  var alerts=[];
+  if(mTot<S.revGoal*0.5)alerts.push({type:'danger',ico:'📉',msg:`Revenus à ${Math.round(mTot/S.revGoal*100)}% de l'objectif — action requise`});
+  if(S.streak===0)alerts.push({type:'danger',ico:'🔥',msg:'Streak cassé ! Reprends dès maintenant pour repartir'});
+  var todayHabits=S.habits.filter(h=>h.log.includes(new Date().toDateString())).length;
+  if(S.habits.length>0&&todayHabits<S.habits.length)alerts.push({type:'warning',ico:'💪',msg:`${S.habits.length-todayHabits} habitude(s) non validée(s) aujourd'hui`});
+  if((S.projects||[]).filter(p=>p.status==='blocked').length>0)alerts.push({type:'danger',ico:'🚫',msg:`${S.projects.filter(p=>p.status==='blocked').length} projet(s) bloqué(s)`});
+  if(mTot>=S.revGoal)alerts.push({type:'success',ico:'🎉',msg:'Objectif revenus atteint ce mois — excellent travail !'});
+  if(S.streak>=7)alerts.push({type:'success',ico:'🔥',msg:`Streak de ${S.streak} jours — continue comme ça !`});
+  var ae=document.getElementById('ceo-alerts');
+  if(ae)ae.innerHTML=alerts.length?alerts.map(a=>`<div class="kpi-alert ${a.type}"><span class="ico">${a.ico}</span><div>${a.msg}</div></div>`).join(''):'<div style="font-size:12px;color:var(--tx3)">✅ Aucune alerte — tout va bien !</div>';
+  // Chart
+  var now=new Date();var months={};S.revenue.forEach(r=>{var k=r.year+'-'+r.month;months[k]=(months[k]||0)+r.amount;});
+  var last6=[];for(var i=5;i>=0;i--){var d=new Date(now.getFullYear(),now.getMonth()-i,1);last6.push({v:months[d.getFullYear()+'-'+d.getMonth()]||0,lbl:['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'][d.getMonth()]});}
+  var maxV=Math.max(...last6.map(x=>x.v),1);
+  var cEl=document.getElementById('ceo-chart');
+  if(cEl){var W=cEl.offsetWidth||280,H=80;var pts=last6.map((x,i)=>{var px=i*(W/(last6.length-1||1));var py=H-4-(x.v/maxV)*(H-16);return `${px},${py}`;}).join(' ');cEl.innerHTML=`<svg viewBox="0 0 ${W} ${H}"><polyline points="${pts}" fill="none" stroke="#d4aa4a" stroke-width="2.5" stroke-linejoin="round"/>${last6.map((x,i)=>{var px=i*(W/(last6.length-1||1));var py=H-4-(x.v/maxV)*(H-16);return `<circle cx="${px}" cy="${py}" r="4" fill="#d4aa4a"/><text x="${px}" y="${H}" text-anchor="middle" font-size="9" fill="#5a6272">${x.lbl}</text>${x.v?`<text x="${px}" y="${Math.max(13,py-6)}" text-anchor="middle" font-size="9" font-weight="700" fill="#d4aa4a">${fmt(x.v)}</text>`:''}`}).join('')}</svg>`;}
+  // Today activity
+  var today=new Date().toDateString();var todayTodos=S.todos.filter(t=>t.done&&t.date===today).length;var todayRev=S.revenue.filter(r=>r.date===today).reduce((s,r)=>s+r.amount,0);var todaySport=(S.sportLogs||[]).filter(l=>l.date===today).length;
+  var ta=document.getElementById('ceo-today');if(ta)ta.innerHTML=`<div class="g4"><div class="sc"><div class="sc-v">${todayTodos}</div><div class="sc-l">Tâches ✓</div></div><div class="sc gr"><div class="sc-v">${todayRev>0?fmt(todayRev):'0€'}</div><div class="sc-l">Revenus</div></div><div class="sc bl"><div class="sc-v">${todayHabits}</div><div class="sc-l">Habitudes</div></div><div class="sc"><div class="sc-v">${todaySport}</div><div class="sc-l">Sport</div></div></div>`;
+  // Projects
+  var cp=document.getElementById('ceo-projects');if(cp){var projs=(S.projects||[]).slice(0,3);if(!projs.length){cp.innerHTML='<div class="empty">Aucun projet actif</div>';}else{cp.innerHTML=projs.map(p=>{var pct=Math.round((p.done||0)/(p.total||10)*100);return `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)"><div><div style="font-size:13px;font-weight:700">${p.name}</div><div style="font-size:11px;color:var(--tx3)">${p.status||'En cours'}</div></div><div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ac)">${pct}%</div></div></div>`;}).join('');}}
+}
+
+// ══ PROJECTS ══
+S.projects=S.projects||[];
+var PROJ_COLS=['todo','inprogress','review','done'];var PROJ_COL_NAMES={todo:'📋 À faire',inprogress:'⚡ En cours',review:'🔍 Review',done:'✅ Terminé'};
+function addProject(){var name=document.getElementById('proj-name').value.trim();var dl=document.getElementById('proj-deadline').value;var budget=parseFloat(document.getElementById('proj-budget').value)||0;var priority=document.getElementById('proj-priority').value;var desc=document.getElementById('proj-desc').value;if(!name)return;S.projects.unshift({id:Date.now(),name,deadline:dl,budget,priority,desc,status:'inprogress',done:0,total:10,created:new Date().toDateString()});document.getElementById('proj-name').value='';document.getElementById('proj-desc').value='';S.xp+=30;save();toast('🗂️ Projet créé ! +30 XP','ok');renderProjects();}
+function moveProject(id,col){var p=S.projects.find(x=>x.id===id);if(p)p.status=col;if(col==='done')p.done=p.total;save();}
+function renderProjects(){
+  var kb=document.getElementById('proj-kanban');if(!kb)return;
+  kb.innerHTML=PROJ_COLS.map(col=>{var items=S.projects.filter(p=>p.status===col);return `<div class="proj-col"><div class="proj-col-h" style="color:${col==='done'?'var(--gr)':col==='review'?'var(--ac)':col==='inprogress'?'var(--bl)':'var(--tx3)'}"><span>${PROJ_COL_NAMES[col]}</span><span style="background:var(--sf3);border-radius:3px;padding:1px 5px">${items.length}</span></div>${items.map(p=>{var pct=Math.round((p.done||0)/(p.total||10)*100);return `<div class="proj-card"><div class="proj-card-name">${p.priority!=='normal'?`<span class="badge ${p.priority==='urgent'?'bdg-rd':'bdg-gold'}" style="margin-right:4px;font-size:9px">${p.priority.toUpperCase()}</span>`:''}${p.name}</div><div class="proj-card-meta">${p.deadline?`⏰ ${p.deadline}`:'No deadline'}${p.budget?` · ${p.budget}€`:''}</div><div class="proj-bar"><div class="proj-bar-fill" style="width:${pct}%"></div></div><div style="display:flex;gap:3px;margin-top:6px;flex-wrap:wrap">${PROJ_COLS.filter(c=>c!==col).map(c=>`<span onclick="moveProject(${p.id},'${c}')" style="font-size:9px;cursor:pointer;color:var(--tx3);border:1px solid var(--bd);padding:1px 5px;border-radius:4px" onmouseover="this.style.color='var(--ac)'" onmouseout="this.style.color='var(--tx3)'">${PROJ_COL_NAMES[c].split(' ').slice(1).join(' ')}</span>`).join('')}</div></div>`;}).join('')}</div>`;}).join('');
+}
+
+// ══ AI TOOLS ══
+var _aiToolType='';
+async function runAITool(type){
+  _aiToolType=type;
+  var ctx=document.getElementById('aitool-context').value.trim();
+  var el=document.getElementById('aitool-result');el.innerHTML='<div class="ai-loading">Génération en cours...</div>';
+  var mTot=S.revenue.filter(r=>r.month===new Date().getMonth()).reduce((s,r)=>s+r.amount,0);
+  var prompts={
+    contrat:`Tu es un juriste. Génère un contrat de prestation professionnel basé sur: ${ctx||'contrat standard de développement web'}. Structure: parties, objet, durée, rémunération, livrables, droits, résiliation. Format clair et professionnel.`,
+    pitch:`Tu es un expert en pitch. Génère un pitch structuré pour: ${ctx||'startup tech'}. Structure: accroche, problème, solution, marché, modèle économique, équipe, appel à l'action. Percutant et mémorable.`,
+    pricing:`Tu es un consultant pricing. Propose une stratégie de prix pour: ${ctx||'service de coaching'}. Inclus: tarif low/mid/high, justification, positionnement, comparatif marché, conseil d'implémentation. Revenus de ${fmt(mTot)} actuels.`,
+    concurrent:`Tu es un analyste stratégique. Analyse les concurrents pour: ${ctx||'app de productivité'}. Inclus: 3-5 concurrents principaux, leurs forces/faiblesses, notre avantage différentiel, opportunités. Concis et actionnable.`,
+    email:`Tu es un expert copywriting. Rédige un email professionnel pour: ${ctx||'relancer un prospect'}. Ton: professionnel mais humain, objet accrocheur, structure claire, CTA fort. Maximum 200 mots.`,
+    ideas:`Tu es un entrepreneur serial. Génère 5 idées business innovantes pour: ${ctx||'créateur de contenu avec 30K€/mois'}. Pour chaque idée: concept, potentiel revenus, comment démarrer en 30 jours, niveau de risque.`
+  };
+  var system=`Tu es l'assistant business IA de ${S.name}. Revenus actuels: ${fmt(mTot)}/mois. Sois concis, professionnel, actionnable. Réponds en français.`;
+  var reply=await callAI(system,prompts[type]||'Aide-moi avec '+type,1200);
+  el.innerHTML=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>').replace(/\n-/g,'<br>•');
+  S.xp+=15;save();
+}
+function copyAIToolResult(){var t=document.getElementById('aitool-result').innerText;navigator.clipboard?.writeText(t).catch(()=>{});toast('📋 Copié !','ok');}
+function saveAsNote(){var t=document.getElementById('aitool-result').innerText;S.notes.unshift({id:Date.now(),title:'IA Tool: '+_aiToolType,body:t,date:new Date().toDateString()});save();toast('📝 Sauvé en note !','ok');}
+
+// ══ ROUTINE ══
+S.routines=S.routines||{
+  matin:{steps:[{ico:'💧',name:'Eau (500ml)',time:2,done:[]},{ico:'🧘',name:'Méditation 10min',time:10,done:[]},{ico:'📖',name:'Lecture 20min',time:20,done:[]},{ico:'💪',name:'Sport léger',time:15,done:[]},{ico:'🎯',name:'Top 3 priorités',time:5,done:[]}]},
+  soir:{steps:[{ico:'📓',name:'Journal du jour',time:5,done:[]},{ico:'🙏',name:'3 gratitudes',time:3,done:[]},{ico:'📱',name:'Pas d\'écran 30min',time:30,done:[]},{ico:'😴',name:'Coucher à heure fixe',time:1,done:[]}]}
+};
+var _curRoutine='matin';
+function switchRoutine(type,btn){_curRoutine=type;document.querySelectorAll('#rt-matin,#rt-soir').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderRoutine();}
+function renderRoutine(){
+  var r=S.routines[_curRoutine];var today=new Date().toDateString();
+  var rt=document.getElementById('routine-title');if(rt)rt.textContent=_curRoutine==='matin'?'☀️ Routine Matin':'🌙 Routine Soir';
+  var done=r.steps.filter(s=>s.done.includes(today)).length;var total=r.steps.length;
+  var rp=document.getElementById('routine-progress-text');if(rp){var pct=total?Math.round(done/total*100):0;rp.innerHTML=`<div class="xp-bar" style="max-width:200px;margin:0 auto 6px"><div class="xp-fill" style="width:${pct}%"></div></div><div style="font-size:12px;color:var(--tx3)">${done}/${total} étapes · ${pct}%${pct===100?' 🎉 Routine complète !':''}</div>`;}
+  var rm=document.getElementById('routine-matin-pct');if(rm){var dm=S.routines.matin.steps.filter(s=>s.done.includes(today)).length;rm.textContent=S.routines.matin.steps.length?Math.round(dm/S.routines.matin.steps.length*100)+'%':'0%';}
+  var rs=document.getElementById('routine-soir-pct');if(rs){var ds=S.routines.soir.steps.filter(s=>s.done.includes(today)).length;rs.textContent=S.routines.soir.steps.length?Math.round(ds/S.routines.soir.steps.length*100)+'%':'0%';}
+  var el=document.getElementById('routine-steps');if(!el)return;
+  el.innerHTML=r.steps.map((s,i)=>{var isDone=s.done.includes(today);return `<div class="routine-step ${isDone?'checked':''}" onclick="toggleRoutineStep('${_curRoutine}',${i})"><div class="routine-step-ico">${s.ico}</div><div class="routine-step-info"><div class="routine-step-name">${s.name}</div><div class="routine-step-time">${s.time} min</div></div><div class="routine-check-ico">${isDone?'✓':''}</div></div>`;}).join('');
+}
+function toggleRoutineStep(type,idx){var s=S.routines[type].steps[idx];var today=new Date().toDateString();if(s.done.includes(today)){s.done=s.done.filter(d=>d!==today);}else{s.done.push(today);S.xp+=10;toast('✅ +10 XP','ok');}var allDone=S.routines[type].steps.every(s=>s.done.includes(today));if(allDone){S.xp+=50;toast('🎉 Routine complète ! +50 XP','ok');}save();}
+function addRoutineStep(){var name=document.getElementById('routine-step-name').value.trim();var time=parseInt(document.getElementById('routine-step-time').value)||5;var ico=document.getElementById('routine-step-ico').value.trim()||'⭐';if(!name)return;S.routines[_curRoutine].steps.push({ico,name,time,done:[]});document.getElementById('routine-step-name').value='';document.getElementById('routine-step-ico').value='';save();renderRoutine();}
+async function generateRoutine(){
+  var el=document.getElementById('routine-ai-suggest');el.innerHTML='<div class="ai-loading">Génération...</div>';
+  var{total,dims}=calcScore();
+  var ctx=`Coach de vie de ${S.name}. Score: ${total}/100. Habitudes: ${S.habits.length}. Streak: ${S.streak}j. Génère une routine ${_curRoutine} de 5 étapes optimales de 45-60 min total, adaptée à son profil. Format: emoji nom (durée). Juste la liste, rien d'autre.`;
+  var reply=await callAI(ctx,'Génère ma routine',400);
+  el.innerHTML=reply.replace(/\n/g,'<br>');
+}
+
+// ══ VISION DE VIE ══
+S.vision=S.vision||{ct:[],mt:[],lt:[]};
+function addVisionItem(horizon){var item=prompt(`Ajouter un élément "${horizon==='ct'?'court terme (cette semaine)':horizon==='mt'?'moyen terme (90 jours)':'long terme (1-10 ans)'}"`);if(!item)return;S.vision[horizon].unshift({id:Date.now(),text:item,done:false,created:new Date().toDateString()});save();renderVision();}
+function toggleVisionItem(horizon,id){var item=S.vision[horizon].find(x=>x.id===id);if(!item)return;item.done=!item.done;if(item.done)S.xp+=50;save();renderVision();}
+function renderVision(){
+  ['ct','mt','lt'].forEach(h=>{var el=document.getElementById('vision-'+h);if(!el)return;var items=S.vision[h]||[];el.innerHTML=items.length?items.map(item=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer" onclick="toggleVisionItem('${h}',${item.id})"><div style="width:18px;height:18px;border-radius:50%;border:2px solid ${item.done?'var(--gr)':'var(--bd2)'};background:${item.done?'var(--gr)':'transparent'};display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0">${item.done?'✓':''}</div><div style="flex:1;font-size:13px;${item.done?'text-decoration:line-through;color:var(--tx3)':''}">${item.text}</div></div>`).join(''):'<div style="font-size:12px;color:var(--tx3);padding:6px 0">Clique sur + pour ajouter</div>';});
+}
+async function analyzeVision(){
+  var el=document.getElementById('vision-ai');el.innerHTML='<div class="ai-loading">Analyse ta vision...</div>';
+  var ctx=`Analyste de vie de ${S.name}. Vision CT: ${(S.vision.ct||[]).map(x=>x.text).join(', ')||'vide'}. MT: ${(S.vision.mt||[]).map(x=>x.text).join(', ')||'vide'}. LT: ${(S.vision.lt||[]).map(x=>x.text).join(', ')||'vide'}. Revenus: ${fmt(S.revenue.filter(r=>r.month===new Date().getMonth()).reduce((s,r)=>s+r.amount,0))}/mois. Analyse la cohérence entre les 3 horizons, identifie les gaps, donne 3 recommandations concrètes.`;
+  var reply=await callAI(ctx,'Analyse ma vision',600);
+  el.innerHTML=reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>');
+}
+
+// ══ RISE SOCIAL ══
+S.socialPosts=S.socialPosts||[
+  {id:1,user:'Marie L.',avatar:'M',score:847,type:'streak',text:'🔥 30 jours de streak ! La discipline change tout. Chaque jour compte.',likes:24,myLike:false,date:'2026-03-27'},
+  {id:2,user:'Thomas D.',avatar:'T',score:692,type:'revenue',text:'💰 Premier mois à 10K€ ! 8 mois de travail acharné. RISE m\'a aidé à rester focus.',likes:38,myLike:false,date:'2026-03-27'},
+  {id:3,user:'Sofia R.',avatar:'S',score:923,type:'insight',text:'💡 Insight du jour : le succès se cache dans les petites habitudes qu\'on ne voit pas. 1% mieux chaque jour.',likes:45,myLike:false,date:'2026-03-26'},
+  {id:4,user:'Alex M.',avatar:'A',score:534,type:'goal',text:'🎯 Objectif atteint : certifié Google Analytics ! La formation RISE sur les données m\'a été précieuse.',likes:19,myLike:false,date:'2026-03-26'},
+];
+var _socialView='feed';var _postType='insight';
+function switchSocial(view,btn){_socialView=view;document.querySelectorAll('#sf-feed,#sf-rank,#sf-post').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');document.getElementById('social-feed').style.display=view==='feed'?'block':'none';document.getElementById('social-ranking').style.display=view==='rank'?'block':'none';document.getElementById('social-create').style.display=view==='post'?'block':'none';if(view==='rank')renderLeaderboard();}
+function setPostType(type,btn){_postType=type;document.querySelectorAll('#post-type-btns button').forEach(b=>{b.classList.remove('btn-gold');b.classList.add('btn-sf');});if(btn){btn.classList.remove('btn-sf');btn.classList.add('btn-gold');}}
+function createPost(){var text=document.getElementById('post-text').value.trim();if(!text)return;S.socialPosts.unshift({id:Date.now(),user:S.name,avatar:(S.name||'U')[0].toUpperCase(),score:calcScore().total,type:_postType,text,likes:0,myLike:false,date:new Date().toDateString()});document.getElementById('post-text').value='';S.xp+=20;save();toast('✈️ Publié ! +20 XP','ok');renderSocial();}
+function likePost(id){var p=S.socialPosts.find(x=>x.id===id);if(!p)return;if(p.myLike){p.likes--;p.myLike=false;}else{p.likes++;p.myLike=true;S.xp+=2;}save();renderSocial();}
+function renderSocial(){
+  var typeIco={streak:'🔥',revenue:'💰',habit:'💪',goal:'🎯',learning:'📚',insight:'💡'};
+  var el=document.getElementById('social-feed');if(!el)return;
+  var posts=S.socialPosts.slice(0,10);
+  el.innerHTML=posts.map(p=>`<div class="social-post"><div class="social-post-header"><div class="social-avatar">${p.avatar}</div><div style="flex:1"><div style="font-size:13px;font-weight:700">${p.user}</div><div style="font-size:11px;color:var(--tx3)">Score ${p.score} · ${p.date}</div></div><span class="badge bdg-gold">${typeIco[p.type]||'💡'} ${p.type}</span></div><div class="social-post-body">${p.text}</div><div class="social-post-actions"><button class="social-action-btn ${p.myLike?'liked':''}" onclick="likePost(${p.id})">❤️ ${p.likes}</button><button class="social-action-btn">💬 Commenter</button><button class="social-action-btn">↗️ Partager</button></div></div>`).join('');
+}
+function renderLeaderboard(){
+  var lb=document.getElementById('leaderboard-list');if(!lb)return;
+  // Include user + fake users
+  var users=[{name:S.name,score:calcScore().total,streak:S.streak,isMe:true},...[{name:'Marie L.',score:847,streak:30},{name:'Sofia R.',score:923,streak:45},{name:'Thomas D.',score:692,streak:18},{name:'Alex M.',score:534,streak:7},{name:'Julie K.',score:445,streak:5},{name:'Marc T.',score:378,streak:3}]].sort((a,b)=>b.score-a.score)];
+  users.sort((a,b)=>b.score-a.score);
+  lb.innerHTML=users.map((u,i)=>`<div class="lb-item" style="${u.isMe?'background:var(--acm);padding:6px 8px;border-radius:var(--rs)':''}"><div class="lb-rank ${i===0?'gold':i===1?'silver':i===2?'bronze':''}">${i+1}</div><div style="width:30px;height:30px;border-radius:7px;background:${u.isMe?'linear-gradient(135deg,#d4aa4a,#f0cc6e)':'var(--sf2)'};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:${u.isMe?'#000':'var(--tx2)'};flex-shrink:0">${(u.name||'?')[0]}</div><div style="flex:1"><div style="font-size:13px;font-weight:700${u.isMe?';color:var(--ac)':''}">${u.name}${u.isMe?' (toi)':''}</div><div style="font-size:11px;color:var(--tx3)">🔥 ${u.streak}j</div></div><div style="font-family:var(--fd);font-size:16px;font-weight:800;color:var(--ac)">${u.score}</div></div>`).join('');
+}
+
+// ══ BADGES & SAISONS ══
+var _badgeFilter='all';
+function filterBadges(f,btn){_badgeFilter=f;document.querySelectorAll('#bf-all,#bf-unlocked,#bf-locked').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');renderBadgesPage();}
+function renderBadgesPage(){
+  var total=ALL_BADGES.length;var unlocked=S.earnedBadges.length;
+  var bt=document.getElementById('badges-total');if(bt)bt.textContent=total;
+  var bu=document.getElementById('badges-unlocked');if(bu)bu.textContent=unlocked;
+  var sl=document.getElementById('season-level');if(sl)sl.textContent=Math.floor(S.xp/500)+1;
+  // Season progress
+  var sp=document.getElementById('season-progress-bar');if(sp){var pct=Math.round((S.xp%500)/500*100);sp.innerHTML=`<div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:11px;color:var(--tx3)"><span>Niveau ${Math.floor(S.xp/500)+1}</span><span>${S.xp%500}/500 XP</span></div><div class="xp-bar" style="height:8px"><div class="xp-fill" style="width:${pct}%"></div></div>`;}
+  // Season rewards
+  var sr=document.getElementById('season-rewards');if(sr)sr.innerHTML=[{lvl:1,reward:'🏅 Badge Bronze'},{lvl:3,reward:'🥈 Badge Argent'},{lvl:5,reward:'🥇 Badge Or'},{lvl:10,reward:'💎 Badge Diamant'}].map(r=>{var cur=Math.floor(S.xp/500)+1;return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)"><span style="font-size:16px">${r.reward.split(' ')[0]}</span><div style="flex:1;font-size:12px">${r.reward} (Niveau ${r.lvl})</div><span class="badge ${cur>=r.lvl?'bdg-gr':'bdg-gold'}">${cur>=r.lvl?'✓ Débloqué':'Niveau '+r.lvl}</span></div>`;}).join('');
+  // Challenges
+  var cl=document.getElementById('challenges-list');if(cl)cl.innerHTML=CHALLENGES.map(c=>{var prog=c.progress(S);var pct=Math.min(100,Math.round(prog/c.target*100));var done=prog>=c.target;return `<div class="ach-item ${done?'earned':''}"><div class="ach-ico">${c.ico}</div><div class="ach-info"><div class="ach-name">${c.name}</div><div class="ach-desc">${c.desc}</div><div class="habit-bar" style="margin-top:4px"><div class="habit-bar-fill" style="width:${pct}%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">${prog}/${c.target}</div></div><div class="badge-xp">+${c.xp} XP</div></div>`;}).join('');
+  // Badges grid
+  var bg=document.getElementById('badges-grid');if(!bg)return;
+  var items=ALL_BADGES.filter(b=>_badgeFilter==='all'||(_badgeFilter==='unlocked'&&S.earnedBadges.includes(b.id))||(_badgeFilter==='locked'&&!S.earnedBadges.includes(b.id)));
+  bg.innerHTML=items.map(b=>{var ok=S.earnedBadges.includes(b.id);return `<div class="badge-item ${ok?'unlocked':''}"><div class="badge-ico" style="${!ok?'filter:grayscale(1);opacity:.4':''}"> ${b.ico}</div><div class="badge-info"><div class="badge-name">${b.name}</div><div class="badge-desc">${b.desc}</div></div><div>${ok?'<span class="badge bdg-gold">✓</span>':`<span class="badge-xp">+${b.xp}</span>`}</div></div>`;}).join('');
+}
+
+// ══ PATCH renderPage ══
+var _origRenderPageV9=renderPage;
+renderPage=function(p){
+  _origRenderPageV9(p);
+  if(p==='ceoboard')renderCeoBoard();
+  if(p==='projects')renderProjects();
+  if(p==='social'){renderSocial();switchSocial('feed',document.getElementById('sf-feed'));}
+  if(p==='badges'){checkBadges();renderBadgesPage();}
+  if(p==='routine')renderRoutine();
+  if(p==='vision')renderVision();
+  if(p==='aitools'){}
+};
+
+// Check badges on each render
+var _origRender=render;
+render=function(){_origRender();checkBadges();};
+
+
+// ══ SMART NOTES UPGRADE ══
+S.noteFolder = S.noteFolder || 'all';
+var FOLDER_COLORS = {perso:'#d4aa4a',business:'#4a9ed4',sante:'#3ecf8e',idees:'#a78bfa',urgent:'#e05c5c'};
+var FOLDER_ICONS = {perso:'👤',business:'💼',sante:'💪',idees:'💡',urgent:'🚨'};
+function setNoteFolder(folder, btn) {
+  S.noteFolder = folder;
+  document.querySelectorAll('#notes-folders button').forEach(b => {b.classList.remove('btn-gold'); b.classList.add('btn-sf');});
+  if(btn) {btn.classList.remove('btn-sf'); btn.classList.add('btn-gold');}
+  renderNotes();
+}
+function insertMd(before, after) {
+  var ta = document.getElementById('nt-body');
+  if(!ta) return;
+  var start = ta.selectionStart, end = ta.selectionEnd;
+  var sel = ta.value.substring(start, end);
+  ta.value = ta.value.substring(0, start) + before + sel + after + ta.value.substring(end);
+  ta.focus();
+  ta.selectionStart = start + before.length;
+  ta.selectionEnd = end + before.length;
+}
+// Override saveNote
+var _origSaveNote = saveNote;
+saveNote = function() {
+  var title = document.getElementById('nt-title').value.trim();
+  var body = document.getElementById('nt-body').value.trim();
+  if(!title && !body) return;
+  var folder = document.getElementById('nt-folder')?.value || 'perso';
+  var tagsRaw = document.getElementById('nt-tags')?.value || '';
+  var tags = tagsRaw.split(',').map(t=>t.trim()).filter(Boolean);
+  var editing = document.getElementById('nt-title').dataset.editId;
+  if(editing) {
+    var idx = S.notes.findIndex(n=>n.id===parseInt(editing));
+    if(idx>=0) { S.notes[idx] = {...S.notes[idx], title: title||'Sans titre', body, folder, tags, date: new Date().toDateString()}; }
+    delete document.getElementById('nt-title').dataset.editId;
+  } else {
+    S.notes.unshift({id:Date.now(), title:title||'Sans titre', body, folder, tags, date:new Date().toDateString(), pinned:false});
+  }
+  document.getElementById('nt-title').value = '';
+  document.getElementById('nt-body').value = '';
+  if(document.getElementById('nt-tags')) document.getElementById('nt-tags').value = '';
+  S.xp += 5; save(); toast('📝 Note sauvegardée !');
+};
+async function analyzeNote() {
+  var body = document.getElementById('nt-body').value.trim();
+  if(!body) { toast('Écris quelque chose d\'abord !'); return; }
+  var el = document.getElementById('note-ai-analysis');
+  el.style.display = 'block';
+  el.textContent = '🤖 Analyse en cours...';
+  var ctx = `Tu es un assistant personnel. Analyse cette note et donne: 1 résumé (1 phrase), 3 actions concrètes, 1 insight clé, et 3 tags suggérés. Format compact.`;
+  var reply = await callAI(ctx, body, 400);
+  el.innerHTML = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+}
+// Override renderNotes
+var _origRenderNotes = renderNotes;
+renderNotes = function() {
+  var el = document.getElementById('notes-list'); if(!el) return;
+  var q = (document.getElementById('notes-q')?.value || '').toLowerCase();
+  var folder = S.noteFolder || 'all';
+  var items = S.notes.filter(n => {
+    var matchFolder = folder === 'all' || n.folder === folder;
+    var matchQ = !q || (n.title + ' ' + n.body + ' ' + (n.tags||[]).join(' ')).toLowerCase().includes(q);
+    return matchFolder && matchQ;
+  });
+  if(!items.length) { el.innerHTML = '<div class="empty"><span class="ei">📝</span>Aucune note</div>'; return; }
+  el.innerHTML = items.map(n => {
+    var fColor = FOLDER_COLORS[n.folder] || 'var(--ac)';
+    var fIco = FOLDER_ICONS[n.folder] || '📁';
+    var md = n.body.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\*(.*?)\*/g,'<em>$1</em>').replace(/^## (.*)/gm,'<div style="font-weight:700;font-size:13px">$1</div>').replace(/^- (.*)/gm,'• $1');
+    return `<div class="note-card ${n.pinned?'note-pinned':''}">
+      <div class="note-h">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+            <span style="font-size:14px;font-weight:700">${n.title}</span>
+            <span class="note-folder-badge" style="background:${fColor}22;color:${fColor}">${fIco} ${n.folder||'perso'}</span>
+          </div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${(n.tags||[]).map(t=>`<span class="note-tag">#${t}</span>`).join('')}</div>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="note-date">${n.date}</span>
+          <span style="cursor:pointer;font-size:11px;color:var(--tx3)" onclick="editNote(${n.id})">✏️</span>
+          <span style="cursor:pointer;font-size:11px;color:var(--tx3)" onclick="delNote(${n.id})">✕</span>
+        </div>
+      </div>
+      <div class="note-body" style="font-size:12px;color:var(--tx2);line-height:1.6">${md.slice(0,200)}${md.length>200?'...':''}</div>
+    </div>`;
+  }).join('');
+};
+function editNote(id) {
+  var n = S.notes.find(x=>x.id===id); if(!n) return;
+  document.getElementById('nt-title').value = n.title;
+  document.getElementById('nt-title').dataset.editId = id;
+  document.getElementById('nt-body').value = n.body;
+  if(document.getElementById('nt-tags')) document.getElementById('nt-tags').value = (n.tags||[]).join(', ');
+  if(document.getElementById('nt-folder')) document.getElementById('nt-folder').value = n.folder || 'perso';
+  document.getElementById('nt-title').scrollIntoView({behavior:'smooth'});
+  toast('✏️ Note en édition');
+}
+
+// ══ MOOD ENRICHI ══
+var _moodFactors = [];
+function toggleMoodFactor(el) {
+  el.classList.toggle('active');
+  var key = el.dataset.k;
+  if(_moodFactors.includes(key)) _moodFactors = _moodFactors.filter(k=>k!==key);
+  else _moodFactors.push(key);
+}
+// Energy slider
+document.addEventListener('DOMContentLoaded', function() {
+  var eng = document.getElementById('mood-energy');
+  if(eng) eng.oninput = () => { var v = document.getElementById('mood-energy-val'); if(v) v.textContent = eng.value; };
+});
+setTimeout(() => {
+  var eng = document.getElementById('mood-energy');
+  if(eng) eng.oninput = () => { var v = document.getElementById('mood-energy-val'); if(v) v.textContent = eng.value; };
+}, 500);
+// Override saveMood
+var _origSaveMood = saveMood;
+saveMood = function() {
+  if(_mood < 0) { toast('Sélectionne ton humeur !'); return; }
+  var energy = parseInt(document.getElementById('mood-energy')?.value) || 3;
+  var note = document.getElementById('mood-note').value;
+  S.mood.unshift({id:Date.now(), v:_mood, energy, factors:[..._moodFactors], note, date:new Date().toDateString(), hour:new Date().getHours()});
+  S.xp += 10; _mood = -1; _moodFactors = [];
+  document.querySelectorAll('#page-mood .mood-opt').forEach(o=>o.classList.remove('sel'));
+  document.querySelectorAll('.mood-factor').forEach(f=>f.classList.remove('active'));
+  document.getElementById('mood-note').value = '';
+  if(document.getElementById('mood-energy')) document.getElementById('mood-energy').value = 3;
+  if(document.getElementById('mood-energy-val')) document.getElementById('mood-energy-val').textContent = '3';
+  save(); toast('😊 +10 XP !', 'ok');
+  renderMoodEnriched();
+};
+function renderMoodHeatmap() {
+  var el = document.getElementById('mood-heatmap'); if(!el) return;
+  var colors = ['#3a2020','#4a3020','#3d3d20','#204a20','#1d7d3d'];
+  var html = '';
+  for(var i=29; i>=0; i--) {
+    var d = new Date(Date.now() - i*86400000);
+    var dStr = d.toDateString();
+    var entry = S.mood.find(m => m.date === dStr);
+    var col = entry !== undefined ? colors[entry.v] : 'var(--sf2)';
+    var emoji = entry !== undefined ? ['😫','😔','😐','🙂','🚀'][entry.v] : '○';
+    html += `<div title="${dStr}: ${entry?['Terrible','Moyen','Neutre','Bien','Excellent'][entry.v]:'Non enregistré'}" style="width:24px;height:24px;border-radius:4px;background:${col};display:flex;align-items:center;justify-content:center;font-size:11px;cursor:default">${entry?['😫','😔','😐','🙂','🚀'][entry.v]:'·'}</div>`;
+  }
+  el.innerHTML = html;
+}
+function renderMoodPatterns() {
+  var el = document.getElementById('mood-patterns'); if(!el) return;
+  if(S.mood.length < 3) { el.textContent = 'Enregistre plus d\'humeurs pour voir tes patterns.'; return; }
+  // Best/worst day
+  var byDay = {}; S.mood.forEach(m => { var d=new Date(m.date).getDay(); if(!byDay[d]) byDay[d]=[]; byDay[d].push(m.v); });
+  var DAYS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  var dayAvgs = Object.entries(byDay).map(([d,vs])=>({day:DAYS[d],avg:vs.reduce((t,v)=>t+v,0)/vs.length}));
+  dayAvgs.sort((a,b)=>b.avg-a.avg);
+  // Factor correlations
+  var factorScores = {}; S.mood.forEach(m => (m.factors||[]).forEach(f=>{ if(!factorScores[f]) factorScores[f]=[]; factorScores[f].push(m.v); }));
+  var factorCorr = Object.entries(factorScores).map(([f,vs])=>({f,avg:vs.reduce((t,v)=>t+v,0)/vs.length})).sort((a,b)=>b.avg-a.avg);
+  var factorIcos = {sleep:'😴',sport:'🏃',food:'🥗',social:'👥',work:'💼',finance:'💰',nature:'🌿',learning:'📚'};
+  el.innerHTML = `
+    <div style="margin-bottom:10px">
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:6px">Meilleurs jours</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${dayAvgs.slice(0,3).map(d=>`<span class="badge bdg-gr">${d.day} ${(d.avg*25).toFixed(0)}%</span>`).join('')}</div>
+    </div>
+    ${factorCorr.length ? `<div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:6px">Facteurs positifs</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${factorCorr.slice(0,4).map(f=>`<span class="badge bdg-gold">${factorIcos[f.f]||'•'} ${f.f}</span>`).join('')}</div>
+    </div>` : ''}
+  `;
+}
+function renderMoodEnriched() {
+  renderMoodHeatmap();
+  renderMoodPatterns();
+  renderMood();
+}
+
+// ══ MBTI TEST ══
+var MBTI_TYPES = {
+  INTJ:{name:'Architecte',emoji:'🏗️',desc:'Stratège brillant et indépendant, avec un plan pour tout.',strengths:['Vision long terme','Indépendance','Créativité stratégique','Détermination'],weaknesses:['Perfectionnisme','Difficulté à déléguer','Froid perçu','Impatience']},
+  INTP:{name:'Logicien',emoji:'🧪',desc:'Inventeur curieux avec une soif de connaissance.',strengths:['Analyse logique','Créativité','Objectivité','Curiosité'],weaknesses:['Procrastination','Indécision','Détachement','Incompréhension sociale']},
+  ENTJ:{name:'Commandant',emoji:'⚡',desc:'Leader né, charismatique et confiant, incapable de refuser un défi.',strengths:['Leadership','Efficacité','Confiance','Stratégie'],weaknesses:['Arrogance','Impatience','Domination','Insensibilité']},
+  ENTP:{name:'Débatteur',emoji:'💡',desc:'Penseur intelligent et curieux qui ne peut s\'empêcher de challenger les idées.',strengths:['Innovation','Charisme','Argumentation','Adaptabilité'],weaknesses:['Désorganisation','Provocation','Instabilité','Déconcentration']},
+  INFJ:{name:'Avocat',emoji:'🌿',desc:'Rare, calme et mystérieux — inspirant avec une forte vision.',strengths:['Empathie profonde','Vision','Intégrité','Détermination'],weaknesses:['Perfectionnisme','Sensibilité','Surmenage','Isolation']},
+  INFP:{name:'Médiateur',emoji:'🎨',desc:'Idéaliste poétique, toujours prêt à défendre une bonne cause.',strengths:['Empathie','Créativité','Ouverture d\'esprit','Passion'],weaknesses:['Sensibilité émotionnelle','Idéalisme excessif','Isolement','Auto-critique']},
+  ENFJ:{name:'Protagoniste',emoji:'🌟',desc:'Leader charismatique et inspirant.',strengths:['Communication','Empathie','Leadership','Organisation'],weaknesses:['Trop altruiste','Sensibilité critique','Rigidité','Burnout']},
+  ENFP:{name:'Ambassadeur',emoji:'🎉',desc:'Esprit libre enthousiaste, créatif et social.',strengths:['Créativité','Enthousiasme','Communication','Empathie'],weaknesses:['Désorganisation','Hyperactivité','Pensée dispersée','Irrégularité']},
+  ISTJ:{name:'Logisticien',emoji:'📋',desc:'Individu pratique et fiable qui veut faire les choses correctement.',strengths:['Fiabilité','Organisation','Méthode','Intégrité'],weaknesses:['Rigidité','Résistance au changement','Monotonie','Jugement rapide']},
+  ISFJ:{name:'Défenseur',emoji:'🛡️',desc:'Protecteur très dévoué et chaleureux.',strengths:['Dévouement','Fiabilité','Attention aux détails','Soutien'],weaknesses:['Trop humble','Sensibilité critique','Résistance au changement','Surcharge']},
+  ESTJ:{name:'Dirigeant',emoji:'👔',desc:'Excellent administrateur, gestionnaire de personnes et de choses.',strengths:['Organisation','Leadership','Fiabilité','Dévouement'],weaknesses:['Rigidité','Jugement','Difficulté à se détendre','Insensibilité']},
+  ESFJ:{name:'Consul',emoji:'🤗',desc:'Extrêmement attentif aux besoins des autres.',strengths:['Loyauté','Organisation','Soutien','Connexion sociale'],weaknesses:['Besoin d\'approbation','Inflexibilité','Vulnérabilité','Matérialisme']},
+  ISTP:{name:'Virtuose',emoji:'🔧',desc:'Artisan courageux qui explore le monde avec une curiosité rationnelle.',strengths:['Pratique','Calme en crise','Adaptabilité','Créativité mécanique'],weaknesses:['Impulsivité','Réservé','Imprévoyant','Insensibilité']},
+  ISFP:{name:'Aventurier',emoji:'🦋',desc:'Artiste flexible et charmant, toujours prêt pour de nouvelles expériences.',strengths:['Empathie','Adaptabilité','Créativité','Passion'],weaknesses:['Imprévisibilité','Auto-critique','Évitement du conflit','Instabilité']},
+  ESTP:{name:'Entrepreneur',emoji:'🚀',desc:'Enthousiaste, actif — toujours dans l\'action.',strengths:['Action','Adaptabilité','Pragmatisme','Sociabilité'],weaknesses:['Impatience','Manque de planification','Risque','Impulsivité']},
+  ESFP:{name:'Amuseur',emoji:'🎭',desc:'Performeur spontané, énergique et enthousiaste.',strengths:['Enthousiasme','Présence','Sociabilité','Créativité'],weaknesses:['Évitement du conflit','Dispersion','Sensibilité','Présent focalisé']}
+};
+var MBTI_QUESTIONS = [
+  {q:"Tu préfères passer du temps seul plutôt qu'en groupe",dim:'EI',dir:-1},
+  {q:"Tu prends des décisions basées sur la logique plutôt que les émotions",dim:'TF',dir:1},
+  {q:"Tu préfères planifier à l'avance plutôt qu'improviser",dim:'JP',dir:1},
+  {q:"Tu t'appuies sur tes sens et les faits concrets plutôt que ton intuition",dim:'SN',dir:1},
+  {q:"Tu trouves que travailler seul est plus productif qu'en équipe",dim:'EI',dir:-1},
+  {q:"Tu préfères les règles établies aux approches innovantes",dim:'JP',dir:1},
+  {q:"L'empathie est aussi importante que la logique dans tes décisions",dim:'TF',dir:-1},
+  {q:"Tu penses souvent au big picture plutôt aux détails immédiats",dim:'SN',dir:-1},
+  {q:"Tu es souvent perçu comme la personne qui prend les initiatives",dim:'EI',dir:1},
+  {q:"Tu te sens à l'aise dans les situations ambiguës et changeantes",dim:'JP',dir:-1},
+  {q:"Les relations humaines sont ta priorité par rapport aux résultats",dim:'TF',dir:-1},
+  {q:"Tu préfères prouver que tu peux plutôt que théoriser",dim:'SN',dir:1},
+];
+var _mbtiAnswers = {};
+var _mbtiCurrentQ = 0;
+function startMBTITest() {
+  _mbtiAnswers = {}; _mbtiCurrentQ = 0;
+  document.getElementById('mbti-test-card').style.display = 'block';
+  document.getElementById('mbti-strengths').style.display = 'none';
+  document.getElementById('mbti-coaching').style.display = 'none';
+  renderMBTIQuestion();
+}
+function renderMBTIQuestion() {
+  var qEl = document.getElementById('mbti-q-container'); if(!qEl) return;
+  var q = MBTI_QUESTIONS[_mbtiCurrentQ];
+  var lbl = document.getElementById('mbti-progress-lbl'); if(lbl) lbl.textContent = `Question ${_mbtiCurrentQ+1}/${MBTI_QUESTIONS.length}`;
+  var bar = document.getElementById('mbti-progress-bar'); if(bar) bar.style.width = Math.round((_mbtiCurrentQ+1)/MBTI_QUESTIONS.length*100)+'%';
+  qEl.innerHTML = `<div style="font-size:14px;font-weight:600;margin-bottom:14px;line-height:1.6">${q.q}</div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    ${[1,2,3,4,5].map(v=>`<button onclick="answerMBTI(${v})" style="padding:10px;border-radius:var(--rs);background:var(--sf2);border:1.5px solid var(--bd);cursor:pointer;font-size:13px;text-align:left;transition:all .2s;color:var(--tx2)" onmouseover="this.style.borderColor='var(--ac)'" onmouseout="this.style.borderColor='var(--bd)'">${['Pas du tout d\'accord','Plutôt pas d\'accord','Neutre','Plutôt d\'accord','Tout à fait d\'accord'][v-1]}</button>`).join('')}
+  </div>`;
+}
+function answerMBTI(val) {
+  var q = MBTI_QUESTIONS[_mbtiCurrentQ];
+  if(!_mbtiAnswers[q.dim]) _mbtiAnswers[q.dim] = [];
+  _mbtiAnswers[q.dim].push(val * q.dir);
+  _mbtiCurrentQ++;
+  if(_mbtiCurrentQ >= MBTI_QUESTIONS.length) {
+    computeMBTI();
+  } else {
+    renderMBTIQuestion();
+  }
+}
+function computeMBTI() {
+  var dims = {EI:0,SN:0,TF:0,JP:0};
+  Object.entries(_mbtiAnswers).forEach(([dim,vals])=>{dims[dim]=vals.reduce((t,v)=>t+v,0)/vals.length;});
+  var type = (dims.EI>0?'E':'I') + (dims.SN>0?'S':'N') + (dims.TF>0?'T':'F') + (dims.JP>0?'J':'P');
+  S.mbti = {type, dims, date: new Date().toDateString()};
+  save();
+  document.getElementById('mbti-test-card').style.display = 'none';
+  renderMBTIProfile();
+}
+function renderMBTIProfile() {
+  if(!S.mbti) return;
+  var type = S.mbti.type; var info = MBTI_TYPES[type] || MBTI_TYPES['ENTP'];
+  var card = document.getElementById('mbti-current-profile');
+  if(card) card.innerHTML = `<div class="mbti-type-card">
+    <div style="font-size:32px;margin-bottom:6px">${info.emoji}</div>
+    <div class="mbti-type-code">${type}</div>
+    <div class="mbti-type-name">${info.name}</div>
+    <div style="font-size:12px;color:var(--tx2);line-height:1.6;margin:8px 0">${info.desc}</div>
+    <div style="font-size:11px;color:var(--tx3)">${S.mbti.date}</div>
+  </div>
+  <div style="margin-top:14px">
+    ${[['E/I','EI','Extraverti','Introverti'],['S/N','SN','Concret','Intuitif'],['T/F','TF','Logique','Émotionnel'],['J/P','JP','Organisé','Spontané']].map(([label,dim,left,right])=>{
+    var score = (S.mbti.dims[dim]||0); var pct = Math.round(50+score*10); pct=Math.max(5,Math.min(95,pct));
+    var dominant = pct>50?right:left; var dpct = pct>50?pct:100-pct;
+    return `<div class="mbti-dim">
+      <span class="mbti-dim-label">${pct>50?right:left}</span>
+      <div class="mbti-dim-bar"><div class="mbti-dim-fill" style="width:${dpct}%;background:var(--ac)"></div></div>
+      <span class="mbti-dim-val">${dpct}%</span>
+    </div>`;}).join('')}
+  </div>
+  <div style="margin-top:12px;display:flex;gap:8px">
+    <button class="btn btn-gold btn-sm" style="flex:1" onclick="getMBTICoaching()">✨ Coaching IA</button>
+    <button class="btn btn-sf btn-sm" onclick="startMBTITest()">🔄 Refaire</button>
+  </div>`;
+  // Strengths
+  document.getElementById('mbti-strengths').style.display = 'block';
+  var sf = document.getElementById('mbti-sf-content');
+  if(sf) sf.innerHTML = `<div class="g2">
+    <div><div style="font-size:11px;font-weight:700;color:var(--gr);margin-bottom:8px;letter-spacing:1px">FORCES</div>${info.strengths.map(s=>`<div style="padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px;display:flex;gap:6px"><span style="color:var(--gr)">✓</span>${s}</div>`).join('')}</div>
+    <div><div style="font-size:11px;font-weight:700;color:var(--or);margin-bottom:8px;letter-spacing:1px">À TRAVAILLER</div>${info.weaknesses.map(w=>`<div style="padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px;display:flex;gap:6px"><span style="color:var(--or)">!</span>${w}</div>`).join('')}</div>
+  </div>`;
+  document.getElementById('mbti-coaching').style.display = 'block';
+}
+async function getMBTICoaching() {
+  if(!S.mbti) return;
+  var el = document.getElementById('mbti-coaching-content');
+  el.innerHTML = '<div class="ai-loading">Coaching personnalisé...</div>';
+  var info = MBTI_TYPES[S.mbti.type] || MBTI_TYPES['ENTP'];
+  var mTot = S.revenue.filter(r=>r.month===new Date().getMonth()).reduce((s,r)=>s+r.amount,0);
+  var ctx = `Coach de ${S.name}, personnalité ${S.mbti.type} (${info.name}: ${info.desc}). Forces: ${info.strengths.join(', ')}. Faiblesses: ${info.weaknesses.join(', ')}. Revenus: ${fmt(mTot)}/mois. Score RISE: ${calcScore().total}/100. Donne un coaching ultra-personnalisé: comment optimiser sa productivité, ses relations, sa croissance selon ce type. 3-4 paragraphes concrets.`;
+  var reply = await callAI(ctx, 'Coaching selon mon MBTI', 600);
+  el.innerHTML = reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'<br><br>');
+}
+
+// ══ RELATIONS / CRM PERSO ══
+S.relations = S.relations || [];
+function addContact() {
+  var name = document.getElementById('rel-name').value.trim();
+  if(!name) return;
+  var birthday = document.getElementById('rel-birthday').value;
+  S.relations.unshift({id:Date.now(), name, role:document.getElementById('rel-role').value.trim(), email:document.getElementById('rel-email').value.trim(), birthday, notes:document.getElementById('rel-notes').value, strength:parseInt(document.getElementById('rel-strength').value)||3, lastContact:new Date().toDateString()});
+  ['rel-name','rel-role','rel-email','rel-notes'].forEach(id=>{var el=document.getElementById(id);if(el)el.value='';});
+  if(document.getElementById('rel-birthday')) document.getElementById('rel-birthday').value='';
+  S.xp += 10; save(); toast('🤝 Contact ajouté !','ok'); renderRelations();
+}
+function delContact(id) {S.relations = S.relations.filter(x=>x.id!==id); save(); renderRelations();}
+function renderRelations() {
+  // Stats
+  var rc = document.getElementById('rel-count'); if(rc) rc.textContent = S.relations.length;
+  var rs = document.getElementById('rel-strong'); if(rs) rs.textContent = S.relations.filter(r=>r.strength>=4).length;
+  // Upcoming birthdays
+  var now = new Date();
+  var upcoming = S.relations.filter(r=>r.birthday).map(r=>{
+    var bd = new Date(r.birthday); bd.setFullYear(now.getFullYear());
+    if(bd < now) bd.setFullYear(now.getFullYear()+1);
+    return {...r, bdDate:bd, daysUntil:Math.ceil((bd-now)/86400000)};
+  }).sort((a,b)=>a.daysUntil-b.daysUntil).slice(0,3);
+  var rbs = document.getElementById('rel-bday-soon'); if(rbs) rbs.textContent = upcoming.filter(u=>u.daysUntil<=30).length;
+  var rbl = document.getElementById('rel-bday-list');
+  if(rbl) rbl.innerHTML = upcoming.length ? upcoming.map(u=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span style="font-size:20px">🎂</span><div style="flex:1"><div style="font-size:13px;font-weight:700">${u.name}</div><div style="font-size:11px;color:var(--tx3)">${u.daysUntil===0?'Aujourd\'hui !':u.daysUntil===1?'Demain !':u.daysUntil+' jours'}</div></div><span class="badge ${u.daysUntil<=7?'bdg-rd':'bdg-gold'}">${u.daysUntil===0?'🎉 Aujourd\'hui':u.daysUntil+' jours'}</span></div>`).join('') : '<div style="font-size:12px;color:var(--tx3)">Aucun anniversaire dans vos contacts</div>';
+  // Contacts list
+  var q = (document.getElementById('rel-q')?.value || '').toLowerCase();
+  var el = document.getElementById('relations-list'); if(!el) return;
+  var items = S.relations.filter(r=>!q||(r.name+' '+(r.role||'')).toLowerCase().includes(q));
+  var strengthIcos = ['','🌱','👋','🤝','💛','❤️'];
+  var strengthNames = ['','Connaissance','Contact','Relation','Proche','Intime'];
+  if(!items.length) { el.innerHTML = '<div class="empty"><span class="ei">🤝</span>Aucun contact</div>'; return; }
+  el.innerHTML = items.map(c=>`<div class="contact-card">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="contact-avatar">${(c.name||'?')[0].toUpperCase()}</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="font-size:13px;font-weight:700">${c.name}</div>
+          <span class="badge bdg-gold" style="font-size:9px">${strengthIcos[c.strength]||'•'} ${strengthNames[c.strength]||''}</span>
+        </div>
+        <div style="font-size:11px;color:var(--tx3)">${c.role||''}${c.email?' · '+c.email:''}</div>
+        ${c.birthday?`<div style="font-size:10px;color:var(--pu)">🎂 ${c.birthday}</div>`:''}
+      </div>
+      <span style="cursor:pointer;font-size:11px;color:var(--tx3)" onclick="delContact(${c.id})">✕</span>
+    </div>
+    ${c.notes?`<div style="font-size:12px;color:var(--tx2);margin-top:6px;padding-top:6px;border-top:1px solid var(--bd)">${c.notes.slice(0,100)}</div>`:''}
+  </div>`).join('');
+}
+
+// ══ ASSISTANT VOCAL ══
+var _voiceRecognition = null;
+var _voiceHistory = S.voiceHistory || [];
+function toggleVoice() {
+  var btn = document.getElementById('voice-btn');
+  var status = document.getElementById('voice-status');
+  if(!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    status.textContent = '⚠️ Ton navigateur ne supporte pas la reconnaissance vocale. Utilise Chrome.';
+    return;
+  }
+  if(_voiceRecognition && _voiceRecognition._running) {
+    _voiceRecognition.stop(); return;
+  }
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  _voiceRecognition = new SR();
+  _voiceRecognition.lang = 'fr-FR';
+  _voiceRecognition.continuous = false;
+  _voiceRecognition.interimResults = true;
+  _voiceRecognition._running = true;
+  btn.classList.add('listening');
+  status.textContent = '🎙️ Je t\'écoute... Parle maintenant';
+  _voiceRecognition.onresult = (e) => {
+    var transcript = Array.from(e.results).map(r=>r[0].transcript).join('');
+    var el = document.getElementById('voice-transcript');
+    if(el) el.textContent = transcript;
+  };
+  _voiceRecognition.onend = async () => {
+    _voiceRecognition._running = false;
+    btn.classList.remove('listening');
+    var transcript = document.getElementById('voice-transcript')?.textContent || '';
+    if(transcript && transcript !== '...') {
+      status.textContent = '🤔 Traitement en cours...';
+      await processVoiceCommand(transcript);
+    } else {
+      status.textContent = 'Clique sur le micro et parle à RISE';
+    }
+  };
+  _voiceRecognition.onerror = (e) => {
+    _voiceRecognition._running = false;
+    btn.classList.remove('listening');
+    status.textContent = '⚠️ Erreur: ' + e.error;
+  };
+  _voiceRecognition.start();
+}
+async function processVoiceCommand(text) {
+  var status = document.getElementById('voice-status');
+  var respEl = document.getElementById('voice-response');
+  // Local commands first
+  var lower = text.toLowerCase();
+  var handled = false;
+  if(lower.includes('tâche') || lower.includes('ajoute')) {
+    var taskText = text.replace(/ajoute\s*(une\s*)?tâche\s*:/i, '').replace(/ajoute/i,'').trim();
+    if(taskText) { S.todos.unshift({id:Date.now(),text:taskText,done:false,date:new Date().toDateString(),priority:'normal'}); S.xp+=5; save(); var reply='✅ Tâche ajoutée : "'+taskText+'"'; if(respEl)respEl.textContent=reply; _voiceHistory.push({cmd:text,reply,date:new Date().toDateString()}); handled=true; }
+  }
+  if(lower.includes('humeur') && !handled) {
+    var moodMap={'excellent':4,'très bien':4,'bien':3,'neutre':2,'moyen':1,'mauvais':0,'terrible':0};
+    var moodVal = Object.entries(moodMap).find(([k])=>lower.includes(k));
+    if(moodVal) { S.mood.unshift({id:Date.now(),v:moodVal[1],energy:3,factors:[],note:text,date:new Date().toDateString()}); S.xp+=10; save(); var reply='😊 Humeur '+moodVal[0]+' enregistrée !'; if(respEl)respEl.textContent=reply; _voiceHistory.push({cmd:text,reply,date:new Date().toDateString()}); handled=true; }
+  }
+  if((lower.includes('note') || lower.includes('mémo')) && !handled) {
+    var noteText = text.replace(/^(note|mémo)\s*:\s*/i,'').trim();
+    if(noteText) { S.notes.unshift({id:Date.now(),title:noteText.slice(0,40),body:noteText,folder:'perso',tags:[],date:new Date().toDateString()}); S.xp+=5; save(); var reply='📝 Note sauvegardée: "'+noteText.slice(0,50)+'"'; if(respEl)respEl.textContent=reply; _voiceHistory.push({cmd:text,reply,date:new Date().toDateString()}); handled=true; }
+  }
+  if(!handled) {
+    // Send to RISE AI Coach
+    var mTot = S.revenue.filter(r=>r.month===new Date().getMonth()).reduce((s,r)=>s+r.amount,0);
+    var ctx = `Tu es l'assistant vocal RISE de ${S.name}. Score: ${calcScore().total}/100. Streak: ${S.streak}j. Revenus: ${fmt(mTot)}/mois. Réponds en 1-2 phrases max, directement, comme si tu parlais à voix haute.`;
+    var reply = await callAI(ctx, text, 200);
+    if(respEl) respEl.innerHTML = '<strong>RISE:</strong> ' + reply;
+    _voiceHistory.push({cmd:text, reply, date:new Date().toDateString()});
+  }
+  S.voiceHistory = _voiceHistory.slice(-10);
+  save();
+  status.textContent = 'Commande traitée ✓ — Clique pour parler à nouveau';
+  renderVoiceHistory();
+}
+function renderVoiceHistory() {
+  var el = document.getElementById('voice-history'); if(!el) return;
+  if(!_voiceHistory.length) { el.innerHTML = '<div class="empty">Aucune commande vocale</div>'; return; }
+  el.innerHTML = _voiceHistory.slice(-5).reverse().map(h=>`<div style="padding:8px 0;border-bottom:1px solid var(--bd)"><div style="font-size:12px;color:var(--tx3);margin-bottom:3px">🎙️ "${h.cmd}"</div><div style="font-size:12px;color:var(--tx2)">→ ${h.reply.slice(0,100)}</div></div>`).join('');
+}
+
+// ══ WEEKLY RAPPORT (copie presse-papiers) ══
+function generateWeeklyReport() {
+  var now = new Date();
+  var weekAgo = new Date(Date.now() - 7*86400000);
+  var mTot = S.revenue.filter(r=>r.month===now.getMonth()&&r.year===now.getFullYear()).reduce((s,r)=>s+r.amount,0);
+  var weekTodos = S.todos.filter(t=>t.done&&new Date(t.date||'')>=weekAgo).length;
+  var habRate = S.habits.length ? Math.round(S.habits.reduce((t,h)=>t+h.log.filter(d=>new Date(d)>=weekAgo).length,0)/(S.habits.length*7)*100) : 0;
+  var {total,dims} = calcScore();
+  var report = `📊 RAPPORT RISE — Semaine du ${weekAgo.toLocaleDateString('fr-FR')}
+
+👤 ${S.name} | Score RISE: ${total}/100 | Streak: ${S.streak}j
+💰 Revenus ce mois: ${fmt(mTot)} / Objectif: ${fmt(S.revGoal)}
+✅ Tâches complétées: ${weekTodos}
+💪 Habitudes: ${habRate}% de complétion
+⏱️ Pomodoros: ${S.pomoDone||0}
+📚 Formations: ${S.courses.length} cours
+
+📊 SCORES DIMENSIONS:
+- Productivité: ${dims.productivite}%
+- Revenus: ${dims.revenus}%
+- Santé: ${dims.sante}%
+- Croissance: ${dims.croissance}%
+- Consistance: ${dims.consistance}%
+
+🔥 Points forts:
+${weekTodos>0?`• ${weekTodos} tâches complétées`:''}
+${S.streak>0?`• Streak de ${S.streak} jours maintenu`:''}
+
+Généré par RISE — ${new Date().toLocaleDateString('fr-FR')}`;
+  navigator.clipboard?.writeText(report).then(()=>toast('📋 Rapport copié ! (presse-papiers)','ok')).catch(()=>toast('Rapport généré !','ok'));
+  return report;
+}
+
+// ══ PATCH renderPage ══
+var _v10RenderOrig = renderPage;
+renderPage = function(p) {
+  _v10RenderOrig(p);
+  if(p==='mood') renderMoodEnriched();
+  if(p==='notes') {
+    // Activate correct folder btn
+    document.querySelectorAll('#notes-folders button').forEach(b=>{
+      if(b.dataset.folder===S.noteFolder) { b.classList.add('btn-gold'); b.classList.remove('btn-sf'); }
+    });
+  }
+  if(p==='mbti') {
+    if(S.mbti) { renderMBTIProfile(); document.getElementById('mbti-test-card').style.display='none'; }
+  }
+  if(p==='relations') renderRelations();
+  if(p==='voice') { S.voiceHistory && (_voiceHistory = S.voiceHistory); renderVoiceHistory(); }
+  if(p==='review') {
+    // Add copy report button
+    var el = document.getElementById('rv-ai-analysis');
+    if(el && !document.getElementById('report-copy-btn')) {
+      var btn = document.createElement('button');
+      btn.id = 'report-copy-btn';
+      btn.className = 'btn btn-sf btn-sm';
+      btn.style.marginTop = '8px'; btn.style.marginLeft = '8px';
+      btn.textContent = '📋 Copier rapport';
+      btn.onclick = generateWeeklyReport;
+      el.parentNode.appendChild(btn);
+    }
+  }
+};
 
 applyTheme();checkStreak();initMob();render();
 
