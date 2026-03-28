@@ -3422,6 +3422,97 @@ renderPage = function(p) {
   if(p==='finances') renderFinances();
 };
 
+
+// ══ STREAK SOS ══
+function checkStreakSOS(){
+  var now=new Date();var today=now.toDateString();
+  if(S.streak>=2&&S.streakLast!==today&&now.getHours()>=20){
+    var sosShown=localStorage.getItem('rise_sos_'+today);
+    if(!sosShown){
+      localStorage.setItem('rise_sos_'+today,'1');
+      var ov=document.createElement('div');
+      ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:99998;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)';
+      ov.innerHTML='<div style="background:var(--sf);border:2px solid var(--ac);border-radius:18px;padding:24px;max-width:320px;width:100%;text-align:center">'
+        +'<div style="font-size:40px;margin-bottom:10px">&#9888;&#65039;</div>'
+        +'<div style="font-family:var(--fd);font-size:20px;font-weight:800;color:var(--ac);margin-bottom:8px">STREAK SOS !</div>'
+        +'<div style="font-size:14px;color:var(--tx2);margin-bottom:6px">Ton streak de <strong style="color:var(--ac)">'+S.streak+' jours</strong> est en danger !</div>'
+        +'<div style="font-size:12px;color:var(--tx3);margin-bottom:18px">Il reste quelques heures — valide une habitude maintenant pour le sauver.</div>'
+        +'<button id="sos-habits-btn" style="width:100%;padding:12px;border-radius:100px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000;font-size:14px;font-weight:800;border:none;cursor:pointer;margin-bottom:8px">Valider maintenant</button>'
+        +'<button id="sos-dismiss-btn" style="width:100%;padding:8px;background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer">Plus tard</button>'
+        +'</div>';
+      document.body.appendChild(ov);
+      var sosBtnH=ov.querySelector('#sos-habits-btn');if(sosBtnH)sosBtnH.onclick=function(){ov.remove();nav('habits',null);};
+      var sosBtnD=ov.querySelector('#sos-dismiss-btn');if(sosBtnD)sosBtnD.onclick=function(){ov.remove();};
+    }
+  }
+}
+setInterval(checkStreakSOS,60000);
+setTimeout(checkStreakSOS,5000);
+
+// ══ PROACTIVE COACH TIP (Home) ══
+var _coachTipCache='';
+async function loadCoachTip(){
+  var el=document.getElementById('h-coach-tip');if(!el)return;
+  if(_coachTipCache){el.textContent=_coachTipCache;return;}
+  if(!hasApiKey())return;
+  var{total,dims}=calcScore();var mTot=S.revenue.filter(function(r){return r.month===new Date().getMonth();}).reduce(function(t,r){return t+r.amount;},0);
+  var lowest=Object.entries(dims).sort(function(a,b){return a[1]-b[1];})[0];
+  var ctx='Coach de '+S.name+'. Score: '+total+'/100. Point faible: '+lowest[0]+' ('+lowest[1]+'%). Donne 1 conseil ultra-court (max 10 mots) pour aujourd hui. Juste la phrase, rien d autre.';
+  var reply=await callAI(ctx,'Conseil du jour',100);
+  if(reply&&!reply.startsWith('0x')&&reply.length<100){
+    _coachTipCache=reply.replace(/["]/g,'');
+    el.textContent=_coachTipCache;
+  }
+}
+setTimeout(loadCoachTip,3000);
+
+// ══ QUICK WINS WIDGET ══
+function renderQuickWins(){
+  var el=document.getElementById('h-quick-wins');if(!el)return;
+  var wins=[];var today=new Date().toDateString();
+  // Check what's not done today
+  var habDone=S.habits.filter(function(h){return h.log.includes(today);}).length;
+  if(habDone<S.habits.length)wins.push({ico:'&#128170;',text:'Valide tes '+(S.habits.length-habDone)+' habitude'+(S.habits.length-habDone>1?'s':'')+' restante'+(S.habits.length-habDone>1?'s':''),action:"nav('habits',null)"});
+  if(!S.mood.find(function(m){return m.date===today;}))wins.push({ico:'&#128522;',text:'Logge ton humeur du jour',action:"nav('mood',null)"});
+  if(!S.journal.find(function(j){return j.date===today;}))wins.push({ico:'&#128211;',text:'Ecris dans ton journal',action:"nav('journal',null)"});
+  if(S.todos.filter(function(t){return !t.done;}).length>0)wins.push({ico:'&#9989;',text:'Complete une tache urgente',action:"nav('todos',null)"});
+  if((S.pomoDone||0)<2)wins.push({ico:'&#9203;',text:'Lance un Pomodoro de 25min',action:"nav('pomodoro',null)"});
+  if(!wins.length){el.innerHTML='<div style="font-size:12px;color:var(--gr);padding:6px 0">&#127881; Journee parfaite ! Tout est fait.</div>';return;}
+  el.innerHTML=wins.slice(0,3).map(function(w){return '<div onclick="'+w.action+'" style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);cursor:pointer" onmouseover="this.style.opacity=.7" onmouseout="this.style.opacity=1"><span style="font-size:16px">'+w.ico+'</span><div style="font-size:12px;flex:1">'+w.text+'</div><span style="color:var(--tx3);font-size:12px">&#8594;</span></div>';}).join('');
+}
+
+// ══ ENHANCE SCORE DISPLAY ══
+function renderScoreLabel(total){
+  var labels=[[0,'Decouverte'],[20,'En route'],[35,'Progression'],[50,'Bonne dynamique'],[65,'Solide'],[75,'Excellent'],[85,'Elite'],[95,'Legendaire']];
+  var lbl=labels.filter(function(l){return total>=l[0];}).pop();
+  return lbl?lbl[1]:'Decouverte';
+}
+
+// ══ CITATIONS ALÉATOIRES HOME ══
+var _citIdx=new Date().getDate()%CITATIONS.length;
+function nextCitation(){
+  _citIdx=(_citIdx+1)%CITATIONS.length;
+  renderCitation();
+}
+function renderCitation(){
+  var e=document.getElementById('h-citation');if(!e)return;
+  var c=CITATIONS[_citIdx];
+  e.innerHTML='<div class="cite-banner" style="cursor:pointer" onclick="nextCitation()">'+c.t+'<span>— '+c.a+'</span><div style="font-size:10px;color:var(--tx3);margin-top:4px;font-style:normal">Clique pour la suivante</div></div>';
+}
+
+// ══ PATCH renderPage for home ══
+var _v12origRenderPage=renderPage;
+renderPage=function(p){
+  _v12origRenderPage(p);
+  if(p==='home'){
+    renderQuickWins();
+    renderCitation();
+    // Update score labels
+    var{total}=calcScore();
+    var sl=document.getElementById('sb-score-lbl');if(sl)sl.textContent=renderScoreLabel(total);
+  }
+};
+
 applyTheme();checkStreak();initMob();render();
 
 
