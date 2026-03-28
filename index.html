@@ -4,279 +4,1029 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>RISE â€” Plateforme de Vie IA</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
-:root{--bg:#07080a;--sf:#111418;--sf2:#161b20;--bd:#222830;--ac:#d4aa4a;--gr:#4db87a;--rd:#d95f5f;--tx:#f0ece4;--tx2:#b8b0a6;--tx3:#6a7280;--r:12px}
+:root{
+  --bg:#07080a;--sf:#111418;--sf2:#161b20;--sf3:#1e252c;
+  --bd:#222830;--bd2:#2a333d;
+  --ac:#d4aa4a;--ac2:#e8c86a;--acm:rgba(212,170,74,.08);
+  --gr:#4db87a;--rd:#d95f5f;--bl:#4a9ed4;
+  --tx:#f0ece4;--tx2:#b8b0a6;--tx3:#6a7280;
+  --fd:'Syne',sans-serif;--fb:'Space Grotesk',sans-serif;
+  --r:12px;--rs:8px;
+  --sidebar:240px;
+  --nav-h:64px;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--tx);font-family:'Space Grotesk',sans-serif;min-height:100vh;max-width:430px;margin:0 auto;padding-bottom:80px}
-.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--sf);border-top:1px solid var(--bd);display:flex;padding:8px 0;z-index:100}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--tx3);cursor:pointer;padding:4px;transition:color .2s}
-.nav-btn.active{color:var(--ac)}
-.nav-btn span{font-size:20px}
-.page{display:none;padding:16px;padding-top:60px}
+html{height:100%}
+body{background:var(--bg);color:var(--tx);font-family:var(--fb);height:100%;overflow:hidden}
+
+/* â”€â”€ LAYOUT â”€â”€ */
+#app{display:flex;height:100vh;overflow:hidden}
+
+/* Desktop Sidebar */
+#sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--sf);border-right:1px solid var(--bd);
+  display:flex;flex-direction:column;
+  padding:0;overflow-y:auto;
+  transition:transform .3s;
+}
+#sidebar-logo{
+  padding:20px 16px 14px;
+  font-family:var(--fd);font-size:22px;font-weight:800;letter-spacing:5px;
+  background:linear-gradient(135deg,#d4aa4a,#f0cc6e);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  border-bottom:1px solid var(--bd);
+}
+#sidebar-user{
+  padding:12px 16px;border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;gap:10px;
+}
+.s-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,#d4aa4a,#f0cc6e);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:900;color:#000;flex-shrink:0;
+}
+.s-user-info{flex:1;min-width:0}
+.s-user-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-user-plan{font-size:10px;color:var(--ac);font-weight:700;letter-spacing:.5px}
+#sidebar-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--bd);border-bottom:1px solid var(--bd);
+}
+.s-stat{background:var(--sf);padding:10px 8px;text-align:center}
+.s-stat-val{font-size:18px;font-weight:800;color:var(--ac);line-height:1}
+.s-stat-lbl{font-size:9px;color:var(--tx3);margin-top:2px;letter-spacing:.5px;text-transform:uppercase}
+#sidebar-nav{padding:8px 0;flex:1}
+.s-nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 16px;cursor:pointer;
+  font-size:13px;font-weight:600;color:var(--tx3);
+  border-radius:0;transition:all .15s;
+  border-left:3px solid transparent;
+}
+.s-nav-item:hover{background:var(--sf2);color:var(--tx2)}
+.s-nav-item.active{
+  background:rgba(212,170,74,.06);color:var(--ac);
+  border-left-color:var(--ac);
+}
+.s-nav-item .ico{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.s-nav-section{
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  color:var(--tx3);padding:12px 16px 4px;text-transform:uppercase;
+}
+
+/* Main content */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#topbar{
+  display:none;/* hidden on desktop */
+  padding:12px 16px;background:var(--sf);
+  border-bottom:1px solid var(--bd);
+  align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+#topbar-logo{font-family:var(--fd);font-size:18px;font-weight:800;letter-spacing:4px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#topbar-right{display:flex;align-items:center;gap:10px}
+#topbar-streak{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--ac)}
+#topbar-xp{font-size:11px;color:var(--tx3)}
+#content{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
+#content::-webkit-scrollbar{width:6px}
+#content::-webkit-scrollbar-track{background:transparent}
+#content::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
+
+/* Mobile bottom nav */
+#mobile-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--sf);border-top:1px solid var(--bd);
+  padding:6px 0;z-index:100;
+}
+.m-nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  font-size:9px;color:var(--tx3);cursor:pointer;padding:4px;transition:color .2s;
+}
+.m-nav-btn.active{color:var(--ac)}
+.m-nav-btn .ico{font-size:18px}
+
+/* Responsive */
+@media(max-width:768px){
+  #sidebar{display:none}
+  #topbar{display:flex}
+  #mobile-nav{display:flex}
+  #content{padding:14px;padding-bottom:76px}
+}
+@media(min-width:769px){
+  #main{max-width:none}
+}
+
+/* â”€â”€ COMPONENTS â”€â”€ */
+.page{display:none}
 .page.active{display:block}
-.header{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg);padding:12px 16px;z-index:50;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:20px;font-weight:800;letter-spacing:4px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:12px}
-.btn{padding:12px 20px;border-radius:100px;border:none;cursor:pointer;font-size:14px;font-weight:700;font-family:inherit;transition:all .2s}
-.btn-gold;}
-.input{width:100%;padding:12px;border-radius:10px;background:var(--sf2);border:1.5px solid var(--bd);color:var(--tx);font-size:14px;font-family:inherit;outline:none}
-.input:focus{border-color:rgba(212,170,74,.5)}
-.tag{display:inline-flex;align-items:center;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700}
-.tag-gold{background:rgba(212,170,74,.1);color:var(--ac)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;text-align:center}
-.stat-val{font-size:26px;font-weight:800;color:var(--ac);line-height:1}t:700;margin-bottom:14px}
-h3{font-size:14px;font-weight:700;color:var(--tx2);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
-.todo-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
-.todo-item:last-child{border:none}
-.todo-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.todo-check.done{background:var(--gr);border-color:var(--gr)}
-.habit-item{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--bd)}
-.habit-item:last-child{border:none}
-.habit-dot{width:28px;height:28px;border-radius:50%;background:var(--sf2);border:2px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;flex-shrink:0}
-.habit-dot.done{background:var(--ac);border-color:var(--ac)}
-.mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
-.mood-opt{padding:12px 4px;border-radius:10px;background:var(--sf2);border:2px solid var(--bd);text-align:center;cursor:pointer;transition:all .2s}
-.mood-opt.selected{border-color:var(--ac);background:rgba(212,170,74,.08)}
-.mood-opt .ico{font-size:24px;margin-bottom:4px}
-.mood-opt .lbl{font-size:10px;color:var(--tx3)}
-.score-ring{display:flex;align-items:center;justify-content:center;width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--ac) var(--pct,0%), var(--sf2) 0);font-size:20px;font-weight:800;color:var(--ac)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat-box{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;text-align:center}
-.stat-val{font-size:26px;font-weight:800;color:var(--ac);line-height:1}
+.page-title{font-family:var(--fd);font-size:24px;font-weight:800;margin-bottom:20px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.card-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx3);margin-bottom:12px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+
+.stat-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center}
+.stat-val{font-family:var(--fd);font-size:28px;font-weight:800;color:var(--ac);line-height:1}
 .stat-lbl{font-size:11px;color:var(--tx3);margin-top:4px}
-.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%);background:var(--sf2);border:1px solid var(--bd);border-radius:100px;padding:8px 18px;font-size:13px;z-index:999;animation:fadeIn .3s;white-space:nowrap}
-@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.auth-overlay{position:fixed;inset:0;background:rgba(7,8,10,.97);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
-.auth-card{background:var(--sf);border:1px solid rgba(212,170,74,.2);border-radius:18px;padding:28px 22px;width:100%;max-width:340px}
-.auth-tabs{display:flex;background:var(--sf2);border-radius:100px;padding:3px;margin-bottom:18px}
-.auth-tab{flex:1;padding:8px;text-align:center;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.auth-tab.active{background:var(--ac);color:#000;font-weight:700}
-.streak{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--ac)}
+
+.btn{padding:11px 20px;border-radius:100px;border:none;cursor:pointer;font-size:13px;font-weight:700;font-family:var(--fb);transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.btn-gold{background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000;width:100%;justify-content:center}
+.btn-gold:active{transform:scale(.98)}
+.btn-sf{background:var(--sf2);color:var(--tx2);border:1px solid var(--bd)}
+.btn-sf:hover{border-color:var(--bd2);color:var(--tx)}
+.btn-sm{padding:7px 14px;font-size:12px}
+.btn-icon{width:36px;height:36px;padding:0;justify-content:center;border-radius:10px;font-size:16px}
+
+.input{width:100%;padding:11px 14px;border-radius:10px;background:var(--sf2);border:1.5px solid var(--bd);color:var(--tx);font-size:14px;font-family:var(--fb);outline:none;transition:border-color .2s}
+.input:focus{border-color:rgba(212,170,74,.4)}
+.input::placeholder{color:var(--tx3)}
+.input-row{display:flex;gap:8px;align-items:center}
+
+.badge{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.5px}
+.badge-gold{background:var(--acm);color:var(--ac)}
+.badge-gr{background:rgba(77,184,122,.08);color:var(--gr)}
+.badge-rd{background:rgba(217,95,95,.08);color:var(--rd)}
+
+/* Todo items */
+.todo-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}
+.todo-item:last-child{border:none}
+.todo-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .2s}
+.todo-check.done{background:var(--gr);border-color:var(--gr);color:#fff}
+.todo-text{flex:1;font-size:13px;line-height:1.4}
+.todo-text.done{text-decoration:line-through;color:var(--tx3)}
+.todo-del{opacity:0;font-size:12px;color:var(--tx3);cursor:pointer;padding:4px;transition:opacity .2s}
+.todo-item:hover .todo-del{opacity:1}
+.priority-high{border-left:2px solid var(--rd)}
+.priority-urgent{border-left:2px solid #ff6b35}
+
+/* Habit items */
+.habit-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.habit-item:last-child{border:none}
+.habit-dot{width:32px;height:32px;border-radius:10px;background:var(--sf2);border:2px solid var(--bd);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s;flex-shrink:0}
+.habit-dot.done{border-color:var(--ac);background:var(--acm)}
+.habit-info{flex:1;min-width:0}
+.habit-name{font-size:13px;font-weight:600}
+.habit-streak{font-size:11px;color:var(--tx3);margin-top:2px}
+.habit-bar{height:3px;background:var(--bd);border-radius:2px;margin-top:4px;overflow:hidden}
+.habit-bar-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:2px;transition:width .5s}
+
+/* Mood grid */
+.mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.mood-opt{padding:12px 4px;border-radius:var(--rs);background:var(--sf2);border:2px solid var(--bd);text-align:center;cursor:pointer;transition:all .2s}
+.mood-opt:hover,.mood-opt.sel{border-color:var(--ac);background:var(--acm)}
+.mood-opt .m-ico{font-size:22px;margin-bottom:3px}
+.mood-opt .m-lbl{font-size:9px;color:var(--tx3)}
+
+/* XP bar */
 .xp-bar{height:4px;background:var(--sf2);border-radius:2px;overflow:hidden;margin-top:6px}
-.xp-fill{height:100%;background:linear-gradient(90deg,#d4aa4a,#f0cc6e);border-radius:2px;transition:width .5s}
+.xp-fill{height:100%;background:linear-gradient(90deg,#d4aa4a,#f0cc6e);border-radius:2px;transition:width .6s}
+
+/* Toast */
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--sf2);border:1px solid var(--bd2);border-radius:100px;padding:8px 18px;font-size:13px;font-weight:600;z-index:9999;animation:fadeIn .3s;white-space:nowrap;pointer-events:none}
+@keyframes fadeIn{from{opacity:0;transform:translateX(-50%) translateY(-8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* Auth overlay */
+.auth-overlay{position:fixed;inset:0;background:rgba(7,8,10,.96);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
+.auth-card{background:var(--sf);border:1px solid rgba(212,170,74,.2);border-radius:18px;padding:28px 24px;width:100%;max-width:360px}
+.auth-tabs{display:flex;background:var(--sf2);border-radius:100px;padding:3px;margin-bottom:18px}
+.auth-tab{flex:1;padding:8px;text-align:center;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:var(--tx3)}
+.auth-tab.active{background:var(--ac);color:#000;font-weight:700}
+
+/* Paywall modal */
+.paywall{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.paywall-card{background:var(--sf);border:1.5px solid rgba(212,170,74,.3);border-radius:18px;padding:26px 22px;max-width:340px;width:100%;text-align:center}
+
+/* Profile avatar large */
+.avatar-lg{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;color:#000;margin:0 auto 14px}
+
+/* Pipeline */
+.pipeline-col{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px;min-width:160px}
+.pipeline-col-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tx3);margin-bottom:10px;display:flex;justify-content:space-between}
+.pipeline-card{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;margin-bottom:8px;cursor:pointer;transition:border-color .2s}
+.pipeline-card:hover{border-color:var(--ac)}
+.pipeline-card-name{font-size:13px;font-weight:600}
+.pipeline-card-val{font-size:12px;color:var(--gr);font-weight:700;margin-top:3px}
+
+/* Revenue chart bars */
+.rev-bars{display:flex;align-items:flex-end;gap:6px;height:80px;padding-top:8px}
+.rev-bar{flex:1;background:linear-gradient(0deg,#d4aa4a,#f0cc6e);border-radius:4px 4px 0 0;transition:height .5s;min-height:4px;cursor:pointer;position:relative}
+.rev-bar:hover::after{content:attr(data-val);position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:var(--sf2);color:var(--tx);font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap}
+
+/* Responsive adjustments */
+@media(max-width:600px){
+  .grid3{grid-template-columns:1fr 1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .page-title{font-size:20px}
+}
+@media(min-width:1200px){
+  .grid2.wide{grid-template-columns:2fr 1fr}
+}
 </style>
 </head>
 <body>
+<div id="app">
 
-<!-- HEADER -->
-<div class="header">
-  <div class="logo">RISE</div>
-  <div id="header-right" style="display:flex;align-items:center;gap:8px">
-    <div class="streak"><span>ğŸ”¥</span><span id="streak-val">0</span></div>
-    <div id="xp-badge" style="font-size:11px;color:var(--tx3)">0 XP</div>
+<!-- SIDEBAR (desktop) -->
+<div id="sidebar">
+  <div id="sidebar-logo">RISE</div>
+  <div id="sidebar-user">
+    <div class="s-avatar" id="sb-avatar">G</div>
+    <div class="s-user-info">
+      <div class="s-user-name" id="sb-name">Champion</div>
+      <div class="s-user-plan" id="sb-plan">STARTER</div>
+    </div>
+  </div>
+  <div id="sidebar-stats">
+    <div class="s-stat"><div class="s-stat-val" id="sb-streak">0</div><div class="s-stat-lbl">ğŸ”¥ Streak</div></div>
+    <div class="s-stat"><div class="s-stat-val" id="sb-xp">0</div><div class="s-stat-lbl">âš¡ XP</div></div>
+  </div>
+  <div id="sidebar-nav">
+    <div class="s-nav-section">Dashboard</div>
+    <div class="s-nav-item active" onclick="goPage('home',this)"><span class="ico">ğŸ </span>Accueil</div>
+    <div class="s-nav-item" onclick="goPage('jarvis',this)"><span class="ico">ğŸ¤–</span>JARVIS IA<span class="badge badge-gold" style="margin-left:auto;font-size:8px">PRO</span></div>
+    <div class="s-nav-section">Business</div>
+    <div class="s-nav-item" onclick="goPage('todos',this)"><span class="ico">âœ…</span>TÃ¢ches</div>
+    <div class="s-nav-item" onclick="goPage('pipeline',this)"><span class="ico">ğŸ“Š</span>Pipeline</div>
+    <div class="s-nav-item" onclick="goPage('revenue',this)"><span class="ico">ğŸ’°</span>Revenus</div>
+    <div class="s-nav-section">Vie</div>
+    <div class="s-nav-item" onclick="goPage('habits',this)"><span class="ico">ğŸ’ª</span>Habitudes</div>
+    <div class="s-nav-item" onclick="goPage('mood',this)"><span class="ico">ğŸ˜Š</span>Humeur</div>
+    <div class="s-nav-item" onclick="goPage('notes',this)"><span class="ico">ğŸ“</span>Notes</div>
+    <div class="s-nav-section">Compte</div>
+    <div class="s-nav-item" onclick="goPage('profile',this)"><span class="ico">ğŸ‘¤</span>Profil</div>
   </div>
 </div>
 
-<!-- HOME PAGE -->
-<div class="page active" id="page-home">
-  <h2>Bonjour <span id="user-name">Champion</span> ğŸ‘‹</h2>
-  
-  <div class="grid2" style="margin-bottom:14px">
-    <div class="stat-box">
-      <div class="stat-val" id="home-streak">0</div>
-      <div class="stat-lbl">ğŸ”¥ Streak</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val" id="home-todos">0</div>
-      <div class="stat-lbl">âœ… TÃ¢ches</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val" id="home-habits">0</div>
-      <div class="stat-lbl">ğŸ’ª Habitudes</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-val" id="home-xp">0</div>
-      <div class="stat-lbl">âš¡ XP</div>
+<!-- MAIN -->
+<div id="main">
+  <!-- Mobile topbar -->
+  <div id="topbar">
+    <div id="topbar-logo">RISE</div>
+    <div id="topbar-right">
+      <div id="topbar-streak">ğŸ”¥<span id="tb-streak">0</span></div>
+      <div id="topbar-xp"><span id="tb-xp">0</span> XP</div>
     </div>
   </div>
 
-  <div class="card">
-    <h3>ğŸ“‹ TÃ¢ches du jour</h3>
-    <div id="home-todo-list"></div>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <input class="input" id="quick-todo" placeholder="Ajouter une tÃ¢che..." style="flex:1">
-      <button class="btn btn-gold" onclick="addQuickTodo()" style="width:auto;padding:12px 16px">+</button>
+  <!-- Content -->
+  <div id="content">
+
+    <!-- HOME -->
+    <div class="page active" id="page-home">
+      <div class="page-title">Bonjour <span id="home-name">Champion</span> ğŸ‘‹</div>
+      <div class="grid4" style="margin-bottom:16px">
+        <div class="stat-card"><div class="stat-val" id="h-streak">0</div><div class="stat-lbl">ğŸ”¥ Streak</div></div>
+        <div class="stat-card"><div class="stat-val" id="h-todos">0</div><div class="stat-lbl">âœ… TÃ¢ches</div></div>
+        <div class="stat-card"><div class="stat-val" id="h-habits">0</div><div class="stat-lbl">ğŸ’ª Habitudes</div></div>
+        <div class="stat-card"><div class="stat-val" id="h-rev">0â‚¬</div><div class="stat-lbl">ğŸ’° Revenus</div></div>
+      </div>
+      <div class="grid2 wide">
+        <div>
+          <div class="card">
+            <div class="card-title">ğŸ“‹ TÃ¢ches du jour</div>
+            <div id="h-todo-list"></div>
+            <div class="input-row" style="margin-top:10px">
+              <input class="input" id="h-todo-input" placeholder="Ajouter une tÃ¢che..." onkeydown="if(event.key==='Enter')addQuickTodo()">
+              <button class="btn btn-gold btn-sm" style="width:auto;padding:11px 16px" onclick="addQuickTodo()">+</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">ğŸ’ª Habitudes du jour</div>
+            <div id="h-habit-list"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="card-title">ğŸ“ˆ Revenus ce mois</div>
+            <div style="font-family:var(--fd);font-size:32px;font-weight:800;color:var(--ac)" id="h-rev-total">0â‚¬</div>
+            <div style="font-size:12px;color:var(--tx3);margin-top:4px" id="h-rev-target"></div>
+            <div class="rev-bars" id="h-rev-bars"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">ğŸ˜Š Humeur rÃ©cente</div>
+            <div id="h-mood-recent"></div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h3>ğŸ’ª Habitudes du jour</h3>
-    <div id="home-habits-list"></div>
-  </div>
-</div>
-
-<!-- TODOS PAGE -->
-<div class="page" id="page-todos">
-  <h2>Mes TÃ¢ches</h2>
-  <div class="card">
-    <input class="input" id="new-todo" placeholder="Nouvelle tÃ¢che..." style="margin-bottom:10px">
-    <button class="btn btn-gold" onclick="addTodo()">+ Ajouter</button>
-  </div>
-  <div class="card">
-    <div id="todos-list"></div>
-  </div>
-</div>
-
-<!-- HABITS PAGE -->
-<div class="page" id="page-habits">
-  <h2>Mes Habitudes</h2>
-  <div class="card">
-    <input class="input" id="new-habit-name" placeholder="Nom de l'habitude..." style="margin-bottom:8px">
-    <input class="input" id="new-habit-ico" placeholder="Emoji (ex: ğŸƒ)" style="margin-bottom:10px">
-    <button class="btn btn-gold" onclick="addHabit()">+ CrÃ©er habitude</button>
-  </div>
-  <div class="card" id="habits-container">
-    <div id="habits-list"></div>
-  </div>
-</div>
-
-<!-- MOOD PAGE -->
-<div class="page" id="page-mood">
-  <h2>Mon Humeur</h2>
-  <div class="card">
-    <h3>Comment tu te sens aujourd'hui ?</h3>
-    <div class="mood-grid">
-      <div class="mood-opt" onclick="selectMood(0,this)"><div class="ico">ğŸ˜«</div><div class="lbl">Terrible</div></div>
-      <div class="mood-opt" onclick="selectMood(1,this)"><div class="ico">ğŸ˜”</div><div class="lbl">Moyen</div></div>
-      <div class="mood-opt" onclick="selectMood(2,this)"><div class="ico">ğŸ˜</div><div class="lbl">Neutre</div></div>
-      <div class="mood-opt" onclick="selectMood(3,this)"><div class="ico">ğŸ™‚</div><div class="lbl">Bien</div></div>
-      <div class="mood-opt" onclick="selectMood(4,this)"><div class="ico">ğŸš€</div><div class="lbl">Excellent</div></div>
+    <!-- JARVIS -->
+    <div class="page" id="page-jarvis">
+      <div class="page-title">ğŸ¤– JARVIS Agent IA</div>
+      <div class="card" style="height:400px;display:flex;flex-direction:column">
+        <div id="jarvis-msgs" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 0"></div>
+        <div class="input-row" style="margin-top:12px">
+          <input class="input" id="jarvis-input" placeholder="Dis-moi ce dont tu as besoin..." onkeydown="if(event.key==='Enter')askJarvis()">
+          <button class="btn btn-gold btn-sm" style="width:auto;padding:11px 16px" onclick="askJarvis()">â†‘</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px" id="jarvis-shortcuts"></div>
     </div>
-    <textarea class="input" id="mood-note" placeholder="Note (optionnel)..." rows="3" style="resize:none;margin-bottom:10px"></textarea>
-    <button class="btn btn-gold" onclick="saveMood()">Enregistrer l'humeur</button>
-  </div>
-  <div class="card">
-    <h3>Historique</h3>
-    <div id="mood-history"></div>
-  </div>
-</div>
 
-<!-- PROFILE PAGE -->
-<div class="page" id="page-profile">
-  <h2>Mon Profil</h2>
-  <div class="card" style="text-align:center">
-    <div style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#000;margin:0 auto 12px">
-      <span id="avatar-letter">G</span>
+    <!-- TODOS -->
+    <div class="page" id="page-todos">
+      <div class="page-title">Mes TÃ¢ches</div>
+      <div class="card">
+        <div class="input-row" style="margin-bottom:10px">
+          <input class="input" id="todo-input" placeholder="Nouvelle tÃ¢che...">
+          <select class="input" id="todo-priority" style="width:120px">
+            <option value="normal">Normal</option>
+            <option value="high">Haute</option>
+            <option value="urgent">Urgent</option>
+          </select>
+          <button class="btn btn-gold btn-sm" style="width:auto;padding:11px 16px" onclick="addTodo()">+</button>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+          <button class="btn btn-sf btn-sm active-filter" id="f-all" onclick="filterTodos('all',this)">Toutes</button>
+          <button class="btn btn-sf btn-sm" id="f-active" onclick="filterTodos('active',this)">Actives</button>
+          <button class="btn btn-sf btn-sm" id="f-done" onclick="filterTodos('done',this)">TerminÃ©es</button>
+        </div>
+        <div id="todos-list"></div>
+      </div>
     </div>
-    <div style="font-size:18px;font-weight:700;margin-bottom:4px" id="profile-name">Champion</div>
-    <div style="font-size:12px;color:var(--tx3)" id="profile-email"></div>
-    <div style="margin-top:8px"><span class="tag tag-gold" id="profile-plan">Starter</span></div>
-    <div style="margin-top:8px;font-size:13px;color:var(--tx2)" id="profile-xp">0 XP</div>
-    <div class="xp-bar" style="margin-top:6px"><div class="xp-fill" id="xp-bar-fill" style="width:0%"></div></div>
-  </div>
-  <div class="card">
-    <button class="btn btn-sf" onclick="showAuth()" id="auth-btn" style="width:100%;margin-bottom:8px">Se connecter / S'inscrire</button>
-    <button class="btn btn-sf" onclick="signOut()" id="signout-btn" style="width:100%;display:none">Se dÃ©connecter</button>
-  </div>
-  <div class="card">
-    <h3>Statistiques</h3>
-    <div style="display:flex;flex-direction:column;gap:8px" id="profile-stats"></div>
-  </div>
-</div>
 
-<!-- NAV -->
-<div class="nav">
-  <div class="nav-btn active" onclick="goPage('home',this)" id="nav-home">
-    <span>ğŸ </span><div>Accueil</div>
+    <!-- PIPELINE -->
+    <div class="page" id="page-pipeline">
+      <div class="page-title">Pipeline Ventes</div>
+      <div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px" id="pipeline-cols"></div>
+      <div class="card" style="margin-top:14px">
+        <div class="card-title">Ajouter un prospect</div>
+        <div class="grid2" style="gap:10px;margin-bottom:10px">
+          <input class="input" id="p-name" placeholder="Nom / Entreprise">
+          <input class="input" id="p-val" type="number" placeholder="Valeur estimÃ©e (â‚¬)">
+        </div>
+        <select class="input" id="p-stage" style="margin-bottom:10px">
+          <option value="prospect">Prospect</option>
+          <option value="contact">Contact</option>
+          <option value="devis">Devis</option>
+          <option value="nego">NÃ©gociation</option>
+        </select>
+        <button class="btn btn-gold" onclick="addProspect()">+ Ajouter</button>
+      </div>
+    </div>
+
+    <!-- REVENUE -->
+    <div class="page" id="page-revenue">
+      <div class="page-title">Revenus</div>
+      <div class="grid3" style="margin-bottom:16px">
+        <div class="stat-card"><div class="stat-val" id="rev-month">0â‚¬</div><div class="stat-lbl">Ce mois</div></div>
+        <div class="stat-card"><div class="stat-val" id="rev-year">0â‚¬</div><div class="stat-lbl">Cette annÃ©e</div></div>
+        <div class="stat-card"><div class="stat-val" id="rev-avg">0â‚¬</div><div class="stat-lbl">Moyenne/mois</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Ajouter une entrÃ©e</div>
+        <div class="grid2" style="gap:10px;margin-bottom:10px">
+          <input class="input" id="rev-amount" type="number" placeholder="Montant (â‚¬)">
+          <input class="input" id="rev-desc" placeholder="Description">
+        </div>
+        <button class="btn btn-gold" onclick="addRevenue()">+ Enregistrer</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Historique</div>
+        <div id="rev-list"></div>
+      </div>
+    </div>
+
+    <!-- HABITS -->
+    <div class="page" id="page-habits">
+      <div class="page-title">Habitudes</div>
+      <div class="card">
+        <div class="card-title">Aujourd'hui</div>
+        <div id="habits-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">CrÃ©er une habitude</div>
+        <div class="grid2" style="gap:10px;margin-bottom:10px">
+          <input class="input" id="h-name" placeholder="Nom de l'habitude">
+          <input class="input" id="h-ico" placeholder="Emoji (ex: ğŸƒ)">
+        </div>
+        <button class="btn btn-gold" onclick="addHabit()">+ CrÃ©er</button>
+      </div>
+    </div>
+
+    <!-- MOOD -->
+    <div class="page" id="page-mood">
+      <div class="page-title">Humeur</div>
+      <div class="card">
+        <div class="card-title">Comment tu te sens ?</div>
+        <div class="mood-grid">
+          <div class="mood-opt" onclick="selMood(0,this)"><div class="m-ico">ğŸ˜«</div><div class="m-lbl">Terrible</div></div>
+          <div class="mood-opt" onclick="selMood(1,this)"><div class="m-ico">ğŸ˜”</div><div class="m-lbl">Moyen</div></div>
+          <div class="mood-opt" onclick="selMood(2,this)"><div class="m-ico">ğŸ˜</div><div class="m-lbl">Neutre</div></div>
+          <div class="mood-opt" onclick="selMood(3,this)"><div class="m-ico">ğŸ™‚</div><div class="m-lbl">Bien</div></div>
+          <div class="mood-opt" onclick="selMood(4,this)"><div class="m-ico">ğŸš€</div><div class="m-lbl">Excellent</div></div>
+        </div>
+        <textarea class="input" id="mood-note" placeholder="Note..." rows="2" style="resize:none;margin-bottom:10px"></textarea>
+        <button class="btn btn-gold" onclick="saveMood()">Enregistrer</button>
+      </div>
+      <div class="card"><div class="card-title">Historique</div><div id="mood-hist"></div></div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="page" id="page-notes">
+      <div class="page-title">Notes</div>
+      <div class="card">
+        <input class="input" id="note-title" placeholder="Titre..." style="margin-bottom:8px">
+        <textarea class="input" id="note-body" placeholder="Contenu..." rows="6" style="resize:vertical;margin-bottom:10px"></textarea>
+        <button class="btn btn-gold" onclick="saveNote()">Enregistrer</button>
+      </div>
+      <div id="notes-list"></div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="page" id="page-profile">
+      <div class="page-title">Mon Profil</div>
+      <div class="card" style="text-align:center">
+        <div class="avatar-lg" id="prof-avatar">G</div>
+        <div style="font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:4px" id="prof-name">Champion</div>
+        <div style="font-size:13px;color:var(--tx3);margin-bottom:8px" id="prof-email"></div>
+        <span class="badge badge-gold" id="prof-plan">STARTER</span>
+        <div style="font-size:13px;color:var(--tx2);margin-top:10px" id="prof-xp">0 XP â€” Niveau 1</div>
+        <div class="xp-bar" style="margin-top:6px;max-width:200px;margin-left:auto;margin-right:auto"><div class="xp-fill" id="prof-xp-bar" style="width:0%"></div></div>
+      </div>
+      <div class="card">
+        <button class="btn btn-sf" id="auth-btn" onclick="showAuth()" style="width:100%;margin-bottom:8px">Se connecter / S'inscrire</button>
+        <button class="btn btn-sf" id="signout-btn" onclick="signOut()" style="width:100%;display:none">Se dÃ©connecter</button>
+        <button class="btn btn-gold" onclick="showUpgrade()" style="margin-top:8px">ğŸš€ Passer Ã  Pro â€” 19â‚¬/mois</button>
+      </div>
+      <div class="card grid2">
+        <div><div class="card-title">TÃ¢ches</div><div style="font-family:var(--fd);font-size:28px;color:var(--ac)" id="ps-todos">0</div></div>
+        <div><div class="card-title">Habitudes</div><div style="font-family:var(--fd);font-size:28px;color:var(--ac)" id="ps-habits">0</div></div>
+        <div><div class="card-title">Notes</div><div style="font-family:var(--fd);font-size:28px;color:var(--ac)" id="ps-notes">0</div></div>
+        <div><div class="card-title">Humeurs</div><div style="font-family:var(--fd);font-size:28px;color:var(--ac)" id="ps-mood">0</div></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- Mobile nav -->
+  <div id="mobile-nav" style="display:none">
+    <div class="m-nav-btn active" onclick="goPage('home',this)" id="mn-home"><span class="ico">ğŸ </span>Accueil</div>
+    <div class="m-nav-btn" onclick="goPage('todos',this)" id="mn-todos"><span class="ico">âœ…</span>TÃ¢ches</div>
+    <div class="m-nav-btn" onclick="goPage('habits',this)" id="mn-habits"><span class="ico">ğŸ’ª</span>Habitudes</div>
+    <div class="m-nav-btn" onclick="goPage('mood',this)" id="mn-mood"><span class="ico">ğŸ˜Š</span>Humeur</div>
+    <div class="m-nav-btn" onclick="goPage('profile',this)" id="mn-profile"><span class="ico">ğŸ‘¤</span>Profil</div>
   </div>
-  <div class="nav-btn" onclick="goPage('todos',this)" id="nav-todos">
-    <span>âœ…</span><div>TÃ¢ches</div>
-  </div>
-  <div class="nav-btn" onclick="goPage('habits',this)" id="nav-habits">
-    <span>ğŸ’ª</span><div>Habitudes</div>
-  </div>
-  <div class="nav-btn" onclick="goPage('mood',this)" id="nav-mood">
-    <span>ğŸ˜Š</span><div>Humeur</div>
-  </div>
-  <div class="nav-btn" onclick="goPage('profile',this)" id="nav-profile">
-    <span>ğŸ‘¤</span><div>Profil</div>
-  </div>
-</div>
+</div><!-- /main -->
+</div><!-- /app -->
 
 <!-- AUTH OVERLAY -->
 <div class="auth-overlay" id="auth-overlay" style="display:none">
-  <div class="auth-card">
-    <div style="text-align:center;margin-bottom:18px">
-      <div class="logo" style="font-size:28px">RISE</div>
-      <div style="font-size:11px;color:var(--tx3);margin-top:4px">Ta plateforme de vie IA</div>
-    </div>
-    <div class="auth-tabs">
-      <div class="auth-tab active" onclick="authTab('in')">Connexion</div>
-      <div class="auth-tab" onclick="authTab('up')">S'inscrire</div>
-    </div>
-    <div id="auth-name-wrap" style="display:none;margin-bottom:10px">
-      <input class="input" id="auth-name" placeholder="Ton prÃ©nom">
-    </div>
-    <div style="margin-bottom:10px">
-      <input class="input" type="email" id="auth-email" placeholder="ton@email.com">
-    </div>
-    <div style="margin-bottom:14px">
-      <input class="input" type="password" id="auth-pwd" placeholder="Mot de passe">
-    </div>
-    <div style="font-size:12px;color:var(--rd);margin-bottom:8px;display:none" id="auth-err"></div>
-    <button class="btn btn-gold" id="auth-submit" onclick="doAuth()">Se connecter</button>
-    <button class="btn btn-sf" onclick="document.getElementById('auth-overlay').style.display='none'" style="width:100%;margin-top:8px">Continuer sans compte</button>
+<div class="auth-card">
+  <div style="text-align:center;margin-bottom:18px">
+    <div style="font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:5px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent">RISE</div>
+    <div style="font-size:11px;color:var(--tx3);margin-top:2px">Ta plateforme de vie IA</div>
   </div>
+  <div class="auth-tabs">
+    <div class="auth-tab active" onclick="authMode('in',this)">Connexion</div>
+    <div class="auth-tab" onclick="authMode('up',this)">S'inscrire</div>
+  </div>
+  <div id="auth-name-wrap" style="display:none;margin-bottom:10px"><input class="input" id="auth-name" placeholder="Ton prÃ©nom"></div>
+  <div style="margin-bottom:10px"><input class="input" type="email" id="auth-email" placeholder="ton@email.com"></div>
+  <div style="margin-bottom:12px"><input class="input" type="password" id="auth-pwd" placeholder="Mot de passe"></div>
+  <div style="font-size:12px;color:var(--rd);margin-bottom:8px;display:none" id="auth-err"></div>
+  <button class="btn btn-gold" id="auth-submit" onclick="doAuth()">Se connecter</button>
+  <button class="btn btn-sf" onclick="closeAuth()" style="width:100%;margin-top:8px">Continuer sans compte</button>
+</div>
 </div>
 
 <script>
-// â•â• CONFIG SUPABASE â•â•
-var SUPA_URL = 'https://whkvrqerdxythtzfeim.supabase.co';
-var SUPA_KEY = 'sb_publishable_WRo2Fuw9dLRMmbsqLwVN7Q_jU_IBRaU';
-var STRIPE_PRICE_PRO = 'price_1TFsaKJK83rBK9aJcKAax3Be';
-
-var _sb = null, _user = null;
+// â•â• CONFIG â•â•
+var CFG = {
+  sb_url: 'https://whkvrqerdxythtzfeim.supabase.co',
+  sb_key: 'sb_publishable_WRo2Fuw9dLRMmbsqLwVN7Q_jU_IBRaU',
+  stripe_pro: 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  stripe_elite: 'price_1TFsfRJK83rBK9aJNd5bziY2',
+};
+var PRO_PAGES = ['jarvis','pipeline'];
 
 // â•â• STATE â•â•
-var S = JSON.parse(localStorage.getItem('rise_data') || '{}');
+var S = JSON.parse(localStorage.getItem('rise_v2') || '{}');
 S.todos = S.todos || [];
 S.habits = S.habits || [];
 S.mood = S.mood || [];
+S.notes = S.notes || [];
+S.revenue = S.revenue || [];
+S.pipeline = S.pipeline || [];
 S.xp = S.xp || 0;
 S.streak = S.streak || 0;
 S.streakLast = S.streakLast || null;
 S.name = S.name || 'Champion';
+S.plan = S.plan || 'starter';
 
-function save() {
-  localStorage.setItem('rise_data', JSON.stringify(S));
-  if(_user && _sb) syncToCloud();
-  refreshAll();
+function save(){
+  localStorage.setItem('rise_v2', JSON.stringify(S));
+  if(_user && _sb) cloudSync();
+  refreshUI();
 }
 
-// â•â• INIT SUPABASE â•â•
-(async function() {
+// â•â• SUPABASE â•â•
+var _sb=null,_user=null;
+(async function(){
   if(!window.supabase) return;
-  _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
-  var { data: { session } } = await _sb.auth.getSession();
-  if(session) { _user = session.user; await loadProfile(); updateAuthUI(); }
-  _sb.auth.onAuthStateChange(asym¹Œ€¡•ÙĞ°Í•ÍÌ¤€ôøì(€€€¥˜¡•ÙĞ€ôôô€M%9}%8œ¤ì}ÕÍ•È€ôÍ•ÍÌ¹ÕÍ•Èì…İ…¥Ğ±½…‘AÉ½™¥±” ¤ìÕÁ‘…Ñ•ÕÑ¡U$ ¤ì‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ½Ù•É±…äœ¤¹ÍÑå±”¹‘¥ÍÁ±…äô¹½¹”œìÑ½…ÍĞ ŸŠb_¾â<½¹¹•Ó¤€„œ¤ìô(€€€•±Í”¥˜¡•ÙĞ€ôôô€M%9}=UPœ¤ì}ÕÍ•È€ô¹Õ±°ìÕÁ‘…Ñ•ÕÑ¡U$ ¤ìô(€ô¤ì)ô¤ ¤ì()…Íå¹Œ™Õ¹Ñ¥½¸±½…‘AÉ½™¥±” ¤ì(€¥˜ …}Í‰ñğ…}ÕÍ•È¤É•ÑÕÉ¸ì(€Ù…Èì‘…Ñ„èÀô€ô…İ…¥Ğ}Íˆ¹™É½´ ÁÉ½™¥±•Ìœ¤¹Í•±•Ğ œ¨œ¤¹•Ä ¥œ±}ÕÍ•È¹¥¤¹Í¥¹±” ¤ì(€¥˜¡À¤ìL¹¹…µ”õÀ¹¹…µ•ññL¹¹…µ”ìL¹áÀõÀ¹áÁññL¹áÀìL¹ÍÑÉ•…¬õÀ¹ÍÑÉ•…­ññL¹ÍÑÉ•…¬ì¥˜¡À¹Á±…¸¤L¹Á±…¸õÀ¹Á±…¸ìõ‘…Ñ„ìô¤ì(€É•™É•Í¡±° ¤ì)ô()…Íå¹Œ™Õ¹Ñ¥½¸Íå¹Q½±½Õ ¤ì(€¥˜ …}Í‰ñğ…}ÕÍ•È¤É•ÑÕÉ¸ì(€Ù…ÈÕÁÍ•ÉÑÌ€ôlÑ½‘½Ìœ°¡…‰¥ÑÌœ°µ½½t¹µ…À¡¬ôø¡íÕÍ•É}¥é}ÕÍ•È¹¥±­•äé¬±‘…Ñ„éMm­t±ÕÁ‘…Ñ•‘}…Ğé¹•Ü…Ñ” ¤¹Ñ½%M=MÑÉ¥¹œ ¥ô¤¤ì(€…İ…¥Ğ}Íˆ¹™É½´ ÕÍ•É}‘…Ñ„œ¤¹ÕÁÍ•ÉĞ¡ÕÁÍ•ÉÑÌ±í½¹½¹™±¥ĞèÕÍ•É}¥±­•äô¤¹…Ñ   ¤ôùíô¤ì(€…İ…¥Ğ}Íˆ¹™É½´ ÁÉ½™¥±•Ìœ¤¹ÕÁ‘…Ñ”¡íáÀéL¹áÀ±ÍÑÉ•…¬éL¹ÍÑÉ•…¬±¹…µ”éL¹¹…µ”±ÕÁ‘…Ñ•‘}…Ğé¹•Ü…Ñ” ¤¹Ñ½%M=MÑÉ¥¹œ ¥ô¤¹•Ä ¥œ±}ÕÍ•È¹¥¤¹…Ñ   ¤ôùíô¤ì)ô((¼¼ƒŠVCŠV@UQ ƒŠVCŠV@)Ù…È}…ÕÑ¡5½‘”€ô€¥¸œì)™Õ¹Ñ¥½¸…ÕÑ¡Q…ˆ¡´¤ì(€}…ÕÑ¡5½‘”€ô´ì(€Ù…ÈÑ…‰Ì€ô‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½É±° œ¹…ÕÑ µÑ…ˆœ¤ì(€Ñ…‰ÍlÁt¹±…ÍÍ1¥ÍĞ¹Ñ½±” …Ñ¥Ù”œ°´ôôô¥¸œ¤ì(€Ñ…‰ÍlÅt¹±…ÍÍ1¥ÍĞ¹Ñ½±” …Ñ¥Ù”œ°´ôôôÕÀœ¤ì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ¹…µ”µİÉ…Àœ¤¹ÍÑå±”¹‘¥ÍÁ±…ä€ô´ôôôÕÀœü‰±½¬œè¹½¹”œì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µÍÕ‰µ¥Ğœ¤¹Ñ•áÑ½¹Ñ•¹Ğ€ô´ôôô¥¸œüM”½¹¹•Ñ•ÈœèË¥•Èµ½¸½µÁÑ”œì)ô)™Õ¹Ñ¥½¸Í¡½İÕÑ  ¤ì‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ½Ù•É±…äœ¤¹ÍÑå±”¹‘¥ÍÁ±…äô™±•àœìô)…Íå¹Œ™Õ¹Ñ¥½¸‘½ÕÑ  ¤ì(€Ù…È•µ…¥°€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ•µ…¥°œ¤¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€Ù…ÈÁİ€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µÁİœ¤¹Ù…±Õ”ì(€Ù…È¹…µ”€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ¹…µ”œ¤¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€Ù…È•ÉÈ€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ•ÉÈœ¤ì(€¥˜ …•µ…¥±ñğ…Áİ¤ì•ÉÈ¹ÍÑå±”¹‘¥ÍÁ±…äô‰±½¬œì•ÉÈ¹Ñ•áÑ½¹Ñ•¹ĞôI•µÁ±¥ÌÑ½ÕÌ±•Ì¡…µÁÌœìÉ•ÑÕÉ¸ìô(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µÍÕ‰µ¥Ğœ¤¹Ñ•áÑ½¹Ñ•¹Ğôœ¸¸¸œì(€ÑÉäì(€€€¥˜¡}…ÕÑ¡5½‘”ôôôÕÀœ¤ì(€€€€€Ù…Èí•ÉÉ½Éô€ô…İ…¥Ğ}Íˆ¹…ÕÑ ¹Í¥¹UÀ¡í•µ…¥°±Á…ÍÍİ½ÉéÁİ±½ÁÑ¥½¹Ìéí‘…Ñ„éí¹…µ•õõô¤ì(€€€€€¥˜¡•ÉÉ½È¤Ñ¡É½Ü•ÉÉ½Èì(€€€€€•ÉÈ¹ÍÑå±”¹½±½ÈôÙ…È ´µÈ¤œì•ÉÈ¹ÍÑå±”¹‘¥ÍÁ±…äô‰±½¬œì•ÉÈ¹Ñ•áÑ½¹Ñ•¹ĞôŸŠr[¥É¥™¥”Ñ½¸•µ…¥°€„œì(€€€ô•±Í”ì(€€€€€Ù…Èí•ÉÉ½Èè”Éô€ô…İ…¥Ğ}Íˆ¹…ÕÑ ¹Í¥¹%¹]¥Ñ¡A…ÍÍİ½É¡í•µ…¥°±Á…ÍÍİ½ÉéÁİ‘ô¤ì(€€€€€¥˜¡”È¤Ñ¡É½Ü”Èì(€€€ô(€ô…Ñ ¡”¤ì(€€€•ÉÈ¹ÍÑå±”¹½±½ÈôÙ…È ´µÉ¤œì•ÉÈ¹ÍÑå±”¹‘¥ÍÁ±…äô‰±½¬œì•ÉÈ¹Ñ•áÑ½¹Ñ•¹Ğõ”¹µ•ÍÍ…”ì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µÍÕ‰µ¥Ğœ¤¹Ñ•áÑ½¹Ñ•¹Ğõ}…ÕÑ¡5½‘”ôôô¥¸œüM”½¹¹•Ñ•ÈœèË¥•Èµ½¸½µÁÑ”œì(€ô)ô)…Íå¹Œ™Õ¹Ñ¥½¸Í¥¹=ÕĞ ¤ì¥˜¡}Íˆ¤…İ…¥Ğ}Íˆ¹…ÕÑ ¹Í¥¹=ÕĞ ¤ìÑ½…ÍĞ Ÿ ‰¥•¹ÓÑĞ€„œ¤ìô)™Õ¹Ñ¥½¸ÕÁ‘…Ñ•ÕÑ¡U$ ¤ì(€Ù…È±½•‘%¸€ô€„…}ÕÍ•Èì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …ÕÑ µ‰Ñ¸œ¤¹ÍÑå±”¹‘¥ÍÁ±…ä€ô±½•‘%¸ü¹½¹”œè‰±½¬œì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% Í¥¹½ÕĞµ‰Ñ¸œ¤¹ÍÑå±”¹‘¥ÍÁ±…ä€ô±½•‘%¸ü‰±½¬œè¹½¹”œì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÁÉ½™¥±”µ•µ…¥°œ¤¹Ñ•áÑ½¹Ñ•¹Ğ€ô}ÕÍ•Èü¹•µ…¥±ñğœœì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÁÉ½™¥±”µ¹…µ”œ¤¹Ñ•áÑ½¹Ñ•¹Ğ€ôL¹¹…µ”ì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% …Ù…Ñ…Èµ±•ÑÑ•Èœ¤¹Ñ•áÑ½¹Ñ•¹Ğ€ô€¡L¹¹…µ•ñğHœ¥lÁt¹Ñ½UÁÁ•É…Í” ¤ì(€¥˜¡±½•‘%¸¤ì‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÁÉ½™¥±”µÁ±…¸œ¤¹Ñ•áÑ½¹Ñ•¹Ğ€ô€¡L¹Á±…¹ñğÍÑ…ÉÑ•Èœ¤¹Ñ½UÁÁ•É…Í” ¤ìô)ô((¼¼ƒŠVCŠV@MQI,ƒŠVCŠV@)™Õ¹Ñ¥½¸¡•­MÑÉ•…¬ ¤ì(€Ù…ÈÑ½‘…ä€ô¹•Ü…Ñ” ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¤ì(€¥˜¡L¹ÍÑÉ•…­1…ÍĞ€„ôôÑ½‘…ä¤ì(€€€Ù…Èå•ÍÑ•É‘…ä€ô¹•Ü…Ñ”¡…Ñ”¹¹½Ü ¤´àØĞÀÀÀÀÀ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¤ì(€€€¥˜¡L¹ÍÑÉ•…­1…ÍĞ€ôôôå•ÍÑ•É‘…ä¤L¹ÍÑÉ•…¬¬¬ì(€€€•±Í”L¹ÍÑÉ•…¬€ô€Äì(€€€L¹ÍÑÉ•…­1…ÍĞ€ôÑ½‘…äì(€€€L¹áÀ€¬ô€ÄÀì(€ô)ô((¼¼ƒŠVCŠV@Q==LƒŠVCŠV@)™Õ¹Ñ¥½¸…‘‘EÕ¥­Q½‘¼ ¤ì(€Ù…È¥¹À€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÅÕ¥¬µÑ½‘¼œ¤ì(€Ù…ÈÑáĞ€ô¥¹À¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€¥˜ …ÑáĞ¤É•ÑÕÉ¸ì(€L¹Ñ½‘½Ì¹Õ¹Í¡¥™Ğ¡í¥é…Ñ”¹¹½Ü ¤±Ñ•áĞéÑáĞ±‘½¹”é™…±Í”±‘…Ñ”é¹•Ü…Ñ” ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¥ô¤ì(€¥¹À¹Ù…±Õ”ôœœì(€L¹áÀ¬ôÔìÍ…Ù” ¤ìÑ½…ÍĞ ŸŠrS‰¡”…©½ÕÓ¥”€„œ¤ì)ô)™Õ¹Ñ¥½¸…‘‘Q½‘¼ ¤ì(€Ù…È¥¹À€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¹•ÜµÑ½‘¼œ¤ì(€Ù…ÈÑáĞ€ô¥¹À¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€¥˜ …ÑáĞ¤É•ÑÕÉ¸ì(€L¹Ñ½‘½Ì¹Õ¹Í¡¥™Ğ¡í¥é…Ñ”¹¹½Ü ¤±Ñ•áĞéÑáĞ±‘½¹”é™…±Í”±‘…Ñ”é¹•Ü…Ñ” ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¥ô¤ì(€¥¹À¹Ù…±Õ”ôœœì(€L¹áÀ¬ôÔìÍ…Ù” ¤ìÑ½…ÍĞ ŸŠrS‰¡”…©½ÕÓ¥”€„œ¤ì)ô)™Õ¹Ñ¥½¸Ñ½±•Q½‘¼¡¥¤ì(€Ù…ÈĞ€ôL¹Ñ½‘½Ì¹™¥¹¡àôùà¹¥ôôõ¥¤ì(€¥˜ …Ğ¤É•ÑÕÉ¸ì(€Ğ¹‘½¹”ô…Ğ¹‘½¹”ì(€¥˜¡Ğ¹‘½¹”¤L¹áÀ¬ôÈÀì(€Í…Ù” ¤ìÑ½…ÍĞ¡Ğ¹‘½¹”üŸÂ~:$€¬ÈÀa@€„œèœœ¤ì)ô)™Õ¹Ñ¥½¸É•¹‘•ÉQ½‘½Ì¡½¹Ñ…¥¹•É%°±¥µ¥Ğ¤ì(€Ù…È•°€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å%¡½¹Ñ…¥¹•É%¤ì(€¥˜ …•°¤É•ÑÕÉ¸ì(€Ù…È¥Ñ•µÌ€ôL¹Ñ½‘½Ì¹™¥±Ñ•È¡Ğôø…Ğ¹‘½¹”¤¹Í±¥” À±±¥µ¥Ññğää¤ì(€¥˜ …¥Ñ•µÌ¹±•¹Ñ ¤ì•°¹¥¹¹•É!Q50ôœñ‘¥ØÍÑå±”ô‰½±½ÈéÙ…È ´µÑàÌ¤í™½¹ĞµÍ¥é”èÄÍÁàíÁ…‘‘¥¹œèáÁà€ÀˆùÕÕ¹”Ó‰¡”ƒŠP…©½ÕÑ•Ìµ•¸€„ğ½‘¥ØøœìÉ•ÑÕÉ¸ìô(€•°¹¥¹¹•É!Q50€ô¥Ñ•µÌ¹µ…À¡Ğôù€(€€€€ñ‘¥Ø±…ÍÌô‰Ñ½‘¼µ¥Ñ•´ˆø(€€€€€€ñ‘¥Ø±…ÍÌô‰Ñ½‘¼µ¡•¬€‘íĞ¹‘½¹”ü‘½¹”œèœôˆ½¹±¥¬ô‰Ñ½±•Q½‘¼ ‘íĞ¹¥‘ô¤ˆø‘íĞ¹‘½¹”üŸŠrLœèœôğ½‘¥Øø(€€€€€€ñ‘¥ØÍÑå±”ô‰™±•àèÄí™½¹ĞµÍ¥é”èÄÑÁàì‘íĞ¹‘½¹”üÑ•áĞµ‘•½É…Ñ¥½¸é±¥¹”µÑ¡É½Õ í½±½ÈéÙ…È ´µÑàÌ¤œèœôˆø‘íĞ¹Ñ•áÑôğ½‘¥Øø(€€€€ğ½‘¥Øù€¤¹©½¥¸ œœ¤ì)ô((¼¼ƒŠVCŠV@!	%QLƒŠVCŠV@)™Õ¹Ñ¥½¸…‘‘!…‰¥Ğ ¤ì(€Ù…È¸€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¹•Üµ¡…‰¥Ğµ¹…µ”œ¤¹Ù…±Õ”¹ÑÉ¥´ ¤ì(€Ù…È¥¼€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¹•Üµ¡…‰¥Ğµ¥¼œ¤¹Ù…±Õ”¹ÑÉ¥´ ¥ñğŸŠrœì(€¥˜ …¸¤É•ÑÕÉ¸ì(€L¹¡…‰¥ÑÌ¹ÁÕÍ ¡í¥é…Ñ”¹¹½Ü ¤±¹…µ”é¸±¥¼±ÍÑÉ•…¬èÀ±±½œémuô¤ì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¹•Üµ¡…‰¥Ğµ¹…µ”œ¤¹Ù…±Õ”ôœœì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¹•Üµ¡…‰¥Ğµ¥¼œ¤¹Ù…±Õ”ôœœì(€Í…Ù” ¤ìÑ½…ÍĞ ŸÂ~J¨!…‰¥ÑÕ‘”Ë§¥”€„œ¤ì)ô)™Õ¹Ñ¥½¸Ñ½±•!…‰¥Ğ¡¥¤ì(€Ù…È €ôL¹¡…‰¥ÑÌ¹™¥¹¡àôùà¹¥ôôõ¥¤ì(€¥˜ … ¤É•ÑÕÉ¸ì(€Ù…ÈÑ½‘…ä€ô¹•Ü…Ñ” ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¤ì(€¥˜¡ ¹±½œ¹¥¹±Õ‘•Ì¡Ñ½‘…ä¤¤ì ¹±½œõ ¹±½œ¹™¥±Ñ•È¡ôù„ôõÑ½‘…ä¤ìô(€•±Í”ì ¹±½œ¹ÁÕÍ ¡Ñ½‘…ä¤ìL¹áÀ¬ôÄÔìÑ½…ÍĞ ŸÂ~J¨€¬ÄÔa@€„œ¤ìô(€Í…Ù” ¤ì)ô)™Õ¹Ñ¥½¸É•¹‘•É!…‰¥ÑÌ¡½¹Ñ…¥¹•É%°±¥µ¥Ğ¤ì(€Ù…È•°€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å%¡½¹Ñ…¥¹•É%¤ì(€¥˜ …•°¤É•ÑÕÉ¸ì(€Ù…ÈÑ½‘…ä€ô¹•Ü…Ñ” ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¤ì(€Ù…È¥Ñ•µÌ€ôL¹¡…‰¥ÑÌ¹Í±¥” À±±¥µ¥Ññğää¤ì(€¥˜ …¥Ñ•µÌ¹±•¹Ñ ¤ì•°¹¥¹¹•É!Q50ôœñ‘¥ØÍÑå±”ô‰½±½ÈéÙ…È ´µÑàÌ¤í™½¹ĞµÍ¥é”èÄÍÁàíÁ…‘‘¥¹œèáÁà€ÀˆùÕÕ¹”¡…‰¥ÑÕ‘”ƒŠPË¥•Ìµ•¸€„ğ½‘¥ØøœìÉ•ÑÕÉ¸ìõ•°¹¥¹¹•É!Q50€ô¥Ñ•µÌ¹µ…À¡ ôù€(€€€€ñ‘¥Ø±…ÍÌô‰¡…‰¥Ğµ¥Ñ•´ˆø(€€€€€€ñ‘¥ØÍÑå±”ô‰‘¥ÍÁ±…äé™±•àí…±¥¸µ¥Ñ•µÌé•¹Ñ•Èí…ÀèáÁàˆø(€€€€€€€€ñÍÁ…¸ÍÑå±”ô‰™½¹ĞµÍ¥é”èÄáÁàˆø‘í ¹¥½ôğ½ÍÁ…¸ø(€€€€€€€€ñ‘¥Øø(€€€€€€€€€€ñ‘¥ØÍÑå±”ô‰™½¹ĞµÍ¥é”èÄÑÁàí™½¹Ğµİ•¥¡ĞèØÀÀˆø‘í ¹¹…µ•ôğ½‘¥Øø(€€€€€€€€€€ñ‘¥ØÍÑå±”ô‰™½¹ĞµÍ¥é”èÄÅÁàí½±½ÈéÙ…È ´µÑàÌ¤ˆø‘í ¹±½œ¹™¥±Ñ•È¡ôù¤¹±•¹Ñ¡ô©½ÕÉÌ½µÁ³¥Ó¥Ìğ½‘¥Øø(€€€€€€€€ğ½‘¥Øø(€€€€€€ğ½‘¥Øø(€€€€€€ñ‘¥Ø±…ÍÌô‰¡…‰¥Ğµ‘½Ğ€‘í ¹±½œ¹¥¹±Õ‘•Ì¡Ñ½‘…ä¤ü‘½¹”œèœôˆ½¹±¥¬ô‰Ñ½±•!…‰¥Ğ ‘í ¹¥‘ô¤ˆø(€€€€€€€€‘í ¹±½œ¹¥¹±Õ‘•Ì¡Ñ½‘…ä¤üŸŠh¼œèœô(€€€€€€ğ½‘¥Øø(€€€€ğ½‘¥Øù€¤¹©½¥¸ œœ¤ì)ô((¼¼ƒŠVCŠV@5==ƒŠVCŠV@)Ù…È}Í•±•Ñ•‘5½½€ô€´Äì)™Õ¹Ñ¥½¸Í•±•Ñ5½½¡Ù…°°•°¤ì(€}Í•±•Ñ•‘5½½€ôÙ…°ì(€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½É±° œ¹µ½½µ½ÁĞœ¤¹™½É… ¡¼ôù¼¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” Í•±•Ñ•œ¤¤ì(€•°¹±…ÍÍ1¥ÍĞ¹…‘ Í•±•Ñ•œ¤ì)ô)™Õ¹Ñ¥½¸Í…Ù•5½½ ¤ì(€¥˜¡}Í•±•Ñ•‘5½½ğÀ¤ìÑ½…ÍĞ O¥±•Ñ¥½¹¹”Ñ½¸¡Õµ•ÕÈ€„œ¤ìÉ•ÑÕÉ¸ìô(€Ù…È¹½Ñ”€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% µ½½µ¹½Ñ”œ¤¹Ù…±Õ”ì(€L¹µ½½¹Õ¹Í¡¥™Ğ¡í¥é…Ñ”¹¹½Ü ¤±µ½½é}Í•±•Ñ•‘5½½±¹½Ñ”±‘…Ñ”é¹•Ü…Ñ” ¤¹Ñ½…Ñ•MÑÉ¥¹œ ¤±Ñ¥µ”é¹•Ü…Ñ” ¤¹Ñ½1½…±•Q¥µ•MÑÉ¥¹œ ¥ô¤ì(€L¹áÀ¬ôÄÀì}Í•±•Ñ•‘5½½ô´Äì(€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½É±° œ¹µ½½µ½ÁĞœ¤¹™½É… ¡¼ôù¼¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” Í•±•Ñ•œ¤¤ì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% µ½½µ¹½Ñ”œ¤¹Ù…±Õ”ôœœì(€Í…Ù” ¤ìÑ½…ÍĞ ŸÂ~b(!Õµ•ÕÈ•¹É•¥ÍÑË¥”€¬ÄÀa@€„œ¤ì)ô)™Õ¹Ñ¥½¸É•¹‘•É5½½‘!¥ÍÑ½Éä ¤ì(€Ù…È•°€ô‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% µ½½µ¡¥ÍÑ½Éäœ¤ì(€Ù…È•µ½©¥Ì€ôlŸÂ~b¬œ°ŸÂ~bPœ°ŸÂ~b@œ°ŸÂ~fœ°ŸÂ~j tì(€Ù…È±…‰•±Ì€ôlQ•ÉÉ¥‰±”œ°5½å•¸œ°9•ÕÑÉ”œ°	¥•¸œ°á•±±•¹Ğtì(€¥˜ …L¹µ½½¹±•¹Ñ ¤ì•°¹¥¹¹•É!Q50ôœñ‘¥ØÍÑå±”ô‰½±½ÈéÙ…È ´µÑàÌ¤í™½¹ĞµÍ¥é”èÄÍÁàˆùÕÕ¸¡¥ÍÑ½É¥ÅÕ”ğ½‘¥ØøœìÉ•ÑÕÉ¸ìô(€•°¹¥¹¹•É!Q50€ôL¹µ½½¹Í±¥” À°Ü¤¹µ…À¡´ôù€(€€€€ñ‘¥ØÍÑå±”ô‰‘¥ÍÁ±…äé™±•àí…±¥¸µ¥Ñ•µÌé•¹Ñ•Èí…ÀèÄÁÁàíÁ…‘‘¥¹œèáÁà€Àí‰½É‘•Èµ‰½ÑÑ½´èÅÁàÍ½±¥Ù…È ´µ‰¤ˆø(€€€€€€ñÍÁ…¸ÍÑå±”ô‰™½¹ĞµÍ¥é”èÈÉÁàˆø‘í•µ½©¥Ím´¹µ½½‘uôğ½ÍÁ…¸ø(€€€€€€ñ‘¥ØÍÑå±”ô‰™±•àèÄˆø(€€€€€€€€ñ‘¥ØÍÑå±”ô‰™½¹ĞµÍ¥é”èÄÍÁàí™½¹Ğµİ•¥¡ĞèØÀÀˆø‘í±…‰•±Ím´¹µ½½‘uôğ½‘¥Øø(€€€€€€€€‘í´¹¹½Ñ”ı€ñ‘¥ØÍÑå±”ô‰™½¹ĞµÍ¥é”èÄÅÁàí½±½ÈéÙ…È ´µÑàÌ¤ˆø‘í´¹¹½Ñ”¹Í±¥” À°ÔÀ¥ôğ½‘¥Øù€èœô(€€€€€€ğ½‘¥Øø(€€€€€€ñ‘¥ØÍÑå±”ô‰™½¹ĞµÍ¥é”èÄÅÁàí½±½ÈéÙ…È ´µÑàÌ¤ˆø‘í´¹‘…Ñ•ôğ½‘¥Øø(€€€€ğ½‘¥Øù€¤¹©½¥¸ œœ¤ì)ô((¼¼ƒŠVCŠV@9Y%Q%=8ƒŠVCŠV@)™Õ¹Ñ¥½¸½A…”¡¹…µ”°‰Ñ¸¤ì(€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½É±° œ¹Á…”œ¤¹™½É… ¡ÀôùÀ¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” …Ñ¥Ù”œ¤¤ì(€‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½É±° œ¹¹…Øµ‰Ñ¸œ¤¹™½É… ¡ˆôùˆ¹±…ÍÍ1¥ÍĞ¹É•µ½Ù” …Ñ¥Ù”œ¤¤ì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% Á…”´œ­¹…µ”¤¹±…ÍÍ1¥ÍĞ¹…‘ …Ñ¥Ù”œ¤ì(€¥˜¡‰Ñ¸¤‰Ñ¸¹±…ÍÍ1¥ÍĞ¹…‘ …Ñ¥Ù”œ¤ì(€É•™É•Í¡A…”¡¹…µ”¤ì)ô)™Õ¹Ñ¥½¸É•™É•Í¡A…”¡¹…µ”¤ì(€¥˜¡¹…µ”ôôô¡½µ”œ¤ì(€€€É•¹‘•ÉQ½‘½Ì ¡½µ”µÑ½‘¼µ±¥ÍĞœ°Ô¤ì(€€€É•¹‘•É!…‰¥ÑÌ ¡½µ”µ¡…‰¥ÑÌµ±¥ÍĞœ°Ô¤ì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¡½µ”µÍÑÉ•…¬œ¤¹Ñ•áÑ½¹Ñ•¹ĞõL¹ÍÑÉ•…­ñğÀì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¡½µ”µÑ½‘½Ìœ¤¹Ñ•áÑ½¹Ñ•¹ĞõL¹Ñ½‘½Ì¹™¥±Ñ•È¡Ğôø…Ğ¹‘½¹”¤¹±•¹Ñ ì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¡½µ”µ¡…‰¥ÑÌœ¤¹Ñ•áÑ½¹Ñ•¹ĞõL¹¡…‰¥ÑÌ¹±•¹Ñ ì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ¡½µ”µáÀœ¤¹Ñ•áÑ½¹Ñ•¹ĞõL¹áÁñğÀì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÕÍ•Èµ¹…µ”œ¤¹Ñ•áÑ½¹Ñ•¹ĞõL¹¹…µ•ñğ¡…µÁ¥½¸œì(€ô•±Í”¥˜¡¹…µ”ôôôÑ½‘½Ìœ¤ì(€€€É•¹‘•ÉQ½‘½Ì Ñ½‘½Ìµ±¥ÍĞœ¤ì(€ô•±Í”¥˜¡¹…µ”ôôô¡…‰¥ÑÌœ¤ì(€€€É•¹‘•É!…‰¥ÑÌ ¡…‰¥ÑÌµ±¥ÍĞœ¤ì(€ô•±Í”¥˜¡¹…µ”ôôôµ½½œ¤ì(€€€É•¹‘•É5½½‘!¥ÍÑ½Éä ¤ì(€ô•±Í”¥˜¡¹…µ”ôôôÁÉ½™¥±”œ¤ì(€€€ÕÁ‘…Ñ•ÕÑ¡U$ ¤ì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÁÉ½™¥±”µáÀœ¤¹Ñ•áÑ½¹Ñ•¹Ğô¡L¹áÁñğÀ¤¬œa@ƒŠˆ9¥Ù•…Ô€œ¬¡5…Ñ ¹™±½½È ¡L¹áÁñğÀ¤¼ÄÀÀ¤¬Ä¤ì(€€€Ù…ÈÁĞ€ô€ ¡L¹áÁñğÀ¤”ÄÀÀ¤¬œ”œì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% áÀµ‰…Èµ™¥±°œ¤¹ÍÑå±”¹İ¥‘Ñ õÁĞì(€€€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÁÉ½™¥±”µÍÑ…ÑÌœ¤¹¥¹¹•É!Q50õ€(€€€€€€ñ‘¥ØÍÑå±”ô‰‘¥ÍÁ±…äé™±•àí©ÕÍÑ¥™äµ½¹Ñ•¹ĞéÍÁ…”µ‰•Ñİ••¸í™½¹ĞµÍ¥é”èÄÍÁàˆøñÍÁ…¸ÍÑå±”ô‰½±½ÈéÙ…È ´µÑàÈ¤ˆùS‰¡•Ì½µÁ³¥Ó¥•Ìğ½ÍÁ…¸øñÍÁ…¸ø‘íL¹Ñ½‘½Ì¹™¥±Ñ•È¡ĞôùĞ¹‘½¹”¤¹±•¹Ñ¡ôğ½ÍÁ…¸øğ½‘¥Øø(€€€€€€ñ‘¥ØÍÑå±”ô‰‘¥ÍÁ±…äé™±•àí©ÕÍÑ¥™äµ½¹Ñ•¹ĞéÍÁ…”µ‰•Ñİ••¸í™½¹ĞµÍ¥é”èÄÍÁàˆøñÍÁ…¸ÍÑå±”ô‰½±½ÈéÙ…È ´µÑàÈ¤ˆù!…‰¥ÑÕ‘•Ì…Ñ¥Ù•Ìğ½ÍÁ…¸øñÍÁ…¸ø‘íL¹¡…‰¥ÑÌ¹±•¹Ñ¡ôğ½ÍÁ…¸øğ½‘¥Øø(€€€€€€ñ‘¥ØÍÑå±”ô‰‘¥ÍÁ±…äé™±•àí©ÕÍÑ¥™äµ½¹Ñ•¹ĞéÍÁ…”µ‰•Ñİ••¸í™½¹ĞµÍ¥é”èÄÍÁàˆøñÍÁ…¸ÍÑå±”ô‰½±½ÈéÙ…È ´µÑàÈ¤ˆù!Õµ•ÕÉÌ•¹É•¥ÍÑË¥•Ìğ½ÍÁ…¸øñÍÁ…¸ø‘íL¹µ½½¹±•¹Ñ¡ôğ½ÍÁ…¸øğ½‘¥Øø(€€€€ì(€ô)ô)™Õ¹Ñ¥½¸É•™É•Í¡±° ¤ì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% ÍÑÉ•…¬µÙ…°œ¤¹Ñ•áÑ½¹Ñ•¹ĞõL¹ÍÑÉ•…­ñğÀì(€‘½Õµ•¹Ğ¹•Ñ±•µ•¹Ñ	å% áÀµ‰…‘”œ¤¹Ñ•áÑ½¹Ñ•¹Ğô¡L¹áÁñğÀ¤¬œa@œì(€Ù…È…Ñ¥Ù•A…”€ô‘½Õµ•¹Ğ¹ÅÕ•ÉåM•±•Ñ½È œ¹Á…”¹…Ñ¥Ù”œ¤ü¹¥¹É•Á±…” Á…”´œ°œœ¤ì(€¥˜¡…Ñ¥Ù•A…”¤É•™É•Í¡A…”¡…Ñ¥Ù•A…”¤ì)ô(
-function toast(msg) {
-  if(!msg) return;
-  var t = document.createElement('div');
-  t.className='toast'; t.textContent=msg;
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(),2500);
+  _sb = window.supabase.createClient(CFG.sb_url, CFG.sb_key);
+  var {data:{session}} = await _sb.auth.getSession();
+  if(session){ _user=session.user; await loadProfile(); }
+  _sb.auth.onAuthStateChange(async(ev,sess)=>{
+    if(ev==='SIGNED_IN'){_user=sess.user;await loadProfile();closeAuth();toast('â˜ï¸ ConnectÃ© !');}
+    else if(ev==='SIGNED_OUT'){_user=null;updateAuthUI();}
+  });
+})();
+
+async function loadProfile(){
+  if(!_sb||!_user) return;
+  var {data:p} = await _sb.from('profiles').select('*').eq('id',_user.id).single();
+  if(p){S.name=p.name||S.name;S.xp=p.xp||S.xp;S.streak=p.streak||S.streak;S.plan=p.plan||S.plan;}
+  var {data:rows} = await _sb.from('user_data').select('key,data').eq('user_id',_user.id);
+  if(rows) rows.forEach(r=>{if(r.key&&r.data)S[r.key]=r.data;});
+  updateAuthUI();refreshUI();
 }
 
-checkStreak();
-refreshAll();
+var _syncT=null;
+async function cloudSync(){
+  if(!_sb||!_user) return;
+  clearTimeout(_syncT);
+  _syncT = setTimeout(async()=>{
+    var ups = ['todos','habits','mood','notes','revenue','pipeline'].map(k=>({user_id:_user.id,key:k,data:S[k],updated_at:new Date().toISOString()}));
+    await _sb.from('user_data').upsert(ups,{onConflict:'user_id,key'}).catch(()=>{});
+    await _sb.from('profiles').update({xp:S.xp,streak:S.streak,name:S.name,updated_at:new Date().toISOString()}).eq('id',_user.id).catch(()=>{});
+  }, 3000);
+}
 
-setTimeout(function() {
-  if(!_user) {
-    var b = document.createElement('div');
-    b.style.cssText='position:fixed;bottom:75px;left:12px;right:12px;background:var(--sf);border:1.5px solid rgba(212,170,74,.3);border-radius:var(--r);padding:12px 14px;z-index:200;display:flex;align-items:center;gap:10px';
-    b.innerHTML='<div>â˜‡</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Sauvegarder dans le cloud</div><div style="font-size:11px;color:var(--tx2)">Ne perds jamais tes donnÃ©es</div></div>';
-    var btn = document.createElement('button');
-    btn.style.cssText='padding:8px 12px;border-radius:100px;background:var(--ac);color:#000;font-size:12px;font-weight:700;border:none;cursor:pointer';');
-    b.style.cssText='position:fixed;bottom:75px;left:12px;right:12px;background:var(--sf);border:1.5px solid rgba(212,170,74,.3);border-radius:var(--r);padding:12px 14px;z-index:200;display:flex;align-items:center;gap:10px';
-    b.innerHTML='<div style="font-size:20px">â˜ï¸</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Sauvegarder dans le cloud</div><div style="font-size:11px;color:var(--tx2)">Ne perds jamais tes donnÃ©es</div></div><button onclick="showAuth();this.parentElement.remove()" style="padding:8px 12px;border-radius:100px;background:var(--ac);color:#000;font-size:12px;font-weight:700;border:none;cursor:pointer">S'inscrire</button><button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--tx3);font-size:18px;cursor:pointer;padding:4px">Ã—</button>';
-    document.body.appendChild(b);
-    setTimeout(()=>b.remove&&b.remove(),10000);
+// â•â• AUTH â•â•
+var _authM='in';
+function authMode(m,el){
+  _authM=m;
+  document.querySelectorAll('.auth-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('auth-name-wrap').style.display=m==='up'?'block':'none';
+  document.getElementById('auth-submit').textContent=m==='in'?'Se connecter':'CrÃ©er mon compte';
+}
+function showAuth(){document.getElementById('auth-overlay').style.display='flex';}
+function closeAuth(){document.getElementById('auth-overlay').style.display='none';}
+async function doAuth(){
+  var email=document.getElementById('auth-email').value.trim();
+  var pwd=document.getElementById('auth-pwd').value;
+  var name=document.getElementById('auth-name').value.trim();
+  var err=document.getElementById('auth-err');
+  if(!email||!pwd){err.textContent='Remplis les champs';err.style.display='block';return;}
+  document.getElementById('auth-submit').textContent='...';
+  try{
+    if(_authM==='up'){
+      var {error}=await _sb.auth.signUp({email,password:pwd,options:{data:{name}}});
+      if(error)throw error;
+      err.style.color='var(--gr)';err.textContent='âœ… VÃ©rifie ton email !';err.style.display='block';
+    } else {
+      var {error:e2}=await _sb.auth.signInWithPassword({email,password:pwd});
+      if(e2)throw e2;
+    }
+  }catch(e){
+    err.style.color='var(--rd)';err.textContent=e.message;err.style.display='block';
+    document.getElementById('auth-submit').textContent=_authM==='in'?'Se connecter':'CrÃ©er mon compte';
   }
-}, 30000);
+}
+async function signOut(){if(_sb)await _sb.auth.signOut();toast('Ã€ bientÃ´t !');}
+function updateAuthUI(){
+  var li=!!_user;
+  document.getElementById('auth-btn').style.display=li?'none':'block';
+  document.getElementById('signout-btn').style.display=li?'block':'none';
+  document.getElementById('prof-email').textContent=_user?.email||'';
+}
+
+// â•â• PAYWALL â•â•
+function showUpgrade(){
+  var ov=document.createElement('div');ov.className='paywall';
+  var card=document.createElement('div');card.className='paywall-card';
+  card.innerHTML='<div style="font-size:40px;margin-bottom:10px">âš¡</div>'
+    +'<div style="font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:8px">RISE Pro</div>'
+    +'<div style="font-size:13px;color:var(--tx2);margin-bottom:16px;line-height:1.6">JARVIS Agent IA Â· Pipeline Â· Coach Â· Formations Â· Langues Â· Horoscope Â· Social</div>'
+    +'<div style="font-size:11px;color:var(--gr);font-weight:700;margin-bottom:18px">âœ¨ 14 jours gratuits</div>';
+  var b1=document.createElement('button');b1.className='btn btn-gold';b1.style.marginBottom='8px';b1.textContent='ğŸš€ Passer Ã  Pro â€” 19â‚¬/mois';
+  b1.onclick=async()=>{
+    if(!_sb||!_user){showAuth();ov.remove();return;}
+    var {data:{session}}=await _sb.auth.getSession();
+    var r=await fetch(CFG.sb_url+'/functions/v1/create-checkout',{method:'POST',headers:{'Authorization':'Bearer '+session.access_token,'Content-Type':'application/json'},body:JSON.stringify({price_id:CFG.stripe_pro,success_url:location.href+'?payment=success',cancel_url:location.href})}).catch(()=>null);
+    if(r){var d=await r.json();if(d.url)location.href=d.url;}
+  };
+  var b2=document.createElement('button');b2.className='btn btn-sf';b2.textContent='Pas maintenant';b2.onclick=()=>ov.remove();
+  card.appendChild(b1);card.appendChild(b2);
+  ov.appendChild(card);ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+  document.body.appendChild(ov);
+}
+function checkPro(page){
+  if(PRO_PAGES.includes(page)&&S.plan==='starter'){showUpgrade();return false;}
+  return true;
+}
+
+// â•â• STREAK â•â•
+function checkStreak(){
+  var today=new Date().toDateString();
+  if(S.streakLast===today)return;
+  var yest=new Date(Date.now()-86400000).toDateString();
+  S.streak=S.streakLast===yest?S.streak+1:1;
+  S.streakLast=today;S.xp+=10;
+}
+
+// â•â• NAVIGATION â•â•
+var _curPage='home';
+function goPage(name,btn){
+  if(!checkPro(name))return;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.s-nav-item,.m-nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  _curPage=name;
+  refreshPage(name);
+}
+
+// â•â• TODOS â•â•
+var _todoFilter='all';
+function filterTodos(f,btn){
+  _todoFilter=f;
+  document.querySelectorAll('[id^="f-"]').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTodos();
+}
+function addQuickTodo(){
+  var inp=document.getElementById('h-todo-input');
+  var txt=inp.value.trim();if(!txt)return;
+  S.todos.unshift({id:Date.now(),text:txt,done:false,date:new Date().toDateString(),priority:'normal'});
+  inp.value='';S.xp+=5;save();toast('âœ… +5 XP');
+}
+function addTodo(){
+  var txt=document.getElementById('todo-input').value.trim();
+  var pri=document.getElementById('todo-priority').value;
+  if(!txt)return;
+  S.todos.unshift({id:Date.now(),text:txt,done:false,date:new Date().toDateString(),priority:pri});
+  document.getElementById('todo-input').value='';S.xp+=5;save();toast('âœ… AjoutÃ© !');
+}
+function toggleTodo(id){
+  var t=S.todos.find(x=>x.id===id);if(!t)return;
+  t.done=!t.done;if(t.done)S.xp+=20;
+  save();if(t.done)toast('ğŸ‰ +20 XP !');
+}
+function delTodo(id){S.todos=S.todos.filter(x=>x.id!==id);save();}
+function renderTodos(containerId){
+  var id=containerId||'todos-list';
+  var el=document.getElementById(id);if(!el)return;
+  var items=S.todos.filter(t=>_todoFilter==='all'||(_todoFilter==='active'&&!t.done)||(_todoFilter==='done'&&t.done));
+  if(id==='h-todo-list')items=S.todos.filter(t=>!t.done).slice(0,5);
+  if(!items.length){el.innerHTML='<div style="color:var(--tx3);font-size:13px;padding:8px 0">Aucune tÃ¢che</div>';return;}
+  el.innerHTML=items.map(t=>`
+    <div class="todo-item ${t.priority==='urgent'?'priority-urgent':t.priority==='high'?'priority-high':''}">
+      <div class="todo-check ${t.done?'done':''}" onclick="toggleTodo(${t.id})">${t.done?'âœ“':''}</div>
+      <div class="todo-text ${t.done?'done':''}">${t.text}${t.priority!=='normal'?`<span class="badge ${t.priority==='urgent'?'badge-rd':'badge-gold'}" style="margin-left:6px;font-size:9px">${t.priority.toUpperCase()}</span>`:''}</div>
+      <div class="todo-del" onclick="delTodo(${t.id})">âœ•</div>
+    </div>`).join('');
+}
+
+// â•â• HABITS â•â•
+function addHabit(){
+  var n=document.getElementById('h-name').value.trim();
+  var ico=document.getElementById('h-ico').value.trim()||'âœ…';
+  if(!n)return;
+  S.habits.push({id:Date.now(),name:n,ico,log:[]});
+  document.getElementById('h-name').value='';document.getElementById('h-ico').value='';
+  save();toast('ğŸ’ª Habitude crÃ©Ã©e !');
+}
+function toggleHabit(id){
+  var h=S.habits.find(x=>x.id===id);if(!h)return;
+  var today=new Date().toDateString();
+  if(h.log.includes(today)){h.log=h.log.filter(d=>d!==today);}
+  else{h.log.push(today);S.xp+=15;toast('ğŸ’ª +15 XP !');}
+  save();
+}
+function renderHabits(containerId){
+  var id=containerId||'habits-list';
+  var el=document.getElementById(id);if(!el)return;
+  var today=new Date().toDateString();
+  if(!S.habits.length){el.innerHTML='<div style="color:var(--tx3);font-size:13px;padding:8px 0">Aucune habitude</div>';return;}
+  el.innerHTML=S.habits.map(h=>{
+    var streak=0;var d=new Date();
+    while(h.log.includes(d.toDateString())){streak++;d=new Date(d-86400000);}
+    var pct=Math.min(100,h.log.length);
+    return `<div class="habit-item">
+      <div class="habit-dot ${h.log.includes(today)?'done':''}" onclick="toggleHabit(${h.id})">${h.ico}</div>
+      <div class="habit-info">
+        <div class="habit-name">${h.name}</div>
+        <div class="habit-streak">ğŸ”¥ ${streak} jours Â· ${h.log.length} total</div>
+        <div class="habit-bar"><div class="habit-bar-fill" style="width:${pct}%"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// â•â• MOOD â•â•
+var _mood=-1;
+function selMood(v,el){
+  _mood=v;
+  document.querySelectorAll('.mood-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function saveMood(){
+  if(_mood<0){toast('SÃ©lectionne ton humeur !');return;}
+  var note=document.getElementById('mood-note').value;
+  S.mood.unshift({id:Date.now(),v:_mood,note,date:new Date().toDateString()});
+  S.xp+=10;_mood=-1;
+  document.querySelectorAll('.mood-opt').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('mood-note').value='';
+  save();toast('ğŸ˜Š +10 XP !');
+}
+function renderMood(){
+  var el=document.getElementById('mood-hist');if(!el)return;
+  var emj=['ğŸ˜«','ğŸ˜”','ğŸ˜','ğŸ™‚','ğŸš€'],lbl=['Terrible','Moyen','Neutre','Bien','Excellent'];
+  if(!S.mood.length){el.innerHTML='<div style="color:var(--tx3);font-size:13px">Aucun historique</div>';return;}
+  el.innerHTML=S.mood.slice(0,7).map(m=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)">
+      <span style="font-size:22px">${emj[m.v]}</span>
+      <div style="flex:1"><div style="font-size:13px;font-weight:600">${lbl[m.v]}</div>${m.note?`<div style="font-size:11px;color:var(--tx3)">${m.note.slice(0,60)}</div>`:''}</div>
+      <div style="font-size:11px;color:var(--tx3)">${m.date}</div>
+    </div>`).join('');
+}
+
+// â•â• NOTES â•â•
+function saveNote(){
+  var title=document.getElementById('note-title').value.trim();
+  var body=document.getElementById('note-body').value.trim();
+  if(!title&&!body)return;
+  S.notes.unshift({id:Date.now(),title:title||'Sans titre',body,date:new Date().toDateString()});
+  document.getElementById('note-title').value='';document.getElementById('note-body').value='';
+  save();toast('ğŸ“ Note sauvegardÃ©e !');
+}
+function delNote(id){S.notes=S.notes.filter(x=>x.id!==id);save();}
+function renderNotes(){
+  var el=document.getElementById('notes-list');if(!el)return;
+  if(!S.notes.length){el.innerHTML='<div style="color:var(--tx3);font-size:13px;padding:8px">Aucune note</div>';return;}
+  el.innerHTML=S.notes.map(n=>`
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+        <div style="font-size:14px;font-weight:700">${n.title}</div>
+        <div style="display:flex;gap:8px">
+          <span style="font-size:11px;color:var(--tx3)">${n.date}</span>
+          <span style="cursor:pointer;color:var(--tx3);font-size:13px" onclick="delNote(${n.id})">âœ•</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.6">${n.body.slice(0,200)}${n.body.length>200?'...':''}</div>
+    </div>`).join('');
+}
+
+// â•â• REVENUE â•â•
+function addRevenue(){
+  var amt=parseFloat(document.getElementById('rev-amount').value)||0;
+  var desc=document.getElementById('rev-desc').value.trim();
+  if(!amt)return;
+  S.revenue.unshift({id:Date.now(),amount:amt,desc:desc||'EntrÃ©e',date:new Date().toDateString(),month:new Date().getMonth(),year:new Date().getFullYear()});
+  document.getElementById('rev-amount').value='';document.getElementById('rev-desc').value='';
+  S.xp+=5;save();toast('ğŸ’° +'+amt+'â‚¬ enregistrÃ© !');
+}
+function renderRevenue(){
+  var now=new Date();var m=now.getMonth();var y=now.getFullYear();
+  var monthTotal=S.revenue.filter(r=>r.month===m&&r.year===y).reduce((s,r)=>s+r.amount,0);
+  var yearTotal=S.revenue.filter(r=>r.year===y).reduce((s,r)=>s+r.amount,0);
+  var allMonths={};S.revenue.forEach(r=>{var k=r.year+'-'+r.month;allMonths[k]=(allMonths[k]||0)+r.amount;});
+  var mkeys=Object.keys(allMonths);
+  var avg=mkeys.length?yearTotal/mkeys.length:0;
+  var fmt=n=>n>=1000?(n/1000).toFixed(1)+'Kâ‚¬':n.toFixed(0)+'â‚¬';
+  ['rev-month','h-rev-total'].forEach(id=>{var el=document.getElementById(id);if(el)el.textContent=fmt(monthTotal);});
+  var ry=document.getElementById('rev-year');if(ry)ry.textContent=fmt(yearTotal);
+  var ra=document.getElementById('rev-avg');if(ra)ra.textContent=fmt(avg);
+  var rt=document.getElementById('h-rev-target');if(rt)rt.textContent='Objectif: 100kâ‚¬/mois';
+  // Mini bars for home
+  var barsEl=document.getElementById('h-rev-bars');
+  if(barsEl){
+    var last6={};for(var i=5;i>=0;i--){var d=new Date(y,m-i,1);last6[d.getFullYear()+'-'+d.getMonth()]=0;}
+    S.revenue.forEach(r=>{var k=r.year+'-'+r.month;if(k in last6)last6[k]+=r.amount;});
+    var vals=Object.values(last6);var maxV=Math.max(...vals,1);
+    barsEl.innerHTML=vals.map((v,i)=>`<div class="rev-bar" style="height:${Math.max(4,(v/maxV)*72)}px" data-val="${fmt(v)}" title="${fmt(v)}"></div>`).join('');
+  }
+  var rl=document.getElementById('rev-list');
+  if(rl){
+    if(!S.revenue.length){rl.innerHTML='<div style="color:var(--tx3);font-size:13px">Aucune entrÃ©e</div>';return;}
+    rl.innerHTML=S.revenue.slice(0,10).map(r=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--bd)">
+        <div><div style="font-size:13px;font-weight:600">${r.desc}</div><div style="font-size:11px;color:var(--tx3)">${r.date}</div></div>
+        <div style="font-size:15px;font-weight:800;color:var(--gr)">+${r.amount}â‚¬</div>
+      </div>`).join('');
+  }
+}
+
+// â•â• PIPELINE â•â•
+var P_STAGES=['prospect','contact','devis','nego','gagne','perdu'];
+var P_NAMES={prospect:'Prospect',contact:'Contact',devis:'Devis',nego:'NÃ©go',gagne:'GagnÃ© ğŸ‰',perdu:'Perdu'};
+var P_COLORS={gagne:'var(--gr)',perdu:'var(--rd)',prospect:'var(--tx3)',contact:'var(--bl)',devis:'var(--ac)',nego:'var(--or)'};
+function addProspect(){
+  var name=document.getElementById('p-name').value.trim();
+  var val=parseFloat(document.getElementById('p-val').value)||0;
+  var stage=document.getElementById('p-stage').value;
+  if(!name)return;
+  S.pipeline.unshift({id:Date.now(),name,val,stage,date:new Date().toDateString()});
+  document.getElementById('p-name').value='';document.getElementById('p-val').value='';
+  save();toast('ğŸ“Š Prospect ajoutÃ© !');
+}
+function moveProspect(id,stage){
+  var p=S.pipeline.find(x=>x.id===id);if(p)p.stage=stage;
+  save();
+}
+function renderPipeline(){
+  var el=document.getElementById('pipeline-cols');if(!el)return;
+  el.innerHTML=P_STAGES.map(stage=>{
+    var items=S.pipeline.filter(p=>p.stage===stage);
+    var total=items.reduce((s,p)=>s+p.val,0);
+    return `<div class="pipeline-col" style="min-width:140px">
+      <div class="pipeline-col-title" style="color:${P_COLORS[stage]||'var(--tx3)'}">
+        <span>${P_NAMES[stage]}</span><span>${items.length}</span>
+      </div>
+      ${items.map(p=>`
+        <div class="pipeline-card">
+          <div class="pipeline-card-name">${p.name}</div>
+          ${p.val?`<div class="pipeline-card-val">${p.val}â‚¬</div>`:''}
+          <div style="margin-top:6px;display:flex;gap:4px;flex-wrap:wrap">
+            ${P_STAGES.filter(s=>s!==stage).map(s=>`<span style="font-size:9px;cursor:pointer;color:var(--tx3);border:1px solid var(--bd);padding:1px 5px;border-radius:4px" onclick="moveProspect(${p.id},'${s}')">${P_NAMES[s].split(' ')[0]}</span>`).join('')}
+          </div>
+        </div>`).join('')}
+      ${total?`<div style="font-size:11px;color:var(--gr);font-weight:700;margin-top:6px">${total}â‚¬ potentiel</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// â•â• JARVIS â•â•
+var _jarvisHistory=[];
+var JARVIS_SHORTCUTS=[
+  {lbl:'ğŸ“… Plan ma journÃ©e',q:'Planifie ma journÃ©e de travail pour aujourd\'hui'},
+  {lbl:'ğŸ’¡ IdÃ©es business',q:'Donne-moi 3 idÃ©es pour augmenter mes revenus'},
+  {lbl:'ğŸ“Š Analyse revenus',q:'Analyse mes revenus et donne des insights'},
+  {lbl:'ğŸ¯ Rappel objectifs',q:'Quels sont mes objectifs prioritaires ?'},
+  {lbl:'ğŸ§˜ Routine bien-Ãªtre',q:'CrÃ©e-moi une routine bien-Ãªtre de 20 minutes'},
+  {lbl:'âš¡ TÃ¢ches urgentes',q:'Quelles tÃ¢ches dois-je absolument faire aujourd\'hui ?'},
+];
+function initJarvis(){
+  var sc=document.getElementById('jarvis-shortcuts');
+  if(!sc) return;
+  sc.innerHTML=JARVIS_SHORTCUTS.map(s=>`
+    <button class="btn btn-sf btn-sm" onclick="setJarvisQuery('${s.q}')">${s.lbl}</button>`).join('');
+  var msgs=document.getElementById('jarvis-msgs');
+  if(!msgs.children.length){
+    addJarvisMsg('ai','ğŸ‘‹ Bonjour ! Je suis JARVIS, ton assistant IA. Je connais tes tÃ¢ches, habitudes, revenus et objectifs. Comment puis-je t\'aider ?');
+  }
+}
+function setJarvisQuery(q){
+  document.getElementById('jarvis-input').value=q;
+  askJarvis();
+}
+function addJarvisMsg(role,text){
+  var msgs=document.getElementById('jarvis-msgs');if(!msgs)return;
+  var d=document.createElement('div');
+  d.style.cssText=role==='user'
+    ?'display:flex;justify-content:flex-end'
+    :'display:flex;justify-content:flex-start';
+  var bubble=document.createElement('div');
+  bubble.style.cssText=role==='user'
+    ?'background:var(--acm);border:1px solid rgba(212,170,74,.2);border-radius:14px 14px 4px 14px;padding:10px 14px;max-width:80%;font-size:13px;color:var(--ac)'
+    :'background:var(--sf2);border:1px solid var(--bd);border-radius:14px 14px 14px 4px;padding:10px 14px;max-width:85%;font-size:13px;line-height:1.6;white-space:pre-wrap';
+  bubble.textContent=text;
+  d.appendChild(bubble);msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+  _jarvisHistory.push({role,text});
+}
+async function askJarvis(){
+  var inp=document.getElementById('jarvis-input');
+  var q=inp.value.trim();if(!q)return;
+  inp.value='';addJarvisMsg('user',q);
+  // Build context
+  var ctx=`Tu es JARVIS, l'assistant IA personnel de ${S.name}.
+DonnÃ©es actuelles:
+- XP: ${S.xp}, Streak: ${S.streak} jours
+- TÃ¢ches actives: ${S.todos.filter(t=>!t.done).length}
+- Habitudes: ${S.habits.length}
+- Revenus ce mois: ${S.revenue.filter(r=>r.month===new Date().getMonth()).reduce((s,r)=>s+r.amount,0)}â‚¬
+- Pipeline: ${S.pipeline.length} prospects
+RÃ©ponds en franÃ§ais, de faÃ§on personnalisÃ©e, concise et actionnable.`;
+  // Thinking bubble
+  var thinking=document.createElement('div');
+  thinking.style.cssText='display:flex;justify-content:flex-start';
+  thinking.innerHTML='<div style="background:var(--sf2);border:1px solid var(--bd);border-radius:14px 14px 14px 4px;padding:10px 14px;font-size:13px;color:var(--tx3)">JARVIS rÃ©flÃ©chit... âš¡</div>';
+  document.getElementById('jarvis-msgs').appendChild(thinking);
+  document.getElementById('jarvis-msgs').scrollTop=99999;
+  try{
+    var r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:ctx,
+        messages:[..._jarvisHistory.slice(-6).map(m=>({role:m.role==='ai'?'assistant':'user',content:m.text})),{role:'user',content:q}]
+      })
+    });
+    var d=await r.json();
+    thinking.remove();
+    var reply=d.content?.[0]?.text||'DÃ©solÃ©, une erreur est survenue.';
+    addJarvisMsg('ai',reply);
+  }catch(e){
+    thinking.remove();
+    addJarvisMsg('ai','Erreur de connexion. VÃ©rifie ta connexion internet.');
+  }
+}
+
+// â•â• REFRESH UI â•â•
+function refreshPage(page){
+  if(page==='home'){
+    document.getElementById('home-name').textContent=S.name;
+    document.getElementById('h-streak').textContent=S.streak;
+    document.getElementById('h-todos').textContent=S.todos.filter(t=>!t.done).length;
+    document.getElementById('h-habits').textContent=S.habits.length;
+    renderTodos('h-todo-list');
+    renderHabits('h-habit-list');
+    renderRevenue();
+    var mr=document.getElementById('h-mood-recent');
+    if(mr&&S.mood.length){
+      var emj=['ğŸ˜«','ğŸ˜”','ğŸ˜','ğŸ™‚','ğŸš€'];
+      mr.innerHTML=S.mood.slice(0,3).map(m=>`<span style="font-size:20px" title="${m.date}">${emj[m.v]}</span>`).join(' ');
+    }
+  } else if(page==='todos') renderTodos();
+  else if(page==='habits') renderHabits();
+  else if(page==='mood') renderMood();
+  else if(page==='notes') renderNotes();
+  else if(page==='revenue') renderRevenue();
+  else if(page==='pipeline') renderPipeline();
+  else if(page==='jarvis') initJarvis();
+  else if(page==='profile'){
+    updateAuthUI();
+    document.getElementById('prof-name').textContent=S.name;
+    document.getElementById('prof-plan').textContent=(S.plan||'starter').toUpperCase();
+    var xpNext=[0,100,300,600,1200,2500,5000,10000,20000];
+    var lvl=xpNext.findIndex(x=>x>S.xp)-1;lvl=Math.max(0,lvl);
+    document.getElementById('prof-xp').textContent=`${S.xp} XP â€” Niveau ${lvl+1}`;
+    var pct=lvl+1<xpNext.length?((S.xp-xpNext[lvl])/(xpNext[lvl+1]-xpNext[lvl])*100).toFixed(0):100;
+    document.getElementById('prof-xp-bar').style.width=pct+'%';
+    document.getElementById('ps-todos').textContent=S.todos.length;
+    document.getElementById('ps-habits').textContent=S.habits.length;
+    document.getElementById('ps-notes').textContent=S.notes.length;
+    document.getElementById('ps-mood').textContent=S.mood.length;
+    document.getElementById('prof-avatar').textContent=(S.name||'R')[0].toUpperCase();
+  }
+}
+function refreshUI(){
+  // Sidebar
+  document.getElementById('sb-avatar').textContent=(S.name||'R')[0].toUpperCase();
+  document.getElementById('sb-name').textContent=S.name||'Champion';
+  document.getElementById('sb-plan').textContent=(S.plan||'starter').toUpperCase();
+  document.getElementById('sb-streak').textContent=S.streak||0;
+  document.getElementById('sb-xp').textContent=S.xp||0;
+  // Topbar
+  document.getElementById('tb-streak').textContent=S.streak||0;
+  document.getElementById('tb-xp').textContent=S.xp||0;
+  // Refresh current page
+  refreshPage(_curPage);
+}
+
+// â•â• TOAST â•â•
+function toast(msg){
+  if(!msg)return;
+  var t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2500);
+}
+
+// â•â• MOBILE NAV â•â•
+function initMobileNav(){
+  var nav=document.getElementById('mobile-nav');
+  if(window.innerWidth<=768) nav.style.display='flex';
+  window.addEventListener('resize',()=>{
+    nav.style.display=window.innerWidth<=768?'flex':'none';
+  });
+}
+
+// â•â• CLOUD NUDGE â•â•
+setTimeout(()=>{
+  if(!_user&&_sb){
+    var b=document.createElement('div');
+    b.style.cssText='position:fixed;bottom:75px;left:12px;right:12px;background:var(--sf);border:1.5px solid rgba(212,170,74,.3);border-radius:var(--r);padding:12px 14px;z-index:200;display:flex;align-items:center;gap:10px;max-width:430px';
+    b.innerHTML='<div style="font-size:20px">â˜ï¸</div><div style="flex:1"><div style="font-size:13px;font-weight:700">Synchro cloud</div><div style="font-size:11px;color:var(--tx2)">Ne perds jamais tes donnÃ©es</div></div>';
+    var btn=document.createElement('button');btn.className='btn btn-gold btn-sm';btn.textContent="S'inscrire";
+    btn.onclick=()=>{showAuth();b.remove();};
+    var x=document.createElement('button');x.style.cssText='background:none;border:none;color:var(--tx3);font-size:18px;cursor:pointer;padding:4px';x.textContent='Ã—';x.onclick=()=>b.remove();
+    b.appendChild(btn);b.appendChild(x);document.body.appendChild(b);
+    setTimeout(()=>b.remove&&b.remove(),12000);
+  }
+},30000);
+
+// â•â• INIT â•â•
+checkStreak();
+initMobileNav();
+refreshUI();
+
+// Payment success
+if(location.search.includes('payment=success')){
+  history.replaceState(null,'',location.pathname);
+  setTimeout(()=>toast('ğŸ‰ Plan Pro activÃ© !'),500);
+}
 </script>
 </body>
 </html>
