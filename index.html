@@ -172,6 +172,21 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
 .ai-loading{display:flex;align-items:center;gap:8px;color:var(--tx3);font-size:13px;font-style:italic}
 .ai-loading::before{content:'';width:14px;height:14px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
+#lesson-content h1,#lesson-content h2{font-family:var(--fd);font-weight:800;color:var(--ac);margin:14px 0 6px}
+#lesson-content h1{font-size:16px}#lesson-content h2{font-size:14px}
+#lesson-content p{margin-bottom:10px}
+#lesson-content ul,#lesson-content ol{padding-left:18px;margin-bottom:10px}
+#lesson-content li{margin-bottom:4px}
+#lesson-content .callout{background:var(--acm);border-left:3px solid var(--ac);padding:10px 12px;border-radius:0 var(--rs) var(--rs) 0;margin:10px 0}
+#lesson-content .warning{background:rgba(224,92,92,.06);border-left:3px solid var(--rd);padding:10px 12px;border-radius:0 var(--rs) var(--rs) 0;margin:10px 0;font-size:12px}
+.bmi-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--rs);font-size:13px;font-weight:700}
+.bmi-normal{background:rgba(62,207,142,.1);color:var(--gr)}.bmi-over{background:rgba(245,158,11,.1);color:var(--or)}.bmi-under{background:rgba(74,158,212,.1);color:var(--bl)}
+.budget-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)}.budget-item:last-child{border:none}
+.budget-bar-wrap{flex:1;height:4px;background:var(--bd);border-radius:2px;overflow:hidden}
+.budget-bar-fill{height:100%;border-radius:2px;transition:width .5s}
+.inv-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}.inv-item:last-child{border:none}
+.inv-ico{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+
 /* MOOD FACTORS */
 .mood-factor{font-size:11px;padding:4px 8px;border-radius:20px;background:var(--sf2);border:1px solid var(--bd);cursor:pointer;transition:all .2s;color:var(--tx3)}
 .mood-factor.active{background:var(--acm);border-color:var(--ac);color:var(--ac)}
@@ -365,6 +380,10 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
     <div class="sb-sec">Communauté</div>
     <div class="sb-item" onclick="nav('affiliation',this)"><span class="ico">🤝</span>Affiliation</div>
     <div class="sb-item" onclick="nav('suggestions',this)"><span class="ico">💡</span>Suggestions</div>
+    <div class="sb-sec">Focus & Sante</div>
+    <div class="sb-item" onclick="nav('focus',this)"><span class="ico">&#127919;</span>Mode Focus</div>
+    <div class="sb-item" onclick="nav('medical',this)"><span class="ico">&#127973;</span>Sante</div>
+    <div class="sb-item" onclick="nav('finances',this)"><span class="ico">&#128200;</span>Finances</div>
     <div class="sb-sec">Psychologie & Relations</div>
     <div class="sb-item" onclick="nav('mbti',this)"><span class="ico">🧬</span>Profil MBTI</div>
     <div class="sb-item" onclick="nav('relations',this)"><span class="ico">🤝</span>Relations/CRM</div>
@@ -538,7 +557,31 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
     <div class="page" id="page-formations">
       <div class="pg-title">Formations <small>Learning</small></div>
       <div class="g3" style="margin-bottom:12px"><div class="sc"><div class="sc-v" id="f-courses">0</div><div class="sc-l">Cours</div></div><div class="sc gr"><div class="sc-v" id="f-done">0%</div><div class="sc-l">Progression</div></div><div class="sc bl"><div class="sc-v" id="f-lessons">0</div><div class="sc-l">Leçons ✓</div></div></div>
-      <div class="card"><div class="card-h">Mes formations</div><div id="courses-list"></div><button class="btn btn-sf btn-sm" style="margin-top:10px" onclick="openCourseModal()">+ Ajouter une formation</button></div>
+      <div class="card" id="formation-viewer" style="display:none">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <button class="btn-icon" onclick="closeLesson()">←</button>
+    <div><div style="font-size:14px;font-weight:700" id="lesson-course-title"></div><div style="font-size:11px;color:var(--tx3)" id="lesson-title-sub"></div></div>
+  </div>
+  <div id="lesson-timer-wrap" style="display:none;margin-bottom:10px">
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:4px"><span>Temps de lecture</span><span id="lesson-timer-txt">0s</span></div>
+    <div class="xp-bar" style="height:5px"><div class="xp-fill" id="lesson-timer-bar" style="width:0%"></div></div>
+  </div>
+  <div id="lesson-content" style="font-size:13px;line-height:1.9;color:var(--tx2);max-height:350px;overflow-y:auto;padding-right:4px;scrollbar-width:thin"></div>
+  <div id="lesson-quiz" style="display:none;margin-top:14px">
+    <div class="card" style="background:var(--sf2);border-color:rgba(212,170,74,.2)">
+      <div class="card-h gold">Quiz de comprehension</div>
+      <div id="quiz-question" style="font-size:13px;font-weight:600;margin-bottom:10px"></div>
+      <div id="quiz-options"></div>
+      <div id="quiz-feedback" style="display:none;font-size:12px;margin-top:8px;padding:8px;border-radius:var(--rs)"></div>
+    </div>
+  </div>
+  <div id="lesson-actions" style="display:none;margin-top:12px">
+    <button class="btn btn-gold btn-sm" id="lesson-next-btn" onclick="nextLesson()">Lecon suivante -></button>
+  </div>
+</div>
+<div id="formation-list-view">
+  <div class="card"><div class="card-h">Mes formations</div><div id="courses-list"></div><button class="btn btn-sf btn-sm" style="margin-top:10px" onclick="openCourseModal()">+ Ajouter une formation</button></div>
+</div>
     </div>
 
     <!-- LANGUES -->
@@ -1275,6 +1318,151 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
       <div class="card">
         <div class="card-h">Historique vocal</div>
         <div id="voice-history"></div>
+      </div>
+    </div>
+
+
+    <!-- MODE FOCUS -->
+    <div class="page" id="page-focus">
+      <div class="pg-title">&#127919; Mode Focus <small>Immersif</small></div>
+      <div class="card">
+        <div class="card-h">Sur quoi tu travailles ?</div>
+        <input class="inp" id="focus-task" placeholder="Ex: Pitch deck, Revisions..." style="margin-bottom:8px">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+          <button onclick="setFocusDuration(25,this)" class="btn btn-gold btn-sm" style="width:auto">25min</button>
+          <button onclick="setFocusDuration(50,this)" class="btn btn-sf btn-sm" style="width:auto">50min</button>
+          <button onclick="setFocusDuration(90,this)" class="btn btn-sf btn-sm" style="width:auto">90min</button>
+          <button onclick="setFocusDuration(120,this)" class="btn btn-sf btn-sm" style="width:auto">2h</button>
+        </div>
+        <button class="btn btn-gold" id="focus-start-btn" onclick="startFocusMode()">Demarrer le Focus</button>
+      </div>
+      <div class="card" id="focus-active" style="display:none;text-align:center">
+        <div style="font-size:13px;font-weight:700;color:var(--ac);margin-bottom:14px" id="focus-task-display"></div>
+        <div style="position:relative;width:160px;height:160px;margin:0 auto 12px">
+          <svg width="160" height="160" viewBox="0 0 160 160" style="transform:rotate(-90deg)">
+            <circle cx="80" cy="80" r="70" fill="none" stroke="var(--bd2)" stroke-width="8"/>
+            <circle id="focus-ring" cx="80" cy="80" r="70" fill="none" stroke="var(--ac)" stroke-width="8" stroke-linecap="round" stroke-dasharray="440" stroke-dashoffset="0"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+            <div style="font-family:var(--fd);font-size:32px;font-weight:800;color:var(--ac)" id="focus-time-display">25:00</div>
+            <div style="font-size:10px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase" id="focus-state-label">FOCUS</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;color:var(--tx3);margin-bottom:6px">Son ambiant</div>
+          <div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap" id="focus-sounds">
+            <button onclick="playBinaural('none',this)" class="btn btn-gold btn-xs" style="width:auto">Silence</button>
+            <button onclick="playBinaural('rain',this)" class="btn btn-sf btn-xs" style="width:auto">Pluie</button>
+            <button onclick="playBinaural('forest',this)" class="btn btn-sf btn-xs" style="width:auto">Foret</button>
+            <button onclick="playBinaural('cafe',this)" class="btn btn-sf btn-xs" style="width:auto">Cafe</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:center">
+          <button class="btn btn-sf btn-sm" onclick="pauseFocus()" id="focus-pause-btn">Pause</button>
+          <button class="btn btn-sf btn-sm" onclick="stopFocus()">Arreter</button>
+        </div>
+      </div>
+      <div class="card"><div class="card-h">Statistiques Focus</div><div class="g3"><div class="sc"><div class="sc-v" id="focus-sessions-count">0</div><div class="sc-l">Sessions</div></div><div class="sc gr"><div class="sc-v" id="focus-total-mins">0m</div><div class="sc-l">Total</div></div><div class="sc bl"><div class="sc-v" id="focus-today">0</div><div class="sc-l">Aujourd hui</div></div></div></div>
+      <div class="card"><div class="card-h">Historique</div><div id="focus-history"></div></div>
+    </div>
+
+    <!-- SANTE & MEDICAL -->
+    <div class="page" id="page-medical">
+      <div class="pg-title">&#127973; Sante <small>Bien-etre</small></div>
+      <div style="background:rgba(62,207,142,.06);border:1px solid rgba(62,207,142,.2);border-radius:var(--r);padding:12px 14px;margin-bottom:12px;font-size:12px;color:var(--tx2)">RISE n est pas un medecin. En cas de symptomes serieux, consultez un professionnel.</div>
+      <div class="card">
+        <div class="card-h">Mes mesures</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <div><label style="font-size:11px;color:var(--tx3)">Poids (kg)</label><input class="inp" type="number" id="med-weight" placeholder="70"></div>
+          <div><label style="font-size:11px;color:var(--tx3)">Taille (cm)</label><input class="inp" type="number" id="med-height" placeholder="175"></div>
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <div><label style="font-size:11px;color:var(--tx3)">Tension</label><input class="inp" id="med-bp" placeholder="120/80"></div>
+          <div><label style="font-size:11px;color:var(--tx3)">FC (bpm)</label><input class="inp" type="number" id="med-hr" placeholder="60"></div>
+        </div>
+        <button class="btn btn-gold btn-sm" onclick="saveMedicals()">Enregistrer</button>
+        <div id="med-bmi" style="margin-top:10px;font-size:13px;line-height:1.7"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">Orientation sante IA</div>
+        <textarea class="inp" id="med-symptoms" placeholder="Decris tes symptomes ou ta question sante..." rows="3" style="resize:none;margin-bottom:8px"></textarea>
+        <button class="btn btn-gold btn-sm" onclick="askMedicalAI()">Demander a l IA sante</button>
+        <div id="med-ai-response" style="margin-top:10px;font-size:13px;line-height:1.8;color:var(--tx2)"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">Suivi medical perso</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="med-note-title" placeholder="Ex: Tension, RDV...">
+          <input class="inp" id="med-note-date" type="date">
+        </div>
+        <textarea class="inp" id="med-note-body" placeholder="Details..." rows="2" style="resize:none;margin-bottom:8px"></textarea>
+        <button class="btn btn-gold btn-sm" onclick="addMedicalNote()">+ Ajouter</button>
+        <div id="med-notes-list" style="margin-top:10px"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">Conseils bien-etre du jour</div>
+        <div id="med-wellness-tips"></div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="getWellnessTips()">Conseils IA personnalises</button>
+      </div>
+    </div>
+
+    <!-- FINANCES AVANCEES -->
+    <div class="page" id="page-finances">
+      <div class="pg-title">&#128200; Finances <small>Avancees</small></div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc gr"><div class="sc-v" id="fin-net">0€</div><div class="sc-l">Patrimoine net</div></div>
+        <div class="sc"><div class="sc-v" id="fin-savings-rate">0%</div><div class="sc-l">Taux epargne</div></div>
+        <div class="sc bl"><div class="sc-v" id="fin-monthly-exp">0€</div><div class="sc-l">Depenses/mois</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h gold">Budget mensuel</div>
+        <div id="budget-categories"></div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="addBudgetCat()">+ Categorie</button>
+      </div>
+      <div class="card">
+        <div class="card-h">Epargne & Investissements</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <div><label style="font-size:11px;color:var(--tx3)">Epargne actuelle (euros)</label><input class="inp" type="number" id="fin-savings" placeholder="0"></div>
+          <div><label style="font-size:11px;color:var(--tx3)">Objectif (euros)</label><input class="inp" type="number" id="fin-savings-goal" placeholder="10000"></div>
+        </div>
+        <div id="savings-progress" style="margin-bottom:10px"></div>
+        <div id="investments-list"></div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="inv-name" placeholder="Ex: ETF World, Crypto...">
+          <input class="inp" id="inv-amount" type="number" placeholder="Montant (euros)">
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="inv-return" type="number" placeholder="Rendement (%/an)" step="0.1">
+          <select class="inp" id="inv-type">
+            <option value="actions">Actions/ETF</option>
+            <option value="crypto">Crypto</option>
+            <option value="immo">Immobilier</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <button class="btn btn-gold btn-sm" onclick="addInvestment()">+ Ajouter</button>
+      </div>
+      <div class="card">
+        <div class="card-h">Coach Finances IA</div>
+        <div id="fin-coach-content" style="font-size:13px;color:var(--tx2);line-height:1.7;min-height:60px">Clique pour des conseils.</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn btn-sf btn-sm" onclick="getFinanceAdvice('budget')">Budget</button>
+          <button class="btn btn-sf btn-sm" onclick="getFinanceAdvice('invest')">Investir</button>
+          <button class="btn btn-sf btn-sm" onclick="getFinanceAdvice('richesse')">Devenir riche</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Simulateur de richesse</div>
+        <div class="g3" style="gap:8px;margin-bottom:8px">
+          <div><label style="font-size:11px;color:var(--tx3)">Capital initial</label><input class="inp" type="number" id="calc-initial" value="10000"></div>
+          <div><label style="font-size:11px;color:var(--tx3)">Mensuel (euros)</label><input class="inp" type="number" id="calc-monthly" value="500"></div>
+          <div><label style="font-size:11px;color:var(--tx3)">Duree (ans)</label><input class="inp" type="number" id="calc-years" value="10"></div>
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <div><label style="font-size:11px;color:var(--tx3)">Rendement (%/an)</label><input class="inp" type="number" id="calc-rate" value="8" step="0.5"></div>
+          <div style="display:flex;align-items:flex-end"><button class="btn btn-gold btn-sm" onclick="calcWealth()">Calculer</button></div>
+        </div>
+        <div id="wealth-result" style="font-size:14px;line-height:1.8"></div>
       </div>
     </div>
 
@@ -2812,6 +3000,426 @@ renderPage = function(p) {
       el.parentNode.appendChild(btn);
     }
   }
+};
+
+
+// ══ FORMATIONS — VRAI CONTENU + QUIZ ══
+var LESSON_CONTENT = {};
+LESSON_CONTENT["Mindset de Champion"] = [
+  {title:"Construire une identite de gagnant",readTime:4,
+// SKIP:    content:"<h2>Ton identite determine tout</h2><p
+   quiz:{q:"Quelle est la meilleure approche pour changer ?",options:["Fixer des objectifs","Changer son identite d'abord","Suivre un regime strict","Compter ses calories"],correct:1}},
+  {title:"Dialoguer avec son inconscient",readTime:3,
+   content:"<h2>L inconscient : ton allie</h2><p>95% de nos actions sont pilotees par l'inconscient. Comprendre comment le programmer change tout.</p><div class=\"callout\"><strong>Regle d or :</strong> L inconscient ne comprend pas la negation. Dis ce que tu veux, pas ce que tu veux eviter.</div><h2>Techniques</h2><ul><li>Visualisation quotidienne (5 min)</li><li>Affirmations positives avec emotion</li><li>Environnement aligne avec tes objectifs</li></ul>",
+   quiz:{q:"Pourquoi eviter les formulations negatives ?",options:["Superstition","L inconscient ne comprend pas la negation","Les affirmations ne fonctionnent pas","Pour sembler positif"],correct:1}}
+];
+LESSON_CONTENT["Marketing Digital en 2025"] = [
+  {title:"L avatar client",readTime:5,
+   content:"<h2>Pourquoi l avatar client est tout</h2><p>80% des business echouent car ils vendent a tout le monde - donc a personne.</p><div class=\"callout\"><strong>Principe de Pareto :</strong> 20% de tes clients generent 80% de tes revenus.</div><h2>Les 4 dimensions</h2><ul><li><strong>Demographique</strong> - age, situation, revenus</li><li><strong>Psychographique</strong> - valeurs, peurs, desirs</li><li><strong>Comportemental</strong> - ou il passe son temps</li><li><strong>Transformation</strong> - de quoi il s eloigne, vers quoi il va</li></ul>",
+   quiz:{q:"Quelle question cerne le mieux son client ?",options:["Quel age a-t-il ?","Combien gagne-t-il ?","Qu est-ce qui l empeche de dormir ?","Quels sont ses hobbies ?"],correct:2}},
+  {title:"LinkedIn organique",readTime:4,
+   content:"<h2>LinkedIn est sous-utilise</h2><p>En 2025, LinkedIn offre la plus grande portee organique. Un post bien construit peut toucher 100K personnes gratuitement.</p><div class=\"callout\"><strong>Format gagnant :</strong> Posts avec espaces entre chaque ligne. Le mobile represente 85% des lectures.</div><h2>Les 3 types de posts</h2><ul><li>Valeur (60%) - apprendre quelque chose</li><li>Storytelling (30%) - anecdote personnelle</li><li>CTA (10%) - presenter ton offre</li></ul>",
+   quiz:{q:"Quel ratio recommande-t-on pour LinkedIn ?",options:["100% valeur","50/50","60% valeur, 30% histoire, 10% vente","80% vente"],correct:2}}
+];
+
+var DEFAULT_LESSONS = [
+  {title:"Introduction au cours",readTime:3,
+   content:"<h2>Bienvenue</h2><p>Ce cours va transformer ta facon d aborler le sujet. Suis chaque lecon dans l ordre pour maximiser les resultats.</p><div class=\"callout\">Prends des notes, mets en pratique immediatement.</div>",
+   quiz:{q:"Quelle est la meilleure facon d apprendre ?",options:["Lire sans notes","Mettre en pratique immediatement","Memoriser sans comprendre","Sauter les exercices"],correct:1}},
+  {title:"Les fondamentaux",readTime:4,
+   content:"<h2>Les bases indispensables</h2><p>Avant d avancer, assure-toi de maitriser ces fondamentaux.</p><ul><li>Comprendre le pourquoi avant le comment</li><li>La pratique deliberee plutot que la repetition mecanique</li><li>Le feedback loop : agir -> observer -> ajuster</li></ul>",
+   quiz:{q:"Quel type de pratique est le plus efficace ?",options:["Repetition mecanique","Pratique deliberee","Regarder des tutoriels","Memoriser des listes"],correct:1}}
+];
+
+var _currentCourse = null;
+var _currentLesson = 0;
+var _lessonTimer = null;
+var _lessonTimeElapsed = 0;
+var _lessonReadTime = 0;
+var _quizAnswered = false;
+
+function openLesson(courseId, lessonIdx) {
+  var course = S.courses.find(function(c){return c.id===courseId;});
+  if(!course) return;
+  _currentCourse = course;
+  _currentLesson = lessonIdx;
+  var lessons = LESSON_CONTENT[course.title] || DEFAULT_LESSONS;
+  var lesson = lessons[lessonIdx] || DEFAULT_LESSONS[0];
+  
+  document.getElementById('formation-viewer').style.display = 'block';
+  document.getElementById('formation-list-view').style.display = 'none';
+  document.getElementById('lesson-course-title').textContent = course.title;
+  document.getElementById('lesson-title-sub').textContent = 'Lecon '+(lessonIdx+1)+'/'+course.lessons+' - '+lesson.title;
+  document.getElementById('lesson-content').innerHTML = lesson.content;
+  document.getElementById('lesson-quiz').style.display = 'none';
+  document.getElementById('lesson-actions').style.display = 'none';
+  document.getElementById('quiz-feedback').style.display = 'none';
+  _quizAnswered = false;
+  
+  _lessonReadTime = (lesson.readTime || 3) * 60;
+  _lessonTimeElapsed = 0;
+  var timerWrap = document.getElementById('lesson-timer-wrap');
+  if(timerWrap) timerWrap.style.display = 'block';
+  clearInterval(_lessonTimer);
+  _lessonTimer = setInterval(function() {
+    _lessonTimeElapsed++;
+    var pct = Math.min(100, Math.round(_lessonTimeElapsed/_lessonReadTime*100));
+    var bar = document.getElementById('lesson-timer-bar');
+    var txt = document.getElementById('lesson-timer-txt');
+    if(bar) bar.style.width = pct + '%';
+    if(txt) txt.textContent = _lessonTimeElapsed < 60 ? _lessonTimeElapsed+'s' : Math.floor(_lessonTimeElapsed/60)+'m'+(_lessonTimeElapsed%60)+'s';
+    if(pct >= 100 && !_quizAnswered) {
+      clearInterval(_lessonTimer);
+      showLessonQuiz(lesson);
+    }
+  }, 1000);
+}
+
+function showLessonQuiz(lesson) {
+  var quiz = lesson.quiz;
+  if(!quiz) { completeLesson(); return; }
+  document.getElementById('lesson-quiz').style.display = 'block';
+  document.getElementById('quiz-question').textContent = quiz.q;
+  var html = '';
+  for(var i=0; i<quiz.options.length; i++){
+    html += '<button onclick="answerQuiz('+i+','+quiz.correct+')" style="display:block;width:100%;text-align:left;padding:10px 12px;margin-bottom:6px;border-radius:var(--rs);background:var(--sf2);border:1.5px solid var(--bd);cursor:pointer;font-size:13px;transition:all .2s">'+quiz.options[i]+'</button>';
+  }
+  document.getElementById('quiz-options').innerHTML = html;
+  document.getElementById('lesson-quiz').scrollIntoView({behavior:'smooth'});
+}
+
+function answerQuiz(selected, correct) {
+  _quizAnswered = true;
+  var fb = document.getElementById('quiz-feedback');
+  var btns = document.getElementById('quiz-options').querySelectorAll('button');
+  btns.forEach(function(b,i) {
+    b.disabled = true;
+    if(i === correct) { b.style.background = 'rgba(62,207,142,.15)'; b.style.borderColor = 'var(--gr)'; }
+    if(i === selected && selected !== correct) { b.style.background = 'rgba(224,92,92,.1)'; b.style.borderColor = 'var(--rd)'; }
+  });
+  if(selected === correct) {
+    fb.style.display='block'; fb.style.background='rgba(62,207,142,.1)'; fb.style.color='var(--gr)'; fb.style.border='1px solid rgba(62,207,142,.3)'; fb.style.padding='8px'; fb.style.borderRadius='var(--rs)';
+    fb.textContent = 'Bonne reponse ! +5 XP';
+    S.xp += 5; save();
+    completeLesson();
+  } else {
+    fb.style.display='block'; fb.style.background='rgba(224,92,92,.08)'; fb.style.color='var(--rd)'; fb.style.border='1px solid rgba(224,92,92,.2)'; fb.style.padding='8px'; fb.style.borderRadius='var(--rs)';
+    fb.textContent = 'Mauvaise reponse - relis la lecon et reessaie.';
+    document.getElementById('lesson-timer-bar').style.width = '0%';
+    _lessonTimeElapsed = 0;
+    setTimeout(function() {
+      _quizAnswered = false;
+      document.getElementById('lesson-quiz').style.display = 'none';
+      var lessons2 = LESSON_CONTENT[_currentCourse.title]||DEFAULT_LESSONS;
+      var lesson2 = lessons2[_currentLesson]||DEFAULT_LESSONS[0];
+      _lessonTimer = setInterval(function() {
+        _lessonTimeElapsed++;
+        var pct2 = Math.min(100, Math.round(_lessonTimeElapsed/_lessonReadTime*100));
+        document.getElementById('lesson-timer-bar').style.width = pct2 + '%';
+        if(pct2 >= 100 && !_quizAnswered) { clearInterval(_lessonTimer); showLessonQuiz(lesson2); }
+      }, 1000);
+    }, 2000);
+  }
+}
+
+function completeLesson() {
+  if(!_currentCourse.done.includes(_currentLesson)) {
+    _currentCourse.done.push(_currentLesson);
+    S.xp += 5;
+    if(_currentCourse.done.length === _currentCourse.lessons) { S.xp += 50; toast('Formation terminee ! +50 XP', 'ok'); }
+    else toast('Lecon validee ! +5 XP', 'ok');
+    save();
+  }
+  document.getElementById('lesson-actions').style.display = 'block';
+  var nextBtn = document.getElementById('lesson-next-btn');
+  if(_currentLesson + 1 >= _currentCourse.lessons) { if(nextBtn) nextBtn.textContent = 'Formation terminee -> Retour'; }
+  else if(nextBtn) nextBtn.textContent = 'Lecon suivante ->';
+}
+function nextLesson() {
+  if(_currentLesson + 1 >= _currentCourse.lessons) { closeLesson(); return; }
+  openLesson(_currentCourse.id, _currentLesson + 1);
+}
+function closeLesson() {
+  clearInterval(_lessonTimer);
+  document.getElementById('formation-viewer').style.display = 'none';
+  document.getElementById('formation-list-view').style.display = 'block';
+  renderFormations();
+}
+
+// Upgrade renderFormations
+var _origRenderFormations = renderFormations;
+renderFormations = function() {
+  var totalCourses=S.courses.length;
+  var totalLessons=S.courses.reduce(function(t,c){return t+c.done.length;},0);
+  var avgPct=totalCourses?Math.round(S.courses.reduce(function(t,c){return t+(c.done.length/c.lessons*100);},0)/totalCourses):0;
+  var fc=document.getElementById('f-courses');if(fc)fc.textContent=totalCourses;
+  var fd=document.getElementById('f-done');if(fd)fd.textContent=avgPct+'%';
+  var fl=document.getElementById('f-lessons');if(fl)fl.textContent=totalLessons;
+  var e=document.getElementById('courses-list');if(!e)return;
+  if(!S.courses.length){e.innerHTML='<div class="empty"><span class="ei">'+String.fromCodePoint(0x1F4DA)+'</span>Aucune formation</div>';return;}
+  var html = '';
+  S.courses.forEach(function(c){
+    var pct=Math.round(c.done.length/c.lessons*100);
+    var nextL=c.done.length<c.lessons?c.done.length:c.lessons-1;
+    var dotsHtml='';
+    for(var i=0;i<c.lessons;i++){dotsHtml+='<div class="lesson-dot'+(c.done.includes(i)?' done':'')+'" onclick="openLesson('+c.id+','+i+')" title="Lecon '+(i+1)+'"></div>';}
+    html+='<div class="course-card"><div class="course-top"><div class="course-title">'+c.title+'</div><div style="display:flex;gap:7px;align-items:center"><span class="badge bdg-gold">'+c.cat+'</span><span style="cursor:pointer;font-size:11px;color:var(--tx3)" onclick="delCourse('+c.id+')">X</span></div></div>';
+    html+='<div class="course-bar"><div class="course-fill" style="width:'+pct+'%"></div></div>';
+    html+='<div class="course-meta"><span>'+c.done.length+'/'+c.lessons+' lecons</span><span style="color:var(--ac);font-weight:700">'+pct+'%</span>'+(c.done.length===c.lessons?'<span class="badge bdg-gr">Termine</span>':'')+'</div>';
+    html+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">'+dotsHtml+'</div>';
+    if(c.done.length<c.lessons){html+='<button class="btn btn-gold btn-sm" style="margin-top:10px" onclick="openLesson('+c.id+','+nextL+')">Continuer la formation</button>';}
+    html+='</div>';
+  });
+  e.innerHTML = html;
+};
+
+// ══ FOCUS MODE ══
+S.focusSessions = S.focusSessions||[];
+var _focusDuration = 25*60;
+var _focusTotal = 25*60;
+var _focusLeft = 25*60;
+var _focusRunning = false;
+var _focusTimer = null;
+var _focusTask = '';
+var _audioCtx = null;
+var _gainNode = null;
+var _noiseSource = null;
+
+function setFocusDuration(mins, btn) {
+  _focusDuration = mins*60;
+  var labels = ['25min','50min','90min','2h'];
+  document.querySelectorAll('#page-focus button').forEach(function(b){
+    if(labels.indexOf(b.textContent.trim())>=0){b.classList.remove('btn-gold');b.classList.add('btn-sf');}
+  });
+  if(btn){btn.classList.remove('btn-sf');btn.classList.add('btn-gold');}
+}
+function startFocusMode() {
+  _focusTask = document.getElementById('focus-task').value.trim()||'Focus general';
+  _focusLeft = _focusDuration;_focusTotal = _focusDuration;_focusRunning = true;
+  document.getElementById('focus-active').style.display='block';
+  document.getElementById('focus-task-display').textContent=_focusTask;
+  var sb=document.getElementById('focus-start-btn');if(sb){sb.textContent='En cours...';sb.disabled=true;}
+  clearInterval(_focusTimer);
+  _focusTimer = setInterval(function(){
+    if(!_focusRunning) return;
+    _focusLeft--;updateFocusUI();
+    if(_focusLeft<=0){clearInterval(_focusTimer);completeFocusSession();}
+  },1000);
+}
+function updateFocusUI(){
+  var min=Math.floor(_focusLeft/60),sec=_focusLeft%60;
+  var td=document.getElementById('focus-time-display');
+  if(td)td.textContent=(min<10?'0':'')+min+':'+(sec<10?'0':'')+sec;
+  var ring=document.getElementById('focus-ring');
+  if(ring)ring.style.strokeDashoffset=(440*(1-_focusLeft/_focusTotal)).toFixed(1);
+}
+function pauseFocus(){
+  _focusRunning=!_focusRunning;
+  var btn=document.getElementById('focus-pause-btn');if(btn)btn.textContent=_focusRunning?'Pause':'Reprendre';
+  var lbl=document.getElementById('focus-state-label');if(lbl)lbl.textContent=_focusRunning?'FOCUS':'PAUSE';
+}
+function stopFocus(){
+  clearInterval(_focusTimer);_focusRunning=false;
+  var fa=document.getElementById('focus-active');if(fa)fa.style.display='none';
+  var sb=document.getElementById('focus-start-btn');if(sb){sb.textContent='Demarrer le Focus';sb.disabled=false;}
+  stopBinaural();renderFocusStats();
+}
+function completeFocusSession(){
+  S.focusSessions.unshift({id:Date.now(),task:_focusTask,duration:Math.round(_focusTotal/60),date:new Date().toDateString()});
+  S.pomoDone=(S.pomoDone||0)+1;S.xp+=30;save();
+  toast('Session terminee ! +30 XP','ok');stopFocus();
+}
+function playBinaural(type,btn){
+  document.querySelectorAll('#focus-sounds button').forEach(function(b){b.classList.remove('btn-gold');b.classList.add('btn-sf');});
+  if(btn){btn.classList.remove('btn-sf');btn.classList.add('btn-gold');}
+  stopBinaural();if(type==='none')return;
+  try{
+    _audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    _gainNode=_audioCtx.createGain();_gainNode.gain.value=0.03;_gainNode.connect(_audioCtx.destination);
+    var bufferSize=4096;_noiseSource=_audioCtx.createScriptProcessor(bufferSize,1,1);
+    var freqMap={rain:40,forest:20,cafe:60,ocean:15};var freq=freqMap[type]||30;
+    var t=0;
+    _noiseSource.onaudioprocess=function(e){var out=e.outputBuffer.getChannelData(0);for(var i=0;i<bufferSize;i++){out[i]=Math.sin(2*Math.PI*freq*t/_audioCtx.sampleRate)*0.3+(Math.random()*2-1)*0.7;t++;}};
+    _noiseSource.connect(_gainNode);
+  }catch(e){}
+}
+function stopBinaural(){
+  if(_noiseSource){try{_noiseSource.disconnect();}catch(e){}}_noiseSource=null;
+  if(_audioCtx){try{_audioCtx.close();}catch(e){}}_audioCtx=null;
+}
+function renderFocusStats(){
+  var today=new Date().toDateString();
+  var todaySess=S.focusSessions.filter(function(s){return s.date===today;}).length;
+  var totalMins=S.focusSessions.reduce(function(t,s){return t+s.duration;},0);
+  var fc=document.getElementById('focus-sessions-count');if(fc)fc.textContent=S.focusSessions.length;
+  var ft=document.getElementById('focus-total-mins');if(ft)ft.textContent=totalMins>=60?Math.floor(totalMins/60)+'h'+totalMins%60+'m':totalMins+'m';
+  var ftd=document.getElementById('focus-today');if(ftd)ftd.textContent=todaySess;
+  var fh=document.getElementById('focus-history');
+  if(fh){
+    if(!S.focusSessions.length){fh.innerHTML='<div class="empty">Aucune session</div>';return;}
+    var html='';
+    S.focusSessions.slice(0,5).forEach(function(s){html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span style="font-size:18px">&#127919;</span><div style="flex:1"><div style="font-size:13px;font-weight:600">'+s.task+'</div><div style="font-size:11px;color:var(--tx3)">'+s.date+' - '+s.duration+'min</div></div></div>';});
+    fh.innerHTML=html;
+  }
+}
+
+// ══ MEDICAL ══
+S.medData = S.medData||{weight:0,height:0,bp:'',hr:0};
+S.medNotes = S.medNotes||[];
+function saveMedicals(){
+  var mw=document.getElementById('med-weight');var mh=document.getElementById('med-height');
+  var mb=document.getElementById('med-bp');var mr=document.getElementById('med-hr');
+  if(mw&&mw.value)S.medData.weight=parseFloat(mw.value)||S.medData.weight;
+  if(mh&&mh.value)S.medData.height=parseFloat(mh.value)||S.medData.height;
+  if(mb)S.medData.bp=mb.value||S.medData.bp;
+  if(mr&&mr.value)S.medData.hr=parseInt(mr.value)||S.medData.hr;
+  save();renderMedical();toast('Mesures sauvegardees !','ok');
+}
+function renderMedical(){
+  var d=S.medData;
+  if(d.weight&&d.height){
+    var bmi=d.weight/Math.pow(d.height/100,2);
+    var bmiClass=bmi<18.5?'bmi-under':bmi<25?'bmi-normal':'bmi-over';
+    var bmiLabel=bmi<18.5?'Sous-poids':bmi<25?'Poids normal':bmi<30?'Surpoids':'Obesite';
+    var b=document.getElementById('med-bmi');
+    if(b)b.innerHTML='<div class="bmi-badge '+bmiClass+'">IMC: '+bmi.toFixed(1)+' - '+bmiLabel+'</div><div style="font-size:11px;color:var(--tx3);margin-top:4px">Poids ideal: '+(18.5*Math.pow(d.height/100,2)).toFixed(0)+'kg - '+(24.9*Math.pow(d.height/100,2)).toFixed(0)+'kg</div>';
+    var mw=document.getElementById('med-weight');if(mw&&d.weight)mw.value=d.weight;
+    var mh=document.getElementById('med-height');if(mh&&d.height)mh.value=d.height;
+    var mb=document.getElementById('med-bp');if(mb&&d.bp)mb.value=d.bp;
+    var mr=document.getElementById('med-hr');if(mr&&d.hr)mr.value=d.hr;
+  }
+  var mn=document.getElementById('med-notes-list');
+  if(mn){
+    if(!S.medNotes.length){mn.innerHTML='<div style="font-size:12px;color:var(--tx3)">Aucun suivi enregistre</div>';return;}
+    var html='';
+    S.medNotes.slice(0,5).forEach(function(n){html+='<div style="padding:8px 0;border-bottom:1px solid var(--bd)"><div style="font-size:12px;font-weight:700">'+n.title+'</div><div style="font-size:11px;color:var(--tx3)">'+n.date+'</div>'+(n.body?'<div style="font-size:12px;color:var(--tx2);margin-top:3px">'+n.body.slice(0,80)+'</div>':'')+'</div>';});
+    mn.innerHTML=html;
+  }
+  var wt=document.getElementById('med-wellness-tips');
+  if(wt){
+    var tips=['Bois 8 verres d eau aujourd hui','30 min de marche = -25% risques cardio','Respiration 4-7-8 : inspire 4s, retiens 7s, expire 8s','Priorise legumes et proteines ce soir','Ecran off 1h avant de dormir'];
+    var tip=tips[new Date().getDate()%tips.length];
+    wt.innerHTML='<div class="cite-banner">'+tip+'</div>';
+  }
+}
+async function askMedicalAI(){
+  var symptoms=document.getElementById('med-symptoms').value.trim();if(!symptoms)return;
+  var el=document.getElementById('med-ai-response');el.innerHTML='<div class="ai-loading">Analyse en cours...</div>';
+  var d=S.medData;
+  var profileStr=(d.weight?d.weight+'kg, '+d.height+'cm, ':'')+(d.bp?'tension '+d.bp+', ':'');
+  var ctx='Tu es un assistant sante bienveillant. '+S.name+' a '+profileStr+'streak '+S.streak+'j. Reponds de facon rassurante et utile. Rappelle toujours de consulter un medecin si necessaire. Sois concret, pas alarmiste. Francais.';
+  var reply=await callAI(ctx,symptoms,600);
+  el.innerHTML=reply;
+}
+async function getWellnessTips(){
+  var el=document.getElementById('med-wellness-tips');el.innerHTML='<div class="ai-loading">Generation conseils...</div>';
+  var d=S.medData;
+  var sleepInfo=S.sleepLogs.length?S.sleepLogs[0].hours+'h derniere nuit':'non suivi';
+  var ctx='Coach bien-etre de '+S.name+'. '+(d.weight&&d.height?'IMC: '+(d.weight/Math.pow(d.height/100,2)).toFixed(1)+'. ':'')+' Sommeil: '+sleepInfo+'. Sport: '+(S.sportLogs.length?S.sportLogs.length+' seances':'0')+'. Donne 3 conseils bien-etre pour aujourd hui. Court, actionnable, emojis.';
+  var reply=await callAI(ctx,'Mes conseils bien-etre du jour',400);
+  el.innerHTML=reply.replace(/\n/g,'<br>');
+}
+function addMedicalNote(){
+  var title=document.getElementById('med-note-title').value.trim();if(!title)return;
+  var date=document.getElementById('med-note-date').value;
+  var body=document.getElementById('med-note-body').value;
+  S.medNotes.unshift({id:Date.now(),title:title,date:date||new Date().toDateString(),body:body});
+  document.getElementById('med-note-title').value='';
+  document.getElementById('med-note-body').value='';
+  save();renderMedical();toast('Note medicale ajoutee !','ok');
+}
+
+// ══ FINANCES AVANCEES ══
+S.finData = S.finData||{savings:0,savingsGoal:10000,budget:{},investments:[]};
+function addBudgetCat(){
+  var cat=prompt('Nom de la categorie (ex: Logement, Alimentation...)');if(!cat)return;
+  var budget=parseFloat(prompt('Budget mensuel (euros)'))||0;
+  S.finData.budget[cat]={budget:budget,spent:0};save();renderFinances();
+}
+function addInvestment(){
+  var name=document.getElementById('inv-name').value.trim();
+  var amount=parseFloat(document.getElementById('inv-amount').value)||0;
+  var ret=parseFloat(document.getElementById('inv-return').value)||8;
+  var type=document.getElementById('inv-type').value;
+  if(!name||!amount)return;
+  S.finData.investments.push({id:Date.now(),name:name,amount:amount,return:ret,type:type,added:new Date().toDateString()});
+  document.getElementById('inv-name').value='';document.getElementById('inv-amount').value='';
+  save();renderFinances();toast('Investissement ajoute !','ok');
+}
+function renderFinances(){
+  var mRev=S.revenue.filter(function(r){return r.month===new Date().getMonth()&&r.year===new Date().getFullYear();}).reduce(function(t,r){return t+r.amount;},0);
+  var totalInvest=S.finData.investments.reduce(function(t,i){return t+i.amount;},0);
+  var savings=S.finData.savings||0;
+  var net=savings+totalInvest;
+  var savingsRate=mRev>0?Math.round((savings/mRev)*100):0;
+  var fn=document.getElementById('fin-net');if(fn)fn.textContent=fmt(net);
+  var fsr=document.getElementById('fin-savings-rate');if(fsr)fsr.textContent=savingsRate+'%';
+  var fme=document.getElementById('fin-monthly-exp');if(fme){var exp=Object.values(S.finData.budget||{}).reduce(function(t,c){return t+(c.spent||c.budget||0);},0);fme.textContent=fmt(exp);}
+  var sp=document.getElementById('savings-progress');
+  if(sp&&S.finData.savingsGoal>0){
+    var pct=Math.min(100,Math.round(savings/S.finData.savingsGoal*100));
+    sp.innerHTML='<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--tx3);margin-bottom:4px"><span>Epargne '+fmt(savings)+' / Objectif '+fmt(S.finData.savingsGoal)+'</span><span>'+pct+'%</span></div><div class="xp-bar"><div class="xp-fill" style="width:'+pct+'%"></div></div>';
+  }
+  var finSav=document.getElementById('fin-savings');if(finSav&&S.finData.savings)finSav.value=S.finData.savings;
+  var finGoal=document.getElementById('fin-savings-goal');if(finGoal&&S.finData.savingsGoal)finGoal.value=S.finData.savingsGoal;
+  var inv=document.getElementById('investments-list');
+  var invIco={actions:'chart',crypto:'coin',immo:'house',obligatoire:'doc',autre:'bag'};
+  var invEmoji={actions:'&#128200;',crypto:'&#129689;',immo:'&#127968;',obligatoire:'&#128203;',autre:'&#128188;'};
+  if(inv){
+    if(!S.finData.investments.length){inv.innerHTML='<div style="font-size:12px;color:var(--tx3);margin-bottom:8px">Aucun investissement enregistre</div>';}
+    else{
+      var html2='<div class="card-h" style="margin-bottom:8px">Portefeuille - '+fmt(totalInvest)+'</div>';
+      S.finData.investments.forEach(function(i){
+        var ico=invEmoji[i.type]||'&#128188;';
+        html2+='<div class="inv-item"><span class="inv-ico">'+ico+'</span><div style="flex:1"><div style="font-size:13px;font-weight:700">'+i.name+'</div><div style="font-size:11px;color:var(--tx3)">'+fmt(i.amount)+' - '+i.return+'%/an</div></div><span class="badge bdg-gr">+'+fmt(i.amount*i.return/100)+'/an</span></div>';
+      });
+      html2+='<div style="padding:8px 0;font-size:12px;color:var(--ac);font-weight:700;text-align:right">Total: '+fmt(totalInvest)+' - Rendement: '+fmt(S.finData.investments.reduce(function(t,i){return t+i.amount*i.return/100;},0))+'/an</div>';
+      inv.innerHTML=html2;
+    }
+  }
+  var bc=document.getElementById('budget-categories');
+  if(bc){
+    var cats=Object.entries(S.finData.budget||{});
+    if(!cats.length){bc.innerHTML='<div style="font-size:12px;color:var(--tx3)">Aucune categorie budget</div>';}
+    else{
+      var html3='';
+      cats.forEach(function(entry){var name=entry[0];var c=entry[1];var pct2=c.budget>0?Math.min(100,Math.round((c.spent||0)/c.budget*100)):0;var col=pct2>90?'var(--rd)':pct2>70?'var(--or)':'var(--gr)';html3+='<div class="budget-item"><div style="width:100px;font-size:12px;font-weight:600">'+name+'</div><div class="budget-bar-wrap"><div class="budget-bar-fill" style="width:'+pct2+'%;background:'+col+'"></div></div><div style="font-size:11px;color:var(--tx3);width:80px;text-align:right">'+fmt(c.spent||0)+'/'+fmt(c.budget)+'</div></div>';});
+      bc.innerHTML=html3;
+    }
+  }
+}
+async function getFinanceAdvice(type){
+  var el=document.getElementById('fin-coach-content');el.innerHTML='<div class="ai-loading">Analyse financiere...</div>';
+  var mRev=S.revenue.filter(function(r){return r.month===new Date().getMonth();}).reduce(function(t,r){return t+r.amount;},0);
+  var totalInvest=S.finData.investments.reduce(function(t,i){return t+i.amount;},0);
+  var prompts={
+    budget:'Analyse le budget de '+S.name+' (revenus '+fmt(mRev)+'/mois, objectif '+fmt(S.revGoal)+') et donne 3 conseils pour optimiser ses depenses.',
+    invest:'Coach investissement de '+S.name+'. Patrimoine: '+fmt(totalInvest)+'. Revenus: '+fmt(mRev)+'/mois. Propose une strategie en 3 etapes.',
+    richesse:'Plan pour construire la richesse de '+S.name+'. Revenus: '+fmt(mRev)+'/mois. 5 actions prioritaires pour la liberte financiere.'
+  };
+  var ctx='Tu es un conseiller financier expert. Sois concret, actionnable, motivant. Reponds en francais.';
+  var reply=await callAI(ctx,prompts[type]||prompts.invest,700);
+  el.innerHTML=reply;
+}
+function calcWealth(){
+  var P=parseFloat(document.getElementById('calc-initial').value)||10000;
+  var M=parseFloat(document.getElementById('calc-monthly').value)||500;
+  var Y=parseInt(document.getElementById('calc-years').value)||10;
+  var r=parseFloat(document.getElementById('calc-rate').value)||8;
+  var n=Y*12;var rm=r/100/12;
+  var future=P*Math.pow(1+rm,n)+M*(Math.pow(1+rm,n)-1)/rm;
+  var invested=P+M*n;
+  var el=document.getElementById('wealth-result');
+  if(el)el.innerHTML='<div style="text-align:center;padding:10px"><div style="font-family:var(--fd);font-size:32px;font-weight:800;color:var(--ac)">'+fmt(Math.round(future))+'</div><div style="font-size:12px;color:var(--tx3);margin-top:4px">Valeur dans '+Y+' ans</div><div style="font-size:12px;color:var(--tx2);margin-top:8px">Capital investi: '+fmt(invested)+'<br>Interets generes: <span style="color:var(--gr)">'+fmt(Math.round(future-invested))+'</span> (x'+(future/invested).toFixed(1)+')</div></div>';
+}
+
+// ══ PATCH renderPage ══
+var _origRenderPageV11 = renderPage;
+renderPage = function(p) {
+  _origRenderPageV11(p);
+  if(p==='focus') renderFocusStats();
+  if(p==='medical') renderMedical();
+  if(p==='finances') renderFinances();
 };
 
 applyTheme();checkStreak();initMob();render();
