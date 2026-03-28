@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>RISE v15</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#08090f;--sf:#111219;--sf2:#181920;--sf3:#1e2028;
+  --bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.12);
+  --tx:#f0f1f5;--tx2:#9da3b4;--tx3:#5a6175;
+  --ac:#d4aa4a;--acm:rgba(212,170,74,.15);--agg:rgba(212,170,74,.08);
+  --bl:#4a9fd4;--blm:rgba(74,159,212,.15);
+  --gn:#3fba7c;--gnm:rgba(63,186,124,.15);
+  --rd:#e05a5a;--rdm:rgba(224,90,90,.15);
+  --pu:#9b6de8;
+  --r:14px;--r2:20px;--r3:28px;
+  --fd:'Bebas Neue',cursive;
+  --fam:'DM Sans',sans-serif;
+  --nav-h:64px;
+  --top-h:56px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:var(--fam);overflow:hidden}
+#app{display:flex;flex-direction:column;height:100%}
+/* TOP BAR */
+#topbar{height:var(--top-h);background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0;position:relative;z-index:10}
+#topbar-title{font-family:var(--fd);font-size:22px;letter-spacing:2px;color:var(--ac);flex:1}
+.top-xp{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2)}
+.top-xp strong{color:var(--ac)}
+.top-streak{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx2);background:var(--sf2);padding:4px 10px;border-radius:100px;border:1px solid var(--bd)}
+/* SCREENS */
+#screens{flex:1;overflow:hidden;position:relative}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;pointer-events:none;transform:translateX(20px);transition:opacity .25s,transform .25s;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.screen-inner{padding:16px;padding-bottom:80px;max-width:640px;margin:0 auto}
+/* BOTTOM NAV */
+#nav{height:var(--nav-h);background:var(--sf);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-around;flex-shrink:0;padding:0 8px;padding-bottom:env(safe-area-inset-bottom)}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 12px;border-radius:12px;cursor:pointer;transition:all .2s;border:none;background:none;color:var(--tx3);flex:1;max-width:80px}
+.nav-btn.active{color:var(--ac)}
+.nav-btn .nav-ico{font-size:22px;line-height:1}
+.nav-btn .nav-lbl{font-size:9px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+/* CARDS */
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r2);padding:18px;margin-bottom:12px}
+.card-sm{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.section-title{font-size:10px;font-weight:700;color:var(--tx3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .2s;font-family:var(--fam)}
+.btn-ac{background:var(--ac);color:#0a0a0f}
+.btn-ac:hover{filter:brightness(1.1)}
+.btn-sf{background:var(--sf2);color:var(--tx);border:1px solid var(--bd2)}
+.btn-bl{background:var(--bl);color:#fff}
+.btn-gn{background:var(--gn);color:#fff}
+.btn-rd{background:var(--rdm);color:var(--rd);border:1px solid rgba(224,90,90,.2)}
+.btn-full{width:100%}
+.btn-sm{padding:7px 14px;font-size:12px;border-radius:10px}
+/* INPUT */
+.inp{width:100%;background:var(--sf2);border:1px solid var(--bd2);border-radius:12px;padding:12px 14px;color:var(--tx);font-size:14px;font-family:var(--fam);outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--ac)}
+.inp::placeholder{color:var(--tx3)}
+textarea.inp{resize:none}
+/* BADGE PILL */
+.pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.5px}
+.pill-ac{background:var(--acm);color:var(--ac);border:1px solid rgba(212,170,74,.2)}
+.pill-bl{background:var(--blm);color:var(--bl);border:1px solid rgba(74,159,212,.2)}
+.pill-gn{background:var(--gnm);color:var(--gn);border:1px solid rgba(63,186,124,.2)}
+.pill-rd{background:var(--rdm);color:var(--rd);border:1px solid rgba(224,90,90,.2)}
+/* PROGRESS BAR */
+.prog-bar{height:6px;background:var(--sf3);border-radius:100px;overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;background:var(--ac);transition:width .4s}
+/* TOGGLE */
+.tog{width:44px;height:24px;background:var(--sf3);border-radius:100px;position:relative;cursor:pointer;transition:background .2s;border:none;flex-shrink:0}
+.tog.on{background:var(--gn)}
+.tog::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:#fff;border-radius:50%;transition:left .2s}
+.tog.on::after{left:23px}
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* ═══ HOME ═══ */
+.rise-score-ring{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.rise-score-num{position:absolute;font-family:var(--fd);font-size:38px;letter-spacing:2px;color:var(--ac);line-height:1}
+.quick-action{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;gap:6px}
+.quick-action:hover{border-color:var(--ac);background:var(--acm)}
+.quick-action .ico{font-size:22px}
+.quick-action .lbl{font-size:12px;font-weight:700;color:var(--tx2)}
+
+/* ═══ JARVIS ═══ */
+.jarvis-bg{background:radial-gradient(ellipse at 50% 0%,rgba(74,159,212,.08) 0%,transparent 60%);min-height:100%}
+.jarvis-orb{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--bl),var(--pu));display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto;cursor:pointer;position:relative;box-shadow:0 0 0 8px rgba(74,159,212,.1),0 0 40px rgba(74,159,212,.25);animation:pulse-orb 3s ease-in-out infinite}
+@keyframes pulse-orb{0%,100%{box-shadow:0 0 0 8px rgba(74,159,212,.1),0 0 40px rgba(74,159,212,.25)}50%{box-shadow:0 0 0 16px rgba(74,159,212,.05),0 0 60px rgba(74,159,212,.4)}}
+.jarvis-orb.thinking{animation:thinking-orb 0.8s ease-in-out infinite}
+@keyframes thinking-orb{0%,100%{transform:scale(1)}50%{transform:scale(1.05);box-shadow:0 0 0 16px rgba(74,159,212,.08),0 0 80px rgba(74,159,212,.5)}}
+.jarvis-chat{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.jarvis-msg{display:flex;align-items:flex-end;gap:8px}
+.jarvis-msg.user{flex-direction:row-reverse}
+.jarvis-bubble{padding:12px 16px;border-radius:18px;max-width:80%;font-size:13px;line-height:1.7;white-space:pre-wrap}
+.jarvis-bubble.ai{background:var(--sf2);border:1px solid var(--bd);border-radius:18px 18px 18px 4px;color:var(--tx)}
+.jarvis-bubble.user{background:linear-gradient(135deg,var(--bl),var(--pu));color:#fff;border-radius:18px 18px 4px 18px}
+.jarvis-input-bar{display:flex;gap:8px;position:sticky;bottom:0;background:var(--bg);padding:12px 0 0}
+.jarvis-input-bar .inp{flex:1}
+.quick-prompt{background:var(--sf2);border:1px solid var(--bd);border-radius:100px;padding:8px 16px;font-size:12px;font-weight:600;color:var(--bl);cursor:pointer;white-space:nowrap;transition:all .2s}
+.quick-prompt:hover{background:var(--blm);border-color:rgba(74,159,212,.3)}
+
+/* ═══ TASKS ═══ */
+.todo-item{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--sf2);border-radius:var(--r);border:1px solid var(--bd);margin-bottom:8px;transition:all .2s;cursor:pointer}
+.todo-item.done{opacity:.5}
+.todo-chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.todo-chk.done{background:var(--gn);border-color:var(--gn)}
+.todo-text{flex:1;font-size:13px;font-weight:500}
+.todo-item.done .todo-text{text-decoration:line-through;color:var(--tx3)}
+.todo-priority{font-size:10px;padding:3px 8px;border-radius:100px;font-weight:700}
+
+/* ═══ HABITS ═══ */
+.habit-card{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:8px}
+.habit-dots{display:flex;gap:4px;margin-top:8px}
+.habit-dot{width:22px;height:22px;border-radius:7px;background:var(--sf3);cursor:pointer;border:none;transition:all .2s;flex-shrink:0}
+.habit-dot.done{background:var(--gn)}
+.habit-dot.today{border:2px solid var(--ac)}
+
+/* ═══ REVENUE ═══ */
+.rev-stat{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center}
+.rev-stat .amount{font-family:var(--fd);font-size:28px;letter-spacing:1px}
+.rev-stat .label{font-size:11px;color:var(--tx3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.rev-entry{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--bd)}
+
+/* ═══ OBJECTIVES ═══ */
+.obj-card{border-radius:var(--r);padding:16px;margin-bottom:10px}
+.obj-card.ct{background:linear-gradient(135deg,rgba(212,170,74,.1),rgba(212,170,74,.03));border:1px solid rgba(212,170,74,.2)}
+.obj-card.mt{background:linear-gradient(135deg,rgba(74,159,212,.1),rgba(74,159,212,.03));border:1px solid rgba(74,159,212,.2)}
+.obj-card.lt{background:linear-gradient(135deg,rgba(155,109,232,.1),rgba(155,109,232,.03));border:1px solid rgba(155,109,232,.2)}
+
+/* ═══ SCORE RING ═══ */
+@keyframes spin-in{from{stroke-dashoffset:var(--max)}to{stroke-dashoffset:var(--val)}}
+
+/* ═══ XP BADGE ═══ */
+.lvl-badge{display:inline-flex;align-items:center;gap:6px;background:var(--acm);border:1px solid rgba(212,170,74,.2);border-radius:100px;padding:5px 12px;font-size:12px;font-weight:700;color:var(--ac)}
+
+/* ═══ MODAL ═══ */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:flex;align-items:flex-end;justify-content:center}
+.modal-sheet{background:var(--sf);border-radius:var(--r3) var(--r3) 0 0;padding:20px;width:100%;max-width:640px;animation:slide-up .3s ease}
+@keyframes slide-up{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:40px;height:4px;background:var(--sf3);border-radius:100px;margin:0 auto 20px}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fade-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fade-in .3s ease forwards}
+.anim-d1{animation-delay:.05s;opacity:0}
+.anim-d2{animation-delay:.1s;opacity:0}
+.anim-d3{animation-delay:.15s;opacity:0}
+.anim-d4{animation-delay:.2s;opacity:0}
+
+/* ═══ CONFETTI ═══ */
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:9999;animation:confetti-fall 1.5s ease forwards}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <div id="topbar-title">RISE</div>
+    <div class="top-streak" id="top-streak">🔥 0j</div>
+    <div class="top-xp">⚡ <strong id="top-xp">0</strong> XP</div>
+  </div>
+
+  <!-- SCREENS -->
+  <div id="screens">
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+      <div class="screen-inner" id="home-inner"></div>
+    </div>
+    <!-- JARVIS -->
+    <div class="screen" id="screen-jarvis">
+      <div class="screen-inner jarvis-bg" id="jarvis-inner"></div>
+    </div>
+    <!-- TASKS -->
+    <div class="screen" id="screen-tasks">
+      <div class="screen-inner" id="tasks-inner"></div>
+    </div>
+    <!-- HABITS -->
+    <div class="screen" id="screen-habits">
+      <div class="screen-inner" id="habits-inner"></div>
+    </div>
+    <!-- REVENUE -->
+    <div class="screen" id="screen-revenue">
+      <div class="screen-inner" id="revenue-inner"></div>
+    </div>
+    <!-- OBJECTIVES -->
+    <div class="screen" id="screen-objectives">
+      <div class="screen-inner" id="objectives-inner"></div>
+    </div>
+    <!-- PROFILE -->
+    <div class="screen" id="screen-profile">
+      <div class="screen-inner" id="profile-inner"></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div id="nav">
+    <button class="nav-btn active" data-screen="home" onclick="gs('home')">
+      <span class="nav-ico">🏠</span><span class="nav-lbl">Home</span>
+    </button>
+    <button class="nav-btn" data-screen="jarvis" onclick="gs('jarvis')">
+      <span class="nav-ico">🤖</span><span class="nav-lbl">JARVIS</span>
+    </button>
+    <button class="nav-btn" data-screen="tasks" onclick="gs('tasks')">
+      <span class="nav-ico">✅</span><span class="nav-lbl">Tâches</span>
+    </button>
+    <button class="nav-btn" data-screen="habits" onclick="gs('habits')">
+      <span class="nav-ico">💪</span><span class="nav-lbl">Habitudes</span>
+    </button>
+    <button class="nav-btn" data-screen="profile" onclick="gs('profile')">
+      <span class="nav-ico">👤</span><span class="nav-lbl">Profil</span>
+    </button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  RISE v15 — JARVIS AI Agent
+// ═══════════════════════════════════════════
+
+// ─── DEFAULT STATE ───
+var DEFAULT = {
+  name: '',
+  xp: 0,
+  streak: 0,
+  lastDay: '',
+  level: 1,
+  riseScore: 0,
+  todos: [],
+  habits: [],
+  revenue: [],
+  objectives: { ct: [], mt: [], lt: [] },
+  profile: { mbti: '', sign: '', goal: '', avatar: '🧑' },
+  badges: []
+};
+
+// ─── STATE ───
+var S = Object.assign({}, DEFAULT, JSON.parse(localStorage.getItem('rise_v15') || '{}'));
+
+function save() {
+  localStorage.setItem('rise_v15', JSON.stringify(S));
+}
+
+// ─── LEVELS ───
+var LEVELS = ['Rookie','Apprenti','Guerrier','Champion','Expert','Élite','Légende','RISE Lord'];
+var LEVEL_XP = [0, 500, 1500, 3500, 7000, 12000, 20000, 35000];
+
+function getLvl(xp) {
+  for (var i = LEVEL_XP.length - 1; i >= 0; i--) {
+    if (xp >= LEVEL_XP[i]) return i;
+  }
+  return 0;
+}
+
+function addXP(amount, label) {
+  S.xp += amount;
+  save();
+  updateTopbar();
+  toast('⚡ +' + amount + ' XP' + (label ? ' — ' + label : ''));
+  checkBadges();
+}
+
+// ─── RISE SCORE ───
+function calcRiseScore() {
+  var score = 0;
+  var done = S.todos.filter(function(t) { return t.done; });
+  score += Math.min(done.length * 10, 100);
+  var activeHabits = 0;
+  S.habits.forEach(function(h) {
+    var today = new Date().toDateString();
+    if (h.log && h.log.includes(today)) activeHabits++;
+  });
+  score += activeHabits * 15;
+  score += Math.min(S.streak * 5, 100);
+  score += Math.min(S.xp / 50, 200);
+  var allObj = S.objectives.ct.concat(S.objectives.mt).concat(S.objectives.lt);
+  var doneObj = allObj.filter(function(o) { return o.done; });
+  score += doneObj.length * 20;
+  score = Math.min(Math.round(score), 1000);
+  S.riseScore = score;
+  return score;
+}
+
+// ─── STREAK ───
+function checkStreak() {
+  var today = new Date().toDateString();
+  if (S.lastDay === today) return;
+  var yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (S.lastDay === yesterday) {
+    S.streak++;
+    if (S.streak > 0 && S.streak % 7 === 0) addXP(50, '🔥 Streak ' + S.streak + 'j');
+  } else if (S.lastDay !== today) {
+    S.streak = 1;
+  }
+  S.lastDay = today;
+  save();
+}
+
+// ─── NAVIGATION ───
+var _current = 'home';
+
+function gs(name) {
+  var old = document.getElementById('screen-' + _current);
+  var next = document.getElementById('screen-' + name);
+  if (!next) return;
+  if (old) old.classList.remove('active');
+  next.classList.add('active');
+  _current = name;
+  document.querySelectorAll('.nav-btn').forEach(function(btn) {
+    btn.classList.toggle('active', btn.dataset.screen === name);
+  });
+  if (name === 'home') renderHome();
+  if (name === 'jarvis') renderJarvis();
+  if (name === 'tasks') renderTasks();
+  if (name === 'habits') renderHabits();
+  if (name === 'revenue') renderRevenue();
+  if (name === 'objectives') renderObjectives();
+  if (name === 'profile') renderProfile();
+}
+
+// ─── TOPBAR ───
+function updateTopbar() {
+  document.getElementById('top-xp').textContent = S.xp;
+  document.getElementById('top-streak').textContent = '🔥 ' + S.streak + 'j';
+}
+
+// ─── TOAST ───
+function toast(msg, color) {
+  var el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:' + (color || 'var(--sf2)') + ';border:1px solid var(--bd2);color:var(--tx);padding:10px 20px;border-radius:100px;font-size:13px;font-weight:600;z-index:9999;white-space:nowrap;animation:fade-in .3s ease;pointer-events:none';
+  document.body.appendChild(el);
+  setTimeout(function() { el.remove(); }, 2500);
+}
+
+// ─── CONFETTI ───
+function confetti() {
+  var colors = ['#d4aa4a','#4a9fd4','#3fba7c','#e05a5a','#9b6de8','#f0f1f5'];
+  for (var i = 0; i < 30; i++) {
+    (function(i) {
+      setTimeout(function() {
+        var el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.cssText = 'left:' + Math.random() * 100 + 'vw;background:' + colors[Math.floor(Math.random() * colors.length)] + ';animation-delay:' + Math.random() * .5 + 's;animation-duration:' + (1 + Math.random()) + 's';
+        document.body.appendChild(el);
+        setTimeout(function() { el.remove(); }, 2500);
+      }, i * 40);
+    })(i);
+  }
+}
+
+// ─── BADGES ───
+var BADGE_DEFS = [
+  { id: 'first_todo', emoji: '✅', name: 'Première Tâche', desc: 'Complète ta première tâche', check: function() { return S.todos.some(function(t) { return t.done; }); } },
+  { id: 'streak7', emoji: '🔥', name: 'Semaine de Feu', desc: '7 jours de streak', check: function() { return S.streak >= 7; } },
+  { id: 'streak30', emoji: '⚡', name: 'Mois Légendaire', desc: '30 jours de streak', check: function() { return S.streak >= 30; } },
+  { id: 'xp500', emoji: '⭐', name: 'Montée en Puissance', desc: '500 XP', check: function() { return S.xp >= 500; } },
+  { id: 'xp2000', emoji: '💫', name: 'Champion XP', desc: '2000 XP', check: function() { return S.xp >= 2000; } },
+  { id: 'habits5', emoji: '💪', name: 'Machine à Habitudes', desc: '5 habitudes actives', check: function() { return S.habits.length >= 5; } },
+  { id: 'revenue', emoji: '💰', name: 'Premier Euro', desc: 'Log un revenu', check: function() { return S.revenue.length > 0; } },
+  { id: 'obj_done', emoji: '🎯', name: 'Objectif Atteint', desc: 'Complète un objectif', check: function() { var all = S.objectives.ct.concat(S.objectives.mt).concat(S.objectives.lt); return all.some(function(o) { return o.done; }); } },
+];
+
+function checkBadges() {
+  BADGE_DEFS.forEach(function(bd) {
+    if (!S.badges.includes(bd.id) && bd.check()) {
+      S.badges.push(bd.id);
+      save();
+      toast(bd.emoji + ' Badge débloqué : ' + bd.name + ' !', 'var(--acm)');
+      confetti();
+    }
+  });
+}
+
+// ══════════════════════════════════════════
+//  HOME
+// ══════════════════════════════════════════
+function renderHome() {
+  var el = document.getElementById('home-inner');
+  var score = calcRiseScore();
+  var lvl = getLvl(S.xp);
+  var lvlName = LEVELS[lvl];
+  var nextXP = LEVEL_XP[lvl + 1] || S.xp;
+  var prog = Math.min(((S.xp - LEVEL_XP[lvl]) / (nextXP - LEVEL_XP[lvl])) * 100, 100);
+
+  var todayHabits = S.habits.filter(function(h) { return h.log && h.log.includes(new Date().toDateString()); }).length;
+  var todayTasks = S.todos.filter(function(t) { return t.done; }).length;
+  var pendingTasks = S.todos.filter(function(t) { return !t.done; }).length;
+
+  var greeting = new Date().getHours() < 12 ? 'Bonjour' : new Date().getHours() < 18 ? 'Bon après-midi' : 'Bonsoir';
+
+  var r = 54;
+  var circ = 2 * Math.PI * r;
+  var offset = circ - (score / 1000) * circ;
+
+  el.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px" class="anim">'
+    + '<div>'
+    + '<div style="font-size:12px;color:var(--tx3);margin-bottom:4px">' + greeting + ' 👋</div>'
+    + '<div style="font-size:22px;font-weight:700">' + (S.name || 'Champion') + '</div>'
+    + '<div class="lvl-badge" style="margin-top:8px">Niv.' + (lvl + 1) + ' · ' + lvlName + '</div>'
+    + '</div>'
+    + '<div class="rise-score-ring">'
+    + '<svg width="128" height="128" viewBox="0 0 128 128"><circle cx="64" cy="64" r="' + r + '" fill="none" stroke="var(--sf2)" stroke-width="8"/>'
+    + '<circle cx="64" cy="64" r="' + r + '" fill="none" stroke="url(#scoreGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="' + circ + '" stroke-dashoffset="' + offset + '" transform="rotate(-90 64 64)" style="transition:stroke-dashoffset .8s ease"/>'
+    + '<defs><linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#4a9fd4"/><stop offset="100%" stop-color="#d4aa4a"/></linearGradient></defs>'
+    + '</svg>'
+    + '<div class="rise-score-num">' + score + '</div>'
+    + '</div>'
+    + '</div>'
+
+    // XP Progress
+    + '<div class="card anim anim-d1">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
+    + '<div style="font-size:12px;color:var(--tx3)">Progression XP</div>'
+    + '<div style="font-size:12px;font-weight:700;color:var(--ac)">⚡ ' + S.xp + ' / ' + nextXP + '</div>'
+    + '</div>'
+    + '<div class="prog-bar"><div class="prog-fill" style="width:' + prog + '%"></div></div>'
+    + '</div>'
+
+    // Stats grid
+    + '<div class="grid3 anim anim-d2" style="margin-bottom:12px">'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--gn)">' + todayHabits + '</div><div class="label">Habitudes</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--ac)">' + S.streak + '</div><div class="label">Streak</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--bl)">' + pendingTasks + '</div><div class="label">À faire</div></div>'
+    + '</div>'
+
+    // Quick actions
+    + '<div class="section-title anim anim-d3">Actions Rapides</div>'
+    + '<div class="grid2 anim anim-d3">'
+    + '<div class="quick-action" onclick="gs(\'jarvis\')">'
+    + '<div class="ico">🤖</div><div class="lbl">Demander à JARVIS</div>'
+    + '</div>'
+    + '<div class="quick-action" onclick="showAddTask()">'
+    + '<div class="ico">✅</div><div class="lbl">Ajouter une tâche</div>'
+    + '</div>'
+    + '<div class="quick-action" onclick="gs(\'habits\')">'
+    + '<div class="ico">💪</div><div class="lbl">Mes habitudes</div>'
+    + '</div>'
+    + '<div class="quick-action" onclick="gs(\'objectives\')">'
+    + '<div class="ico">🎯</div><div class="lbl">Objectifs</div>'
+    + '</div>'
+    + '</div>'
+
+    // Today's todo preview
+    + (pendingTasks > 0
+      ? '<div class="section-title anim anim-d4" style="margin-top:16px">À faire aujourd\'hui</div>'
+        + S.todos.filter(function(t) { return !t.done; }).slice(0, 3).map(function(t) {
+          return '<div class="todo-item" onclick="toggleTodo(\'' + t.id + '\')">'
+            + '<div class="todo-chk' + (t.done ? ' done' : '') + '">' + (t.done ? '✓' : '') + '</div>'
+            + '<div class="todo-text">' + t.text + '</div>'
+            + '</div>';
+        }).join('')
+        + (pendingTasks > 3 ? '<div style="text-align:center;color:var(--tx3);font-size:12px;padding:8px 0">+ ' + (pendingTasks - 3) + ' autres tâches</div>' : '')
+      : '<div class="card-sm anim anim-d4" style="text-align:center;color:var(--tx3);font-size:13px;margin-top:16px">🎉 Toutes tes tâches sont faites !</div>'
+    )
+
+    // Badges preview
+    + (S.badges.length > 0
+      ? '<div class="section-title" style="margin-top:16px">Mes Badges</div>'
+        + '<div style="display:flex;flex-wrap:wrap;gap:8px">'
+        + S.badges.slice(0, 6).map(function(id) {
+          var bd = BADGE_DEFS.find(function(b) { return b.id === id; });
+          return bd ? '<div class="pill pill-ac">' + bd.emoji + ' ' + bd.name + '</div>' : '';
+        }).join('')
+        + '</div>'
+      : ''
+    );
+}
+
+// ══════════════════════════════════════════
+//  JARVIS
+// ══════════════════════════════════════════
+var _jarvisHistory = [];
+
+function renderJarvis() {
+  var el = document.getElementById('jarvis-inner');
+  el.innerHTML = '';
+
+  // Header
+  var header = document.createElement('div');
+  header.style.cssText = 'text-align:center;padding:24px 0 20px';
+  header.innerHTML = '<div style="font-size:10px;color:var(--bl);font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:16px">RISE · JARVIS v1.5</div>'
+    + '<div class="jarvis-orb" id="jarvis-orb">🤖</div>'
+    + '<div id="jarvis-status" style="font-size:12px;color:var(--tx3);margin-top:12px;letter-spacing:1px">En attente de ta question...</div>';
+  el.appendChild(header);
+
+  // Quick prompts
+  var prompts = document.createElement('div');
+  prompts.style.cssText = 'display:flex;gap:8px;overflow-x:auto;padding:0 0 16px;scrollbar-width:none;margin-bottom:8px';
+  prompts.innerHTML = ['📊 Analyse ma semaine','🎯 Prochaine action','💰 Stratégie revenus','⚡ Boost motivation','📋 Plan du jour'].map(function(p) {
+    return '<div class="quick-prompt" onclick="setJarvisQuery(\'' + p + '\')">' + p + '</div>';
+  }).join('');
+  el.appendChild(prompts);
+
+  // Chat container
+  var chat = document.createElement('div');
+  chat.className = 'jarvis-chat';
+  chat.id = 'jarvis-chat';
+
+  // Welcome msg if no history
+  if (_jarvisHistory.length === 0) {
+    var score = calcRiseScore();
+    var lvl = getLvl(S.xp);
+    chat.innerHTML = '<div class="jarvis-msg">'
+      + '<div style="font-size:24px;flex-shrink:0">🤖</div>'
+      + '<div class="jarvis-bubble ai">Bonjour <strong>' + (S.name || 'Champion') + '</strong> 👋\n\nJe suis JARVIS, ton agent IA personnel sur RISE.\n\nTon RISE Score est de <strong>' + score + '/1000</strong> et tu es au <strong>niveau ' + (lvl + 1) + '</strong>. Tu as <strong>' + S.todos.filter(function(t) { return !t.done; }).length + ' tâches</strong> en attente et un streak de <strong>' + S.streak + ' jours</strong>.\n\nComment puis-je t\'aider ?</div>'
+      + '</div>';
+  } else {
+    _jarvisHistory.forEach(function(msg) {
+      var div = document.createElement('div');
+      div.className = 'jarvis-msg' + (msg.role === 'user' ? ' user' : '');
+      div.innerHTML = (msg.role !== 'user' ? '<div style="font-size:24px;flex-shrink:0">🤖</div>' : '')
+        + '<div class="jarvis-bubble ' + (msg.role === 'user' ? 'user' : 'ai') + '">' + msg.text + '</div>';
+      chat.appendChild(div);
+    });
+  }
+  el.appendChild(chat);
+
+  // Input bar
+  var inputBar = document.createElement('div');
+  inputBar.className = 'jarvis-input-bar';
+  inputBar.innerHTML = '<input class="inp" id="jarvis-input" placeholder="Pose ta question à JARVIS..." type="text"/>'
+    + '<button class="btn btn-bl" onclick="askJarvis()" style="flex-shrink:0;padding:12px 16px">➤</button>';
+  el.appendChild(inputBar);
+
+  document.getElementById('jarvis-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') askJarvis();
+  });
+}
+
+function setJarvisQuery(q) {
+  gs('jarvis');
+  setTimeout(function() {
+    var inp = document.getElementById('jarvis-input');
+    if (inp) { inp.value = q; askJarvis(); }
+  }, 100);
+}
+
+async function askJarvis() {
+  var inp = document.getElementById('jarvis-input');
+  var q = inp ? inp.value.trim() : '';
+  if (!q) return;
+  if (inp) inp.value = '';
+
+  // Add user message
+  _jarvisHistory.push({ role: 'user', text: q });
+  var chat = document.getElementById('jarvis-chat');
+  if (chat) {
+    var userDiv = document.createElement('div');
+    userDiv.className = 'jarvis-msg user';
+    userDiv.innerHTML = '<div class="jarvis-bubble user">' + q + '</div>';
+    chat.appendChild(userDiv);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  // Thinking state
+  var orb = document.getElementById('jarvis-orb');
+  var status = document.getElementById('jarvis-status');
+  if (orb) orb.className = 'jarvis-orb thinking';
+  if (status) status.textContent = 'JARVIS analyse... ⚡';
+
+  var thinkDiv;
+  if (chat) {
+    thinkDiv = document.createElement('div');
+    thinkDiv.className = 'jarvis-msg';
+    thinkDiv.id = 'jarvis-thinking';
+    thinkDiv.innerHTML = '<div style="font-size:24px;flex-shrink:0">🤖</div><div class="jarvis-bubble ai" style="color:var(--bl)"><span style="animation:pulse-orb 1s infinite">⚡ En train d\'analyser...</span></div>';
+    chat.appendChild(thinkDiv);
+    chat.scrollTop = chat.scrollHeight;
+  }
+
+  // Build context
+  var score = calcRiseScore();
+  var lvl = getLvl(S.xp);
+  var doneTasks = S.todos.filter(function(t) { return t.done; }).length;
+  var pendingTasks = S.todos.filter(function(t) { return !t.done; });
+  var todayStr = new Date().toDateString();
+  var todayHabits = S.habits.filter(function(h) { return h.log && h.log.includes(todayStr); });
+  var monthRevenue = S.revenue.filter(function(r) { return new Date(r.date).getMonth() === new Date().getMonth(); }).reduce(function(sum, r) { return sum + r.amount; }, 0);
+  var allObj = S.objectives.ct.concat(S.objectives.mt).concat(S.objectives.lt);
+  var doneObj = allObj.filter(function(o) { return o.done; }).length;
+
+  var systemPrompt = 'Tu es JARVIS, l\'agent IA personnel de ' + (S.name || 'l\'utilisateur') + ' sur RISE — une app de développement personnel. Tu es intelligent, proactif, efficace, comme JARVIS dans Iron Man. Légèrement d\'humour subtil. Tu analyses les données réelles et proposes des actions concrètes et personnalisées.\n\n'
+    + 'PROFIL :\n'
+    + '- Nom: ' + (S.name || 'Champion') + '\n'
+    + '- Niveau: ' + (lvl + 1) + ' (' + LEVELS[lvl] + ')\n'
+    + '- XP: ' + S.xp + '\n'
+    + '- RISE Score: ' + score + '/1000\n'
+    + '- Streak: ' + S.streak + ' jours\n'
+    + '- MBTI: ' + (S.profile.mbti || 'non défini') + '\n'
+    + '- Objectif principal: ' + (S.profile.goal || 'non défini') + '\n\n'
+    + 'DONNÉES LIVE :\n'
+    + '- Tâches terminées: ' + doneTasks + '\n'
+    + '- Tâches en attente: ' + pendingTasks.slice(0, 5).map(function(t) { return t.text; }).join(', ') + '\n'
+    + '- Habitudes actives aujourd\'hui: ' + todayHabits.length + '/' + S.habits.length + '\n'
+    + '- Revenus ce mois: ' + monthRevenue + '€\n'
+    + '- Objectifs accomplis: ' + doneObj + '/' + allObj.length + '\n'
+    + '- Badges: ' + S.badges.length + '\n\n'
+    + 'INSTRUCTIONS :\n'
+    + '1. Réponds en français, concis et actionnable (max 200 mots sauf si analyse demandée)\n'
+    + '2. Utilise les données réelles pour personnaliser\n'
+    + '3. Propose toujours 1-2 actions concrètes\n'
+    + '4. Ton chaleureux mais direct, comme un coach de haut niveau\n'
+    + '5. Utilise des emojis avec parcimonie pour structurer';
+
+  // Build messages
+  var messages = _jarvisHistory.slice(-8).map(function(m) {
+    return { role: m.role === 'ai' ? 'assistant' : 'user', content: m.text };
+  });
+
+  try {
+    var response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: messages
+      })
+    });
+
+    var data = await response.json();
+    var reply = data.content && data.content[0] ? data.content[0].text : 'Désolé, une erreur est survenue.';
+
+    if (thinkDiv) thinkDiv.remove();
+    _jarvisHistory.push({ role: 'ai', text: reply });
+
+    if (chat) {
+      var aiDiv = document.createElement('div');
+      aiDiv.className = 'jarvis-msg anim';
+      aiDiv.innerHTML = '<div style="font-size:24px;flex-shrink:0">🤖</div><div class="jarvis-bubble ai">' + reply.replace(/\n/g, '<br>') + '</div>';
+      chat.appendChild(aiDiv);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    if (orb) orb.className = 'jarvis-orb';
+    if (status) status.textContent = 'Prêt · ' + new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+  } catch (e) {
+    if (thinkDiv) thinkDiv.remove();
+    if (orb) orb.className = 'jarvis-orb';
+    if (status) status.textContent = 'Erreur de connexion';
+    if (chat) {
+      var errDiv = document.createElement('div');
+      errDiv.className = 'jarvis-msg';
+      errDiv.innerHTML = '<div style="font-size:24px;flex-shrink:0">🤖</div><div class="jarvis-bubble ai" style="color:var(--rd)">Connexion impossible. Vérifie ta connexion internet.</div>';
+      chat.appendChild(errDiv);
+    }
+  }
+}
+
+// ══════════════════════════════════════════
+//  TASKS
+// ══════════════════════════════════════════
+function renderTasks() {
+  var el = document.getElementById('tasks-inner');
+  var pending = S.todos.filter(function(t) { return !t.done; });
+  var done = S.todos.filter(function(t) { return t.done; });
+
+  el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
+    + '<div><div style="font-size:20px;font-weight:700">Mes Tâches</div>'
+    + '<div style="font-size:12px;color:var(--tx3)">' + done.length + '/' + S.todos.length + ' complétées</div></div>'
+    + '<button class="btn btn-ac btn-sm" onclick="showAddTask()">+ Ajouter</button>'
+    + '</div>'
+    + '<div class="prog-bar" style="margin-bottom:16px"><div class="prog-fill" style="width:' + (S.todos.length ? (done.length / S.todos.length * 100) : 0) + '%"></div></div>';
+
+  if (pending.length === 0 && done.length === 0) {
+    el.innerHTML += '<div class="card-sm" style="text-align:center;padding:32px;color:var(--tx3)">Aucune tâche pour l\'instant.<br>Crée ta première tâche ! 🚀</div>';
+    return;
+  }
+
+  if (pending.length > 0) {
+    el.innerHTML += '<div class="section-title">À faire (' + pending.length + ')</div>';
+    pending.forEach(function(t) {
+      el.innerHTML += '<div class="todo-item" id="todo-' + t.id + '" onclick="toggleTodo(\'' + t.id + '\')">'
+        + '<div class="todo-chk">' + '</div>'
+        + '<div style="flex:1">'
+        + '<div class="todo-text">' + t.text + '</div>'
+        + (t.note ? '<div style="font-size:11px;color:var(--tx3);margin-top:2px">' + t.note + '</div>' : '')
+        + '</div>'
+        + '<div style="display:flex;align-items:center;gap:6px">'
+        + (t.priority === 'high' ? '<span class="pill pill-rd" style="font-size:9px">⚡ Urgent</span>' : t.priority === 'med' ? '<span class="pill pill-ac" style="font-size:9px">📌 Moyen</span>' : '')
+        + '<button onclick="event.stopPropagation();deleteTodo(\'' + t.id + '\')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px;padding:4px">×</button>'
+        + '</div>'
+        + '</div>';
+    });
+  }
+
+  if (done.length > 0) {
+    el.innerHTML += '<div class="section-title" style="margin-top:20px">Complétées (' + done.length + ')</div>';
+    done.slice(0, 5).forEach(function(t) {
+      el.innerHTML += '<div class="todo-item done">'
+        + '<div class="todo-chk done">✓</div>'
+        + '<div class="todo-text">' + t.text + '</div>'
+        + '<button onclick="deleteTodo(\'' + t.id + '\')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px;padding:4px">×</button>'
+        + '</div>';
+    });
+  }
+}
+
+function toggleTodo(id) {
+  var todo = S.todos.find(function(t) { return t.id === id; });
+  if (!todo) return;
+  todo.done = !todo.done;
+  if (todo.done) {
+    addXP(10, '✅ ' + todo.text.substring(0, 20));
+    confetti();
+  }
+  save();
+  renderTasks();
+  checkBadges();
+}
+
+function deleteTodo(id) {
+  S.todos = S.todos.filter(function(t) { return t.id !== id; });
+  save();
+  renderTasks();
+}
+
+function showAddTask() {
+  gs('tasks');
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'add-task-modal';
+  overlay.innerHTML = '<div class="modal-sheet">'
+    + '<div class="modal-handle"></div>'
+    + '<div style="font-size:18px;font-weight:700;margin-bottom:16px">Nouvelle tâche</div>'
+    + '<input class="inp" id="new-task-text" placeholder="Description de la tâche..." style="margin-bottom:10px">'
+    + '<input class="inp" id="new-task-note" placeholder="Note (optionnel)..." style="margin-bottom:12px">'
+    + '<div class="section-title">Priorité</div>'
+    + '<div style="display:flex;gap:8px;margin-bottom:16px">'
+    + '<button class="btn btn-sf priority-btn btn-sm" data-p="low" onclick="selectPriority(\'low\')">🟢 Faible</button>'
+    + '<button class="btn btn-sf priority-btn btn-sm" data-p="med" onclick="selectPriority(\'med\')">🟡 Moyen</button>'
+    + '<button class="btn btn-sf priority-btn btn-sm" data-p="high" onclick="selectPriority(\'high\')">🔴 Urgent</button>'
+    + '</div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="btn btn-sf btn-full" onclick="closeModal(\'add-task-modal\')">Annuler</button>'
+    + '<button class="btn btn-ac btn-full" onclick="addTask()">Ajouter ✓</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById('new-task-text').focus();
+  document.getElementById('new-task-text').addEventListener('keypress', function(e) { if (e.key === 'Enter') addTask(); });
+  window._taskPriority = 'med';
+}
+
+function selectPriority(p) {
+  window._taskPriority = p;
+  document.querySelectorAll('.priority-btn').forEach(function(btn) {
+    btn.style.borderColor = btn.dataset.p === p ? 'var(--ac)' : '';
+    btn.style.color = btn.dataset.p === p ? 'var(--ac)' : '';
+  });
+}
+
+function addTask() {
+  var text = document.getElementById('new-task-text').value.trim();
+  if (!text) { toast('Écris une tâche !'); return; }
+  var note = document.getElementById('new-task-note').value.trim();
+  S.todos.push({ id: Date.now().toString(), text: text, note: note, priority: window._taskPriority || 'med', done: false, created: new Date().toISOString() });
+  save();
+  closeModal('add-task-modal');
+  renderTasks();
+  toast('✅ Tâche ajoutée !');
+}
+
+function closeModal(id) {
+  var modal = document.getElementById(id);
+  if (modal) modal.remove();
+}
+
+// ══════════════════════════════════════════
+//  HABITS
+// ══════════════════════════════════════════
+function renderHabits() {
+  var el = document.getElementById('habits-inner');
+  var today = new Date().toDateString();
+  var todayDone = S.habits.filter(function(h) { return h.log && h.log.includes(today); }).length;
+
+  el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
+    + '<div><div style="font-size:20px;font-weight:700">Habitudes</div>'
+    + '<div style="font-size:12px;color:var(--tx3)">' + todayDone + '/' + S.habits.length + ' aujourd\'hui</div></div>'
+    + '<button class="btn btn-ac btn-sm" onclick="showAddHabit()">+ Ajouter</button>'
+    + '</div>';
+
+  if (S.habits.length === 0) {
+    el.innerHTML += '<div class="card-sm" style="text-align:center;padding:32px;color:var(--tx3)">Aucune habitude.<br>Commence par une petite chose ! 💪</div>';
+    el.innerHTML += '<div class="section-title" style="margin-top:20px">Templates</div>';
+    var templates = ['💧 Boire 2L d\'eau', '🏋️ Sport 30min', '📚 Lire 20min', '🧘 Méditer 10min', '📓 Journal', '🌅 Se lever tôt'];
+    el.innerHTML += '<div class="grid2">' + templates.map(function(t) {
+      return '<div class="quick-action" onclick="addHabitTemplate(\'' + t + '\')">'
+        + '<div class="ico">' + t.split(' ')[0] + '</div>'
+        + '<div class="lbl">' + t.substring(t.indexOf(' ') + 1) + '</div>'
+        + '</div>';
+    }).join('') + '</div>';
+    return;
+  }
+
+  S.habits.forEach(function(h) {
+    var log = h.log || [];
+    var last7 = [];
+    for (var i = 6; i >= 0; i--) {
+      var d = new Date(Date.now() - i * 86400000).toDateString();
+      last7.push({ date: d, done: log.includes(d), isToday: i === 0 });
+    }
+    var weekCount = last7.filter(function(d) { return d.done; }).length;
+
+    el.innerHTML += '<div class="habit-card">'
+      + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
+      + '<div style="font-weight:600">' + h.emoji + ' ' + h.name + '</div>'
+      + '<div style="display:flex;align-items:center;gap:8px">'
+      + '<span style="font-size:11px;color:var(--tx3)">' + weekCount + '/7j</span>'
+      + '<button class="tog' + (last7[6].done ? ' on' : '') + '" id="tog-' + h.id + '" onclick="toggleHabit(\'' + h.id + '\')" title="Aujourd\'hui"></button>'
+      + '<button onclick="deleteHabit(\'' + h.id + '\')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px">×</button>'
+      + '</div>'
+      + '</div>'
+      + '<div class="habit-dots">' + last7.map(function(d) {
+        return '<div class="habit-dot' + (d.done ? ' done' : '') + (d.isToday ? ' today' : '') + '" title="' + d.date + '"></div>';
+      }).join('') + '</div>'
+      + '</div>';
+  });
+}
+
+function toggleHabit(id) {
+  var h = S.habits.find(function(h) { return h.id === id; });
+  if (!h) return;
+  var today = new Date().toDateString();
+  h.log = h.log || [];
+  if (h.log.includes(today)) {
+    h.log = h.log.filter(function(d) { return d !== today; });
+    toast('Habitude décochée');
+  } else {
+    h.log.push(today);
+    addXP(15, '💪 ' + h.name);
+    confetti();
+  }
+  save();
+  checkBadges();
+  renderHabits();
+}
+
+function deleteHabit(id) {
+  S.habits = S.habits.filter(function(h) { return h.id !== id; });
+  save();
+  renderHabits();
+}
+
+function addHabitTemplate(text) {
+  var emoji = text.split(' ')[0];
+  var name = text.substring(text.indexOf(' ') + 1);
+  S.habits.push({ id: Date.now().toString(), name: name, emoji: emoji, log: [] });
+  save();
+  toast('💪 Habitude ajoutée !');
+  renderHabits();
+}
+
+function showAddHabit() {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'add-habit-modal';
+  overlay.innerHTML = '<div class="modal-sheet">'
+    + '<div class="modal-handle"></div>'
+    + '<div style="font-size:18px;font-weight:700;margin-bottom:16px">Nouvelle habitude</div>'
+    + '<div style="display:flex;gap:8px;margin-bottom:10px">'
+    + '<input class="inp" id="new-habit-emoji" placeholder="🎯" style="width:60px">'
+    + '<input class="inp" id="new-habit-name" placeholder="Nom de l\'habitude..." style="flex:1">'
+    + '</div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="btn btn-sf btn-full" onclick="closeModal(\'add-habit-modal\')">Annuler</button>'
+    + '<button class="btn btn-ac btn-full" onclick="addHabit()">Créer 💪</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById('new-habit-name').focus();
+}
+
+function addHabit() {
+  var name = document.getElementById('new-habit-name').value.trim();
+  var emoji = document.getElementById('new-habit-emoji').value.trim() || '💪';
+  if (!name) { toast('Donne un nom à ton habitude !'); return; }
+  S.habits.push({ id: Date.now().toString(), name: name, emoji: emoji, log: [] });
+  save();
+  closeModal('add-habit-modal');
+  toast('💪 ' + name + ' ajoutée !');
+  renderHabits();
+}
+
+// ══════════════════════════════════════════
+//  OBJECTIVES
+// ══════════════════════════════════════════
+function renderObjectives() {
+  var el = document.getElementById('objectives-inner');
+  el.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
+    + '<div style="font-size:20px;font-weight:700">Objectifs 🎯</div>'
+    + '<button class="btn btn-ac btn-sm" onclick="showAddObj()">+ Ajouter</button>'
+    + '</div>';
+
+  function renderObjSection(type, label, color) {
+    var items = S.objectives[type];
+    el.innerHTML += '<div class="section-title">' + label + '</div>';
+    el.innerHTML += '<div class="obj-card ' + type + '">';
+    if (items.length === 0) {
+      el.innerHTML += '<div style="color:var(--tx3);font-size:13px;text-align:center;padding:12px">Aucun objectif ' + label.toLowerCase() + '</div>';
+    } else {
+      items.forEach(function(o) {
+        el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);cursor:pointer" onclick="toggleObj(\'' + type + '\',\'' + o.id + '\')">'
+          + '<div class="todo-chk' + (o.done ? ' done' : '') + '" style="border-color:' + color + '">' + (o.done ? '✓' : '') + '</div>'
+          + '<div style="flex:1"><div style="font-weight:600;font-size:13px' + (o.done ? ';text-decoration:line-through;color:var(--tx3)' : '') + '">' + o.text + '</div>'
+          + (o.deadline ? '<div style="font-size:11px;color:var(--tx3)">📅 ' + o.deadline + '</div>' : '')
+          + '</div>'
+          + '<button onclick="event.stopPropagation();deleteObj(\'' + type + '\',\'' + o.id + '\')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px">×</button>'
+          + '</div>';
+      });
+    }
+    el.innerHTML += '</div>';
+  }
+
+  renderObjSection('ct', '🟡 Court Terme (< 1 mois)', '#d4aa4a');
+  renderObjSection('mt', '🔵 Moyen Terme (1-6 mois)', '#4a9fd4');
+  renderObjSection('lt', '🟣 Long Terme (6m+)', '#9b6de8');
+}
+
+function toggleObj(type, id) {
+  var obj = S.objectives[type].find(function(o) { return o.id === id; });
+  if (!obj) return;
+  obj.done = !obj.done;
+  if (obj.done) { addXP(25, '🎯 Objectif atteint !'); confetti(); }
+  save();
+  renderObjectives();
+  checkBadges();
+}
+
+function deleteObj(type, id) {
+  S.objectives[type] = S.objectives[type].filter(function(o) { return o.id !== id; });
+  save();
+  renderObjectives();
+}
+
+function showAddObj() {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'add-obj-modal';
+  overlay.innerHTML = '<div class="modal-sheet">'
+    + '<div class="modal-handle"></div>'
+    + '<div style="font-size:18px;font-weight:700;margin-bottom:16px">Nouvel Objectif</div>'
+    + '<input class="inp" id="new-obj-text" placeholder="Décris ton objectif..." style="margin-bottom:10px">'
+    + '<input class="inp" id="new-obj-deadline" placeholder="Deadline (ex: 30 Mars 2026)" style="margin-bottom:12px">'
+    + '<div class="section-title">Horizon</div>'
+    + '<div style="display:flex;gap:8px;margin-bottom:16px">'
+    + '<button class="btn btn-sf btn-sm obj-type" data-t="ct" onclick="selectObjType(\'ct\')" style="flex:1">🟡 Court</button>'
+    + '<button class="btn btn-sf btn-sm obj-type" data-t="mt" onclick="selectObjType(\'mt\')" style="flex:1">🔵 Moyen</button>'
+    + '<button class="btn btn-sf btn-sm obj-type" data-t="lt" onclick="selectObjType(\'lt\')" style="flex:1">🟣 Long</button>'
+    + '</div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="btn btn-sf btn-full" onclick="closeModal(\'add-obj-modal\')">Annuler</button>'
+    + '<button class="btn btn-ac btn-full" onclick="addObj()">Ajouter 🎯</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(overlay);
+  window._objType = 'ct';
+  selectObjType('ct');
+  document.getElementById('new-obj-text').focus();
+}
+
+function selectObjType(t) {
+  window._objType = t;
+  document.querySelectorAll('.obj-type').forEach(function(btn) {
+    btn.style.borderColor = btn.dataset.t === t ? 'var(--ac)' : '';
+    btn.style.color = btn.dataset.t === t ? 'var(--ac)' : '';
+  });
+}
+
+function addObj() {
+  var text = document.getElementById('new-obj-text').value.trim();
+  if (!text) { toast('Décris ton objectif !'); return; }
+  var deadline = document.getElementById('new-obj-deadline').value.trim();
+  S.objectives[window._objType || 'ct'].push({ id: Date.now().toString(), text: text, deadline: deadline, done: false });
+  save();
+  closeModal('add-obj-modal');
+  toast('🎯 Objectif ajouté !');
+  renderObjectives();
+}
+
+// ══════════════════════════════════════════
+//  PROFILE
+// ══════════════════════════════════════════
+function renderProfile() {
+  var el = document.getElementById('profile-inner');
+  var lvl = getLvl(S.xp);
+  var score = calcRiseScore();
+  var earnedBadges = BADGE_DEFS.filter(function(b) { return S.badges.includes(b.id); });
+  var lockedBadges = BADGE_DEFS.filter(function(b) { return !S.badges.includes(b.id); });
+
+  el.innerHTML = '<div style="text-align:center;padding:20px 0 24px" class="anim">'
+    + '<div style="font-size:64px;margin-bottom:8px">' + (S.profile.avatar || '🧑') + '</div>'
+    + '<div style="font-size:22px;font-weight:700">' + (S.name || 'Mon Profil') + '</div>'
+    + '<div class="lvl-badge" style="margin:8px auto;display:inline-flex">Niv.' + (lvl + 1) + ' · ' + LEVELS[lvl] + '</div>'
+    + '<div style="font-size:13px;color:var(--tx3);margin-top:4px">RISE Score : <strong style="color:var(--ac)">' + score + '/1000</strong></div>'
+    + '</div>'
+
+    // Edit profile
+    + '<div class="card anim anim-d1">'
+    + '<div class="section-title">Mon Profil</div>'
+    + '<div style="margin-bottom:10px"><label style="font-size:12px;color:var(--tx3);display:block;margin-bottom:4px">Prénom</label>'
+    + '<input class="inp" id="prof-name" value="' + (S.name || '') + '" placeholder="Ton prénom..."></div>'
+    + '<div style="margin-bottom:10px"><label style="font-size:12px;color:var(--tx3);display:block;margin-bottom:4px">Objectif Principal</label>'
+    + '<input class="inp" id="prof-goal" value="' + (S.profile.goal || '') + '" placeholder="Ex: Atteindre 10k€/mois..."></div>'
+    + '<div class="grid2" style="margin-bottom:12px">'
+    + '<div><label style="font-size:12px;color:var(--tx3);display:block;margin-bottom:4px">MBTI</label>'
+    + '<input class="inp" id="prof-mbti" value="' + (S.profile.mbti || '') + '" placeholder="Ex: ENFP"></div>'
+    + '<div><label style="font-size:12px;color:var(--tx3);display:block;margin-bottom:4px">Avatar</label>'
+    + '<input class="inp" id="prof-avatar" value="' + (S.profile.avatar || '🧑') + '" placeholder="🧑"></div>'
+    + '</div>'
+    + '<button class="btn btn-ac btn-full" onclick="saveProfile()">💾 Sauvegarder</button>'
+    + '</div>'
+
+    // Stats
+    + '<div class="card anim anim-d2">'
+    + '<div class="section-title">Statistiques</div>'
+    + '<div class="grid3">'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--ac)">' + S.xp + '</div><div class="label">XP Total</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--gn)">' + S.streak + '</div><div class="label">Streak</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--bl)">' + S.badges.length + '</div><div class="label">Badges</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--rd)">' + S.todos.filter(function(t) { return t.done; }).length + '</div><div class="label">Tâches ✓</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--pu)">' + S.habits.length + '</div><div class="label">Habitudes</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--ac)">' + (S.objectives.ct.concat(S.objectives.mt).concat(S.objectives.lt)).filter(function(o) { return o.done; }).length + '</div><div class="label">Objectifs ✓</div></div>'
+    + '</div></div>'
+
+    // Badges
+    + '<div class="card anim anim-d3">'
+    + '<div class="section-title">Badges (' + earnedBadges.length + '/' + BADGE_DEFS.length + ')</div>';
+
+  if (earnedBadges.length > 0) {
+    el.innerHTML += '<div style="margin-bottom:16px">';
+    earnedBadges.forEach(function(b) {
+      el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)">'
+        + '<div style="font-size:28px">' + b.emoji + '</div>'
+        + '<div><div style="font-weight:700;font-size:13px">' + b.name + '</div><div style="font-size:11px;color:var(--gn)">' + b.desc + '</div></div>'
+        + '</div>';
+    });
+    el.innerHTML += '</div>';
+  }
+
+  if (lockedBadges.length > 0) {
+    el.innerHTML += '<div style="color:var(--tx3);font-size:11px;margin-bottom:8px;letter-spacing:1px">À DÉBLOQUER :</div>';
+    lockedBadges.forEach(function(b) {
+      el.innerHTML += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;opacity:.4">'
+        + '<div style="font-size:24px;filter:grayscale(1)">🔒</div>'
+        + '<div><div style="font-weight:600;font-size:13px">' + b.name + '</div><div style="font-size:11px;color:var(--tx3)">' + b.desc + '</div></div>'
+        + '</div>';
+    });
+  }
+
+  el.innerHTML += '</div>'
+
+    // Danger zone
+    + '<div class="card anim anim-d4">'
+    + '<div class="section-title">Données</div>'
+    + '<button class="btn btn-rd btn-full" onclick="resetData()">🗑️ Réinitialiser mes données</button>'
+    + '</div>';
+}
+
+function saveProfile() {
+  S.name = document.getElementById('prof-name').value.trim() || S.name;
+  S.profile.goal = document.getElementById('prof-goal').value.trim();
+  S.profile.mbti = document.getElementById('prof-mbti').value.trim();
+  S.profile.avatar = document.getElementById('prof-avatar').value.trim() || '🧑';
+  save();
+  updateTopbar();
+  toast('✅ Profil sauvegardé !');
+  renderProfile();
+}
+
+function resetData() {
+  if (!confirm('Réinitialiser toutes tes données RISE ? Cette action est irréversible.')) return;
+  localStorage.removeItem('rise_v15');
+  S = Object.assign({}, DEFAULT);
+  save();
+  toast('🔄 Données réinitialisées');
+  gs('home');
+}
+
+// ══════════════════════════════════════════
+//  REVENUE (bonus screen — nav via home)
+// ══════════════════════════════════════════
+function renderRevenue() {
+  var el = document.getElementById('revenue-inner');
+  if (!el) return;
+  var monthRev = S.revenue.filter(function(r) { return new Date(r.date).getMonth() === new Date().getMonth(); });
+  var totalMonth = monthRev.reduce(function(s, r) { return s + r.amount; }, 0);
+  var totalAll = S.revenue.reduce(function(s, r) { return s + r.amount; }, 0);
+
+  el.innerHTML = '<div style="font-size:20px;font-weight:700;margin-bottom:16px">💰 Revenus</div>'
+    + '<div class="grid2" style="margin-bottom:16px">'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--gn)">' + totalMonth.toLocaleString() + '€</div><div class="label">Ce mois</div></div>'
+    + '<div class="rev-stat"><div class="amount" style="color:var(--ac)">' + totalAll.toLocaleString() + '€</div><div class="label">Total</div></div>'
+    + '</div>'
+    + '<button class="btn btn-ac btn-full" onclick="showAddRevenue()" style="margin-bottom:16px">+ Logger un revenu</button>'
+    + '<div class="section-title">Historique</div>';
+
+  if (S.revenue.length === 0) {
+    el.innerHTML += '<div class="card-sm" style="text-align:center;color:var(--tx3);padding:24px">Aucun revenu loggé.</div>';
+  } else {
+    S.revenue.slice().reverse().slice(0, 20).forEach(function(r) {
+      el.innerHTML += '<div class="rev-entry">'
+        + '<div><div style="font-weight:600;font-size:13px">' + r.label + '</div><div style="font-size:11px;color:var(--tx3)">' + new Date(r.date).toLocaleDateString('fr-FR') + '</div></div>'
+        + '<div style="font-size:16px;font-weight:700;color:var(--gn)">+' + r.amount.toLocaleString() + '€</div>'
+        + '</div>';
+    });
+  }
+}
+
+function showAddRevenue() {
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'add-rev-modal';
+  overlay.innerHTML = '<div class="modal-sheet">'
+    + '<div class="modal-handle"></div>'
+    + '<div style="font-size:18px;font-weight:700;margin-bottom:16px">Logger un revenu</div>'
+    + '<input class="inp" id="rev-label" placeholder="Source (ex: YouTube Adsense...)" style="margin-bottom:10px">'
+    + '<input class="inp" id="rev-amount" type="number" placeholder="Montant en €" style="margin-bottom:16px">'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="btn btn-sf btn-full" onclick="closeModal(\'add-rev-modal\')">Annuler</button>'
+    + '<button class="btn btn-gn btn-full" onclick="addRevenue()">+ Logger</button>'
+    + '</div>'
+    + '</div>';
+  document.body.appendChild(overlay);
+  document.getElementById('rev-label').focus();
+}
+
+function addRevenue() {
+  var label = document.getElementById('rev-label').value.trim();
+  var amount = parseFloat(document.getElementById('rev-amount').value);
+  if (!label || isNaN(amount)) { toast('Remplis les champs !'); return; }
+  S.revenue.push({ id: Date.now().toString(), label: label, amount: amount, date: new Date().toISOString() });
+  addXP(5, '💰 Revenu loggé');
+  save();
+  closeModal('add-rev-modal');
+  toast('💰 +' + amount + '€ loggé !');
+  renderRevenue();
+  checkBadges();
+}
+
+// ══════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════
+function boot() {
+  checkStreak();
+  updateTopbar();
+  calcRiseScore();
+  checkBadges();
+
+  // First visit
+  if (!S.name) {
+    setTimeout(function() {
+      var overlay = document.createElement('div');
+      overlay.className = 'modal-overlay';
+      overlay.id = 'welcome-modal';
+      overlay.innerHTML = '<div class="modal-sheet">'
+        + '<div style="text-align:center;margin-bottom:24px">'
+        + '<div style="font-size:48px;margin-bottom:12px">🚀</div>'
+        + '<div style="font-family:var(--fd);font-size:32px;letter-spacing:3px;color:var(--ac);margin-bottom:8px">RISE v15</div>'
+        + '<div style="font-size:14px;color:var(--tx2)">Ton OS de développement personnel avec JARVIS IA</div>'
+        + '</div>'
+        + '<input class="inp" id="welcome-name" placeholder="Quel est ton prénom ?" style="margin-bottom:8px">'
+        + '<input class="inp" id="welcome-goal" placeholder="Ton objectif principal ?" style="margin-bottom:16px">'
+        + '<button class="btn btn-ac btn-full" onclick="startRise()" style="font-size:15px;padding:14px">Commencer ⚡</button>'
+        + '</div>';
+      document.body.appendChild(overlay);
+      document.getElementById('welcome-name').focus();
+      document.getElementById('welcome-name').addEventListener('keypress', function(e) { if (e.key === 'Enter') document.getElementById('welcome-goal').focus(); });
+      document.getElementById('welcome-goal').addEventListener('keypress', function(e) { if (e.key === 'Enter') startRise(); });
+    }, 300);
+  } else {
+    renderHome();
+  }
+}
+
+function startRise() {
+  var name = document.getElementById('welcome-name').value.trim();
+  var goal = document.getElementById('welcome-goal').value.trim();
+  if (!name) { toast('Dis-moi ton prénom !'); return; }
+  S.name = name;
+  S.profile.goal = goal;
+  addXP(100, '🚀 Bienvenue sur RISE !');
+  save();
+  closeModal('welcome-modal');
+  confetti();
+  toast('🚀 Bienvenue ' + name + ' !', 'var(--acm)');
+  renderHome();
+}
+
+// Close modal on overlay click
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.remove();
+  }
+});
+
+boot();
+console.log('RISE v15 — JARVIS Agent IA ✅');
+</script>
+</body>
+</html>
