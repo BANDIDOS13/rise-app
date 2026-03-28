@@ -172,6 +172,25 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
 .ai-loading{display:flex;align-items:center;gap:8px;color:var(--tx3);font-size:13px;font-style:italic}
 .ai-loading::before{content:'';width:14px;height:14px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* COMPETENCES */
+.skill-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}.skill-item:last-child{border:none}
+.skill-name{font-size:13px;font-weight:600;flex:1;min-width:0}
+.skill-stars{display:flex;gap:3px}
+.skill-star{width:14px;height:14px;border-radius:2px;cursor:pointer;transition:all .2s}
+.skill-star.filled{background:var(--ac)}
+.skill-star.empty{background:var(--bd2)}
+.skill-cat{font-size:10px;color:var(--tx3);margin-top:2px}
+.radar-container{position:relative;margin:0 auto}
+/* BOOKS */
+.book-card{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--bd)}.book-card:last-child{border:none}
+.book-cover{width:46px;height:64px;border-radius:5px;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.book-info{flex:1;min-width:0}.book-title{font-size:13px;font-weight:700;margin-bottom:2px}.book-author{font-size:11px;color:var(--tx3);margin-bottom:5px}
+.book-progress{height:3px;background:var(--bd);border-radius:2px;overflow:hidden;margin-bottom:4px}.book-prog-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:2px;transition:width .5s}
+.book-status{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
+.book-status.reading{background:rgba(74,158,212,.1);color:var(--bl)}
+.book-status.done{background:rgba(62,207,142,.1);color:var(--gr)}
+.book-status.todo{background:var(--acm);color:var(--ac)}
+
 #lesson-content h1,#lesson-content h2{font-family:var(--fd);font-weight:800;color:var(--ac);margin:14px 0 6px}
 #lesson-content h1{font-size:16px}#lesson-content h2{font-size:14px}
 #lesson-content p{margin-bottom:10px}
@@ -388,6 +407,9 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
     <div class="sb-item" onclick="nav('mbti',this)"><span class="ico">🧬</span>Profil MBTI</div>
     <div class="sb-item" onclick="nav('relations',this)"><span class="ico">🤝</span>Relations/CRM</div>
     <div class="sb-item" onclick="nav('voice',this)"><span class="ico">🎙️</span>Assistant Vocal</div>
+    <div class="sb-sec">Developpement</div>
+    <div class="sb-item" onclick="nav('competences',this)"><span class="ico">&#129504;</span>Competences</div>
+    <div class="sb-item" onclick="nav('books',this)"><span class="ico">&#128218;</span>Lectures</div>
     <div class="sb-sec">Compte</div>
     <div class="sb-item" onclick="nav('achievements',this)"><span class="ico">🏆</span>Achievements</div>
     <div class="sb-item" onclick="nav('export',this)"><span class="ico">💾</span>Export</div>
@@ -1471,6 +1493,89 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
           <div style="display:flex;align-items:flex-end"><button class="btn btn-gold btn-sm" onclick="calcWealth()">Calculer</button></div>
         </div>
         <div id="wealth-result" style="font-size:14px;line-height:1.8"></div>
+      </div>
+    </div>
+
+
+    <!-- CARTE DE COMPETENCES -->
+    <div class="page" id="page-competences">
+      <div class="pg-title">&#129504; Competences <small>Carte des skills</small></div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="comp-total">0</div><div class="sc-l">Competences</div></div>
+        <div class="sc gr"><div class="sc-v" id="comp-avg">0%</div><div class="sc-l">Niveau moyen</div></div>
+        <div class="sc bl"><div class="sc-v" id="comp-top">-</div><div class="sc-l">Point fort</div></div>
+      </div>
+      <!-- Radar visuel -->
+      <div class="card" style="text-align:center">
+        <div class="card-h gold">Radar de competences</div>
+        <canvas id="skills-radar" width="260" height="220" style="max-width:100%"></canvas>
+      </div>
+      <!-- Liste par categorie -->
+      <div class="ftabs" style="margin-bottom:10px">
+        <div class="ftab active" id="sc-all" onclick="filterSkills('all',this)">Toutes</div>
+        <div class="ftab" id="sc-biz" onclick="filterSkills('Business',this)">Business</div>
+        <div class="ftab" id="sc-tech" onclick="filterSkills('Tech',this)">Tech</div>
+        <div class="ftab" id="sc-mind" onclick="filterSkills('Mindset',this)">Mindset</div>
+        <div class="ftab" id="sc-body" onclick="filterSkills('Corps',this)">Corps</div>
+      </div>
+      <div class="card" id="skills-list-card">
+        <div id="skills-list"></div>
+      </div>
+      <!-- IA gaps analysis -->
+      <div class="card">
+        <div class="card-h">&#129302; Analyse IA de tes competences</div>
+        <div id="comp-ai-analysis" style="font-size:13px;color:var(--tx2);line-height:1.7;min-height:50px">Evalue tes competences ci-dessus pour recevoir une analyse.</div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="analyzeSkills()">Analyser mes gaps</button>
+      </div>
+    </div>
+
+    <!-- LISTE DE LECTURES -->
+    <div class="page" id="page-books">
+      <div class="pg-title">&#128218; Lectures <small>Bibliotheque personnelle</small></div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc gr"><div class="sc-v" id="books-read">0</div><div class="sc-l">Lus</div></div>
+        <div class="sc"><div class="sc-v" id="books-reading">0</div><div class="sc-l">En cours</div></div>
+        <div class="sc bl"><div class="sc-v" id="books-todo">0</div><div class="sc-l">A lire</div></div>
+      </div>
+      <!-- Suggestions IA -->
+      <div class="card">
+        <div class="card-h gold">&#129302; Suggestions IA selon ton profil</div>
+        <div id="books-ai-reco" style="font-size:13px;color:var(--tx2);line-height:1.7">Clique pour des suggestions personnalisees.</div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="getBookReco()">Suggerer des livres</button>
+      </div>
+      <!-- Liste -->
+      <div class="ftabs" style="margin-bottom:10px">
+        <div class="ftab active" id="bf-all" onclick="filterBooks('all',this)">Tous</div>
+        <div class="ftab" id="bf-reading" onclick="filterBooks('reading',this)">En cours</div>
+        <div class="ftab" id="bf-done" onclick="filterBooks('done',this)">Lus</div>
+        <div class="ftab" id="bf-todo" onclick="filterBooks('todo',this)">A lire</div>
+      </div>
+      <div id="books-list"></div>
+      <!-- Ajouter un livre -->
+      <div class="card">
+        <div class="card-h">+ Ajouter un livre</div>
+        <div class="g2" style="gap:8px;margin-bottom:7px">
+          <input class="inp" id="book-title" placeholder="Titre du livre">
+          <input class="inp" id="book-author" placeholder="Auteur">
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:7px">
+          <select class="inp" id="book-status-sel">
+            <option value="todo">A lire</option>
+            <option value="reading">En cours de lecture</option>
+            <option value="done">Lu et termine</option>
+          </select>
+          <select class="inp" id="book-cat">
+            <option value="Dev perso">Dev perso</option>
+            <option value="Business">Business</option>
+            <option value="Finance">Finance</option>
+            <option value="Mindset">Mindset</option>
+            <option value="Biographie">Biographie</option>
+            <option value="Fiction">Fiction</option>
+            <option value="Tech">Tech</option>
+          </select>
+        </div>
+        <input class="inp" id="book-notes" placeholder="Notes / key takeaways..." style="margin-bottom:8px">
+        <button class="btn btn-gold btn-sm" onclick="addBook()">+ Ajouter</button>
       </div>
     </div>
 
@@ -3658,6 +3763,227 @@ if(typeof ALL_BADGES!=="undefined"){
 if(!S.onboarded){
   // Will be handled by onboarding flow
 }
+
+
+// ══ COMPETENCES (Carte de skills) ══
+var SKILLS_DATA = [
+  // Business
+  {id:"sales",name:"Vente",cat:"Business",level:0},{id:"marketing",name:"Marketing",cat:"Business",level:0},
+  {id:"strategy",name:"Strategie",cat:"Business",level:0},{id:"finance_skill",name:"Finance",cat:"Business",level:0},
+  {id:"leadership",name:"Leadership",cat:"Business",level:0},{id:"negotiation",name:"Negociation",cat:"Business",level:0},
+  // Tech
+  {id:"coding",name:"Developpement",cat:"Tech",level:0},{id:"ai_tools",name:"Outils IA",cat:"Tech",level:0},
+  {id:"design",name:"Design/UX",cat:"Tech",level:0},{id:"data",name:"Analyse data",cat:"Tech",level:0},
+  {id:"automation",name:"Automatisation",cat:"Tech",level:0},
+  // Mindset
+  {id:"focus_skill",name:"Focus/Discipline",cat:"Mindset",level:0},{id:"resilience",name:"Resilience",cat:"Mindset",level:0},
+  {id:"creativity",name:"Creativite",cat:"Mindset",level:0},{id:"communication",name:"Communication",cat:"Mindset",level:0},
+  {id:"empathy",name:"Empathie",cat:"Mindset",level:0},
+  // Corps
+  {id:"fitness",name:"Condition physique",cat:"Corps",level:0},{id:"nutrition_skill",name:"Nutrition",cat:"Corps",level:0},
+  {id:"sleep_skill",name:"Gestion sommeil",cat:"Corps",level:0},{id:"energy",name:"Energie",cat:"Corps",level:0},
+];
+
+// Load saved levels
+if(!S.skillLevels) S.skillLevels = {};
+SKILLS_DATA.forEach(function(sk){if(S.skillLevels[sk.id]!==undefined)sk.level=S.skillLevels[sk.id];});
+
+var _skillFilter = "all";
+function filterSkills(cat, btn){
+  _skillFilter = cat;
+  document.querySelectorAll("#sc-all,#sc-biz,#sc-tech,#sc-mind,#sc-body").forEach(function(b){b.classList.remove("active");});
+  if(btn) btn.classList.add("active");
+  renderSkills();
+}
+
+function setSkillLevel(skillId, level){
+  var sk = SKILLS_DATA.find(function(s){return s.id===skillId;});
+  if(!sk) return;
+  sk.level = level;
+  if(!S.skillLevels) S.skillLevels = {};
+  S.skillLevels[skillId] = level;
+  save();
+  renderSkills();
+  drawRadar();
+}
+
+function renderSkills(){
+  var el = document.getElementById("skills-list"); if(!el) return;
+  var items = _skillFilter === "all" ? SKILLS_DATA : SKILLS_DATA.filter(function(s){return s.cat===_skillFilter;});
+  
+  // Stats
+  var total = SKILLS_DATA.length;
+  var avgLevel = SKILLS_DATA.reduce(function(t,s){return t+s.level;},0)/total;
+  var topSkill = SKILLS_DATA.reduce(function(a,b){return b.level>a.level?b:a;});
+  var ct = document.getElementById("comp-total"); if(ct) ct.textContent = total;
+  var ca = document.getElementById("comp-avg"); if(ca) ca.textContent = Math.round(avgLevel*20) + "%";
+  var ctp = document.getElementById("comp-top"); if(ctp) ctp.textContent = topSkill.level>0 ? topSkill.name : "-";
+  
+  var catColors = {Business:"var(--bl)", Tech:"var(--pu)", Mindset:"var(--ac)", Corps:"var(--gr)"};
+  el.innerHTML = items.map(function(sk){
+    var stars = "";
+    for(var i=1;i<=5;i++){
+//      stars += "<div class='skill-star "+(i<=sk.level?"fille
+    }
+    return "<div class='skill-item'><div style='flex:1'><div class='skill-name'>"+sk.name+"</div><div class='skill-cat' style='color:"+catColors[sk.cat]+"'>"+sk.cat+"</div></div><div class='skill-stars'>"+stars+"</div><div style='font-size:11px;font-weight:700;color:var(--ac);width:20px;text-align:right'>"+sk.level+"/5</div></div>";
+  }).join("");
+}
+
+function drawRadar(){
+  var canvas = document.getElementById("skills-radar"); if(!canvas) return;
+  var ctx = canvas.getContext("2d");
+  var W = canvas.width, H = canvas.height;
+  var cx = W/2, cy = H/2, r = Math.min(W,H)*0.38;
+  ctx.clearRect(0,0,W,H);
+  
+  var cats = ["Business","Tech","Mindset","Corps"];
+  var angles = cats.map(function(_,i){return (i/cats.length)*2*Math.PI - Math.PI/2;});
+  
+  // Background grid
+  ctx.strokeStyle = "rgba(255,255,255,0.08)";
+  [1,2,3,4,5].forEach(function(ring){
+    ctx.beginPath();
+    angles.forEach(function(a,i){
+      var x = cx + Math.cos(a)*r*(ring/5);
+      var y = cy + Math.sin(a)*r*(ring/5);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    });
+    ctx.closePath(); ctx.stroke();
+  });
+  
+  // Axis lines
+  ctx.strokeStyle = "rgba(255,255,255,0.1)";
+  angles.forEach(function(a){
+    ctx.beginPath(); ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*r, cy+Math.sin(a)*r);
+    ctx.stroke();
+  });
+  
+  // Data polygon
+  var catAvgs = cats.map(function(cat){
+    var catSkills = SKILLS_DATA.filter(function(s){return s.cat===cat;});
+    return catSkills.reduce(function(t,s){return t+s.level;},0)/catSkills.length/5;
+  });
+  
+  ctx.beginPath();
+  angles.forEach(function(a,i){
+    var val = catAvgs[i]||0;
+    var x = cx + Math.cos(a)*r*val;
+    var y = cy + Math.sin(a)*r*val;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = "rgba(212,170,74,0.15)";
+  ctx.fill();
+  ctx.strokeStyle = "#d4aa4a";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  
+  // Labels
+  ctx.fillStyle = "rgba(168,164,154,0.9)";
+  ctx.font = "11px DM Sans, sans-serif";
+  ctx.textAlign = "center";
+  cats.forEach(function(cat,i){
+    var a = angles[i];
+    var x = cx + Math.cos(a)*(r+20);
+    var y = cy + Math.sin(a)*(r+18);
+    ctx.fillText(cat, x, y+4);
+  });
+}
+
+async function analyzeSkills(){
+  var el = document.getElementById("comp-ai-analysis"); if(!el) return;
+  el.innerHTML = "<div class='ai-loading'>Analyse de tes competences...</div>";
+  var top3 = [...SKILLS_DATA].sort(function(a,b){return b.level-a.level;}).slice(0,3);
+  var low3 = [...SKILLS_DATA].filter(function(s){return s.level>0;}).sort(function(a,b){return a.level-b.level;}).slice(0,3);
+  var ctx = "Coach de "+S.name+". Competences fortes: "+top3.map(function(s){return s.name+"("+s.level+"/5)";}).join(", ")+". Points faibles: "+low3.map(function(s){return s.name+"("+s.level+"/5)";}).join(", ")+". Revenus: "+fmt(S.revenue.filter(function(r){return r.month===new Date().getMonth();}).reduce(function(t,r){return t+r.amount;},0))+"/mois. Analyse les gaps et donne 3 actions concretes pour progresser.";
+  var reply = await callAI(ctx, "Analyse mes competences", 600);
+//  el.innerHTML = reply.replace(/
+
+///g,"<br><br>");
+}
+
+// ══ LECTURES (Books) ══
+S.books = S.books||[
+  {id:1,title:"Atomic Habits",author:"James Clear",status:"done",cat:"Dev perso",progress:100,notes:"1% mieux chaque jour. Les habitudes font l identite.",emoji:"&#128170;"},
+  {id:2,title:"The Lean Startup",author:"Eric Ries",status:"done",cat:"Business",progress:100,notes:"Build-Measure-Learn. Valide vite, echoue vite.",emoji:"&#128640;"},
+  {id:3,title:"Sapiens",author:"Yuval Noah Harari",status:"reading",cat:"Biographie",progress:45,notes:"",emoji:"&#128218;"},
+  {id:4,title:"Rich Dad Poor Dad",author:"Robert Kiyosaki",status:"todo",cat:"Finance",progress:0,notes:"",emoji:"&#128181;"},
+  {id:5,title:"Deep Work",author:"Cal Newport",status:"todo",cat:"Dev perso",progress:0,notes:"",emoji:"&#127919;"},
+];
+
+var _bookFilter = "all";
+function filterBooks(status, btn){
+  _bookFilter = status;
+  document.querySelectorAll("#bf-all,#bf-reading,#bf-done,#bf-todo").forEach(function(b){b.classList.remove("active");});
+  if(btn) btn.classList.add("active");
+  renderBooks();
+}
+
+function addBook(){
+  var title = document.getElementById("book-title").value.trim();
+  var author = document.getElementById("book-author").value.trim();
+  if(!title) return;
+  var status = document.getElementById("book-status-sel").value;
+  var cat = document.getElementById("book-cat").value;
+  var notes = document.getElementById("book-notes").value;
+  var emojis = {"Dev perso":"&#128218;","Business":"&#128200;","Finance":"&#128181;","Mindset":"&#129504;","Biographie":"&#128101;","Fiction":"&#128214;","Tech":"&#128187;"};
+  S.books.unshift({id:Date.now(),title:title,author:author||"Auteur inconnu",status:status,cat:cat,progress:status==="done"?100:0,notes:notes,emoji:emojis[cat]||"&#128218;"});
+  document.getElementById("book-title").value="";
+  document.getElementById("book-author").value="";
+  document.getElementById("book-notes").value="";
+  if(status==="done"){S.xp+=30;toast("Livre ajoute ! +30 XP","ok");}
+  else toast("Livre ajoute !","ok");
+  save(); renderBooks();
+}
+
+function updateBookProgress(id, val){
+  var b = S.books.find(function(x){return x.id===id;}); if(!b) return;
+  b.progress = parseInt(val)||0;
+  if(b.progress===100&&b.status!=="done"){b.status="done";S.xp+=30;toast("Livre termine ! +30 XP","ok");}
+  save(); renderBooks();
+}
+
+function delBook(id){ S.books = S.books.filter(function(x){return x.id!==id;}); save(); renderBooks(); }
+
+function renderBooks(){
+  var br = document.getElementById("books-read"); if(br) br.textContent = S.books.filter(function(b){return b.status==="done";}).length;
+  var brd = document.getElementById("books-reading"); if(brd) brd.textContent = S.books.filter(function(b){return b.status==="reading";}).length;
+  var bt = document.getElementById("books-todo"); if(bt) bt.textContent = S.books.filter(function(b){return b.status==="todo";}).length;
+  
+  var el = document.getElementById("books-list"); if(!el) return;
+  var items = _bookFilter==="all" ? S.books : S.books.filter(function(b){return b.status===_bookFilter;});
+  
+  if(!items.length){el.innerHTML="<div class='empty'><span class='ei'>&#128218;</span>Aucun livre</div>";return;}
+  
+  var statusLabel = {reading:"En cours",done:"Lu",todo:"A lire"};
+  el.innerHTML = items.map(function(b){
+    return "<div class='book-card'><div class='book-cover'>"+b.emoji+"</div><div class='book-info'><div class='book-title'>"+b.title+"</div><div class='book-author'>"+b.author+"<span style='margin-left:6px;font-size:10px;color:var(--tx3)'>"+b.cat+"</span></div><div class='book-progress'><div class='book-prog-fill' style='width:"+b.progress+"%'></div></div><div style='display:flex;align-items:center;gap:8px'><span class='book-status "+b.status+"'>"+statusLabel[b.status]+"</span><span style='font-size:10px;color:var(--tx3)'>"+b.progress+"%</span>"+( b.status==="reading"?"<input type='range' min='0' max='100' value='"+b.progress+"' style='flex:1;height:3px' oninput='updateBookProgress("+b.id+",this.value)'>":""  )+"</div>"+( b.notes?"<div style='font-size:11px;color:var(--tx3);margin-top:4px;font-style:italic'>"+b.notes.slice(0,80)+"</div>":"")+"</div><span style='cursor:pointer;font-size:11px;color:var(--tx3);align-self:flex-start;padding:2px' onclick='delBook("+b.id+")'>X</span></div>";
+  }).join("");
+}
+
+async function getBookReco(){
+  var el = document.getElementById("books-ai-reco"); if(!el) return;
+  el.innerHTML = "<div class='ai-loading'>Selection de livres...</div>";
+  var interests = (S.interests||["business","revenue","health"]).join(", ");
+  var mbtiType = S.mbti ? S.mbti.type : "non defini";
+  var alreadyRead = S.books.filter(function(b){return b.status==="done";}).map(function(b){return b.title;}).join(", ")||"aucun";
+  var ctx = "Bibliothecaire et coach de "+S.name+". Interets: "+interests+". MBTI: "+mbtiType+". Deja lu: "+alreadyRead+". Recommande 5 livres TRES specifiques (titre exact + auteur) avec 1 ligne pourquoi. Focus dev perso, business, mindset selon le profil.";
+  var reply = await callAI(ctx, "Recommande-moi des livres", 600);
+//  el.innerHTML = reply.replace(/
+
+///g,"<br><br>").replace(/
+//-/g,"<br>•").replace(/
+//\d+\./g,"<br>&#9654;");
+}
+
+// ══ PATCH renderPage ══
+var _v14origRenderPage = renderPage;
+renderPage = function(p){
+  _v14origRenderPage(p);
+  if(p==="competences"){renderSkills();setTimeout(drawRadar,100);}
+  if(p==="books") renderBooks();
+};
 
 applyTheme();checkStreak();initMob();render();
 
