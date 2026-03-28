@@ -842,10 +842,10 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-function launchApp(){document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
-function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}
+function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
 function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
 function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
@@ -4572,6 +4572,301 @@ function renderWeeklyChallenges(){
 // ── SCREEN INIT HOOKS ──
 // Extend gs() for new screens
 const _origGs2=null; // dead ref, we patch inline below
+
+
+
+// ══ V24 MISSING RENDER FUNCTIONS ══
+function renderWheel(el){
+  if(!el)return;
+  var prizes=['🎁 +20 XP','💎 +5 Gems','🔥 Streak Shield','📚 Formation bonus','🏆 Badge Chanceux','⚡ Double XP 1h','🌟 +50 XP','💰 +10 Gems'];
+  var h='<div style="text-align:center;padding:20px 0">';
+  h+='<div style="font-size:80px;margin-bottom:16px;animation:float 3s ease-in-out infinite">🎰</div>';
+  if(S.wheelPrize&&S.wheelDate===TD){
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px;color:var(--ac)">Gain du jour</div>';
+    h+='<div style="font-size:24px;padding:16px;background:var(--sf);border:2px solid var(--ac);border-radius:var(--r);display:inline-block">'+S.wheelPrize+'</div>';
+    h+='<div style="font-size:12px;color:var(--tx3);margin-top:12px">Reviens demain pour un nouveau tour !</div>';
+  } else {
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:12px">Tente ta chance !</div>';
+    h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px;text-align:center">';
+    prizes.forEach(function(p){h+='<div style="padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:12px">'+p+'</div>';});
+    h+='</div>';
+    h+='<button class="btn btn-ac" style="max-width:260px;margin:0 auto" onclick="spinWheel()">🎰 Tourner la roue !</button>';
+  }
+  h+='</div>';
+  el.innerHTML=h;
+}
+function spinWheel(){
+  var prizes=[{t:'🎁 +20 XP',xp:20},{t:'💎 +5 Gems',gems:5},{t:'🔥 Streak Shield',xp:10},{t:'📚 Formation bonus',xp:15},{t:'🏆 Badge Chanceux',xp:25},{t:'⚡ Double XP',xp:30},{t:'🌟 +50 XP',xp:50},{t:'💰 +10 Gems',gems:10}];
+  var p=prizes[Math.floor(Math.random()*prizes.length)];
+  S.wheelDate=TD;S.wheelPrize=p.t;
+  if(p.xp)gainXP(p.xp,'wheel');
+  if(p.gems)gainGems(p.gems);
+  save();toast(p.t,'🎰',2500);
+  var el=document.getElementById('wheel-c');if(el)renderWheel(el);
+}
+function renderShop(el){
+  if(!el)return;
+  var items=[
+    {id:'theme_ocean',nm:'🌊 Th\u00e8me Oc\u00e9an',desc:'Un th\u00e8me bleu apaisant',cost:50,type:'theme'},
+    {id:'theme_fire',nm:'🔥 Th\u00e8me Feu',desc:'Rouge et dynamique',cost:50,type:'theme'},
+    {id:'theme_forest',nm:'🌲 Th\u00e8me For\u00eat',desc:'Vert nature profond',cost:50,type:'theme'},
+    {id:'streak_shield',nm:'🛡️ Bouclier Streak',desc:'Prot\u00e8ge ton streak 1 jour',cost:30,type:'item'},
+    {id:'xp_boost',nm:'⚡ Boost XP x2',desc:'Double XP pendant 1h',cost:40,type:'item'},
+    {id:'chest_key',nm:'🔑 Cl\u00e9 de coffre',desc:'Ouvre un coffre myst\u00e8re',cost:25,type:'item'}
+  ];
+  S.shopUnlocked=S.shopUnlocked||[];
+  var h='<div style="font-size:12px;color:var(--tx3);margin-bottom:12px;display:flex;justify-content:space-between"><span>Tes gems: <b style="color:var(--ac)">'+(S.gems||0)+' 💎</b></span></div>';
+  h+='<div style="display:grid;gap:10px">';
+  items.forEach(function(it){
+    var owned=S.shopUnlocked.indexOf(it.id)>=0;
+    h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);display:flex;align-items:center;gap:12px">';
+    h+='<div style="flex:1"><div style="font-weight:700;font-size:14px">'+it.nm+'</div><div style="font-size:11px;color:var(--tx3)">'+it.desc+'</div></div>';
+    if(owned){h+='<div style="font-size:11px;color:var(--gr);font-weight:700">Obtenu \u2713</div>';}
+    else{h+='<button style="padding:8px 14px;background:var(--agg);border:1px solid var(--ac);border-radius:20px;font-size:12px;font-weight:700;color:var(--ac)" onclick="buyItem(\''+it.id+'\','+it.cost+')">'+it.cost+' 💎</button>';}
+    h+='</div>';
+  });
+  h+='</div>';
+  el.innerHTML=h;
+}
+function buyItem(id,cost){
+  if((S.gems||0)<cost){toast('Pas assez de gems !','\u274c',2000);return;}
+  S.gems-=cost;S.shopUnlocked=S.shopUnlocked||[];
+  if(S.shopUnlocked.indexOf(id)<0)S.shopUnlocked.push(id);
+  save();updGB();toast('Achet\u00e9 !','🛒',2000);
+  var el=document.getElementById('shop-c');if(el)renderShop(el);
+}
+function renderContentPlanner(el){
+  if(!el)return;
+  S.contentPlan=S.contentPlan||[];
+  var days=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+  var h='<div style="font-size:13px;color:var(--tx3);margin-bottom:12px">Planifie ton contenu pour la semaine</div>';
+  h+='<div style="display:grid;gap:8px">';
+  days.forEach(function(d,i){
+    var entry=S.contentPlan[i]||'';
+    h+='<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);display:flex;align-items:center;gap:10px">';
+    h+='<div style="font-weight:700;font-size:13px;color:var(--ac);min-width:32px">'+d+'</div>';
+    h+='<input type="text" value="'+entry.replace(/"/g,'&quot;')+'" placeholder="Id\u00e9e de contenu..." onchange="updContent('+i+',this.value)" style="flex:1;padding:8px 10px;background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;font-size:12px;color:var(--tx)">';
+    h+='</div>';
+  });
+  h+='</div>';
+  h+='<button class="btn btn-ac" style="margin-top:12px" onclick="toast(\'Plan sauvegard\u00e9 !\',\'📱\',2000)">💾 Sauvegarder le plan</button>';
+  el.innerHTML=h;
+}
+function updContent(idx,val){S.contentPlan=S.contentPlan||[];S.contentPlan[idx]=val;save();}
+function renderPomoPro(el){
+  if(!el)return;
+  S.pomoStats=S.pomoStats||{total:0,today:0,best:0,date:''};
+  if(S.pomoStats.date!==TD){S.pomoStats.today=0;S.pomoStats.date=TD;}
+  var h='<div style="text-align:center;padding:16px 0">';
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">';
+  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--ac)">'+S.pomoStats.total+'</div><div style="font-size:10px;color:var(--tx3)">Total sessions</div></div>';
+  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--gr)">'+S.pomoStats.today+'</div><div style="font-size:10px;color:var(--tx3)">Aujourd\'hui</div></div>';
+  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--or)">'+S.pomoStats.best+'</div><div style="font-size:10px;color:var(--tx3)">Record / jour</div></div>';
+  h+='</div>';
+  h+='<div style="font-size:13px;color:var(--tx3);margin-bottom:10px">Utilise le Pomodoro sur l\'accueil pour tes sessions focus.</div>';
+  h+='<button class="btn btn-ac" style="max-width:220px;margin:0 auto" onclick="gs(\'home\',null)">⏱️ Aller au Pomodoro</button>';
+  h+='</div>';
+  el.innerHTML=h;
+}
+// ══ END V24 FIXES ══
+
+
+// ══ V24 ENHANCEMENTS ══
+
+// ── 1. DATA EXPORT/IMPORT SYSTEM ──
+function exportData(){
+  var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='rise-backup-'+TD.replace(/\s/g,'-')+'.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Backup sauvegarde !','💾',2000);
+  gainXP(5,'backup');
+}
+function importData(){
+  var inp=document.createElement('input');
+  inp.type='file';inp.accept='.json';
+  inp.onchange=function(e){
+    var f=e.target.files[0];if(!f)return;
+    var r=new FileReader();
+    r.onload=function(ev){
+      try{
+        var d=JSON.parse(ev.target.result);
+        if(!d.ob||!d.name){toast('Fichier invalide','❌',2500);return;}
+        if(!confirm('Remplacer toutes tes donnees par ce backup ? ('+d.name+', '+((d.xp||0))+' XP)'))return;
+        Object.assign(S,d);save();
+        toast('Donnees restaurees ! Rechargement...','✅',2000);
+        setTimeout(function(){location.reload();},2000);
+      }catch(ex){toast('Erreur de lecture','❌',2500);}
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+
+// ── 2. ENHANCED LANGUAGE DB ── (20 more words per language)
+var LANG_EXTRA={
+  en:[
+    {w:'Accountability',pr:'a-KOWN-ta-BIL-i-ti',t:'Responsabilite',ex:'Accountability accelerates achievement.'},
+    {w:'Persistence',pr:'per-SIS-tens',t:'Persistence',ex:'Persistence turns failure into success.'},
+    {w:'Ambition',pr:'am-BISH-un',t:'Ambition',ex:'Ambition fuels the journey forward.'},
+    {w:'Confidence',pr:'KON-fi-dens',t:'Confiance',ex:'Confidence is built through action.'},
+    {w:'Determination',pr:'di-TUR-mi-NAY-shun',t:'Determination',ex:'Determination overcomes any obstacle.'},
+    {w:'Empowerment',pr:'em-PAU-er-ment',t:'Autonomisation',ex:'Empowerment starts from within.'},
+    {w:'Habit',pr:'HAB-it',t:'Habitude',ex:'Small habits create massive change.'},
+    {w:'Integrity',pr:'in-TEG-ri-ti',t:'Integrite',ex:'Integrity is doing right when nobody watches.'},
+    {w:'Journey',pr:'JUR-ni',t:'Voyage',ex:'Trust the journey, not just the destination.'},
+    {w:'Knowledge',pr:'NOL-ij',t:'Connaissance',ex:'Knowledge is power when applied daily.'},
+    {w:'Legacy',pr:'LEG-a-si',t:'Heritage',ex:'Build a legacy worth remembering.'},
+    {w:'Mastery',pr:'MAS-te-ri',t:'Maitrise',ex:'Mastery requires ten thousand hours.'},
+    {w:'Patience',pr:'PAY-shens',t:'Patience',ex:'Patience is a competitive advantage.'},
+    {w:'Sacrifice',pr:'SAK-ri-fais',t:'Sacrifice',ex:'Sacrifice today for tomorrow rewards.'},
+    {w:'Strength',pr:'strength',t:'Force',ex:'Strength grows through adversity.'},
+    {w:'Transformation',pr:'trans-for-MAY-shun',t:'Transformation',ex:'Transformation begins with a single decision.'},
+    {w:'Unstoppable',pr:'un-STOP-a-bul',t:'Inarretable',ex:'Be unstoppable in your pursuit.'},
+    {w:'Victory',pr:'VIK-to-ri',t:'Victoire',ex:'Every small win is a victory.'},
+    {w:'Wisdom',pr:'WIZ-dum',t:'Sagesse',ex:'Wisdom comes from reflection on experience.'},
+    {w:'Breakthrough',pr:'BRAYK-throo',t:'Percee',ex:'Your breakthrough is one step away.'}
+  ],
+  es:[
+    {w:'Responsabilidad',pr:'res-pon-sa-bee-lee-DAD',t:'Responsabilite',ex:'La responsabilidad acelera el logro.'},
+    {w:'Persistencia',pr:'per-sis-TEN-sya',t:'Persistance',ex:'La persistencia convierte el fracaso en exito.'},
+    {w:'Ambicion',pr:'am-bee-SYON',t:'Ambition',ex:'La ambicion impulsa el camino hacia adelante.'},
+    {w:'Confianza',pr:'kon-fee-AN-sa',t:'Confiance',ex:'La confianza se construye con accion.'},
+    {w:'Determinacion',pr:'de-ter-mee-na-SYON',t:'Determination',ex:'La determinacion supera cualquier obstaculo.'},
+    {w:'Habito',pr:'A-bee-to',t:'Habitude',ex:'Pequenos habitos crean cambios masivos.'},
+    {w:'Integridad',pr:'in-te-gree-DAD',t:'Integrite',ex:'Integridad es hacer lo correcto cuando nadie mira.'},
+    {w:'Sabiduria',pr:'sa-bee-du-REE-a',t:'Sagesse',ex:'La sabiduria viene de la reflexion.'},
+    {w:'Paciencia',pr:'pa-SYEN-sya',t:'Patience',ex:'La paciencia es una ventaja competitiva.'},
+    {w:'Victoria',pr:'bik-TO-rya',t:'Victoire',ex:'Cada pequena victoria cuenta.'}
+  ],
+  pt:[
+    {w:'Responsabilidade',pr:'hes-pon-sa-bee-lee-DA-ji',t:'Responsabilite',ex:'A responsabilidade acelera a conquista.'},
+    {w:'Persistencia',pr:'per-sis-TEN-sya',t:'Persistance',ex:'A persistencia transforma fracasso em sucesso.'},
+    {w:'Confianca',pr:'kon-fee-AN-sa',t:'Confiance',ex:'A confianca se constroi com acao.'},
+    {w:'Determinacao',pr:'de-ter-mee-na-SAW',t:'Determination',ex:'A determinacao supera qualquer obstaculo.'},
+    {w:'Habito',pr:'A-bee-tu',t:'Habitude',ex:'Pequenos habitos criam mudancas massivas.'},
+    {w:'Sabedoria',pr:'sa-be-do-REE-a',t:'Sagesse',ex:'A sabedoria vem da reflexao.'},
+    {w:'Paciencia',pr:'pa-see-EN-sya',t:'Patience',ex:'A paciencia e uma vantagem competitiva.'},
+    {w:'Vitoria',pr:'vee-TO-rya',t:'Victoire',ex:'Cada pequena vitoria conta.'},
+    {w:'Transformacao',pr:'trans-for-ma-SAW',t:'Transformation',ex:'A transformacao comeca com uma decisao.'},
+    {w:'Coragem',pr:'ko-RA-zhem',t:'Courage',ex:'Coragem e agir apesar do medo.'}
+  ],
+  it:[
+    {w:'Responsabilita',pr:'res-pon-sa-bee-lee-TA',t:'Responsabilite',ex:'La responsabilita accelera i risultati.'},
+    {w:'Persistenza',pr:'per-sis-TEN-tsa',t:'Persistance',ex:'La persistenza trasforma il fallimento in successo.'},
+    {w:'Fiducia',pr:'fee-DOO-cha',t:'Confiance',ex:'La fiducia si costruisce con le azioni.'},
+    {w:'Determinazione',pr:'de-ter-mee-na-TSYO-ne',t:'Determination',ex:'La determinazione supera ogni ostacolo.'},
+    {w:'Abitudine',pr:'a-bee-TOO-dee-ne',t:'Habitude',ex:'Le piccole abitudini creano grandi cambiamenti.'},
+    {w:'Saggezza',pr:'sad-JET-tsa',t:'Sagesse',ex:'La saggezza nasce dalla riflessione.'},
+    {w:'Pazienza',pr:'pa-TSYEN-tsa',t:'Patience',ex:'La pazienza e un vantaggio competitivo.'},
+    {w:'Vittoria',pr:'vit-TO-rya',t:'Victoire',ex:'Ogni piccola vittoria conta.'},
+    {w:'Trasformazione',pr:'tras-for-ma-TSYO-ne',t:'Transformation',ex:'La trasformazione inizia con una decisione.'},
+    {w:'Coraggio',pr:'ko-RAD-jo',t:'Courage',ex:'Il coraggio e agire nonostante la paura.'}
+  ],
+  de:[
+    {w:'Verantwortung',pr:'fer-ANT-vor-tung',t:'Responsabilite',ex:'Verantwortung beschleunigt den Erfolg.'},
+    {w:'Beharrlichkeit',pr:'be-HAR-lish-kait',t:'Persistance',ex:'Beharrlichkeit verwandelt Scheitern in Erfolg.'},
+    {w:'Vertrauen',pr:'fer-TRAU-en',t:'Confiance',ex:'Vertrauen wird durch Handeln aufgebaut.'},
+    {w:'Entschlossenheit',pr:'ent-SHLOS-en-hait',t:'Determination',ex:'Entschlossenheit ueberwindet jedes Hindernis.'},
+    {w:'Gewohnheit',pr:'ge-VOHN-hait',t:'Habitude',ex:'Kleine Gewohnheiten schaffen grosse Veraenderungen.'},
+    {w:'Weisheit',pr:'VAIS-hait',t:'Sagesse',ex:'Weisheit kommt durch Reflexion.'},
+    {w:'Geduld',pr:'ge-DULT',t:'Patience',ex:'Geduld ist ein Wettbewerbsvorteil.'},
+    {w:'Sieg',pr:'zeek',t:'Victoire',ex:'Jeder kleine Sieg zaehlt.'},
+    {w:'Verwandlung',pr:'fer-VAND-lung',t:'Transformation',ex:'Verwandlung beginnt mit einer Entscheidung.'},
+    {w:'Durchbruch',pr:'DURSH-brukh',t:'Percee',ex:'Dein Durchbruch ist nur einen Schritt entfernt.'}
+  ],
+  ca:[
+    {w:'Responsabilitat',pr:'res-pon-sa-bee-lee-TAT',t:'Responsabilite',ex:'La responsabilitat accelera els resultats.'},
+    {w:'Persistencia',pr:'per-sis-TEN-sya',t:'Persistance',ex:'La persistencia transforma el fracas en exit.'},
+    {w:'Confianca',pr:'kon-fee-AN-sa',t:'Confiance',ex:'La confianca es construeix amb accions.'},
+    {w:'Determinacio',pr:'de-ter-mee-na-SYO',t:'Determination',ex:'La determinacio supera qualsevol obstacle.'},
+    {w:'Habit',pr:'A-bit',t:'Habitude',ex:'Els petits habits creen grans canvis.'},
+    {w:'Saviesa',pr:'sa-vee-E-za',t:'Sagesse',ex:'La saviesa neix de la reflexio.'},
+    {w:'Paciencia',pr:'pa-see-EN-sya',t:'Patience',ex:'La paciencia es un avantatge competitiu.'},
+    {w:'Victoria',pr:'vik-TO-rya',t:'Victoire',ex:'Cada petita victoria compta.'},
+    {w:'Transformacio',pr:'trans-for-ma-SYO',t:'Transformation',ex:'La transformacio comenca amb una decisio.'},
+    {w:'Avanc',pr:'a-VANS',t:'Percee',ex:'El teu avanc es a un pas.'}
+  ]
+};
+// Merge extra words into LANG_DB
+Object.keys(LANG_EXTRA).forEach(function(lang){
+  if(LANG_DB[lang]&&LANG_DB[lang].words){
+    LANG_EXTRA[lang].forEach(function(w){
+      var exists=LANG_DB[lang].words.some(function(ew){return ew.w===w.w;});
+      if(!exists)LANG_DB[lang].words.push(w);
+    });
+  }
+});
+
+// ── 3. SMART TIME-OF-DAY HOME GREETING ──
+var _origInitHome=typeof initHome==='function'?initHome:null;
+function initHome(){
+  if(_origInitHome)_origInitHome();
+  var banner=document.getElementById('ctx-banner');
+  if(!banner)return;
+  var h=new Date().getHours();
+  var greeting,emoji;
+  if(h<6){greeting='Nuit productive';emoji='🌙';}
+  else if(h<12){greeting='Bon matin';emoji='🌅';}
+  else if(h<14){greeting='Bon midi';emoji='☀️';}
+  else if(h<18){greeting='Bon apres-midi';emoji='🌤️';}
+  else if(h<22){greeting='Bonne soiree';emoji='🌆';}
+  else{greeting='Bonne nuit';emoji='🌙';}
+  var nm=S.name||'Champion';
+  var lvl=getLvl(S.xp||0)+1;
+  var streak=S.loginS&&S.loginS.streak||0;
+  var tip='';
+  if(h>=6&&h<10)tip='Commence par ton check-in du jour !';
+  else if(h>=10&&h<14)tip='Un Pomodoro pour rester focus ?';
+  else if(h>=14&&h<18)tip='Parfait moment pour un workout !';
+  else if(h>=18&&h<22)tip='Prends un moment pour ton journal.';
+  else tip='Repose-toi bien, demain sera grand.';
+  banner.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:8px">'
+    +'<div style="font-size:32px">'+emoji+'</div>'
+    +'<div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:16px">'+greeting+', '+nm+' !</div>'
+    +'<div style="font-size:12px;color:var(--tx3);margin-top:2px">LVL '+lvl+' · '+streak+'🔥 · '+tip+'</div></div></div>';
+}
+
+// ── 4. ADD BACKUP BUTTONS TO MOI SCREEN ──
+var _origRenderMoi=typeof renderMoi==='function'?renderMoi:null;
+function renderMoi(){
+  if(_origRenderMoi)_origRenderMoi();
+  var moiContent=document.getElementById('moi-content');
+  if(!moiContent)return;
+  // Only add backup section if not already there
+  if(moiContent.querySelector('#backup-section'))return;
+  var backupDiv=document.createElement('div');
+  backupDiv.id='backup-section';
+  backupDiv.style.cssText='margin-top:16px;padding:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)';
+  backupDiv.innerHTML='<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">💾 Sauvegarde</div>'
+    +'<div style="font-size:12px;color:var(--tx3);margin-bottom:12px">Exporte tes donnees pour ne rien perdre. Tu pourras les reimporter sur un autre appareil.</div>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button class="btn btn-ac" style="flex:1;font-size:12px" onclick="exportData()">📤 Exporter</button>'
+    +'<button style="flex:1;padding:10px;background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--r);font-size:12px;font-weight:700;color:var(--tx2)" onclick="importData()">📥 Importer</button>'
+    +'</div>'
+    +'<div style="font-size:10px;color:var(--tx3);margin-top:8px;text-align:center">Donnees: '+(localStorage.getItem('rise_v9')||'').length+' octets</div>';
+  moiContent.appendChild(backupDiv);
+}
+
+// ── 5. DAILY PROGRESS SUMMARY ON HOME ──
+var _origUpdXP=typeof updXP==='function'?updXP:null;
+function updXP(){
+  if(_origUpdXP)_origUpdXP();
+  // Update daily XP gained indicator
+  var todayXP=0;
+  if(S.checkins){
+    var ci=S.checkins.find(function(c){return c.d===TD;});
+    if(ci)todayXP+=(ci.xp||0);
+  }
+  var el=document.getElementById('xp-next-lbl');
+  if(el&&todayXP>0){
+    el.textContent=el.textContent+' · +'+todayXP+' XP aujourd\'hui';
+  }
+}
+
+// ══ END V24 ENHANCEMENTS ══
 
 </script>
 </body>
