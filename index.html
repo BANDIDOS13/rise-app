@@ -74,6 +74,7 @@ textarea.inp{resize:none}
 @keyframes bounce-in{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
 @keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 20px var(--agg)}50%{transform:scale(1.08);box-shadow:0 0 50px var(--agg)}}
 @keyframes glow{0%,100%{box-shadow:0 0 5px var(--ac)}50%{box-shadow:0 0 20px var(--ac)}}
+@keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes sun-p{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 .au{animation:fup .4s cubic-bezier(.16,1,.3,1) both}
 .au1{animation:fup .4s .06s cubic-bezier(.16,1,.3,1) both}
@@ -297,6 +298,7 @@ textarea.inp{resize:none}
     <div id="w-quests" class="wg au3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px">⚡ Quêtes du jour</div><div style="font-size:10px;color:var(--tx3)" id="q-count">0/5</div></div><div id="q-list"></div></div>
     <div id="w-nat" class="wg au3" style="cursor:pointer;border-color:var(--nt)" onclick="gs('nature',null)"><div style="display:flex;align-items:center;gap:10px"><div style="font-size:26px;animation:float 3s ease-in-out infinite">🌿</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--nt2)">Nature du jour</div><div style="font-size:11px;color:var(--tx3)" id="nat-mini">Marche · Soleil · Respiration</div></div><div style="font-size:12px;color:var(--nt);font-weight:700">→</div></div></div>
     <div id="w-flash"></div>
+    <div id="w-defi7"></div>
     <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:9px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)" onclick="pomoRst()">↺</button></div></div>
     <div class="lbl" style="margin-bottom:8px;margin-top:4px">Check-in du jour</div>
     <div class="card" id="ci-sec">
@@ -4859,7 +4861,7 @@ Object.keys(LANG_EXTRA).forEach(function(lang){
   updXP=function(){
     _orig();
     var todayXP=0;
-    if(S.checkins){
+    if(S.checkins&&Array.isArray(S.checkins)){
       var ci=S.checkins.find(function(c){return c.d===TD;});
       if(ci)todayXP+=(ci.xp||0);
     }
@@ -4899,7 +4901,7 @@ function getDefi7Day(){
   return Math.min(diff,6);
 }
 function renderDefi7Widget(){
-  var container=document.getElementById('w-flash');
+  var container=document.getElementById('w-defi7');
   if(!container)return;
   var dayIdx=getDefi7Day();
   var day=DEFI7_DAYS[dayIdx];
@@ -4961,7 +4963,7 @@ function dismissDefi7(){
   S.defi7=S.defi7||{started:TD,completed:[],dismissed:false};
   S.defi7.dismissed=true;
   save();
-  var container=document.getElementById('w-flash');
+  var container=document.getElementById('w-defi7');
   if(container)container.innerHTML='';
 }
 // Auto-init on home
@@ -4975,6 +4977,142 @@ function dismissDefi7(){
 // ══ END DEFI 7 JOURS ══
 
 
+
+
+// ══ V24 POLISH — Screen Transitions + UX Improvements ══
+
+// ── 1. SMOOTH SCREEN TRANSITIONS ──
+(function(){
+  var _origGs=gs;
+  gs=function(name,btn){
+    var current=document.querySelector('.screen.active');
+    var target=document.getElementById('screen-'+name);
+    if(current&&target&&current!==target){
+      target.style.opacity='0';
+      target.style.transform='translateY(8px)';
+      _origGs(name,btn);
+      requestAnimationFrame(function(){
+        target.style.transition='opacity .25s ease, transform .25s ease';
+        target.style.opacity='1';
+        target.style.transform='translateY(0)';
+        setTimeout(function(){
+          target.style.transition='';
+          target.style.transform='';
+        },300);
+      });
+    } else {
+      _origGs(name,btn);
+    }
+    // Scroll to top on screen change
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+})();
+
+// ── 2. HAPTIC FEEDBACK ON KEY ACTIONS ──
+function haptic(){
+  if(navigator.vibrate)navigator.vibrate(10);
+}
+// Patch gainXP to add haptic
+(function(){
+  var _origGainXP=gainXP;
+  gainXP=function(n,src){
+    haptic();
+    _origGainXP(n,src);
+  };
+})();
+
+// ── 3. STREAK FIRE ANIMATION ──
+(function(){
+  var streakEl=document.getElementById('stk-n');
+  if(streakEl){
+    var val=parseInt(streakEl.textContent)||0;
+    if(val>=3){
+      streakEl.style.animation='pulse 2s ease-in-out infinite';
+    }
+    if(val>=7){
+      streakEl.style.textShadow='0 0 20px var(--or), 0 0 40px var(--or)';
+    }
+  }
+})();
+
+// ── 4. ENHANCED TOAST WITH PROGRESS ──
+var _origToast=typeof toast==='function'?toast:null;
+// Only override if toast doesn't already have animation
+(function(){
+  if(!_origToast)return;
+  var _t=toast;
+  toast=function(msg,ico,dur){
+    _t(msg,ico,dur);
+    haptic();
+  };
+})();
+
+// ── 5. AUTO-SAVE INDICATOR ──
+(function(){
+  var _origSave=save;
+  var saveCount=0;
+  save=function(){
+    _origSave();
+    saveCount++;
+    // Show subtle save indicator every 5th save
+    if(saveCount%5===0){
+      var el=document.getElementById('gbar');
+      if(el){
+        var dot=document.createElement('div');
+        dot.style.cssText='position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--gr);opacity:1;transition:opacity 1s';
+        el.style.position='relative';
+        el.appendChild(dot);
+        setTimeout(function(){dot.style.opacity='0';},500);
+        setTimeout(function(){if(dot.parentNode)dot.parentNode.removeChild(dot);},1500);
+      }
+    }
+  };
+})();
+
+// ── 6. KEYBOARD SHORTCUT FOR POWER USERS ──
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+  if(e.key==='1')gs('home',null);
+  else if(e.key==='2')gs('nature',null);
+  else if(e.key==='3')gs('chat',null);
+  else if(e.key==='4')gs('disc',null);
+  else if(e.key==='p'||e.key==='P'){
+    var pp=document.getElementById('plus-panel');
+    if(pp)pp.style.display=pp.style.display==='block'?'none':'block';
+  }
+});
+
+// ── 7. IDLE DETECTION — SUGGEST ACTION AFTER 30s ──
+var _idleTimer=null;
+function resetIdle(){
+  clearTimeout(_idleTimer);
+  _idleTimer=setTimeout(function(){
+    var current=document.querySelector('.screen.active');
+    if(!current||current.id!=='screen-home')return;
+    var suggestions=[
+      {text:'Fais une session Pomodoro',action:function(){var b=document.getElementById('pomo-btn');if(b)b.scrollIntoView({behavior:'smooth'});}},
+      {text:'Ecris dans ton journal',action:function(){gs('smartjournal',null);}},
+      {text:'Apprends un mot',action:function(){gs('lang',null);}},
+      {text:'Check ton budget',action:function(){gs('budget',null);}},
+    ];
+    var s=suggestions[Math.floor(Math.random()*suggestions.length)];
+    var el=document.getElementById('ctx-banner');
+    if(el&&el.querySelector('.idle-tip'))return;
+    var tip=document.createElement('div');
+    tip.className='idle-tip';
+    tip.style.cssText='padding:10px 14px;background:var(--agg);border:1px solid var(--ac);border-radius:var(--rs);margin-top:8px;display:flex;align-items:center;gap:10px;cursor:pointer;animation:fade-in .3s ease';
+    tip.innerHTML='<div style="font-size:18px">💡</div><div style="flex:1;font-size:12px;color:var(--tx2)">'+s.text+'</div><div style="font-size:10px;color:var(--ac);font-weight:700">Go →</div>';
+    tip.onclick=function(){s.action();tip.remove();};
+    if(el)el.appendChild(tip);
+    setTimeout(function(){if(tip.parentNode)tip.remove();},15000);
+  },30000);
+}
+document.addEventListener('click',resetIdle);
+document.addEventListener('touchstart',resetIdle);
+document.addEventListener('scroll',resetIdle);
+resetIdle();
+
+// ══ END V24 POLISH ══
 
 </script>
 </body>
