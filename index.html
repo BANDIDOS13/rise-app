@@ -428,6 +428,10 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
         </div>
         <div>
           <div class="card"><div class="card-h gold">💰 Revenus ce mois</div><div style="font-family:var(--fd);font-size:28px;font-weight:800;color:var(--ac)" id="h-rev-total">0€</div><div style="font-size:11px;color:var(--tx3);margin:4px 0 10px" id="h-rev-target">Objectif : 100K€/mois</div><div id="h-rev-bars" style="display:flex;align-items:flex-end;gap:4px;height:60px"></div></div>
+          <div class="card" onclick="nav('vision',null)" style="cursor:pointer">
+            <div class="card-h gold">&#128302; Vision du moment</div>
+            <div id="h-vision-widget" style="font-size:12px;color:var(--tx3)">Configure ta vision CT/MT/LT</div>
+          </div>
           <div class="card" style="cursor:pointer" onclick="nav('coach',null)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px">🧠</span><div><div style="font-size:13px;font-weight:700">Coach IA</div><div style="font-size:11px;color:var(--tx3)" id="h-coach-tip">Clique pour ton conseil du jour</div></div><span style="margin-left:auto;color:var(--tx3)">→</span></div></div>
           <div class="card" style="cursor:pointer" onclick="nav('horoscope',null)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:22px" id="h-horo-ico">⭐</span><div><div style="font-size:13px;font-weight:700">Horoscope</div><div style="font-size:11px;color:var(--tx3)" id="h-horo-sign">Configure ton signe</div></div><span style="margin-left:auto;color:var(--tx3)">→</span></div></div>
           <div class="card"><div class="card-h">😊 Humeur récente</div><div id="h-mood" style="display:flex;gap:6px;flex-wrap:wrap"></div></div>
@@ -768,7 +772,11 @@ body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
       <div class="card"><div class="card-h gold">🏆 Points forts</div><div id="rv-wins"></div></div>
       <div class="card"><div class="card-h">📉 À améliorer</div><div id="rv-improve"></div></div>
       <div class="card"><div class="card-h">💪 Habitudes</div><div id="rv-habits"></div></div>
-      <div class="card"><div class="card-h">🤖 Analyse IA</div><div id="rv-ai-analysis" style="font-size:13px;color:var(--tx2);line-height:1.7;min-height:60px">Clique pour générer l'analyse IA.</div><button class="btn btn-sf btn-sm" style="margin-top:10px" onclick="generateWeeklyAnalysis()">✨ Analyser avec l'IA</button></div>
+      <div class="card"><div class="card-h">🤖 Analyse IA</div><div id="rv-ai-analysis" style="font-size:13px;color:var(--tx2);line-height:1.7;min-height:60px">Clique pour générer l'analyse IA.</div><div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <button class="btn btn-sf btn-sm" onclick="generateWeeklyAnalysis()">✨ Analyser avec l'IA</button>
+        <button class="btn btn-sf btn-sm" onclick="generateWeeklyReport()">📋 Copier rapport</button>
+        <button class="btn btn-sf btn-sm" onclick="shareWeeklyWin()">📣 Partager victoire</button>
+      </div></div>
     </div>
 
     <!-- ACHIEVEMENTS -->
@@ -3022,6 +3030,25 @@ LESSON_CONTENT["Marketing Digital en 2025"] = [
    quiz:{q:"Quel ratio recommande-t-on pour LinkedIn ?",options:["100% valeur","50/50","60% valeur, 30% histoire, 10% vente","80% vente"],correct:2}}
 ];
 
+
+// Add more formations content
+LESSON_CONTENT["Finances & Investissement"] = [
+  {title:"Comprendre les interets composes",readTime:4,
+   content:"<h2>La huitieme merveille du monde</h2><p>Albert Einstein aurait appele les interets composes la huitieme merveille du monde. Comprendre ce principe change completement ta relation a l argent.</p><div class=\"callout\"><strong>Principe :</strong> Tu gagnes des interets sur tes interets. 10 000 euros a 8%/an deviennent 46 000 euros en 20 ans - sans rien faire.</div><h2>La regle des 72</h2><p>Divise 72 par ton taux de rendement pour savoir en combien d annees ton capital double. A 8%/an : 72/8 = 9 ans. A 12%/an : 6 ans.</p><ul><li>ETF World historiquement : ~8-10%/an</li><li>Immobilier rentable : 6-8%/an net</li><li>Crypto (risque eleve) : tres variable</li></ul>",
+   quiz:{q:"Combien vaut 10 000 euros a 8%/an apres 9 ans (regle des 72) ?",options:["12 000 euros","20 000 euros","15 000 euros","6 000 euros"],correct:1}},
+  {title:"Les ETF World : investir en pilote automatique",readTime:5,
+   content:"<h2>Qu est-ce qu un ETF ?</h2><p>Un ETF (Exchange Traded Fund) est un panier d actions qui replique un indice. L ETF World replique les 1600 plus grandes entreprises mondiales.</p><div class=\"callout\"><strong>Avantage majeur :</strong> Diversification totale instantanee. Apple, Microsoft, Amazon, Tesla, LVMH... tout en un seul achat, souvent pour moins de 1 euro de frais par an pour 10 000 investis.</div><h2>Comment investir</h2><ul><li>Ouvrir un PEA ou compte-titres (Bourse Direct, Trade Republic...)</li><li>Choisir un ETF World : MSCI World, S&P 500</li><li>Investir regulierement (100-500 euros/mois) peu importe le marche</li><li>Ne jamais vendre en panique</li></ul>",
+   quiz:{q:"Quelle est la meilleure strategie pour investir en ETF ?",options:["Attendre le bon moment","Investir tout en une fois","Investir regulierement chaque mois","Acheter uniquement quand le marche baisse"],correct:2}}
+];
+LESSON_CONTENT["Productivite & Organisation"] = [
+  {title:"La methode GTD : vider son cerveau",readTime:4,
+   content:"<h2>Getting Things Done</h2><p>David Allen a cree la methode GTD pour une raison simple : notre cerveau est fait pour avoir des idees, pas pour les stocker. Chaque idee non traitee cree de l anxiete.</p><div class=\"callout\"><strong>Principe :</strong> Capture TOUT dans un systeme externe. Ton cerveau peut alors se concentrer sur la creation plutot que le souvenir.</div><h2>Les 5 etapes GTD</h2><ul><li><strong>Capturer</strong> - tout mettre dans un inbox (Quick Capture RISE)</li><li><strong>Clarifier</strong> - est-ce actionnable ? En moins de 2 min ? Fais-le maintenant.</li><li><strong>Organiser</strong> - projets, actions suivantes, en attente</li><li><strong>Revoir</strong> - hebdomadairement (bilan RISE)</li><li><strong>Agir</strong> - travailler sur les bonnes choses au bon moment</li></ul>",
+   quiz:{q:"Selon GTD, que faire d une action qui prend moins de 2 minutes ?",options:["La planifier","La deleguer","La faire immediatement","La supprimer"],correct:2}},
+  {title:"Deep Work : travailler en etat de flow",readTime:5,
+   content:"<h2>Le travail profond</h2><p>Cal Newport definit le Deep Work comme des activites professionnelles effectuees dans un etat de concentration totale, sans distractions, qui poussent tes capacites cognitives a leur limite.</p><div class=\"callout\"><strong>La realite :</strong> 4 heures de Deep Work par jour = plus productif que 8 heures de travail superficiel.</div><h2>Comment creer du Deep Work</h2><ul><li>Bloque des creneaux de 90 min dans ton calendrier</li><li>Telephone en mode avion ou dans une autre piece</li><li>Un seul onglet ouvert, une seule tache</li><li>Utilise le Mode Focus RISE avec sons ambiants</li></ul>",
+   quiz:{q:"Combien d heures de Deep Work par jour sont considerees comme optimales ?",options:["8 heures","1 heure","4 heures","6 heures"],correct:2}}
+];
+
 var DEFAULT_LESSONS = [
   {title:"Introduction au cours",readTime:3,
    content:"<h2>Bienvenue</h2><p>Ce cours va transformer ta facon d aborler le sujet. Suis chaque lecon dans l ordre pour maximiser les resultats.</p><div class=\"callout\">Prends des notes, mets en pratique immediatement.</div>",
@@ -3512,6 +3539,125 @@ renderPage=function(p){
     var sl=document.getElementById('sb-score-lbl');if(sl)sl.textContent=renderScoreLabel(total);
   }
 };
+
+
+// ══ SHARE WEEKLY WIN ══
+function shareWeeklyWin(){
+  var{total}=calcScore();
+  var mTot=S.revenue.filter(function(r){return r.month===new Date().getMonth();}).reduce(function(t,r){return t+r.amount;},0);
+//  var text="Cette semaine sur RISE :
+
+//Score RISE : "+total+"/100
+//Streak : "+S.streak+" jours
+Revenus : "+fmt(mTot)+"/mois
+//Habitudes : "+S.habits.filter(function(h){return h.log.inclu
+
+//Rejoin RISE : https://rise-app-mu.vercel.app";
+  navigator.clipboard.writeText(text).then(function(){toast("Copie pour partage !","ok");}).catch(function(){toast(text.slice(0,60)+"...");});
+}
+
+// ══ VISION HOME WIDGET ══
+function renderVisionWidget(){
+  var el=document.getElementById("h-vision-widget");if(!el)return;
+  var v=S.vision||{ct:[],mt:[],lt:[]};
+  var ctActive=(v.ct||[]).filter(function(x){return !x.done;}).length;
+  var mtActive=(v.mt||[]).filter(function(x){return !x.done;}).length;
+  var ltActive=(v.lt||[]).filter(function(x){return !x.done;}).length;
+  if(!ctActive&&!mtActive&&!ltActive){el.textContent="Configure ta vision CT/MT/LT";return;}
+  var items=[];
+  if(ctActive)(v.ct||[]).filter(function(x){return !x.done;}).slice(0,1).forEach(function(x){items.push({ico:"&#9889;",text:x.text.slice(0,45)});});
+  if(mtActive)(v.mt||[]).filter(function(x){return !x.done;}).slice(0,1).forEach(function(x){items.push({ico:"&#127919;",text:x.text.slice(0,45)});});
+  if(ltActive)(v.lt||[]).filter(function(x){return !x.done;}).slice(0,1).forEach(function(x){items.push({ico:"&#128302;",text:x.text.slice(0,45)});});
+  el.innerHTML=items.map(function(i){return "<div style='display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--bd)'><span>"+i.ico+"</span><span style='font-size:12px;color:var(--tx2)'>"+i.text+"</span></div>";}).join("");
+}
+
+// ══ PROACTIVE NOTIFICATIONS ══
+function scheduleProactiveNudge(){
+  // Morning nudge at 8h
+  var now=new Date();var todayStr=now.toDateString();
+  var nudgeKey="rise_nudge_"+todayStr;
+  if(!localStorage.getItem(nudgeKey)&&now.getHours()>=8&&now.getHours()<10){
+    localStorage.setItem(nudgeKey,"1");
+    var{total}=calcScore();
+    var msg=total>=70?"Score "+total+" ! Continue sur ta lancee.":total>=50?"Score "+total+". 1 action peut faire la difference.":"Journee qui commence. Valide tes habitudes.";
+    if(_notifGranted){
+      sendNotif("Bonjour "+S.name+" !",msg,"/");
+    }
+  }
+}
+if(typeof scheduleNotifs==="function")setTimeout(scheduleProactiveNudge,2000);
+
+// ══ SCORE 7 DIMENSIONS DISPLAY ══
+function renderScore7D(){
+  var{total,dims}=calcScore();
+  // Update home score display with label
+  var hs=document.getElementById("h-score");
+  if(hs)hs.textContent=total;
+  // Enhanced score labels for sidebar
+  var sl=document.getElementById("sb-score-lbl");
+  if(sl)sl.textContent=renderScoreLabel(total);
+  // Home score card enhanced
+  var homeScoreCard=document.querySelector(".sc .sc-v");
+  // Update coach page dimensions with 7 dims
+  var dimEl=document.getElementById("score-dims");
+  if(dimEl){
+    var labels={productivite:"Productivite",revenus:"Revenus",sante:"Sante",croissance:"Croissance",consistance:"Consistance",mental:"Mental",social:"Social"};
+    var colors={productivite:"var(--bl)",revenus:"var(--gr)",sante:"var(--ac)",croissance:"var(--pu)",consistance:"var(--or)",mental:"#ec4899",social:"#14b8a6"};
+    var icos={productivite:"&#9989;",revenus:"&#128200;",sante:"&#128170;",croissance:"&#128218;",consistance:"&#128293;",mental:"&#129504;",social:"&#128101;"};
+    dimEl.innerHTML=Object.entries(dims).map(function(entry){var k=entry[0];var v=entry[1];return "<div class='score-dim'><span style='font-size:12px;width:110px;flex-shrink:0'>"+icos[k]+" "+labels[k]+"</span><div class='score-dim-bar'><div class='score-dim-fill' style='width:"+v+"%;background:"+colors[k]+"'></div></div><span style='font-size:11px;font-weight:700;color:"+colors[k]+";width:32px;text-align:right'>"+v+"%</span></div>";}).join("");
+  }
+}
+
+// ══ PATCH HOME RENDER ══
+var _v13origRenderPage=renderPage;
+renderPage=function(p){
+  _v13origRenderPage(p);
+  if(p==="home"){
+    renderVisionWidget();
+    renderScore7D();
+  }
+  if(p==="coach"||p==="ceoboard"){
+    renderScore7D();
+  }
+};
+
+// ══ IMPROVE FORMATIONS CATALOG ══
+// Add some default formations if courses list is empty or only has defaults
+(function(){
+  if(S.courses.length<=4){
+    var existing=S.courses.map(function(c){return c.title;});
+    var extras=[
+      {id:Date.now()+1,title:"Finances & Investissement",lessons:6,cat:"Finance",done:[],added:"2026-01-01"},
+      {id:Date.now()+2,title:"Productivite & Organisation",lessons:5,cat:"Business",done:[],added:"2026-01-01"},
+    ];
+    extras.forEach(function(e){
+      if(!existing.includes(e.title))S.courses.push(e);
+    });
+  }
+})();
+
+// ══ ENHANCED ACHIEVEMENTS CHECK ══
+// Add more badges for new modules
+var EXTRA_BADGES=[
+  {id:"focus_5",ico:"&#127919;",name:"Concentre",desc:"5 sessions Focus",cat:"focus",xp:100,check:function(s){return (s.focusSessions||[]).length>=5;}},
+  {id:"medical_1",ico:"&#127973;",name:"Sante conscient",desc:"Premiere mesure sante",cat:"health",xp:30,check:function(s){return !!(s.medData&&(s.medData.weight||s.medData.height));}},
+  {id:"invest_1",ico:"&#128200;",name:"Investisseur",desc:"Premier investissement",cat:"finance",xp:100,check:function(s){return !!(s.finData&&s.finData.investments&&s.finData.investments.length>=1);}},
+  {id:"vision_full",ico:"&#128302;",name:"Visionnaire 3D",desc:"Vision CT+MT+LT complete",cat:"social",xp:150,check:function(s){var v=s.vision||{};return (v.ct||[]).length>0&&(v.mt||[]).length>0&&(v.lt||[]).length>0;}},
+  {id:"relations_5",ico:"&#128101;",name:"Networker",desc:"5 contacts",cat:"social",xp:70,check:function(s){return (s.relations||[]).length>=5;}},
+  {id:"suggestions_1",ico:"&#128161;",name:"Contributeur",desc:"Premiere suggestion",cat:"social",xp:50,check:function(s){return (s.suggestions||[]).filter(function(sg){return sg.myVote;}).length>0;}},
+];
+// Merge with ALL_BADGES if not already there
+if(typeof ALL_BADGES!=="undefined"){
+  EXTRA_BADGES.forEach(function(b){
+    if(!ALL_BADGES.find(function(ab){return ab.id===b.id;}))ALL_BADGES.push(b);
+  });
+}
+
+// ══ AUTO COMPLETE ONBOARDING for new users who skip ══
+// Make sure S state is initialized properly
+if(!S.onboarded){
+  // Will be handled by onboarding flow
+}
 
 applyTheme();checkStreak();initMob();render();
 
