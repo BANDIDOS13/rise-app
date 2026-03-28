@@ -512,7 +512,20 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
         </div>
         <div style="font-size:11px;color:var(--tx3);margin-top:6px" id="api-key-status"></div>
       </div>
-      <div class="card"><div class="card-h">Personnaliser</div><div class="inp-row" style="margin-bottom:9px"><input class="inp" id="pf-name-inp" placeholder="Ton prénom..."><button class="btn btn-sf btn-sm" onclick="saveName()">✓</button></div><button class="btn btn-sf" id="auth-btn" onclick="showAuth()" style="width:100%;margin-bottom:7px">Se connecter ☁️</button><button class="btn btn-sf" id="signout-btn" onclick="doSignOut()" style="width:100%;display:none">Se déconnecter</button><button class="btn btn-gold" onclick="showUpgrade()" style="margin-top:7px">🚀 Passer à Pro — 19€/mois</button></div>
+      <div class="card" id="lang-switcher-profile"></div>
+<div class="card">
+  <div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd);margin-bottom:8px">
+    <span style="font-size:20px">🔔</span>
+    <div style="flex:1"><div style="font-size:13px;font-weight:700">Notifications push</div><div style="font-size:11px;color:var(--tx3)" id="notif-status">Non activées</div></div>
+    <button class="btn btn-sf btn-sm" onclick="requestNotifPermission()">Activer</button>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;padding:8px 0">
+    <span style="font-size:20px">⌨️</span>
+    <div style="flex:1"><div style="font-size:13px;font-weight:700">Raccourcis clavier</div><div style="font-size:11px;color:var(--tx3)">Ctrl+K, Alt+H/J/B... ? pour aide</div></div>
+    <button class="btn btn-sf btn-sm" onclick="showKbHelp()">Aide</button>
+  </div>
+</div>
+<div class="card"><div class="card-h">Personnaliser</div><div class="inp-row" style="margin-bottom:9px"><input class="inp" id="pf-name-inp" placeholder="Ton prénom..."><button class="btn btn-sf btn-sm" onclick="saveName()">✓</button></div><button class="btn btn-sf" id="auth-btn" onclick="showAuth()" style="width:100%;margin-bottom:7px">Se connecter ☁️</button><button class="btn btn-sf" id="signout-btn" onclick="doSignOut()" style="width:100%;display:none">Se déconnecter</button><button class="btn btn-gold" onclick="showUpgrade()" style="margin-top:7px">🚀 Passer à Pro — 19€/mois</button></div>
       <div class="card g2"><div><div class="card-h">Tâches</div><div class="sc-v" id="ps-t">0</div></div><div><div class="card-h">Habitudes</div><div class="sc-v" id="ps-h">0</div></div><div><div class="card-h">Notes</div><div class="sc-v" id="ps-n">0</div></div><div><div class="card-h">Humeurs</div><div class="sc-v" id="ps-m">0</div></div></div>
     </div>
 
@@ -980,7 +993,9 @@ function renderPage(p){
   else if(p==='languages')renderLanguages();else if(p==='review')renderWeeklyReview();
   else if(p==='horoscope')renderHoroscopeSetup();else if(p==='export')renderExport();
   else if(p==='coach'){apiWarn('coach-api-warn');renderScore();}
-  else if(p==='profile'){updateAuthUI();document.getElementById('pf-name').textContent=S.name;document.getElementById('pf-plan').textContent=(S.plan||'starter').toUpperCase();document.getElementById('pf-av').textContent=(S.name||'R')[0].toUpperCase();var lvl=XP_LVL.findIndex(x=>x>S.xp)-1;lvl=Math.max(0,lvl);document.getElementById('pf-xp').textContent=S.xp+' XP — Niveau '+(lvl+1);var pct=lvl+1<XP_LVL.length?((S.xp-XP_LVL[lvl])/(XP_LVL[lvl+1]-XP_LVL[lvl])*100):100;document.getElementById('pf-xp-bar').style.width=pct+'%';['t','h','n','m'].forEach((k,i)=>{var keys=['todos','habits','notes','mood'];var el=document.getElementById('ps-'+k);if(el)el.textContent=S[keys[i]].length;});var aki=document.getElementById('api-key-inp');if(aki&&S.apiKey)aki.value=S.apiKey;var aks=document.getElementById('api-key-status');if(aks){if(hasApiKey()){aks.textContent='✅ Clé configurée - IA activée !';aks.style.color='var(--gr)';}else{aks.textContent='⚠️ Pas de clé API - IA désactivée';aks.style.color='var(--or)';}}
+  else if(p==='profile'){updateAuthUI();document.getElementById('pf-name').textContent=S.name;document.getElementById('pf-plan').textContent=(S.plan||'starter').toUpperCase();document.getElementById('pf-av').textContent=(S.name||'R')[0].toUpperCase();var lvl=XP_LVL.findIndex(x=>x>S.xp)-1;lvl=Math.max(0,lvl);document.getElementById('pf-xp').textContent=S.xp+' XP — Niveau '+(lvl+1);var pct=lvl+1<XP_LVL.length?((S.xp-XP_LVL[lvl])/(XP_LVL[lvl+1]-XP_LVL[lvl])*100):100;document.getElementById('pf-xp-bar').style.width=pct+'%';
+    renderLangSwitcherProfile();
+    var ns=document.getElementById('notif-status');if(ns)ns.textContent=Notification?.permission==='granted'?'✅ Activées':'Non activées';['t','h','n','m'].forEach((k,i)=>{var keys=['todos','habits','notes','mood'];var el=document.getElementById('ps-'+k);if(el)el.textContent=S[keys[i]].length;});var aki=document.getElementById('api-key-inp');if(aki&&S.apiKey)aki.value=S.apiKey;var aks=document.getElementById('api-key-status');if(aks){if(hasApiKey()){aks.textContent='✅ Clé configurée - IA activée !';aks.style.color='var(--gr)';}else{aks.textContent='⚠️ Pas de clé API - IA désactivée';aks.style.color='var(--or)';}}
   }
 }
 
@@ -1006,6 +1021,204 @@ if(location.search.includes('pay=ok')){history.replaceState(null,'',location.pat
 
 // ══ INIT ══
 applyTheme();checkStreak();initMob();render();
+
+
+// ══ i18n — 7 LANGUES ══
+var LANGS = {
+  fr: { code:'fr', name:'Français', flag:'🇫🇷', dir:'ltr' },
+  en: { code:'en', name:'English', flag:'🇬🇧', dir:'ltr' },
+  es: { code:'es', name:'Español', flag:'🇪🇸', dir:'ltr' },
+  pt: { code:'pt', name:'Português', flag:'🇧🇷', dir:'ltr' },
+  de: { code:'de', name:'Deutsch', flag:'🇩🇪', dir:'ltr' },
+  it: { code:'it', name:'Italiano', flag:'🇮🇹', dir:'ltr' },
+  ar: { code:'ar', name:'العربية', flag:'🇸🇦', dir:'rtl' }
+};
+
+var T = {
+  fr: { home:'Accueil', todos:'Tâches', habits:'Habitudes', mood:'Humeur', notes:'Notes', goals:'Objectifs', revenue:'Revenus', journal:'Journal', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Formations', languages:'Langues', pomodoro:'Pomodoro', horoscope:'Horoscope', achievements:'Achievements', export:'Export', profile:'Profil', review:'Bilan hebdo', pipeline:'Pipeline', greeting:'Bonjour', streak:'Streak', score:'Score', add:'+ Ajouter', save:'Sauvegarder', cancel:'Annuler', welcome:'Bienvenue sur', tagline:'AI LIFE OPERATING SYSTEM' },
+  en: { home:'Home', todos:'Tasks', habits:'Habits', mood:'Mood', notes:'Notes', goals:'Goals', revenue:'Revenue', journal:'Journal', coach:'AI Coach', jarvis:'JARVIS AI', formations:'Courses', languages:'Languages', pomodoro:'Pomodoro', horoscope:'Horoscope', achievements:'Achievements', export:'Export', profile:'Profile', review:'Weekly Review', pipeline:'Pipeline', greeting:'Hello', streak:'Streak', score:'Score', add:'+ Add', save:'Save', cancel:'Cancel', welcome:'Welcome to', tagline:'AI LIFE OPERATING SYSTEM' },
+  es: { home:'Inicio', todos:'Tareas', habits:'Hábitos', mood:'Humor', notes:'Notas', goals:'Objetivos', revenue:'Ingresos', journal:'Diario', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Cursos', languages:'Idiomas', pomodoro:'Pomodoro', horoscope:'Horóscopo', achievements:'Logros', export:'Exportar', profile:'Perfil', review:'Revisión semanal', pipeline:'Pipeline', greeting:'Hola', streak:'Racha', score:'Puntuación', add:'+ Añadir', save:'Guardar', cancel:'Cancelar', welcome:'Bienvenido a', tagline:'AI LIFE OPERATING SYSTEM' },
+  pt: { home:'Início', todos:'Tarefas', habits:'Hábitos', mood:'Humor', notes:'Notas', goals:'Metas', revenue:'Receitas', journal:'Diário', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Cursos', languages:'Idiomas', pomodoro:'Pomodoro', horoscope:'Horóscopo', achievements:'Conquistas', export:'Exportar', profile:'Perfil', review:'Revisão semanal', pipeline:'Pipeline', greeting:'Olá', streak:'Sequência', score:'Pontuação', add:'+ Adicionar', save:'Salvar', cancel:'Cancelar', welcome:'Bem-vindo ao', tagline:'AI LIFE OPERATING SYSTEM' },
+  de: { home:'Startseite', todos:'Aufgaben', habits:'Gewohnheiten', mood:'Stimmung', notes:'Notizen', goals:'Ziele', revenue:'Einnahmen', journal:'Tagebuch', coach:'KI-Coach', jarvis:'JARVIS KI', formations:'Kurse', languages:'Sprachen', pomodoro:'Pomodoro', horoscope:'Horoskop', achievements:'Erfolge', export:'Export', profile:'Profil', review:'Wochenbericht', pipeline:'Pipeline', greeting:'Hallo', streak:'Serie', score:'Punktzahl', add:'+ Hinzufügen', save:'Speichern', cancel:'Abbrechen', welcome:'Willkommen bei', tagline:'AI LIFE OPERATING SYSTEM' },
+  it: { home:'Home', todos:'Attività', habits:'Abitudini', mood:'Umore', notes:'Note', goals:'Obiettivi', revenue:'Entrate', journal:'Diario', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Corsi', languages:'Lingue', pomodoro:'Pomodoro', horoscope:'Oroscopo', achievements:'Traguardi', export:'Esporta', profile:'Profilo', review:'Revisione settimanale', pipeline:'Pipeline', greeting:'Ciao', streak:'Serie', score:'Punteggio', add:'+ Aggiungi', save:'Salva', cancel:'Annulla', welcome:'Benvenuto su', tagline:'AI LIFE OPERATING SYSTEM' },
+  ar: { home:'الرئيسية', todos:'المهام', habits:'العادات', mood:'المزاج', notes:'ملاحظات', goals:'الأهداف', revenue:'الإيرادات', journal:'اليوميات', coach:'المدرب', jarvis:'جارفيس', formations:'الدورات', languages:'اللغات', pomodoro:'بومودورو', horoscope:'البرج', achievements:'الإنجازات', export:'تصدير', profile:'الملف', review:'المراجعة', pipeline:'خط الأنابيب', greeting:'مرحباً', streak:'سلسلة', score:'النتيجة', add:'+ إضافة', save:'حفظ', cancel:'إلغاء', welcome:'مرحباً بك في', tagline:'نظام الحياة بالذكاء الاصطناعي' }
+};
+
+function detectLang(){
+  var bl=(navigator.languages||[navigator.language||'fr'])[0].toLowerCase().slice(0,2);
+  return Object.keys(LANGS).includes(bl)?bl:'fr';
+}
+
+var _lang=S.lang||(S.lang=detectLang());
+
+function t(k){ return (T[_lang]&&T[_lang][k])||T['fr'][k]||k; }
+
+function setLangUI(lang){
+  _lang=lang; S.lang=lang;
+  // Apply RTL if needed
+  document.documentElement.dir=LANGS[lang]?.dir||'ltr';
+  // Update nav labels
+  var navMap = {home:'home',todos:'todos',habits:'habits',mood:'mood',notes:'notes',goals:'goals',revenue:'revenue',journal:'journal',coach:'coach',jarvis:'jarvis',formations:'formations',languages:'languages',pomodoro:'pomodoro',horoscope:'horoscope',achievements:'achievements',export:'export',profile:'profile',review:'review',pipeline:'pipeline'};
+  document.querySelectorAll('.sb-item[onclick]').forEach(el=>{
+    var match=el.getAttribute('onclick')?.match(/nav\('([^']+)'/);
+    if(match&&T[lang][match[1]]){
+      var ico=el.querySelector('.ico');
+      var icoText=ico?ico.outerHTML:'';
+      var proTag=el.querySelector('.pro-tag');
+      var proText=proTag?proTag.outerHTML:'';
+      el.innerHTML=icoText+(T[lang][match[1]]||match[1])+proText;
+      if(ico)el.prepend(ico);
+    }
+  });
+  save();
+}
+
+function renderLangSwitcher(){
+  var el=document.getElementById('lang-switcher');
+  if(!el)return;
+  el.innerHTML=Object.entries(LANGS).map(([code,l])=>`<button onclick="setLangUI('${code}')" style="padding:5px 10px;border-radius:6px;background:${_lang===code?'var(--acm)':'var(--sf2)'};border:1px solid ${_lang===code?'var(--ac)':'var(--bd)'};cursor:pointer;font-size:12px;color:${_lang===code?'var(--ac)':'var(--tx3)'};transition:all .2s">${l.flag} ${l.name}</button>`).join('');
+}
+
+// ══ PWA INSTALL PROMPT ══
+var _pwaEvent=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();_pwaEvent=e;setTimeout(showPWAPrompt,30000);});
+function showPWAPrompt(){
+  if(!_pwaEvent||localStorage.getItem('rise_pwa_dismissed'))return;
+  var b=document.createElement('div');
+  b.style.cssText='position:fixed;bottom:80px;left:12px;right:12px;max-width:400px;background:var(--sf);border:1.5px solid rgba(212,170,74,.3);border-radius:var(--r);padding:12px 14px;z-index:500;display:flex;align-items:center;gap:10px;box-shadow:0 8px 32px rgba(0,0,0,.4)';
+  b.innerHTML='<span style="font-size:22px">📱</span><div style="flex:1"><div style="font-size:13px;font-weight:700">Installer RISE sur ton écran</div><div style="font-size:11px;color:var(--tx2)">Accès rapide, fonctionne hors-ligne</div></div>';
+  var btn=document.createElement('button');btn.className='btn btn-gold btn-sm';btn.style.whiteSpace='nowrap';btn.style.width='auto';btn.textContent='Installer';
+  btn.onclick=async()=>{b.remove();if(_pwaEvent){_pwaEvent.prompt();var{outcome}=await _pwaEvent.userChoice;if(outcome==='accepted'){toast('📱 RISE installé !','ok');S.xp+=50;save();}}};
+  var x=document.createElement('button');x.style.cssText='background:none;border:none;color:var(--tx3);font-size:18px;cursor:pointer;padding:4px;flex-shrink:0';x.textContent='×';
+  x.onclick=()=>{b.remove();localStorage.setItem('rise_pwa_dismissed','1');};
+  b.appendChild(btn);b.appendChild(x);document.body.appendChild(b);
+  setTimeout(()=>b.parentNode&&b.remove(),20000);
+}
+
+// ══ PUSH NOTIFICATIONS ══
+var _notifGranted=Notification?.permission==='granted';
+function requestNotifPermission(){
+  if(!('Notification' in window)||Notification.permission==='denied')return;
+  Notification.requestPermission().then(p=>{
+    _notifGranted=p==='granted';
+    if(_notifGranted){toast('🔔 Notifications activées !','ok');S.xp+=20;save();scheduleNotifs();}
+  });
+}
+function scheduleNotifs(){
+  if(!_notifGranted)return;
+  // Check-in reminder at 9h if not done today
+  var now=new Date();var today=now.toDateString();
+  var checkedToday=S.streakLast===today;
+  if(!checkedToday&&now.getHours()<9){
+    var ms=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),9,0,0))-now;
+    setTimeout(()=>{if(S.streakLast!==new Date().toDateString())sendNotif('🔥 Check-in RISE','Lance ta journée ! Valide tes habitudes pour maintenir ton streak.','/');},ms);
+  }
+  // Evening reminder at 20h if streak at risk
+  if(S.streak>2&&!checkedToday&&now.getHours()<20){
+    var ms2=(new Date(now.getFullYear(),now.getMonth(),now.getDate(),20,0,0))-now;
+    if(ms2>0)setTimeout(()=>{if(S.streakLast!==new Date().toDateString()&&S.streak>2)sendNotif('⚠️ Streak SOS — '+S.streak+' jours en danger !','Il te reste 4h pour valider aujourd'hui.','/');},ms2);
+  }
+}
+function sendNotif(title,body,url){
+  if(!_notifGranted)return;
+  var n=new Notification(title,{body,icon:'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2307080a' rx='12'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-size='36' font-family='sans-serif' font-weight='900' fill='%23d4aa4a'%3ER%3C/text%3E%3C/svg%3E',badge:'data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23d4aa4a' rx='4'/%3E%3Ctext x='12' y='17' text-anchor='middle' font-size='14' font-family='sans-serif' font-weight='900' fill='%23000'%3ER%3C/text%3E%3C/svg%3E',tag:'rise-notif'});
+  n.onclick=()=>{window.focus();n.close();};
+}
+// Ask permission after 60s
+setTimeout(()=>{if(!_notifGranted&&S.streak>0&&!localStorage.getItem('rise_notif_asked')){{localStorage.setItem('rise_notif_asked','1');var b=document.createElement('div');b.style.cssText='position:fixed;bottom:80px;left:12px;right:12px;max-width:400px;background:var(--sf);border:1.5px solid rgba(212,170,74,.2);border-radius:var(--r);padding:12px 14px;z-index:500;display:flex;align-items:center;gap:10px';b.innerHTML='<span style="font-size:22px">🔔</span><div style="flex:1"><div style="font-size:13px;font-weight:700">Activer les rappels</div><div style="font-size:11px;color:var(--tx2)">Rappel check-in à 9h + Streak SOS à 20h</div></div>';var btn=document.createElement('button');btn.className='btn btn-gold btn-sm';btn.style.width='auto';btn.textContent='Activer';btn.onclick=()=>{requestNotifPermission();b.remove();};var x=document.createElement('button');x.style.cssText='background:none;border:none;color:var(--tx3);font-size:18px;cursor:pointer;padding:4px';x.textContent='×';x.onclick=()=>b.remove();b.appendChild(btn);b.appendChild(x);document.body.appendChild(b);setTimeout(()=>b.parentNode&&b.remove(),15000);}}},60000);
+if(_notifGranted)scheduleNotifs();
+
+// ══ KEYBOARD SHORTCUTS ══
+var _kbHelp=false;
+document.addEventListener('keydown',e=>{
+  // Don't trigger if typing in input
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
+  var key=e.key.toLowerCase();
+  if(e.ctrlKey&&key==='k'){e.preventDefault();showQuickCapture();return;}
+  if(e.key==='Escape'){closeAllOverlays();return;}
+  if(e.key==='?'){showKbHelp();return;}
+  if(e.altKey){
+    var map={h:'home',j:'journal',b:'revenue',r:'review',f:'formations',l:'languages',a:'achievements',p:'profile'};
+    if(map[key]){e.preventDefault();nav(map[key],null);}
+  }
+});
+function closeAllOverlays(){
+  ['auth-ov','goal-modal','course-modal'].forEach(id=>{var el=document.getElementById(id);if(el)el.style.display='none';});
+  document.querySelectorAll('.pw-ov,[id$="-overlay"]').forEach(el=>el.remove());
+}
+function showKbHelp(){
+  var old=document.getElementById('kb-help');if(old){old.remove();return;}
+  var div=document.createElement('div');div.id='kb-help';
+  div.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--sf);border:1px solid var(--bd2);border-radius:var(--r);padding:20px;z-index:9999;min-width:280px;box-shadow:0 20px 60px rgba(0,0,0,.5)';
+  div.innerHTML='<div style="font-family:var(--fd);font-size:14px;font-weight:800;margin-bottom:12px;color:var(--ac)">⌨️ Raccourcis clavier</div>'+
+  [['Ctrl+K','Quick Capture'],['Escape','Fermer overlays'],['?','Aide'],['Alt+H','Accueil'],['Alt+J','Journal'],['Alt+B','Revenus'],['Alt+R','Bilan hebdo'],['Alt+F','Formations'],['Alt+L','Langues'],['Alt+A','Achievements'],['Alt+P','Profil']].map(([k,d])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd);font-size:12px"><code style="background:var(--sf2);padding:2px 6px;border-radius:4px;color:var(--ac)">${k}</code><span style="color:var(--tx2)">${d}</span></div>`).join('');
+  var close=document.createElement('button');close.className='btn btn-sf btn-sm';close.style.cssText='width:100%;margin-top:12px';close.textContent='Fermer';close.onclick=()=>div.remove();
+  div.appendChild(close);document.body.appendChild(div);
+  div.addEventListener('click',e=>{if(e.target===div)div.remove();});
+}
+
+// ══ QUICK CAPTURE (Ctrl+K) ══
+function showQuickCapture(){
+  var old=document.getElementById('qc-overlay');if(old){old.remove();return;}
+  var ov=document.createElement('div');ov.id='qc-overlay';
+  ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)';
+  var card=document.createElement('div');card.style.cssText='background:var(--sf);border:1px solid var(--bd2);border-radius:var(--r);padding:20px;width:100%;max-width:400px';
+  card.innerHTML='<div style="font-family:var(--fd);font-size:14px;font-weight:800;margin-bottom:14px;color:var(--ac)">⚡ Quick Capture <span style="font-size:10px;color:var(--tx3);font-family:var(--fb)">Ctrl+K</span></div>'+
+  '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px" id="qc-types">'+
+  ['✅ Tâche','💡 Idée','📝 Note','💰 Dépense','🎯 Objectif','💬 Souvenir'].map((t,i)=>`<button onclick="setQCType(${i},this)" style="padding:5px 10px;border-radius:6px;background:${i===0?'var(--acm)':'var(--sf2)'};border:1px solid ${i===0?'var(--ac)':'var(--bd)'};cursor:pointer;font-size:12px;color:${i===0?'var(--ac)':'var(--tx3)'};transition:all .2s">${t}</button>`).join('')+'</div>'+
+  '<input id="qc-input" class="inp" placeholder="Tape rapidement..." style="margin-bottom:10px" autofocus>'+
+  '<div style="display:flex;gap:8px"><button class="btn btn-sf btn-sm" id="qc-cancel" style="flex:1">Annuler</button><button class="btn btn-gold btn-sm" id="qc-save" style="flex:2">✓ Capturer</button></div>';
+  ov.appendChild(card);document.body.appendChild(ov);
+  var _qcType=0;
+  window.setQCType=(idx,btn)=>{_qcType=idx;document.querySelectorAll('#qc-types button').forEach((b,i)=>{b.style.background=i===idx?'var(--acm)':'var(--sf2)';b.style.borderColor=i===idx?'var(--ac)':'var(--bd)';b.style.color=i===idx?'var(--ac)':'var(--tx3)';});};
+  document.getElementById('qc-input').focus();
+  document.getElementById('qc-cancel').onclick=()=>ov.remove();
+  document.getElementById('qc-save').onclick=()=>{
+    var v=document.getElementById('qc-input').value.trim();if(!v)return;
+    var types=['todo','note','note','revenue','goal','journal'];
+    if(types[_qcType]==='todo'){S.todos.unshift({id:Date.now(),text:v,done:false,date:new Date().toDateString(),priority:'normal'});S.xp+=5;}
+    else if(types[_qcType]==='note'){S.notes.unshift({id:Date.now(),title:v,body:'',date:new Date().toDateString()});S.xp+=5;}
+    else if(types[_qcType]==='revenue'){var amt=parseFloat(v.replace(/[^0-9.]/g,''))||0;if(amt){S.revenue.unshift({id:Date.now(),amount:amt,desc:'Quick capture',cat:'Autre',date:new Date().toDateString(),month:new Date().getMonth(),year:new Date().getFullYear()});S.xp+=5;}}
+    else if(types[_qcType]==='goal'){S.goals.unshift({id:Date.now(),name:v,target:100,current:0,unit:'%',deadline:''});S.xp+=20;}
+    else if(types[_qcType]==='journal'){S.journal.unshift({id:Date.now(),text:v,mood:-1,date:new Date().toDateString()});S.xp+=10;}
+    save();toast('⚡ Capturé ! +XP','ok');ov.remove();
+  };
+  document.getElementById('qc-input').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('qc-save').click();if(e.key==='Escape')ov.remove();});
+  ov.addEventListener('click',e=>{if(e.target===ov)ov.remove();});
+}
+
+// ══ NIGHT MODE AUTO (après 21h) ══
+function checkNightMode(){
+  var h=new Date().getHours();
+  var nm=document.getElementById('night-mode-overlay');
+  if(h>=21||h<6){
+    if(!nm&&!localStorage.getItem('rise_no_night')){
+      var div=document.createElement('div');div.id='night-mode-overlay';
+      div.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.06);z-index:1;pointer-events:none;';
+      document.body.prepend(div);
+    }
+  } else if(nm){nm.remove();}
+}
+checkNightMode();setInterval(checkNightMode,60000);
+
+// ══ LANG SWITCHER dans settings ══
+// Will be rendered in profile page
+function renderLangSwitcherProfile(){
+  var el=document.getElementById('lang-switcher-profile');if(!el)return;
+  el.innerHTML='<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--tx3);margin-bottom:8px">Langue / Language</div>'+
+  '<div style="display:flex;gap:6px;flex-wrap:wrap">'+
+  Object.entries(LANGS).map(([code,l])=>`<button onclick="setLangUI('${code}')" style="padding:5px 10px;border-radius:6px;background:${_lang===code?'var(--acm)':'var(--sf2)'};border:1px solid ${_lang===code?'var(--ac)':'var(--bd)'};cursor:pointer;font-size:12px;color:${_lang===code?'var(--ac)':'var(--tx3)'};transition:all .2s">${l.flag} ${l.name}</button>`).join('')+'</div>';
+}
+
+// Init notifications if already granted
+if(Notification?.permission==='granted'){_notifGranted=true;scheduleNotifs();}
+
+// Quick Capture button in topbar mobile
+(function(){
+  var tb=document.getElementById('tb-right');
+  if(tb){var qcBtn=document.createElement('button');qcBtn.className='theme-btn-sm';qcBtn.textContent='⚡';qcBtn.title='Quick Capture (Ctrl+K)';qcBtn.onclick=showQuickCapture;tb.insertBefore(qcBtn,tb.firstChild);}
+})();
+
 </script>
 </body>
 </html>
