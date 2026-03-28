@@ -4801,72 +4801,180 @@ Object.keys(LANG_EXTRA).forEach(function(lang){
 });
 
 // ── 3. SMART TIME-OF-DAY HOME GREETING ──
-var _origInitHome=typeof initHome==='function'?initHome:null;
-function initHome(){
-  if(_origInitHome)_origInitHome();
-  var banner=document.getElementById('ctx-banner');
-  if(!banner)return;
-  var h=new Date().getHours();
-  var greeting,emoji;
-  if(h<6){greeting='Nuit productive';emoji='🌙';}
-  else if(h<12){greeting='Bon matin';emoji='🌅';}
-  else if(h<14){greeting='Bon midi';emoji='☀️';}
-  else if(h<18){greeting='Bon apres-midi';emoji='🌤️';}
-  else if(h<22){greeting='Bonne soiree';emoji='🌆';}
-  else{greeting='Bonne nuit';emoji='🌙';}
-  var nm=S.name||'Champion';
-  var lvl=getLvl(S.xp||0)+1;
-  var streak=S.loginS&&S.loginS.streak||0;
-  var tip='';
-  if(h>=6&&h<10)tip='Commence par ton check-in du jour !';
-  else if(h>=10&&h<14)tip='Un Pomodoro pour rester focus ?';
-  else if(h>=14&&h<18)tip='Parfait moment pour un workout !';
-  else if(h>=18&&h<22)tip='Prends un moment pour ton journal.';
-  else tip='Repose-toi bien, demain sera grand.';
-  banner.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:8px">'
-    +'<div style="font-size:32px">'+emoji+'</div>'
-    +'<div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:16px">'+greeting+', '+nm+' !</div>'
-    +'<div style="font-size:12px;color:var(--tx3);margin-top:2px">LVL '+lvl+' · '+streak+'🔥 · '+tip+'</div></div></div>';
-}
+(function(){
+  var _orig=initHome;
+  initHome=function(){
+    _orig();
+    var banner=document.getElementById('ctx-banner');
+    if(!banner)return;
+    var h=new Date().getHours();
+    var greeting,emoji;
+    if(h<6){greeting='Nuit productive';emoji='🌙';}
+    else if(h<12){greeting='Bon matin';emoji='🌅';}
+    else if(h<14){greeting='Bon midi';emoji='☀️';}
+    else if(h<18){greeting='Bon apres-midi';emoji='🌤️';}
+    else if(h<22){greeting='Bonne soiree';emoji='🌆';}
+    else{greeting='Bonne nuit';emoji='🌙';}
+    var nm=S.name||'Champion';
+    var lvl=getLvl(S.xp||0)+1;
+    var streak=S.loginS&&S.loginS.streak||0;
+    var tip='';
+    if(h>=6&&h<10)tip='Commence par ton check-in du jour !';
+    else if(h>=10&&h<14)tip='Un Pomodoro pour rester focus ?';
+    else if(h>=14&&h<18)tip='Parfait moment pour un workout !';
+    else if(h>=18&&h<22)tip='Prends un moment pour ton journal.';
+    else tip='Repose-toi bien, demain sera grand.';
+    banner.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:8px">'
+      +'<div style="font-size:32px">'+emoji+'</div>'
+      +'<div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:16px">'+greeting+', '+nm+' !</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-top:2px">LVL '+lvl+' · '+streak+'🔥 · '+tip+'</div></div></div>';
+  };
+})();
 
 // ── 4. ADD BACKUP BUTTONS TO MOI SCREEN ──
-var _origRenderMoi=typeof renderMoi==='function'?renderMoi:null;
-function renderMoi(){
-  if(_origRenderMoi)_origRenderMoi();
-  var moiContent=document.getElementById('moi-content');
-  if(!moiContent)return;
-  // Only add backup section if not already there
-  if(moiContent.querySelector('#backup-section'))return;
-  var backupDiv=document.createElement('div');
-  backupDiv.id='backup-section';
-  backupDiv.style.cssText='margin-top:16px;padding:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)';
-  backupDiv.innerHTML='<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">💾 Sauvegarde</div>'
-    +'<div style="font-size:12px;color:var(--tx3);margin-bottom:12px">Exporte tes donnees pour ne rien perdre. Tu pourras les reimporter sur un autre appareil.</div>'
-    +'<div style="display:flex;gap:8px">'
-    +'<button class="btn btn-ac" style="flex:1;font-size:12px" onclick="exportData()">📤 Exporter</button>'
-    +'<button style="flex:1;padding:10px;background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--r);font-size:12px;font-weight:700;color:var(--tx2)" onclick="importData()">📥 Importer</button>'
-    +'</div>'
-    +'<div style="font-size:10px;color:var(--tx3);margin-top:8px;text-align:center">Donnees: '+(localStorage.getItem('rise_v9')||'').length+' octets</div>';
-  moiContent.appendChild(backupDiv);
-}
+(function(){
+  var _orig=renderMoi;
+  renderMoi=function(){
+    _orig();
+    var moiContent=document.getElementById('moi-content');
+    if(!moiContent)return;
+    if(moiContent.querySelector('#backup-section'))return;
+    var backupDiv=document.createElement('div');
+    backupDiv.id='backup-section';
+    backupDiv.style.cssText='margin-top:16px;padding:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)';
+    backupDiv.innerHTML='<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">💾 Sauvegarde</div>'
+      +'<div style="font-size:12px;color:var(--tx3);margin-bottom:12px">Exporte tes donnees pour ne rien perdre. Tu pourras les reimporter sur un autre appareil.</div>'
+      +'<div style="display:flex;gap:8px">'
+      +'<button class="btn btn-ac" style="flex:1;font-size:12px" onclick="exportData()">📤 Exporter</button>'
+      +'<button style="flex:1;padding:10px;background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--r);font-size:12px;font-weight:700;color:var(--tx2)" onclick="importData()">📥 Importer</button>'
+      +'</div>'
+      +'<div style="font-size:10px;color:var(--tx3);margin-top:8px;text-align:center">Donnees: '+(localStorage.getItem('rise_v9')||'').length+' octets</div>';
+    moiContent.appendChild(backupDiv);
+  };
+})();
 
 // ── 5. DAILY PROGRESS SUMMARY ON HOME ──
-var _origUpdXP=typeof updXP==='function'?updXP:null;
-function updXP(){
-  if(_origUpdXP)_origUpdXP();
-  // Update daily XP gained indicator
-  var todayXP=0;
-  if(S.checkins){
-    var ci=S.checkins.find(function(c){return c.d===TD;});
-    if(ci)todayXP+=(ci.xp||0);
-  }
-  var el=document.getElementById('xp-next-lbl');
-  if(el&&todayXP>0){
-    el.textContent=el.textContent+' · +'+todayXP+' XP aujourd\'hui';
-  }
-}
+(function(){
+  var _orig=updXP;
+  updXP=function(){
+    _orig();
+    var todayXP=0;
+    if(S.checkins){
+      var ci=S.checkins.find(function(c){return c.d===TD;});
+      if(ci)todayXP+=(ci.xp||0);
+    }
+    var el=document.getElementById('xp-next-lbl');
+    if(el&&todayXP>0){
+      el.textContent=el.textContent+' · +'+todayXP+' XP aujourd\'hui';
+    }
+  };
+})();
 
 // ══ END V24 ENHANCEMENTS ══
+
+// ══ V24 — DEFI 7 JOURS (Guided Onboarding Challenge) ══
+var DEFI7_DAYS=[
+  {day:1,title:'Jour 1 — Respire',ico:'💨',tool:'nature',tab:'breath',desc:'Fais 1 exercice de respiration dans l\'onglet Nature.',xp:30,action:'Ouvrir Nature',screen:'nature'},
+  {day:2,title:'Jour 2 — Bouge',ico:'🏋️',tool:'workout',desc:'Ajoute 1 exercice dans ton Workout Tracker.',xp:35,action:'Ouvrir Workout',screen:'workout'},
+  {day:3,title:'Jour 3 — Ecris',ico:'📓',tool:'smartjournal',desc:'Ecris ta premiere entree dans le Journal Intelligent.',xp:35,action:'Ouvrir Journal',screen:'smartjournal'},
+  {day:4,title:'Jour 4 — Planifie',ico:'🍽️',tool:'meal',desc:'Remplis ton plan repas pour aujourd\'hui.',xp:35,action:'Ouvrir Repas',screen:'meal'},
+  {day:5,title:'Jour 5 — Apprends',ico:'🌍',tool:'lang',desc:'Complete 3 mots de vocabulaire dans une langue.',xp:40,action:'Ouvrir Langues',screen:'lang'},
+  {day:6,title:'Jour 6 — Gere',ico:'💰',tool:'budget',desc:'Ajoute 1 revenu et 1 depense dans ton Budget.',xp:40,action:'Ouvrir Budget',screen:'budget'},
+  {day:7,title:'Jour 7 — Triomphe',ico:'🏆',tool:'achievements',desc:'Debloque le badge "Semaine Complete" !',xp:100,action:'Voir Succes',screen:'achievements'}
+];
+function initDefi7(){
+  S.defi7=S.defi7||{started:null,completed:[],dismissed:false};
+  if(S.defi7.dismissed)return;
+  if(!S.defi7.started){
+    S.defi7.started=TD;
+    save();
+  }
+  renderDefi7Widget();
+}
+function getDefi7Day(){
+  if(!S.defi7||!S.defi7.started)return 0;
+  var start=new Date(S.defi7.started);
+  var now2=new Date();
+  var diff=Math.floor((now2-start)/(1000*60*60*24));
+  return Math.min(diff,6);
+}
+function renderDefi7Widget(){
+  var container=document.getElementById('w-flash');
+  if(!container)return;
+  var dayIdx=getDefi7Day();
+  var day=DEFI7_DAYS[dayIdx];
+  if(!day)return;
+  var completed=S.defi7.completed||[];
+  var allDone=completed.length>=7;
+  if(allDone){
+    container.innerHTML='';
+    return;
+  }
+  var isDone=completed.indexOf(dayIdx)>=0;
+  var progress=completed.length;
+  var dots='';
+  for(var i=0;i<7;i++){
+    var color=completed.indexOf(i)>=0?'var(--gr)':i===dayIdx?'var(--ac)':'var(--bd2)';
+    dots+='<div style="width:12px;height:12px;border-radius:50%;background:'+color+';border:2px solid '+color+'"></div>';
+  }
+  var h='<div class="wg" style="border-color:var(--ac);background:linear-gradient(135deg,var(--agg),var(--sf))">';
+  h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+  h+='<div style="font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px">Defi 7 Jours</div>';
+  h+='<button style="font-size:10px;color:var(--tx3);padding:2px 8px;border:1px solid var(--bd);border-radius:10px" onclick="dismissDefi7()">Fermer</button>';
+  h+='</div>';
+  h+='<div style="display:flex;gap:6px;margin-bottom:12px">'+dots+'</div>';
+  h+='<div style="display:flex;align-items:center;gap:12px">';
+  h+='<div style="font-size:36px">'+day.ico+'</div>';
+  h+='<div style="flex:1">';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:14px">'+day.title+'</div>';
+  h+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">'+day.desc+'</div>';
+  h+='</div></div>';
+  if(isDone){
+    h+='<div style="text-align:center;padding:10px;margin-top:10px;background:var(--grd);border-radius:var(--rs);font-size:13px;font-weight:700;color:var(--gr)">Fait ! +'+day.xp+' XP</div>';
+  }else{
+    h+='<div style="display:flex;gap:8px;margin-top:10px">';
+    h+='<button class="btn btn-ac" style="flex:1;font-size:13px" onclick="gs(\''+day.screen+'\',null)">'+day.action+' →</button>';
+    h+='<button style="flex:0;padding:10px 16px;background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--r);font-size:12px;font-weight:700;color:var(--gr)" onclick="completeDefi7Day('+dayIdx+','+day.xp+')">Fait ✓</button>';
+    h+='</div>';
+  }
+  h+='</div>';
+  container.innerHTML=h;
+}
+function completeDefi7Day(dayIdx,xp){
+  S.defi7=S.defi7||{started:TD,completed:[],dismissed:false};
+  if(S.defi7.completed.indexOf(dayIdx)<0){
+    S.defi7.completed.push(dayIdx);
+    gainXP(xp,'defi7');
+    gainGems(Math.floor(xp/10));
+    save();
+    toast('Defi J'+(dayIdx+1)+' complete ! +'+xp+' XP','🎯',2500);
+    if(S.defi7.completed.length>=7){
+      toast('DEFI 7 JOURS TERMINE ! Tu es un champion !','🏆',4000);
+      gainXP(200,'defi7_complete');
+      gainGems(50);
+      save();
+    }
+  }
+  renderDefi7Widget();
+}
+function dismissDefi7(){
+  S.defi7=S.defi7||{started:TD,completed:[],dismissed:false};
+  S.defi7.dismissed=true;
+  save();
+  var container=document.getElementById('w-flash');
+  if(container)container.innerHTML='';
+}
+// Auto-init on home
+(function(){
+  var _origHome2=initHome;
+  initHome=function(){
+    _origHome2();
+    try{initDefi7();}catch(e){}
+  };
+})();
+// ══ END DEFI 7 JOURS ══
+
+
 
 </script>
 </body>
