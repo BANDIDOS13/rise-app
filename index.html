@@ -316,6 +316,21 @@ textarea.inp{resize:none}
       <button class="btn btn-ac" id="ci-btn" onclick="doCI()" disabled>Générer mon plan du jour 🌅</button>
     </div>
     <div id="plan-sec" style="display:none;margin-top:4px"><div class="lbl" style="margin-bottom:9px">Plan du jour</div><div id="plan-content"></div></div>
+    <div style="margin-top:8px;margin-bottom:4px">
+      <div class="lbl" style="margin-bottom:8px">Mes outils</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('workout',null)"><span style="font-size:20px">🏋️</span>Workout</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('meal',null)"><span style="font-size:20px">🍽️</span>Repas</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('budget',null)"><span style="font-size:20px">💰</span>Budget</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('smartjournal',null)"><span style="font-size:20px">📓</span>Journal</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('sleep',null)"><span style="font-size:20px">😴</span>Sommeil</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('leaderboard',null)"><span style="font-size:20px">🏆</span>Classement</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('dash',null)"><span style="font-size:20px">📊</span>Dashboard</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('guilds',null)"><span style="font-size:20px">🤝</span>Guildes</button>
+      </div>
+    </div>
     <button style="width:100%;background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r);padding:13px;display:flex;align-items:center;gap:12px;text-align:left;margin-top:11px;margin-bottom:11px" onclick="openSOS()"><div style="font-size:22px">🆘</div><div><div style="font-size:13px;font-weight:700;color:var(--rd)">Mode Urgence Mentale</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">Tu te sens dépassé ? Appuie ici.</div></div></button>
     <div style="height:18px"></div>
   </div>
@@ -575,18 +590,37 @@ textarea.inp{resize:none}
   </div>
 </div>
 <!-- BOTTOM NAV -->
-<div id="plus-panel" style="display:none;position:fixed;bottom:62px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg2);border-top:1px solid var(--bd);z-index:400;padding:10px 12px">
+<div id="plus-panel" style="display:none;position:fixed;bottom:62px;left:0;right:0;margin:0 auto;width:100%;max-width:430px;background:var(--bg2);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;z-index:400;padding:12px 14px 16px;max-height:70vh;overflow-y:auto">
+  <div style="width:36px;height:4px;background:var(--bd2);border-radius:4px;margin:0 auto 10px"></div>
   <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px">
+    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Mon espace</div>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('moi',null);closePlus()"><span style="font-size:18px">⚡</span>Moi</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('lang',null);closePlus()"><span style="font-size:18px">🌍</span>Langues</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('nutri',null);closePlus()"><span style="font-size:18px">🥗</span>Nutrition</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('dash',null);closePlus()"><span style="font-size:18px">📊</span>Dashboard</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('achievements',null);closePlus()"><span style="font-size:18px">🏆</span>Succès</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('feat',null);closePlus()"><span style="font-size:18px">🚀</span>Features</button>
+    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Outils quotidiens</div>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('workout',null);closePlus()"><span style="font-size:18px">🏋️</span>Workout</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('meal',null);closePlus()"><span style="font-size:18px">🍽️</span>Repas</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('sleep',null);closePlus()"><span style="font-size:18px">😴</span>Sommeil</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('smartjournal',null);closePlus()"><span style="font-size:18px">📓</span>Journal</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('budget',null);closePlus()"><span style="font-size:18px">💰</span>Budget</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('nutri',null);closePlus()"><span style="font-size:18px">🥗</span>Nutrition</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('lang',null);closePlus()"><span style="font-size:18px">🌍</span>Langues</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('home',null);closePlus()"><span style="font-size:18px">🎯</span>Pomodoro</button>
+    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Social & Défis</div>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('leaderboard',null);closePlus()"><span style="font-size:18px">🏆</span>Classement</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('guilds',null);closePlus()"><span style="font-size:18px">🤝</span>Guildes</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('social',null);closePlus()"><span style="font-size:18px">📤</span>Partager</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('weeklych',null);closePlus()"><span style="font-size:18px">🏅</span>Défis Hebdo</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('suggestions',null);closePlus()"><span style="font-size:18px">💡</span>Suggestions</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('disc',null);closePlus()"><span style="font-size:18px">📚</span>Apprendre</button>
   </div>
 </div>
 
 <!-- LEADERBOARD SCREEN -->
 <div class="screen" id="screen-leaderboard">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Classement</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Classement</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Bats les meilleurs joueurs chaque semaine</div>
     <div id="lb-c"></div>
@@ -596,6 +630,7 @@ textarea.inp{resize:none}
 <!-- GUILD SCREEN -->
 <div class="screen" id="screen-guilds">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🤝 Guildes</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🤝 Guildes</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Rejoins une communauté, progresse ensemble</div>
     <div id="guild-c"></div>
@@ -605,6 +640,7 @@ textarea.inp{resize:none}
 <!-- SOCIAL SHARING SCREEN -->
 <div class="screen" id="screen-social">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📤 Partager</div></div>
     <div id="share-c"></div>
   </div>
 </div>
@@ -612,6 +648,7 @@ textarea.inp{resize:none}
 <!-- SUGGESTIONS SCREEN -->
 <div class="screen" id="screen-suggestions">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💡 Suggestions</div></div>
     <div id="suggest-c"></div>
   </div>
 </div>
@@ -619,6 +656,7 @@ textarea.inp{resize:none}
 <!-- WEEKLY CHALLENGES SCREEN -->
 <div class="screen" id="screen-weeklych">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏅 Défis hebdo</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏅 Défis hebdo</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">3 défis par semaine, récompenses exclusives</div>
     <div id="wch-c"></div>
@@ -669,6 +707,7 @@ textarea.inp{resize:none}
 <!-- WORKOUT TRACKER SCREEN -->
 <div class="screen" id="screen-workout">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏋️ Workout</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏋️ Workout Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Log tes séances, suis ta progression</div>
     <div id="workout-c"></div>
@@ -678,6 +717,7 @@ textarea.inp{resize:none}
 <!-- MEAL PLANNER SCREEN -->
 <div class="screen" id="screen-meal">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🍽️ Plan Repas</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🍽️ Meal Planner</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Plan repas hebdomadaire + liste de courses</div>
     <div id="meal-c"></div>
@@ -687,6 +727,7 @@ textarea.inp{resize:none}
 <!-- SLEEP TRACKER SCREEN -->
 <div class="screen" id="screen-sleep">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">😴 Sommeil</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">😴 Sleep Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Optimise ton sommeil, optimise ta vie</div>
     <div id="sleep-c"></div>
@@ -696,6 +737,7 @@ textarea.inp{resize:none}
 <!-- JOURNAL SCREEN -->
 <div class="screen" id="screen-smartjournal">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📓 Journal</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📖 Journal Intelligent</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Écris, réfléchis, progresse</div>
     <div id="smartjournal-c"></div>
@@ -705,6 +747,7 @@ textarea.inp{resize:none}
 <!-- BUDGET TRACKER SCREEN -->
 <div class="screen" id="screen-budget">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💰 Budget</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">💰 Budget Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Maîtrise tes finances, construis ta richesse</div>
     <div id="budget-c"></div>
@@ -714,6 +757,7 @@ textarea.inp{resize:none}
 <!-- ACHIEVEMENTS SCREEN -->
 <div class="screen" id="screen-achievements">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Succès</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Achievements</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Collectionne-les tous!</div>
     <div id="achiev-c"></div>
@@ -723,6 +767,7 @@ textarea.inp{resize:none}
 <!-- DASHBOARD SCREEN -->
 <div class="screen" id="screen-dash">
   <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📊 Dashboard</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Dashboard</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
     <div id="dash-c"></div>
