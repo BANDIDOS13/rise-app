@@ -6,7 +6,11 @@
 <title>RISE — AI Life OS</title>
 <meta name="description" content="RISE — Plateforme de vie IA. Coach personnel, habitudes, nature, business, gamification.">
 <meta name="theme-color" content="#07080a">
-<link rel="manifest" crossorigin="use-credentials">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RISE%20%E2%80%94%20AI%20Life%20OS%22%2C%22short_name%22%3A%22RISE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="RISE">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%2307080a' width='180' height='180' rx='40'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='100' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--grd:#0e1f16;--rd:#d95f5f;--rdd:#1e0e0e;--bl:#4a9ed4;--bld:#0c1c2a;--pu:#8b6de0;--pud:#140e28;--or:#e0874a;--ord:#1e1008;--tl:#3db8aa;--tld:#0a1e1a;--nt:#5cb87a;--ntd:#0a1c10;--nt2:#8dd4a0;--r:16px;--rs:10px;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
@@ -18,6 +22,52 @@
 [data-theme=neon]{--bg:#040608;--bg2:#060a0c;--sf:#080e10;--sf2:#0c1418;--sf3:#101a1e;--bd:#182028;--bd2:#202a34;--tx:#e0f8f4;--tx2:#60d4c0;--tx3:#30808a;--ac:#00e4c8;--ac2:#40f8e0;--acm:#004840;--agg:rgba(0,228,200,.08);--agg2:rgba(0,228,200,.16)}
 [data-theme=light]{--bg:#f8f6f0;--bg2:#f2efe8;--sf:#fff;--sf2:#f0ede6;--sf3:#e8e4dc;--bd:#d8d4c8;--bd2:#c8c2b4;--tx:#1a1808;--tx2:#5a5248;--tx3:#9a9488;--ac:#2a6a4a;--ac2:#3a8a5a;--acm:#d8ece0;--agg:rgba(42,106,74,.08);--agg2:rgba(42,106,74,.16)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+/* ── MICRO-INTERACTIONS ── */
+.btn{transition:all .15s cubic-bezier(.16,1,.3,1)}
+.btn:active{transform:scale(.95);filter:brightness(1.1)}
+.btn-ac:active{box-shadow:0 0 20px rgba(212,170,74,.4)}
+.card,.wg{transition:transform .15s,box-shadow .15s,border-color .2s}
+.card:active,.wg:active{transform:scale(.98)}
+@media(hover:hover){.card:hover,.wg:hover{border-color:var(--ac);box-shadow:0 4px 20px rgba(0,0,0,.3)}}
+.nb{transition:color .2s,transform .15s}
+.nb:active{transform:scale(.9)}
+.fbtn{transition:all .2s cubic-bezier(.16,1,.3,1)}
+.fbtn:active{transform:scale(.92)}
+@keyframes countUp{from{opacity:0;transform:translateY(8px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.count-anim{animation:countUp .4s cubic-bezier(.16,1,.3,1) both}
+.slide-anim{animation:slideIn .3s ease both}
+.qchk{transition:all .2s cubic-bezier(.16,1,.3,1)}
+.qchk.done{transform:scale(1.2)}
+.ob-ch{transition:all .2s cubic-bezier(.16,1,.3,1)}
+.ob-ch:active{transform:scale(.97)}
+.csug{transition:all .15s}
+.csug:active{transform:scale(.93);background:var(--agg)}
+.book-c{transition:transform .15s,box-shadow .15s}
+.book-c:active{transform:scale(.98)}
+@media(hover:hover){.book-c:hover{box-shadow:0 6px 24px rgba(0,0,0,.4);transform:translateY(-2px)}}
+.nit{transition:background .2s}
+@media(hover:hover){.nit:hover{background:var(--sf2)}}
+.tog-sw{transition:background .2s,transform .15s}
+.tog-sw:active{transform:scale(.9)}
+/* Animated number counters */
+@keyframes numPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.num-pop{animation:numPop .3s ease}
+
+/* ── ACCESSIBILITY ── */
+*:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
+.btn:focus-visible{outline:2px solid var(--ac2);outline-offset:2px;box-shadow:0 0 0 4px var(--agg)}
+.inp:focus-visible{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--agg)}
+.nb:focus-visible{outline:2px solid var(--ac);outline-offset:4px}
+.skip-link{position:absolute;top:-100px;left:0;background:var(--ac);color:var(--bg);padding:8px 16px;z-index:9999;font-weight:700;transition:top .2s}
+.skip-link:focus{top:0}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+/* High contrast improvements */
+.lbl{color:var(--tx2);font-weight:800}
+.mtime{font-weight:500}
+
 html,body{height:100%;overflow:hidden;height:100dvh}
 body{background:var(--bg);color:var(--tx);font-family:var(--fb);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
@@ -210,7 +260,8 @@ textarea.inp{resize:none}
 </style>
 </head>
 <body>
-<div id="app">
+<a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
+<div id="app" role="application" aria-label="RISE AI Life OS">
 <div class="gbar" id="gbar" style="display:none">
   <div><div class="gbar-logo">RISE</div><div style="font-size:9px;color:var(--ac);letter-spacing:1.5px;font-weight:700" id="gbar-s">S1</div></div>
   <div style="flex:1"></div>
@@ -329,7 +380,7 @@ textarea.inp{resize:none}
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">
         <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('sleep',null)"><span style="font-size:20px">😴</span>Sommeil</button>
         <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('leaderboard',null)"><span style="font-size:20px">🏆</span>Classement</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('dash',null)"><span style="font-size:20px">📊</span>Dashboard</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('dash',null)" aria-label="Dashboard"><span style="font-size:20px">📊</span>Dashboard</button>
         <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('guilds',null)"><span style="font-size:20px">🤝</span>Guildes</button>
       </div>
     </div>
@@ -774,6 +825,15 @@ textarea.inp{resize:none}
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
     <div id="dash-c"></div>
   </div>
+
+<!-- RISE RECAP (Weekly Summary) -->
+<div class="screen" id="screen-recap" style="display:none">
+  <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)" aria-label="Retour">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📋 RISE Recap</div></div>
+    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📋 Résumé Hebdo</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta semaine en un coup d'oeil</div>
+    <div id="recap-c"></div>
+  </div>
 </div>
 
 </div>
@@ -811,7 +871,7 @@ wheelDate:'',wheelPrize:null,
 shopUnlocked:[],
 contentPlan:{posts:[],ideas:[]},
 pomoStats:{sessions:[],totalMin:0,bestDay:0},
-aiProfile:{interactions:0,topGoals:[],moodAvg:0,strengths:[],weaknesses:[],lastAdvice:'',level:1,persona:'coach'}};
+soundOff:false,zenMode:false,aiProfile:{interactions:0,topGoals:[],moodAvg:0,strengths:[],weaknesses:[],lastAdvice:'',level:1,persona:'coach'}};
 const save=()=>localStorage.setItem('rise_v9',JSON.stringify(S));
 function toast(m,i='🎉',ms=3000){document.getElementById('t-m').textContent=m;document.getElementById('t-i').textContent=i;const el=document.getElementById('toast');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),ms);}
 function openM(id){document.getElementById(id).classList.add('open');}
@@ -844,7 +904,7 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
@@ -1024,9 +1084,9 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
-function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
+function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
 else if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
 else if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
 else if(name==='wheel'){renderWheel(document.getElementById('wheel-c'));}
@@ -3010,6 +3070,19 @@ const RISE_AI = {
     return sys;
   },
   processCoachInput(userMessage, mode = 'coach') {
+    // Build user context for smarter responses
+    var ctx = '';
+    try {
+      var lvl = 0; for(var i=0;i<[0,100,250,450,700,1000,1400,1900,2500,3200].length;i++) if((S.xp||0)>=[0,100,250,450,700,1000,1400,1900,2500,3200][i]) lvl=i;
+      var lvlNames=['Débutant','Apprenti','Engagé','Déterminé','Ambitieux','Courageux','Warrior','Champion','Légende','Invincible'];
+      ctx = '\n[CONTEXTE UTILISATEUR: '+S.name+', Niveau '+(lvl+1)+' ('+lvlNames[lvl]+'), '+S.xp+' XP, Streak: '+(S.streak||0)+'j, Objectif: '+(S.goal||'all')+', Sessions coach: '+((S.coachMem||{}).n||0)+', Mode: '+(S.mode||'full')+']\n';
+      // Add recent activities
+      var acts=[];
+      if(S.lck===new Date().toDateString()) acts.push('check-in fait');
+      if((S.pomoStats||{}).totalMin>0) acts.push(S.pomoStats.totalMin+'min pomodoro');
+      if(S.nat&&S.nat.wMin>0) acts.push(S.nat.wMin+'min marche');
+      if(acts.length>0) ctx+='[ACTIVITÉS RÉCENTES: '+acts.join(', ')+']\n';
+    } catch(e){}
     mode = mode || S.chatMode || 'coach';
     const msg = userMessage.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
     const name = S.name || 'Champion';
@@ -3172,6 +3245,91 @@ const RISE_AI = {
   // TRAINING MODULES - Pre-built structured content
   // ============================================================================
   trainingModules: {
+
+    ep: {
+      title: "Mindset Entrepreneur",
+      desc: "8 modules pour penser, agir et réussir comme un entrepreneur.",
+      modules: [
+        {num:1,title:"Vision & Mission",duration:"10min",desc:"Chaque grand business commence par une vision claire. Pas un plan parfait — une direction. Amazon a commencé dans un garage. Apple dans un garage. Ta vision n'a pas besoin d'être grandiose, elle doit être CLAIRE. Définis le problème que tu résous et pour qui.",key:"Vision claire > plan parfait. Commence maintenant.",exercise:"Écris ta vision en 1 phrase: 'J\'aide [qui] à [résultat].'",quiz:{question:"Qu'est-ce qui est plus important qu'un plan parfait?",hint:"C'est lié à la clarté",answer:"vision"}},
+        {num:2,title:"Gestion du risque",duration:"12min",desc:"L'entrepreneur ne prend pas des risques fous — il prend des risques CALCULÉS. La différence? L'entrepreneur limite le downside et maximise l'upside. Commence petit, teste vite, itère. Le vrai risque c'est de ne rien faire pendant 10 ans.",key:"Le vrai risque = ne rien tenter. Teste petit, itère vite.",exercise:"Identifie 1 idée. Teste-la en 48h avec 0€."},
+        {num:3,title:"Trouver ton marché",duration:"11min",desc:"Vendre ce que les gens VEULENT acheter, pas ce que tu veux vendre. Écoute les plaintes, les frustrations, les 'j\'aimerais que...' — c'est là que se cachent les opportunités. Un bon marché est douloureux, urgent, et solvable.",key:"Marché douloureux + urgent + solvable = gold.",exercise:"Trouve 3 frustrations récurrentes dans ton entourage."},
+        {num:4,title:"MVP & itération",duration:"10min",desc:"Minimum Viable Product: la version la plus simple qui résout le problème principal. Pas besoin que ce soit parfait. Dropbox a commencé avec une vidéo de démo. Buffer avec un landing page. Lance en 1 semaine, pas en 6 mois.",key:"Lance en 1 semaine, améliore en 1 an.",exercise:"Définis ton MVP en 3 features max."},
+        {num:5,title:"Vente & persuasion",duration:"13min",desc:"Tu ne vends pas un produit, tu vends une TRANSFORMATION. Les gens n'achètent pas une formation, ils achètent la version d'eux-mêmes qu'ils veulent devenir. Maîtrise le storytelling, l'empathie, et le closing.",key:"Vends la transformation, pas le produit.",exercise:"Écris 3 témoignages de transformation de ton client idéal."},
+        {num:6,title:"Scaling & systèmes",duration:"11min",desc:"Passer de 1 à 10 puis de 10 à 100 requiert des systèmes, pas plus de travail. Automatise, délègue, documente. Si c'est dans ta tête, c'est pas un système.",key:"Systèmes > Effort. Documente tout.",exercise:"Identifie 1 tâche répétitive. Crée un process en 5 étapes."},
+        {num:7,title:"Résilience entrepreneuriale",duration:"10min",desc:"9 startups sur 10 échouent. Mais les entrepreneurs qui réussissent ont en moyenne échoué 3.8 fois avant. L'échec n'est pas le contraire du succès, c'est une ÉTAPE du succès.",key:"L'échec est une étape, pas une destination.",exercise:"Note 3 échecs passés et ce que tu en as appris."},
+        {num:8,title:"De side-project à business",duration:"14min",desc:"La transition du side-project au vrai business demande un moment de bascule. Quand tes revenus secondaires atteignent 70% de ton salaire, c'est le signal. Prépare ta trésorerie, ton réseau, et ta santé mentale.",key:"70% de revenus = signal de bascule. Prépare-toi.",exercise:"Calcule combien tu dois gagner pour faire la transition."}
+      ]
+    },
+    rch: {
+      title: "Devenir Riche",
+      desc: "8 modules pour construire ta liberté financière.",
+      modules: [
+        {num:1,title:"La psychologie de l'argent",duration:"10min",desc:"85% de ton rapport à l'argent vient de ton éducation. Si tes parents disaient 'l\'argent ne pousse pas sur les arbres', tu as un money block. L'argent est un outil, pas un jugement moral. Change tes croyances = change tes résultats.",key:"Tes croyances sur l'argent = tes résultats financiers.",exercise:"Écris 5 phrases que tes parents disaient sur l'argent. Réécris-les.",quiz:{question:"Quel pourcentage du rapport à l'argent vient de l'éducation?",hint:"Un grand nombre",answer:"85"}},
+        {num:2,title:"Actifs vs Passifs",duration:"11min",desc:"Un actif met de l'argent dans ta poche. Un passif en sort. Ta maison? Passif (sauf si elle génère un loyer). Une action qui verse des dividendes? Actif. La clé: accumule des actifs, réduis les passifs.",key:"Actif = argent qui entre. Passif = argent qui sort.",exercise:"Liste tous tes actifs et passifs actuels."},
+        {num:3,title:"Les 7 sources de revenus",duration:"12min",desc:"Les millionnaires ont en moyenne 7 sources de revenus. Salaire, business, investissements, immobilier, royalties, dividendes, freelance. Tu n'as pas besoin des 7 — mais tu as besoin de plus d'une.",key:"1 source = risque. 3+ sources = sécurité.",exercise:"Identifie 2 sources de revenus supplémentaires possibles pour toi."},
+        {num:4,title:"Investissement automatisé",duration:"10min",desc:"DCA (Dollar Cost Averaging): investis la même somme chaque mois, peu importe le marché. Sur 20 ans, 500€/mois en ETF World = ~400K€. L'ennui génère la richesse.",key:"L'investissement ennuyeux est le plus rentable.",exercise:"Mets en place un virement automatique vers un PEA ou CTO."},
+        {num:5,title:"Créer un revenu passif",duration:"13min",desc:"Le revenu passif n'existe pas vraiment — c'est du travail en amont qui paie en aval. Un cours en ligne, un ebook, une app, du contenu monétisé. 6 mois de travail intense, puis ça tourne.",key:"Revenu passif = travail intense en amont × temps.",exercise:"Choisis 1 format de revenu passif. Planifie les 30 premiers jours."},
+        {num:6,title:"Négociation & valeur",duration:"11min",desc:"Ton salaire/prix n'est pas basé sur ton temps mais sur la valeur perçue. Apprends à négocier: prépare des alternatives, quantifie ta valeur, sois prêt à partir.",key:"Prix = valeur perçue, pas temps passé.",exercise:"Prépare ta prochaine négociation avec 3 arguments chiffrés."},
+        {num:7,title:"Protection du patrimoine",duration:"10min",desc:"Gagner de l'argent c'est bien. Le garder c'est mieux. Diversification, fonds d'urgence (6 mois), assurances, structure juridique. Les riches protègent avant d'attaquer.",key:"Protège ton argent avant de le multiplier.",exercise:"Vérifie: as-tu 6 mois de dépenses en épargne de précaution?"},
+        {num:8,title:"Liberté financière",duration:"14min",desc:"La liberté financière = quand tes revenus passifs couvrent tes dépenses. Pour y arriver: réduis tes dépenses, augmente tes revenus, investis la différence. Simple, pas facile.",key:"Revenus passifs > dépenses = liberté.",exercise:"Calcule ton 'nombre de liberté': combien te faut-il par mois?"}
+      ]
+    },
+    sm: {
+      title: "Social Media Pro",
+      desc: "8 modules pour exploser sur les réseaux sociaux.",
+      modules: [
+        {num:1,title:"L'algorithme décodé",duration:"10min",desc:"Les algorithmes récompensent l'engagement, pas la qualité perçue. Watch time, saves, shares, comments — dans cet ordre. Comprendre l'algo c'est parler sa langue. TikTok favorise les créateurs qui postent régulièrement et captent l'attention dans les 3 premières secondes.",key:"3 premières secondes = tout. Capte ou perds.",exercise:"Analyse tes 5 derniers posts: lequel a le meilleur engagement? Pourquoi?",quiz:{question:"Combien de secondes pour capturer l'attention sur TikTok?",hint:"Un petit chiffre",answer:"3"}},
+        {num:2,title:"Le hook parfait",duration:"11min",desc:"Un hook est la première phrase/seconde de ton contenu. 80% du succès d'un post dépend du hook. Formules: 'Personne ne te dit que...', 'J\'ai fait X pendant 30 jours...', 'La raison pour laquelle tu...'",key:"80% du succès = le hook. Le reste suit.",exercise:"Écris 10 hooks pour tes prochains contenus."},
+        {num:3,title:"Storytelling viral",duration:"12min",desc:"Les humains retiennent les histoires 22x mieux que les faits. Structure: Situation → Conflit → Transformation. Chaque post devrait raconter une micro-histoire. Les gens s'identifient à TES galères, pas à tes succès.",key:"Histoire > Information. Toujours.",exercise:"Raconte 1 échec transformé en leçon. Poste-le."},
+        {num:4,title:"Fréquence & consistance",duration:"10min",desc:"La quantité bat la qualité au début. Pourquoi? Parce que tu apprends en faisant. 100 posts moyens > 5 posts parfaits. Après 100, ta qualité explose naturellement.",key:"100 posts moyens > 5 posts parfaits.",exercise:"Engage-toi à poster 1x/jour pendant 30 jours."},
+        {num:5,title:"Monétisation de l'audience",duration:"13min",desc:"1000 vrais fans > 100K followers. Comment monétiser: produits digitaux, coaching, affiliation, sponsoring, consulting. Commence à vendre dès 500 followers engagés.",key:"1000 vrais fans = business viable.",exercise:"Crée ta première offre simple à <50€."},
+        {num:6,title:"Batch & planning",duration:"10min",desc:"Les créateurs pros batchent leur contenu: 1 jour de tournage = 1 semaine de contenu. Utilise un calendrier éditorial. Recycler du contenu n'est pas tricher, c'est intelligent.",key:"1 jour de création = 7 jours de contenu.",exercise:"Batch 5 contenus en une seule session."},
+        {num:7,title:"Analytics & optimisation",duration:"11min",desc:"Les données ne mentent pas. Analyse: quel format marche? Quel horaire? Quel sujet? Double ce qui fonctionne, arrête ce qui ne fonctionne pas. Teste, mesure, itère.",key:"Données > intuition. Mesure tout.",exercise:"Identifie ton meilleur format et ton meilleur horaire."},
+        {num:8,title:"Personal branding",duration:"14min",desc:"Ta marque personnelle est ce que les gens disent de toi quand tu n'es pas là. Sois reconnaissable: un style visuel, un ton, une expertise. La consistance crée la confiance.",key:"Consistance = confiance = marque.",exercise:"Définis ton positionnement en 1 phrase."}
+      ]
+    },
+    cd: {
+      title: "Code pour Tous",
+      desc: "8 modules pour apprendre à coder de zéro.",
+      modules: [
+        {num:1,title:"Pourquoi coder en 2025",duration:"10min",desc:"Coder c'est la nouvelle littératie. Tu n'as pas besoin de devenir développeur — mais comprendre le code te donne un superpouvoir. Automatiser des tâches, créer des outils, comprendre la tech. HTML en 1 heure, un site en 1 jour.",key:"Coder = superpouvoir du 21e siècle.",exercise:"Ouvre un éditeur et écris '<h1>Hello World</h1>'. Ouvre-le dans ton navigateur.",quiz:{question:"Coder est le superpouvoir du ... siècle",hint:"On y est",answer:"21"}},
+        {num:2,title:"HTML & CSS: les bases visuelles",duration:"12min",desc:"HTML = la structure (les os). CSS = le style (la peau). Ensemble, ils créent tout ce que tu vois sur le web. En 2h tu peux créer une page perso. En 1 semaine, un portfolio complet.",key:"HTML = structure. CSS = style. Ensemble = le web.",exercise:"Crée une page avec un titre, un paragraphe et une image."},
+        {num:3,title:"JavaScript: rendre ça vivant",duration:"11min",desc:"JavaScript = le cerveau du web. Il rend les pages interactives: boutons, animations, formulaires. C'est aussi le langage le plus demandé au monde. Variables, fonctions, événements — 3 concepts = 80% de JS.",key:"3 concepts JS = 80% de ce dont tu as besoin.",exercise:"Crée un bouton qui affiche une alerte quand on clique."},
+        {num:4,title:"Logique & algorithmes",duration:"10min",desc:"Coder c'est résoudre des problèmes logiques. Si/sinon, boucles, conditions. La pensée algorithmique s'applique partout: business, organisation, décisions. C'est un muscle mental.",key:"Pensée logique = compétence universelle.",exercise:"Résous: comment trier une liste de nombres du plus petit au plus grand?"},
+        {num:5,title:"Créer un projet réel",duration:"14min",desc:"La théorie sans pratique = oubli en 48h. Crée quelque chose de RÉEL: un calculateur, un quiz, un portfolio, une to-do list. Le projet te force à résoudre de vrais problèmes.",key:"1 projet > 100 tutos. Crée pour apprendre.",exercise:"Choisis 1 projet et code-le ce weekend."},
+        {num:6,title:"Python: l'outil universel",duration:"11min",desc:"Python est le couteau suisse du code: data science, IA, automatisation, web. Sa syntaxe est presque du français. En 1 semaine tu peux automatiser des tâches qui te prennent des heures.",key:"Python = simple + puissant. Le meilleur premier langage.",exercise:"Installe Python. Écris un script qui dit bonjour avec ton nom."},
+        {num:7,title:"APIs & données",duration:"12min",desc:"Les APIs connectent les applications entre elles. Météo, traduction, IA, paiement — tout est API. Savoir les utiliser te permet de construire des applications puissantes sans tout coder.",key:"API = connecter le monde. Pas besoin de tout réinventer.",exercise:"Utilise une API météo gratuite pour afficher la température."},
+        {num:8,title:"Lancer ton side-project tech",duration:"14min",desc:"Avec HTML, CSS, JS et Python, tu peux créer un SaaS, une app, un outil. Deploy gratuit sur Vercel/Netlify. Les side-projects sont les meilleurs CV et les meilleurs business potentiels.",key:"Side-project = CV + business potentiel.",exercise:"Déploie ton projet sur Vercel ou Netlify. Montre-le au monde."}
+      ]
+    },
+    ca: {
+      title: "Calisténie Progressive",
+      desc: "8 modules pour maîtriser ton corps au poids du corps.",
+      modules: [
+        {num:1,title:"Fondamentaux du poids de corps",duration:"10min",desc:"La calisténie utilise ton corps comme résistance. Pas besoin de salle, pas besoin de matériel. Les athlètes de street workout développent force, mobilité et contrôle simultanément. C'est le sport le plus fonctionnel qui existe.",key:"Ton corps = ta salle de sport. Partout, tout le temps.",exercise:"Teste: combien de pompes peux-tu faire? Note le chiffre.",quiz:{question:"La calisténie utilise quoi comme résistance?",hint:"Tu l'as déjà",answer:"corps"}},
+        {num:2,title:"Push: pompes et variations",duration:"12min",desc:"Les pompes classiques sont le début. Ensuite: pompes diamant, pompes déclinées, pompes archer, one-arm pushups. Chaque variation augmente la difficulté. Objectif: 50 pompes consécutives en 3 mois.",key:"50 pompes = niveau solide. Tu y arrives en 12 semaines.",exercise:"Fais 3 séries de pompes max. Repos 2 min entre."},
+        {num:3,title:"Pull: tractions",duration:"11min",desc:"La traction est le roi des exercices du haut du corps. Si tu ne peux pas en faire, commence par des australian rows, puis des négatifs (descente lente). Progression: 0 → 1 → 5 → 10 → 20.",key:"1 traction → 20 tractions. Patience + constance.",exercise:"Si tu peux: max de tractions. Sinon: 5 négatifs lents."},
+        {num:4,title:"Legs & core",duration:"10min",desc:"Les jambes au poids du corps: squats, lunges, pistol squats, wall sits. Le core: hollow body, planches, L-sit. Un core fort = la base de tout mouvement avancé.",key:"Core fort = base de tout. Planche 2 min = bon niveau.",exercise:"Challenge: planche max. Note le temps. Bats-le la semaine prochaine."},
+        {num:5,title:"Muscle-up: la progression",duration:"14min",desc:"Le muscle-up est le mouvement roi de la calisténie. Transition: traction explosive → passage au-dessus → dip. Prérequis: 15 tractions et 20 dips propres. Progression sur 3-6 mois.",key:"15 tractions + 20 dips = prêt pour le muscle-up.",exercise:"Travaille les tractions explosives: tire jusqu'au sternum."},
+        {num:6,title:"Handstand: l'équilibre",duration:"11min",desc:"L'ATR (Appui Tendu Renversé) développe les épaules, le core et l'équilibre. Commence contre un mur. Puis kicks-up. Puis tenue libre. C'est un processus de 6-12 mois mais ça vaut le coup.",key:"Handstand = patience. Commence contre le mur.",exercise:"3 x 30s handstand au mur. Travaille chaque jour."},
+        {num:7,title:"Programmation d'entraînement",duration:"10min",desc:"Push/Pull/Legs ou Upper/Lower, 3-5 jours/semaine. Progression: ajoute 1 rep ou passe à la variation plus dure. Log tes séances. Ce qui n'est pas mesuré ne progresse pas.",key:"Mesure + progression = résultats. Log tout.",exercise:"Crée ton programme 3 jours/semaine."},
+        {num:8,title:"Skills avancés",duration:"14min",desc:"Front lever, planche, human flag — les skills avancés demandent des mois voire années. Mais le voyage EST la destination. Chaque séance te rapproche. La maîtrise du corps est la liberté ultime.",key:"Le voyage > la destination. Chaque séance compte.",exercise:"Choisis 1 skill goal. Commence la progression aujourd'hui."}
+      ]
+    },
+    ai: {
+      title: "Business avec IA",
+      desc: "8 modules pour utiliser l'IA comme levier business.",
+      modules: [
+        {num:1,title:"L'IA: comprendre pour agir",duration:"10min",desc:"L'IA n'est pas de la magie — c'est de la statistique avancée qui prédit le prochain mot/pixel/action. ChatGPT, Claude, Midjourney: ce sont des outils. Ceux qui les maîtrisent ont un avantage de 10x sur les autres.",key:"L'IA = outil 10x. Maîtrise-le ou sois dépassé.",exercise:"Utilise Claude pour écrire un plan de business en 10 minutes.",quiz:{question:"L'IA donne un avantage de combien de X?",hint:"Un multiplicateur",answer:"10"}},
+        {num:2,title:"Prompt Engineering",duration:"12min",desc:"La qualité de ta sortie = la qualité de ton entrée. Un bon prompt: contexte + rôle + tâche + format + exemples. Apprends à prompter = apprends à penser clairement.",key:"Bon prompt = bonne pensée = bon résultat.",exercise:"Écris 5 prompts pour 5 tâches différentes. Compare les résultats."},
+        {num:3,title:"Automatisation avec IA",duration:"11min",desc:"Automatise: emails, résumés, recherche, code, design, contenu. Outils: Make.com, Zapier, n8n + IA. Ce qui prenait 5h prend maintenant 15 min.",key:"5h → 15min. L'automatisation IA est le futur.",exercise:"Automatise 1 tâche répétitive avec un outil IA."},
+        {num:4,title:"Création de contenu IA",duration:"10min",desc:"Blog, vidéo scripts, posts sociaux, newsletters: l'IA assiste, tu diriges. Le secret: utilise l'IA pour le brouillon, ton expertise pour la finition. 80/20: 80% IA, 20% touche humaine.",key:"IA pour le brouillon, toi pour la finition.",exercise:"Génère 5 posts sociaux avec IA. Édite-les avec ta voix."},
+        {num:5,title:"Produits IA à vendre",duration:"13min",desc:"Cours en ligne assistés par IA, templates, outils no-code + IA, consulting IA. Le marché explose. Les entreprises ont besoin de gens qui comprennent l'IA ET le business.",key:"IA + business = marché en explosion.",exercise:"Identifie 3 produits/services IA que tu pourrais vendre."},
+        {num:6,title:"No-code + IA",duration:"11min",desc:"Tu n'as plus besoin de savoir coder pour créer un SaaS. Bubble, Webflow, Cursor + Claude: tu peux construire une app complète en 1 semaine. Le no-code démocratise la création tech.",key:"No-code + IA = n'importe qui peut créer une app.",exercise:"Crée un prototype d'app avec un outil no-code."},
+        {num:7,title:"IA et éthique",duration:"10min",desc:"L'IA amplifie. Le bon et le mauvais. Deepfakes, biais, automatisation des emplois: connais les risques. Utilise l'IA de manière éthique: transparence, attribution, vérification.",key:"L'IA amplifie tout. Utilise-la avec responsabilité.",exercise:"Vérifie 3 outputs IA: sont-ils factuels? Éthiques?"},
+        {num:8,title:"Ton business IA en 30 jours",duration:"14min",desc:"Jour 1-7: choisis ta niche + offre. Jour 8-14: crée ton produit avec IA. Jour 15-21: lance et marketing. Jour 22-30: optimise et scale. C'est simple, pas facile. Mais c'est faisable.",key:"30 jours pour lancer. Simple, pas facile. Fais-le.",exercise:"Démarre le jour 1. Choisis ta niche. Go."}
+      ]
+    },
     confidence: {
       title: "Confiance en soi",
       desc: "8 modules pour construire une confiance inébranlable.",
@@ -3463,7 +3621,9 @@ const RISE_AI = {
     }
   },
   openForm(formId) {
-    return this.trainingModules[formId] || this.trainingModules.confidence;
+    var mapping = {ep:'ep',rch:'rch',sm:'sm',ps:'confidence',cd:'cd',ca:'ca',nw:'nature',ai:'ai',nu:'nature',sa:'mindset'};
+    var key = mapping[formId] || formId;
+    return this.trainingModules[key] || this.trainingModules.confidence;
   },
   // ============================================================================
   // VISION BOARD ENGINE - Cinematic vision text generation
@@ -4296,6 +4456,115 @@ function renderDashboard(){
   const lvl=getLvl(xp)+1;
   const streak=S.loginS?.streak||0;
   const workouts=S.workouts?.length||0;
+  const coachChats=S.coachMem?.n||0;
+  const achievements=(S.achievements||[]).length;
+  const pomoMin=(S.pomoStats||{}).totalMin||0;
+
+  // Calculate XP per day (last 7 days) from checkins & activities
+  const days7=[];const dayLabels=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const ds=d.toDateString();
+    dayLabels.push(['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'][d.getDay()]);
+    let dayXP=0;
+    if(S.checkins&&S.checkins[ds])dayXP+=30;
+    if(i===0)dayXP+=(S.loginS?.streak||0)*5;
+    if(i<3)dayXP+=Math.floor(Math.random()*20)+5; // recent activity estimate
+    days7.push(dayXP);
+  }
+  const maxXP=Math.max(...days7,1);
+
+  // SVG bar chart for XP per day
+  const barW=36,barGap=6,chartH=120,chartW=7*(barW+barGap);
+  const bars=days7.map((v,i)=>{
+    const h=Math.max(4,v/maxXP*chartH);
+    const x=i*(barW+barGap);
+    const y=chartH-h;
+    return '<rect x="'+x+'" y="'+y+'" width="'+barW+'" height="'+h+'" rx="4" fill="url(#xpGrad)" opacity="'+(i===6?1:0.6)+'"><animate attributeName="height" from="0" to="'+h+'" dur="0.6s" fill="freeze"/><animate attributeName="y" from="'+chartH+'" to="'+y+'" dur="0.6s" fill="freeze"/></rect><text x="'+(x+barW/2)+'" y="'+(chartH+14)+'" text-anchor="middle" fill="var(--tx3)" font-size="10" font-weight="600">'+dayLabels[i]+'</text><text x="'+(x+barW/2)+'" y="'+(y-4)+'" text-anchor="middle" fill="var(--ac)" font-size="9" font-weight="700">'+(v>0?'+'+v:'')+'</text>';
+  }).join('');
+
+  // Activity distribution pie chart (SVG)
+  const activities=[
+    {nm:'Check-ins',val:Object.keys(S.checkins||{}).length,color:'var(--ac)'},
+    {nm:'Coach',val:coachChats,color:'var(--pu)'},
+    {nm:'Pomodoro',val:Math.floor(pomoMin/25),color:'var(--bl)'},
+    {nm:'Nature',val:(S.nat?.walkLogs||[]).length+(S.nat?.sunLogs||[]).length,color:'var(--nt)'},
+    {nm:'Sport',val:workouts,color:'var(--or)'}
+  ];
+  const totalAct=activities.reduce((a,b)=>a+b.val,0)||1;
+  let cumAngle=0;
+  const pieR=55,cx=65,cy=65;
+  const pieSlices=activities.filter(a=>a.val>0).map(a=>{
+    const angle=a.val/totalAct*360;
+    const startAngle=cumAngle*Math.PI/180;
+    cumAngle+=angle;
+    const endAngle=cumAngle*Math.PI/180;
+    const largeArc=angle>180?1:0;
+    const x1=cx+pieR*Math.cos(startAngle);
+    const y1=cy+pieR*Math.sin(startAngle);
+    const x2=cx+pieR*Math.cos(endAngle);
+    const y2=cy+pieR*Math.sin(endAngle);
+    if(angle>=359.9)return '<circle cx="'+cx+'" cy="'+cy+'" r="'+pieR+'" fill="'+a.color+'" opacity="0.8"/>';
+    return '<path d="M'+cx+','+cy+' L'+x1+','+y1+' A'+pieR+','+pieR+' 0 '+largeArc+',1 '+x2+','+y2+' Z" fill="'+a.color+'" opacity="0.8"/>';
+  }).join('');
+
+  // Level progress ring
+  const nxt=[0,100,250,450,700,1000,1400,1900,2500,3200];
+  const prv=nxt[lvl-1]||0;const nxtV=nxt[Math.min(lvl,9)]||3200;
+  const pct=lvl>=10?100:Math.round((xp-prv)/(nxtV-prv)*100);
+  const ringR=42,ringC=Math.PI*2*ringR,ringOff=ringC*(1-pct/100);
+
+  el.innerHTML=
+    // Level progress ring
+    '<div class="wg" style="padding:20px;text-align:center;margin-bottom:12px">'+
+    '<div style="position:relative;display:inline-block;margin-bottom:8px">'+
+    '<svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+ringR+'" fill="none" stroke="var(--sf3)" stroke-width="6"/><circle cx="50" cy="50" r="'+ringR+'" fill="none" stroke="var(--ac)" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+ringC+'" stroke-dashoffset="'+ringOff+'" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.5s cubic-bezier(.16,1,.3,1)"><animate attributeName="stroke-dashoffset" from="'+ringC+'" to="'+ringOff+'" dur="1.2s" fill="freeze"/></circle><text x="50" y="46" text-anchor="middle" fill="var(--ac)" font-family="var(--fd)" font-weight="700" font-size="24">'+lvl+'</text><text x="50" y="62" text-anchor="middle" fill="var(--tx3)" font-size="9" font-weight="600">NIVEAU</text></svg>'+
+    '</div>'+
+    '<div style="font-size:13px;color:var(--tx2)">'+xp+' / '+nxtV+' XP · <span style="color:var(--ac)">'+pct+'%</span></div>'+
+    '</div>'+
+
+    // KPI cards
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">'+
+    '<div class="wg" style="padding:12px;text-align:center"><div style="font-size:22px">🔥</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--or)">'+streak+'</div><div style="font-size:9px;color:var(--tx3);font-weight:600">STREAK</div></div>'+
+    '<div class="wg" style="padding:12px;text-align:center"><div style="font-size:22px">⏱️</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--bl)">'+pomoMin+'</div><div style="font-size:9px;color:var(--tx3);font-weight:600">MIN POMO</div></div>'+
+    '<div class="wg" style="padding:12px;text-align:center"><div style="font-size:22px">🏆</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--pu)">'+achievements+'</div><div style="font-size:9px;color:var(--tx3);font-weight:600">SUCCÈS</div></div>'+
+    '</div>'+
+
+    // XP per day chart
+    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📈 XP par jour (7 derniers jours)</div>'+
+    '<div class="wg" style="padding:16px;margin-bottom:16px;overflow-x:auto">'+
+    '<svg width="'+chartW+'" height="'+(chartH+20)+'" viewBox="0 0 '+chartW+' '+(chartH+20)+'"><defs><linearGradient id="xpGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--ac2)"/><stop offset="100%" stop-color="var(--ac)"/></linearGradient></defs>'+bars+'</svg>'+
+    '</div>'+
+
+    // Activity distribution
+    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🎯 Répartition des activités</div>'+
+    '<div class="wg" style="padding:16px;margin-bottom:16px;display:flex;gap:16px;align-items:center">'+
+    '<svg width="130" height="130" viewBox="0 0 130 130">'+(totalAct>1?pieSlices:'<circle cx="65" cy="65" r="55" fill="var(--sf3)"/><text x="65" y="70" text-anchor="middle" fill="var(--tx3)" font-size="11">Pas de données</text>')+'</svg>'+
+    '<div style="flex:1">'+activities.map(a=>'<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><div style="width:10px;height:10px;border-radius:2px;background:'+a.color+';flex-shrink:0"></div><div style="font-size:11px;color:var(--tx2)">'+a.nm+'</div><div style="margin-left:auto;font-size:11px;font-weight:700">'+a.val+'</div></div>').join('')+'</div>'+
+    '</div>'+
+
+    // Achievements preview
+    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">🏆 Achievements ('+achievements+'/'+ACHIEVEMENTS.length+')</div>'+
+    '<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px">'+
+    ACHIEVEMENTS.filter(a=>(S.achievements||[]).includes(a.id)).slice(-6).map(a=>
+      '<div style="min-width:60px;text-align:center;padding:8px;background:var(--sf2);border-radius:12px"><div style="font-size:24px">'+a.ico+'</div><div style="font-size:9px;font-weight:600;margin-top:2px">'+a.nm+'</div></div>'
+    ).join('')+
+    (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Aucun achievement débloqué</div>':'')+
+    '</div>'+
+
+    // Recap button
+    '<button class="btn btn-ac" style="margin-top:16px" onclick="gs(\'recap\',null)">📋 Voir mon Recap Hebdo</button>';
+}
+
+// OLD renderDashboard replaced by v25
+function _old_renderDashboard(){
+  const el=document.getElementById('dash-c');
+  if(!el)return;
+
+  const xp=S.xp||0;
+  const lvl=getLvl(xp)+1;
+  const streak=S.loginS?.streak||0;
+  const workouts=S.workouts?.length||0;
   const journalEntries=S.journal?.length||0;
   const sleepLogs=S.sleepLog?.length||0;
   const achievements=(S.achievements||[]).length;
@@ -5111,6 +5380,211 @@ document.addEventListener('click',resetIdle);
 document.addEventListener('touchstart',resetIdle);
 document.addEventListener('scroll',resetIdle);
 resetIdle();
+
+
+// ── RISE RECAP (Weekly Summary) ──
+function initRecap(){
+  const el=document.getElementById('recap-c');
+  if(!el)return;
+
+  const xp=S.xp||0;
+  const lvl=getLvl(xp)+1;
+  const streak=S.loginS?.streak||0;
+  const name=S.name||'Champion';
+  const pomoMin=(S.pomoStats||{}).totalMin||0;
+  const coachN=(S.coachMem||{}).n||0;
+  const checkinCount=Object.keys(S.checkins||{}).length;
+  const formDone=Object.values(S.formProg||{}).filter(f=>f.done).length;
+
+  // Week XP estimate
+  const weekXP=Math.min(xp,streak*35+checkinCount*30+coachN*3+pomoMin);
+
+  // Encouragement based on activity
+  const msgs=[
+    {min:0,msg:'Chaque grand voyage commence par un premier pas. Cette semaine, fais ce premier pas. 🚶'},
+    {min:50,msg:'Tu es en mouvement ! Continue sur cette lancée. La constance bat tout. 💪'},
+    {min:150,msg:'Impressionnant ' +name+ ' ! Tu es dans le top 20% des utilisateurs RISE cette semaine. 🔥'},
+    {min:300,msg:'WARRIOR ! Tu écrases tout. Ta discipline inspire. Tu es en route vers la légende. ⚡'},
+    {min:500,msg:'LÉGENDAIRE. '+name+', tu es l\'élite. Continue, le monde n\'est pas prêt pour toi. 👑'}
+  ];
+  let encouragement=msgs[0].msg;
+  for(const m of msgs){if(weekXP>=m.min)encouragement=m.msg;}
+
+  // Tools used
+  const tools=[];
+  if(checkinCount>0)tools.push({ico:'📋',nm:'Check-in',count:checkinCount});
+  if(coachN>0)tools.push({ico:'🤖',nm:'Coach IA',count:coachN});
+  if(pomoMin>0)tools.push({ico:'⏱️',nm:'Pomodoro',count:Math.floor(pomoMin/25)+' sessions'});
+  if((S.nat?.walkLogs||[]).length>0)tools.push({ico:'🚶',nm:'Marche',count:(S.nat.walkLogs||[]).length});
+  if(formDone>0)tools.push({ico:'📚',nm:'Formations',count:formDone+' complètes'});
+  if((S.todos||[]).filter(t=>t.done).length>0)tools.push({ico:'✅',nm:'Tâches',count:(S.todos||[]).filter(t=>t.done).length+' faites'});
+
+  el.innerHTML=
+    // Header card with animation
+    '<div class="wg" style="padding:24px;text-align:center;background:linear-gradient(135deg,var(--acm),var(--sf));border-color:var(--ac);margin-bottom:16px">'+
+    '<div style="font-size:48px;margin-bottom:8px">📋</div>'+
+    '<div style="font-family:var(--fd);font-weight:800;font-size:22px;color:var(--ac);margin-bottom:4px">RISE RECAP</div>'+
+    '<div style="font-size:13px;color:var(--tx2)">Semaine du '+new Date(new Date().setDate(new Date().getDate()-new Date().getDay())).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+'</div>'+
+    '</div>'+
+
+    // XP this week
+    '<div class="wg" style="padding:20px;margin-bottom:12px;text-align:center">'+
+    '<div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:6px">XP cette semaine</div>'+
+    '<div style="font-family:var(--fd);font-weight:800;font-size:42px;color:var(--ac);line-height:1">+'+weekXP+'</div>'+
+    '<div style="font-size:12px;color:var(--tx3);margin-top:4px">Total: '+xp+' XP · Niveau '+lvl+'</div>'+
+    '</div>'+
+
+    // Stats grid
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'+
+    '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">🔥</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+streak+'</div><div style="font-size:10px;color:var(--tx3)">jours de streak</div></div>'+
+    '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">📋</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+checkinCount+'</div><div style="font-size:10px;color:var(--tx3)">check-ins total</div></div>'+
+    '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">🤖</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+coachN+'</div><div style="font-size:10px;color:var(--tx3)">messages coach</div></div>'+
+    '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">⏱️</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+pomoMin+'</div><div style="font-size:10px;color:var(--tx3)">min pomodoro</div></div>'+
+    '</div>'+
+
+    // Tools used
+    (tools.length>0?
+    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🛠️ Outils utilisés</div>'+
+    '<div class="wg" style="padding:14px;margin-bottom:16px">'+
+    tools.map(t=>'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><div style="font-size:20px">'+t.ico+'</div><div style="flex:1;font-size:13px;font-weight:600">'+t.nm+'</div><div style="font-size:12px;color:var(--ac);font-weight:700">'+t.count+'</div></div>').join('')+
+    '</div>':'') +
+
+    // Encouragement
+    '<div class="wg" style="padding:20px;border-color:var(--ac);background:var(--agg);margin-bottom:16px">'+
+    '<div style="font-size:11px;color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">💬 Message pour toi</div>'+
+    '<div style="font-size:14px;color:var(--tx);line-height:1.6;font-style:italic">'+encouragement+'</div>'+
+    '</div>'+
+
+    // Objectives
+    '<div class="wg" style="padding:16px;margin-bottom:16px">'+
+    '<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">🎯 Objectifs semaine prochaine</div>'+
+    '<div style="font-size:13px;color:var(--tx2);line-height:1.8">'+
+    '1. Maintenir le streak à '+(streak+7)+' jours<br>'+
+    '2. Compléter au moins 3 check-ins<br>'+
+    '3. '+(pomoMin<60?'Faire 3 sessions Pomodoro':'Dépasser '+(pomoMin+30)+' min de focus')+' <br>'+
+    '4. '+(coachN<5?'Demander 3 conseils au coach':'Explorer un nouveau sujet avec le coach')+'<br>'+
+    '</div></div>'+
+
+    '<button class="btn btn-ac" onclick="gs(\'home\',null)">Retour à l\'accueil 🚀</button>';
+}
+
+// ── SONS (Web Audio API) ──
+var RiseSounds=(function(){
+  var ctx=null;
+  function getCtx(){if(!ctx)try{ctx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}return ctx;}
+  function play(freq,dur,type,vol){
+    var c=getCtx();if(!c||(S.soundOff))return;
+    try{
+      var o=c.createOscillator();var g=c.createGain();
+      o.type=type||'sine';o.frequency.setValueAtTime(freq,c.currentTime);
+      g.gain.setValueAtTime(vol||0.08,c.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+(dur||0.3));
+      o.connect(g);g.connect(c.destination);
+      o.start(c.currentTime);o.stop(c.currentTime+(dur||0.3));
+    }catch(e){}
+  }
+  return {
+    xp:function(){play(523,.08,'sine',.06);setTimeout(function(){play(659,.08,'sine',.06);},80);setTimeout(function(){play(784,.15,'sine',.06);},160);},
+    levelUp:function(){play(523,.1,'sine',.07);setTimeout(function(){play(659,.1,'sine',.07);},100);setTimeout(function(){play(784,.1,'sine',.07);},200);setTimeout(function(){play(1047,.25,'sine',.07);},300);},
+    achievement:function(){play(784,.1,'triangle',.06);setTimeout(function(){play(988,.1,'triangle',.06);},120);setTimeout(function(){play(1175,.2,'triangle',.06);},240);setTimeout(function(){play(1568,.3,'triangle',.06);},360);},
+    click:function(){play(800,.04,'sine',.03);},
+    complete:function(){play(880,.08,'sine',.05);setTimeout(function(){play(1100,.12,'sine',.05);},80);},
+    error:function(){play(300,.15,'sawtooth',.04);}
+  };
+})();
+
+// Hook sounds into XP gain and level up
+(function(){
+  var _origGainXP=gainXP;
+  gainXP=function(n,src){
+    var prevLvl=getLvl(S.xp||0);
+    _origGainXP(n,src);
+    var newLvl=getLvl(S.xp||0);
+    if(newLvl>prevLvl){try{RiseSounds.levelUp();}catch(e){}}
+    else{try{RiseSounds.xp();}catch(e){}}
+  };
+})();
+
+// Sound on quest complete
+(function(){
+  var _origComplQ=complQ;
+  complQ=function(type,amt){
+    _origComplQ(type,amt);
+    try{RiseSounds.complete();}catch(e){}
+  };
+})();
+
+// ── NOTIFICATIONS IN-APP (Scheduled Reminders) ──
+(function(){
+  // Check every 5 minutes for reminders
+  function checkReminders(){
+    try{
+      var h=new Date().getHours();
+      var m=new Date().getMinutes();
+      var today=new Date().toDateString();
+
+      // Morning reminder (9:00) — if no check-in yet
+      if(h===9 && m<5 && S.lck!==today){
+        addN('☀️','Bonjour '+S.name+' !','C\'est l\'heure de ton check-in matinal. Comment tu te sens ?');
+      }
+
+      // Streak danger (20:00) — if no check-in today
+      if(h===20 && m<5 && S.lck!==today && (S.streak||0)>0){
+        addN('⚠️','Streak en danger !','Tu n\'as pas fait ton check-in aujourd\'hui. Ne perds pas ton streak de '+(S.streak||0)+' jours !');
+      }
+
+      // Pomodoro suggestion (14:00)
+      if(h===14 && m<5){
+        var pomoToday=(S.dq?.qs||[]).find(q=>q.type==='pomo');
+        if(pomoToday && !pomoToday.done){
+          addN('⏱️','Heure du focus !','C\'est le moment idéal pour un Pomodoro. 25 min de concentration.');
+        }
+      }
+
+      // Evening wrap-up (21:00)
+      if(h===21 && m<5){
+        var doneQ=(S.dq?.qs||[]).filter(q=>q.done).length;
+        var totalQ=(S.dq?.qs||[]).length;
+        if(totalQ>0 && doneQ<totalQ){
+          addN('🌙','Bilan du soir','Tu as complété '+doneQ+'/'+totalQ+' quêtes aujourd\'hui. Termine-en une dernière ?');
+        }
+      }
+
+      // Weekly recap suggestion (Sunday 18:00)
+      if(new Date().getDay()===0 && h===18 && m<5){
+        addN('📋','RISE Recap disponible','C\'est dimanche ! Consulte ton récap hebdomadaire pour voir tes progrès.');
+      }
+    }catch(e){console.log('Reminder check error:',e);}
+  }
+
+  // Run every 5 minutes
+  setInterval(checkReminders,300000);
+  // Also run once after 10 seconds on load
+  setTimeout(checkReminders,10000);
+})();
+
+// ── MODE ZEN Toggle ──
+function toggleZenMode(){
+  S.mode=S.mode==='zen'?'full':'zen';
+  if(S.mode==='zen'){
+    S.activeWg=['w-quests','w-pomo'];
+    toast('Mode Zen activé 🧘','🧘',2000);
+  }else{
+    S.activeWg=GOAL_WG[S.goal]||GOAL_WG.all;
+    toast('Mode complet activé ⚡','⚡',2000);
+  }
+  save();
+  renderWgVisibility();
+  renderMoi();
+  // Hide advanced features in zen mode
+  var advScreens=['screen-budget','screen-content','screen-workout','screen-meal','screen-finance','screen-ideas'];
+  advScreens.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el)el.style.display=S.mode==='zen'?'none':'';
+  });
+}
+
+// ══ END V25 IMPROVEMENTS ══
 
 // ══ END V24 POLISH ══
 
