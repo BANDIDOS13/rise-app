@@ -172,6 +172,64 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
 .ai-loading{display:flex;align-items:center;gap:8px;color:var(--tx3);font-size:13px;font-style:italic}
 .ai-loading::before{content:'';width:14px;height:14px;border:2px solid var(--bd2);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* THEMES */
+body[data-theme="purple"]{--ac:#a78bfa;--ac2:#c4b5fd;--acm:rgba(167,139,250,.07)}
+body[data-theme="blue"]{--ac:#4a9ed4;--ac2:#74b9e8;--acm:rgba(74,158,212,.07)}
+body[data-theme="green"]{--ac:#3ecf8e;--ac2:#6dd9a8;--acm:rgba(62,207,142,.07)}
+body[data-theme="red"]{--ac:#e05c5c;--ac2:#e88080;--acm:rgba(224,92,92,.07)}
+body[data-theme="orange"]{--ac:#f59e0b;--ac2:#fbbf24;--acm:rgba(245,158,11,.07)}
+body[data-theme="pink"]{--ac:#ec4899;--ac2:#f472b6;--acm:rgba(236,72,153,.07)}
+/* SPORT */
+.workout-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--bd)}
+.workout-item:last-child{border:none}
+.workout-ico{font-size:22px;width:36px;text-align:center;flex-shrink:0}
+.workout-info{flex:1}.workout-name{font-size:13px;font-weight:700}
+.workout-meta{font-size:11px;color:var(--tx3);margin-top:2px}
+.exercise-item{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;margin-bottom:8px}
+.exercise-name{font-size:13px;font-weight:700;margin-bottom:4px}
+.exercise-meta{font-size:11px;color:var(--tx3)}
+/* SLEEP */
+.sleep-bar{height:40px;background:var(--sf2);border-radius:8px;overflow:hidden;position:relative;margin-bottom:6px}
+.sleep-fill{height:100%;border-radius:8px;transition:width .5s}
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:12px}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;border-radius:6px;cursor:pointer;transition:all .2s}
+.cal-day:hover{background:var(--sf2)}
+.cal-day.today{background:var(--acm);border:1.5px solid var(--ac);color:var(--ac);font-weight:700}
+.cal-day.has-event{position:relative}.cal-day.has-event::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--ac)}
+.cal-day.other-month{opacity:.3}
+.event-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}.event-item:last-child{border:none}
+.event-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.event-title{font-size:13px;font-weight:600}.event-time{font-size:11px;color:var(--tx3);margin-top:2px}
+/* COACH CHAT */
+.coach-chat-wrap{height:360px;display:flex;flex-direction:column}
+#coach-chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:2px 0;scrollbar-width:none}
+#coach-chat-msgs::-webkit-scrollbar{display:none}
+.cmsg{max-width:88%;font-size:13px;line-height:1.6;white-space:pre-wrap;border-radius:12px;padding:9px 13px}
+.cmsg.user{background:var(--acm);border:1px solid rgba(212,170,74,.15);color:var(--ac);border-radius:12px 12px 4px 12px;align-self:flex-end}
+.cmsg.coach{background:var(--sf2);border:1px solid var(--bd);border-radius:12px 12px 12px 4px;align-self:flex-start}
+.cmsg.think{color:var(--tx3);font-style:italic;align-self:flex-start}
+/* AFFILIATION */
+.aff-code{font-family:var(--fd);font-size:28px;font-weight:900;color:var(--ac);text-align:center;letter-spacing:8px;padding:16px;background:var(--acm);border:1.5px solid rgba(212,170,74,.3);border-radius:var(--r);margin-bottom:10px;cursor:pointer}
+.aff-stat{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;text-align:center}
+.aff-stat-v{font-family:var(--fd);font-size:22px;font-weight:800;color:var(--ac)}.aff-stat-l{font-size:10px;color:var(--tx3);margin-top:3px}
+/* SUGGESTIONS */
+.suggestion-item{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px;transition:border-color .2s}
+.suggestion-item:hover{border-color:var(--ac)}
+.sug-title{font-size:13px;font-weight:700}.sug-body{font-size:12px;color:var(--tx2);margin-top:4px;line-height:1.5}
+.sug-votes{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--tx3);margin-top:6px}
+/* INTERESTS ONBOARDING */
+.interest-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.interest-item{padding:10px 12px;background:var(--sf2);border:1.5px solid var(--bd);border-radius:var(--rs);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
+.interest-item.selected{border-color:var(--ac);background:var(--acm)}
+.interest-item .ico{font-size:18px}.interest-item .lbl{font-size:12px;font-weight:600}
+/* CITATION BANNER */
+.cite-banner{background:linear-gradient(135deg,rgba(212,170,74,.08),transparent);border-left:3px solid var(--ac);border-radius:0 var(--rs) var(--rs) 0;padding:12px 14px;margin-bottom:12px;font-style:italic;font-size:13px;color:var(--tx2)}
+.cite-banner span{display:block;font-size:11px;color:var(--ac);font-weight:600;margin-top:4px;font-style:normal}
+/* CUSTOMIZATION */
+.theme-swatch{width:28px;height:28px;border-radius:50%;cursor:pointer;transition:transform .2s;border:2px solid transparent}
+.theme-swatch:hover,.theme-swatch.active{transform:scale(1.2);border-color:var(--tx)}
+
 </style>
 </head>
 <body>
@@ -212,6 +270,14 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
     <div class="sb-item" onclick="nav('mood',this)"><span class="ico">😊</span>Humeur</div>
     <div class="sb-item" onclick="nav('notes',this)"><span class="ico">📝</span>Notes</div>
     <div class="sb-item" onclick="nav('journal',this)"><span class="ico">📓</span>Journal</div>
+    <div class="sb-sec">Sport & Santé</div>
+    <div class="sb-item" onclick="nav('sport',this)"><span class="ico">🏋️</span>Sport & Fitness</div>
+    <div class="sb-item" onclick="nav('sleep',this)"><span class="ico">😴</span>Sommeil</div>
+    <div class="sb-sec">Organisation</div>
+    <div class="sb-item" onclick="nav('calendar',this)"><span class="ico">📅</span>Calendrier & RDV</div>
+    <div class="sb-sec">Communauté</div>
+    <div class="sb-item" onclick="nav('affiliation',this)"><span class="ico">🤝</span>Affiliation</div>
+    <div class="sb-item" onclick="nav('suggestions',this)"><span class="ico">💡</span>Suggestions</div>
     <div class="sb-sec">Compte</div>
     <div class="sb-item" onclick="nav('achievements',this)"><span class="ico">🏆</span>Achievements</div>
     <div class="sb-item" onclick="nav('export',this)"><span class="ico">💾</span>Export</div>
@@ -243,6 +309,7 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
         <div class="sc"><div class="sc-v" id="h-score">0</div><div class="sc-l">⭐ Score</div></div>
       </div>
       <div id="h-quote"></div>
+      <div id="h-citation"></div>
       <div class="home-grid">
         <div>
           <div class="card"><div class="card-h">📋 Tâches du jour</div><div id="h-todo-list"></div><div class="inp-row" style="margin-top:8px"><input class="inp" id="h-todo-inp" placeholder="Tâche rapide..." onkeydown="if(event.key==='Enter')quickTodo()"><button class="btn-icon" onclick="quickTodo()">+</button></div></div>
@@ -296,6 +363,14 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
           <div class="coach-prog" onclick="getCoach('week')"><div class="ico">📅</div><div class="lbl">Plan de la semaine</div></div>
         </div>
         <div id="coach-response" class="coach-response">Sélectionne un programme pour obtenir un coaching personnalisé basé sur tes données RISE.</div>
+      </div>
+      <div class="card coach-chat-wrap">
+        <div class="card-h gold">💬 Chat avec ton Coach IA</div>
+        <div id="coach-chat-msgs"></div>
+        <div class="inp-row" style="margin-top:8px;flex-shrink:0">
+          <input class="inp" id="coach-chat-inp" placeholder="Parle à ton coach..." onkeydown="if(event.key==='Enter')sendCoachChat()">
+          <button class="btn btn-gold btn-sm" style="width:auto;padding:9px 14px" onclick="sendCoachChat()">↑</button>
+        </div>
       </div>
       <div class="card">
         <div class="card-h">Question libre à ton coach</div>
@@ -525,16 +600,208 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
     <button class="btn btn-sf btn-sm" onclick="showKbHelp()">Aide</button>
   </div>
 </div>
+<div class="card">
+  <div class="card-h gold">🎨 Personnalisation</div>
+  <div style="margin-bottom:10px">
+    <div style="font-size:11px;color:var(--tx3);margin-bottom:7px">Couleur principale</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap" id="theme-swatches">
+      <div class="theme-swatch active" data-theme="" style="background:#d4aa4a" onclick="setTheme('',this)" title="Or (défaut)"></div>
+      <div class="theme-swatch" data-theme="purple" style="background:#a78bfa" onclick="setTheme('purple',this)" title="Violet"></div>
+      <div class="theme-swatch" data-theme="blue" style="background:#4a9ed4" onclick="setTheme('blue',this)" title="Bleu"></div>
+      <div class="theme-swatch" data-theme="green" style="background:#3ecf8e" onclick="setTheme('green',this)" title="Vert"></div>
+      <div class="theme-swatch" data-theme="red" style="background:#e05c5c" onclick="setTheme('red',this)" title="Rouge"></div>
+      <div class="theme-swatch" data-theme="orange" style="background:#f59e0b" onclick="setTheme('orange',this)" title="Orange"></div>
+      <div class="theme-swatch" data-theme="pink" style="background:#ec4899" onclick="setTheme('pink',this)" title="Rose"></div>
+    </div>
+  </div>
+</div>
 <div class="card"><div class="card-h">Personnaliser</div><div class="inp-row" style="margin-bottom:9px"><input class="inp" id="pf-name-inp" placeholder="Ton prénom..."><button class="btn btn-sf btn-sm" onclick="saveName()">✓</button></div><button class="btn btn-sf" id="auth-btn" onclick="showAuth()" style="width:100%;margin-bottom:7px">Se connecter ☁️</button><button class="btn btn-sf" id="signout-btn" onclick="doSignOut()" style="width:100%;display:none">Se déconnecter</button><button class="btn btn-gold" onclick="showUpgrade()" style="margin-top:7px">🚀 Passer à Pro — 19€/mois</button></div>
       <div class="card g2"><div><div class="card-h">Tâches</div><div class="sc-v" id="ps-t">0</div></div><div><div class="card-h">Habitudes</div><div class="sc-v" id="ps-h">0</div></div><div><div class="card-h">Notes</div><div class="sc-v" id="ps-n">0</div></div><div><div class="card-h">Humeurs</div><div class="sc-v" id="ps-m">0</div></div></div>
     </div>
 
   </div>
+
+    <!-- SPORT & FITNESS -->
+    <div class="page" id="page-sport">
+      <div class="pg-title">🏋️ Sport & Fitness</div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="sport-sessions">0</div><div class="sc-l">Sessions</div></div>
+        <div class="sc gr"><div class="sc-v" id="sport-streak">0</div><div class="sc-l">🔥 Streak sport</div></div>
+        <div class="sc bl"><div class="sc-v" id="sport-xp">0</div><div class="sc-l">XP sport</div></div>
+      </div>
+      <!-- Programme type -->
+      <div class="card">
+        <div class="card-h">Ton programme</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px" id="sport-type-btns">
+          <button onclick="setSportType('bodyweight',this)" class="btn btn-sf btn-sm">🤸 Poids de corps</button>
+          <button onclick="setSportType('gym',this)" class="btn btn-sf btn-sm">🏋️ Salle</button>
+          <button onclick="setSportType('street',this)" class="btn btn-sf btn-sm">🛤️ Street Workout</button>
+          <button onclick="setSportType('calisthenics',this)" class="btn btn-sf btn-sm">💪 Calisténie</button>
+          <button onclick="setSportType('cardio',this)" class="btn btn-sf btn-sm">🏃 Cardio</button>
+          <button onclick="setSportType('yoga',this)" class="btn btn-sf btn-sm">🧘 Yoga</button>
+        </div>
+        <div id="sport-program-card"></div>
+      </div>
+      <!-- Today session -->
+      <div class="card">
+        <div class="card-h">Séance du jour</div>
+        <div id="sport-today-session"></div>
+        <button class="btn btn-gold btn-sm" style="margin-top:10px" onclick="startSession()">▶ Démarrer la séance</button>
+      </div>
+      <!-- Log séance -->
+      <div class="card">
+        <div class="card-h">Logger une activité</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="sport-name" placeholder="Activité (ex: Pompes)">
+          <input class="inp" id="sport-duration" type="number" placeholder="Durée (min)">
+        </div>
+        <input class="inp" id="sport-notes" placeholder="Notes, répétitions..." style="margin-bottom:8px">
+        <button class="btn btn-gold btn-sm" onclick="logSport()">Enregistrer</button>
+      </div>
+      <div class="card"><div class="card-h">Historique</div><div id="sport-history"></div></div>
+    </div>
+
+    <!-- SLEEP TRACKER -->
+    <div class="page" id="page-sleep">
+      <div class="pg-title">😴 Sommeil</div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="sc"><div class="sc-v" id="sleep-avg">0h</div><div class="sc-l">Moy/nuit</div></div>
+        <div class="sc gr"><div class="sc-v" id="sleep-quality-avg">-</div><div class="sc-l">Qualité moy</div></div>
+        <div class="sc bl"><div class="sc-v" id="sleep-streak">0</div><div class="sc-l">Nuits loggées</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h">Logger cette nuit</div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <div><label style="font-size:11px;color:var(--tx3)">Coucher 🌙</label><input class="inp" type="time" id="sleep-bed" value="23:00"></div>
+          <div><label style="font-size:11px;color:var(--tx3)">Réveil ☀️</label><input class="inp" type="time" id="sleep-wake" value="07:00"></div>
+        </div>
+        <div style="margin-bottom:8px">
+          <div style="font-size:11px;color:var(--tx3);margin-bottom:6px">Qualité du sommeil</div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-sf btn-sm" onclick="setSleepQ(1,this)">😫 Mauvais</button>
+            <button class="btn btn-sf btn-sm" onclick="setSleepQ(2,this)">😐 Moyen</button>
+            <button class="btn btn-sf btn-sm" onclick="setSleepQ(3,this)">😊 Bon</button>
+            <button class="btn btn-sf btn-sm" onclick="setSleepQ(4,this)">🌟 Excellent</button>
+          </div>
+        </div>
+        <input class="inp" id="sleep-note" placeholder="Note (rêves, levé fatigué...)" style="margin-bottom:8px">
+        <button class="btn btn-gold btn-sm" onclick="logSleep()">Enregistrer</button>
+      </div>
+      <div class="card">
+        <div class="card-h">💡 Conseils sommeil IA</div>
+        <div id="sleep-advice" style="font-size:13px;color:var(--tx2);line-height:1.7">Enregistre quelques nuits pour recevoir des conseils personnalisés.</div>
+        <button class="btn btn-sf btn-sm" style="margin-top:8px" onclick="getSleepAdvice()">✨ Analyser mon sommeil</button>
+      </div>
+      <div class="card"><div class="card-h">Historique 7 nuits</div><div id="sleep-history"></div></div>
+    </div>
+
+    <!-- CALENDAR & RDV -->
+    <div class="page" id="page-calendar">
+      <div class="pg-title">📅 Calendrier & RDV</div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <button class="btn-icon" onclick="calPrevMonth()">←</button>
+          <div style="font-family:var(--fd);font-size:16px;font-weight:800;color:var(--ac)" id="cal-title">Mars 2026</div>
+          <button class="btn-icon" onclick="calNextMonth()">→</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:6px;text-align:center">
+          <div style="font-size:10px;color:var(--tx3);padding:4px">LUN</div>
+          <div style="font-size:10px;color:var(--tx3);padding:4px">MAR</div>
+          <div style="font-size:10px;color:var(--tx3);padding:4px">MER</div>
+          <div style="font-size:10px;color:var(--tx3);padding:4px">JEU</div>
+          <div style="font-size:10px;color:var(--tx3);padding:4px">VEN</div>
+          <div style="font-size:10px;color:var(--tx3);padding:4px">SAM</div>
+          <div style="font-size:10px;color:var(--tx3);padding:4px">DIM</div>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+        <div style="font-size:12px;color:var(--tx3);margin-bottom:8px" id="cal-selected-date">Aujourd'hui</div>
+        <div id="cal-day-events"></div>
+      </div>
+      <div class="card">
+        <div class="card-h">+ Ajouter un RDV</div>
+        <input class="inp" id="ev-title" placeholder="Titre du RDV..." style="margin-bottom:7px">
+        <div class="g2" style="gap:8px;margin-bottom:7px">
+          <input class="inp" id="ev-date" type="date">
+          <input class="inp" id="ev-time" type="time" value="10:00">
+        </div>
+        <div class="g2" style="gap:8px;margin-bottom:8px">
+          <input class="inp" id="ev-duration" type="number" placeholder="Durée (min)" value="60">
+          <select class="inp" id="ev-type">
+            <option value="work">💼 Pro</option>
+            <option value="health">🏥 Santé</option>
+            <option value="personal">👤 Perso</option>
+            <option value="sport">🏋️ Sport</option>
+            <option value="social">🤝 Social</option>
+          </select>
+        </div>
+        <button class="btn btn-gold btn-sm" onclick="addEvent()">Ajouter</button>
+      </div>
+      <div class="card"><div class="card-h">Prochains RDV</div><div id="upcoming-events"></div></div>
+    </div>
+
+    <!-- AFFILIATION -->
+    <div class="page" id="page-affiliation">
+      <div class="pg-title">🤝 Affiliation <small>Gagne avec RISE</small></div>
+      <div class="card" style="text-align:center">
+        <div style="font-size:13px;color:var(--tx3);margin-bottom:8px">Ton code unique</div>
+        <div class="aff-code" id="aff-code" onclick="copyAffCode()">RISE-????</div>
+        <div style="font-size:11px;color:var(--tx3)">Clique pour copier</div>
+      </div>
+      <div class="g3" style="margin-bottom:12px">
+        <div class="aff-stat"><div class="aff-stat-v" id="aff-invited">0</div><div class="aff-stat-l">Invités</div></div>
+        <div class="aff-stat"><div class="aff-stat-v" id="aff-converted">0</div><div class="aff-stat-l">Convertis</div></div>
+        <div class="aff-stat"><div class="aff-stat-v" id="aff-earned">0€</div><div class="aff-stat-l">Gains estimés</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h gold">💰 Comment ça marche</div>
+        <div style="font-size:13px;line-height:1.8;color:var(--tx2)">
+          <div style="padding:8px 0;border-bottom:1px solid var(--bd)">🎁 <strong style="color:var(--ac)">+100 XP</strong> pour toi + ton ami à l'inscription avec ton code</div>
+          <div style="padding:8px 0;border-bottom:1px solid var(--bd)">💰 <strong style="color:var(--gr)">20% de commission</strong> sur chaque abonnement payant de tes filleuls</div>
+          <div style="padding:8px 0">🚀 Partage ton lien, gagne sans limite !</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Partager</div>
+        <div class="inp-row" style="margin-bottom:8px">
+          <input class="inp" id="aff-link" readonly>
+          <button class="btn btn-sf btn-sm" onclick="copyAffLink()">Copier</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-gold btn-sm" onclick="shareWhatsApp()" style="width:auto;flex:1">📱 WhatsApp</button>
+          <button class="btn btn-sf btn-sm" onclick="shareTelegram()" style="flex:1">✈️ Telegram</button>
+          <button class="btn btn-sf btn-sm" onclick="shareEmail()" style="flex:1">📧 Email</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUGGESTIONS CLIENTS -->
+    <div class="page" id="page-suggestions">
+      <div class="pg-title">💡 Suggestions <small>Améliore RISE</small></div>
+      <div class="card">
+        <div class="card-h">Tu as une idée ? 💡</div>
+        <input class="inp" id="sug-title" placeholder="Titre de ta suggestion..." style="margin-bottom:7px">
+        <textarea class="inp" id="sug-body" placeholder="Décris ton idée en détail..." rows="3" style="margin-bottom:8px;resize:none"></textarea>
+        <select class="inp" id="sug-cat" style="margin-bottom:8px">
+          <option value="feature">✨ Nouvelle fonctionnalité</option>
+          <option value="improvement">🔧 Amélioration existante</option>
+          <option value="bug">🐛 Bug à corriger</option>
+          <option value="design">🎨 Design / UX</option>
+          <option value="content">📚 Contenu</option>
+        </select>
+        <button class="btn btn-gold btn-sm" onclick="submitSuggestion()">Envoyer ma suggestion</button>
+      </div>
+      <div class="card">
+        <div class="card-h">🔥 Suggestions populaires</div>
+        <div id="suggestions-list"></div>
+      </div>
+    </div>
+
   <div id="mob-nav">
     <div class="mn-btn active" onclick="nav('home',this)"><span class="ico">🏠</span>Accueil</div>
     <div class="mn-btn" onclick="nav('goals',this)"><span class="ico">🎯</span>Goals</div>
     <div class="mn-btn" onclick="nav('todos',this)"><span class="ico">✅</span>Tâches</div>
     <div class="mn-btn" onclick="nav('coach',this)"><span class="ico">🧠</span>Coach</div>
+    <div class="mn-btn" onclick="nav('sport',this)"><span class="ico">🏋️</span>Sport</div>
     <div class="mn-btn" onclick="nav('profile',this)"><span class="ico">👤</span>Profil</div>
   </div>
 </div>
@@ -550,12 +817,30 @@ textarea.inp{resize:vertical}select.inp{cursor:pointer}
 <!-- ONBOARDING -->
 <div class="onb-ov" id="onb-ov">
 <div class="onb-card">
-  <div class="onb-dots"><div class="onb-dot active" id="od-0"></div><div class="onb-dot" id="od-1"></div><div class="onb-dot" id="od-2"></div><div class="onb-dot" id="od-3"></div><div class="onb-dot" id="od-4"></div></div>
+  <div class="onb-dots"><div class="onb-dot active" id="od-0"></div><div class="onb-dot" id="od-1"></div><div class="onb-dot" id="od-2"></div><div class="onb-dot" id="od-3"></div><div class="onb-dot" id="od-4"></div><div class="onb-dot" id="od-5"></div></div>
   <div class="onb-step active" id="onb-0"><div class="onb-logo">RISE</div><div style="text-align:center;font-size:11px;color:var(--tx3);margin-bottom:20px;letter-spacing:1px">AI LIFE OPERATING SYSTEM</div><div class="onb-emoji">🚀</div><div class="onb-title">Bienvenue sur RISE</div><div class="onb-desc">Ta plateforme tout-en-un pour gérer ta vie, tes objectifs, et tes revenus avec l'IA.</div><button class="btn btn-gold" onclick="onbNext()">Commencer →</button></div>
   <div class="onb-step" id="onb-1"><div class="onb-emoji">👤</div><div class="onb-title">Comment tu t'appelles ?</div><div class="onb-desc">RISE va personnaliser toute ton expérience.</div><input class="inp" id="onb-name" placeholder="Ton prénom..." style="margin-bottom:12px;text-align:center" onkeydown="if(event.key==='Enter')onbNext()"><button class="btn btn-gold" onclick="onbNext()">Continuer →</button></div>
   <div class="onb-step" id="onb-2"><div class="onb-emoji">💰</div><div class="onb-title">Tes revenus actuels</div><div class="onb-desc">Pour calibrer ton coaching et tes objectifs.</div><div class="g2" style="gap:8px;margin-bottom:12px"><input class="inp" id="onb-rev-current" type="number" placeholder="Revenus actuels (€/mois)" style="text-align:center"><input class="inp" id="onb-rev-goal" type="number" placeholder="Objectif (€/mois)" style="text-align:center"></div><button class="btn btn-gold" onclick="onbNext()">Continuer →</button></div>
   <div class="onb-step" id="onb-3"><div class="onb-emoji">⭐</div><div class="onb-title">Ton signe astrologique</div><div class="onb-desc">Pour ton horoscope IA personnalisé.</div><select class="inp" id="onb-sign" style="margin-bottom:12px;text-align:center"><option value="">Choisir ton signe...</option><option value="Bélier">♈ Bélier (21 mars - 19 avr)</option><option value="Taureau">♉ Taureau (20 avr - 20 mai)</option><option value="Gémeaux">♊ Gémeaux (21 mai - 20 juin)</option><option value="Cancer">♋ Cancer (21 juin - 22 juil)</option><option value="Lion">♌ Lion (23 juil - 22 août)</option><option value="Vierge">♍ Vierge (23 août - 22 sep)</option><option value="Balance">♎ Balance (23 sep - 22 oct)</option><option value="Scorpion">♏ Scorpion (23 oct - 21 nov)</option><option value="Sagittaire">♐ Sagittaire (22 nov - 21 déc)</option><option value="Capricorne">♑ Capricorne (22 déc - 19 jan)</option><option value="Verseau">♒ Verseau (20 jan - 18 fév)</option><option value="Poissons">♓ Poissons (19 fév - 20 mars)</option></select><button class="btn btn-gold" onclick="onbNext()">Continuer →</button></div>
-  <div class="onb-step" id="onb-4"><div class="onb-emoji">🔑</div><div class="onb-title">Clé API Anthropic</div><div class="onb-desc">Pour activer le Coach IA, JARVIS et l'Horoscope IA. <a href="https://console.anthropic.com" target="_blank" style="color:var(--ac)">Obtenir une clé gratuite →</a></div><input class="inp" id="onb-apikey" type="password" placeholder="sk-ant-... (optionnel)" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')finishOnboarding()"><button class="btn btn-gold" onclick="finishOnboarding()">C'est parti 🚀</button><button class="btn btn-sf btn-sm" onclick="finishOnboarding()" style="margin-top:6px">Passer →</button></div>
+  <div class="onb-step" id="onb-4">
+    <div class="onb-emoji">🎯</div>
+    <div class="onb-title">Tes centres d'intérêt</div>
+    <div class="onb-desc">Sélectionne ce qui t'intéresse pour personnaliser RISE (tu peux tout changer après).</div>
+    <div class="interest-grid" id="interests-grid">
+      <div class="interest-item selected" data-key="business" onclick="toggleInterest(this)"><span class="ico">💼</span><span class="lbl">Business</span></div>
+      <div class="interest-item selected" data-key="revenue" onclick="toggleInterest(this)"><span class="ico">💰</span><span class="lbl">Revenus</span></div>
+      <div class="interest-item selected" data-key="health" onclick="toggleInterest(this)"><span class="ico">💪</span><span class="lbl">Sport & Santé</span></div>
+      <div class="interest-item" data-key="mindset" onclick="toggleInterest(this)"><span class="ico">🧠</span><span class="lbl">Mindset</span></div>
+      <div class="interest-item" data-key="languages" onclick="toggleInterest(this)"><span class="ico">🌍</span><span class="lbl">Langues</span></div>
+      <div class="interest-item" data-key="formations" onclick="toggleInterest(this)"><span class="ico">📚</span><span class="lbl">Formations</span></div>
+      <div class="interest-item" data-key="social" onclick="toggleInterest(this)"><span class="ico">👥</span><span class="lbl">Social</span></div>
+      <div class="interest-item" data-key="finance" onclick="toggleInterest(this)"><span class="ico">📈</span><span class="lbl">Finances</span></div>
+      <div class="interest-item" data-key="sleep" onclick="toggleInterest(this)"><span class="ico">😴</span><span class="lbl">Sommeil</span></div>
+      <div class="interest-item" data-key="calendar" onclick="toggleInterest(this)"><span class="ico">📅</span><span class="lbl">Organisation</span></div>
+    </div>
+    <button class="btn btn-gold" onclick="onbNext()">Continuer →</button>
+  </div>
+  <div class="onb-step" id="onb-5"><div class="onb-emoji">🔑</div><div class="onb-title">Clé API Anthropic</div><div class="onb-desc">Pour activer le Coach IA, JARVIS et l'Horoscope IA. <a href="https://console.anthropic.com" target="_blank" style="color:var(--ac)">Obtenir une clé gratuite →</a></div><input class="inp" id="onb-apikey" type="password" placeholder="sk-ant-... (optionnel)" style="margin-bottom:12px" onkeydown="if(event.key==='Enter')finishOnboarding()"><button class="btn btn-gold" onclick="finishOnboarding()">C'est parti 🚀</button><button class="btn btn-sf btn-sm" onclick="finishOnboarding()" style="margin-top:6px">Passer →</button></div>
 </div>
 </div>
 
@@ -572,6 +857,7 @@ var LANG_DATA={
   Anglais:{flag:'🇬🇧',words:[{w:'Achievement',t:'Réussite'},{w:'Revenue',t:'Revenu'},{w:'Mindset',t:'État d\'esprit'},{w:'Resilience',t:'Résilience'},{w:'Growth',t:'Croissance'},{w:'Discipline',t:'Discipline'},{w:'Momentum',t:'Élan'},{w:'Focus',t:'Concentration'},{w:'Network',t:'Réseau'},{w:'Leverage',t:'Effet de levier'}]},
   Espagnol:{flag:'🇪🇸',words:[{w:'Éxito',t:'Succès'},{w:'Disciplina',t:'Discipline'},{w:'Objetivo',t:'Objectif'},{w:'Confianza',t:'Confiance'},{w:'Voluntad',t:'Volonté'},{w:'Ingreso',t:'Revenu'},{w:'Estrategia',t:'Stratégie'},{w:'Empresa',t:'Entreprise'},{w:'Mercado',t:'Marché'},{w:'Libertad',t:'Liberté'}]},
   Portugais:{flag:'🇧🇷',words:[{w:'Sucesso',t:'Succès'},{w:'Renda',t:'Revenu'},{w:'Crescimento',t:'Croissance'},{w:'Confiança',t:'Confiance'},{w:'Libertade',t:'Liberté'},{w:'Negócio',t:'Affaires'},{w:'Estratégia',t:'Stratégie'},{w:'Objetivo',t:'Objectif'},{w:'Disciplina',t:'Discipline'},{w:'Inovação',t:'Innovation'}]},
+  Catalan:{flag:'🏴󠁥󠁳󠁣󠁴󠁿',words:[{w:'Èxit',t:'Succès'},{w:'Disciplina',t:'Discipline'},{w:'Objectiu',t:'Objectif'},{w:'Confiança',t:'Confiance'},{w:'Voluntat',t:'Volonté'},{w:'Ingrés',t:'Revenu'},{w:'Estratègia',t:'Stratégie'},{w:'Empresa',t:'Entreprise'},{w:'Mercat',t:'Marché'},{w:'Llibertat',t:'Liberté'},{w:'Progrés',t:'Progrès'},{w:'Oportunitat',t:'Opportunité'},{w:'Creixement',t:'Croissance'},{w:'Força',t:'Force'},{w:'Victòria',t:'Victoire'}]},
   Allemand:{flag:'🇩🇪',words:[{w:'Erfolg',t:'Succès'},{w:'Disziplin',t:'Discipline'},{w:'Ziel',t:'Objectif'},{w:'Wachstum',t:'Croissance'},{w:'Vertrauen',t:'Confiance'},{w:'Freiheit',t:'Liberté'},{w:'Strategie',t:'Stratégie'},{w:'Einnahmen',t:'Revenus'},{w:'Mindset',t:'Mentalité'},{w:'Energie',t:'Énergie'}]}
 };
 var QUOTES=[{t:"La discipline est le pont entre les objectifs et les accomplissements.",a:"Jim Rohn"},{t:"Ce que l'esprit peut concevoir et croire, il peut l'accomplir.",a:"Napoleon Hill"},{t:"Le seul moyen de faire du bon travail est d'aimer ce que vous faites.",a:"Steve Jobs"},{t:"Agis comme si ce que tu fais faisait une différence. Ça en fait une.",a:"William James"},{t:"Les opportunités ne se présentent pas d'elles-mêmes, on les crée.",a:"Chris Grosser"},{t:"La douleur est temporaire. Abandonner dure pour toujours.",a:"Lance Armstrong"},{t:"Le succès n'est pas final, l'échec n'est pas fatal.",a:"Winston Churchill"},{t:"L'entrepreneur voit des opportunités là où les autres ne voient que des problèmes.",a:"Anonymous"}];
@@ -1020,6 +1306,304 @@ function initMob(){var n=document.getElementById('mob-nav');var u=()=>n.style.di
 if(location.search.includes('pay=ok')){history.replaceState(null,'',location.pathname);setTimeout(()=>toast('🎉 Plan Pro activé !','ok'),500);}
 
 // ══ INIT ══
+
+// ══ INTERESTS ONBOARDING ══
+function toggleInterest(el){el.classList.toggle('selected');}
+function getSelectedInterests(){return Array.from(document.querySelectorAll('.interest-item.selected')).map(el=>el.dataset.key);}
+var _onbStep_v8 = 0;
+// Override onbNext to handle 6 steps
+var _onbOrig = onbNext;
+onbNext = function(){
+  if(_onbStep===4){S.interests=getSelectedInterests();}
+  if(_onbStep===5){var k=document.getElementById('onb-apikey')?.value.trim();if(k&&k.startsWith('sk-ant'))S.apiKey=k;S.onboarded=true;document.getElementById('onb-ov').style.display='none';save();toast('🚀 Bienvenue '+S.name+' !','ok');return;}
+  _onbStep++;
+  document.querySelectorAll('.onb-step').forEach((s,i)=>s.classList.toggle('active',i===_onbStep));
+  document.querySelectorAll('.onb-dot').forEach((d,i)=>d.classList.toggle('active',i===_onbStep));
+};
+// Override finishOnboarding
+finishOnboarding = function(){
+  var k=document.getElementById('onb-apikey')?.value.trim();
+  if(k&&k.startsWith('sk-ant'))S.apiKey=k;
+  S.interests=S.interests||['business','revenue','health'];
+  S.onboarded=true;document.getElementById('onb-ov').style.display='none';save();toast('🚀 Bienvenue '+S.name+' !','ok');
+};
+
+// ══ THEME CUSTOMIZATION ══
+function setTheme(theme, btn){
+  S.userTheme=theme;
+  document.body.dataset.theme=theme;
+  document.querySelectorAll('.theme-swatch').forEach(s=>s.classList.toggle('active',s.dataset.theme===theme));
+  save();toast('🎨 Thème appliqué !','ok');
+}
+function applyUserTheme(){if(S.userTheme!==undefined)document.body.dataset.theme=S.userTheme||'';}
+
+// ══ CITATIONS ══
+var CITATIONS=[
+  {t:"Nous sommes ce que nous faisons de manière répétée. L'excellence n'est donc pas un acte mais une habitude.",a:"Aristote"},
+  {t:"Le succès c'est d'aller d'échec en échec sans perdre son enthousiasme.",a:"Winston Churchill"},
+  {t:"La seule façon de faire du bon travail est d'aimer ce que vous faites.",a:"Steve Jobs"},
+  {t:"Votre temps est limité, ne le gâchez pas à vivre la vie de quelqu'un d'autre.",a:"Steve Jobs"},
+  {t:"Le plus grand obstacle à la découverte n'est pas l'ignorance, c'est l'illusion du savoir.",a:"Daniel Boorstin"},
+  {t:"Je n'ai pas échoué. J'ai juste trouvé 10.000 façons qui ne marchent pas.",a:"Thomas Edison"},
+  {t:"Les personnes qui sont assez folles pour croire qu'ils peuvent changer le monde sont celles qui le font.",a:"Steve Jobs"},
+  {t:"La vie commence là où ta zone de confort se termine.",a:"Neale Donald Walsch"},
+  {t:"Un voyage de mille miles commence par un simple pas.",a:"Lao Tseu"},
+  {t:"Ce n'est pas la force mais la constance des efforts qui nous mène au but.",a:"Samuel Johnson"},
+  {t:"Ne compte pas les jours, fais en sorte que les jours comptent.",a:"Muhammad Ali"},
+  {t:"Chaque expert a été un débutant un jour.",a:"Helen Hayes"},
+  {t:"L'argent ne dort jamais.",a:"Wall Street"},
+  {t:"La discipline est le pont entre les objectifs et les résultats.",a:"Jim Rohn"},
+  {t:"Le secret du succès est la constance dans le but.",a:"Benjamin Disraeli"},
+  {t:"Investissez en vous-même. C'est le meilleur investissement que vous puissiez faire.",a:"Warren Buffett"},
+  {t:"Je préfère mourir d'épuisement qu'ennui.",a:"Angus Young"},
+  {t:"Le succès c'est 1% d'inspiration et 99% de transpiration.",a:"Thomas Edison"},
+];
+function getCitation(){return CITATIONS[new Date().getDate()%CITATIONS.length];}
+function renderCitation(){
+  var e=document.getElementById('h-citation');if(!e)return;
+  var c=getCitation();
+  e.innerHTML=\`<div class="cite-banner">\${c.t}<span>— \${c.a}</span></div>\`;
+}
+
+// ══ SPORT ══
+S.sportLogs=S.sportLogs||[];S.sportType=S.sportType||'bodyweight';
+var SPORT_PROGRAMS={
+  bodyweight:{name:'Poids de corps',ico:'🤸',exercises:['Pompes (3×15)','Tractions (3×8)','Squats (3×20)','Dips (3×12)','Gainage (3×60s)','Burpees (3×10)']},
+  gym:{name:'Salle de sport',ico:'🏋️',exercises:['Développé couché (4×10)','Squat barre (4×8)','Soulevé de terre (3×6)','Presse épaules (3×12)','Tractions (3×max)','Curl biceps (3×12)']},
+  street:{name:'Street Workout',ico:'🛤️',exercises:['Muscle-up (3×5)','Tractions larges (4×10)','Dips parallèles (4×12)','Pompes déclinées (3×15)','L-sit (3×20s)','Front lever (3×10s)']},
+  calisthenics:{name:'Calisténie',ico:'💪',exercises:['Handstand push-up (3×5)','Planche (3×5s)','Front lever (3×8s)','Back lever (3×10s)','Human flag (3×5s)','Muscle-up (3×8)']},
+  cardio:{name:'Cardio',ico:'🏃',exercises:['Échauffement 5min','Course légère 20min','Fractionné 10×30s','Récup active 5min','Sauts à la corde 5min','Étirements 5min']},
+  yoga:{name:'Yoga',ico:'🧘',exercises:['Salutation au soleil (5×)','Guerrier I/II','Triangle','Chien tête en bas 2min','Pigeon 2min/côté','Savasana 5min']}
+};
+function setSportType(type,btn){
+  S.sportType=type;save();
+  document.querySelectorAll('#sport-type-btns button').forEach(b=>b.classList.remove('btn-gold'));
+  document.querySelectorAll('#sport-type-btns button').forEach(b=>b.classList.add('btn-sf'));
+  if(btn){btn.classList.remove('btn-sf');btn.classList.add('btn-gold');}
+  renderSport();
+}
+function renderSport(){
+  var prog=SPORT_PROGRAMS[S.sportType]||SPORT_PROGRAMS.bodyweight;
+  var pc=document.getElementById('sport-program-card');
+  if(pc)pc.innerHTML=\`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:24px">\${prog.ico}</span><div><div style="font-size:14px;font-weight:700">\${prog.name}</div><div style="font-size:11px;color:var(--tx3)">\${prog.exercises.length} exercices</div></div></div>\`;
+  var ts=document.getElementById('sport-today-session');
+  if(ts)ts.innerHTML=prog.exercises.map(ex=>\`<div class="exercise-item"><div class="exercise-name">\${ex}</div></div>\`).join('');
+  // Stats
+  var sc=document.getElementById('sport-sessions');if(sc)sc.textContent=S.sportLogs.length;
+  var streak=0;var d=new Date();while(S.sportLogs.some(l=>l.date===d.toDateString())){streak++;d=new Date(d-86400000);}
+  var ss=document.getElementById('sport-streak');if(ss)ss.textContent=streak;
+  var sx=document.getElementById('sport-xp');if(sx)sx.textContent=S.sportLogs.length*30;
+  // History
+  var sh=document.getElementById('sport-history');
+  if(sh){if(!S.sportLogs.length){sh.innerHTML='<div class="empty">Aucune séance enregistrée</div>';return;}
+  sh.innerHTML=S.sportLogs.slice(0,7).map(l=>\`<div class="workout-item"><div class="workout-ico">\${SPORT_PROGRAMS[l.type||'bodyweight'].ico}</div><div class="workout-info"><div class="workout-name">\${l.name||SPORT_PROGRAMS[l.type||'bodyweight'].name}</div><div class="workout-meta">\${l.date} · \${l.duration||30}min</div></div></div>\`).join('');}
+}
+function logSport(){
+  var name=document.getElementById('sport-name').value.trim();var dur=parseInt(document.getElementById('sport-duration').value)||30;var notes=document.getElementById('sport-notes').value;
+  S.sportLogs.unshift({id:Date.now(),name:name||SPORT_PROGRAMS[S.sportType].name,type:S.sportType,duration:dur,notes,date:new Date().toDateString()});
+  document.getElementById('sport-name').value='';document.getElementById('sport-duration').value='';document.getElementById('sport-notes').value='';
+  S.xp+=30;save();toast('🏋️ Séance enregistrée ! +30 XP','ok');
+}
+function startSession(){toast('💪 Séance démarrée ! Bonne chance !','ok');S.xp+=10;save();}
+
+// ══ SLEEP ══
+S.sleepLogs=S.sleepLogs||[];
+var _sleepQ=3;
+function setSleepQ(q,btn){_sleepQ=q;document.querySelectorAll('#page-sleep button').forEach(b=>b.classList.remove('btn-gold'));if(btn){btn.classList.remove('btn-sf');btn.classList.add('btn-gold');}}
+function logSleep(){
+  var bed=document.getElementById('sleep-bed').value||'23:00';var wake=document.getElementById('sleep-wake').value||'07:00';
+  var bedH=parseInt(bed.split(':')[0]),bedM=parseInt(bed.split(':')[1]||0);
+  var wakeH=parseInt(wake.split(':')[0]),wakeM=parseInt(wake.split(':')[1]||0);
+  var mins=(wakeH*60+wakeM)-(bedH*60+bedM);if(mins<0)mins+=24*60;var hours=(mins/60).toFixed(1);
+  S.sleepLogs.unshift({id:Date.now(),bed,wake,hours:parseFloat(hours),quality:_sleepQ,note:document.getElementById('sleep-note').value,date:new Date().toDateString()});
+  document.getElementById('sleep-note').value='';S.xp+=10;save();toast('😴 Sommeil enregistré ! +10 XP','ok');renderSleep();
+}
+async function getSleepAdvice(){
+  var el=document.getElementById('sleep-advice');el.innerHTML='<div class="ai-loading">Analyse de ton sommeil...</div>';
+  var avg=S.sleepLogs.length?S.sleepLogs.slice(0,7).reduce((t,l)=>t+l.hours,0)/Math.min(7,S.sleepLogs.length):0;
+  var avgQ=S.sleepLogs.length?S.sleepLogs.slice(0,7).reduce((t,l)=>t+l.quality,0)/Math.min(7,S.sleepLogs.length):0;
+  var ctx=\`Coach santé et sommeil de \${S.name}. Moyenne sommeil: \${avg.toFixed(1)}h/nuit, qualité: \${avgQ.toFixed(1)}/4. Streak RISE: \${S.streak}j. Donne 3 conseils personnalisés pour améliorer la qualité de sommeil. Court, actionnable, emojis.\`;
+  var reply=await callAI(ctx,'Analyse mon sommeil');
+  el.innerHTML=reply.replace(/\n/g,'<br>');
+}
+function renderSleep(){
+  var logs=S.sleepLogs.slice(0,7);var avg=logs.length?logs.reduce((t,l)=>t+l.hours,0)/logs.length:0;var avgQ=logs.length?logs.reduce((t,l)=>t+l.quality,0)/logs.length:0;
+  var sa=document.getElementById('sleep-avg');if(sa)sa.textContent=avg.toFixed(1)+'h';
+  var sq=['','😫','😐','😊','🌟'];
+  var sqa=document.getElementById('sleep-quality-avg');if(sqa)sqa.textContent=avgQ>0?sq[Math.round(avgQ)]:'-';
+  var ssl=document.getElementById('sleep-streak');if(ssl)ssl.textContent=S.sleepLogs.length;
+  var sh=document.getElementById('sleep-history');
+  if(sh){if(!S.sleepLogs.length){sh.innerHTML='<div class="empty">Aucun log de sommeil</div>';return;}
+  sh.innerHTML=S.sleepLogs.slice(0,7).map(l=>\`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><span style="font-size:20px">\${sq[l.quality]||'😐'}</span><div style="flex:1"><div style="font-size:13px;font-weight:700">\${l.hours}h · \${l.bed} → \${l.wake}</div><div style="font-size:11px;color:var(--tx3)">\${l.date}\${l.note?\` · \${l.note.slice(0,40)}`:''}</div></div></div>\`).join('');}
+}
+
+// ══ CALENDAR ══
+S.calEvents=S.calEvents||[];
+var _calYear=new Date().getFullYear();var _calMonth=new Date().getMonth();var _calSelected=new Date().toDateString();
+function renderCalendar(){
+  var now=new Date();var firstDay=new Date(_calYear,_calMonth,1).getDay();var daysInMonth=new Date(_calYear,_calMonth+1,0).getDate();
+  var MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  var ct=document.getElementById('cal-title');if(ct)ct.textContent=MONTHS[_calMonth]+' '+_calYear;
+  var cg=document.getElementById('cal-grid');if(!cg)return;
+  var html='';var startDay=(firstDay===0?7:firstDay)-1;// Monday-first
+  // Prev month days
+  var prevDays=new Date(_calYear,_calMonth,0).getDate();
+  for(var i=startDay;i>0;i--)html+=\`<div class="cal-day other-month">\${prevDays-i+1}</div>\`;
+  // This month
+  for(var d=1;d<=daysInMonth;d++){var dateStr=new Date(_calYear,_calMonth,d).toDateString();var isToday=dateStr===now.toDateString();var isSel=dateStr===_calSelected;var hasEv=S.calEvents.some(e=>e.date===dateStr);html+=\`<div class="cal-day\${isToday?' today':''}\${hasEv?' has-event':''}" style="\${isSel&&!isToday?'background:var(--sf2);border:1px solid var(--bd2)':''}" onclick="selectCalDay('\${dateStr}',\${d})">\${d}</div>\`;}
+  // Next month
+  var total=startDay+daysInMonth;var nextDays=total%7===0?0:7-total%7;
+  for(var n=1;n<=nextDays;n++)html+=\`<div class="cal-day other-month">\${n}</div>\`;
+  cg.innerHTML=html;
+  renderCalDayEvents(_calSelected);
+  renderUpcomingEvents();
+}
+function selectCalDay(dateStr,day){_calSelected=dateStr;renderCalendar();}
+function renderCalDayEvents(dateStr){
+  var el=document.getElementById('cal-day-events');if(!el)return;
+  var events=S.calEvents.filter(e=>e.date===dateStr).sort((a,b)=>a.time?.localeCompare(b.time||'')||0);
+  var typeIco={work:'💼',health:'🏥',personal:'👤',sport:'🏋️',social:'🤝'};
+  var typeCols={work:'var(--bl)',health:'var(--gr)',personal:'var(--ac)',sport:'var(--or)',social:'var(--pu)'};
+  el.innerHTML=events.length?events.map(e=>\`<div class="event-item"><div class="event-dot" style="background:\${typeCols[e.type]||'var(--ac)'}"></div><div style="flex:1"><div class="event-title">\${e.title}</div><div class="event-time">\${e.time||'Toute la journée'}\${e.duration?\` · \${e.duration}min`:''}</div></div><span style="cursor:pointer;font-size:11px;color:var(--tx3)" onclick="delEvent(\${e.id})">✕</span></div>\`).join(''):'<div style="font-size:12px;color:var(--tx3);padding:8px 0">Aucun RDV ce jour</div>';
+}
+function renderUpcomingEvents(){
+  var el=document.getElementById('upcoming-events');if(!el)return;
+  var now=new Date();var future=S.calEvents.filter(e=>new Date(e.date)>=now).sort((a,b)=>new Date(a.date)-new Date(b.date)).slice(0,5);
+  if(!future.length){el.innerHTML='<div class="empty">Aucun RDV à venir</div>';return;}
+  var typeIco={work:'💼',health:'🏥',personal:'👤',sport:'🏋️',social:'🤝'};
+  el.innerHTML=future.map(e=>\`<div class="event-item"><span style="font-size:18px">\${typeIco[e.type]||'📅'}</span><div style="flex:1"><div class="event-title">\${e.title}</div><div class="event-time">\${e.date}\${e.time?\` à \${e.time}`:''}</div></div></div>\`).join('');
+}
+function calPrevMonth(){_calMonth--;if(_calMonth<0){_calMonth=11;_calYear--;}renderCalendar();}
+function calNextMonth(){_calMonth++;if(_calMonth>11){_calMonth=0;_calYear++;}renderCalendar();}
+function addEvent(){var title=document.getElementById('ev-title').value.trim();var date=document.getElementById('ev-date').value;var time=document.getElementById('ev-time').value;var duration=parseInt(document.getElementById('ev-duration').value)||60;var type=document.getElementById('ev-type').value;if(!title||!date)return;var d=new Date(date);S.calEvents.unshift({id:Date.now(),title,date:d.toDateString(),time,duration,type});document.getElementById('ev-title').value='';S.xp+=5;save();toast('📅 RDV ajouté !','ok');renderCalendar();}
+function delEvent(id){S.calEvents=S.calEvents.filter(e=>e.id!==id);save();renderCalendar();}
+
+// ══ AFFILIATION ══
+function getAffCode(){if(!S.affCode){S.affCode='RISE-'+(S.name||'USER').toUpperCase().slice(0,4)+(Math.floor(Math.random()*9000)+1000);save();}return S.affCode;}
+function copyAffCode(){var c=getAffCode();navigator.clipboard?.writeText(c).catch(()=>{});toast('✅ Code copié : '+c,'ok');}
+function getAffLink(){return 'https://rise-app-mu.vercel.app?ref='+getAffCode();}
+function copyAffLink(){navigator.clipboard?.writeText(getAffLink()).catch(()=>{});toast('✅ Lien copié !','ok');}
+function shareWhatsApp(){window.open('https://wa.me/?text=Rejoins-moi sur RISE - la meilleure app de développement personnel avec IA ! '+encodeURIComponent(getAffLink()));}
+function shareTelegram(){window.open('https://t.me/share/url?url='+encodeURIComponent(getAffLink())+'&text='+encodeURIComponent('Rejoins-moi sur RISE ! 🚀'));}
+function shareEmail(){window.open('mailto:?subject=Essaie RISE - AI Life OS&body='+encodeURIComponent('Salut !\n\nJ\'utilise RISE, une application incroyable avec IA pour développer sa vie, ses revenus, ses habitudes...\n\nInscris-toi avec mon code pour qu\'on gagne tous les deux des bonus !\n\n'+getAffLink()));}
+function renderAffiliation(){
+  var code=getAffCode();var ac=document.getElementById('aff-code');if(ac)ac.textContent=code;
+  var al=document.getElementById('aff-link');if(al)al.value=getAffLink();
+  S.affStats=S.affStats||{invited:0,converted:0};
+  var ai=document.getElementById('aff-invited');if(ai)ai.textContent=S.affStats.invited||0;
+  var ac2=document.getElementById('aff-converted');if(ac2)ac2.textContent=S.affStats.converted||0;
+  var ae=document.getElementById('aff-earned');if(ae)ae.textContent=(S.affStats.converted||0)*3.8+'€';
+}
+
+// ══ SUGGESTIONS ══
+S.suggestions=S.suggestions||[
+  {id:1,title:'Intégration Google Calendar',body:'Pouvoir synchroniser avec Google Calendar directement',cat:'feature',votes:47,myVote:false,date:'2026-03-28'},
+  {id:2,title:'Mode hors-ligne',body:'Utiliser l'app sans connexion internet',cat:'feature',votes:38,myVote:false,date:'2026-03-27'},
+  {id:3,title:'Partage de stats sur Instagram',body:'Générer une belle image de ses progrès à partager',cat:'feature',votes:29,myVote:false,date:'2026-03-26'},
+  {id:4,title:'Thème rouge passionate',body:'Un thème rouge pour les passionnés',cat:'design',votes:15,myVote:false,date:'2026-03-25'},
+];
+function submitSuggestion(){var t=document.getElementById('sug-title').value.trim();var b=document.getElementById('sug-body').value.trim();var c=document.getElementById('sug-cat').value;if(!t)return;S.suggestions.unshift({id:Date.now(),title:t,body:b,cat:c,votes:1,myVote:true,date:new Date().toDateString()});document.getElementById('sug-title').value='';document.getElementById('sug-body').value='';S.xp+=20;save();toast('💡 Suggestion envoyée ! Merci ! +20 XP','ok');renderSuggestions();}
+function voteSuggestion(id){var s=S.suggestions.find(x=>x.id===id);if(!s)return;if(s.myVote){s.votes--;s.myVote=false;}else{s.votes++;s.myVote=true;S.xp+=2;}save();renderSuggestions();}
+function renderSuggestions(){
+  var el=document.getElementById('suggestions-list');if(!el)return;
+  var sorted=[...S.suggestions].sort((a,b)=>b.votes-a.votes);
+  var catIco={feature:'✨',improvement:'🔧',bug:'🐛',design:'🎨',content:'📚'};
+  el.innerHTML=sorted.slice(0,8).map(s=>\`<div class="suggestion-item"><div style="display:flex;justify-content:space-between;align-items:start"><div><div class="sug-title">\${s.title}</div>\${s.body?\`<div class="sug-body">\${s.body.slice(0,100)}</div>':''}</div><span class="badge bdg-gold">\${catIco[s.cat]||'💡'}</span></div><div class="sug-votes"><button onclick="voteSuggestion(\${s.id})" style="background:\${s.myVote?'var(--acm)':'var(--sf2)'};border:1px solid \${s.myVote?'var(--ac)':'var(--bd)'};border-radius:6px;padding:2px 8px;cursor:pointer;font-size:11px;color:\${s.myVote?'var(--ac)':'var(--tx3)'}">\${s.myVote?'♥':'♡'} \${s.votes}</button><span>\${s.date}</span></div></div>\`).join('');
+}
+
+// ══ COACH CHAT (persistent) ══
+S.coachChatHistory=S.coachChatHistory||[];
+var _coachChatInited=false;
+function initCoachChat(){
+  if(_coachChatInited)return;_coachChatInited=true;
+  var msgs=document.getElementById('coach-chat-msgs');if(!msgs)return;
+  if(S.coachChatHistory.length){
+    S.coachChatHistory.slice(-6).forEach(m=>{addCoachMsg(m.role,m.text);});
+  } else {
+    var{total}=calcScore();
+    addCoachMsg('coach',\`👋 Bonjour \${S.name} ! Je suis ton Coach RISE.\n\nScore actuel : \${total}/100. Je me souviens de nos échanges précédents et j'adapte mes conseils à ton évolution.\n\nDe quoi as-tu besoin aujourd'hui ?\`);
+  }
+}
+function addCoachMsg(role,text){
+  var msgs=document.getElementById('coach-chat-msgs');if(!msgs)return;
+  var d=document.createElement('div');d.className='cmsg '+role;d.textContent=text;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+  if(role!=='think')S.coachChatHistory.push({role,text});
+  if(S.coachChatHistory.length>40)S.coachChatHistory=S.coachChatHistory.slice(-40);
+}
+async function sendCoachChat(){
+  var inp=document.getElementById('coach-chat-inp');var q=inp.value.trim();if(!q)return;inp.value='';
+  addCoachMsg('user',q);
+  var th=document.createElement('div');th.className='cmsg think';th.textContent='Coach réfléchit...';
+  document.getElementById('coach-chat-msgs').appendChild(th);
+  document.getElementById('coach-chat-msgs').scrollTop=99999;
+  var mTot=S.revenue.filter(r=>r.month===new Date().getMonth()).reduce((s,r)=>s+r.amount,0);
+  var{total,dims}=calcScore();
+  // Build rich context with history
+  var histCtx=S.coachChatHistory.slice(-10).map(m=>(m.role==='user'?'Client: ':'Coach: ')+m.text).join('\n');
+  var ctx=\`Tu es le Coach IA personnel de \${S.name} sur RISE. Tu te souviens de tous vos échanges.
+
+PROFIL DE \${S.name.toUpperCase()} :
+📊 Score RISE: \${total}/100 (Productivité:\${dims.productivite}%, Revenus:\${dims.revenus}%, Santé:\${dims.sante}%, Croissance:\${dims.croissance}%, Consistance:\${dims.consistance}%)
+💰 Revenus: \${mTot}€/mois (objectif: \${S.revGoal}€)
+🔥 Streak: \${S.streak}j | XP: \${S.xp}
+🎯 Objectifs actifs: \${S.goals.length}
+💪 Habitudes: \${S.habits.length} (\${S.habits.filter(h=>h.log.includes(new Date().toDateString())).length} faites aujourd'hui)
+📚 Formations: \${S.courses.length} cours
+😴 Sommeil: \${S.sleepLogs.length>0?S.sleepLogs[0].hours+'h dernière nuit':'non configuré'}
+🏋️ Sport: \${S.sportLogs.length} séances enregistrées
+🌍 Langue apprise: \${S.langTarget}
+⭐ Signe: \${S.astroSign||'non configuré'}
+🎯 Intérêts: \${(S.interests||[]).join(', ')}
+
+HISTORIQUE RÉCENT :
+\${histCtx}
+
+STYLE DE COACHING :
+- Tu t'adaptes à l'humeur et aux besoins du moment
+- Tu connais ses forces ET ses zones d'amélioration
+- Tu motives avec les BONNES paroles selon son profil
+- Tu es direct, bienveillant, précis
+- Tu peux coacher sur TOUT: business, santé, sport, finances, relations, psychologie, développement perso
+- Parfois tu cites des auteurs ou des philosophes
+- Tu poses des questions pour mieux comprendre
+- Tu PROGRESSESS avec le client - chaque échange te rend meilleur pour lui
+- Réponse en français, emojis bienvenus, max 200 mots\`;
+  var reply=await callAI(ctx,q,600);
+  th.remove();addCoachMsg('coach',reply);save();
+}
+
+// ══ PATCH renderPage ══
+var _origRenderPage=renderPage;
+renderPage=function(p){
+  _origRenderPage(p);
+  if(p==='home'){renderCitation();}
+  if(p==='sport'){renderSport();}
+  if(p==='sleep'){renderSleep();}
+  if(p==='calendar'){
+    var today=new Date().toDateString();_calSelected=today;_calYear=new Date().getFullYear();_calMonth=new Date().getMonth();
+    // Set default date input to today
+    var ed=document.getElementById('ev-date');if(ed){var d=new Date();ed.value=d.getFullYear()+'-'+(d.getMonth()<9?'0':'')+(d.getMonth()+1)+'-'+(d.getDate()<10?'0':'')+d.getDate();}
+    renderCalendar();
+  }
+  if(p==='affiliation'){renderAffiliation();}
+  if(p==='suggestions'){renderSuggestions();}
+  if(p==='coach'){initCoachChat();}
+  if(p==='profile'){
+    // Show correct theme swatch
+    document.querySelectorAll('.theme-swatch').forEach(s=>s.classList.toggle('active',s.dataset.theme===(S.userTheme||'')));
+  }
+};
+
+// Apply user theme on load
+applyUserTheme();
+
+// Check if coming from affiliation link
+(function(){var params=new URLSearchParams(location.search);var ref=params.get('ref');if(ref){S.referredBy=ref;localStorage.setItem('rise_ref',ref);}})();
+
+// Render citation on home by default
+setTimeout(renderCitation,500);
+
 applyTheme();checkStreak();initMob();render();
 
 
@@ -1031,7 +1615,8 @@ var LANGS = {
   pt: { code:'pt', name:'Português', flag:'🇧🇷', dir:'ltr' },
   de: { code:'de', name:'Deutsch', flag:'🇩🇪', dir:'ltr' },
   it: { code:'it', name:'Italiano', flag:'🇮🇹', dir:'ltr' },
-  ar: { code:'ar', name:'العربية', flag:'🇸🇦', dir:'rtl' }
+  ar: { code:'ar', name:'العربية', flag:'🇸🇦', dir:'rtl' },
+  ca: { code:'ca', name:'Català', flag:'🏴󠁥󠁳󠁣󠁴󠁿', dir:'ltr' }
 };
 
 var T = {
@@ -1041,6 +1626,7 @@ var T = {
   pt: { home:'Início', todos:'Tarefas', habits:'Hábitos', mood:'Humor', notes:'Notas', goals:'Metas', revenue:'Receitas', journal:'Diário', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Cursos', languages:'Idiomas', pomodoro:'Pomodoro', horoscope:'Horóscopo', achievements:'Conquistas', export:'Exportar', profile:'Perfil', review:'Revisão semanal', pipeline:'Pipeline', greeting:'Olá', streak:'Sequência', score:'Pontuação', add:'+ Adicionar', save:'Salvar', cancel:'Cancelar', welcome:'Bem-vindo ao', tagline:'AI LIFE OPERATING SYSTEM' },
   de: { home:'Startseite', todos:'Aufgaben', habits:'Gewohnheiten', mood:'Stimmung', notes:'Notizen', goals:'Ziele', revenue:'Einnahmen', journal:'Tagebuch', coach:'KI-Coach', jarvis:'JARVIS KI', formations:'Kurse', languages:'Sprachen', pomodoro:'Pomodoro', horoscope:'Horoskop', achievements:'Erfolge', export:'Export', profile:'Profil', review:'Wochenbericht', pipeline:'Pipeline', greeting:'Hallo', streak:'Serie', score:'Punktzahl', add:'+ Hinzufügen', save:'Speichern', cancel:'Abbrechen', welcome:'Willkommen bei', tagline:'AI LIFE OPERATING SYSTEM' },
   it: { home:'Home', todos:'Attività', habits:'Abitudini', mood:'Umore', notes:'Note', goals:'Obiettivi', revenue:'Entrate', journal:'Diario', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Corsi', languages:'Lingue', pomodoro:'Pomodoro', horoscope:'Oroscopo', achievements:'Traguardi', export:'Esporta', profile:'Profilo', review:'Revisione settimanale', pipeline:'Pipeline', greeting:'Ciao', streak:'Serie', score:'Punteggio', add:'+ Aggiungi', save:'Salva', cancel:'Annulla', welcome:'Benvenuto su', tagline:'AI LIFE OPERATING SYSTEM' },
+  ca: { home:'Inici', todos:'Tasques', habits:'Hàbits', mood:'Humor', notes:'Notes', goals:'Objectius', revenue:'Ingressos', journal:'Diari', coach:'Coach IA', jarvis:'JARVIS IA', formations:'Cursos', languages:'Idiomes', pomodoro:'Pomodoro', horoscope:'Horòscop', achievements:'Assoliments', export:'Exportar', profile:'Perfil', review:'Revisió setmanal', pipeline:'Pipeline', greeting:'Bon dia', streak:'Ratxa', score:'Puntuació', add:'+ Afegir', save:'Desar', cancel:'Cancel·lar', welcome:'Benvingut a', tagline:'AI LIFE OPERATING SYSTEM' },
   ar: { home:'الرئيسية', todos:'المهام', habits:'العادات', mood:'المزاج', notes:'ملاحظات', goals:'الأهداف', revenue:'الإيرادات', journal:'اليوميات', coach:'المدرب', jarvis:'جارفيس', formations:'الدورات', languages:'اللغات', pomodoro:'بومودورو', horoscope:'البرج', achievements:'الإنجازات', export:'تصدير', profile:'الملف', review:'المراجعة', pipeline:'خط الأنابيب', greeting:'مرحباً', streak:'سلسلة', score:'النتيجة', add:'+ إضافة', save:'حفظ', cancel:'إلغاء', welcome:'مرحباً بك في', tagline:'نظام الحياة بالذكاء الاصطناعي' }
 };
 
