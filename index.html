@@ -583,6 +583,48 @@ textarea.inp{resize:none}
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('feat',null);closePlus()"><span style="font-size:18px">🚀</span>Features</button>
   </div>
 </div>
+
+<!-- LEADERBOARD SCREEN -->
+<div class="screen" id="screen-leaderboard">
+  <div style="padding:20px 16px">
+    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Classement</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Bats les meilleurs joueurs chaque semaine</div>
+    <div id="lb-c"></div>
+  </div>
+</div>
+
+<!-- GUILD SCREEN -->
+<div class="screen" id="screen-guilds">
+  <div style="padding:20px 16px">
+    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🤝 Guildes</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Rejoins une communauté, progresse ensemble</div>
+    <div id="guild-c"></div>
+  </div>
+</div>
+
+<!-- SOCIAL SHARING SCREEN -->
+<div class="screen" id="screen-social">
+  <div style="padding:20px 16px">
+    <div id="share-c"></div>
+  </div>
+</div>
+
+<!-- SUGGESTIONS SCREEN -->
+<div class="screen" id="screen-suggestions">
+  <div style="padding:20px 16px">
+    <div id="suggest-c"></div>
+  </div>
+</div>
+
+<!-- WEEKLY CHALLENGES SCREEN -->
+<div class="screen" id="screen-weeklych">
+  <div style="padding:20px 16px">
+    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏅 Défis hebdo</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">3 défis par semaine, récompenses exclusives</div>
+    <div id="wch-c"></div>
+  </div>
+</div>
+
 <nav class="bnav" id="bnav" style="display:none">
   <button class="nb on" onclick="gs('home',this)"><span class="ni">🏠</span><span>Accueil</span></button>
   <button class="nb" onclick="gs('nature',this)"><span class="ni">🌿</span><span>Nature</span></button>
@@ -755,10 +797,10 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-function launchApp(){document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');}catch(e){console.log('Init extra:',e);}}
+function launchApp(){document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
-function genQuote(){if(S.quote&&S.quote.date===TD&&S.quote.t){renderQuote();return;}const q=RISE_AI.genQuote();S.quote={t:q,date:TD};save();renderQuote();}
+function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
 function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
 function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
@@ -937,7 +979,7 @@ function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(-
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
 function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
-function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
+function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
 else if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
 else if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
 else if(name==='wheel'){renderWheel(document.getElementById('wheel-c'));}
@@ -4257,6 +4299,234 @@ function renderDashboard(){
     (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Aucun achievement débloqué</div>':'')+
     '</div>';
 }
+
+
+
+// ══════════════════════════════════════════════════
+// ══ RISE v23: SOCIAL & COMMUNITY FEATURES ══
+// ══════════════════════════════════════════════════
+
+// ── LEADERBOARD WITH AI RIVALS ──
+const AI_RIVALS=[
+  {nm:'ShadowKing',avi:'👤',style:'Grind 24/7',base:120},
+  {nm:'ZenMaster',avi:'🧘',style:'Méditation + Sport',base:90},
+  {nm:'HustleQueen',avi:'👑',style:'Business + Fitness',base:150},
+  {nm:'IronWolf',avi:'🐺',style:'Street Workout Beast',base:130},
+  {nm:'MindHacker',avi:'🧠',style:'Productivité x10',base:100},
+  {nm:'NightOwl',avi:'🦉',style:'Code + Musique',base:85},
+  {nm:'PhoenixRise',avi:'🔥',style:'Comeback King',base:110},
+  {nm:'CalmStorm',avi:'⚡',style:'Calme mais mortel',base:95},
+  {nm:'BookWorm',avi:'📚',style:'1 livre par semaine',base:75},
+  {nm:'AlphaGrind',avi:'💎',style:'Mindset + Money',base:140},
+  {nm:'NatureBoy',avi:'🌿',style:'Outdoor + Bien-être',base:80},
+  {nm:'CodeNinja',avi:'🥷',style:'Dev + Side hustle',base:115}
+];
+
+function initLeaderboard(){
+  if(!S.lb||S.lb.week!==WK){
+    // Generate weekly leaderboard
+    const rivals=AI_RIVALS.map(r=>{
+      const weekXP=r.base+Math.floor(Math.random()*80)-20;
+      return{...r,xp:weekXP,total:r.base*4+Math.floor(Math.random()*200)};
+    });
+    S.lb={week:WK,rivals};
+    save();
+  }
+  renderLeaderboard();
+}
+
+function renderLeaderboard(){
+  const el=document.getElementById('lb-c');
+  if(!el)return;
+  const rivals=[...S.lb.rivals];
+  const myWeekXP=S.tourn?.sc?.['Toi']||0;
+  const myTotal=S.xp||0;
+
+  // Add user to the list
+  const all=[...rivals.map(r=>({nm:r.nm,avi:r.avi,xp:r.xp,total:r.total,isMe:false,style:r.style})),
+    {nm:S.name||'Toi',avi:'⭐',xp:myWeekXP,total:myTotal,isMe:true,style:'Le vrai champion'}
+  ];
+  all.sort((a,b)=>b.xp-a.xp);
+
+  const myRank=all.findIndex(a=>a.isMe)+1;
+
+  el.innerHTML=
+    '<div class="wg" style="padding:16px;text-align:center;margin-bottom:16px;background:linear-gradient(135deg,var(--ac),var(--ac2))"><div style="font-size:11px;color:rgba(255,255,255,0.7)">TON CLASSEMENT</div><div style="font-size:36px;font-weight:800;color:#fff;font-family:var(--fd)">#'+myRank+'</div><div style="font-size:12px;color:rgba(255,255,255,0.8)">sur '+all.length+' joueurs · '+myWeekXP+' XP cette semaine</div></div>'+
+    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:12px">🏆 Classement hebdomadaire</div>'+
+    all.slice(0,10).map((p,i)=>{
+      const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
+      return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:4px;background:'+(p.isMe?'var(--agg)':i<3?'rgba(255,215,0,0.05)':'transparent')+';border:'+(p.isMe?'1px solid var(--ac)':'1px solid transparent')+'"><div style="font-size:14px;font-weight:700;color:'+(i<3?'var(--ac)':'var(--tx3)')+';width:28px;text-align:center">'+(medal||(i+1))+'</div><div style="font-size:22px">'+p.avi+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;color:'+(p.isMe?'var(--ac)':'var(--tx)')+'">'+p.nm+(p.isMe?' (toi)':'')+'</div><div style="font-size:10px;color:var(--tx3)">'+p.style+'</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:700;font-family:var(--fd)">'+p.xp+'</div><div style="font-size:9px;color:var(--tx3)">XP/sem</div></div></div>';
+    }).join('');
+}
+
+// ── GUILD SYSTEM ──
+const GUILDS=[
+  {id:'warriors',nm:'Les Guerriers',ico:'⚔️',desc:'Pour ceux qui ne lâchent jamais. Sport, discipline, dépassement.',color:'#FF6B6B',focus:'Sport & Discipline'},
+  {id:'sages',nm:'Les Sages',ico:'🧠',desc:'Connaissance, lecture, méditation. Le savoir est le vrai pouvoir.',color:'#4ECDC4',focus:'Apprentissage & Sagesse'},
+  {id:'builders',nm:'Les Bâtisseurs',ico:'💰',desc:'Business, side hustles, liberté financière. On construit un empire.',color:'#FFD700',focus:'Business & Finances'},
+  {id:'artists',nm:'Les Créateurs',ico:'🎨',desc:'Musique, contenu, art. L\'expression est notre arme.',color:'#DDA0DD',focus:'Créativité & Expression'},
+  {id:'healers',nm:'Les Guérisseurs',ico:'🌿',desc:'Bien-être, nature, équilibre. On soigne le corps et l\'esprit.',color:'#96CEB4',focus:'Bien-être & Nature'}
+];
+
+function initGuildScreen(){
+  if(!S.guild)S.guild=null;
+  renderGuildScreen();
+}
+
+function renderGuildScreen(){
+  const el=document.getElementById('guild-c');
+  if(!el)return;
+
+  if(S.guild){
+    const g=GUILDS.find(x=>x.id===S.guild)||GUILDS[0];
+    // Generate fake guild members
+    const members=AI_RIVALS.filter(()=>Math.random()>0.4).slice(0,6);
+    const guildXP=members.reduce((a,m)=>a+m.base,0)+(S.xp||0);
+
+    el.innerHTML=
+      '<div class="wg" style="padding:20px;text-align:center;margin-bottom:16px;border:2px solid '+g.color+'"><div style="font-size:40px">'+g.ico+'</div><div style="font-family:var(--fd);font-weight:800;font-size:20px;margin-top:8px;color:'+g.color+'">'+g.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-top:4px">'+g.desc+'</div><div style="margin-top:12px;display:flex;justify-content:center;gap:16px"><div><div style="font-size:18px;font-weight:700;font-family:var(--fd)">'+(members.length+1)+'</div><div style="font-size:10px;color:var(--tx3)">Membres</div></div><div><div style="font-size:18px;font-weight:700;font-family:var(--fd)">'+guildXP+'</div><div style="font-size:10px;color:var(--tx3)">XP total</div></div></div></div>'+
+      '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">👥 Membres</div>'+
+      '<div style="margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:var(--agg);border:1px solid var(--ac);margin-bottom:4px"><span style="font-size:18px">⭐</span><span style="font-weight:600;font-size:13px">'+(S.name||'Toi')+' (Toi)</span><span style="margin-left:auto;font-size:12px;font-weight:700">'+(S.xp||0)+' XP</span></div>'+
+      members.map(m=>'<div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;margin-bottom:4px"><span style="font-size:18px">'+m.avi+'</span><span style="font-size:13px">'+m.nm+'</span><span style="margin-left:auto;font-size:12px;color:var(--tx3)">'+m.base*4+' XP</span></div>').join('')+'</div>'+
+      '<button onclick="S.guild=null;save();renderGuildScreen()" style="width:100%;padding:12px;border-radius:12px;background:var(--c2);border:none;color:var(--tx3);font-size:13px;cursor:pointer">Quitter la guilde</button>';
+  }else{
+    el.innerHTML=
+      '<div style="text-align:center;padding:16px 0;margin-bottom:16px"><div style="font-size:40px;margin-bottom:8px">🤝</div><div style="font-family:var(--fd);font-weight:700;font-size:18px">Rejoins une guilde</div><div style="font-size:13px;color:var(--tx3);margin-top:4px">Progresse avec une communauté qui te ressemble</div></div>'+
+      GUILDS.map(g=>
+        '<div class="wg" style="padding:16px;margin-bottom:10px;border-left:4px solid '+g.color+';cursor:pointer" onclick="joinGuild(\''+g.id+'\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+g.ico+'</div><div style="flex:1"><div style="font-weight:700;font-size:14px">'+g.nm+'</div><div style="font-size:11px;color:var(--tx3);margin-top:2px">'+g.focus+'</div><div style="font-size:11px;color:var(--tx2);margin-top:4px">'+g.desc+'</div></div></div></div>'
+      ).join('');
+  }
+}
+
+function joinGuild(id){
+  S.guild=id;
+  save();
+  const g=GUILDS.find(x=>x.id===id);
+  gainXP(25,'guild');
+  toast('Bienvenue chez '+g.nm+'! +25 XP','🤝',4000);
+  confetti();
+  addN(g.ico,'Guilde: '+g.nm,'Tu as rejoint '+g.nm+'!');
+  renderGuildScreen();
+}
+
+// ── SOCIAL SHARING ──
+function shareAchievement(title,text){
+  const shareData={
+    title:'RISE — '+title,
+    text:text+' #RISE #LifeOS #PersonalGrowth',
+    url:'https://rise-app-mu.vercel.app'
+  };
+  if(navigator.share){
+    navigator.share(shareData).catch(()=>{});
+  }else{
+    // Fallback: copy to clipboard
+    const t=shareData.text+' '+shareData.url;
+    navigator.clipboard.writeText(t).then(()=>{
+      toast('Copié! Partage sur tes réseaux 📲','📋',3000);
+    }).catch(()=>{
+      prompt('Copie ce texte:',t);
+    });
+  }
+}
+
+function renderShareScreen(){
+  const el=document.getElementById('share-c');
+  if(!el)return;
+  const lvl=getLvl(S.xp||0)+1;
+  const streak=S.loginS?.streak||0;
+  const workouts=S.workouts?.length||0;
+  const achievements=(S.achievements||[]).length;
+
+  el.innerHTML=
+    '<div style="text-align:center;margin-bottom:20px"><div style="font-size:40px;margin-bottom:8px">📲</div><div style="font-family:var(--fd);font-weight:700;font-size:18px">Partage tes succès</div><div style="font-size:13px;color:var(--tx3);margin-top:4px">Inspire tes amis et montre ta progression</div></div>'+
+
+    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'Niveau '+lvl+'\',\'Je suis niveau '+lvl+' sur RISE! 🚀 '+( S.xp||0)+' XP accumulés.\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🏆</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Mon niveau</div><div style="font-size:12px;color:var(--tx3)">Niveau '+lvl+' · '+(S.xp||0)+' XP</div></div><div style="font-size:18px">➤</div></div></div>'+
+
+    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'Streak '+streak+' jours\',\''+streak+' jours de suite sur RISE! 🔥 La constance paie.\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🔥</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Ma streak</div><div style="font-size:12px;color:var(--tx3)">'+streak+' jours consécutifs</div></div><div style="font-size:18px">➤</div></div></div>'+
+
+    (workouts>0?'<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\''+workouts+' séances\',\''+workouts+' séances de sport trackées sur RISE! 💪\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">💪</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Mes séances</div><div style="font-size:12px;color:var(--tx3)">'+workouts+' workouts complétés</div></div><div style="font-size:18px">➤</div></div></div>':'')+
+
+    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\''+achievements+' achievements\',\'J\\\'ai débloqué '+achievements+' achievements sur RISE! 🏅\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🏅</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Mes achievements</div><div style="font-size:12px;color:var(--tx3)">'+achievements+' badges débloqués</div></div><div style="font-size:18px">➤</div></div></div>'+
+
+    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'RISE App\',\'Je progresse chaque jour avec RISE — AI Life OS! Sport, mental, business, nutrition... tout en une app. 🚀\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">💬</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Recommander RISE</div><div style="font-size:12px;color:var(--tx3)">Partage l\'app avec tes amis</div></div><div style="font-size:18px">➤</div></div></div>';
+}
+
+// ── SUGGESTION BOX ──
+function initSuggestions(){
+  if(!S.suggestions)S.suggestions=[];
+  renderSuggestions();
+}
+
+function renderSuggestions(){
+  const el=document.getElementById('suggest-c');
+  if(!el)return;
+  const sugs=S.suggestions||[];
+
+  el.innerHTML=
+    '<div style="text-align:center;margin-bottom:20px"><div style="font-size:40px;margin-bottom:8px">💡</div><div style="font-family:var(--fd);font-weight:700;font-size:18px">Boîte à suggestions</div><div style="font-size:13px;color:var(--tx3);margin-top:4px">Aide-nous à améliorer RISE! Tes idées comptent.</div></div>'+
+
+    '<div class="wg" style="padding:16px;margin-bottom:16px"><textarea id="sug-text" rows="4" placeholder="Décris ton idée ou suggestion..." style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--c3);background:var(--c2);color:var(--tx);font-size:14px;resize:none;font-family:inherit;box-sizing:border-box"></textarea>'+
+    '<div style="display:flex;gap:8px;margin-top:10px"><select id="sug-cat" style="flex:1;padding:10px;border-radius:8px;border:1px solid var(--c3);background:var(--c2);color:var(--tx);font-size:12px"><option value="feature">💡 Nouvelle fonctionnalité</option><option value="improve">🔧 Amélioration</option><option value="bug">🐛 Bug trouvé</option><option value="design">🎨 Design/UX</option><option value="content">📚 Contenu/Formations</option></select><button onclick="submitSuggestion()" class="btn-main" style="padding:10px 20px;border-radius:8px;font-weight:700;font-size:13px">Envoyer</button></div></div>'+
+
+    (sugs.length>0?'<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📝 Tes suggestions ('+sugs.length+')</div>'+
+    sugs.slice(-10).reverse().map(s=>{
+      const catIco={feature:'💡',improve:'🔧',bug:'🐛',design:'🎨',content:'📚'};
+      return '<div class="wg" style="padding:12px;margin-bottom:6px"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:11px;color:var(--tx3)">'+s.date+' · '+(catIco[s.cat]||'💡')+' '+s.cat+'</div><div style="font-size:10px;padding:3px 8px;border-radius:6px;background:'+(s.status==='sent'?'var(--grd)':'var(--c2)')+';color:'+(s.status==='sent'?'var(--gr)':'var(--tx3)')+'">'+( s.status==='sent'?'✓ Envoyé':'En attente')+'</div></div><div style="font-size:13px;margin-top:6px">'+s.text+'</div></div>';
+    }).join(''):'');
+}
+
+function submitSuggestion(){
+  const text=document.getElementById('sug-text')?.value?.trim();
+  const cat=document.getElementById('sug-cat')?.value||'feature';
+  if(!text){toast('Écris ta suggestion!','💡',2000);return;}
+  if(!S.suggestions)S.suggestions=[];
+  S.suggestions.push({text,cat,date:TD,status:'sent',ts:Date.now()});
+  save();
+  document.getElementById('sug-text').value='';
+  gainXP(10,'suggestion');
+  toast('Merci pour ta suggestion! +10 XP 💡','✨',3000);
+  renderSuggestions();
+}
+
+// ── WEEKLY CHALLENGES ──
+const WEEKLY_CHALLENGES=[
+  {id:'wc-sport7',nm:'7 jours de sport',desc:'Fais au moins 1 séance de sport chaque jour cette semaine',ico:'💪',xp:200,type:'workout',target:7},
+  {id:'wc-journal5',nm:'Journal 5/7',desc:'Écris dans ton journal 5 jours cette semaine',ico:'📖',xp:150,type:'journal',target:5},
+  {id:'wc-sleep7',nm:'Sommeil parfait',desc:'Log ton sommeil 7 jours de suite',ico:'😴',xp:150,type:'sleep',target:7},
+  {id:'wc-coach10',nm:'Chatbot addict',desc:'Parle au coach 10 fois cette semaine',ico:'🧠',xp:100,type:'coach',target:10},
+  {id:'wc-nature5',nm:'Nature lover',desc:'5 sorties nature cette semaine',ico:'🌿',xp:150,type:'nature',target:5},
+  {id:'wc-budget10',nm:'Budget master',desc:'Track 10 dépenses cette semaine',ico:'💰',xp:120,type:'budget',target:10},
+  {id:'wc-xp500',nm:'XP Hunter',desc:'Gagne 500 XP cette semaine',ico:'⭐',xp:250,type:'xp',target:500},
+  {id:'wc-allrounder',nm:'All-rounder',desc:'Utilise 5 outils différents cette semaine',ico:'🏅',xp:200,type:'tools',target:5}
+];
+
+function initWeeklyChallenges(){
+  if(!S.weeklyCh||S.weeklyCh.week!==WK){
+    // Pick 3 random challenges
+    const shuffled=[...WEEKLY_CHALLENGES].sort(()=>Math.random()-0.5);
+    S.weeklyCh={week:WK,challenges:shuffled.slice(0,3).map(c=>({...c,progress:0,done:false}))};
+    save();
+  }
+  renderWeeklyChallenges();
+}
+
+function renderWeeklyChallenges(){
+  const el=document.getElementById('wch-c');
+  if(!el)return;
+  const chs=S.weeklyCh?.challenges||[];
+  const done=chs.filter(c=>c.done).length;
+
+  el.innerHTML=
+    '<div style="text-align:center;margin-bottom:16px"><div style="font-size:11px;color:var(--tx3)">DÉFIS DE LA SEMAINE</div><div style="font-size:28px;font-weight:700;font-family:var(--fd);margin-top:4px">'+done+'/'+chs.length+'</div></div>'+
+    chs.map(c=>{
+      const pct=Math.min(100,Math.round((c.progress/c.target)*100));
+      return '<div class="wg" style="padding:14px;margin-bottom:8px;opacity:'+(c.done?'0.6':'1')+'"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+(c.done?'✅':c.ico)+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+(c.done?'<s>'+c.nm+'</s>':c.nm)+'</div><div style="font-size:11px;color:var(--tx3);margin-top:2px">'+c.desc+'</div><div class="pbar" style="margin-top:6px;height:6px"><div class="pfill pac" style="width:'+pct+'%;transition:width .5s"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+c.progress+'/'+c.target+(c.done?' ✓ Complété!':' · +'+c.xp+' XP')+'</div></div></div></div>';
+    }).join('');
+}
+
+// ── SCREEN INIT HOOKS ──
+// Extend gs() for new screens
+const _origGs2=null; // dead ref, we patch inline below
 
 </script>
 </body>
