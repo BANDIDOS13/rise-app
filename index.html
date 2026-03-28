@@ -18,12 +18,12 @@
 [data-theme=neon]{--bg:#040608;--bg2:#060a0c;--sf:#080e10;--sf2:#0c1418;--sf3:#101a1e;--bd:#182028;--bd2:#202a34;--tx:#e0f8f4;--tx2:#60d4c0;--tx3:#30808a;--ac:#00e4c8;--ac2:#40f8e0;--acm:#004840;--agg:rgba(0,228,200,.08);--agg2:rgba(0,228,200,.16)}
 [data-theme=light]{--bg:#f8f6f0;--bg2:#f2efe8;--sf:#fff;--sf2:#f0ede6;--sf3:#e8e4dc;--bd:#d8d4c8;--bd2:#c8c2b4;--tx:#1a1808;--tx2:#5a5248;--tx3:#9a9488;--ac:#2a6a4a;--ac2:#3a8a5a;--acm:#d8ece0;--agg:rgba(42,106,74,.08);--agg2:rgba(42,106,74,.16)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden}
+html,body{height:100%;overflow:hidden;height:100dvh}
 body{background:var(--bg);color:var(--tx);font-family:var(--fb);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,textarea,select{font-family:inherit}
 ::-webkit-scrollbar{display:none}
-#app{max-width:430px;margin:0 auto;height:100vh;display:flex;flex-direction:column}
+#app{max-width:430px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column}
 .screens{flex:1;overflow:hidden;position:relative}
 .screen{position:absolute;inset:0;overflow-y:auto;display:none;padding-bottom:88px}
 .screen.active{display:block}
@@ -85,7 +85,7 @@ textarea.inp{resize:none}
 .cur-v{font-family:var(--fd);font-weight:700;font-size:12px}
 .lvl-b{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:13px;color:var(--bg);flex-shrink:0}
 #screen-ob{padding:0}
-.ob-step{display:none;flex-direction:column;min-height:100%}
+.ob-step{display:none;flex-direction:column;min-height:100%;overflow-y:auto}
 .ob-step.on{display:flex}
 .ob-splash{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 24px;background:radial-gradient(ellipse 80% 60% at 50% 35%,var(--agg) 0%,transparent 70%)}
 .ob-logo{font-family:var(--fd);font-weight:700;font-size:80px;letter-spacing:-4px;color:var(--ac);line-height:1}
@@ -679,14 +679,14 @@ function selMd(m){_mode=m;['zen','full'].forEach(x=>{const b=document.getElement
 document.getElementById('ob-name').addEventListener('input',function(){document.getElementById('ob1n').disabled=!this.value.trim();});
 function finishOb(){
   // Apply multi-goals
-  if(_goalsArr.length > 0) {
-    S.goals = _goalsArr;
-    S.goal = _goalsArr.includes('all')||_goalsArr.length>=4 ? 'all' : _goalsArr[0];
+  if(_goals.length > 0) {
+    S.goals = _goals;
+    S.goal = _goals.includes('all')||_goals.length>=4 ? 'all' : _goals[0];
     const wgMap={focus:['w-quests','w-pomo'],wellbeing:['w-streak','w-nat'],health:['w-streak','w-nat'],grow:['w-quests'],money:['w-quests','w-boss'],orga:['w-quests','w-pomo'],social:['w-streak'],all:['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']};
-    if(_goalsArr.includes('all')||_goalsArr.length>=4){ S.activeWg=['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']; }
-    else { const merged=new Set(); _goalsArr.forEach(g=>(wgMap[g]||[]).forEach(w=>merged.add(w))); S.activeWg=[...merged]; }
+    if(_goals.includes('all')||_goals.length>=4){ S.activeWg=['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']; }
+    else { const merged=new Set(); _goals.forEach(g=>(wgMap[g]||[]).forEach(w=>merged.add(w))); S.activeWg=[...merged]; }
   }
-  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=_goal;S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[_goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
+  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
 function launchApp(){document.getElementById('screen-ob').style.display='none';['screen-home','screen-nature','screen-chat','screen-disc','screen-feat','screen-moi','screen-notifs'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();initHome();initDisc();renderNotifs();updPomoUI();}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
@@ -864,7 +864,7 @@ const _origGs=typeof gs!=='undefined'?gs:null;
 const _origLaunch=launchApp;
 function launchApp(){
   _origLaunch();
-  ['screen-lang','screen-nutri'].forEach(id=>{
+  ['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo'].forEach(id=>{
     const el=document.getElementById(id);
     if(el)el.style.display='';
   });
@@ -1290,27 +1290,7 @@ function togG(btn, g) {
   if (cnt) cnt.textContent = n > 0 ? n + ' domaine' + (n > 1 ? 's' : '') + ' sélectionné' + (n > 1 ? 's' : '') : 'Sélectionne au moins 1 domaine';
   document.getElementById('ob2n').disabled = _goals.length === 0;
 }
-// Override finishOb to use multi-goals
-const _origFinishOb = finishOb;
-function finishOb() {
-  S.goals = _goals.length > 0 ? _goals : ['all'];
-  S.goal = _goals.includes('all') || _goals.length >= 4 ? 'all' : _goals[0];
-  // Active widgets based on selected goals
-  const wgMap = {
-    focus: ['w-quests','w-pomo'], wellbeing: ['w-streak','w-nat'],
-    health: ['w-streak','w-nat'], grow: ['w-quests'],
-    money: ['w-quests','w-boss'], orga: ['w-quests','w-pomo'],
-    social: ['w-streak'], all: ['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']
-  };
-  if (_goals.includes('all') || _goals.length >= 4) {
-    S.activeWg = ['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash'];
-  } else {
-    const merged = new Set();
-    _goals.forEach(g => (wgMap[g]||[]).forEach(w => merged.add(w)));
-    S.activeWg = [...merged];
-  }
-  _origFinishOb();
-}
+// finishOb override removed — logic merged into original
 // ══ ORGANISATION MODULE ══
 let oTab = 'agenda';
 function setOT(tab, btn) {
@@ -1834,34 +1814,6 @@ function showTodayExtras() {
       }
     }
   }, 80);
-}
-// ── MULTI-GOAL ONBOARDING ──
-var _goalsArr = [];
-function togG(btn, g) {
-  if (g === 'all') {
-    var willSelect = !btn.classList.contains('on');
-    document.querySelectorAll('.ms-ch').forEach(function(b) {
-      var chk = b.querySelector('.ob-chk');
-      if (willSelect) { b.classList.add('on'); if(chk) chk.textContent='✓'; }
-      else { b.classList.remove('on'); if(chk) chk.textContent=''; }
-    });
-    _goalsArr = willSelect ? ['focus','wellbeing','health','grow','money','social','orga','all'] : [];
-  } else {
-    btn.classList.toggle('on');
-    var chk2 = btn.querySelector('.ob-chk');
-    if (btn.classList.contains('on')) {
-      if(chk2) chk2.textContent='✓';
-      if(!_goalsArr.includes(g)) _goalsArr.push(g);
-    } else {
-      if(chk2) chk2.textContent='';
-      _goalsArr = _goalsArr.filter(function(x) { return x !== g; });
-    }
-  }
-  var n = _goalsArr.filter(function(x) { return x !== 'all'; }).length;
-  var cnt = document.getElementById('ob2-count');
-  if(cnt) cnt.textContent = n>0 ? n+' domaine'+(n>1?'s':'')+' sélectionné'+(n>1?'s':'') : 'Sélectionne au moins 1 domaine';
-  var btn2 = document.getElementById('ob2n');
-  if(btn2) btn2.disabled = _goalsArr.length === 0;
 }
 // Alias for backward compat
 function selG(btn, g) { togG(btn, g); }
