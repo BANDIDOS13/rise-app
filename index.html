@@ -790,8 +790,44 @@ function openBook(enc){const title=decodeURIComponent(enc);const b=BOOKS.find(x=
 function markBk(enc,status){const title=decodeURIComponent(enc);if(status==='read'){if(!S.books.read.includes(title)){S.books.read.push(title);gainXP(50,'book');gainGems(5);toast('Livre lu ! +50 XP','📚',2500);}}else{S.books.reading=title;toast('Bonne lecture !','📖',2000);}save();}
 function askAboutBk(enc){const title=decodeURIComponent(enc);document.getElementById('form-ov').classList.remove('show');gs('chat',null);setTimeout(()=>{const ta=document.getElementById('ch-ta');if(ta)ta.value='Parle-moi du livre "'+title+'" — ce que je dois absolument retenir et comment l\'appliquer maintenant.';sendMsg();},200);}
 function askBookReco(){gs('chat',null);setTimeout(()=>{const ta=document.getElementById('ch-ta');if(ta)ta.value='Recommande-moi les 3 livres les plus importants pour moi maintenant, compte tenu de mon objectif ('+S.goal+'). Pour chaque livre: titre, auteur, pourquoi moi spécifiquement, 3 points clés, action ce soir.';sendMsg();},200);}
-function openForm(id){const form=FORMS_D.find(f=>f.id===id);if(!form)return;document.getElementById('fov-tit').textContent=form.ico+' '+form.title;document.getElementById('fov-sub').textContent='8 modules · +1600 XP';const ov=document.getElementById('fov-body');ov.innerHTML='<div class="shim"></div><div class="shim"></div>';document.getElementById('form-ov').classList.add('show');const prog=(S.formProg||{})[id]||{m:0};const content=RISE_AI.openForm(id);ov.innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px">'+(form.desc||'')+'</div>'+(content.modules||[]).map(m=>{const done=(prog.m||0)>m.num-1,cur=(prog.m||0)===m.num-1;let h='<div style="background:var(--sf);border:1px solid '+(done?'var(--gr)':cur?'var(--ac)':'var(--bd)')+';border-radius:var(--r);padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="font-size:22px">'+(done?'✅':cur?form.ico:'🔒')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:1px">'+m.num+'. '+m.title+'</div><div style="font-size:11px;color:var(--tx3)">'+m.duration+' · +200 XP</div></div></div>';if(done||cur)h+='<div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:8px">'+m.desc+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--ac2);margin-bottom:'+(cur?'9px':'0')+'">💡 '+m.key+'</div>';if(cur)h+='<div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--tx2);line-height:1.5;margin-top:8px;margin-bottom:9px">✏️ '+m.exercise+'</div><button class="btn btn-ac" style="padding:11px" onclick="complMod(\''+id+'\','+m.num+')">Valider → +200 XP</button>';h+='</div>';return h;}).join('');}
-function complMod(fid,num){S.formProg=S.formProg||{};const p=S.formProg[fid]=S.formProg[fid]||{m:0};p.m=Math.max(p.m,num);if(p.m>=8){p.done=true;gainXP(500,'form');gainGems(25);toast('FORMATION COMPLÈTE ! 🎓','🏆');confetti();}else{gainXP(200,'form');gainGems(5);toast('Module '+num+' ! +200 XP','📚');}complQ('form');dmgBoss(80);save();openForm(fid);}
+
+// Quiz rendering for formations
+function renderFormQuiz(fid, num) {
+  const mData = (RISE_AI.trainingModules[fid]||{modules:[]}).modules;
+  const mod = mData && mData[num-1];
+  if(!mod || !mod.quiz) return '<button class="btn btn-ac" style="padding:11px" onclick="complMod(\''+fid+'\','+num+')">J\'ai compris → +200 XP</button>';
+  const q = mod.quiz;
+  return '<div style="background:var(--pud);border:1px solid var(--pu);border-radius:var(--rs);padding:12px;margin-bottom:9px">'+
+    '<div style="font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--pu);font-weight:700;margin-bottom:6px">📝 QUIZ — Vérifie ta compréhension</div>'+
+    '<div style="font-size:13px;color:var(--tx);margin-bottom:8px;line-height:1.5">'+q.question+'</div>'+
+    '<input class="inp" id="quiz-ans-'+fid+'-'+num+'" placeholder="Ta réponse..." style="margin-bottom:8px">'+
+    '<div style="font-size:10px;color:var(--tx3);margin-bottom:8px">💡 Indice: '+q.hint+'</div>'+
+    '</div>'+
+    '<button class="btn btn-ac" style="padding:11px" onclick="complMod(\''+fid+'\','+num+')">Valider ma réponse → +200 XP</button>';
+}
+
+function openForm(id){const form=FORMS_D.find(f=>f.id===id);if(!form)return;document.getElementById('fov-tit').textContent=form.ico+' '+form.title;document.getElementById('fov-sub').textContent='8 modules · +1600 XP';const ov=document.getElementById('fov-body');ov.innerHTML='<div class="shim"></div><div class="shim"></div>';document.getElementById('form-ov').classList.add('show');const prog=(S.formProg||{})[id]||{m:0};const content=RISE_AI.openForm(id);ov.innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px">'+(form.desc||'')+'</div>'+(content.modules||[]).map(m=>{const done=(prog.m||0)>m.num-1,cur=(prog.m||0)===m.num-1;let h='<div style="background:var(--sf);border:1px solid '+(done?'var(--gr)':cur?'var(--ac)':'var(--bd)')+';border-radius:var(--r);padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="font-size:22px">'+(done?'✅':cur?form.ico:'🔒')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:1px">'+m.num+'. '+m.title+'</div><div style="font-size:11px;color:var(--tx3)">'+m.duration+' · +200 XP</div></div></div>';if(done||cur)h+='<div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:8px">'+m.desc+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--ac2);margin-bottom:'+(cur?'9px':'0')+'">💡 '+m.key+'</div>';if(cur)h+='<div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--tx2);line-height:1.5;margin-top:8px;margin-bottom:9px">✏️ '+m.exercise+'</div>'+renderFormQuiz(id, m.num)+'';h+='</div>';return h;}).join('');}
+function complMod(fid,num){
+  // Quiz validation - user must answer correctly
+  const form = FORMS_D.find(f=>f.id===fid);
+  if(!form) return;
+  const mData = (RISE_AI.trainingModules[fid]||{modules:[]}).modules;
+  const mod = mData && mData[num-1];
+  if(mod && mod.quiz) {
+    const q = mod.quiz;
+    const userAns = document.getElementById('quiz-ans-'+fid+'-'+num);
+    if(!userAns || !userAns.value.trim()) {
+      toast('Réponds à la question pour valider! 📝','⚠️',3000);
+      return;
+    }
+    const ans = userAns.value.trim().toLowerCase();
+    const correct = q.answer.toLowerCase();
+    if(!ans.includes(correct) && !correct.includes(ans) && ans.length < 3) {
+      toast('Mauvaise réponse, réessaie! 💡','❌',3000);
+      return;
+    }
+  }
+  S.formProg=S.formProg||{};const p=S.formProg[fid]=S.formProg[fid]||{m:0};p.m=Math.max(p.m,num);if(p.m>=8){p.done=true;gainXP(500,'form');gainGems(25);toast('FORMATION COMPLÈTE ! 🎓','🏆');confetti();}else{gainXP(200,'form');gainGems(5);toast('Module '+num+' validé! +200 XP','📚');}complQ('form');dmgBoss(80);save();openForm(fid);}
 function closeFormOv(){document.getElementById('form-ov').classList.remove('show');}
 let fTab='vision';
 function setFT(tab,btn){fTab=tab;document.querySelectorAll('#screen-feat .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderFeat();}
@@ -2748,50 +2784,163 @@ const RISE_AI = {
     return sys;
   },
   processCoachInput(userMessage, mode = 'coach') {
-    // This is a fallback for when no API is available
-    // Returns a reasonable response based on keywords and context
     mode = mode || S.chatMode || 'coach';
-    const msg = userMessage.toLowerCase();
-    // Simple keyword-based responses
-    if (msg.includes('motivation') || msg.includes('confiance') || msg.includes('peur')) {
-      return "Écoute, la confiance c'est pas un sentiment, c'est une action. " +
-        "Tu doutes? C'est normal. Fais quand même. " +
-        "Chaque victoire renforce ta confiance. " +
-        "Action d'aujourd'hui: fais une chose qui te fait peur. Petite.";
+    const msg = userMessage.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const name = S.name || 'Champion';
+    const hour = new Date().getHours();
+    const timeGreet = hour < 12 ? 'ce matin' : hour < 18 ? "cet aprem" : 'ce soir';
+
+    // MODE: ROLEPLAY
+    if(mode === 'roleplay') {
+      const scenarios = [
+        `OK ${name}, imagine: tu es devant 500 personnes. Tu dois pitcher ton projet en 60 secondes. Chrono.\n\nLes 3 règles du pitch parfait:\n1. PROBLÈME — Commence par la douleur que tu résous\n2. SOLUTION — Ta solution unique en 1 phrase\n3. PREUVE — Un chiffre, un résultat, un témoignage\n\nGo, essaie. Écris ton pitch ici, je te donne un retour brutal mais constructif.`,
+        `Scénario: Un client te dit "C'est trop cher". Comment tu réponds?\n\nLes 4 techniques:\n• Le miroir: "Trop cher par rapport à quoi?"\n• La valeur: "Combien ça te coûte de ne PAS résoudre ce problème?"\n• Le fractionnement: "Ça revient à X€/jour"\n• Le retournement: "Qu'est-ce qui te ferait dire oui?"\n\nChoisis une technique et donne-moi ta réponse exacte.`,
+        `Tu es en entretien pour le job de tes rêves. Le recruteur demande: "Votre plus grand échec?"\n\nLa méthode STAR:\n• Situation: Contexte bref\n• Tâche: Ton rôle\n• Action: Ce que tu as fait APRÈS l'échec\n• Résultat: Ce que tu as appris + comment ça t'a rendu meilleur\n\nEssaie. Écris ta réponse STAR.`
+      ];
+      return scenarios[Math.floor(Math.random()*scenarios.length)];
     }
-    if (msg.includes('nature') || msg.includes('marche') || msg.includes('soleil') || msg.includes('dehors')) {
-      return "La nature c'est ta pharmacie gratuite. 30 min de marche dehors = \n" +
-        "• Cortisol baisse de 21%\n" +
-        "• Créativité + 60%\n" +
-        "• Sommeil meilleur\n" +
-        "Action ce soir: sors 15 min. Juste respirer. Pas de phone.";
+
+    // MODE: DEBATE
+    if(mode === 'debate') {
+      return `Intéressant, ${name}. Mais laisse-moi challenger ton point de vue.\n\nTu dis "${userMessage}" — OK. Mais as-tu considéré l'inverse?\n\n🔴 Argument CONTRE:\nLa plupart des gens qui pensent comme ça finissent par stagner. Pourquoi? Parce qu'ils restent dans leur zone de confort intellectuelle.\n\n🟢 L'alternative:\nEt si tu prenais exactement la position opposée pendant 24h? Pas pour changer d'avis, mais pour COMPRENDRE les angles morts.\n\n💡 Exercice: Donne-moi 3 arguments CONTRE ta propre position. Ça va muscler ton esprit critique.`;
     }
-    if (msg.includes('livre') || msg.includes('lire') || msg.includes('apprendre')) {
-      const books = ["Atomic Habits", "Deep Work", "The Midnight Library", "Mindset"];
-      const book = books[Math.floor(Math.random() * books.length)];
-      return `${book} changera ta vision. Pourquoi ce livre pour toi? ` +
-        `C'est une histoire, pas un cours. L'apprentissage rentre naturellement. ` +
-        `Action: achète-le ou emprunte-le aujourd'hui. Lis une page ce soir.`;
+
+    // MODE: PLAN 90 JOURS
+    if(mode === 'plan90') {
+      return `📅 PLAN 90 JOURS pour ${name}\n\nObjectif: "${userMessage}"\n\n🔴 MOIS 1 — FONDATIONS (Jours 1-30)\nSemaine 1-2: Audit complet de ta situation actuelle. Où tu en es vraiment? Sois brutal.\nSemaine 3-4: Mise en place des routines de base. Pas de performance, juste de la consistance.\n• Action quotidienne: 1h de travail focus sur cet objectif\n• Tracker: Note ton avancement chaque soir\n\n🟡 MOIS 2 — ACCÉLÉRATION (Jours 31-60)\nSemaine 5-6: Double le temps investi. Passe de 1h à 2h/jour.\nSemaine 7-8: Première évaluation. Qu'est-ce qui marche? Qu'est-ce qu'on coupe?\n• Action: Trouve un mentor ou modèle dans ce domaine\n• Milestone: 50% de l'objectif atteint\n\n🟢 MOIS 3 — RÉSULTATS (Jours 61-90)\nSemaine 9-10: Optimise ce qui fonctionne. Élimine le reste.\nSemaine 11-12: Sprint final. Push maximum.\n• Action: Partage tes résultats publiquement\n• Milestone: Objectif atteint ou très proche\n\n⚡ Dis-moi plus sur ton objectif et je détaille chaque semaine.`;
     }
-    if (msg.includes('argent') || msg.includes('revenue') || msg.includes('business')) {
-      return "Revenue = Valeur × Nombre de personnes. Tu dois des deux. " +
-        "Quelle valeur tu crées? Pour qui? " +
-        "Action ce soir: écris ton offre en 5 lignes. Puis trouves 3 personnes à qui la montrer demain.";
+
+    // MODE: BOOKS
+    if(mode === 'books') {
+      const recs = [
+        {t:'Atomic Habits',a:'James Clear',why:'Change tes habitudes en 4 étapes simples. Le livre le plus actionnable jamais écrit.',key:'Tu ne montes pas au niveau de tes objectifs, tu descends au niveau de tes systèmes.'},
+        {t:'Deep Work',a:'Cal Newport',why:'Apprends à te concentrer dans un monde de distractions. Essentiel pour produire de la valeur.',key:'La capacité à faire du travail profond devient de plus en plus rare et de plus en plus précieuse.'},
+        {t:'$100M Offers',a:'Alex Hormozi',why:'Comment créer une offre si bonne que les gens se sentent stupides de dire non.',key:'Rends ton offre si bonne que les gens se sentent stupides de refuser.'},
+        {t:'The Psychology of Money',a:'Morgan Housel',why:'Comprends VRAIMENT l\'argent. Pas les investissements, la psychologie derrière.',key:'La richesse, c\'est ce que tu ne vois pas. Les voitures pas achetées, les montres pas portées.'},
+        {t:'Can\'t Hurt Me',a:'David Goggins',why:'Mental d\'acier. Ce livre te pousse au-delà de tes limites perçues.',key:'Tu n\'utilises que 40% de ton potentiel. Les 60% restants sont derrière la douleur.'},
+        {t:'Ikigai',a:'Héctor García',why:'Trouve ta raison de vivre. Philosophie japonaise de la longévité et du bonheur.',key:'Ta raison de vivre est à l\'intersection de ce que tu aimes, ce dont le monde a besoin, ce pour quoi on te paie.'}
+      ];
+      const pick = recs.sort(()=>Math.random()-.5).slice(0,3);
+      return `📚 3 livres que je te recommande, ${name}:\n\n` + pick.map((b,i)=>
+        `${i+1}. "${b.t}" — ${b.a}\n${b.why}\n💡 Clé: "${b.key}"\n`
+      ).join('\n') + `\nDis-moi lequel t'intéresse et je te fais un résumé actionnable.`;
     }
-    if (msg.includes('sommeil') || msg.includes('fatigue') || msg.includes('repos')) {
-      return "Le sommeil c'est la base. Sans ça, le reste s'écroule. " +
-        "7h minimum. Chambre froide (18°C). Pas d'écrans 1h avant. " +
-        "Action ce soir: couche-toi 30 min plus tôt. Sens la différence demain.";
+
+    // ====== COACH MODE — Smart keyword matching ======
+
+    // STREET WORKOUT / CALISTHENICS
+    if(msg.match(/street.?work|calisthen|barr?es?|traction|pompe|dips|muscle.?up/)) {
+      return `💪 Programme Street Workout pour ${name}\n\nNiveau débutant → intermédiaire (12 semaines)\n\n📋 SÉANCE A — PUSH (Lundi/Jeudi)\n• Pompes classiques: 4×12\n• Pompes diamant: 3×8\n• Dips (banc ou barres): 4×10\n• Pike push-ups (épaules): 3×8\n• Gainage planche: 3×45s\n\n📋 SÉANCE B — PULL (Mardi/Vendredi)\n• Tractions pronation: 4×max (même si c'est 1)\n• Tractions supination: 3×max\n• Australian rows (barre basse): 4×12\n• Leg raises suspendus: 3×10\n• Dead hang: 3×30s\n\n📋 SÉANCE C — LEGS (Mercredi/Samedi)\n• Squats pistol (assistés): 3×6/jambe\n• Fentes marchées: 4×12/jambe\n• Step-ups (banc haut): 3×10/jambe\n• Pont fessier 1 jambe: 3×15/côté\n• Mollets debout: 4×20\n\n⚡ Progression: Ajoute 1 rep/semaine. Quand tu fais 15 reps facilement → passe à la variante plus dure.\n\nTu veux que je détaille la nutrition qui va avec?`;
     }
-    if (msg.includes('sport') || msg.includes('fitness') || msg.includes('corps')) {
-      return "Ton corps = ton cerveau en action. Si tu négliges ça, tu sabotes tout. " +
-        "3x/semaine : 30 min de cardio ou force. Simple. " +
-        "Action demain: une session. Juste 20 min si t'as pas le temps.";
+
+    // GYM / MUSCULATION
+    if(msg.match(/muscu|gym|salle|halter|bench|squat|deadlift|developp|biceps|pec/)) {
+      return `🏋️ Programme Musculation pour ${name}\n\nSplit Push/Pull/Legs — 5-6 jours/semaine\n\n📋 PUSH (Pecs/Épaules/Triceps)\n• Développé couché: 4×8-10\n• Développé militaire: 3×10\n• Écarté incliné haltères: 3×12\n• Élévations latérales: 4×15\n• Dips lestés: 3×10\n• Extension triceps poulie: 3×12\n\n📋 PULL (Dos/Biceps)\n• Tractions lestées: 4×8\n• Rowing barre: 4×10\n• Tirage vertical: 3×12\n• Face pulls: 4×15\n• Curl haltères: 3×12\n• Curl marteau: 3×10\n\n📋 LEGS (Jambes/Fessiers)\n• Back squat: 4×8\n• Presse: 3×12\n• RDL roumain: 4×10\n• Fentes: 3×12/jambe\n• Leg curl: 3×12\n• Mollets: 4×15\n\n⚡ Tempo: 3-1-1 (3s descente, 1s pause, 1s montée)\nRepos: 90s entre les séries\n\nTu veux un plan nutrition adapté?`;
     }
-    // Default coach response
-    return "Dis-moi plus précisément. Quel est le problème exact? " +
-      "Qu'as-tu essayé? Pourquoi ça n'a pas marché? " +
-      "On va trouver une vraie solution, pas juste parler.";
+
+    // CARDIO / RUNNING / HIIT
+    if(msg.match(/cardio|courir|running|course|hiit|interval|endurance|marathon|sprint/)) {
+      return `🏃 Programme Cardio/Running pour ${name}\n\n📋 SEMAINE TYPE:\n\nLundi — Interval Training (30 min)\n• Échauffement: 5 min marche rapide\n• 8 rounds: 30s sprint + 90s récupération\n• Retour au calme: 5 min\n\nMercredi — Endurance (40-50 min)\n• Course à allure confortable (tu peux parler)\n• Objectif: tenir la durée, pas la vitesse\n\nVendredi — HIIT Circuit (25 min)\n• 5 rounds de:\n  - 10 burpees\n  - 20 mountain climbers\n  - 15 squats sautés\n  - 30s repos\n\nSamedi — Sortie longue (60 min+)\n• Rando, vélo, ou course lente\n• Zone 2 (essoufflé mais peut parler)\n\n📊 Progression:\nSemaine 1-4: Construis la base (volume faible)\nSemaine 5-8: Augmente volume +10%/semaine\nSemaine 9-12: Ajoute intensité\n\n🎯 Fréquence cardiaque cible:\nEndurance: 120-140 bpm\nIntervals: 160-180 bpm\nRécupération: <120 bpm`;
+    }
+
+    // YOGA / MEDITATION / STRETCHING
+    if(msg.match(/yoga|meditat|etirement|stretch|flexib|zen|respir|souple|pleine.?conscience|mindful/)) {
+      return `🧘 Programme Bien-être pour ${name}\n\n📋 ROUTINE MATIN (15 min)\n1. Respiration 4-7-8 (3 cycles)\n   Inspire 4s → Retiens 7s → Expire 8s\n2. Salutation au soleil (5 min)\n3. Méditation guidée (5 min)\n   Focus sur la respiration. Pensée = nuage qui passe.\n4. Intention du jour (2 min)\n   Écris UNE chose que tu veux accomplir.\n\n📋 ROUTINE SOIR (10 min)\n1. Body scan: des pieds à la tête, relâche chaque muscle\n2. Étirements doux: hanches, dos, épaules (5 min)\n3. Gratitude: 3 choses positives de la journée\n4. Respiration cohérence cardiaque (5 min)\n   Inspire 5s → Expire 5s → 6 cycles/min\n\n📊 Bénéfices prouvés:\n• -23% cortisol après 8 semaines\n• +14% capacité de concentration\n• Meilleur sommeil dès la 1ère semaine\n• Réduction anxiété significative\n\nVeux-tu que je te guide sur une technique spécifique?`;
+    }
+
+    // PERTE DE POIDS / SÈCHE
+    if(msg.match(/perdre|poids|maigr|seche|regime|calorie|graisse|mincir|kilos?|deficit/)) {
+      return `⚖️ Plan Perte de Poids Intelligent pour ${name}\n\n🔬 LA SCIENCE:\nPerdre du gras = déficit calorique + préservation musculaire\nObjectif réaliste: 0.5 à 1 kg/semaine\n\n📋 NUTRITION:\n1. Calcule ton métabolisme: Poids × 24 = calories de maintenance (approximation)\n2. Retire 300-500 cal/jour (PAS PLUS)\n3. Protéines: 1.6-2g/kg de poids de corps (priorité absolue)\n4. Répartition: 40% protéines, 30% glucides, 30% lipides\n\n🍽️ EXEMPLE JOURNÉE (1800 cal):\nPetit-déj: Oeufs brouillés + avocat + pain complet (450 cal)\nDéjeuner: Poulet grillé + riz complet + légumes (550 cal)\nSnack: Yaourt grec + fruits + amandes (250 cal)\nDîner: Saumon + patate douce + salade (550 cal)\n\n⚡ 5 RÈGLES D'OR:\n1. Mange des protéines à CHAQUE repas\n2. 2L d'eau minimum/jour\n3. Dors 7-8h (cortisol = stockage de graisse)\n4. Musculation 3x/semaine (garde le muscle)\n5. Pas de restriction extrême (tu vas craquer)\n\n❌ Oublie: les régimes miracles, les thés détox, le jeûne extrême\n✅ Focus: consistance sur 12 semaines > perfection sur 2 jours`;
+    }
+
+    // PRISE DE MASSE
+    if(msg.match(/masse|bulk|grossir|prise.?de|prendre.?du.?muscle|volume|mass/)) {
+      return `💪 Plan Prise de Masse pour ${name}\n\n📋 NUTRITION (surplus calorique +300-500 cal):\n• Protéines: 2g/kg (priorité #1)\n• Glucides: 4-6g/kg (ton carburant)\n• Lipides: 1g/kg (hormones)\n\n🍽️ EXEMPLE JOURNÉE (2800 cal):\n07h: Flocons d'avoine + banane + whey + beurre cacahuète (650 cal)\n10h: Pain complet + jambon + fromage (350 cal)\n13h: Riz + poulet + huile d'olive + légumes (700 cal)\n16h: Shake: lait + flocons + whey + fruits (450 cal)\n20h: Pâtes + boeuf haché + sauce tomate + parmesan (650 cal)\n\n📋 ENTRAÎNEMENT:\n• 4-5 jours/semaine\n• Exercices composés d'abord (squat, bench, deadlift, tractions)\n• 4×8-12 reps (hypertrophie)\n• Surcharge progressive: +2.5kg/semaine sur les gros mouvements\n• Repos: 90-120s entre séries\n\n⚡ CLÉS DU SUCCÈS:\n1. Mange même quand t'as pas faim\n2. Dors 8h minimum (tu construis en dormant)\n3. Crée un surplus MODÉRÉ (pas de dirty bulk)\n4. Sois patient: 0.5-1kg/mois de muscle MAX\n5. Mesure: photos + mensurations > balance`;
+    }
+
+    // JEÛNE INTERMITTENT
+    if(msg.match(/jeune|jeuner|fasting|intermittent|16.?8|omad|autophagie/)) {
+      return `⏰ Guide Jeûne Intermittent pour ${name}\n\n📋 LES PROTOCOLES:\n\n1️⃣ 16/8 (Recommandé pour débuter)\nManger: 12h-20h | Jeûner: 20h-12h\n→ Tu sautes juste le petit-déj\n\n2️⃣ 18/6 (Intermédiaire)\nManger: 13h-19h | Jeûner: 19h-13h\n\n3️⃣ OMAD (Avancé — 1 repas/jour)\nManger: 1h fenêtre | Jeûner: 23h\n\n🔬 BÉNÉFICES PROUVÉS:\n• Autophagie: tes cellules se nettoient (après 16h)\n• Sensibilité insuline améliorée\n• Hormone de croissance ×5\n• Clarté mentale accrue\n• Perte de graisse facilitée\n\n⚠️ PENDANT LE JEÛNE:\n✅ Eau, café noir, thé sans sucre\n❌ Pas de calories, même un splash de lait\n\n📋 SEMAINE DE DÉMARRAGE:\nJour 1-3: Commence par 14h de jeûne\nJour 4-5: Monte à 15h\nJour 6-7: Atteins 16h\nSemaine 2+: Maintiens 16/8\n\n💡 Astuce: Bois beaucoup d'eau + café le matin. La faim passe après 20 min.`;
+    }
+
+    // YOUTUBE / CRÉATION DE CONTENU
+    if(msg.match(/youtube|video|contenu|createur|creat|vlog|miniature|thumbnail|abonne|chaine|monetis/)) {
+      return `🎬 Stratégie YouTube/Contenu pour ${name}\n\n📋 LES 5 PILIERS:\n\n1️⃣ NICHE CLAIRE\n• Choisis UN sujet où tu peux faire 100 vidéos\n• Test: "Je suis la chaîne qui [X]"\n• Plus c'est précis, plus tu grandis vite\n\n2️⃣ TITRES & MINIATURES (80% du succès)\n• Titre: Curiosité + Bénéfice + Urgence\n• Formules: "Comment [X] sans [Y]", "J'ai testé [X] pendant 30 jours"\n• Miniature: 3 éléments max, visage expressif, contraste fort\n\n3️⃣ RÉTENTION (les 30 premières secondes)\n• Hook: Promesse + Preuve + Preview\n• "Dans cette vidéo tu vas apprendre [X] qui m'a permis [résultat]"\n• JAMAIS d'intro longue, pas de jingle\n\n4️⃣ CONSISTANCE\n• Minimum 2 vidéos/semaine pendant 6 mois\n• Batch: Filme 4 vidéos en 1 jour\n• Script: 10 min de vidéo = 1500 mots de script\n\n5️⃣ MONÉTISATION\n• 1000 abonnés + 4000h de visionnage = AdSense\n• Mais le VRAI argent: produits, formations, sponsors\n• 10K abonnés engagés > 100K abonnés passifs\n\n⚡ ACTION ${timeGreet.toUpperCase()}:\nÉcris 10 idées de vidéos. Garde les 3 meilleures. Filme la première demain.`;
+    }
+
+    // MUSIQUE / ARTISTE
+    if(msg.match(/musique|musicien|artiste|album|single|spotify|concert|chanson|beatmak|prod|rap|chant/)) {
+      return `🎵 Stratégie Artiste/Musique pour ${name}\n\n📋 PLAN DE DÉVELOPPEMENT:\n\n1️⃣ CRÉATION (60% de ton temps)\n• Produis régulièrement: 1 morceau finalisé/semaine minimum\n• Stocke les idées: mémos vocaux dès qu'une mélodie vient\n• Collabore: 1 feat/mois avec un artiste de ton niveau ou +\n\n2️⃣ DISTRIBUTION\n• DistroKid ou TuneCore pour Spotify/Apple Music/Deezer\n• Sors 1 single/mois (l'algo Spotify aime la régularité)\n• Pre-save campaigns 2 semaines avant chaque sortie\n\n3️⃣ MARKETING (30% de ton temps)\n• Instagram/TikTok: 1 contenu/jour (behind the scenes, snippets)\n• Reels/TikTok: utilise les trends avec ta musique\n• Email list: collecte les emails de tes vrais fans\n• Spotify playlists: pitche aux curateurs indépendants\n\n4️⃣ MONÉTISATION\n• Streams (0.003-0.005€/stream)\n• Merch (marge 60-70%)\n• Lives/Concerts (ta meilleure source)\n• Sync/Licensing (pubs, films, séries)\n• Beatmaking/Production pour d'autres artistes\n\n5️⃣ MINDSET\n• 1000 vrais fans > 100K followers\n• La consistance bat le talent sur le long terme\n• Chaque "non" te rapproche d'un "oui"\n\n⚡ ACTION: Définis tes 3 prochaines sorties avec des dates. Sans deadline = pas de sortie.`;
+    }
+
+    // BUSINESS / ENTREPRENEURIAT / ARGENT
+    if(msg.match(/argent|revenue|business|entrepreneur|vendre|client|freelance|lancer|startup|offre|prix|e.?commerce|dropship/)) {
+      return `💰 Stratégie Business pour ${name}\n\n📋 LES 4 ÉTAPES POUR GÉNÉRER DES REVENUS:\n\n1️⃣ OFFRE IRRÉSISTIBLE\n• Résous un VRAI problème douloureux\n• Prix basé sur la VALEUR, pas sur le temps\n• Formule: "J'aide [qui] à [résultat] en [temps] grâce à [méthode]"\n\n2️⃣ ACQUISITION (trouver des clients)\n• Outbound: 10 messages personnalisés/jour sur LinkedIn\n• Inbound: Contenu gratuit qui démontre ton expertise\n• Referral: Chaque client satisfait = 2 recommandations\n• Le secret: les 100 premiers clients se trouvent 1 par 1\n\n3️⃣ CONVERSION\n• Appel découverte gratuit de 20 min\n• 80% écouter, 20% parler\n• Ne vends pas ton produit, vends la TRANSFORMATION\n• Urgence naturelle: places limitées, prix qui augmente\n\n4️⃣ SCALING\n• Automatise ce qui peut l'être (emails, onboarding)\n• Systématise ta livraison\n• Embauche quand tu es débordé, pas avant\n• Réinvestis 30% dans le marketing\n\n📊 OBJECTIFS RÉALISTES:\nMois 1-3: Premier client, première vente\nMois 4-6: 5-10 clients réguliers\nMois 7-12: 10-30K€/mois possible\n\n⚡ ACTION ${timeGreet.toUpperCase()}: Écris ton offre en 5 lignes. Envoie-la à 3 personnes demain.`;
+    }
+
+    // FINANCES PERSONNELLES / INVESTISSEMENT
+    if(msg.match(/invest|epargne|bourse|crypto|immobilier|patrimoine|financ|budget|economis|epargn/)) {
+      return `💎 Guide Finances Personnelles pour ${name}\n\n📋 LA PYRAMIDE FINANCIÈRE:\n\n1️⃣ ÉTAGE 1 — SÉCURITÉ (PRIORITÉ)\n• Fonds d'urgence: 3-6 mois de dépenses\n• Livret A: jusqu'au plafond (22 950€)\n• Assurance: santé, habitation, responsabilité civile\n\n2️⃣ ÉTAGE 2 — CROISSANCE\n• PEA (Plan Épargne Actions): ETF World (ex: MSCI World)\n• DCA: investis la même somme chaque mois (automatise!)\n• Règle: investis ce que tu peux perdre sans stress\n\n3️⃣ ÉTAGE 3 — ACCÉLÉRATION\n• Immobilier locatif: cashflow positif = revenu passif\n• Business en ligne: marge > 50%\n• Crypto: max 5-10% du portefeuille\n\n📊 LA RÈGLE 50/30/20:\n50% → Besoins (loyer, courses, transport)\n30% → Envies (sorties, shopping, loisirs)\n20% → Épargne & Investissement\n\n⚡ 5 ERREURS À ÉVITER:\n1. Attendre le "bon moment" (c'est maintenant)\n2. Investir sans fonds d'urgence\n3. Suivre les tendances (FOMO)\n4. Pas diversifier\n5. Vendre en panique quand ça baisse\n\n💡 ACTION: Ouvre un PEA si c'est pas fait. Mets en place un virement auto de 10% de tes revenus.`;
+    }
+
+    // STRESS / ANXIÉTÉ / SANTÉ MENTALE
+    if(msg.match(/stress|anxie|angoiss|panique|mental|deprime|depression|burnout|epuis|craqu|pleurer|triste|seul/)) {
+      return `🧠 ${name}, je t'entends. Le stress et l'anxiété c'est réel, et c'est pas une faiblesse.\n\n📋 TECHNIQUES IMMÉDIATES (fais-en une maintenant):\n\n1️⃣ RESPIRATION 4-7-8 (calme en 60 secondes)\nInspire par le nez: 4 secondes\nRetiens: 7 secondes\nExpire par la bouche: 8 secondes\n→ Répète 4 fois. Ton système nerveux se calme.\n\n2️⃣ GROUNDING 5-4-3-2-1\nNomme: 5 choses que tu VOIS\n4 choses que tu TOUCHES\n3 choses que tu ENTENDS\n2 choses que tu SENS\n1 chose que tu GOÛTES\n→ Ça te ramène dans le présent.\n\n3️⃣ BRAIN DUMP\nPrend un papier. Écris TOUT ce qui te stresse.\nSans filtre, sans ordre. Vide ton cerveau.\nPuis classe: Urgent? Pas urgent? Pas de mon contrôle?\n\n📋 HABITUDES ANTI-STRESS:\n• 30 min de marche/jour (non négociable)\n• 7-8h de sommeil\n• Limite les écrans 1h avant de dormir\n• Parle à quelqu'un (ami, famille, pro)\n• Écris 3 gratitudes chaque soir\n\n💡 Rappel: Tu n'as pas à tout gérer seul(e). Si ça dure, parler à un professionnel c'est un signe de FORCE, pas de faiblesse.`;
+    }
+
+    // PRODUCTIVITÉ / ORGANISATION
+    if(msg.match(/product|organis|efficac|procrastin|focus|concentr|distra|temps|planning|routine|habitude/)) {
+      return `⚡ Système de Productivité pour ${name}\n\n📋 LA MÉTHODE RISE (4 piliers):\n\n1️⃣ R — ROUTINE MATINALE (non négociable)\n05:00-06:00 ou dès le réveil:\n• Pas de phone pendant 30 min\n• Hydratation + mouvement (10 min)\n• Intention du jour: UNE priorité\n• Attaque ta tâche #1 AVANT les emails\n\n2️⃣ I — INTERVALS DE FOCUS\n• Time blocking: 90 min focus + 20 min pause\n• Pendant le focus: phone en avion, notifications OFF\n• Deep Work le matin (cerveau frais)\n• Shallow work l'après-midi (emails, appels, admin)\n\n3️⃣ S — SYSTÈMES\n• Todo list la veille au soir (3 tâches max)\n• Matrice Eisenhower: Urgent/Important\n• Règle des 2 min: si ça prend <2 min, fais-le maintenant\n• Batch: groupe les tâches similaires\n\n4️⃣ E — ÉNERGIE\n• Sommeil 7-8h (la base de tout)\n• Exercice 30 min/jour\n• Alimentation: protéines + pas de sucre le matin\n• Pause VRAIE: pas de scroll, marche, nature\n\n❌ ARRÊTE:\n• Multitasking (mythe total)\n• Vérifier ton phone toutes les 5 min\n• Dire oui à tout\n• Travailler tard = être productif (FAUX)\n\n⚡ ACTION: Ce soir, écris tes 3 priorités de demain. Demain matin, attaque la #1 AVANT tout.`;
+    }
+
+    // MOTIVATION / CONFIANCE / MINDSET
+    if(msg.match(/motiv|confiance|peur|bloqu|courage|disciplin|mindset|mental|croire|doute|imposteur|echec|abandon/)) {
+      return `🔥 ${name}, écoute bien.\n\nLa motivation c'est du FLAN. Ça vient et ça repart. Ce qui compte c'est la DISCIPLINE.\n\n📋 LE FRAMEWORK ANTI-PROCRASTINATION:\n\n1️⃣ LA RÈGLE DES 5 SECONDES\nTu as une idée → 5, 4, 3, 2, 1 → BOUGE.\nSi tu attends plus de 5 secondes, ton cerveau trouve une excuse.\n\n2️⃣ L'IDENTITÉ > LES OBJECTIFS\nArrête de dire "je veux être en forme"\nDis "JE SUIS quelqu'un qui s'entraîne"\nTon identité drive tes actions.\n\n3️⃣ LA RÈGLE DU 1%\nSois 1% meilleur qu'hier. C'est tout.\n1% × 365 jours = 37x meilleur en 1 an.\nPas besoin de révolution. Juste de constance.\n\n4️⃣ L'ENVIRONNEMENT\n• Entoure-toi de gens qui te tirent vers le haut\n• Tu es la moyenne des 5 personnes les plus proches\n• Élimine les sources de négativité\n\n5️⃣ LE JOURNAL DE VICTOIRES\nChaque soir, note 3 victoires du jour.\nMême petites: "j'ai fait mon sport", "j'ai dit non à une distraction"\nAprès 30 jours, relis. Tu verras le chemin parcouru.\n\n💡 Rappel: La personne que tu veux devenir se construit par ce que tu fais AUJOURD'HUI, pas demain.`;
+    }
+
+    // SOMMEIL / REPOS / RÉCUPÉRATION
+    if(msg.match(/sommeil|dormir|fatigue|repos|insomn|reveil|nuit|energie|epuis|sieste/)) {
+      return `😴 Optimise ton Sommeil, ${name}\n\nLe sommeil c'est ton SUPERPOUVOIR #1. Tout le reste en dépend.\n\n📋 PROTOCOLE SOMMEIL OPTIMAL:\n\n🌅 LE MATIN:\n• Lumière naturelle dans les 30 min du réveil (reset l'horloge)\n• Caféine OK mais STOP après 14h\n• Exercice (mais pas <3h avant de dormir)\n\n🌙 LE SOIR (2h avant de dormir):\n• Lumière tamisée (pas de néons)\n• Pas d'écrans 1h avant OU filtre bleu max\n• Température chambre: 18-19°C\n• Douche chaude 1h avant (le refroidissement aide à dormir)\n• Routine: lecture, étirements, gratitudes\n\n🛏️ DANS LE LIT:\n• Lit = dormir uniquement (pas de phone, pas de Netflix)\n• Si pas endormi en 20 min → sors du lit, lis, reviens\n• Respiration 4-7-8 pour s'endormir\n\n📊 CYCLES DE SOMMEIL:\n1 cycle = 90 min (léger → profond → REM)\n5 cycles = 7h30 de sommeil idéal\nRègle: réveille-toi en fin de cycle (7h30 ou 6h)\n\n⚡ QUICK WINS:\n• Magnésium (glycinate) 30 min avant le coucher\n• Pas d'alcool (détruit le sommeil profond)\n• Weekend: même horaire que la semaine (±30 min)`;
+    }
+
+    // NUTRITION / ALIMENTATION
+    if(msg.match(/nutrition|manger|aliment|recette|repas|diet|proteine|glucide|lipide|calorie|sain|cuisin/)) {
+      return `🥗 Guide Nutrition pour ${name}\n\n📋 LES BASES (80% DES RÉSULTATS):\n\n1️⃣ PROTÉINES (le plus important)\n• 1.6-2g par kg de poids de corps\n• Sources: poulet, poisson, oeufs, yaourt grec, légumineuses\n• À CHAQUE repas\n\n2️⃣ ASSIETTE IDÉALE:\n🟢 1/2 assiette: légumes (fibre + vitamines)\n🔴 1/4 assiette: protéines (muscle + satiété)\n🟡 1/4 assiette: glucides complexes (énergie)\n+ 1 cuillère de bon gras (huile olive, avocat, noix)\n\n🍽️ JOURNÉE TYPE:\nMatin: Oeufs + avocat + pain complet + fruits\nMidi: Poulet/poisson + riz complet + légumes + huile olive\nSnack: Yaourt grec + amandes + banane\nSoir: Saumon + patate douce + salade + vinaigrette\n\n⚡ 7 RÈGLES D'OR:\n1. Bois 2-3L d'eau/jour\n2. Mange des vrais aliments (pas des produits)\n3. Prépare tes repas à l'avance (meal prep)\n4. Pas de régime extrême (tu vas craquer)\n5. 80% clean, 20% plaisir\n6. Lis les étiquettes (sucre caché partout)\n7. Mange lentement (20 min minimum)\n\n❌ MYTHES:\n• "Le gras fait grossir" → FAUX (c'est l'excès calorique)\n• "Manger le soir fait grossir" → FAUX\n• "Les protéines en poudre c'est de la triche" → FAUX (c'est juste du lait filtré)`;
+    }
+
+    // RELATIONS / SOCIAL / COMMUNICATION
+    if(msg.match(/relation|couple|amour|amis?|social|communiq|parler|timide|charisma|seduct|reseau|network|solitude/)) {
+      return `❤️ Relations & Communication pour ${name}\n\n📋 LES 5 COMPÉTENCES SOCIALES CLÉS:\n\n1️⃣ ÉCOUTE ACTIVE\n• Règle 80/20: écoute 80%, parle 20%\n• Reformule: "Si je comprends bien, tu dis que..."\n• Pose des questions ouvertes (pas oui/non)\n• Regarde dans les yeux, phone rangé\n\n2️⃣ CHARISME\n• Parle lentement (les gens pressés = pas écoutés)\n• Utilise le prénom de l'autre (puissant psychologiquement)\n• Souris sincèrement (ça se voit)\n• Aie une opinion (les gens sans avis sont oubliés)\n\n3️⃣ RÉSEAU PROFESSIONNEL\n• Donne avant de demander (loi de la réciprocité)\n• 5 messages LinkedIn/semaine à des gens intéressants\n• Participe à 1 événement/mois dans ton domaine\n• Suis-up: un message 48h après la rencontre\n\n4️⃣ GESTION DES CONFLITS\n• CNV: "Quand tu [fait], je ressens [émotion] parce que [besoin]"\n• Jamais d'attaque personnelle\n• Cherche le compromis, pas la victoire\n\n5️⃣ LIMITES SAINES\n• Dire non = se respecter\n• Les gens qui te drainent = à distance\n• Ton énergie est ta ressource la plus précieuse\n\n⚡ EXERCICE: Cette semaine, pose une vraie question à quelqu'un et ÉCOUTE la réponse sans penser à ta réponse.`;
+    }
+
+    // NATURE / MARCHE / DEHORS
+    if(msg.match(/nature|marche|soleil|dehors|foret|exterieur|plein.?air|randonnee|balade/)) {
+      return `🌿 Nature & Bien-être pour ${name}\n\n🔬 CE QUE DIT LA SCIENCE:\n• 120 min/semaine en nature = boost santé significatif\n• Lumière du matin: reset horloge circadienne\n• "Bain de forêt" (shinrin-yoku): -16% cortisol en 15 min\n• Marche: +60% créativité (étude Stanford)\n\n📋 PROGRAMME NATURE QUOTIDIEN:\n\n🌅 MATIN (10 min):\n• Sors dans les 30 min du réveil\n• Regarde le ciel (pas besoin de soleil direct)\n• Marche pieds nus sur l'herbe si possible (grounding)\n\n🌿 JOURNÉE (20-30 min):\n• Marche digestive après le déjeuner\n• Sans écouteurs: écoute les sons naturels\n• Respire profondément: inspire 4s, expire 6s\n\n🌙 SOIR (10 min):\n• Coucher de soleil = signal de sommeil pour ton cerveau\n• Marche calme, rythme lent\n• Gratitude: observe 3 belles choses\n\n🏆 DÉFIS NATURE:\n• Semaine 1: 15 min/jour dehors\n• Semaine 2: 30 min/jour\n• Semaine 3: 1 rando de 2h le weekend\n• Semaine 4: Méditation en extérieur`;
+    }
+
+    // LECTURE / LIVRES / APPRENTISSAGE
+    if(msg.match(/livre|lire|lecture|apprendre|formation|cours|connaissance|eduqu|etud/)) {
+      const books = [
+        {t:'Atomic Habits',a:'James Clear',topic:'habitudes & changement'},
+        {t:'Deep Work',a:'Cal Newport',topic:'focus & productivité'},
+        {t:"$100M Offers",a:'Alex Hormozi',topic:'business & vente'},
+        {t:'Ikigai',a:'Héctor García',topic:'sens de la vie & longévité'},
+        {t:"Can't Hurt Me",a:'David Goggins',topic:'mental & dépassement de soi'},
+        {t:'The Psychology of Money',a:'Morgan Housel',topic:'finances & mindset'},
+        {t:'Sapiens',a:'Yuval Noah Harari',topic:'comprendre le monde'},
+        {t:'Thinking, Fast and Slow',a:'Daniel Kahneman',topic:'prise de décision'}
+      ];
+      const picks = books.sort(()=>Math.random()-.5).slice(0,3);
+      return `📚 Apprentissage & Lecture pour ${name}\n\n📋 MÉTHODE DE LECTURE ACTIVE:\n1. Lis avec un stylo (surligne les passages clés)\n2. Après chaque chapitre: écris 3 takeaways\n3. Après le livre: 1 page de résumé\n4. Applique 1 idée dans les 24h\n\n📖 3 LIVRES RECOMMANDÉS:\n${picks.map((b,i)=>`${i+1}. "${b.t}" — ${b.a}\n   Pour: ${b.topic}`).join('\n')}\n\n⚡ OBJECTIF: 1 livre/mois = 12 livres/an = tu seras dans le top 1% des lecteurs.\n\n💡 Astuce: Écoute des audiobooks en marchant. Double bénéfice: nature + apprentissage.`;
+    }
+
+    // SMART FALLBACK — Analyse le message et donne une réponse pertinente
+    const words = msg.split(/\s+/).length;
+    if(words < 4) {
+      return `${name}, dis-moi en plus! Plus tu es précis, plus je peux t'aider concrètement.\n\nExemples de ce que tu peux me demander:\n• "Fais-moi un programme street workout"\n• "Comment gagner mes premiers 1000€ en freelance"\n• "Je suis stressé, aide-moi"\n• "Programme nutrition pour perdre 5 kg"\n• "Comment être plus productif le matin"\n\nJe peux te faire des programmes complets, des plans d'action, des conseils précis. Vas-y, teste-moi! 💪`;
+    }
+
+    return `💡 ${name}, bonne question.\n\nVoici mon analyse de "${userMessage.slice(0,50)}${userMessage.length>50?'...':''}":\n\n1️⃣ CONSTAT: C'est un sujet qui mérite une vraie réflexion. Pas une réponse bateau.\n\n2️⃣ MON CONSEIL:\n• Définis clairement ton objectif: où veux-tu être dans 90 jours?\n• Identifie le premier petit pas (pas le grand saut)\n• Bloque du temps dans ton agenda (ce qui n'est pas planifié n'arrive pas)\n\n3️⃣ PLAN D'ACTION:\nAujourd'hui: Écris ton objectif en 1 phrase claire\nCette semaine: Fais 1 action concrète vers cet objectif\nCe mois: Crée une routine quotidienne autour de cet objectif\n\nTu veux que j'approfondisse un point précis? Demande-moi un programme détaillé sur:\n• Sport & corps 💪\n• Business & argent 💰\n• Mental & bien-être 🧠\n• Productivité & organisation ⚡\n• Relations & communication ❤️`;
   },
   // ============================================================================
   // TRAINING MODULES - Pre-built structured content
@@ -2805,17 +2954,19 @@ const RISE_AI = {
           num: 1,
           title: "L'origine de la confiance",
           duration: "10min",
-          desc: "La confiance n'est pas innée. Elle vient de l'action répétée.",
+          desc: "La confiance n'est pas un trait de personnalité fixe. C'est un MUSCLE. Plus tu agis malgré la peur, plus il se renforce. Les études en neurosciences montrent que chaque petite victoire libère de la dopamine, créant un cercle vertueux. Le problème? La majorité attend de se sentir confiante AVANT d'agir. C'est l'inverse: l'action CRÉE la confiance.",
           key: "Confiance = Action passée réussie × Valorisation",
-          exercise: "Écris 3 moments où tu as été fier. Relis-les."
+          exercise: "Écris 3 moments où tu as été fier. Relis-les.",
+          quiz: {question:"Complète: Confiance = Action passée réussie × ...",hint:"C'est comment tu vois tes succès",answer:"valorisation"}
         },
         {
           num: 2,
           title: "Le cycle de la peur",
           duration: "12min",
-          desc: "Comprendre d'où vient la peur et comment la dépasser.",
+          desc: "Ton amygdale — cette petite zone du cerveau — ne distingue pas un lion d'une présentation PowerPoint. Elle déclenche la même alarme. La peur n'est pas ton ennemie, c'est un GPS mal calibré. La clé: reprogrammer ta réponse. Comment? En t'exposant progressivement. Chaque exposition réduit la réaction de 10-15%.",
           key: "La peur existe = tu n'es pas seul. C'est une fonction de survie.",
-          exercise: "Nomme ta peur plus grande du moment. Vraiment la nommer réduit sa taille."
+          exercise: "Nomme ta peur plus grande du moment. Vraiment la nommer réduit sa taille.",
+          quiz: {question:"La peur est une fonction de quoi?",hint:"C'est biologique",answer:"survie"}
         },
         {
           num: 3,
@@ -2823,7 +2974,8 @@ const RISE_AI = {
           duration: "10min",
           desc: "Comment construire la confiance étape par étape.",
           key: "Petit pas × 100 fois > grand pas × 1 fois",
-          exercise: "Décompose un gros but en 10 mini-étapes."
+          exercise: "Décompose un gros but en 10 mini-étapes.",
+          quiz: {question:"Qu'est-ce qui est plus efficace: petit pas × 100 ou grand pas × ?",hint:"Un chiffre",answer:"1"}
         },
         {
           num: 4,
@@ -2831,7 +2983,8 @@ const RISE_AI = {
           duration: "11min",
           desc: "Comment te parler pour créer de la confiance.",
           key: "Les champions se donnent des ordres, pas des permissions.",
-          exercise: "Crée ta phrase de puissance personnelle. Dis-la 10x dès demain."
+          exercise: "Crée ta phrase de puissance personnelle. Dis-la 10x dès demain.",
+          quiz: {question:"Les champions se donnent des ordres, pas des...",hint:"Demander la permission",answer:"permissions"}
         },
         {
           num: 5,
@@ -2839,7 +2992,8 @@ const RISE_AI = {
           duration: "9min",
           desc: "Comment ton corps influence ta confiance.",
           key: "Posture dominante = cerveau confiant. Le corps guide l'esprit.",
-          exercise: "Power pose 2 min avant une réunion importante. Sens la différence."
+          exercise: "Power pose 2 min avant une réunion importante. Sens la différence.",
+          quiz: {question:"Qu'est-ce qui guide l'esprit selon ce module?",hint:"C'est physique",answer:"corps"}
         },
         {
           num: 6,
@@ -2875,17 +3029,19 @@ const RISE_AI = {
           num: 1,
           title: "Deep Work: Qu'est-ce que c'est",
           duration: "10min",
-          desc: "Focus sans distractions. C'est là que naît la vraie valeur.",
+          desc: "Cal Newport a démontré que le travail profond (Deep Work) est la compétence #1 du 21e siècle. Pourquoi? Parce que 95% des gens en sont incapables. Ils vérifient leur phone 96 fois/jour en moyenne. Chaque interruption coûte 23 minutes pour retrouver le focus. 2h de Deep Work produisent plus de valeur que 8h de travail distrait.",
           key: "Deep work 2h > shallow work 8h",
-          exercise: "Identifie ton activité de plus haute valeur. Bloque 2h cette semaine."
+          exercise: "Identifie ton activité de plus haute valeur. Bloque 2h cette semaine.",
+          quiz: {question:"Deep work 2h est supérieur à combien d'heures de shallow work?",hint:"Un chiffre",answer:"8"}
         },
         {
           num: 2,
           title: "Élimination des distractions",
           duration: "11min",
-          desc: "Ce qu'il faut enlever pour gagner en focus.",
+          desc: "L'attention est ta ressource la plus précieuse. Elle est aussi la plus attaquée: notifications, emails, réseaux sociaux, collègues. Chaque distraction active un circuit de dopamine qui rend la suivante plus tentante. La solution n'est pas la volonté (elle s'épuise) mais le DESIGN: crée un environnement où la distraction est impossible.",
           key: "Distraction = énergie volée. Protège ton attention comme ta vie.",
-          exercise: "Mets ton phone en avion 2h. Puis 4h. Puis 8h."
+          exercise: "Mets ton phone en avion 2h. Puis 4h. Puis 8h.",
+          quiz: {question:"Distraction = énergie ...",hint:"Prise sans permission",answer:"volée"}
         },
         {
           num: 3,
@@ -2893,7 +3049,8 @@ const RISE_AI = {
           duration: "9min",
           desc: "Structurer le focus en cycles.",
           key: "90min de focus + 20min de repos = productivité optimale.",
-          exercise: "Fais 3 pomodoros (25 min chacun) demain."
+          exercise: "Fais 3 pomodoros (25 min chacun) demain.",
+          quiz: {question:"Combien de minutes de repos après 90 min de focus?",hint:"Un chiffre entre 10 et 30",answer:"20"}
         },
         {
           num: 4,
@@ -2901,7 +3058,8 @@ const RISE_AI = {
           duration: "10min",
           desc: "Pourquoi commencer par le plus dur.",
           key: "Ton cerveau est 40% plus puissant le matin. Utilise-le.",
-          exercise: "Identifie ta tâche #1 demain matin. Fais-la d'abord."
+          exercise: "Identifie ta tâche #1 demain matin. Fais-la d'abord.",
+          quiz: {question:"Le cerveau est combien de % plus puissant le matin?",hint:"Un pourcentage",answer:"40"}
         },
         {
           num: 5,
