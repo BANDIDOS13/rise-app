@@ -742,9 +742,9 @@ textarea.inp{resize:none}
       <button class="fbtn on" onclick="setLang('en',this)">🇬🇧 English</button>
       <button class="fbtn" onclick="setLang('es',this)">🇪🇸 Español</button>
       <button class="fbtn" onclick="setLang('pt',this)">🇧🇷 Português</button>
-      <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5;display:none;">🇮🇹 Italiano <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
+      <button class="fbtn" onclick="toast(t('t_coming_soon'),'🔜',2000)" style="opacity:0.5;display:none;">🇮🇹 Italiano <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
       <button class="fbtn" onclick="setLang('de',this)">🇩🇪 Deutsch</button>
-      <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5">🏴 Català <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
+      <button class="fbtn" onclick="toast(t('t_coming_soon'),'🔜',2000)" style="opacity:0.5">🏴 Català <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
     </div>
     <div id="lang-c"></div>
   </div>
@@ -1652,7 +1652,7 @@ function finSun(min){const nm=S.nat;if(nm.sDate!==TD){nm.sMin=0;nm.sDate=TD;}nm.
 let brR=false,brInt=null,brCyc=0,selBr=BREATHS[0];
 function rBreath(el){el.innerHTML='<div class="nat-c" style="border-color:'+selBr.col+';text-align:center"><div style="font-size:11px;color:'+selBr.col+';text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">'+selBr.ico+' '+selBr.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-bottom:14px">'+selBr.desc+'</div><div style="width:120px;height:120px;border-radius:50%;border:3px solid '+selBr.col+';display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform 4s ease" id="br-c"><div><div style="font-size:22px">💨</div><div style="font-size:16px;font-weight:700;color:'+selBr.col+';margin-top:5px" id="br-lbl">INSPIRE</div></div></div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:'+selBr.col+';margin-bottom:5px" id="br-cnt">0</div><div style="font-size:11px;color:var(--tx3);margin-bottom:14px" id="br-cyc">Cycle 0/'+selBr.rounds+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="br-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:'+selBr.col+';color:#fff" onclick="togBr()">💨 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstBr()">↺</button></div></div><div style="margin-top:14px">'+BREATHS.map(p=>'<div style="background:var(--sf);border:2px solid '+(p.id===selBr.id?p.col:'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="selBrP(\''+p.id+'\')"><div style="font-size:22px">'+p.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+p.nm+'</div><div style="font-size:11px;color:var(--tx3)">'+p.desc+'</div></div><div style="font-size:12px;font-weight:700;color:'+p.col+'">'+p.rounds+'×</div></div>').join('')+'</div>';}
 function selBrP(id){selBr=BREATHS.find(p=>p.id===id)||BREATHS[0];rstBr();renderNat();}
-function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast('Respiration ! +20 XP','💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#ff8080)':selBr.col;}}
+function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast(t('t_breathing_done'),'💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#ff8080)':selBr.col;}}
 function brRound(){if(!brR||brCyc>=selBr.rounds){brR=false;gainXP(40,'br_done');gainGems(4);toast(selBr.nm+' complète ! +40 XP','💨',3000);save();return;}brCyc++;const c=document.getElementById('br-cyc');if(c)c.textContent='Cycle '+brCyc+'/'+selBr.rounds;brStep(selBr.in,'INSPIRE','in');}
 function brStep(dur,lbl,phase){clearInterval(brInt);const c=document.getElementById('br-c');const l=document.getElementById('br-lbl');const cnt=document.getElementById('br-cnt');if(l)l.textContent=lbl;if(c)c.style.transform=phase==='out'?'scale(.4)':'scale(1)';let t=dur;if(cnt)cnt.textContent=t;brInt=setInterval(()=>{t--;if(cnt)cnt.textContent=Math.max(0,t);if(t<=0){clearInterval(brInt);if(!brR)return;if(phase==='in'&&selBr.hold>0)brStep(selBr.hold,'RETIENS','hold');else if(phase==='in'||phase==='hold')brStep(selBr.out,'EXPIRE','out');else brRound();}},1000);}
 function rstBr(){clearInterval(brInt);brR=false;brCyc=0;}
@@ -1666,13 +1666,13 @@ function togCold(){if(coldR){clearInterval(coldInt);coldR=false;const s=coldSec;
 function rstCold(){clearInterval(coldInt);coldR=false;coldSec=0;renderNat();}
 let mwR=false,mwSec=0,mwInt=null,mwStep=0;
 function rMindful(el){el.innerHTML='<div class="nat-c" style="text-align:center"><div style="font-size:40px;margin-bottom:8px;animation:float 3s ease-in-out infinite" id="mw-ico">🧘</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--nt2);margin-bottom:5px" id="mw-t">Marche Pleine Conscience</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;max-width:260px;margin:0 auto 12px" id="mw-d">6 étapes · 15 min</div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--nt);margin-bottom:12px" id="mw-timer">15:00</div><div style="display:flex;gap:5px;justify-content:center;margin-bottom:12px">'+MW_STEPS.map((_,i)=>'<div style="width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);transition:all .3s" id="mw-d'+i+'"></div>').join('')+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="mw-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togMW()">▶ Commencer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstMW()">↺</button></div></div>'+MW_STEPS.map((s,i)=>'<div style="display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="font-size:20px">'+s.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+(i+1)+'. '+s.t+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+s.d+'</div></div></div>').join('');}
-function togMW(){if(mwR){clearInterval(mwInt);mwR=false;gainXP(50,'mindful');toast('Marche conscience ! +50 XP','🧘',3000);save();}else{mwR=true;mwStep=0;mwSec=0;advMW();}const b=document.getElementById('mw-btn');if(b)b.textContent=mwR?'⏹ Terminer':'▶ Commencer';}
-function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];const ico=document.getElementById('mw-ico');if(ico)ico.textContent=s.ico;const tt=document.getElementById('mw-t');if(tt)tt.textContent=s.t;const tx=document.getElementById('mw-d');if(tx)tx.textContent=s.d;for(let i=0;i<MW_STEPS.length;i++){const d=document.getElementById('mw-d'+i);if(d){d.style.background=i<mwStep?'var(--nt)':i===mwStep?'var(--ac)':'var(--sf2)';d.style.borderColor=i<=mwStep?'var(--ac)':'var(--bd2)';}}let rem=s.dur;const tm=document.getElementById('mw-timer');if(tm)tm.textContent=fmtT(rem);mwInt=setInterval(()=>{rem--;if(tm)tm.textContent=fmtT(rem);gainXP(1,'mwt');if(rem<=0){clearInterval(mwInt);mwStep++;if(mwStep<MW_STEPS.length)advMW();else{mwR=false;gainXP(50,'mw_done');gainGems(10);confetti();toast('COMPLET ! +50 XP','🧘',4000);save();}}},1000);}
+function togMW(){if(mwR){clearInterval(mwInt);mwR=false;gainXP(50,'mindful');toast(t('t_mindful_walk'),'🧘',3000);save();}else{mwR=true;mwStep=0;mwSec=0;advMW();}const b=document.getElementById('mw-btn');if(b)b.textContent=mwR?'⏹ Terminer':'▶ Commencer';}
+function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];const ico=document.getElementById('mw-ico');if(ico)ico.textContent=s.ico;const tt=document.getElementById('mw-t');if(tt)tt.textContent=s.t;const tx=document.getElementById('mw-d');if(tx)tx.textContent=s.d;for(let i=0;i<MW_STEPS.length;i++){const d=document.getElementById('mw-d'+i);if(d){d.style.background=i<mwStep?'var(--nt)':i===mwStep?'var(--ac)':'var(--sf2)';d.style.borderColor=i<=mwStep?'var(--ac)':'var(--bd2)';}}let rem=s.dur;const tm=document.getElementById('mw-timer');if(tm)tm.textContent=fmtT(rem);mwInt=setInterval(()=>{rem--;if(tm)tm.textContent=fmtT(rem);gainXP(1,'mwt');if(rem<=0){clearInterval(mwInt);mwStep++;if(mwStep<MW_STEPS.length)advMW();else{mwR=false;gainXP(50,'mw_done');gainGems(10);confetti();toast(t('t_complete_50xp'),'🧘',4000);save();}}},1000);}
 function rstMW(){clearInterval(mwInt);mwR=false;mwStep=0;mwSec=0;renderNat();}
 const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de suite',target:7,xp:200,g:20},{id:'s5',ico:'☀️',t:'5 jours de soleil',d:'20min/j pendant 5 jours',target:5,xp:150,g:15},{id:'c7',ico:'🧊',t:'7 douches froides',d:'Consécutives',target:7,xp:250,g:25},{id:'n60',ico:'🌿',t:'1h dans la nature',d:'Une sortie d 1h minimum',target:60,xp:180,g:18},{id:'sr',ico:'🌅',t:'Lever de soleil',d:'Dehors avant le lever',target:1,xp:100,g:10}];
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
-function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
+function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast(t('t_saved'),'📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach FORGE. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
 let chatH=[],chatBusy=false;
@@ -1731,7 +1731,7 @@ function complMod(fid,num){
     const ans = userAns.value.trim().toLowerCase();
     const correct = q.answer.toLowerCase();
     if(!ans.includes(correct) && !correct.includes(ans) && ans.length < 3) {
-      toast('Mauvaise réponse, réessaie! 💡','❌',3000);
+      toast(t('t_wrong_answer'),'❌',3000);
       return;
     }
   }
@@ -1741,27 +1741,27 @@ let fTab='vision';
 function setFT(tab,btn){fTab=tab;document.querySelectorAll('#screen-feat .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderFeat();}
 function renderFeat(){const el=document.getElementById('feat-content');if(!el)return;if(fTab==='vision')rVision(el);else if(fTab==='plan90')rPlan90(el);else if(fTab==='letter')rLetter(el);else if(fTab==='tourn')rTourn(el);else if(fTab==='skills')rSkills(el);else if(fTab==='h21')rH21(el);else if(fTab==='guilds')rGuilds(el);else if(fTab==='wealth')rWealth(el);else if(fTab==='progress')rProgress(el);else if(fTab==='aff')rAff(el);else if(fTab==='avatar')renderAvatar(el);else if(fTab==='rapport')renderRapport(el);else if(fTab==='challenges')renderChallenges(el);}
 async function rVision(el){if(S.vb&&S.vb.t){el.innerHTML='<div class="vis-c"><div class="lbl" style="color:var(--pu);margin-bottom:10px">🌈 Ta Vision dans 1 an</div><div style="font-size:14px;color:var(--tx);line-height:1.8;font-style:italic">'+S.vb.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.vb={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="vis-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">🌈</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Vision Board IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Description cinématographique de ta vie idéale dans 1 an.</div><button class="btn btn-pu" onclick="genVision()">Créer ma vision 🌈</button></div>';}
-function genVision(){const el=document.getElementById('feat-content');el.innerHTML='<div class="shim"></div><div class="shim"></div>';RISE_AI.genVision();save();toast('Vision créée !','🌈',2500);rVision(el);}
+function genVision(){const el=document.getElementById('feat-content');el.innerHTML='<div class="shim"></div><div class="shim"></div>';RISE_AI.genVision();save();toast(t('t_vision_created'),'🌈',2500);rVision(el);}
 function rPlan90(el){if(S.plan90&&S.plan90.c){el.innerHTML='<div class="plan-c"><div class="lbl" style="color:var(--bl);margin-bottom:12px">📅 Plan 90 jours</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;white-space:pre-wrap">'+S.plan90.c+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.plan90={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="plan-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">📅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Plan 90 jours IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Plan complet, mois par mois, jalons mesurables.</div><button class="btn btn-ac" onclick="go90()">Générer →</button></div>';}
 function go90(){gs('chat',null);setTimeout(()=>{document.querySelectorAll('.ch-mode').forEach(b=>{if(b.textContent.includes('Plan'))b.click();});},200);}
 function rLetter(el){if(S.letter&&S.letter.sealed){const od=new Date(S.letter.date);od.setDate(od.getDate()+90);const canOpen=new Date()>=od;const rem=Math.ceil((od-new Date())/(1000*60*60*24));el.innerHTML=canOpen?'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px"><div class="lbl" style="color:var(--ac);margin-bottom:12px">💌 Lettre — 90 jours plus tard</div><div style="font-size:14px;color:var(--tx);line-height:1.8;white-space:pre-wrap">'+S.letter.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.letter={};save();renderFeat()">Écrire une nouvelle lettre</button>':'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">💌</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);margin-bottom:6px">Lettre scellée</div><div style="font-size:13px;color:var(--tx3)">Ouverture dans <strong style="color:var(--ac)">'+rem+' jours</strong></div></div>';return;}el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px">✍️</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Lettre au futur toi</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Scellée 90 jours. Reçue au bon moment.</div><button class="btn btn-ac" onclick="openM(\'m-letter\')">Écrire 💌</button></div>';}
-function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast('Lettre scellée 90 jours !','💌',3500);renderFeat();}
+function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast(t('t_letter_sealed'),'💌',3500);renderFeat();}
 function rTourn(el){const t=S.tourn||{wk:WK,sc:{}};const bots=[{nm:'Alex',xp:1240},{nm:'Sophie',xp:987},{nm:'Lucas',xp:1567},{nm:'Emma',xp:432},{nm:'Noah',xp:2100}];const all=[{nm:'Toi',xp:t.sc['Toi']||S.xp||0,me:true},...bots].sort((a,b)=>b.xp-a.xp);const medals=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'];el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="color:var(--ac);margin-bottom:4px">🏆 Tournoi de la semaine</div><div style="font-size:12px;color:var(--tx3)">XP gagné · Reset lundi</div></div>'+all.slice(0,6).map((p,i)=>'<div style="background:'+(p.me?'var(--agg)':'var(--sf)')+';border:1px solid '+(p.me?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="font-size:14px;flex-shrink:0">'+medals[i]+'</div><div style="flex:1;font-size:13px;font-weight:600">'+p.nm+(p.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac)">'+p.xp.toLocaleString()+' XP</div></div>').join('');}
 function rSkills(el){el.innerHTML=Object.entries(SKILL_TREES).map(([key,tree])=>{const pts=S.skills[key]?.p||0;return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:12px;color:'+tree.col+'">'+tree.lbl+'</div><div style="display:flex;align-items:center;gap:6px">'+tree.n.map((node,i)=>{const done=pts>i;const unlocked=pts===i;return '<div class="stn '+(done?'done':unlocked?'unlocked':'locked')+'" title="'+node.nm+'" onclick="unlSk(\''+key+'\','+i+')">'+node.i+'</div>'+(i<tree.n.length-1?'<div class="st-line '+(done?'done':'')+'"></div>':'');}).join('')+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">'+pts+'/'+tree.n.length+' · Suivante: '+(tree.n[pts]?.nm||'MAX')+'</div></div>';}).join('');}
 function unlSk(key,i){if((S.skills[key]?.p||0)===i&&S.xp>=(i+1)*100){S.skills[key].p=(S.skills[key].p||0)+1;gainXP(0,'sk');toast(SKILL_TREES[key].n[i].nm+' débloqué !','🌟',2500);save();rSkills(document.getElementById('feat-content'));}else toast('Gagne plus de XP d\'abord','ℹ️',2000);}
 function rH21(el){const habits=S.h21||[];el.innerHTML='<button class="btn btn-ac" style="margin-bottom:11px" onclick="openM(\'m-h21\')">+ Nouvelle habitude 21j</button>'+(habits.length?habits.map((h)=>{const today=new Date();const start=new Date(h.start);const daysSince=Math.floor((today-start)/(1000*60*60*24));const completed=Math.min(21,daysSince+1);const pct=Math.round(completed/21*100);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:9px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><div style="font-size:14px;font-weight:600">'+h.name+'</div><div style="font-size:11px;color:var(--tx3)">'+h.time+' · '+h.cat+'</div></div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)">J'+completed+'</div></div><div class="h21g">'+Array.from({length:21},(_,i)=>{const isDone=i<completed-1;const isToday=i===completed-1;return '<div class="h21d '+(isDone?'done':isToday?'today':'')+'">'+(isDone?'✓':isToday?'·':'')+'</div>';}).join('')+'</div><div class="pbar" style="margin-top:8px"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+completed+'/21 · '+(21-completed)+' restants</div>'+(completed>=21?'<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--rs);padding:8px;margin-top:8px;font-size:12px;color:var(--gr);text-align:center">🏆 Habitude ancrée ! +200 XP</div>':'')+'</div>';}).join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">⚡ Aucune habitude en cours.</div>');}
-function addH21(){const name=document.getElementById('h21-name')?.value.trim();if(!name)return;const time=document.getElementById('h21-time')?.value.trim()||'Flexible';const cat=document.getElementById('h21-cat')?.value||'habit';S.h21=S.h21||[];S.h21.push({name,time,cat,start:TD,id:Date.now()});save();closeM('m-h21');toast('Défi 21j lancé !','⚡',2500);gainXP(20,'h21');renderFeat();}
+function addH21(){const name=document.getElementById('h21-name')?.value.trim();if(!name)return;const time=document.getElementById('h21-time')?.value.trim()||'Flexible';const cat=document.getElementById('h21-cat')?.value||'habit';S.h21=S.h21||[];S.h21.push({name,time,cat,start:TD,id:Date.now()});save();closeM('m-h21');toast(t('t_challenge21_started'),'⚡',2500);gainXP(20,'h21');renderFeat();}
 function rGuilds(el){if(S.guild&&S.guild.nm){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px"><div style="height:56px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:11px">'+S.guild.ico+'</div><div style="font-family:var(--fd);font-weight:700;font-size:17px;margin-bottom:10px">'+S.guild.nm+'</div>'+[{nm:S.name,xp:S.xp||0,av:'👑',me:true},...(S.guild.members||[])].map(m=>'<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bd)"><div style="width:32px;height:32px;border-radius:50%;background:var(--sf2);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:15px">'+m.av+'</div><div style="flex:1;font-size:13px;font-weight:600">'+m.nm+(m.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:13px;color:var(--ac)">'+m.xp.toLocaleString()+'</div></div>').join('')+'<button class="btn btn-sf" style="margin-top:11px" onclick="invG()">+ Inviter</button></div>';return;}el.innerHTML='<div style="text-align:center;padding:20px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-size:48px;margin-bottom:12px">🤝</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Guildes</div><div style="font-size:13px;color:var(--tx2);margin-bottom:18px">Groupes 5-10. Boss collectif. Accountability réelle.</div><button class="btn btn-ac" style="margin-bottom:9px" onclick="mkGuild()">Créer une guilde</button><button class="btn btn-sf" onclick="jnGuild()">Rejoindre</button></div>';}
-function mkGuild(){S.guild={id:'G-'+Date.now(),nm:S.name+' Guild',ico:'🏆',members:[{nm:'Marie',xp:1200,av:'🎯'},{nm:'Alex',xp:850,av:'💪'}],bossHp:1000};save();toast('Guilde créée !','🤝',2500);renderFeat();}
-function jnGuild(){S.guild={id:'ALPHA',nm:'Alpha Warriors',ico:'⚔️',members:[{nm:'Thomas',xp:2100,av:'👊'},{nm:'Sofia',xp:1650,av:'🔥'}],bossHp:700};save();toast('Alpha Warriors rejoint !','⚔️',2500);renderFeat();}
-function invG(){navigator.clipboard.writeText('Rejoins ma guilde FORGE ! Code: '+S.guild.id).then(()=>toast('Code copié !','📋',2000));}
+function mkGuild(){S.guild={id:'G-'+Date.now(),nm:S.name+' Guild',ico:'🏆',members:[{nm:'Marie',xp:1200,av:'🎯'},{nm:'Alex',xp:850,av:'💪'}],bossHp:1000};save();toast(t('t_guild_created'),'🤝',2500);renderFeat();}
+function jnGuild(){S.guild={id:'ALPHA',nm:'Alpha Warriors',ico:'⚔️',members:[{nm:'Thomas',xp:2100,av:'👊'},{nm:'Sofia',xp:1650,av:'🔥'}],bossHp:700};save();toast(t('t_guild_joined'),'⚔️',2500);renderFeat();}
+function invG(){navigator.clipboard.writeText('Rejoins ma guilde FORGE ! Code: '+S.guild.id).then(()=>toast(t('t_code_copied'),'📋',2000));}
 function rWealth(el){el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:18px;margin-bottom:11px;text-align:center"><div class="lbl" style="color:var(--gr);margin-bottom:6px">💰 Calculateur de Richesse</div><div style="font-family:var(--fd);font-weight:700;font-size:40px;color:var(--gr);line-height:1;margin:12px 0 4px" id="w-res">0€</div><div style="font-size:12px;color:var(--tx3)" id="w-tl">Configure les paramètres ci-dessous</div></div><div class="card" style="margin-bottom:11px">'+[{id:'wI',min:0,max:10000,val:0,lbl:'Revenu mensuel net (€)'},{id:'wS',min:5,max:70,val:5,lbl:'Taux d\'épargne (%)'},{id:'wR',min:3,max:12,val:7,lbl:'Rendement annuel (%)'},{id:'wY',min:1,max:30,val:10,lbl:'Horizon (années)'}].map(s=>'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px"><span style="color:var(--tx2)">'+s.lbl+'</span><span style="font-weight:700;color:var(--ac)" id="sv-'+s.id+'">'+s.val+'</span></div><input type="range" min="'+s.min+'" max="'+s.max+'" value="'+s.val+'" style="width:100%;accent-color:var(--ac);height:5px" oninput="updW(this,\''+s.id+'\')"></div>').join('')+'</div>';}
 const wV={wI:0,wS:5,wR:7,wY:10};
 function updW(inp,id){wV[id]=parseFloat(inp.value);const sv=document.getElementById('sv-'+id);if(sv)sv.textContent=inp.value+(id==='wI'?'€':id==='wY'?'ans':'%');const m=wV.wI*(wV.wS/100);const r=wV.wR/100;const n=wV.wY;const f=m*((Math.pow(1+r/12,n*12)-1)/(r/12));const fmt=v=>v>=1000000?Math.round(v/100000)/10+'M€':v>=1000?Math.round(v/100)/10+'k€':Math.round(v)+'€';const wr=document.getElementById('w-res');if(wr)wr.textContent=fmt(f);const wt=document.getElementById('w-tl');if(wt)wt.textContent='En '+n+' ans · Épargne: '+fmt(m*12)+'/an';}
 function rProgress(el){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="margin-bottom:12px">📈 Activité 7 jours</div><div style="display:flex;align-items:flex-end;gap:4px;height:70px;margin-bottom:8px">'+Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-6+i);const ci=(S.checkins||{})[d.toDateString()];const h=ci?Math.floor(Math.random()*60+25):8;return '<div style="flex:1;background:'+(ci?'var(--ac)':'var(--sf3)')+';border-radius:3px 3px 0 0;height:'+h+'%;opacity:'+(i===6?'1':'.6')+';transition:height .6s"></div>';}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)">'+['L','M','M','J','V','S','D'].map(d=>'<span>'+d+'</span>').join('')+'</div></div><div class="row3" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'💎 Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.nat.walkLogs||[]).length,l:'Marches',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-ac" onclick="toast(\'Carte générée ! Partage ton succès 🔥\',\'🎴\',3000)">🎴 Générer carte de victoire</button>';}
 function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+curT.nm+' — '+curT.pct+'%</span></div>'+AFF_T.map(t=>'<div style="background:var(--sf);border:1px solid '+(t===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+t.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.nm+' — '+t.refs+'+ filleuls</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+t.col+'">'+t.pct+'%</div></div>').join('');}
-function cpAff(){navigator.clipboard.writeText('https://rise-app-mu.vercel.app/?ref='+S.aff.code).then(()=>toast('Lien copié !','📋',2000));}
-function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec FORGE ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise-app-mu.vercel.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
+function cpAff(){navigator.clipboard.writeText('https://rise-app-mu.vercel.app/?ref='+S.aff.code).then(()=>toast(t('t_link_copied'),'📋',2000));}
+function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec FORGE ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise-app-mu.vercel.app/?ref='+S.aff.code).then(()=>toast(t('t_message_copied'),'📤',2000));}
 let moiTab='perso';
 function setMoiT(tab,btn){moiTab=tab;document.querySelectorAll('#screen-moi .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMoi();}
 function renderMoi(){const el=document.getElementById('moi-content');if(!el)return;if(moiTab==='perso')rPerso(el);else if(moiTab==='widgets')rWidgets(el);else if(moiTab==='todo')rTodo(el);else if(moiTab==='plans')rPlans(el);else if(moiTab==='stats')rStats(el);}
@@ -1961,7 +1961,7 @@ function progressCh(id){
   if(c.prog>=fc.dur){c.status='won';gainXP(fc.xp,'ch');gainGems(15);confetti();toast('DEFI GAGNE ! +'+fc.xp+' XP','⚔️',5000);}
   save();renderFeat();
 }
-function shareCh(id){navigator.clipboard.writeText('Suis mon avancement FORGE ! https://rise-app-mu.vercel.app/c/'+id).then(()=>toast('Lien copie !','📤',2000));}
+function shareCh(id){navigator.clipboard.writeText('Suis mon avancement FORGE ! https://rise-app-mu.vercel.app/c/'+id).then(()=>toast(t('t_link_copied'),'📤',2000));}
 // ══ LANGUES ══
 const LANG_DB={
   en:{name:'English',flag:'🇬🇧',words:[
@@ -2090,7 +2090,7 @@ function answerQ(idx,ans,correct){
     if(p.lastDone===y.toDateString()||!p.lastDone)p.streak=(p.streak||0)+1;
     else if(p.lastDone!==TD)p.streak=1;
     p.lastDone=TD;save();
-    toast('Bonne reponse ! +15 XP','✅',1500);
+    toast(t('t_correct_answer'),'✅',1500);
     setTimeout(()=>nextW(),1300);
   }else{
     el.classList.add('no');
@@ -2131,7 +2131,7 @@ function logMeal(id,opt){
   S.nutri.meals[TD]=S.nutri.meals[TD]||{};
   S.nutri.meals[TD][id]=opt;
   if(opt!=='Saute'){gainXP(10,'meal');gainGems(1);}
-  save();toast('Repas note !','🥗',1500);
+  save();toast(t('t_meal_logged'),'🥗',1500);
   if(nuTab==='today')renderNutri();
 }
 function rNuWater(el){
@@ -2160,7 +2160,7 @@ function addWater(n){
   const prev=S.nutri.water[TD]||0;
   S.nutri.water[TD]=Math.max(0,prev+n);
   if(n>0&&S.nutri.water[TD]<=8)gainXP(2,'water');
-  if(S.nutri.water[TD]>=8&&prev<8){toast('8 verres atteints ! +20 XP','💧',3000);gainXP(18,'water_goal');}
+  if(S.nutri.water[TD]>=8&&prev<8){toast(t('t_water_done'),'💧',3000);gainXP(18,'water_goal');}
   save();if(nuTab==='water')renderNutri();
 }
 function rNuFast(el){
@@ -2328,7 +2328,7 @@ function addEvt() {
   S.events.push({id: 'ev_'+Date.now(), title, date, time, desc: '', color:'var(--ac)'});
   save();
   gainXP(5,'evt');
-  toast('Événement ajouté !', '📅', 2000);
+  toast(t('t_event_added'), '📅', 2000);
   rAgenda(document.getElementById('orga-content'));
 }
 function delEvt(id) {
@@ -2376,7 +2376,7 @@ function moveCard(id) {
   const cols = KANBAN_COLS.map(c => c.id);
   const next = cols[(cols.indexOf(card.col)+1) % cols.length];
   card.col = next;
-  if (next === 'done') { gainXP(20,'kanban_done'); gainGems(2); toast('Tâche terminée ! +20 XP', '✅', 2000); damageBoss ? dmgBoss(20):null; }
+  if (next === 'done') { gainXP(20,'kanban_done'); gainGems(2); toast(t('t_task_done_20xp'), '✅', 2000); damageBoss ? dmgBoss(20):null; }
   save();
   rKanban(document.getElementById('orga-content'));
 }
@@ -2493,7 +2493,7 @@ function updKR(objId, krId, delta) {
   const kr = (obj?.keyResults||[]).find(k => k.id===krId);
   if (!kr) return;
   kr.progress = Math.max(0, Math.min(100, (kr.progress||0)+delta));
-  if (kr.progress === 100) { gainXP(50,'okr'); toast('Key Result atteint ! +50 XP', '🎯', 3000); }
+  if (kr.progress === 100) { gainXP(50,'okr'); toast(t('t_kr_achieved'), '🎯', 3000); }
   save(); rOKR(document.getElementById('orga-content'));
 }
 // ── REVENUS ──
@@ -2541,7 +2541,7 @@ function addRev(sign) {
   S.revenue = S.revenue||{entries:[], budget:0};
   S.revenue.entries.push({id:'r'+Date.now(), title, amount: sign*Math.abs(amount), cat, date:new Date().toISOString().slice(0,10)});
   if (sign>0) gainXP(10,'revenue');
-  save(); toast('Entrée ajoutée !', '💰', 1500);
+  save(); toast(t('t_added'), '💰', 1500);
   rRevenus(document.getElementById('orga-content'));
 }
 // setBudget merged below
@@ -2817,13 +2817,13 @@ function rAgenda(el) {
         +'</div>';
     }).join('')+'<div id="gcal-status" style="font-size:11px;color:var(--tx3);text-align:center;margin-top:8px"></div>';
 }
-function addEvt(){var t=prompt('Titre ?');if(!t)return;var d=prompt('Date (YYYY-MM-DD) ?',ymd(new Date()));if(!d)return;var h=prompt('Heure (HH:MM, opt.)','')||'';S.events=S.events||[];S.events.push({id:'ev_'+Date.now(),title:t,date:d,time:h,timeEnd:'',location:'',color:'var(--ac)',source:'manual'});save();gainXP(5,'evt');toast('Ajouté !','📅',2000);rAgenda(document.getElementById('orga-content'));}
+function addEvt(){var t=prompt('Titre ?');if(!t)return;var d=prompt('Date (YYYY-MM-DD) ?',ymd(new Date()));if(!d)return;var h=prompt('Heure (HH:MM, opt.)','')||'';S.events=S.events||[];S.events.push({id:'ev_'+Date.now(),title:t,date:d,time:h,timeEnd:'',location:'',color:'var(--ac)',source:'manual'});save();gainXP(5,'evt');toast(t('t_added'),'📅',2000);rAgenda(document.getElementById('orga-content'));}
 function delEvt(id){S.events=(S.events||[]).filter(function(e){return e.id!==id;});save();rAgenda(document.getElementById('orga-content'));}
 // Kanban
 var KB=[{id:'backlog',lbl:'📋 Backlog',col:'var(--tx3)'},{id:'todo',lbl:'⚡ À faire',col:'var(--or)'},{id:'doing',lbl:'🔥 En cours',col:'var(--ac)'},{id:'done',lbl:'✅ Terminé',col:'var(--gr)'}];
 function rKanban(el){S.kanban=S.kanban||{cards:[]};var cards=S.kanban.cards||[];el.innerHTML='<div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:12px">'+KB.map(function(col){var cc=cards.filter(function(c){return c.col===col.id;});return'<div class="kanban-col"><div class="kanban-col-hdr" style="color:'+col.col+'">'+col.lbl+' <span style="background:var(--sf3);padding:1px 7px;border-radius:10px;font-size:10px">'+cc.length+'</span></div><div style="padding:4px">'+cc.map(function(c){return'<div class="kanban-card" onclick="moveCard(\''+c.id+'\')" title="Cliquer pour avancer"><div style="font-size:12px;font-weight:600;margin-bottom:4px">'+c.title+'</div>'+(c.tag?'<span style="font-size:9px;padding:2px 6px;border-radius:10px;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+c.tag+'</span>':'')+'</div>';}).join('')+'<button style="width:100%;padding:7px;margin:4px 0;border-radius:var(--rs);border:1px dashed var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;background:none" onclick="addKCard(\''+col.id+'\')">+ Ajouter</button></div></div>';}).join('')+'</div>';}
 function addKCard(col){var t=prompt('Tâche ?');if(!t)return;var tag=prompt('Tag (opt.)','')||'';S.kanban=S.kanban||{cards:[]};S.kanban.cards.push({id:'k_'+Date.now(),title:t,col:col,tag:tag,created:TD});save();gainXP(5,'kanban');rKanban(document.getElementById('orga-content'));}
-function moveCard(id){var c=(S.kanban.cards||[]).find(function(x){return x.id===id;});if(!c)return;var cols=KB.map(function(x){return x.id;});c.col=cols[(cols.indexOf(c.col)+1)%cols.length];if(c.col==='done'){gainXP(20,'kanban_done');gainGems(2);dmgBoss(20);toast('Tâche terminée ! +20 XP','✅',2000);}save();rKanban(document.getElementById('orga-content'));}
+function moveCard(id){var c=(S.kanban.cards||[]).find(function(x){return x.id===id;});if(!c)return;var cols=KB.map(function(x){return x.id;});c.col=cols[(cols.indexOf(c.col)+1)%cols.length];if(c.col==='done'){gainXP(20,'kanban_done');gainGems(2);dmgBoss(20);toast(t('t_task_done_20xp'),'✅',2000);}save();rKanban(document.getElementById('orga-content'));}
 // Routines
 var RT_DEF={matin:[{ico:'☀️',txt:"10 min de soleil dehors"},{ico:'💧',txt:"2 verres d'eau"},{ico:'🧘',txt:'5 min méditation'},{ico:'📓',txt:'3 gratitudes'},{ico:'🎯',txt:"Objectif n°1 du jour"},{ico:'🚫',txt:"Pas d'écran 30 min"}],soir:[{ico:'📋',txt:'Bilan de la journée'},{ico:'📱',txt:"Écrans off dans 30 min"},{ico:'📚',txt:'20 min lecture'},{ico:'🌡️',txt:"Chambre à 18°C"},{ico:'😴',txt:"Heure coucher identique"},{ico:'💭',txt:'Visualiser demain'}]};
 function rRoutines(el){if(!S.routines)S.routines={matin:RT_DEF.matin.map(function(s,i){return Object.assign({},s,{id:'m'+i,doneDates:[]});}),soir:RT_DEF.soir.map(function(s,i){return Object.assign({},s,{id:'s'+i,doneDates:[]});})};['matin','soir'].forEach(function(type){(S.routines[type]||[]).forEach(function(s){if(!s.doneDates)s.doneDates=[];});});var md=(S.routines.matin||[]).filter(function(s){return s.doneDates.includes(TD);}).length,mt=(S.routines.matin||[]).length;var sd=(S.routines.soir||[]).filter(function(s){return s.doneDates.includes(TD);}).length,st2=(S.routines.soir||[]).length;el.innerHTML='<div style="background:linear-gradient(135deg,#1a1208,#100e04);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px;color:var(--ac2)">🌅 Routine Matin <span style="font-size:12px;font-weight:400;color:var(--tx3)">'+md+'/'+mt+'</span></div><div class="pbar" style="margin-bottom:12px"><div class="pfill pac" style="width:'+(mt?Math.round(md/mt*100):0)+'%"></div></div>'+(S.routines.matin||[]).map(function(s){var done=s.doneDates.includes(TD);return'<div class="routine-step '+(done?'done':'')+'" onclick="togRoutine(\'matin\',\''+s.id+'\')">'+'<div style="width:26px;height:26px;border-radius:50%;background:'+(done?'var(--gr)':'var(--sf3)')+';border:2px solid '+(done?'var(--gr)':'var(--bd2)')+';display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">'+(done?'✓':'')+'</div>'+'<div style="font-size:22px">'+s.ico+'</div><div style="font-size:13px">'+s.txt+'</div></div>';}).join('')+'</div>'+'<div style="background:linear-gradient(135deg,#0a0818,#080614);border:1px solid var(--bd);border-radius:var(--r);padding:14px">'+'<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px;color:var(--tx2)">🌙 Routine Soir <span style="font-size:12px;font-weight:400;color:var(--tx3)">'+sd+'/'+st2+'</span></div><div class="pbar" style="margin-bottom:12px"><div class="pfill ppu" style="width:'+(st2?Math.round(sd/st2*100):0)+'%"></div></div>'+(S.routines.soir||[]).map(function(s){var done=s.doneDates.includes(TD);return'<div class="routine-step '+(done?'done':'')+'" onclick="togRoutine(\'soir\',\''+s.id+'\')">'+'<div style="width:26px;height:26px;border-radius:50%;background:'+(done?'var(--pu)':'var(--sf3)')+';border:2px solid '+(done?'var(--pu)':'var(--bd2)')+';display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">'+(done?'✓':'')+'</div>'+'<div style="font-size:22px">'+s.ico+'</div><div style="font-size:13px">'+s.txt+'</div></div>';}).join('')+'</div>';}
@@ -2832,10 +2832,10 @@ function togRoutine(type,id){var s=(S.routines[type]||[]).find(function(x){retur
 function rOKR(el){S.okr=S.okr||{objectives:[]};el.innerHTML='<button class="btn btn-ac" style="margin-bottom:11px" onclick="addOKRObj()">+ Nouvel Objectif</button>'+(S.okr.objectives.length?S.okr.objectives.map(function(obj){var krs=obj.keyResults||[],avg=krs.length?Math.round(krs.reduce(function(a,k){return a+(k.progress||0);},0)/krs.length):0;return'<div class="okr-obj"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px"><div><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+obj.title+'</div><div style="font-size:11px;color:var(--tx3)">'+obj.deadline+'</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+(avg>=70?'var(--gr)':avg>=40?'var(--ac)':'var(--rd)')+'">'+avg+'%</div></div><div class="pbar" style="margin-bottom:10px"><div class="pfill '+(avg>=70?'pgr':'pac')+'" style="width:'+avg+'%"></div></div>'+krs.map(function(kr){return'<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--rs);padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:4px">'+kr.title+'</div><div class="pbar" style="height:4px"><div class="pfill pac" style="width:'+(kr.progress||0)+'%"></div></div></div><div style="display:flex;align-items:center;gap:5px;flex-shrink:0"><button style="width:24px;height:24px;border-radius:50%;background:var(--rdd);border:1px solid var(--rd);color:var(--rd);font-size:14px;cursor:pointer;line-height:1" onclick="updKR(\''+obj.id+'\',\''+kr.id+'\',-10)">-</button><span style="font-size:12px;font-weight:700;width:34px;text-align:center;color:var(--ac)">'+(kr.progress||0)+'%</span><button style="width:24px;height:24px;border-radius:50%;background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:14px;cursor:pointer;line-height:1" onclick="updKR(\''+obj.id+'\',\''+kr.id+'\',10)">+</button></div></div>';}).join('')+'<button style="width:100%;padding:7px;margin-top:6px;border-radius:var(--rs);border:1px dashed var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;background:none" onclick="addKR(\''+obj.id+'\')">+ Key Result</button></div>';}).join(''):'<div style="text-align:center;padding:40px;color:var(--tx3)">Crée ton premier objectif trimestriel.</div>');}
 function addOKRObj(){var t=prompt('Objectif ?');if(!t)return;var d2=prompt('Deadline ?','Q2 2026')||'Q2 2026';S.okr=S.okr||{objectives:[]};S.okr.objectives.push({id:'o'+Date.now(),title:t,deadline:d2,keyResults:[]});save();rOKR(document.getElementById('orga-content'));}
 function addKR(oid){var obj=(S.okr.objectives||[]).find(function(o){return o.id===oid;});if(!obj)return;var t=prompt('Key Result ?');if(!t)return;obj.keyResults=obj.keyResults||[];obj.keyResults.push({id:'kr'+Date.now(),title:t,progress:0});save();rOKR(document.getElementById('orga-content'));}
-function updKR(oid,krid,delta){var obj=(S.okr.objectives||[]).find(function(o){return o.id===oid;});var kr=(obj&&obj.keyResults||[]).find(function(k){return k.id===krid;});if(!kr)return;kr.progress=Math.max(0,Math.min(100,(kr.progress||0)+delta));if(kr.progress===100){gainXP(50,'okr');toast('Key Result atteint ! +50 XP','🎯',3000);}save();rOKR(document.getElementById('orga-content'));}
+function updKR(oid,krid,delta){var obj=(S.okr.objectives||[]).find(function(o){return o.id===oid;});var kr=(obj&&obj.keyResults||[]).find(function(k){return k.id===krid;});if(!kr)return;kr.progress=Math.max(0,Math.min(100,(kr.progress||0)+delta));if(kr.progress===100){gainXP(50,'okr');toast(t('t_kr_achieved'),'🎯',3000);}save();rOKR(document.getElementById('orga-content'));}
 // Revenus
 function rRevenus(el){S.revenue=S.revenue||{entries:[],budget:0};var ents=S.revenue.entries||[],m=new Date().toISOString().slice(0,7),me=ents.filter(function(e){return e.date.startsWith(m);});var tin=me.filter(function(e){return e.amount>0;}).reduce(function(a,e){return a+e.amount;},0);var tout=me.filter(function(e){return e.amount<0;}).reduce(function(a,e){return a+Math.abs(e.amount);},0);var net=tin-tout;el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💰 Ce mois</div><div class="row3"><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--gr)">+'+Math.round(tin).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Revenus</div></div><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--rd)">-'+Math.round(tout).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Dépenses</div></div><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+(net>=0?'var(--ac)':'var(--rd)')+'">'+( net>=0?'+':'')+Math.round(net).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Net</div></div></div>'+(S.revenue.budget?'<div class="pbar" style="margin-top:12px;height:7px"><div class="pfill pgr" style="width:'+Math.min(100,Math.round(tin/S.revenue.budget*100))+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+Math.min(100,Math.round(tin/S.revenue.budget*100))+'% de l\'objectif '+S.revenue.budget.toLocaleString()+'€</div>':'')+'</div><div style="display:flex;gap:8px;margin-bottom:11px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:13px;font-weight:700;cursor:pointer" onclick="addRev(1)">+ Revenu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--rdd);border:1px solid var(--rd);color:var(--rd);font-size:13px;font-weight:700;cursor:pointer" onclick="addRev(-1)">- Dépense</button><button style="padding:11px 14px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:13px;cursor:pointer" onclick="setBudget()">🎯</button></div>'+(me.length?'<div class="lbl" style="margin-bottom:9px">Historique</div>'+me.slice().reverse().map(function(e){return'<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+' · '+(e.cat||'')+'</div></div><div style="font-family:var(--fd);font-weight:700;color:'+(e.amount>0?'var(--gr)':'var(--rd)')+'">'+( e.amount>0?'+':'')+e.amount+'€</div></div>';}).join(''):'<div style="text-align:center;padding:28px;color:var(--tx3)">Aucune entrée ce mois.</div>');}
-function addRev(sign){var title=prompt(sign>0?'Source du revenu ?':'Dépense ?');if(!title)return;var amount=parseFloat(prompt('Montant (€) ?','0')||'0');if(isNaN(amount)||amount<=0)return;var cats=['YouTube/Streaming','Affiliation','Freelance','Business','Investissement','Perso','Autre'];var ci2=parseInt(prompt('Catégorie ?\n'+cats.map(function(c,i){return i+': '+c;}).join('\n'),'0')||'0');S.revenue=S.revenue||{entries:[],budget:0};S.revenue.entries.push({id:'r'+Date.now(),title:title,amount:sign*amount,cat:cats[ci2]||'Autre',date:new Date().toISOString().slice(0,10)});if(sign>0)gainXP(10,'revenue');save();toast('Ajouté !','💰',1500);rRevenus(document.getElementById('orga-content'));}
+function addRev(sign){var title=prompt(sign>0?'Source du revenu ?':'Dépense ?');if(!title)return;var amount=parseFloat(prompt('Montant (€) ?','0')||'0');if(isNaN(amount)||amount<=0)return;var cats=['YouTube/Streaming','Affiliation','Freelance','Business','Investissement','Perso','Autre'];var ci2=parseInt(prompt('Catégorie ?\n'+cats.map(function(c,i){return i+': '+c;}).join('\n'),'0')||'0');S.revenue=S.revenue||{entries:[],budget:0};S.revenue.entries.push({id:'r'+Date.now(),title:title,amount:sign*amount,cat:cats[ci2]||'Autre',date:new Date().toISOString().slice(0,10)});if(sign>0)gainXP(10,'revenue');save();toast(t('t_added'),'💰',1500);rRevenus(document.getElementById('orga-content'));}
 function setBudget(){var v=parseFloat(prompt('Objectif mensuel (€) ?',S.revenue&&S.revenue.budget||0)||'0');if(!isNaN(v)){S.revenue=S.revenue||{entries:[],budget:0};S.revenue.budget=v;save();rRevenus(document.getElementById('orga-content'));}}
 // ── CRM ──
 var crmTab='contacts';
@@ -2847,8 +2847,8 @@ function filterC(q){var contacts=(S.crm&&S.crm.contacts||[]).filter(function(c){
 function addContact(){var name=prompt('Nom ?');if(!name)return;var company=prompt('Entreprise (opt.)','') ||'';var role=prompt('Rôle (opt.)','') ||'';S.crm=S.crm||{contacts:[],deals:[]};S.crm.contacts.push({id:'c'+Date.now(),name:name,company:company,role:role,phone:'',tags:[],notes:[],lastContact:null,followUpDays:7,created:TD});save();gainXP(10,'crm');toast(name+' ajouté !','👤',2000);renderCRM();}
 function openContact(id){var c=(S.crm&&S.crm.contacts||[]).find(function(x){return x.id===id;});if(!c)return;var a=prompt('Contact: '+c.name+'\n\n1. Note\n2. Contacté\n3. Follow-up jours\n4. Ajouter tag\n5. Annuler','2');if(a==='1'){var n2=prompt('Note :');if(n2){c.notes=c.notes||[];c.notes.unshift({text:n2,date:TD});c.lastContact=new Date().toISOString();}}else if(a==='2'){c.lastContact=new Date().toISOString();toast(c.name+' — contacté !','✅',2000);}else if(a==='3'){var d3=parseInt(prompt('Dans X jours ?',c.followUpDays||7)||'7');if(!isNaN(d3))c.followUpDays=d3;}else if(a==='4'){var t2=prompt('Tag ?');if(t2){c.tags=c.tags||[];if(!c.tags.includes(t2))c.tags.push(t2);}}save();renderCRM();}
 function rDeals(el){S.crm=S.crm||{contacts:[],deals:[]};var deals=S.crm.deals||[];var tin2=deals.filter(function(d){return d.status==='open';}).reduce(function(a,d){return a+(d.value||0);},0);var twin=deals.filter(function(d){return d.status==='won';}).reduce(function(a,d){return a+(d.value||0);},0);el.innerHTML='<div class="row2" style="margin-bottom:11px"><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:12px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--ac)">'+tin2.toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Pipeline</div></div><div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--rs);padding:12px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--gr)">'+twin.toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Gagné</div></div></div><button class="btn btn-ac" style="margin-bottom:11px" onclick="addDeal()">+ Nouveau Deal</button>'+['open','won','lost'].map(function(st){var sd=deals.filter(function(d){return d.status===st;});if(!sd.length)return'';var lbls={open:'🔥 En cours',won:'✅ Gagnés',lost:'❌ Perdus'};return'<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px">'+lbls[st]+'</div>'+sd.map(function(d){return'<div class="deal-c '+st+'"><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+d.title+'</div><div style="font-size:11px;color:var(--tx3)">'+(d.contact||'')+' · '+(d.stage||'Prospect')+'</div></div><div style="text-align:right"><div style="font-family:var(--fd);font-weight:700;font-size:16px;color:'+(st==='won'?'var(--gr)':st==='lost'?'var(--rd)':'var(--ac)')+'">'+( d.value||0).toLocaleString()+'€</div>'+(st==='open'?'<div style="display:flex;gap:4px;margin-top:5px"><button style="padding:3px 9px;border-radius:10px;background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:10px;font-weight:700;cursor:pointer" onclick="updDeal(\''+d.id+'\',\'won\')">Won</button><button style="padding:3px 9px;border-radius:10px;background:var(--rdd);border:1px solid var(--rd);color:var(--rd);font-size:10px;font-weight:700;cursor:pointer" onclick="updDeal(\''+d.id+'\',\'lost\')">Lost</button></div>':'')+'</div></div>';}).join('')+'</div>';}).join('')+(deals.length?'':'<div style="text-align:center;padding:40px;color:var(--tx3)">Aucun deal.</div>');}
-function addDeal(){var t=prompt('Nom du deal ?');if(!t)return;var v=parseFloat(prompt('Valeur (€) ?','0')||'0');var contact2=prompt('Contact (opt.)','') ||'';var stages=['Prospect','Qualifié','Proposition','Négociation'];var si=parseInt(prompt('Étape:\n0:Prospect 1:Qualifié 2:Proposition 3:Négociation','0')||'0');S.crm=S.crm||{contacts:[],deals:[]};S.crm.deals.push({id:'d'+Date.now(),title:t,value:isNaN(v)?0:v,contact:contact2,stage:stages[si]||'Prospect',status:'open',created:TD});save();gainXP(15,'deal');toast('Deal ajouté !','💼',2000);renderCRM();}
-function updDeal(id,st){var d=(S.crm&&S.crm.deals||[]).find(function(x){return x.id===id;});if(!d)return;d.status=st;if(st==='won'){gainXP(100,'deal_won');gainGems(10);confetti();toast('Deal gagné ! +100 XP','🏆',5000);}save();renderCRM();}
+function addDeal(){var t=prompt('Nom du deal ?');if(!t)return;var v=parseFloat(prompt('Valeur (€) ?','0')||'0');var contact2=prompt('Contact (opt.)','') ||'';var stages=['Prospect','Qualifié','Proposition','Négociation'];var si=parseInt(prompt('Étape:\n0:Prospect 1:Qualifié 2:Proposition 3:Négociation','0')||'0');S.crm=S.crm||{contacts:[],deals:[]};S.crm.deals.push({id:'d'+Date.now(),title:t,value:isNaN(v)?0:v,contact:contact2,stage:stages[si]||'Prospect',status:'open',created:TD});save();gainXP(15,'deal');toast(t('t_deal_added'),'💼',2000);renderCRM();}
+function updDeal(id,st){var d=(S.crm&&S.crm.deals||[]).find(function(x){return x.id===id;});if(!d)return;d.status=st;if(st==='won'){gainXP(100,'deal_won');gainGems(10);confetti();toast(t('t_deal_won_100xp'),'🏆',5000);}save();renderCRM();}
 function rFollowUp(el){var contacts=S.crm&&S.crm.contacts||[],now2=Date.now();var ov=contacts.filter(function(c){if(!c.lastContact)return false;return Math.floor((now2-new Date(c.lastContact))/864e5)>(c.followUpDays||7);});var up=contacts.filter(function(c){if(!c.lastContact)return true;var d4=Math.floor((now2-new Date(c.lastContact))/864e5),fd=c.followUpDays||7;return d4>=fd-2&&d4<=fd;});el.innerHTML=(ov.length?'<div style="background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r);padding:13px;margin-bottom:11px"><div class="lbl" style="color:var(--rd);margin-bottom:9px">🚨 En retard ('+ov.length+')</div>'+ov.map(function(c){return'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(217,95,95,.2)"><div style="font-size:20px">👤</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+c.name+'</div><div style="font-size:11px;color:var(--rd)">'+Math.floor((now2-new Date(c.lastContact))/864e5)+'j sans contact</div></div><button style="padding:6px 12px;border-radius:20px;background:var(--gr);color:#000;font-size:11px;font-weight:700;cursor:pointer" onclick="qkContact(\''+c.id+'\')">✓ Fait</button></div>';}).join('')+'</div>':'')+(up.length?'<div style="background:var(--ord);border:1px solid var(--or);border-radius:var(--r);padding:13px;margin-bottom:11px"><div class="lbl" style="color:var(--or);margin-bottom:9px">⏰ Cette semaine ('+up.length+')</div>'+up.map(function(c){return'<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(224,135,74,.2)"><div style="font-size:20px">👤</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+c.name+'</div><div style="font-size:11px;color:var(--or)">'+(c.lastContact?'Relancer':'Jamais contacté')+'</div></div><button style="padding:6px 12px;border-radius:20px;background:var(--or);color:#fff;font-size:11px;font-weight:700;cursor:pointer" onclick="qkContact(\''+c.id+'\')">✓ Fait</button></div>';}).join('')+'</div>':'')+ (!ov.length&&!up.length?'<div style="text-align:center;padding:52px;color:var(--tx3)"><div style="font-size:40px;margin-bottom:12px">✅</div><div style="font-size:14px;font-weight:700">Tout est à jour !</div></div>':'');}
 function qkContact(id){var c=(S.crm&&S.crm.contacts||[]).find(function(x){return x.id===id;});if(!c)return;c.lastContact=new Date().toISOString();save();toast(c.name+' — contacté !','✅',2000);renderCRM();}
 // ── BADGES ──
@@ -2903,7 +2903,7 @@ function shareOn(network, msg) {
   if (urls[network]) window.open(urls[network], '_blank');
 }
 function copyShare(msg) {
-  navigator.clipboard.writeText(msg).then(function() { toast('Message copié !','📋',2000); });
+  navigator.clipboard.writeText(msg).then(function() { toast(t('t_message_copied'),'📋',2000); });
   S.shared = (S.shared||0)+1; save(); checkBadges();
 }
 function genShareImg() {
@@ -2941,7 +2941,7 @@ function genShareImg() {
   link.download = 'forge-card-'+S.name+'.png';
   link.href = canvas.toDataURL();
   link.click();
-  toast('Carte téléchargée !','🎴',3000);
+  toast(t('t_card_downloaded'),'🎴',3000);
   S.shared = (S.shared||0)+1; save(); checkBadges();
 }
 // ── AVATAR DATA (for share card) ──
@@ -3016,7 +3016,7 @@ function renderJournal(el) {
 }
 function saveJournal() {
   var txt = (document.getElementById('j-txt') || {}).value || '';
-  if (txt.trim().length < 5) { toast('Écris au moins quelques mots','📝',2000); return; }
+  if (txt.trim().length < 5) { toast(t('t_write_more'),'📝',2000); return; }
   var g = [
     ((document.getElementById('j-g1') || {}).value || '').trim(),
     ((document.getElementById('j-g2') || {}).value || '').trim(),
@@ -3025,7 +3025,7 @@ function saveJournal() {
   S.journal = S.journal || [];
   S.journal.push({ date: TD, text: txt.trim(), gratitude: g, ts: Date.now() });
   save(); gainXP(25, 'journal'); gainGems(2);
-  toast('Journal sauvegardé ! +25 XP', '📝', 3000);
+  toast(t('t_journal_saved'), '📝', 3000);
   complQ('journal');
   renderJournal(document.getElementById('journal-c'));
 }
@@ -3183,7 +3183,7 @@ function completeMed() {
   S.medStats.total += medTotal;
   S.medStats.sessions++;
   save(); gainXP(35, 'meditate'); gainGems(2);
-  toast('Méditation terminée ! +35 XP 🧘', '🧘', 3500);
+  toast(t('t_meditation_done'), '🧘', 3500);
   complQ('meditate'); dmgBoss(25);
   medPhase = 'idle';
   renderMeditate(document.getElementById('meditate-c'));
@@ -3256,11 +3256,11 @@ function addTransaction() {
   var desc = (document.getElementById('fin-desc') || {}).value || '';
   var amt = parseFloat((document.getElementById('fin-amt') || {}).value) || 0;
   var cat = (document.getElementById('fin-cat') || {}).value || 'general';
-  if (!desc || amt <= 0) { toast('Remplis la description et le montant', '💰', 2000); return; }
+  if (!desc || amt <= 0) { toast(t('t_fill_all_fields'), '💰', 2000); return; }
   S.finance = S.finance || { transactions: [], budget: 0 };
   S.finance.transactions.push({ type: finType, desc: desc, amount: amt, cat: cat, date: TD, ts: Date.now() });
   save(); gainXP(5, 'finance');
-  toast('Transaction ajoutée !', '💰', 2000);
+  toast(t('t_transaction_added'), '💰', 2000);
   renderFinance(document.getElementById('finance-c'));
 }
 
@@ -3315,11 +3315,11 @@ function selIdeaCat(cat, btn) {
 }
 function saveIdea() {
   var txt = (document.getElementById('idea-txt') || {}).value || '';
-  if (txt.trim().length < 3) { toast('Décris ton idée', '💡', 2000); return; }
+  if (txt.trim().length < 3) { toast(t('t_describe_idea'), '💡', 2000); return; }
   S.ideas = S.ideas || [];
   S.ideas.push({ text: txt.trim(), cat: ideaCat, date: TD, ts: Date.now() });
   save(); gainXP(10, 'idea'); gainGems(1);
-  toast('Idée capturée ! +10 XP', '💡', 2500);
+  toast(t('t_idea_captured'), '💡', 2500);
   renderIdeas(document.getElementById('ideas-c'));
 }
 function delIdea(idx) {
@@ -4895,7 +4895,7 @@ function saveSleep(){
 
   document.getElementById('ov-sleep')?.remove();
   gainXP(10,'sleep');
-  toast('Nuit enregistrée! +10 XP 😴','🌙',3000);
+  toast(t('t_sleep_logged'),'🌙',3000);
   complQ('track',1);
   renderSleep();
 }
@@ -4980,7 +4980,7 @@ function saveJournalEntry(mood){
   save();
   document.getElementById('ov-journal')?.remove();
   gainXP(15,'journal');
-  toast('Entrée sauvegardée! +15 XP 📖','📝',3000);
+  toast(t('t_entry_saved_15xp'),'📝',3000);
   complQ('journal',1);
   renderSmartJournal();
 }
@@ -5082,7 +5082,7 @@ function saveExpense(){
   S.budget.expenses.push({label,amount,cat,date:TD});
   save();
   document.getElementById('ov-expense')?.remove();
-  toast('Dépense ajoutée','💸',2000);
+  toast(t('t_expense_added'),'💸',2000);
   renderBudget();
 }
 
@@ -5512,7 +5512,7 @@ function renderSuggestions(){
 function submitSuggestion(){
   const text=document.getElementById('sug-text')?.value?.trim();
   const cat=document.getElementById('sug-cat')?.value||'feature';
-  if(!text){toast('Écris ta suggestion!','💡',2000);return;}
+  if(!text){toast(t('t_write_something'),'💡',2000);return;}
   if(!S.suggestions)S.suggestions=[];
   S.suggestions.push({text,cat,date:TD,status:'sent',ts:Date.now()});
   save();
@@ -5618,7 +5618,7 @@ function renderShop(el){
   el.innerHTML=h;
 }
 function buyItem(id,cost){
-  if((S.gems||0)<cost){toast('Pas assez de gems !','\u274c',2000);return;}
+  if((S.gems||0)<cost){toast(t('t_not_enough_gems'),'\u274c',2000);return;}
   S.gems-=cost;S.shopUnlocked=S.shopUnlocked||[];
   if(S.shopUnlocked.indexOf(id)<0)S.shopUnlocked.push(id);
   save();updGB();toast('Achet\u00e9 !','🛒',2000);
@@ -5670,7 +5670,7 @@ function exportData(){
   a.download='forge-backup-'+TD.replace(/\s/g,'-')+'.json';
   a.click();
   URL.revokeObjectURL(a.href);
-  toast('Backup sauvegarde !','💾',2000);
+  toast(t('t_backup_saved'),'💾',2000);
   gainXP(5,'backup');
 }
 function importData(){
@@ -5682,10 +5682,10 @@ function importData(){
     r.onload=function(ev){
       try{
         var d=JSON.parse(ev.target.result);
-        if(!d.ob||!d.name){toast('Fichier invalide','❌',2500);return;}
+        if(!d.ob||!d.name){toast(t('t_invalid_file'),'❌',2500);return;}
         if(!confirm('Remplacer toutes tes donnees par ce backup ? ('+d.name+', '+((d.xp||0))+' XP)'))return;
         Object.assign(S,d);save();
-        toast('Donnees restaurees ! Rechargement...','✅',2000);
+        toast(t('t_data_restored'),'✅',2000);
         setTimeout(function(){location.reload();},2000);
       }catch(ex){toast('Erreur de lecture','❌',2500);}
     };
@@ -5938,7 +5938,7 @@ function completeDefi7Day(dayIdx,xp){
     save();
     toast('Defi J'+(dayIdx+1)+' complete ! +'+xp+' XP','🎯',2500);
     if(S.defi7.completed.length>=7){
-      toast('DEFI 7 JOURS TERMINE ! Tu es un champion !','🏆',4000);
+      toast(t('t_challenge7_done'),'🏆',4000);
       gainXP(200,'defi7_complete');
       gainGems(50);
       save();
@@ -6286,10 +6286,10 @@ function toggleZenMode(){
   S.mode=S.mode==='zen'?'full':'zen';
   if(S.mode==='zen'){
     S.activeWg=['w-quests','w-pomo'];
-    toast('Mode Zen activé 🧘','🧘',2000);
+    toast(t('t_zen_mode'),'🧘',2000);
   }else{
     S.activeWg=GOAL_WG[S.goal]||GOAL_WG.all;
-    toast('Mode complet activé ⚡','⚡',2000);
+    toast(t('t_full_mode'),'⚡',2000);
   }
   save();
   renderWgVisibility();
@@ -6480,7 +6480,7 @@ function toggleZenMode(){
     S.habits=S.habits||{list:[],todayDone:[]};
     S.habits.list.push({id:'h'+Date.now(),name:nameEl.value.trim(),ico:'✨',streak:0,lastDone:'',cat:'custom'});
     save();
-    toast('Habitude ajoutée !','✨',2000);
+    toast(t('t_habit_added'),'✨',2000);
     renderHabits(document.getElementById('habits-c'));
   };
 })();
@@ -6783,7 +6783,7 @@ function toggleZenMode(){
         memState.flipped=[];
         if(memState.matched===memState.cards.length/2){
           gainXP(50,'memory');S.memoryCount=(S.memoryCount||0)+1;save();
-          confetti();toast('Memory complété ! +50 XP','🃏',3000);
+          confetti();toast(t('t_memory_done'),'🃏',3000);
           try{chkAchievements('memory');}catch(e){}
         }
         setTimeout(renderMemory,200);
@@ -7167,7 +7167,7 @@ function toggleZenMode(){
       a.download='forge-backup-'+(S.name||'user')+'-'+new Date().toISOString().split('T')[0]+'.json';
       a.click();
       URL.revokeObjectURL(url);
-      toast('Backup téléchargé !','💾',3000);
+      toast(t('t_backup_downloaded'),'💾',3000);
     }catch(e){
       toast('Erreur export: '+e.message,'❌',3000);
     }
@@ -7188,7 +7188,7 @@ function toggleZenMode(){
           // Backup current first
           localStorage.setItem('rise_v9_pre_import',localStorage.getItem('rise_v9')||'{}');
           localStorage.setItem('rise_v9',JSON.stringify(data));
-          toast('Données importées ! Rechargement...','✅',2000);
+          toast(t('t_data_imported'),'✅',2000);
           setTimeout(function(){location.reload();},2000);
         }catch(err){
           toast('Fichier invalide: '+err.message,'❌',3000);
@@ -7287,7 +7287,7 @@ function toggleZenMode(){
       deferredPrompt.prompt();
       deferredPrompt.userChoice.then(function(r){
         if(r.outcome==='accepted'){
-          toast('FORGE installé ! 🎉','📱',4000);
+          toast(t('t_installed'),'📱',4000);
           gainXP(50,'install');
           addN('📱','App installée !','FORGE est maintenant sur ton écran d\'accueil. +50 XP');
         }
@@ -7441,7 +7441,7 @@ function toggleZenMode(){
         console.error('FORGE: Save error',e);
         // LocalStorage might be full
         if(e.name==='QuotaExceededError'){
-          toast('Stockage plein ! Exporte tes données.','⚠️',5000);
+          toast(t('t_storage_full'),'⚠️',5000);
         }
       }
     },100);
@@ -7610,7 +7610,7 @@ function toggleZenMode(){
     }else{
       // Fallback to clipboard
       navigator.clipboard.writeText(text+' '+( url||'https://rise-app-mu.vercel.app')).then(function(){
-        toast('Copié dans le presse-papier !','📋',2000);
+        toast(t('t_clipboard_copied'),'📋',2000);
       });
     }
   };
@@ -8194,7 +8194,7 @@ function toggleZenMode(){
       if(undoneHabits.length > 0){
         suggestions.push({text: undoneHabits[0].ico + ' ' + undoneHabits[0].name + ' pas encore fait!', action: function(){ sendJarvis('Motive-moi pour faire "' + undoneHabits[0].name + '" maintenant!'); }});
       }
-      suggestions.push({text:'Lance un Pomodoro', action: function(){ toggleJarvis(); var b = document.getElementById('pomo-btn'); if(b && b.textContent.includes('Start')) b.click(); toast('Pomodoro lancé!','⏱️',2000); }});
+      suggestions.push({text:'Lance un Pomodoro', action: function(){ toggleJarvis(); var b = document.getElementById('pomo-btn'); if(b && b.textContent.includes('Start')) b.click(); toast(t('t_pomo_started'),'⏱️',2000); }});
     }
 
     if(sid === 'screen-habits' || sid === 'screen-home'){
@@ -9559,7 +9559,7 @@ window.exportBizplan = function(){
   txt += 'Revenus: ' + (bp.revenue||'-') + '\n';
   txt += 'Coûts: ' + (bp.costs||'-') + '\n';
   txt += 'Métriques: ' + (bp.metrics||'-') + '\n';
-  navigator.clipboard.writeText(txt).then(function(){ toast('Canvas copié!','📋',2000); });
+  navigator.clipboard.writeText(txt).then(function(){ toast(t('t_canvas_copied'),'📋',2000); });
 };
 
 // 6b. OKR Tracker
@@ -9608,7 +9608,7 @@ window.addOKR = function(){
   S.okrs.push({objective:obj, krs:krs});
   save();
   render_okr();
-  toast('OKR ajouté!','🎯',2000);
+  toast(t('t_okr_added'),'🎯',2000);
 };
 
 // 6c. Network & Contacts
@@ -9666,7 +9666,7 @@ window.addContact = function(){
   S.network.push({name:name, role:role, company:company, tag:tag, notes:notes, lastContact:new Date().toISOString()});
   save();
   render_network();
-  toast('Contact ajouté!','🤝',2000);
+  toast(t('t_contact_added'),'🤝',2000);
 };
 
 // 6d. Ideas & Opportunities (reuse existing screen-ideas)
@@ -9716,7 +9716,7 @@ window.addBizIdea = function(){
   S.bizIdeas.push({title:title, desc:desc, potential:Math.min(5,Math.max(1,pot)), feasibility:Math.min(5,Math.max(1,feas)), passion:Math.min(5,Math.max(1,pass))});
   save();
   render_ideas_biz();
-  toast('Idée ajoutée!','💡',2000);
+  toast(t('t_idea_captured'),'💡',2000);
 };
 
 // 6e. Revenue Tracker
@@ -9825,7 +9825,7 @@ window.exportPitch = function(){
   slides.forEach(function(s,i){
     txt += 'SLIDE '+(i+1)+': '+titles[i]+'\n'+(p[s]||'-')+'\n\n';
   });
-  navigator.clipboard.writeText(txt).then(function(){ toast('Pitch copié!','🎤',2000); });
+  navigator.clipboard.writeText(txt).then(function(){ toast(t('t_pitch_copied'),'🎤',2000); });
 };
 
 // ── 7. PRODUCTIVITY TOOLS RENDERERS ──
@@ -9910,7 +9910,7 @@ window.applyRoutineTemplate = function(tpl){
     S.routines.morning = templates[tpl].slice();
     save();
     render_routine();
-    toast('Template appliqué!','🌅',2000);
+    toast(t('t_template_applied'),'🌅',2000);
   }
 };
 window.addRoutineItem = function(period){
@@ -10328,6 +10328,94 @@ var FORGE_I18N = {
     ob_goal_all: 'Tout — Mode Complet', ob_goal_all_d: 'Toutes les features actives dès le départ',
     ob_continue: 'Continuer →', ob_back: '← Retour', ob_start: 'C\'est parti !',
     // Toasts
+    t_account_created: 'Compte créé !',
+    t_account_deleted: 'Compte supprimé',
+    t_add_content: 'Ajoute du contenu!',
+    t_added: 'Ajouté !',
+    t_backup_downloaded: 'Backup téléchargé !',
+    t_backup_saved: 'Backup sauvegarde !',
+    t_breathing_done: 'Respiration ! +20 XP',
+    t_canvas_copied: 'Canvas copié!',
+    t_challenge21_started: 'Défi 21j lancé !',
+    t_challenge7_done: 'DEFI 7 JOURS TERMINE ! Tu es un champion !',
+    t_clipboard_copied: 'Copié dans le presse-papier !',
+    t_code_copied: 'Code copié !',
+    t_coming_soon: 'Bientôt disponible !',
+    t_complete_50xp: 'COMPLET ! +50 XP',
+    t_contact_added: 'Contact ajouté!',
+    t_correct_answer: 'Bonne reponse ! +15 XP',
+    t_data_cleared: 'Données effacées',
+    t_deal_added: 'Deal ajouté !',
+    t_deal_won_100xp: 'Deal gagné ! +100 XP',
+    t_describe_idea: 'Décris ton idée',
+    t_entry_saved_15xp: 'Entrée sauvegardée! +15 XP 📖',
+    t_event_added: 'Événement ajouté !',
+    t_expense_added: 'Dépense ajoutée!',
+    t_fill_all_fields: 'Remplis tous les champs',
+    t_full_mode: 'Mode complet activé ⚡',
+    t_guild_created: 'Guilde créée !',
+    t_guild_joined: 'Alpha Warriors rejoint !',
+    t_habit_added: 'Habitude ajoutée !',
+    t_idea_captured: 'Idée capturée ! +10 XP',
+    t_installed: 'FORGE installé ! 🎉',
+    t_invalid_amount: 'Montant invalide',
+    t_invalid_file: 'Fichier invalide',
+    t_journal_saved: 'Journal sauvegardé ! +25 XP',
+    t_kr_achieved: 'Key Result atteint ! +50 XP',
+    t_letter_sealed: 'Lettre scellée 90 jours !',
+    t_link_copied: 'Lien copié !',
+    t_logged_in: 'Connecté !',
+    t_logged_out: 'Déconnecté',
+    t_meal_logged: 'Repas note !',
+    t_meditation_done: 'Méditation terminée ! +35 XP 🧘',
+    t_memory_done: 'Memory complété ! +50 XP',
+    t_message_copied: 'Message copié !',
+    t_mindful_walk: 'Marche conscience ! +50 XP',
+    t_not_enough_gems: 'Pas assez de gems !',
+    t_note_added: 'Note ajoutée!',
+    t_note_deleted: 'Note supprimée',
+    t_notif_denied: 'Notifications refusées par le navigateur',
+    t_notif_disabled: 'Notifications désactivées',
+    t_notif_enabled: 'Notifications activées !',
+    t_notif_unsupported: 'Notifications non supportées',
+    t_oauth_error: 'Erreur OAuth',
+    t_objective_created: 'Objectif créé!',
+    t_okr_added: 'OKR ajouté!',
+    t_pitch_copied: 'Pitch copié!',
+    t_post_saved: 'Post sauvegardé!',
+    t_process_created: 'Process créé!',
+    t_profile_updated: 'Profil mis à jour!',
+    t_purchased: 'Acheté !',
+    t_recap_copied: 'Récap copié !',
+    t_sleep_logged: 'Nuit enregistrée! +10 XP 😴',
+    t_stoic_done: 'Exercice stoïcien complété!',
+    t_stoic_journal_saved: 'Journal stoïcien sauvegardé!',
+    t_storage_full: 'Stockage plein ! Exporte tes données.',
+    t_synced: 'Données synchronisées !',
+    t_task_done_20xp: 'Tâche terminée ! +20 XP',
+    t_template_applied: 'Template appliqué!',
+    t_transaction_added: 'Transaction ajoutée !',
+    t_unlocked: 'Déverrouillé!',
+    t_vision_created: 'Vision créée !',
+    t_water_done: '8 verres atteints ! +20 XP',
+    t_write_more: 'Écris au moins quelques mots',
+    t_write_something: 'Écris quelque chose!',
+    t_wrong_answer: 'Mauvaise réponse, réessaie! 💡',
+    t_zen_mode: 'Mode Zen activé 🧘',
+    t_card_downloaded: 'Carte téléchargée !',
+    t_data_imported: 'Données importées !',
+    t_data_exported: 'Données exportées',
+    t_data_restored: 'Données restaurées !',
+    t_invalid_data: 'Données invalides',
+    t_notif_sent: 'Notification envoyée !',
+    t_pin_set: 'PIN défini !',
+    t_pin_wrong: 'PIN incorrect',
+    t_pin_removed: 'PIN supprimé',
+    t_pin_4digits: 'Le PIN doit être 4 chiffres',
+    t_pin_mismatch: 'Les PINs ne correspondent pas',
+    t_permission_denied: 'Permission refusée',
+    t_pomo_started: 'Pomodoro lancé !',
+    t_exported: 'Exporté !',
     t_boss_defeated: 'BOSS VAINCU !',
     t_quest_done: 'Quête accomplie !',
     t_form_complete: 'FORMATION COMPLÈTE !',
@@ -10446,6 +10534,94 @@ var FORGE_I18N = {
     ob_goal_orga: 'Organization & Calendar', ob_goal_orga_d: 'Agenda, routines, projects, planning',
     ob_goal_all: 'Everything — Full Mode', ob_goal_all_d: 'All features active from the start',
     ob_continue: 'Continue →', ob_back: '← Back', ob_start: 'Let\'s go!',
+    t_account_created: 'Account created!',
+    t_account_deleted: 'Account deleted',
+    t_add_content: 'Add some content!',
+    t_added: 'Added!',
+    t_backup_downloaded: 'Backup downloaded!',
+    t_backup_saved: 'Backup saved!',
+    t_breathing_done: 'Breathing done! +20 XP',
+    t_canvas_copied: 'Canvas copied!',
+    t_challenge21_started: '21-day challenge started!',
+    t_challenge7_done: '7-DAY CHALLENGE DONE! You're a champion!',
+    t_clipboard_copied: 'Copied to clipboard!',
+    t_code_copied: 'Code copied!',
+    t_coming_soon: 'Coming soon!',
+    t_complete_50xp: 'COMPLETE! +50 XP',
+    t_contact_added: 'Contact added!',
+    t_correct_answer: 'Correct! +15 XP',
+    t_data_cleared: 'Data cleared',
+    t_deal_added: 'Deal added!',
+    t_deal_won_100xp: 'Deal won! +100 XP',
+    t_describe_idea: 'Describe your idea',
+    t_entry_saved_15xp: 'Entry saved! +15 XP 📖',
+    t_event_added: 'Event added!',
+    t_expense_added: 'Expense added!',
+    t_fill_all_fields: 'Fill all fields',
+    t_full_mode: 'Full mode activated ⚡',
+    t_guild_created: 'Guild created!',
+    t_guild_joined: 'Guild joined!',
+    t_habit_added: 'Habit added!',
+    t_idea_captured: 'Idea captured! +10 XP',
+    t_installed: 'FORGE installed! 🎉',
+    t_invalid_amount: 'Invalid amount',
+    t_invalid_file: 'Invalid file',
+    t_journal_saved: 'Journal saved! +25 XP',
+    t_kr_achieved: 'Key Result achieved! +50 XP',
+    t_letter_sealed: 'Letter sealed for 90 days!',
+    t_link_copied: 'Link copied!',
+    t_logged_in: 'Logged in!',
+    t_logged_out: 'Logged out',
+    t_meal_logged: 'Meal logged!',
+    t_meditation_done: 'Meditation done! +35 XP 🧘',
+    t_memory_done: 'Memory complete! +50 XP',
+    t_message_copied: 'Message copied!',
+    t_mindful_walk: 'Mindful walk! +50 XP',
+    t_not_enough_gems: 'Not enough gems!',
+    t_note_added: 'Note added!',
+    t_note_deleted: 'Note deleted',
+    t_notif_denied: 'Notifications denied by browser',
+    t_notif_disabled: 'Notifications disabled',
+    t_notif_enabled: 'Notifications enabled!',
+    t_notif_unsupported: 'Notifications not supported',
+    t_oauth_error: 'OAuth error',
+    t_objective_created: 'Objective created!',
+    t_okr_added: 'OKR added!',
+    t_pitch_copied: 'Pitch copied!',
+    t_post_saved: 'Post saved!',
+    t_process_created: 'Process created!',
+    t_profile_updated: 'Profile updated!',
+    t_purchased: 'Purchased!',
+    t_recap_copied: 'Recap copied!',
+    t_sleep_logged: 'Sleep logged! +10 XP 😴',
+    t_stoic_done: 'Stoic exercise completed!',
+    t_stoic_journal_saved: 'Stoic journal saved!',
+    t_storage_full: 'Storage full! Export your data.',
+    t_synced: 'Data synchronized!',
+    t_task_done_20xp: 'Task done! +20 XP',
+    t_template_applied: 'Template applied!',
+    t_transaction_added: 'Transaction added!',
+    t_unlocked: 'Unlocked!',
+    t_vision_created: 'Vision created!',
+    t_water_done: '8 glasses done! +20 XP',
+    t_write_more: 'Write at least a few words',
+    t_write_something: 'Write something!',
+    t_wrong_answer: 'Wrong answer, try again! 💡',
+    t_zen_mode: 'Zen mode activated 🧘',
+    t_card_downloaded: 'Card downloaded!',
+    t_data_imported: 'Data imported!',
+    t_data_exported: 'Data exported',
+    t_data_restored: 'Data restored!',
+    t_invalid_data: 'Invalid data',
+    t_notif_sent: 'Notification sent!',
+    t_pin_set: 'PIN set!',
+    t_pin_wrong: 'Wrong PIN',
+    t_pin_removed: 'PIN removed',
+    t_pin_4digits: 'PIN must be 4 digits',
+    t_pin_mismatch: 'PINs don\'t match',
+    t_permission_denied: 'Permission denied',
+    t_pomo_started: 'Pomodoro started!',
+    t_exported: 'Exported!',
     t_boss_defeated: 'BOSS DEFEATED!',
     t_quest_done: 'Quest complete!',
     t_form_complete: 'COURSE COMPLETE!',
@@ -11320,7 +11496,7 @@ function exportCompta() {
   a.click();
   URL.revokeObjectURL(url);
 
-  if(typeof toast === 'function') { toast('Exported!', '✅', 2000); }
+  if(typeof toast === 'function') { toast(t('t_exported'), '✅', 2000); }
 }
 
 // 6b. Vision Board Screen
@@ -11541,7 +11717,7 @@ function createProcessFromTemplate(template) {
     if(!S.processes) { S.processes = []; }
     S.processes.push(processData[template]);
     if(typeof save === 'function') { save(); }
-    if(typeof toast === 'function') { toast('Process créé!', '✅', 2000); }
+    if(typeof toast === 'function') { toast(t('t_process_created'), '✅', 2000); }
   }
 }
 
@@ -11894,7 +12070,7 @@ function completeStoicExercise(){
   S.stoic.exDone = true;
   save();
   gainXP(25, 'stoic');
-  toast('Exercice stoïcien complété!', '🏛️', 2500);
+  toast(t('t_stoic_done'), '🏛️', 2500);
   addN('🏛️', 'Stoïcisme', 'Exercice du jour complété. +25 XP');
   renderStoicScreen();
 }
@@ -11905,13 +12081,13 @@ function addStoicJournal(){
   var q3 = document.getElementById('stoic-j3');
   if(!q1||!q2||!q3) return;
   var entry = { date: TD, ts: Date.now(), q1: q1.value.trim(), q2: q2.value.trim(), q3: q3.value.trim() };
-  if(!entry.q1 && !entry.q2 && !entry.q3){ toast('Écris au moins une réponse','📝',2000); return; }
+  if(!entry.q1 && !entry.q2 && !entry.q3){ toast(t('t_write_more'),'📝',2000); return; }
   S.stoic.journalEntries = S.stoic.journalEntries || [];
   S.stoic.journalEntries.unshift(entry);
   if(S.stoic.journalEntries.length > 90) S.stoic.journalEntries = S.stoic.journalEntries.slice(0,90);
   save();
   gainXP(20, 'stoic-journal');
-  toast('Journal stoïcien sauvegardé!', '📝', 2500);
+  toast(t('t_stoic_journal_saved'), '📝', 2500);
   renderStoicScreen();
 }
 
@@ -12021,7 +12197,7 @@ function addQuickNote(){
   var inp = document.getElementById('qnote-inp');
   if(!inp) return;
   var txt = inp.value.trim();
-  if(!txt){ toast('Écris quelque chose!','📝',2000); return; }
+  if(!txt){ toast(t('t_write_something'),'📝',2000); return; }
   var cat = document.querySelector('.qnote-cat.on');
   var catId = cat ? cat.dataset.cat : 'idea';
   var note = { id: uid(), text: txt, cat: catId, pinned: false, ts: Date.now(), date: TD };
@@ -12029,7 +12205,7 @@ function addQuickNote(){
   save();
   inp.value = '';
   gainXP(5,'note');
-  toast('Note ajoutée!','📝',2000);
+  toast(t('t_note_added'),'📝',2000);
   renderNotesScreen();
 }
 
@@ -12041,7 +12217,7 @@ function togglePinNote(id){
 function deleteNote(id){
   S.notes = S.notes.filter(function(x){ return x.id !== id; });
   save();
-  toast('Note supprimée','🗑️',2000);
+  toast(t('t_note_deleted'),'🗑️',2000);
   renderNotesScreen();
 }
 
@@ -12154,7 +12330,7 @@ function generateBizIdea(){
   if(S.bizIdeas.length > 50) S.bizIdeas = S.bizIdeas.slice(0,50);
   save();
   gainXP(10,'bizidea');
-  toast('Nouvelle idée générée!','💡',2500);
+  toast(t('t_idea_captured'),'💡',2500);
   renderBizIdeas();
 }
 
@@ -12246,13 +12422,13 @@ function genSocialCaption(platform){
 function addSocialPost(){
   var platform = document.getElementById('sm-platform');
   var content = document.getElementById('sm-content');
-  if(!platform || !content || !content.value.trim()){ toast('Ajoute du contenu!','📱',2000); return; }
+  if(!platform || !content || !content.value.trim()){ toast(t('t_add_content'),'📱',2000); return; }
   var post = { id: uid(), platform: platform.value, content: content.value.trim(), status: 'draft', ts: Date.now(), date: TD };
   S.socialPosts.unshift(post);
   save();
   content.value = '';
   gainXP(8,'social-post');
-  toast('Post sauvegardé!','📱',2500);
+  toast(t('t_post_saved'),'📱',2500);
   renderSocialScreen();
 }
 
@@ -12490,18 +12666,18 @@ function setPin(){
   var p1 = document.getElementById('sec-pin1');
   var p2 = document.getElementById('sec-pin2');
   if(!p1 || !p2) return;
-  if(p1.value.length !== 4 || isNaN(p1.value)){ toast('Le PIN doit être 4 chiffres','🔒',2500); return; }
-  if(p1.value !== p2.value){ toast('Les PINs ne correspondent pas','🔒',2500); return; }
+  if(p1.value.length !== 4 || isNaN(p1.value)){ toast(t('t_pin_4digits'),'🔒',2500); return; }
+  if(p1.value !== p2.value){ toast(t('t_pin_mismatch'),'🔒',2500); return; }
   S.security.pin = hashPin(p1.value);
   save();
-  toast('PIN défini avec succès!','🔒',2500);
+  toast(t('t_pin_set'),'🔒',2500);
   renderSecurityScreen();
 }
 
 function removePin(){
   S.security.pin = null;
   save();
-  toast('PIN supprimé','🔓',2000);
+  toast(t('t_pin_removed'),'🔓',2000);
   renderSecurityScreen();
 }
 
@@ -12524,9 +12700,9 @@ function unlockApp(){
     document.getElementById('lock-overlay').style.display = 'none';
     S.security.locked = false;
     inp.value = '';
-    toast('Déverrouillé!','🔓',1500);
+    toast(t('t_unlocked'),'🔓',1500);
   } else {
-    toast('PIN incorrect','🔒',2000);
+    toast(t('t_pin_wrong'),'🔒',2000);
     inp.value = '';
   }
 }
@@ -12551,7 +12727,7 @@ function exportEncryptedData(){
     var encoded = btoa(unescape(encodeURIComponent(data)));
     var el = document.getElementById('export-data-area');
     if(el){ el.textContent = encoded; el.style.display = 'block'; }
-    toast('Données exportées (chiffrées base64)','📦',2500);
+    toast(t('t_data_exported'),'📦',2500);
   } catch(e){ toast('Erreur d\'export','❌',2000); }
 }
 
@@ -12565,17 +12741,17 @@ function importEncryptedData(){
       localStorage.setItem('rise_v9_pre_import', localStorage.getItem('rise_v9')||'{}');
       Object.assign(S, data);
       save();
-      toast('Données importées avec succès!','✅',2500);
+      toast(t('t_data_imported'),'✅',2500);
       setTimeout(function(){ location.reload(); }, 1500);
     }
-  } catch(e){ toast('Données invalides','❌',2500); }
+  } catch(e){ toast(t('t_invalid_data'),'❌',2500); }
 }
 
 function wipeAllData(){
   if(confirm('⚠️ Es-tu SÛR de vouloir effacer TOUTES tes données ?')){
     if(confirm('🚨 DERNIÈRE CHANCE — Cette action est IRRÉVERSIBLE !')){
       localStorage.removeItem('rise_v9');
-      toast('Données effacées','🗑️',2000);
+      toast(t('t_data_cleared'),'🗑️',2000);
       setTimeout(function(){ location.reload(); }, 1500);
     }
   }
@@ -12679,7 +12855,7 @@ function saveProfile(){
   if(workStyle) S.profile.workStyle = workStyle.value;
 
   save();
-  toast('Profil mis à jour!','👤',2500);
+  toast(t('t_profile_updated'),'👤',2500);
 }
 
 // JARVIS memory tracking
@@ -12726,12 +12902,12 @@ function addExpense(){
   var amt = document.getElementById('fin-exp-amt');
   var cat = document.getElementById('fin-exp-cat');
   var desc = document.getElementById('fin-exp-desc');
-  if(!amt || !amt.value || isNaN(amt.value)){ toast('Montant invalide','💸',2000); return; }
+  if(!amt || !amt.value || isNaN(amt.value)){ toast(t('t_invalid_amount'),'💸',2000); return; }
   var expense = { id: uid(), amount: parseFloat(amt.value), category: cat ? cat.value : 'Autre', desc: desc ? desc.value : '', ts: Date.now(), date: TD, month: new Date().getMonth()+'-'+new Date().getFullYear() };
   S.financeAdv.expenses.unshift(expense);
   save();
   amt.value = ''; if(desc) desc.value = '';
-  toast('Dépense ajoutée!','💸',2000);
+  toast(t('t_expense_added'),'💸',2000);
   renderFinanceAdv();
 }
 
@@ -12744,12 +12920,12 @@ function addFinGoal(){
   var name = document.getElementById('fin-goal-name');
   var target = document.getElementById('fin-goal-target');
   var deadline = document.getElementById('fin-goal-deadline');
-  if(!name||!name.value.trim()||!target||!target.value){ toast('Remplis le nom et le montant','🎯',2000); return; }
+  if(!name||!name.value.trim()||!target||!target.value){ toast(t('t_fill_all_fields'),'🎯',2000); return; }
   var goal = { id: uid(), name: name.value.trim(), target: parseFloat(target.value), current: 0, deadline: deadline ? deadline.value : '', ts: Date.now() };
   S.financeAdv.goals.push(goal);
   save();
   name.value = ''; target.value = ''; if(deadline) deadline.value = '';
-  toast('Objectif créé!','🎯',2500);
+  toast(t('t_objective_created'),'🎯',2500);
   renderFinanceAdv();
 }
 
@@ -13352,7 +13528,7 @@ try { save(); } catch(e){}
     window._forgeRecapShare=function(){
       var txt='⚔️ Mon récap FORGE cette semaine:\n⭐ '+st.totalXP+' XP · 🔥 '+st.streak+'j streak\n🧠 '+st.title+' · LVL '+st.glvl+'\n💎 '+st.gems+' gemmes · 🏆 '+st.achCount+' achievements\n\n#FORGE #Growth #Discipline';
       if(navigator.share){navigator.share({title:'Mon récap FORGE',text:txt}).catch(function(){});}
-      else{navigator.clipboard.writeText(txt).then(function(){toast('Récap copié !','📋',2000);});}
+      else{navigator.clipboard.writeText(txt).then(function(){toast(t('t_recap_copied'),'📋',2000);});}
     };
 
     document.body.appendChild(ov);
@@ -13572,7 +13748,7 @@ try { save(); } catch(e){}
           registerForgeWorker().then(function(){
             setTimeout(scheduleForgeNotifications,500);
           });
-          toast('Notifications activées !','🔔',2500);
+          toast(t('t_notif_enabled'),'🔔',2500);
           // Refresh UI
           var det=document.getElementById('notif-details');
           if(det){det.style.opacity='1';det.style.pointerEvents='auto';}
@@ -13584,7 +13760,7 @@ try { save(); } catch(e){}
           saveNotifPrefs(prefs);
           var cb=document.getElementById('notif-master');
           if(cb)cb.checked=false;
-          toast('Notifications refusées par le navigateur','⚠️',3000);
+          toast(t('t_notif_denied'),'⚠️',3000);
         }
       });
     }else{
@@ -13595,7 +13771,7 @@ try { save(); } catch(e){}
       // Update bell icon
       var bell=document.getElementById('forge-notif-bell');
       if(bell)bell.innerHTML='🔕';
-      toast('Notifications désactivées','🔕',2000);
+      toast(t('t_notif_disabled'),'🔕',2000);
     }
   };
 
@@ -13614,11 +13790,11 @@ try { save(); } catch(e){}
   };
 
   window.testForgeNotif=function(){
-    if(!('Notification' in window)){toast('Notifications non supportées','⚠️',2500);return;}
+    if(!('Notification' in window)){toast(t('t_notif_unsupported'),'⚠️',2500);return;}
     if(Notification.permission!=='granted'){
       requestNotifPermission().then(function(p){
         if(p==='granted')sendTestNotif();
-        else toast('Permission refusée','⚠️',2500);
+        else toast(t('t_permission_denied'),'⚠️',2500);
       });
       return;
     }
@@ -13636,7 +13812,7 @@ try { save(); } catch(e){}
       data:{url:'/'}
     });
     notif.onclick=function(){window.focus();notif.close();};
-    toast('Notification envoyée ! Vérifie tes notifs','✅',2500);
+    toast(t('t_notif_sent'),'✅',2500);
   }
 
   window.showNotifSettings=showNotifSettings;
@@ -13714,7 +13890,7 @@ function toggleAuthMode(){
 function doAuthSubmit(){
   var email=document.getElementById('auth-email').value.trim();
   var pass=document.getElementById('auth-pass').value;
-  if(!email||!pass){toast('Remplis tous les champs','❌',2000);return;}
+  if(!email||!pass){toast(t('t_fill_all_fields'),'❌',2000);return;}
   if(_authMode==='signup'){forgeSignup(email,pass,S.name||'Forgeur');}
   else{forgeLogin(email,pass);}
 }
@@ -13779,7 +13955,7 @@ function showAuthModal(){openM('m-auth');}
     if (data.error) { toast(data.error, '❌', 3000); return false; }
     AUTH.user = data.user; AUTH.session = data.session; saveAuth();
     S.email = email; S.authId = data.user?.id; save();
-    toast('Compte créé !', '🎉', 3000);
+    toast(t('t_account_created'), '🎉', 3000);
     closeM('m-auth');
     syncToServer();
     return true;
@@ -13790,7 +13966,7 @@ function showAuthModal(){openM('m-auth');}
     if (data.error) { toast(data.error, '❌', 3000); return false; }
     AUTH.user = data.user; AUTH.session = data.session; saveAuth();
     S.email = email; S.authId = data.user?.id; save();
-    toast('Connecté !', '✅', 2000);
+    toast(t('t_logged_in'), '✅', 2000);
     closeM('m-auth');
     // Load server data if it's newer
     loadFromServer();
@@ -13800,14 +13976,14 @@ function showAuthModal(){openM('m-auth');}
   window.forgeOAuth = async function(provider) {
     var data = await authApi({ action: 'oauth_url', provider: provider });
     if (data.url) window.location.href = data.url;
-    else toast('Erreur OAuth', '❌', 3000);
+    else toast(t('t_oauth_error'), '❌', 3000);
   };
 
   window.forgeLogout = async function() {
     await authApi({ action: 'logout' }).catch(function(){});
     AUTH.user = null; AUTH.session = null;
     localStorage.removeItem('forge_auth');
-    toast('Déconnecté', '👋', 2000);
+    toast(t('t_logged_out'), '👋', 2000);
     renderMoi();
   };
 
@@ -13817,7 +13993,7 @@ function showAuthModal(){openM('m-auth');}
     AUTH.user = null; AUTH.session = null;
     localStorage.removeItem('forge_auth');
     localStorage.removeItem('rise_v9');
-    toast('Compte supprimé', '🗑️', 3000);
+    toast(t('t_account_deleted'), '🗑️', 3000);
     location.reload();
   };
 
@@ -13850,7 +14026,7 @@ function showAuthModal(){openM('m-auth');}
           Object.assign(S, serverData);
           S._lastSave = serverTs;
           save();
-          toast('Données synchronisées !', '☁️', 2000);
+          toast(t('t_synced'), '☁️', 2000);
           if (typeof launchApp === 'function') launchApp();
         }
       }
@@ -13901,7 +14077,7 @@ function showAuthModal(){openM('m-auth');}
       saveAuth();
       window.history.replaceState({}, '', window.location.pathname);
       loadFromServer();
-      toast('Connecté !', '✅', 2000);
+      toast(t('t_logged_in'), '✅', 2000);
     }
   }
 })();
