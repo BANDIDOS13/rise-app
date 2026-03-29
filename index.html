@@ -9546,6 +9546,1708 @@ console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans bus
 })();
 
 
+
+(function(){
+'use strict';
+
+console.log('%c SESSION 10 — PERSONALIZATION & TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+
+// ============================================================================
+// INIT: Load state, define TD
+// ============================================================================
+var S = window.S || {};
+if(!S || Object.keys(S).length===0) {
+  var storedState = localStorage.getItem('rise_v9');
+  S = storedState ? JSON.parse(storedState) : {};
+}
+window.S = S;
+
+var TD = (function(){
+  var d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+})();
+
+// ============================================================================
+// 1. ZODIAC UTILITIES
+// ============================================================================
+function getZodiac(dateStr) {
+  var d = new Date(dateStr);
+  var day = d.getDate(), month = d.getMonth() + 1;
+  if((month==3 && day>=21)||(month==4 && day<=19)) return {sign:'Bélier',ico:'♈',element:'Feu',dates:'21 mars - 19 avril'};
+  if((month==4 && day>=20)||(month==5 && day<=20)) return {sign:'Taureau',ico:'♉',element:'Terre',dates:'20 avril - 20 mai'};
+  if((month==5 && day>=21)||(month==6 && day<=20)) return {sign:'Gémeaux',ico:'♊',element:'Air',dates:'21 mai - 20 juin'};
+  if((month==6 && day>=21)||(month==7 && day<=22)) return {sign:'Cancer',ico:'♋',element:'Eau',dates:'21 juin - 22 juillet'};
+  if((month==7 && day>=23)||(month==8 && day<=22)) return {sign:'Lion',ico:'♌',element:'Feu',dates:'23 juillet - 22 août'};
+  if((month==8 && day>=23)||(month==9 && day<=22)) return {sign:'Vierge',ico:'♍',element:'Terre',dates:'23 août - 22 septembre'};
+  if((month==9 && day>=23)||(month==10 && day<=22)) return {sign:'Balance',ico:'♎',element:'Air',dates:'23 septembre - 22 octobre'};
+  if((month==10 && day>=23)||(month==11 && day<=21)) return {sign:'Scorpion',ico:'♏',element:'Eau',dates:'23 octobre - 21 novembre'};
+  if((month==11 && day>=22)||(month==12 && day<=21)) return {sign:'Sagittaire',ico:'♐',element:'Feu',dates:'22 novembre - 21 décembre'};
+  if((month==12 && day>=22)||(month==1 && day<=19)) return {sign:'Capricorne',ico:'♑',element:'Terre',dates:'22 décembre - 19 janvier'};
+  if((month==1 && day>=20)||(month==2 && day<=18)) return {sign:'Verseau',ico:'♒',element:'Air',dates:'20 janvier - 18 février'};
+  return {sign:'Poissons',ico:'♓',element:'Eau',dates:'19 février - 20 mars'};
+}
+
+var ZODIAC_DATA = {
+  'Bélier': {
+    personnalite: 'Courageux, passionné, leader naturel',
+    forces: ['Audace', 'Détermination', 'Leadership', 'Énergie'],
+    faiblesses: ['Impatience', 'Impulsivité', 'Tendance au conflit'],
+    businessStyle: 'Entrepreneur dynamique, aime le défi et l\'action',
+    healthTip: 'Canalise ton énergie en sport régulier, attention à la surchauffe',
+    affirmation: 'Je suis un leader courageux qui fonce vers ses rêves',
+    horoscopes: ['Ton énergie est au maximum, c\'est le moment d\'agir', 'Attention à l\'impatience, chaque romain a besoin de temps', 'Les défis t\'excitent, mais ne brûle pas tes ponts', 'Aujourd\'hui, ta volonté est invincible', 'Ralentis et écoute avant de foncer']
+  },
+  'Taureau': {
+    personnalite: 'Stable, pratique, fiable et sensé',
+    forces: ['Stabilité', 'Persévérance', 'Sens pratique', 'Fiabilité'],
+    faiblesses: ['Rigidité', 'Résistance au changement', 'Matérialisme'],
+    businessStyle: 'Bâtisseur patient, solides fondations, croissance durable',
+    healthTip: 'Privilégie la régularité à l\'intensité, détente et bons repas',
+    affirmation: 'Je construis un empire durable et prospère, pas à pas',
+    horoscopes: ['La patience paie aujourd\'hui, continue ton travail', 'Un changement arrive, reste flexible', 'Tes efforts stables portent leurs fruits', 'Valorise ce que tu as construit', 'Le luxe est ta récompense légitime']
+  },
+  'Gémeaux': {
+    personnalite: 'Curieux, communicatif, adaptable et agile mentalement',
+    forces: ['Communication', 'Curiosité', 'Adaptabilité', 'Intellect'],
+    faiblesses: ['Superficialité', 'Inconsistance', 'Nervosité'],
+    businessStyle: 'Innovateur rapide, réseauteur, multi-projets',
+    healthTip: 'Calme ton mental, méditation et respiration bénéfiques',
+    affirmation: 'Je transforme mes idées géniales en résultats concrets',
+    horoscopes: ['Tes connexions t\'ouvrent des portes aujourd\'hui', 'Focalise sur UNE chose au lieu de trois', 'Ton intellect est ton atout, utilise-le', 'Les nouvelles idées fusent, note-les', 'L\'apprentissage est ta passion, continue']
+  },
+  'Cancer': {
+    personnalite: 'Émotionnel, protecteur, intuitif et loyal',
+    forces: ['Intuition', 'Empathie', 'Loyauté', 'Instinct protecteur'],
+    faiblesses: ['Hypersensibilité', 'Nostalgie excessive', 'Tendance à ruminer'],
+    businessStyle: 'Leader bienveillant, construis des communautés fidèles',
+    healthTip: 'Protège ton énergie émotionnelle, te reposer est vital',
+    affirmation: 'Je crée un empire basé sur la confiance et l\'authenticité',
+    horoscopes: ['Écoute ton intuition, elle est juste aujourd\'hui', 'La nostalgie ne sert pas, regarde vers l\'avant', 'Tes liens sont ta force, cultive-les', 'Sois doux avec toi, tu l\'as mérité', 'Ta sensibilité est un don, pas une faiblesse']
+  },
+  'Lion': {
+    personnalite: 'Charismatique, généreux, créatif et confiant',
+    forces: ['Charisme', 'Créativité', 'Générosité', 'Confiance'],
+    faiblesses: ['Orgueil', 'Besoin de validation', 'Arrogance'],
+    businessStyle: 'Visionnaire ambitieux, crée une marque personnelle forte',
+    healthTip: 'L\'activité sociale et le plaisir te revitalisent',
+    affirmation: 'Je brille authentiquement et inspire mon entourage',
+    horoscopes: ['Aujourd\'hui, les projecteurs sont sur toi, profite', 'Partage tes succès sans oublier les autres', 'Ton égo veut du trop, modère ta soif', 'La confiance en toi est ton superpower', 'Sois le héros de ta propre histoire']
+  },
+  'Vierge': {
+    personnalite: 'Analytique, méticuleux, utile et précis',
+    forces: ['Analyse', 'Précision', 'Utilité', 'Organisation'],
+    faiblesses: ['Perfectionnisme excessif', 'Critique dure', 'Anxiété'],
+    businessStyle: 'Opérateur rigoroureux, détails qui tuent, systèmes efficaces',
+    healthTip: 'Dépasse le perfectionnisme, l\'imparfait existe',
+    affirmation: 'J\'aide les autres tout en construisant mon empire intelligent',
+    horoscopes: ['Les détails importent, mais n\'oublie pas le tableau global', 'Ton anxiété est basée sur rien, détends-toi', 'L\'ordre que tu crées paie aujourd\'hui', 'Lâche prise sur le contrôle', 'Tes standards élevés t\'élèvent']
+  },
+  'Balance': {
+    personnalite: 'Diplomate, équilibré, sociable et juste',
+    forces: ['Diplomatie', 'Justice', 'Sociabilité', 'Équilibre'],
+    faiblesses: ['Indécision', 'Dépendance aux opinions', 'Superficialité relationnelle'],
+    businessStyle: 'Négociateur subtil, construis des partenariats win-win',
+    healthTip: 'Équilibre activité et repos, relationnel te nourrit',
+    affirmation: 'Je crée l\'équilibre et l\'harmonie autour de moi',
+    horoscopes: ['La décision attend, prends-la avec confiance', 'Tous ne peuvent pas être contents, accepte-le', 'Tes relations sont ton atout majeur', 'L\'harmonie est ta quête, ne sois pas indécis', 'L\'équilibre paie aujourd\'hui']
+  },
+  'Scorpion': {
+    personnalite: 'Intense, stratégique, passionné et transformateur',
+    forces: ['Intensité', 'Stratégie', 'Passion', 'Capacité de transformation'],
+    faiblesses: ['Jalousie', 'Tendance vengeresse', 'Secret excessif'],
+    businessStyle: 'Stratège visionnaire, va profond, crée l\'impact',
+    healthTip: 'Canalise ton intensité en pratiques transformatrices',
+    affirmation: 'Je transforme les obstacles en opportunités et le plomb en or',
+    horoscopes: ['Ton intuition est surnaturelle, fais-lui confiance', 'Ne laisse pas la jalousie te contaminer', 'L\'intensité que tu mets aujourd\'hui paiera demain', 'Tes secrets te pèsent, partage un peu', 'La transformation commence maintenant']
+  },
+  'Sagittaire': {
+    personnalite: 'Optimiste, aventurier, philosophe et expansif',
+    forces: ['Optimisme', 'Aventure', 'Philosophie', 'Expansion'],
+    faiblesses: ['Superficialité', 'Manque de discipline', 'Promesses non tenues'],
+    businessStyle: 'Entrepreneur optimiste, grand vision, multiples horizons',
+    healthTip: 'Le mouvement et l\'exploration te revitalisent',
+    affirmation: 'J\'explore les horizons infinis et crée mon empire global',
+    horoscopes: ['L\'optimisme te porte loin, cultive-le', 'Les promesses, c\'est serieux, sois fiable', 'L\'expansion est ton chemin', 'Même en optimisme, reste conscient des risques', 'L\'aventure appelle, réponds sans culpabilité']
+  },
+  'Capricorne': {
+    personnalite: 'Ambitieux, discipliné, responsable et pragmatique',
+    forces: ['Ambition', 'Discipline', 'Responsabilité', 'Pragmatisme'],
+    faiblesses: ['Pessimisme', 'Rigidité', 'Froids relationnels'],
+    businessStyle: 'Constructeur de empires, patience légendaire, résultats certains',
+    healthTip: 'Dépasse la rigueur, le plaisir aussi fait partie du plan',
+    affirmation: 'Je construis un empire inébranlable par discipline et sagesse',
+    horoscopes: ['Ton ambition est juste, avance sans doute', 'La rigueur paie, continue ton chemin', 'Accepte un peu de plaisir, tu l\'as mérité', 'Les obstacles sont des marches', 'Ton pragmatisme te sauve aujourd\'hui']
+  },
+  'Verseau': {
+    personnalite: 'Innovateur, humanitaire, indépendant et visionnaire',
+    forces: ['Innovation', 'Humanitarisme', 'Indépendance', 'Vision future'],
+    faiblesses: ['Détachement', 'Rébellion stérile', 'Impersonnalité'],
+    businessStyle: 'Visionnaire disruptif, change l\'industrie, pense futur',
+    healthTip: 'L\'innovation et l\'expérimentation te vivifient',
+    affirmation: 'Je suis un pionnier qui crée l\'avenir que je rêve',
+    horoscopes: ['Ton innovation est en avant, brave', 'L\'humanité a besoin de toi, partage ton don', 'Le détachement est ta force, reste connecté aussi', 'Les conventions ne te définissent pas, vrai', 'Le futur se crée maintenant, par toi']
+  },
+  'Poissons': {
+    personnalite: 'Imaginatif, empathique, mystique et compassionné',
+    forces: ['Imagination', 'Empathie', 'Mystique', 'Compassion'],
+    faiblesses: ['Évasion réalité', 'Indécision', 'Victimisation'],
+    businessStyle: 'Créateur de univers, art et âme au cœur du business',
+    healthTip: 'Ancre-toi, la méditation et les frontières saines aident',
+    affirmation: 'Je manifeste mes rêves les plus fous dans la réalité',
+    horoscopes: ['Ton imagination est ton superpower, utilise-la', 'La réalité existe aussi, ne l\'oublie pas', 'Ton empathie te rend magique, partage-la', 'Les rêves deviennent réalité par l\'action', 'L\'evasion n\'est pas la solution, affronte']
+  }
+};
+
+// ============================================================================
+// 2. INTERNATIONALIZATION (i18n)
+// ============================================================================
+var RISE_I18N = {
+  fr: {
+    home: 'Accueil',
+    discover: 'Découvrir',
+    coach: 'Coach',
+    nature: 'Nature',
+    more: 'Plus',
+    dashboard: 'Tableau de bord',
+    goals: 'Objectifs',
+    habits: 'Habitudes',
+    todos: 'Tâches',
+    checkins: 'Check-ins',
+    journal: 'Journal',
+    astro: 'Astrologie',
+    wellness: 'Bien-être',
+    astrology: 'Astrologie',
+    finance: 'Finances',
+    business: 'Business',
+    accounting: 'Comptabilité',
+    visionboard: 'Vision Board',
+    books: 'Livres',
+    calculators: 'Calculateurs',
+    processes: 'Processus',
+    lifescore: 'Life Score',
+    daily_horoscope: 'Horoscope du jour',
+    energy: 'Énergie du jour',
+    color: 'Couleur du jour',
+    business_advice: 'Conseil business',
+    health_advice: 'Conseil santé',
+    compatibility: 'Compatibilité',
+    today: 'Aujourd\'hui',
+    revenue: 'Revenus',
+    expenses: 'Dépenses',
+    category: 'Catégorie',
+    amount: 'Montant',
+    balance: 'Solde',
+    monthly_report: 'Rapport mensuel',
+    export: 'Exporter',
+    add_book: 'Ajouter un livre',
+    books_read: 'Livres lus',
+    reading_goal: 'Objectif de lecture',
+    notes: 'Notes',
+    margin_calculator: 'Calculateur de marge',
+    roi_calculator: 'Calculateur ROI',
+    pricing_calculator: 'Calculateur de tarification',
+    breakeven_calculator: 'Point mort',
+    ltv_calculator: 'Valeur client (LTV)',
+    process_builder: 'Créateur de processus',
+    templates: 'Templates',
+    steps: 'Étapes',
+    subtasks: 'Sous-tâches',
+    resources: 'Ressources',
+    progress: 'Progrès',
+    health_score: 'Santé',
+    business_score: 'Business',
+    relationships_score: 'Relations',
+    mindset_score: 'Mentalité',
+    finances_score: 'Finances',
+    wellness_score: 'Bien-être',
+    settings: 'Paramètres',
+    language: 'Langue',
+    theme: 'Thème',
+    profile: 'Profil',
+    email: 'Email',
+    birthdate: 'Date de naissance',
+    sex: 'Sexe',
+    entrepreneur_level: 'Niveau entrepreneur',
+    beginner: 'Débutant',
+    intermediate: 'Intermédiaire',
+    advanced: 'Avancé',
+    male: 'Homme',
+    female: 'Femme',
+    other: 'Autre',
+    save: 'Enregistrer',
+    cancel: 'Annuler',
+    next: 'Suivant',
+    previous: 'Précédent',
+    skip: 'Passer',
+    finish: 'Terminer',
+    quick_win: 'Victoire rapide',
+    complete: 'Compléter',
+    overload_warning: 'Tu as beaucoup de tâches, respire !',
+    pace_check_too_much: 'Tu fais beaucoup cette semaine, attention au burnout',
+    pace_check_too_little: 'C\'est tranquille, ajoute un peu d\'ambition',
+    day_of: 'Jour',
+    milestone: 'Étape'
+  },
+  en: {
+    home: 'Home',
+    discover: 'Discover',
+    coach: 'Coach',
+    nature: 'Nature',
+    more: 'More',
+    dashboard: 'Dashboard',
+    goals: 'Goals',
+    habits: 'Habits',
+    todos: 'Tasks',
+    checkins: 'Check-ins',
+    journal: 'Journal',
+    astro: 'Astrology',
+    wellness: 'Wellness',
+    astrology: 'Astrology',
+    finance: 'Finance',
+    business: 'Business',
+    accounting: 'Accounting',
+    visionboard: 'Vision Board',
+    books: 'Books',
+    calculators: 'Calculators',
+    processes: 'Processes',
+    lifescore: 'Life Score',
+    daily_horoscope: 'Daily Horoscope',
+    energy: 'Energy of the Day',
+    color: 'Color of the Day',
+    business_advice: 'Business Advice',
+    health_advice: 'Health Advice',
+    compatibility: 'Compatibility',
+    today: 'Today',
+    revenue: 'Revenue',
+    expenses: 'Expenses',
+    category: 'Category',
+    amount: 'Amount',
+    balance: 'Balance',
+    monthly_report: 'Monthly Report',
+    export: 'Export',
+    add_book: 'Add Book',
+    books_read: 'Books Read',
+    reading_goal: 'Reading Goal',
+    notes: 'Notes',
+    margin_calculator: 'Margin Calculator',
+    roi_calculator: 'ROI Calculator',
+    pricing_calculator: 'Pricing Calculator',
+    breakeven_calculator: 'Break-even Calculator',
+    ltv_calculator: 'Customer LTV',
+    process_builder: 'Process Builder',
+    templates: 'Templates',
+    steps: 'Steps',
+    subtasks: 'Subtasks',
+    resources: 'Resources',
+    progress: 'Progress',
+    health_score: 'Health',
+    business_score: 'Business',
+    relationships_score: 'Relationships',
+    mindset_score: 'Mindset',
+    finances_score: 'Finances',
+    wellness_score: 'Wellness',
+    settings: 'Settings',
+    language: 'Language',
+    theme: 'Theme',
+    profile: 'Profile',
+    email: 'Email',
+    birthdate: 'Date of Birth',
+    sex: 'Sex',
+    entrepreneur_level: 'Entrepreneur Level',
+    beginner: 'Beginner',
+    intermediate: 'Intermediate',
+    advanced: 'Advanced',
+    male: 'Male',
+    female: 'Female',
+    other: 'Other',
+    save: 'Save',
+    cancel: 'Cancel',
+    next: 'Next',
+    previous: 'Previous',
+    skip: 'Skip',
+    finish: 'Finish',
+    quick_win: 'Quick Win',
+    complete: 'Complete',
+    overload_warning: 'You have many tasks, take a breath!',
+    pace_check_too_much: 'You\'re doing a lot this week, watch for burnout',
+    pace_check_too_little: 'It\'s quiet, add some ambition',
+    day_of: 'Day',
+    milestone: 'Milestone'
+  },
+  es: {
+    home: 'Inicio',
+    discover: 'Descubrir',
+    coach: 'Coach',
+    nature: 'Naturaleza',
+    more: 'Más',
+    dashboard: 'Cuadro de mandos',
+    goals: 'Objetivos',
+    habits: 'Hábitos',
+    todos: 'Tareas',
+    checkins: 'Check-ins',
+    journal: 'Diario',
+    astro: 'Astrología',
+    wellness: 'Bienestar',
+    astrology: 'Astrología',
+    finance: 'Finanzas',
+    business: 'Negocios',
+    accounting: 'Contabilidad',
+    visionboard: 'Tablero de visión',
+    books: 'Libros',
+    calculators: 'Calculadoras',
+    processes: 'Procesos',
+    lifescore: 'Puntuación de vida',
+    daily_horoscope: 'Horóscopo diario',
+    energy: 'Energía del día',
+    color: 'Color del día',
+    business_advice: 'Consejo empresarial',
+    health_advice: 'Consejo de salud',
+    compatibility: 'Compatibilidad',
+    today: 'Hoy',
+    revenue: 'Ingresos',
+    expenses: 'Gastos',
+    category: 'Categoría',
+    amount: 'Cantidad',
+    balance: 'Saldo',
+    monthly_report: 'Informe mensual',
+    export: 'Exportar',
+    add_book: 'Añadir libro',
+    books_read: 'Libros leídos',
+    reading_goal: 'Objetivo de lectura',
+    notes: 'Notas',
+    margin_calculator: 'Calculadora de margen',
+    roi_calculator: 'Calculadora ROI',
+    pricing_calculator: 'Calculadora de precios',
+    breakeven_calculator: 'Punto de equilibrio',
+    ltv_calculator: 'LTV del cliente',
+    process_builder: 'Constructor de procesos',
+    templates: 'Plantillas',
+    steps: 'Pasos',
+    subtasks: 'Subtareas',
+    resources: 'Recursos',
+    progress: 'Progreso',
+    health_score: 'Salud',
+    business_score: 'Negocio',
+    relationships_score: 'Relaciones',
+    mindset_score: 'Mentalidad',
+    finances_score: 'Finanzas',
+    wellness_score: 'Bienestar',
+    settings: 'Configuración',
+    language: 'Idioma',
+    theme: 'Tema',
+    profile: 'Perfil',
+    email: 'Correo electrónico',
+    birthdate: 'Fecha de nacimiento',
+    sex: 'Sexo',
+    entrepreneur_level: 'Nivel empresarial',
+    beginner: 'Principiante',
+    intermediate: 'Intermedio',
+    advanced: 'Avanzado',
+    male: 'Hombre',
+    female: 'Mujer',
+    other: 'Otro',
+    save: 'Guardar',
+    cancel: 'Cancelar',
+    next: 'Siguiente',
+    previous: 'Anterior',
+    skip: 'Omitir',
+    finish: 'Terminar',
+    quick_win: 'Victoria rápida',
+    complete: 'Completar',
+    overload_warning: '¡Tienes muchas tareas, respira!',
+    pace_check_too_much: 'Estás haciendo mucho esta semana, cuidado con el agotamiento',
+    pace_check_too_little: 'Está tranquilo, añade ambición',
+    day_of: 'Día',
+    milestone: 'Hito'
+  },
+  pt: {
+    home: 'Casa',
+    discover: 'Descobrir',
+    coach: 'Coach',
+    nature: 'Natureza',
+    more: 'Mais',
+    dashboard: 'Painel',
+    goals: 'Objetivos',
+    habits: 'Hábitos',
+    todos: 'Tarefas',
+    checkins: 'Check-ins',
+    journal: 'Diário',
+    astro: 'Astrologia',
+    wellness: 'Bem-estar',
+    astrology: 'Astrologia',
+    finance: 'Finanças',
+    business: 'Negócios',
+    accounting: 'Contabilidade',
+    visionboard: 'Quadro de visão',
+    books: 'Livros',
+    calculators: 'Calculadoras',
+    processes: 'Processos',
+    lifescore: 'Pontuação de vida',
+    daily_horoscope: 'Horóscopo do dia',
+    energy: 'Energia do dia',
+    color: 'Cor do dia',
+    business_advice: 'Conselho empresarial',
+    health_advice: 'Conselho de saúde',
+    compatibility: 'Compatibilidade',
+    today: 'Hoje',
+    revenue: 'Receita',
+    expenses: 'Despesas',
+    category: 'Categoria',
+    amount: 'Quantidade',
+    balance: 'Saldo',
+    monthly_report: 'Relatório mensal',
+    export: 'Exportar',
+    add_book: 'Adicionar livro',
+    books_read: 'Livros lidos',
+    reading_goal: 'Meta de leitura',
+    notes: 'Notas',
+    margin_calculator: 'Calculadora de margem',
+    roi_calculator: 'Calculadora ROI',
+    pricing_calculator: 'Calculadora de preços',
+    breakeven_calculator: 'Ponto de equilíbrio',
+    ltv_calculator: 'LTV do cliente',
+    process_builder: 'Construtor de processos',
+    templates: 'Modelos',
+    steps: 'Passos',
+    subtasks: 'Subtarefas',
+    resources: 'Recursos',
+    progress: 'Progresso',
+    health_score: 'Saúde',
+    business_score: 'Negócio',
+    relationships_score: 'Relacionamentos',
+    mindset_score: 'Mentalidade',
+    finances_score: 'Finanças',
+    wellness_score: 'Bem-estar',
+    settings: 'Configurações',
+    language: 'Idioma',
+    theme: 'Tema',
+    profile: 'Perfil',
+    email: 'Email',
+    birthdate: 'Data de nascimento',
+    sex: 'Sexo',
+    entrepreneur_level: 'Nível de empreendedor',
+    beginner: 'Iniciante',
+    intermediate: 'Intermediário',
+    advanced: 'Avançado',
+    male: 'Homem',
+    female: 'Mulher',
+    other: 'Outro',
+    save: 'Salvar',
+    cancel: 'Cancelar',
+    next: 'Próximo',
+    previous: 'Anterior',
+    skip: 'Pular',
+    finish: 'Terminar',
+    quick_win: 'Vitória rápida',
+    complete: 'Completar',
+    overload_warning: 'Você tem muitas tarefas, respire!',
+    pace_check_too_much: 'Você está fazendo muito esta semana, cuidado com o burnout',
+    pace_check_too_little: 'Está quieto, adicione ambição',
+    day_of: 'Dia',
+    milestone: 'Marco'
+  },
+  it: {
+    home: 'Casa',
+    discover: 'Scopri',
+    coach: 'Coach',
+    nature: 'Natura',
+    more: 'Più',
+    dashboard: 'Cruscotto',
+    goals: 'Obiettivi',
+    habits: 'Abitudini',
+    todos: 'Attività',
+    checkins: 'Check-in',
+    journal: 'Diario',
+    astro: 'Astrologia',
+    wellness: 'Benessere',
+    astrology: 'Astrologia',
+    finance: 'Finanza',
+    business: 'Affari',
+    accounting: 'Contabilità',
+    visionboard: 'Tavola visione',
+    books: 'Libri',
+    calculators: 'Calcolatori',
+    processes: 'Processi',
+    lifescore: 'Punteggio vita',
+    daily_horoscope: 'Oroscopo giornaliero',
+    energy: 'Energia del giorno',
+    color: 'Colore del giorno',
+    business_advice: 'Consiglio aziendale',
+    health_advice: 'Consiglio sanitario',
+    compatibility: 'Compatibilità',
+    today: 'Oggi',
+    revenue: 'Ricavi',
+    expenses: 'Spese',
+    category: 'Categoria',
+    amount: 'Importo',
+    balance: 'Saldo',
+    monthly_report: 'Rapporto mensile',
+    export: 'Esporta',
+    add_book: 'Aggiungi libro',
+    books_read: 'Libri letti',
+    reading_goal: 'Obiettivo di lettura',
+    notes: 'Note',
+    margin_calculator: 'Calcolatore margine',
+    roi_calculator: 'Calcolatore ROI',
+    pricing_calculator: 'Calcolatore prezzi',
+    breakeven_calculator: 'Punto di pareggio',
+    ltv_calculator: 'LTV cliente',
+    process_builder: 'Costruttore di processi',
+    templates: 'Modelli',
+    steps: 'Passaggi',
+    subtasks: 'Sottoattività',
+    resources: 'Risorse',
+    progress: 'Progresso',
+    health_score: 'Salute',
+    business_score: 'Affari',
+    relationships_score: 'Relazioni',
+    mindset_score: 'Mentalità',
+    finances_score: 'Finanze',
+    wellness_score: 'Benessere',
+    settings: 'Impostazioni',
+    language: 'Lingua',
+    theme: 'Tema',
+    profile: 'Profilo',
+    email: 'Email',
+    birthdate: 'Data di nascimento',
+    sex: 'Sesso',
+    entrepreneur_level: 'Livello imprenditore',
+    beginner: 'Principiante',
+    intermediate: 'Intermedio',
+    advanced: 'Avanzato',
+    male: 'Uomo',
+    female: 'Donna',
+    other: 'Altro',
+    save: 'Salva',
+    cancel: 'Annulla',
+    next: 'Avanti',
+    previous: 'Indietro',
+    skip: 'Salta',
+    finish: 'Finire',
+    quick_win: 'Vittoria veloce',
+    complete: 'Completa',
+    overload_warning: 'Hai molti compiti, respira!',
+    pace_check_too_much: 'Stai facendo molto questa settimana, attenzione al burnout',
+    pace_check_too_little: 'È tranquillo, aggiungi ambizione',
+    day_of: 'Giorno',
+    milestone: 'Pietra miliare'
+  },
+  de: {
+    home: 'Startseite',
+    discover: 'Entdecken',
+    coach: 'Coach',
+    nature: 'Natur',
+    more: 'Mehr',
+    dashboard: 'Armaturenbrett',
+    goals: 'Ziele',
+    habits: 'Gewohnheiten',
+    todos: 'Aufgaben',
+    checkins: 'Einchecken',
+    journal: 'Tagebuch',
+    astro: 'Astrologie',
+    wellness: 'Wellness',
+    astrology: 'Astrologie',
+    finance: 'Finanzen',
+    business: 'Geschäft',
+    accounting: 'Buchhaltung',
+    visionboard: 'Visionstafel',
+    books: 'Bücher',
+    calculators: 'Taschenrechner',
+    processes: 'Prozesse',
+    lifescore: 'Lebenspunktzahl',
+    daily_horoscope: 'Tägliches Horoskop',
+    energy: 'Energie des Tages',
+    color: 'Farbe des Tages',
+    business_advice: 'Geschäftsrat',
+    health_advice: 'Gesundheitsrat',
+    compatibility: 'Kompatibilität',
+    today: 'Heute',
+    revenue: 'Umsatz',
+    expenses: 'Ausgaben',
+    category: 'Kategorie',
+    amount: 'Betrag',
+    balance: 'Guthaben',
+    monthly_report: 'Monatsbericht',
+    export: 'Exportieren',
+    add_book: 'Buch hinzufügen',
+    books_read: 'Gelesene Bücher',
+    reading_goal: 'Leseziel',
+    notes: 'Notizen',
+    margin_calculator: 'Gewinnspannenrechner',
+    roi_calculator: 'ROI-Rechner',
+    pricing_calculator: 'Preisrechner',
+    breakeven_calculator: 'Break-even-Punkt',
+    ltv_calculator: 'Kundenwert (LTV)',
+    process_builder: 'Prozessbuilder',
+    templates: 'Vorlagen',
+    steps: 'Schritte',
+    subtasks: 'Unteraufgaben',
+    resources: 'Ressourcen',
+    progress: 'Fortschritt',
+    health_score: 'Gesundheit',
+    business_score: 'Geschäft',
+    relationships_score: 'Beziehungen',
+    mindset_score: 'Mentalität',
+    finances_score: 'Finanzen',
+    wellness_score: 'Wellness',
+    settings: 'Einstellungen',
+    language: 'Sprache',
+    theme: 'Thema',
+    profile: 'Profil',
+    email: 'Email',
+    birthdate: 'Geburtsdatum',
+    sex: 'Geschlecht',
+    entrepreneur_level: 'Unternehmerebene',
+    beginner: 'Anfänger',
+    intermediate: 'Fortgeschrittene',
+    advanced: 'Fortgeschrittene',
+    male: 'Mann',
+    female: 'Frau',
+    other: 'Sonstiges',
+    save: 'Sparen',
+    cancel: 'Abbrechen',
+    next: 'Weiter',
+    previous: 'Zurück',
+    skip: 'Überspringen',
+    finish: 'Fertig',
+    quick_win: 'Schneller Sieg',
+    complete: 'Fertigstellen',
+    overload_warning: 'Du hast viele Aufgaben, atme!',
+    pace_check_too_much: 'Du tust diese Woche viel, achte auf Burnout',
+    pace_check_too_little: 'Es ist ruhig, füge ehrgeiz hinzu',
+    day_of: 'Tag',
+    milestone: 'Meilenstein'
+  },
+  ca: {
+    home: 'Inici',
+    discover: 'Descobrir',
+    coach: 'Entrenador',
+    nature: 'Natura',
+    more: 'Més',
+    dashboard: 'Tauler de control',
+    goals: 'Objectius',
+    habits: 'Hàbits',
+    todos: 'Tasques',
+    checkins: 'Registres',
+    journal: 'Diari',
+    astro: 'Astrologia',
+    wellness: 'Benestar',
+    astrology: 'Astrologia',
+    finance: 'Finances',
+    business: 'Negocis',
+    accounting: 'Comptabilitat',
+    visionboard: 'Tauler de visió',
+    books: 'Llibres',
+    calculators: 'Calculadores',
+    processes: 'Processos',
+    lifescore: 'Puntuació de vida',
+    daily_horoscope: 'Horòscop diari',
+    energy: 'Energia del dia',
+    color: 'Color del dia',
+    business_advice: 'Consell empresarial',
+    health_advice: 'Consell de salut',
+    compatibility: 'Compatibilitat',
+    today: 'Avui',
+    revenue: 'Ingressos',
+    expenses: 'Despeses',
+    category: 'Categoria',
+    amount: 'Quantitat',
+    balance: 'Saldo',
+    monthly_report: 'Informe mensual',
+    export: 'Exportar',
+    add_book: 'Afegir llibre',
+    books_read: 'Llibres llegits',
+    reading_goal: 'Objectiu de lectura',
+    notes: 'Notes',
+    margin_calculator: 'Calculadora de marge',
+    roi_calculator: 'Calculadora ROI',
+    pricing_calculator: 'Calculadora de preus',
+    breakeven_calculator: 'Punt d\'equilibri',
+    ltv_calculator: 'LTV del client',
+    process_builder: 'Constructor de processos',
+    templates: 'Plantilles',
+    steps: 'Passos',
+    subtasks: 'Subtasques',
+    resources: 'Recursos',
+    progress: 'Progés',
+    health_score: 'Salut',
+    business_score: 'Negocis',
+    relationships_score: 'Relacions',
+    mindset_score: 'Mentalitat',
+    finances_score: 'Finances',
+    wellness_score: 'Benestar',
+    settings: 'Configuració',
+    language: 'Llengua',
+    theme: 'Tema',
+    profile: 'Perfil',
+    email: 'Correu electrònic',
+    birthdate: 'Data de naixement',
+    sex: 'Sexe',
+    entrepreneur_level: 'Nivell empresarial',
+    beginner: 'Principiant',
+    intermediate: 'Intermedi',
+    advanced: 'Avançat',
+    male: 'Home',
+    female: 'Dona',
+    other: 'Altres',
+    save: 'Guardar',
+    cancel: 'Cancelar',
+    next: 'Següent',
+    previous: 'Anterior',
+    skip: 'Omitir',
+    finish: 'Finalitzar',
+    quick_win: 'Victòria ràpida',
+    complete: 'Completar',
+    overload_warning: 'Tens moltes tasques, respira!',
+    pace_check_too_much: 'Estàs fent molt aquesta setmana, ves en compte amb l\'esgotament',
+    pace_check_too_little: 'Està tranquil, afegeix ambició',
+    day_of: 'Dia',
+    milestone: 'Fita'
+  },
+  ja: {
+    home: 'ホーム',
+    discover: '発見',
+    coach: 'コーチ',
+    nature: '自然',
+    more: 'もっと',
+    dashboard: 'ダッシュボード',
+    goals: '目標',
+    habits: '習慣',
+    todos: 'タスク',
+    checkins: 'チェックイン',
+    journal: 'ジャーナル',
+    astro: '占星術',
+    wellness: 'ウェルネス',
+    astrology: '占星術',
+    finance: '財務',
+    business: 'ビジネス',
+    accounting: '会計',
+    visionboard: 'ビジョンボード',
+    books: '本',
+    calculators: '計算機',
+    processes: 'プロセス',
+    lifescore: 'ライフスコア',
+    daily_horoscope: '毎日の星占い',
+    energy: '今日のエネルギー',
+    color: '今日の色',
+    business_advice: 'ビジネスアドバイス',
+    health_advice: '健康アドバイス',
+    compatibility: '相性',
+    today: '今日',
+    revenue: '収益',
+    expenses: '支出',
+    category: 'カテゴリー',
+    amount: '金額',
+    balance: '残高',
+    monthly_report: '月次レポート',
+    export: 'エクスポート',
+    add_book: '本を追加',
+    books_read: '読んだ本',
+    reading_goal: '読書目標',
+    notes: 'ノート',
+    margin_calculator: 'マージン計算機',
+    roi_calculator: 'ROI計算機',
+    pricing_calculator: '価格計算機',
+    breakeven_calculator: '損益分岐点',
+    ltv_calculator: '顧客LTV',
+    process_builder: 'プロセスビルダー',
+    templates: 'テンプレート',
+    steps: 'ステップ',
+    subtasks: 'サブタスク',
+    resources: 'リソース',
+    progress: '進度',
+    health_score: '健康',
+    business_score: 'ビジネス',
+    relationships_score: '関係',
+    mindset_score: 'マインドセット',
+    finances_score: '財務',
+    wellness_score: 'ウェルネス',
+    settings: '設定',
+    language: '言語',
+    theme: 'テーマ',
+    profile: 'プロフィール',
+    email: 'メール',
+    birthdate: '生年月日',
+    sex: '性別',
+    entrepreneur_level: '起業家レベル',
+    beginner: '初心者',
+    intermediate: '中級',
+    advanced: '上級',
+    male: '男',
+    female: '女',
+    other: 'その他',
+    save: '保存',
+    cancel: 'キャンセル',
+    next: '次へ',
+    previous: '前へ',
+    skip: 'スキップ',
+    finish: '完了',
+    quick_win: '素早い勝利',
+    complete: '完了',
+    overload_warning: 'タスクがたくさんありますが、呼吸してください！',
+    pace_check_too_much: '今週は頑張っていますね、バーンアウトに注意してください',
+    pace_check_too_little: 'それは静かです、野心を追加してください',
+    day_of: '日',
+    milestone: 'マイルストーン'
+  },
+  ar: {
+    home: 'الصفحة الرئيسية',
+    discover: 'اكتشف',
+    coach: 'مدرب',
+    nature: 'الطبيعة',
+    more: 'المزيد',
+    dashboard: 'لوحة التحكم',
+    goals: 'الأهداف',
+    habits: 'العادات',
+    todos: 'المهام',
+    checkins: 'الفحوصات',
+    journal: 'يوميات',
+    astro: 'علم التنجيم',
+    wellness: 'الصحة واللياقة',
+    astrology: 'علم التنجيم',
+    finance: 'المالية',
+    business: 'الأعمال',
+    accounting: 'المحاسبة',
+    visionboard: 'لوحة الرؤية',
+    books: 'الكتب',
+    calculators: 'الآلات الحاسبة',
+    processes: 'العمليات',
+    lifescore: 'درجة الحياة',
+    daily_horoscope: 'التوقعات اليومية',
+    energy: 'طاقة اليوم',
+    color: 'لون اليوم',
+    business_advice: 'نصائح الأعمال',
+    health_advice: 'نصائح صحية',
+    compatibility: 'التوافق',
+    today: 'اليوم',
+    revenue: 'الإيرادات',
+    expenses: 'النفقات',
+    category: 'الفئة',
+    amount: 'المبلغ',
+    balance: 'الرصيد',
+    monthly_report: 'التقرير الشهري',
+    export: 'تصدير',
+    add_book: 'إضافة كتاب',
+    books_read: 'الكتب المقروءة',
+    reading_goal: 'هدف القراءة',
+    notes: 'ملاحظات',
+    margin_calculator: 'حاسبة الهامش',
+    roi_calculator: 'حاسبة العائد',
+    pricing_calculator: 'حاسبة التسعير',
+    breakeven_calculator: 'نقطة التعادل',
+    ltv_calculator: 'قيمة العميل',
+    process_builder: 'منشئ العملية',
+    templates: 'القوالب',
+    steps: 'الخطوات',
+    subtasks: 'المهام الفرعية',
+    resources: 'الموارد',
+    progress: 'التقدم',
+    health_score: 'الصحة',
+    business_score: 'الأعمال',
+    relationships_score: 'العلاقات',
+    mindset_score: 'العقلية',
+    finances_score: 'المالية',
+    wellness_score: 'الصحة واللياقة',
+    settings: 'الإعدادات',
+    language: 'اللغة',
+    theme: 'المظهر',
+    profile: 'الملف الشخصي',
+    email: 'البريد الإلكتروني',
+    birthdate: 'تاريخ الميلاد',
+    sex: 'الجنس',
+    entrepreneur_level: 'مستوى رائد الأعمال',
+    beginner: 'مبتدئ',
+    intermediate: 'متوسط',
+    advanced: 'متقدم',
+    male: 'ذكر',
+    female: 'أنثى',
+    other: 'آخر',
+    save: 'حفظ',
+    cancel: 'إلغاء',
+    next: 'التالي',
+    previous: 'السابق',
+    skip: 'تجاوز',
+    finish: 'إنهاء',
+    quick_win: 'انتصار سريع',
+    complete: 'كمل',
+    overload_warning: 'لديك الكثير من المهام، خذ نفسا عميقا!',
+    pace_check_too_much: 'أنت تفعل الكثير هذا الأسبوع، احذر من الإرهاق',
+    pace_check_too_little: 'انه هادئ، أضف طموح',
+    day_of: 'يوم',
+    milestone: 'علامة مهمة'
+  }
+};
+
+var userLang = (navigator.language || 'fr').substring(0, 2);
+function t(key) {
+  var langDict = RISE_I18N[S.lang || userLang] || RISE_I18N.fr;
+  return langDict[key] || RISE_I18N.fr[key] || key;
+}
+
+// Initialize language in state
+if(!S.lang) { S.lang = userLang; }
+
+// ============================================================================
+// 3. PERSONALIZATION ENGINE
+// ============================================================================
+window.getPersonalizedTip = function(category) {
+  var tips = {
+    morning: [
+      'Commence par un verre d\'eau, ton corps te remerciera',
+      'Respire profondément, tu contrôles ta journée',
+      'Une petite victoire rapide te donnera de l\'élan',
+      'Definis tes 3 priorités, le reste est du bruit',
+      'Medite 5 minutes, c\'est magique pour la clarté'
+    ],
+    evening: [
+      'Felicite-toi d\'au moins une chose d\'aujourd\'hui',
+      'Revise ce que tu as appris aujourd\'hui',
+      'Prepare demain pour être plus efficace',
+      'Debranche-toi, tu l\'as mérité',
+      'Lâche le contrôle, demain est un autre jour'
+    ],
+    business: [
+      'Le timing est tout, il est peut-être temps d\'agir',
+      'Un client c\'est une relation, pas une transaction',
+      'Documente ton processus, c\'est ta richesse',
+      'L\'expansion commence quand tu lâches le contrôle',
+      'Teste vite, apprends vite, itère'
+    ],
+    health: [
+      'Le mouvement est la meilleure médecine',
+      'L\'hydratation affecte ton énergie mentale',
+      'Le sommeil est un superpower, ne le negliges pas',
+      'La nutrition impacte ta clarté',
+      'Marche 30 min, ça résout beaucoup'
+    ]
+  };
+
+  var entrepreneurLevelTips = {
+    beginner: ['Apprends les bases d\'abord, la vitesse viendra après', 'Trouve un mentor, c\'est plus rapide'],
+    intermediate: ['Scale ce qui marche, drop ce qui ne marche pas', 'Automatise les tasks répétitives'],
+    advanced: ['Pense comme un investisseur, pas comme un employé', 'Ton temps est ta ressource la plus rare']
+  };
+
+  var zodiacTips = {
+    'Bélier': 'Canalise ton énergie brute en action stratégique',
+    'Taureau': 'La patience paie, mais reste flexible',
+    'Gémeaux': 'Focus sur une chose, pas trois',
+    'Cancer': 'Protège ton énergie émotionnelle d\'abord',
+    'Lion': 'Partage tes succès, ne domines pas',
+    'Vierge': 'La perfection est l\'ennemi du progrès',
+    'Balance': 'Décide maintenant, pas dans 2 semaines',
+    'Scorpion': 'L\'intensité c\'est bien, la vengeance non',
+    'Sagittaire': 'Les promesses c\'est sérieux, tiens-les',
+    'Capricorne': 'Le plaisir aussi fait partie du plan',
+    'Verseau': 'L\'innovation sans humanité c\'est vide',
+    'Poissons': 'La réalité existe, n\'oublie pas'
+  };
+
+  var baseTip = tips[category] ? tips[category][Math.floor(Math.random() * tips[category].length)] : tips.business[0];
+  var levelTip = S.entreprLevel && entrepreneurLevelTips[S.entreprLevel] ? entrepreneurLevelTips[S.entreprLevel][Math.floor(Math.random() * entrepreneurLevelTips[S.entreprLevel].length)] : '';
+  var zodiacTip = S.zodiac && zodiacTips[S.zodiac.sign] ? zodiacTips[S.zodiac.sign] : '';
+
+  return baseTip + (levelTip ? ' | ' + levelTip : '') + (zodiacTip ? ' | ' + zodiacTip : '');
+};
+
+// ============================================================================
+// 4. DAILY ASTROLOGY SYSTEM
+// ============================================================================
+function generateDailyHoroscope(sign, dateStr) {
+  if(!sign || !ZODIAC_DATA[sign]) return 'Horoscope indisponible';
+
+  var zodiacInfo = ZODIAC_DATA[sign];
+  var horoscopes = zodiacInfo.horoscopes || ['Jour mystérieux'];
+
+  // Simple deterministic seeding based on date + sign
+  var seed = 0;
+  for(var i=0; i<dateStr.length; i++) { seed += dateStr.charCodeAt(i); }
+  for(var i=0; i<sign.length; i++) { seed += sign.charCodeAt(i); }
+
+  var index = Math.abs(seed) % horoscopes.length;
+  return horoscopes[index];
+}
+
+function generateEnergyOfDay(sign, dateStr) {
+  var seed = 0;
+  for(var i=0; i<dateStr.length; i++) { seed += dateStr.charCodeAt(i); }
+  for(var i=0; i<sign.length; i++) { seed += sign.charCodeAt(i); }
+
+  var energy = (Math.abs(seed) % 10) + 1;
+  return energy;
+}
+
+function generateColorOfDay(sign, dateStr) {
+  var colors = ['🔴 Rouge', '🟠 Orange', '🟡 Jaune', '🟢 Vert', '🔵 Bleu', '🟣 Violet', '⚫ Noir', '⚪ Blanc', '🩶 Gris', '🤎 Marron'];
+  var seed = 0;
+  for(var i=0; i<dateStr.length; i++) { seed += dateStr.charCodeAt(i); }
+  var index = Math.abs(seed) % colors.length;
+  return colors[index];
+}
+
+function getCompatibleSigns(sign) {
+  var compatibilities = {
+    'Bélier': ['Sagittaire', 'Lion'],
+    'Taureau': ['Capricorne', 'Vierge'],
+    'Gémeaux': ['Verseau', 'Balance'],
+    'Cancer': ['Poissons', 'Scorpion'],
+    'Lion': ['Sagittaire', 'Bélier'],
+    'Vierge': ['Capricorne', 'Taureau'],
+    'Balance': ['Verseau', 'Gémeaux'],
+    'Scorpion': ['Poissons', 'Cancer'],
+    'Sagittaire': ['Bélier', 'Lion'],
+    'Capricorne': ['Taureau', 'Vierge'],
+    'Verseau': ['Gémeaux', 'Balance'],
+    'Poissons': ['Cancer', 'Scorpion']
+  };
+  return compatibilities[sign] || [];
+}
+
+// ============================================================================
+// 5. ENHANCED ONBOARDING
+// ============================================================================
+function enhanceOnboarding() {
+  // Wait for DOM
+  if(typeof document === 'undefined') return;
+
+  // Modify ob-1: Add email, birthdate, sex fields
+  var ob1Form = document.querySelector('#ob-1 .ob-form');
+  if(ob1Form) {
+    var ageInput = document.getElementById('ob-age');
+    if(ageInput) {
+      var newFieldsHtml = '<div class="ob-field"><label>Email</label><input type="email" id="ob-email" placeholder="toi@example.com" /></div>' +
+        '<div class="ob-field"><label>' + t('birthdate') + '</label><input type="date" id="ob-birthdate" /></div>' +
+        '<div class="ob-field"><label>' + t('sex') + '</label><select id="ob-sex"><option value="">--</option><option value="male">' + t('male') + '</option><option value="female">' + t('female') + '</option><option value="other">' + t('other') + '</option></select></div>';
+      var newFieldsDiv = document.createElement('div');
+      newFieldsDiv.innerHTML = newFieldsHtml;
+      ageInput.parentNode.insertBefore(newFieldsDiv, ageInput.nextSibling);
+    }
+  }
+
+  // Add ob-4 (astro) before current ob-3 (theme)
+  var ob3 = document.getElementById('ob-3');
+  if(ob3) {
+    var astroHtml = '<div id="ob-4" class="ob-screen" style="display:none;">' +
+      '<h2>🔮 ' + t('astrology') + '</h2>' +
+      '<div class="ob-content" style="text-align:center; padding:20px;">' +
+      '<div id="astro-sign" style="font-size:48px; margin:20px 0;"></div>' +
+      '<div id="astro-info" style="font-size:14px; color:#666; margin:20px 0;"></div>' +
+      '<div class="ob-field"><label>' + t('entrepreneur_level') + '</label><select id="ob-entreprevel"><option value="beginner">' + t('beginner') + '</option><option value="intermediate">' + t('intermediate') + '</option><option value="advanced">' + t('advanced') + '</option></select></div>' +
+      '</div>' +
+      '</div>';
+    var astroDiv = document.createElement('div');
+    astroDiv.innerHTML = astroHtml;
+    ob3.parentNode.insertBefore(astroDiv.firstChild, ob3);
+  }
+
+  // Renumber ob-3 to ob-5 (theme)
+  var ob3Renamed = document.getElementById('ob-3');
+  if(ob3Renamed) {
+    ob3Renamed.id = 'ob-5';
+  }
+
+  // Update progress dots if they exist
+  var progressDots = document.querySelectorAll('.ob-progress-dot');
+  if(progressDots.length > 0) {
+    for(var i=0; i<progressDots.length; i++) {
+      progressDots[i].setAttribute('data-step', i);
+    }
+  }
+}
+
+// Override finishOb to capture new fields
+var _origFinishOb = window.finishOb || function(){};
+window.finishOb = function() {
+  if(typeof _origFinishOb === 'function') {
+    _origFinishOb.apply(this, arguments);
+  }
+
+  // Capture new fields
+  var emailInput = document.getElementById('ob-email');
+  var birthdateInput = document.getElementById('ob-birthdate');
+  var sexInput = document.getElementById('ob-sex');
+  var entreInput = document.getElementById('ob-entreprevel');
+
+  if(emailInput && emailInput.value) { S.email = emailInput.value; }
+  if(birthdateInput && birthdateInput.value) {
+    S.birthdate = birthdateInput.value;
+    S.zodiac = getZodiac(birthdateInput.value);
+  }
+  if(sexInput && sexInput.value) { S.sex = sexInput.value; }
+  if(entreInput && entreInput.value) { S.entreprLevel = entreInput.value; }
+
+  // Populate astro screen if on ob-4
+  if(S.zodiac) {
+    var astroSign = document.getElementById('astro-sign');
+    var astroInfo = document.getElementById('astro-info');
+    if(astroSign) { astroSign.textContent = S.zodiac.ico + ' ' + S.zodiac.sign; }
+    if(astroInfo) { astroInfo.textContent = S.zodiac.dates + ' | Element: ' + S.zodiac.element; }
+  }
+
+  if(typeof save === 'function') { save(); }
+};
+
+// ============================================================================
+// 6. NEW SCREENS: ACCOUNTING, VISION BOARD, BOOKS, CALCULATORS, PROCESS, LIFESCORE
+// ============================================================================
+
+// Initialize new state
+if(!S.compta) { S.compta = { revenues: {}, expenses: {} }; }
+if(!S.visionboard) { S.visionboard = { objectives: [] }; }
+if(!S.books) { S.books = { list: [], annualGoal: 12 }; }
+if(!S.processes) { S.processes = []; }
+if(!S.lifescores) { S.lifescores = {}; }
+
+// 6a. Accounting Screen
+function render_compta() {
+  var html = '<div class="screen" id="screen-compta"><div class="screen-header">' +
+    '<h1>💰 ' + t('accounting') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="compta-section"><h3>' + t('revenue') + '</h3>';
+
+  var totalRevenue = 0;
+  if(S.compta.revenues) {
+    for(var cat in S.compta.revenues) {
+      var amount = S.compta.revenues[cat];
+      totalRevenue += amount;
+      html += '<div class="compta-item"><span>' + cat + '</span><span class="amount">+' + amount.toFixed(2) + '€</span></div>';
+    }
+  }
+
+  html += '<div class="compta-item" style="font-weight:bold; border-top:1px solid #ccc; padding-top:10px; margin-top:10px;">' +
+    '<span>Total ' + t('revenue') + '</span><span class="amount">' + totalRevenue.toFixed(2) + '€</span></div>' +
+    '</div>' +
+    '<div class="compta-section"><h3>' + t('expenses') + '</h3>';
+
+  var totalExpenses = 0;
+  if(S.compta.expenses) {
+    for(var cat in S.compta.expenses) {
+      var amount = S.compta.expenses[cat];
+      totalExpenses += amount;
+      html += '<div class="compta-item"><span>' + cat + '</span><span class="amount">-' + amount.toFixed(2) + '€</span></div>';
+    }
+  }
+
+  html += '<div class="compta-item" style="font-weight:bold; border-top:1px solid #ccc; padding-top:10px; margin-top:10px;">' +
+    '<span>Total ' + t('expenses') + '</span><span class="amount">-' + totalExpenses.toFixed(2) + '€</span></div>' +
+    '</div>' +
+    '<div class="compta-section"><h3>' + t('monthly_report') + '</h3>' +
+    '<div class="compta-balance"><strong>' + t('balance') + ': ' + (totalRevenue - totalExpenses).toFixed(2) + '€</strong></div>' +
+    '</div>' +
+    '<div style="margin-top:20px;"><button onclick="exportCompta()">📥 ' + t('export') + '</button></div>' +
+    '</div></div>';
+
+  return html;
+}
+
+function exportCompta() {
+  var text = 'COMPTABILITÉ - ' + TD + '\n' +
+    '===================\n\n' +
+    'REVENUS:\n';
+  if(S.compta.revenues) {
+    for(var cat in S.compta.revenues) {
+      text += '  ' + cat + ': ' + S.compta.revenues[cat].toFixed(2) + '€\n';
+    }
+  }
+  text += '\nDÉPENSES:\n';
+  if(S.compta.expenses) {
+    for(var cat in S.compta.expenses) {
+      text += '  ' + cat + ': ' + S.compta.expenses[cat].toFixed(2) + '€\n';
+    }
+  }
+  var totalRev = 0, totalExp = 0;
+  for(var r in S.compta.revenues) { totalRev += S.compta.revenues[r]; }
+  for(var e in S.compta.expenses) { totalExp += S.compta.expenses[e]; }
+  text += '\nSOLDE: ' + (totalRev - totalExp).toFixed(2) + '€\n';
+
+  var blob = new Blob([text], {type:'text/plain'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'compta_' + TD + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+
+  if(typeof toast === 'function') { toast('Exported!', '✅', 2000); }
+}
+
+// 6b. Vision Board Screen
+function render_visionboard() {
+  var html = '<div class="screen" id="screen-visionboard"><div class="screen-header">' +
+    '<h1>🎯 ' + t('visionboard') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="visionboard-grid">';
+
+  if(!S.visionboard.objectives) { S.visionboard.objectives = []; }
+
+  var domains = ['Santé', 'Business', 'Relations', 'Finance', 'Personnel', 'Créativité'];
+  var icons = ['💪', '🚀', '❤️', '💰', '✨', '🎨'];
+
+  for(var i=0; i<domains.length; i++) {
+    var domain = domains[i];
+    var icon = icons[i];
+    html += '<div class="visionboard-item"><div class="icon">' + icon + '</div>' +
+      '<div class="domain">' + domain + '</div>' +
+      '<input type="text" placeholder="Ton objectif" value="' + (S.visionboard.objectives[i] || '') + '" onchange="updateVisionObjective(' + i + ', this.value)" />' +
+      '</div>';
+  }
+
+  html += '</div></div></div>';
+  return html;
+}
+
+function updateVisionObjective(index, value) {
+  if(!S.visionboard.objectives) { S.visionboard.objectives = []; }
+  S.visionboard.objectives[index] = value;
+  if(typeof save === 'function') { save(); }
+}
+
+// 6c. Books Screen
+function render_books() {
+  var html = '<div class="screen" id="screen-books"><div class="screen-header">' +
+    '<h1>📚 ' + t('books') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="books-goal"><strong>' + t('reading_goal') + ': </strong>' +
+    '<input type="number" min="1" value="' + (S.books.annualGoal || 12) + '" onchange="updateReadingGoal(this.value)" /> ' + t('books_read') +
+    '</div>' +
+    '<div class="books-list">';
+
+  if(!S.books.list) { S.books.list = []; }
+
+  var booksRead = S.books.list.filter(function(b) { return b.read; }).length;
+  var progress = (booksRead / (S.books.annualGoal || 12)) * 100;
+
+  html += '<div class="progress-bar"><div class="progress" style="width:' + progress + '%"></div></div>' +
+    '<p>' + booksRead + '/' + (S.books.annualGoal || 12) + '</p>';
+
+  for(var i=0; i<S.books.list.length; i++) {
+    var book = S.books.list[i];
+    html += '<div class="book-item"><input type="checkbox" ' + (book.read ? 'checked' : '') + ' onchange="toggleBook(' + i + ')" />' +
+      '<div class="book-title">' + (book.title || 'Sans titre') + '</div>' +
+      '<div class="book-author">' + (book.author || '') + '</div>' +
+      '</div>';
+  }
+
+  html += '<div style="margin-top:20px;">' +
+    '<button onclick="addBookPrompt()">' + t('add_book') + '</button>' +
+    '</div></div></div>';
+
+  return html;
+}
+
+function addBookPrompt() {
+  var title = prompt('Titre du livre:');
+  if(title) {
+    var author = prompt('Auteur:');
+    if(!S.books.list) { S.books.list = []; }
+    S.books.list.push({title: title, author: author, read: false});
+    if(typeof save === 'function') { save(); }
+    if(typeof gs === 'function') { gs('books'); }
+  }
+}
+
+function toggleBook(index) {
+  if(!S.books.list) { S.books.list = []; }
+  S.books.list[index].read = !S.books.list[index].read;
+  if(typeof save === 'function') { save(); }
+  if(typeof gainXP === 'function' && S.books.list[index].read) {
+    gainXP(25, 'book');
+    if(typeof confetti === 'function') { confetti(); }
+  }
+}
+
+function updateReadingGoal(value) {
+  S.books.annualGoal = parseInt(value) || 12;
+  if(typeof save === 'function') { save(); }
+}
+
+// 6d. Calculators Screen
+function render_calc() {
+  var html = '<div class="screen" id="screen-calc"><div class="screen-header">' +
+    '<h1>🧮 ' + t('calculators') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="calc-section"><h3>' + t('margin_calculator') + '</h3>' +
+    '<div><label>Coût:</label><input type="number" id="margin-cost" placeholder="0" /></div>' +
+    '<div><label>Prix:</label><input type="number" id="margin-price" placeholder="0" /></div>' +
+    '<button onclick="calcMargin()">Calculer</button>' +
+    '<div id="margin-result"></div>' +
+    '</div>' +
+    '<div class="calc-section"><h3>' + t('roi_calculator') + '</h3>' +
+    '<div><label>Investissement:</label><input type="number" id="roi-invest" placeholder="0" /></div>' +
+    '<div><label>Retour:</label><input type="number" id="roi-return" placeholder="0" /></div>' +
+    '<button onclick="calcROI()">Calculer</button>' +
+    '<div id="roi-result"></div>' +
+    '</div>' +
+    '<div class="calc-section"><h3>' + t('pricing_calculator') + '</h3>' +
+    '<div><label>Tarif horaire:</label><input type="number" id="pricing-hourly" placeholder="0" /></div>' +
+    '<div><label>Heures estimées:</label><input type="number" id="pricing-hours" placeholder="0" /></div>' +
+    '<button onclick="calcPricing()">Calculer</button>' +
+    '<div id="pricing-result"></div>' +
+    '</div>' +
+    '<div class="calc-section"><h3>' + t('breakeven_calculator') + '</h3>' +
+    '<div><label>Coûts fixes:</label><input type="number" id="be-fixed" placeholder="0" /></div>' +
+    '<div><label>Marge par unité:</label><input type="number" id="be-margin" placeholder="0" /></div>' +
+    '<button onclick="calcBreakEven()">Calculer</button>' +
+    '<div id="be-result"></div>' +
+    '</div>' +
+    '<div class="calc-section"><h3>' + t('ltv_calculator') + '</h3>' +
+    '<div><label>Valeur moyenne:</label><input type="number" id="ltv-value" placeholder="0" /></div>' +
+    '<div><label>Fréquence/an:</label><input type="number" id="ltv-frequency" placeholder="0" /></div>' +
+    '<div><label>Durée (ans):</label><input type="number" id="ltv-years" placeholder="3" /></div>' +
+    '<button onclick="calcLTV()">Calculer</button>' +
+    '<div id="ltv-result"></div>' +
+    '</div>' +
+    '</div></div>';
+
+  return html;
+}
+
+function calcMargin() {
+  var cost = parseFloat(document.getElementById('margin-cost').value) || 0;
+  var price = parseFloat(document.getElementById('margin-price').value) || 0;
+  var margin = ((price - cost) / price * 100).toFixed(1);
+  document.getElementById('margin-result').innerHTML = '<p>Marge: <strong>' + margin + '%</strong></p>';
+}
+
+function calcROI() {
+  var invest = parseFloat(document.getElementById('roi-invest').value) || 0;
+  var ret = parseFloat(document.getElementById('roi-return').value) || 0;
+  var roi = ((ret - invest) / invest * 100).toFixed(1);
+  document.getElementById('roi-result').innerHTML = '<p>ROI: <strong>' + roi + '%</strong></p>';
+}
+
+function calcPricing() {
+  var hourly = parseFloat(document.getElementById('pricing-hourly').value) || 0;
+  var hours = parseFloat(document.getElementById('pricing-hours').value) || 0;
+  var total = (hourly * hours).toFixed(2);
+  document.getElementById('pricing-result').innerHTML = '<p>Tarif projet: <strong>' + total + '€</strong></p>';
+}
+
+function calcBreakEven() {
+  var fixed = parseFloat(document.getElementById('be-fixed').value) || 0;
+  var margin = parseFloat(document.getElementById('be-margin').value) || 1;
+  var units = (fixed / margin).toFixed(0);
+  document.getElementById('be-result').innerHTML = '<p>Point mort: <strong>' + units + ' unités</strong></p>';
+}
+
+function calcLTV() {
+  var value = parseFloat(document.getElementById('ltv-value').value) || 0;
+  var freq = parseFloat(document.getElementById('ltv-frequency').value) || 0;
+  var years = parseFloat(document.getElementById('ltv-years').value) || 3;
+  var ltv = (value * freq * years).toFixed(2);
+  document.getElementById('ltv-result').innerHTML = '<p>LTV: <strong>' + ltv + '€</strong></p>';
+}
+
+// 6e. Process Builder Screen
+function render_process() {
+  var html = '<div class="screen" id="screen-process"><div class="screen-header">' +
+    '<h1>⚙️ ' + t('process_builder') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="process-templates">' +
+    '<h3>' + t('templates') + '</h3>' +
+    '<button onclick="createProcessFromTemplate(\'launch-business\')">🚀 Lancer un business</button>' +
+    '<button onclick="createProcessFromTemplate(\'lose-weight\')">💪 Perdre du poids</button>' +
+    '<button onclick="createProcessFromTemplate(\'learn-skill\')">📚 Apprendre une compétence</button>' +
+    '</div>' +
+    '<div class="process-list">';
+
+  if(!S.processes) { S.processes = []; }
+
+  for(var i=0; i<S.processes.length; i++) {
+    var proc = S.processes[i];
+    var progress = proc.completedSteps ? (proc.completedSteps / proc.steps.length * 100).toFixed(0) : 0;
+    html += '<div class="process-item"><div class="process-title">' + proc.name + '</div>' +
+      '<div class="progress-bar"><div class="progress" style="width:' + progress + '%"></div></div>' +
+      '<p>' + (proc.completedSteps || 0) + '/' + proc.steps.length + ' étapes</p>' +
+      '</div>';
+  }
+
+  html += '</div></div></div>';
+  return html;
+}
+
+function createProcessFromTemplate(template) {
+  var processData = {
+    'launch-business': {
+      name: 'Lancer un business',
+      steps: ['Valider l\'idée', 'Créer LLC', 'Setup compta', 'Premiers clients', 'Premières factures', '10 clients', 'Automatisation', '100k/an'],
+      completedSteps: 0
+    },
+    'lose-weight': {
+      name: 'Perdre du poids',
+      steps: ['Définir objectif', 'Nutritionniste', 'Programme fitness', 'Semaine 1-4', 'Semaine 5-8', 'Semaine 9-12', 'Objectif atteint'],
+      completedSteps: 0
+    },
+    'learn-skill': {
+      name: 'Apprendre une compétence',
+      steps: ['Choisir la skill', 'Cours en ligne', '100 heures', 'Premier projet', '10 projets', 'Expert'],
+      completedSteps: 0
+    }
+  };
+
+  if(processData[template]) {
+    if(!S.processes) { S.processes = []; }
+    S.processes.push(processData[template]);
+    if(typeof save === 'function') { save(); }
+    if(typeof toast === 'function') { toast('Process créé!', '✅', 2000); }
+  }
+}
+
+// 6f. Life Score Dashboard
+function render_lifescore() {
+  var html = '<div class="screen" id="screen-lifescore"><div class="screen-header">' +
+    '<h1>📊 ' + t('lifescore') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="lifescore-main">';
+
+  var scores = calculateLifeScores();
+  var totalScore = (scores.health + scores.business + scores.relationships + scores.mindset + scores.finances + scores.wellness) / 6;
+
+  html += '<div class="global-score"><h2>' + totalScore.toFixed(0) + '/100</h2><p>Global</p></div>';
+
+  html += '<div class="radar-chart">' +
+    '<div class="radar-item"><span class="label">💪 Santé</span><div class="bar"><div class="fill" style="width:' + scores.health + '%"></div></div><span class="value">' + scores.health.toFixed(0) + '</span></div>' +
+    '<div class="radar-item"><span class="label">🚀 Business</span><div class="bar"><div class="fill" style="width:' + scores.business + '%"></div></div><span class="value">' + scores.business.toFixed(0) + '</span></div>' +
+    '<div class="radar-item"><span class="label">❤️ Relations</span><div class="bar"><div class="fill" style="width:' + scores.relationships + '%"></div></div><span class="value">' + scores.relationships.toFixed(0) + '</span></div>' +
+    '<div class="radar-item"><span class="label">🧠 Mentalité</span><div class="bar"><div class="fill" style="width:' + scores.mindset + '%"></div></div><span class="value">' + scores.mindset.toFixed(0) + '</span></div>' +
+    '<div class="radar-item"><span class="label">💰 Finances</span><div class="bar"><div class="fill" style="width:' + scores.finances + '%"></div></div><span class="value">' + scores.finances.toFixed(0) + '</span></div>' +
+    '<div class="radar-item"><span class="label">✨ Bien-être</span><div class="bar"><div class="fill" style="width:' + scores.wellness + '%"></div></div><span class="value">' + scores.wellness.toFixed(0) + '</span></div>' +
+    '</div>' +
+    '</div></div></div>';
+
+  return html;
+}
+
+function calculateLifeScores() {
+  var health = 50, business = 50, relationships = 50, mindset = 50, finances = 50, wellness = 50;
+
+  // Health: based on habits
+  if(S.habits && Object.keys(S.habits).length > 0) {
+    var healthHabits = Object.keys(S.habits).filter(function(h) { return h.includes('sport') || h.includes('santé') || h.includes('sport'); }).length;
+    health = Math.min(100, 50 + healthHabits * 10);
+  }
+
+  // Business: based on goals and XP
+  if(S.goals && Object.keys(S.goals).length > 0) { business = Math.min(100, 50 + Object.keys(S.goals).length * 15); }
+  if(S.xp) { business = Math.min(100, business + (S.xp / 1000)); }
+
+  // Relationships: based on checkins and communication
+  if(S.checkins && typeof S.checkins === 'object') {
+    var checkinCount = Object.keys(S.checkins).length;
+    relationships = Math.min(100, 50 + checkinCount * 5);
+  }
+
+  // Mindset: based on journal entries, meditations
+  if(S.journal && Object.keys(S.journal).length > 0) {
+    mindset = Math.min(100, 50 + Object.keys(S.journal).length * 5);
+  }
+
+  // Finances: based on revenue/expense ratio
+  if(S.compta && S.compta.revenues && S.compta.expenses) {
+    var totalRev = 0, totalExp = 0;
+    for(var r in S.compta.revenues) { totalRev += S.compta.revenues[r]; }
+    for(var e in S.compta.expenses) { totalExp += S.compta.expenses[e]; }
+    if(totalRev > 0) { finances = Math.min(100, (totalRev / (totalRev + totalExp)) * 100); }
+  }
+
+  // Wellness: based on overall activity
+  wellness = (health + mindset) / 2;
+
+  return { health: health, business: business, relationships: relationships, mindset: mindset, finances: finances, wellness: wellness };
+}
+
+// Astrology Screen
+function render_astro() {
+  if(!S.zodiac) { return '<div class="screen"><div class="screen-header"><h1>🔮 ' + t('astrology') + '</h1></div><div class="screen-content"><p>Configure ton signe dans les paramètres!</p></div></div>'; }
+
+  var horoscope = generateDailyHoroscope(S.zodiac.sign, TD);
+  var energy = generateEnergyOfDay(S.zodiac.sign, TD);
+  var color = generateColorOfDay(S.zodiac.sign, TD);
+  var compatibleSigns = getCompatibleSigns(S.zodiac.sign);
+  var zodiacInfo = ZODIAC_DATA[S.zodiac.sign] || {};
+
+  var html = '<div class="screen" id="screen-astro"><div class="screen-header">' +
+    '<h1>🔮 ' + t('astrology') + '</h1></div>' +
+    '<div class="screen-content">' +
+    '<div class="astro-header" style="text-align:center; padding:20px; background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius:10px; color:white; margin-bottom:20px;">' +
+    '<div style="font-size:64px; margin:10px 0;">' + S.zodiac.ico + '</div>' +
+    '<h2>' + S.zodiac.sign + '</h2>' +
+    '<p>' + S.zodiac.dates + ' | ' + S.zodiac.element + '</p>' +
+    '</div>' +
+    '<div class="astro-content">' +
+    '<div class="astro-section"><h3>📖 ' + t('daily_horoscope') + '</h3><p style="font-style:italic; color:#666;">' + horoscope + '</p></div>' +
+    '<div class="astro-section"><h3>⚡ ' + t('energy') + '</h3><div class="energy-bar" style="background:#ddd; height:20px; border-radius:10px; overflow:hidden;"><div style="background:#ffd700; height:100%; width:' + (energy * 10) + '%"></div></div><p>' + energy + '/10</p></div>' +
+    '<div class="astro-section"><h3>🎨 ' + t('color') + '</h3><p>' + color + '</p></div>' +
+    '<div class="astro-section"><h3>💼 ' + t('business_advice') + '</h3><p>' + (zodiacInfo.businessStyle || 'Le business paie') + '</p></div>' +
+    '<div class="astro-section"><h3>🏃 ' + t('health_advice') + '</h3><p>' + (zodiacInfo.healthTip || 'Prends soin de toi') + '</p></div>' +
+    '<div class="astro-section"><h3>💕 ' + t('compatibility') + '</h3><p>' + t('today') + ': ' + compatibleSigns.join(', ') + '</p></div>' +
+    '</div>' +
+    '</div></div>';
+
+  return html;
+}
+
+// ============================================================================
+// 7. ANTI-FRUSTRATION SYSTEM
+// ============================================================================
+function getQuickWin() {
+  var quickWins = [
+    'Bois un verre d\'eau',
+    'Médite 5 minutes',
+    'Fais 20 pompes',
+    'Appelle quelqu\'un que tu aimes',
+    'Écris 3 choses pour laquelle tu es reconnaissant',
+    'Marche 10 minutes',
+    'Fais un massage des mains',
+    'Respire profondément 10 fois',
+    'Chante une chanson',
+    'Souris au miroir'
+  ];
+  return quickWins[Math.floor(Math.random() * quickWins.length)];
+}
+
+function checkOverload() {
+  if(!S.todos) return;
+
+  var incompleteTasks = 0;
+  for(var t in S.todos) {
+    if(!S.todos[t].completed) { incompleteTasks++; }
+  }
+
+  if(incompleteTasks > 10) {
+    if(typeof toast === 'function') {
+      toast(t('overload_warning'), '🧘', 4000);
+    }
+  }
+}
+
+function checkPace() {
+  if(!S.todos) return;
+
+  var thisWeekCount = 0;
+  var d = new Date();
+  var weekAgo = new Date(d.getTime() - 7*24*60*60*1000);
+
+  for(var tkey in S.todos) {
+    var task = S.todos[tkey];
+    if(task.createdAt) {
+      var createdDate = new Date(task.createdAt);
+      if(createdDate >= weekAgo) { thisWeekCount++; }
+    }
+  }
+
+  if(thisWeekCount > 15) {
+    if(typeof toast === 'function') {
+      toast(t('pace_check_too_much'), '⚠️', 3000);
+    }
+  } else if(thisWeekCount < 3) {
+    if(typeof toast === 'function') {
+      toast(t('pace_check_too_little'), '💪', 3000);
+    }
+  }
+}
+
+// ============================================================================
+// 8. NAVIGATION UPDATES & SCREEN EXTENSIONS
+// ============================================================================
+
+// Override gs() to include new screens
+var _origGs = window.gs || function(){};
+window.gs = function(screenName, btn) {
+  if(screenName === 'astro') {
+    var html = render_astro();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  } else if(screenName === 'compta') {
+    var html = render_compta();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  } else if(screenName === 'visionboard') {
+    var html = render_visionboard();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  } else if(screenName === 'books') {
+    var html = render_books();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  } else if(screenName === 'calc') {
+    var html = render_calc();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  } else if(screenName === 'process') {
+    var html = render_process();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  } else if(screenName === 'lifescore') {
+    var html = render_lifescore();
+    var mainDiv = document.getElementById('main') || document.body;
+    mainDiv.innerHTML = html;
+    return;
+  }
+
+  return _origGs.call(this, screenName, btn);
+};
+
+// ============================================================================
+// 9. DOM READY & INITIALIZATION
+// ============================================================================
+function initSession10() {
+  // Enhance onboarding
+  enhanceOnboarding();
+
+  // Auto-run checks
+  checkOverload();
+  checkPace();
+
+  // Extend plus-panel if it exists
+  var plusPanel = document.querySelector('[data-panel="plus"]') || document.getElementById('plus-panel');
+  if(plusPanel) {
+    // We would add new items here if HTML structure allows
+    // For now, users can navigate via gs() function
+  }
+
+  // Add astro widget to home if user has zodiac
+  if(S.zodiac) {
+    var homeScreen = document.getElementById('screen-home') || document.querySelector('[data-screen="home"]');
+    if(homeScreen) {
+      var astroWidget = document.createElement('div');
+      astroWidget.className = 'astro-widget';
+      astroWidget.style.cssText = 'padding:15px; background:linear-gradient(135deg,#667eea,#764ba2); color:white; border-radius:10px; margin:15px 0; cursor:pointer;';
+      astroWidget.innerHTML = '<div style="text-align:center;"><div style="font-size:48px;">' + S.zodiac.ico + '</div><p style="margin:5px 0;">' + S.zodiac.sign + '</p><small>' + generateDailyHoroscope(S.zodiac.sign, TD) + '</small></div>';
+      astroWidget.onclick = function() { if(typeof gs === 'function') { gs('astro'); } };
+
+      // Try to append after header or at the beginning of content
+      if(homeScreen.querySelector('.screen-content')) {
+        homeScreen.querySelector('.screen-content').insertBefore(astroWidget, homeScreen.querySelector('.screen-content').firstChild);
+      }
+    }
+  }
+
+  console.log('%c ✅ SESSION 10 LOADED ','background:#4ade80;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+}
+
+// Check if DOM is ready
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSession10);
+} else {
+  initSession10();
+}
+
+// ============================================================================
+// 10. SAVE STATE
+// ============================================================================
+if(typeof save === 'function') {
+  save();
+}
+
+})();
+
 </script>
 </body>
 </html>
