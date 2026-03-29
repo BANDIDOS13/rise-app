@@ -1,4 +1,4 @@
-// RISE Stripe Webhook — Vercel Serverless Function
+// FORGE Stripe Webhook — Vercel Serverless Function
 // Handles subscription lifecycle events from Stripe
 
 export default async function handler(req) {
