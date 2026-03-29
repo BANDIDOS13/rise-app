@@ -2,15 +2,28 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RISE — AI Life OS</title>
 <meta name="description" content="RISE — Plateforme de vie IA. Coach personnel, habitudes, nature, business, gamification.">
 <meta name="theme-color" content="#07080a">
+<meta property="og:title" content="RISE — AI Life OS">
+<meta property="og:description" content="Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec RISE.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RISE — AI Life OS">
+<meta name="twitter:description" content="Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec RISE.">
+<meta name="robots" content="index, follow">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<link rel="canonical" href="/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%2307080a' width='32' height='32' rx='6'/%3E%3Ctext x='50%25' y='62%25' text-anchor='middle' font-size='20'%3E🚀%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RISE%20%E2%80%94%20AI%20Life%20OS%22%2C%22short_name%22%3A%22RISE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RISE">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%2307080a' width='180' height='180' rx='40'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='100' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--grd:#0e1f16;--rd:#d95f5f;--rdd:#1e0e0e;--bl:#4a9ed4;--bld:#0c1c2a;--pu:#8b6de0;--pud:#140e28;--or:#e0874a;--ord:#1e1008;--tl:#3db8aa;--tld:#0a1e1a;--nt:#5cb87a;--ntd:#0a1c10;--nt2:#8dd4a0;--r:16px;--rs:10px;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
@@ -418,11 +431,59 @@ textarea.inp{resize:none}
 #jarvis-ta:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(255,179,71,.1)}
 #jarvis-send{padding:8px 12px;border:none;border-radius:8px;background:var(--ac);color:var(--bg);cursor:pointer;font-weight:700;font-size:12px;transition:opacity .2s;white-space:nowrap}
 #jarvis-send:hover{opacity:.9}
+@media(min-width:768px){#app{max-width:600px}}
+@media(min-width:1024px){
+#app{max-width:100%;height:100vh;height:100dvh;flex-direction:row}
+#desktop-sidebar{display:flex;flex-direction:column;width:220px;min-width:220px;background:var(--bg);border-right:1px solid var(--bd);padding:16px 0;overflow-y:auto;flex-shrink:0}
+#desktop-sidebar .ds-logo{font-family:var(--fd);font-size:22px;font-weight:700;letter-spacing:3px;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;padding:8px 20px 20px;border-bottom:1px solid var(--bd);margin-bottom:8px}
+#desktop-sidebar .ds-nav{display:flex;flex-direction:column;gap:2px;padding:0 8px}
+#desktop-sidebar .ds-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--tx2);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:none;background:none;width:100%;text-align:left;font-family:var(--fb)}
+#desktop-sidebar .ds-item:hover{background:var(--sf);color:var(--tx)}
+#desktop-sidebar .ds-item.on{background:var(--agg);color:var(--ac);border:1px solid var(--acm)}
+#desktop-sidebar .ds-item .ds-icon{font-size:18px;width:24px;text-align:center}
+#desktop-sidebar .ds-stats{margin-top:auto;padding:16px;border-top:1px solid var(--bd)}
+#desktop-sidebar .ds-stat{display:flex;justify-content:space-between;font-size:12px;color:var(--tx3);padding:4px}
+#desktop-sidebar .ds-stat span:last-child{color:var(--ac);font-weight:700}
+.bnav{display:none!important}
+.pad{padding:20px 24px 0}
+.screen{padding-bottom:20px}
+}
+@media(min-width:1440px){#app{max-width:100%}}
 </style>
+<script defer data-domain="rise-app.com" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 <a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
+<div id="splash-screen" style="position:fixed;inset:0;background:#07080a;display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:16px;transition:opacity .5s">
+<div style="font-family:'Clash Display',sans-serif;font-size:42px;font-weight:700;letter-spacing:4px;background:linear-gradient(135deg,#d4aa4a,#e8c86a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 2s ease-in-out infinite">RISE</div>
+<div style="width:120px;height:3px;background:#1e252e;border-radius:2px;overflow:hidden"><div style="height:100%;width:30%;background:linear-gradient(90deg,#d4aa4a,#e8c86a);border-radius:2px;animation:loading 1.5s ease-in-out infinite"></div></div>
+<div style="font-size:11px;color:#424b57;letter-spacing:2px;text-transform:uppercase;font-weight:600">AI Life OS</div>
+</div>
+<style>@keyframes loading{0%{transform:translateX(-100%)}50%{transform:translateX(250%)}100%{transform:translateX(-100%)}}</style>
+<noscript><div style="background:#07080a;color:#f0ece4;padding:40px;text-align:center;font-family:sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center"><div><h1 style="color:#d4aa4a;margin-bottom:16px">RISE</h1><p>JavaScript est requis pour utiliser RISE. Active JavaScript dans ton navigateur et recharge la page.</p></div></div></noscript>
 <div id="app" role="application" aria-label="RISE AI Life OS">
+<aside id="desktop-sidebar" style="display:none" aria-label="Navigation latérale">
+<div class="ds-logo">RISE</div>
+<nav class="ds-nav">
+<button class="ds-item on" onclick="dGo('home',this)"><span class="ds-icon">🏠</span>Accueil</button>
+<button class="ds-item" onclick="dGo('nature',this)"><span class="ds-icon">🌿</span>Nature</button>
+<button class="ds-item" onclick="dGo('chat',this)"><span class="ds-icon">🤖</span>Coach IA</button>
+<button class="ds-item" onclick="dGo('disc',this)"><span class="ds-icon">📚</span>Apprendre</button>
+<button class="ds-item" onclick="dGo('habits',this)"><span class="ds-icon">✅</span>Habitudes</button>
+<button class="ds-item" onclick="dGo('journal',this)"><span class="ds-icon">📝</span>Journal</button>
+<button class="ds-item" onclick="dGo('finance',this)"><span class="ds-icon">💰</span>Finances</button>
+<button class="ds-item" onclick="dGo('pomo',this)"><span class="ds-icon">⏱️</span>Pomodoro</button>
+<button class="ds-item" onclick="dGo('workout',this)"><span class="ds-icon">💪</span>Workout</button>
+<button class="ds-item" onclick="dGo('badges',this)"><span class="ds-icon">🏅</span>Badges</button>
+<button class="ds-item" onclick="dGo('moi',this)"><span class="ds-icon">👤</span>Profil</button>
+</nav>
+<div class="ds-stats" id="ds-stats">
+<div class="ds-stat"><span>Niveau</span><span id="ds-lvl">1</span></div>
+<div class="ds-stat"><span>XP</span><span id="ds-xp">0</span></div>
+<div class="ds-stat"><span>Gems</span><span id="ds-gems">0</span></div>
+<div class="ds-stat"><span>Streak</span><span id="ds-streak">0j</span></div>
+</div>
+</aside>
 <div class="gbar" id="gbar" style="display:none">
   <div><div class="gbar-logo">RISE</div><div style="font-size:9px;color:var(--ac);letter-spacing:1.5px;font-weight:700" id="gbar-s">S1</div></div>
   <div style="flex:1"></div>
@@ -638,6 +699,11 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setMoiT('stats',this)">📈 Stats</button>
     </div>
     <div id="moi-content"></div>
+<div style="margin-top:24px;padding:16px;background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r)">
+<div style="font-weight:700;font-size:14px;color:var(--rd);margin-bottom:8px">Zone danger</div>
+<p style="font-size:12px;color:var(--tx2);margin-bottom:12px">La suppression est irréversible. Toutes tes données seront effacées.</p>
+<button class="btn" onclick="confirmDeleteAccount()" style="background:var(--rd);color:#fff;font-size:12px;padding:10px">Supprimer mon compte</button>
+</div>
   </div>
 </div>
 <!-- NOTIFS -->
@@ -14582,6 +14648,68 @@ try { save(); } catch(e){}
 
 })();
 
+</script>
+<script>
+// Service Worker
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
+
+// Splash screen removal
+document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){var sp=document.getElementById('splash-screen');if(sp){sp.style.opacity='0';setTimeout(function(){sp.remove()},500)}},800)});
+
+// PWA Install Prompt
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;showInstallBanner()});
+function showInstallBanner(){
+  if(localStorage.getItem('rise_pwa_dismissed'))return;
+  var b=document.createElement('div');b.id='pwa-install';
+  b.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);max-width:400px;width:calc(100% - 32px);background:linear-gradient(135deg,rgba(212,170,74,.15),rgba(92,184,122,.1));border:1px solid rgba(212,170,74,.3);border-radius:14px;padding:16px;z-index:999;display:flex;align-items:center;gap:12px;backdrop-filter:blur(20px)';
+  b.innerHTML='<div style="font-size:28px">📲</div><div style="flex:1"><div style="font-weight:700;font-size:13px;color:var(--tx,#f0ece4);margin-bottom:2px">Installer RISE</div><div style="font-size:11px;color:var(--tx2,#8a9099)">Accès rapide depuis ton écran d\'accueil</div></div><button onclick="installPWA()" style="padding:8px 16px;background:linear-gradient(135deg,#d4aa4a,#e8c86a);color:#07080a;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer">Installer</button><button onclick="dismissInstall()" style="background:none;border:none;color:#8a9099;font-size:18px;cursor:pointer;padding:4px">&times;</button>';
+  document.body.appendChild(b);
+}
+function installPWA(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;var el=document.getElementById('pwa-install');if(el)el.remove()})}}
+function dismissInstall(){localStorage.setItem('rise_pwa_dismissed','1');var el=document.getElementById('pwa-install');if(el)el.remove()}
+
+// Desktop sidebar
+function dGo(s,btn){if(typeof gs==='function')gs(s,null);document.querySelectorAll('#desktop-sidebar .ds-item').forEach(function(b){b.classList.remove('on')});if(btn)btn.classList.add('on')}
+function initDesktop(){
+  var mq=window.matchMedia('(min-width:1024px)');
+  function toggle(e){var sb=document.getElementById('desktop-sidebar');if(sb)sb.style.display=e.matches?'flex':'none';if(e.matches)updateDesktopStats()}
+  mq.addEventListener('change',toggle);toggle(mq);
+}
+function updateDesktopStats(){try{var S=JSON.parse(localStorage.getItem('RISE')||'{}');var el=function(id){return document.getElementById(id)};if(el('ds-lvl'))el('ds-lvl').textContent=S.lv||1;if(el('ds-xp'))el('ds-xp').textContent=S.xp||0;if(el('ds-gems'))el('ds-gems').textContent=S.gems||0;if(el('ds-streak'))el('ds-streak').textContent=(S.streak||0)+'j'}catch(e){}}
+setInterval(updateDesktopStats,5000);
+document.addEventListener('DOMContentLoaded',initDesktop);
+
+// Keyboard shortcuts
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+  if(e.key==='?'&&!e.ctrlKey&&!e.metaKey){toggleShortcutsPanel();return}
+  if(e.key==='Escape'){var p=document.getElementById('shortcuts-panel');if(p)p.remove();return}
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();if(typeof gs==='function')gs('chat',null);return}
+  if(e.altKey&&e.key>='1'&&e.key<='5'){e.preventDefault();var screens=['home','nature','chat','habits','pomo'];if(typeof gs==='function')gs(screens[e.key-1],null)}
+});
+function toggleShortcutsPanel(){
+  var existing=document.getElementById('shortcuts-panel');if(existing){existing.remove();return}
+  var p=document.createElement('div');p.id='shortcuts-panel';
+  p.style.cssText='position:fixed;inset:0;background:rgba(7,8,10,.9);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)';
+  p.onclick=function(e){if(e.target===p)p.remove()};
+  var keys=[['?','Aide raccourcis'],['Ctrl+K','Coach IA'],['Alt+1','Accueil'],['Alt+2','Nature'],['Alt+3','Coach'],['Alt+4','Habitudes'],['Alt+5','Pomodoro'],['Esc','Fermer popup']];
+  var rows=keys.map(function(k){return '<div style="display:flex;justify-content:space-between"><span>'+k[1]+'</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">'+k[0]+'</kbd></div>'}).join('');
+  p.innerHTML='<div style="background:var(--sf,#111418);border:1px solid var(--bd,#1e252e);border-radius:16px;padding:32px;max-width:420px;width:100%"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 style="font-family:var(--fd);font-size:20px;color:var(--ac,#d4aa4a);margin:0">Raccourcis clavier</h2><button onclick="document.getElementById(\'shortcuts-panel\').remove()" style="background:none;border:none;color:var(--tx2,#8a9099);font-size:22px;cursor:pointer">&times;</button></div><div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--tx2,#8a9099)">'+rows+'</div></div>';
+  document.body.appendChild(p);
+}
+
+// Account deletion
+function confirmDeleteAccount(){
+  if(!confirm('Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible.'))return;
+  if(!confirm('Dernière chance. Confirmer la suppression définitive ?'))return;
+  localStorage.removeItem('RISE');localStorage.removeItem('rise_cookies_consent');localStorage.removeItem('rise_pwa_dismissed');localStorage.removeItem('rise_errors');
+  alert('Ton compte a été supprimé.');window.location.href='/rise-landing.html';
+}
+
+// Error tracking
+window.addEventListener('error',function(e){try{var errors=JSON.parse(localStorage.getItem('rise_errors')||'[]');errors.push({msg:e.message,file:e.filename,line:e.lineno,ts:Date.now()});if(errors.length>50)errors=errors.slice(-50);localStorage.setItem('rise_errors',JSON.stringify(errors))}catch(ex){}});
+window.addEventListener('unhandledrejection',function(e){try{var errors=JSON.parse(localStorage.getItem('rise_errors')||'[]');errors.push({msg:'Promise: '+(e.reason&&e.reason.message||String(e.reason)).substring(0,200),ts:Date.now()});if(errors.length>50)errors=errors.slice(-50);localStorage.setItem('rise_errors',JSON.stringify(errors))}catch(ex){}});
 </script>
 </body>
 </html>
