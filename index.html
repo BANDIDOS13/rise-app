@@ -421,6 +421,7 @@ textarea.inp{resize:none}
 </style>
 </head>
 <body>
+<div class="offline-banner" id="offline-banner">Mode hors-ligne — Tes donnees sont sauvegardees localement</div>
 <a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
 <div id="app" role="application" aria-label="RISE AI Life OS">
 <div class="gbar" id="gbar" style="display:none">
@@ -523,6 +524,11 @@ textarea.inp{resize:none}
         <span><span style="color:var(--pu)">●</span> Habitudes</span>
         <span><span style="color:var(--nt)">●</span> Nature</span>
         <span><span style="color:var(--bl)">●</span> Focus</span>
+      </div>
+      <!-- 7-day sparkline -->
+      <div id="rs-sparkline" style="margin-top:10px;display:none">
+        <div style="font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px">7 derniers jours</div>
+        <div style="display:flex;align-items:flex-end;gap:4px;justify-content:center;height:40px" id="rs-spark-bars"></div>
       </div>
     </div>
     <!-- MORNING BRIEF -->
@@ -948,6 +954,33 @@ textarea.inp{resize:none}
   <div style="font-size:13px;color:var(--tx2);max-width:280px;line-height:1.65;margin-bottom:14px" id="fl-desc">Stop. 30 pompes. Reviens.</div>
   <div style="display:flex;gap:9px"><button style="padding:13px 24px;background:linear-gradient(135deg,var(--rd),#ff8080);border-radius:var(--rs);color:#fff;font-size:13px;font-weight:700" onclick="complFlash()">C'est fait ! +<span id="fl-xp">80</span>XP</button><button style="padding:13px 24px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx3);font-size:13px;font-weight:700" onclick="document.getElementById('ov-flash').classList.remove('show')">Plus tard</button></div>
 </div>
+<!-- EVENING REVIEW -->
+<div class="full-ov" id="ov-evening" style="z-index:1700">
+  <div style="max-width:360px;width:100%">
+    <div style="font-size:10px;color:var(--pu);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:8px">🌙 EVENING REVIEW</div>
+    <div style="font-size:36px;margin-bottom:6px">🌙</div>
+    <div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px" id="ev-title">Bilan du soir</div>
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:16px" id="ev-score-lbl"></div>
+    <div id="ev-questions" style="text-align:left">
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--ac);margin-bottom:6px">1. Quelle est ta plus grande victoire aujourd'hui ?</div>
+        <textarea class="inp" id="ev-q1" rows="2" placeholder="Ma victoire du jour..." style="font-size:13px"></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--gr);margin-bottom:6px">2. Qu'as-tu appris aujourd'hui ?</div>
+        <textarea class="inp" id="ev-q2" rows="2" placeholder="J'ai appris que..." style="font-size:13px"></textarea>
+      </div>
+      <div style="margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--pu);margin-bottom:6px">3. Qu'est-ce que tu feras mieux demain ?</div>
+        <textarea class="inp" id="ev-q3" rows="2" placeholder="Demain je vais..." style="font-size:13px"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:9px;margin-top:4px">
+      <button style="flex:2;padding:13px;background:linear-gradient(135deg,var(--pu),#b09ae8);border-radius:var(--rs);color:#fff;font-size:13px;font-weight:700" onclick="saveEveningReview()">Sauvegarder +50 XP</button>
+      <button style="flex:1;padding:13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx3);font-size:13px;font-weight:700" onclick="document.getElementById('ov-evening').classList.remove('show')">Plus tard</button>
+    </div>
+  </div>
+</div>
 <!-- MODALS -->
 <div class="mbk" id="m-todo"><div class="msh"><div class="mhdl"></div><div class="mtit">Nouvelle tâche</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="td-txt" placeholder="Description"><select class="inp" id="td-cat"><option value="focus">🎯 Focus</option><option value="sport">💪 Sport</option><option value="nature">🌿 Nature</option><option value="mental">🧠 Mental</option><option value="money">💰 Business</option><option value="habit">⚡ Habitude</option></select><label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tx2);cursor:pointer"><input type="checkbox" id="td-pr" style="accent-color:var(--ac);width:16px;height:16px"> Prioritaire ⭐</label></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-todo')">Annuler</button><button class="m-ok" onclick="addTdM()">Ajouter</button></div></div></div>
 <div class="mbk" id="m-sleep"><div class="msh"><div class="mhdl"></div><div class="mtit">😴 Log Sommeil</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="slp-h" type="number" min="2" max="14" step=".5" placeholder="Heures de sommeil (ex: 7.5)"><div style="display:flex;gap:6px" id="sq-row"><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,1)">😫</button><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,2)">😕</button><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,3)">😊</button><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,4)">✨</button></div></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-sleep')">Annuler</button><button class="m-ok" onclick="logSlp()">Sauvegarder</button></div></div></div>
@@ -1183,6 +1216,22 @@ function updRiseScore(){
   for(var k in bars){var b=document.getElementById(bars[k]);if(b)b.style.width=r.parts[k]+'%';}
   // Store daily score history
   S.riseScores=S.riseScores||{};S.riseScores[TD]=r.score;save();
+  // Render 7-day sparkline
+  var sparkEl=document.getElementById('rs-spark-bars');var sparkWrap=document.getElementById('rs-sparkline');
+  if(sparkEl&&sparkWrap){
+    var days=[];var labels=['D','L','M','M','J','V','S'];
+    for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var ds=d.toDateString();var sc=S.riseScores[ds];days.push({score:sc!==undefined?sc:null,label:labels[d.getDay()],isToday:i===0});}
+    var hasHistory=days.filter(function(d){return d.score!==null;}).length>1;
+    if(hasHistory){
+      sparkWrap.style.display='block';
+      sparkEl.innerHTML=days.map(function(d){
+        var h=d.score!==null?Math.max(4,Math.round(d.score/100*36)):4;
+        var col=d.score===null?'var(--sf3)':d.score>=70?'var(--gr)':d.score>=40?'var(--ac)':'var(--rd)';
+        var opacity=d.isToday?'1':d.score!==null?'0.7':'0.3';
+        return '<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;max-width:36px"><div style="width:100%;height:'+h+'px;background:'+col+';border-radius:3px;opacity:'+opacity+';transition:height .5s"></div><div style="font-size:8px;color:'+(d.isToday?'var(--ac)':'var(--tx3)')+';font-weight:'+(d.isToday?'700':'400')+'">'+d.label+'</div>'+(d.score!==null?'<div style="font-size:8px;color:var(--tx3)">'+d.score+'</div>':'')+'</div>';
+      }).join('');
+    }
+  }
 }
 function genMorningBrief(){
   var el=document.getElementById('w-morning-brief');var txt=document.getElementById('morning-brief-text');
@@ -1201,7 +1250,36 @@ function genMorningBrief(){
   txt.innerHTML=lines.join('<br>');
   el.style.display='block';
 }
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();genMorningBrief();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function chkEveningReview(){
+  var hour=new Date().getHours();
+  if(hour<18||hour>23)return;
+  S.eveningReviews=S.eveningReviews||{};
+  if(S.eveningReviews[TD])return;
+  var r=calcRiseScore();
+  var lbl=document.getElementById('ev-score-lbl');
+  if(lbl)lbl.textContent='Ton score du jour : '+r.score+'/100';
+  var title=document.getElementById('ev-title');
+  if(title){
+    var name=S.name||'Champion';
+    title.textContent=r.score>=70?'Belle journée, '+name+' !':r.score>=40?'Pas mal, '+name+'. Ancre les lecons.':'Chaque jour compte, '+name+'.';
+  }
+  setTimeout(function(){document.getElementById('ov-evening').classList.add('show');},2000);
+}
+function saveEveningReview(){
+  var q1=(document.getElementById('ev-q1')||{}).value||'';
+  var q2=(document.getElementById('ev-q2')||{}).value||'';
+  var q3=(document.getElementById('ev-q3')||{}).value||'';
+  if(!q1.trim()&&!q2.trim()&&!q3.trim()){toast('Ecris au moins une reponse','📝',2000);return;}
+  S.eveningReviews=S.eveningReviews||{};
+  S.eveningReviews[TD]={q1:q1.trim(),q2:q2.trim(),q3:q3.trim(),score:calcRiseScore().score,ts:Date.now()};
+  gainXP(50,'evening_review');gainGems(5);
+  save();
+  document.getElementById('ov-evening').classList.remove('show');
+  confetti();
+  toast('Review sauvegardee ! +50 XP','🌙',3000);
+  addN('🌙','Bilan du soir','Review completee. Score: '+calcRiseScore().score+'/100');
+}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();genMorningBrief();chkEveningReview();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1257,16 +1335,16 @@ function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];co
 function rstMW(){clearInterval(mwInt);mwR=false;mwStep=0;mwSec=0;renderNat();}
 const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de suite',target:7,xp:200,g:20},{id:'s5',ico:'☀️',t:'5 jours de soleil',d:'20min/j pendant 5 jours',target:5,xp:150,g:15},{id:'c7',ico:'🧊',t:'7 douches froides',d:'Consécutives',target:7,xp:250,g:25},{id:'n60',ico:'🌿',t:'1h dans la nature',d:'Une sortie d 1h minimum',target:60,xp:180,g:18},{id:'sr',ico:'🌅',t:'Lever de soleil',d:'Dehors avant le lever',target:1,xp:100,g:10}];
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
-function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
+function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+escHTML(e.date)+'</div><div style="font-size:10px;color:var(--tx3)">'+escHTML(String(e.dur))+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+escHTML(e.txt)+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
 function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
 let chatH=[],chatBusy=false;
 function setM(m,btn){S.chatMode=m;save();document.querySelectorAll('.ch-mode').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const ta=document.getElementById('ch-ta');if(ta)ta.placeholder=CH_M[m]?.ph||'Parle à ton coach...';}
-function initChat(){chatH=S.chatH||[];updCLvl();const msgs=document.getElementById('ch-msgs');msgs.innerHTML='';if(!chatH.length){const fm='Salut '+S.name+' ! 👋\n\nJe suis ton Coach RISE v9 — je m\'adapte à toi. Objectif: '+S.goal+'.\n\nModes dispo: Coach, Roleplay, Débat, Plan 90j, Livres IA, Coach nature.\n\nDe quoi as-tu besoin maintenant ?';addCMsg(fm,false);S.chatH=[{role:'assistant',content:fm}];save();}else chatH.forEach(m=>m.role==='assistant'?addCMsg(m.content,false):addUMsg(m.content,false));scrollChat();renderSuggs();}
+function initChat(){chatH=S.chatH||[];updCLvl();const msgs=document.getElementById('ch-msgs');msgs.innerHTML='';if(!chatH.length){const fm='Salut '+(S.name||'Champion')+' ! \u{1F44B}\n\nJe suis ton Coach RISE v9 \u2014 je m\'adapte \u00e0 toi. Objectif: '+(S.goal||'all')+'.\n\nModes dispo: Coach, Roleplay, D\u00e9bat, Plan 90j, Livres IA, Coach nature.\n\nDe quoi as-tu besoin maintenant ?';addCMsg(fm,false);S.chatH=[{role:'assistant',content:fm}];save();}else chatH.forEach(m=>m.role==='assistant'?addCMsg(m.content,false):addUMsg(m.content,false));scrollChat();renderSuggs();}
 function updCLvl(){const n2=S.coachMem?.n||0;const lvl=n2<10?1:n2<25?2:n2<50?3:n2<100?4:5;const b=document.getElementById('coach-lvl');if(b)b.textContent='LVL '+lvl;}
-function addCMsg(txt,anim){const el=document.createElement('div');el.className='msg co'+(anim?' au':'');el.innerHTML='<div class="mbub">'+txt.replace(/\n/g,'<br>')+'</div><div class="mtime">'+pad(now.getHours())+':'+pad(now.getMinutes())+'</div>';document.getElementById('ch-msgs').appendChild(el);if(anim)scrollChat();}
-function addUMsg(txt,anim){const el=document.createElement('div');el.className='msg us'+(anim?' au':'');el.innerHTML='<div class="mbub">'+txt+'</div><div class="mtime">'+pad(now.getHours())+':'+pad(now.getMinutes())+'</div>';document.getElementById('ch-msgs').appendChild(el);if(anim)scrollChat();}
+function addCMsg(txt,anim){const el=document.createElement('div');el.className='msg co'+(anim?' au':'');var safe=escHTML(txt).replace(/\n/g,'<br>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');el.innerHTML='<div class="mbub">'+safe+'</div><div class="mtime">'+pad(now.getHours())+':'+pad(now.getMinutes())+'</div>';document.getElementById('ch-msgs').appendChild(el);if(anim)scrollChat();}
+function addUMsg(txt,anim){const el=document.createElement('div');el.className='msg us'+(anim?' au':'');el.innerHTML='<div class="mbub">'+escHTML(txt)+'</div><div class="mtime">'+pad(now.getHours())+':'+pad(now.getMinutes())+'</div>';document.getElementById('ch-msgs').appendChild(el);if(anim)scrollChat();}
 function showTyp(){const el=document.createElement('div');el.id='typ';el.className='typing';el.innerHTML='<div class="td"></div><div class="td"></div><div class="td"></div>';document.getElementById('ch-msgs').appendChild(el);scrollChat();}
 function hideTyp(){const t=document.getElementById('typ');if(t)t.remove();}
 function scrollChat(){const el=document.getElementById('ch-msgs');if(el)setTimeout(()=>el.scrollTo({top:el.scrollHeight,behavior:'smooth'}),60);}
@@ -1355,7 +1433,7 @@ function rPerso(el){const themes=[{id:'default',bg:'linear-gradient(135deg,#0708
 function setMode(m){S.mode=m;S.activeWg=m==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;save();renderWgVisibility();renderMoi();toast(m==='zen'?'Mode Zen 🧘':'Mode Complet ⚡','✨',2000);}
 function rWidgets(el){const allW=[{id:'w-streak',l:'🔥 Streak',d:'Jours consécutifs'},{id:'w-boss',l:'⚔️ Boss',d:'Boss de la semaine'},{id:'w-quests',l:'⚡ Quêtes',d:'Quêtes quotidiennes'},{id:'w-nat',l:'🌿 Nature',d:'Accès rapide nature'},{id:'w-pomo',l:'⏱️ Pomodoro',d:'Timer focus'},{id:'w-flash',l:'⚡ Flash',d:'Défi flash du jour'}];el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">Widgets affichés sur l\'accueil.</div>'+allW.map(w=>{const on=(S.activeWg||[]).includes(w.id);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">'+w.l+'</div><div style="font-size:11px;color:var(--tx3)">'+w.d+'</div></div><div class="tog-sw '+(on?'on':'')+'" onclick="togWg(\''+w.id+'\',this)"><div class="tog-knob"></div></div></div>';}).join('')+'<button class="btn btn-ac" style="margin-top:14px" onclick="gs(\'home\',null)">Voir mon accueil →</button>';}
 function togWg(id,sw){const aw=S.activeWg||[];const on=aw.includes(id);S.activeWg=on?aw.filter(w=>w!==id):[...aw,id];sw.classList.toggle('on',!on);save();renderWgVisibility();}
-function rTodo(el){const todos=S.todos||[];el.innerHTML='<div style="display:flex;gap:7px;margin-bottom:11px"><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+todos.filter(t=>!t.done).length+' à faire</span><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">'+todos.filter(t=>t.done).length+' faites</span></div><div style="display:flex;gap:8px;margin-bottom:11px"><input class="inp" id="td-q" style="flex:1" placeholder="Ajouter vite..." onkeydown="if(event.key===\'Enter\')qAdd()"><button style="width:42px;height:42px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:var(--rs);font-size:20px;color:var(--bg);flex-shrink:0;cursor:pointer" onclick="openM(\'m-todo\')">+</button></div>'+todos.slice(0,30).map(t=>'<div class="tod-it '+(t.done?'dn':'')+(t.priority&&!t.done?' pr':'')+'"><div class="tchk '+(t.done?'on':'')+'" onclick="doneTd('+t.id+')">'+(t.done?'✓':'')+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;line-height:1.4'+(t.done?';text-decoration:line-through;color:var(--tx3)':'')+'">'+t.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+t.cat+(t.ai?' · ✨ IA':'')+(t.priority?' · ⭐':'')+'</div></div><button style="font-size:14px;color:var(--tx3);padding:3px;cursor:pointer" onclick="delTd('+t.id+')">🗑</button></div>').join('');}
+function rTodo(el){const todos=S.todos||[];el.innerHTML='<div style="display:flex;gap:7px;margin-bottom:11px"><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+todos.filter(t=>!t.done).length+' à faire</span><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">'+todos.filter(t=>t.done).length+' faites</span></div><div style="display:flex;gap:8px;margin-bottom:11px"><input class="inp" id="td-q" style="flex:1" placeholder="Ajouter vite..." onkeydown="if(event.key===\'Enter\')qAdd()"><button style="width:42px;height:42px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:var(--rs);font-size:20px;color:var(--bg);flex-shrink:0;cursor:pointer" onclick="openM(\'m-todo\')">+</button></div>'+todos.slice(0,30).map(t=>'<div class="tod-it '+(t.done?'dn':'')+(t.priority&&!t.done?' pr':'')+'"><div class="tchk '+(t.done?'on':'')+'" onclick="doneTd('+t.id+')">'+(t.done?'✓':'')+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;line-height:1.4'+(t.done?';text-decoration:line-through;color:var(--tx3)':'')+'">'+escHTML(t.text)+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+escHTML(t.cat||'')+(t.ai?' · ✨ IA':'')+(t.priority?' · ⭐':'')+'</div></div><button style="font-size:14px;color:var(--tx3);padding:3px;cursor:pointer" onclick="delTd('+t.id+')">🗑</button></div>').join('');}
 function qAdd(){const i=document.getElementById('td-q');if(!i||!i.value.trim())return;S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:i.value.trim(),done:false,priority:false,cat:'focus',ai:false,date:TD});save();i.value='';if(moiTab==='todo')renderMoi();}
 function addTdM(){const txt=document.getElementById('td-txt')?.value.trim();if(!txt){closeM('m-todo');return;}S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:txt,done:false,priority:document.getElementById('td-pr')?.checked||false,cat:document.getElementById('td-cat')?.value||'focus',ai:false,date:TD});save();closeM('m-todo');if(moiTab==='todo')renderMoi();}
 function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);const td=S.todos.find(t=>t.id===id);if(td?.done){gainXP(5,'todo');gainGems(1);complQ('todos');dmgBoss(10);}save();if(moiTab==='todo')renderMoi();}
@@ -1373,6 +1451,11 @@ else if(name==='content'){renderContentPlanner(document.getElementById('content-
 else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
 document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
+// Register Service Worker for offline PWA
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(e){console.log('SW registration failed:',e);});}
+// Offline/Online detection
+window.addEventListener('offline',function(){var b=document.getElementById('offline-banner');if(b)b.classList.add('show');});
+window.addEventListener('online',function(){var b=document.getElementById('offline-banner');if(b)b.classList.remove('show');});
 // ══ V10 FEATURES ══
 // Plus panel
 function togglePlus(btn){
