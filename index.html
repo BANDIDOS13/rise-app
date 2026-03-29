@@ -1024,28 +1024,33 @@ textarea.inp{resize:none}
   <div id="jarvis-msgs" class="jarvis-msgs"></div>
   <div id="jarvis-suggs" class="jarvis-suggs"></div>
   <div class="jarvis-input">
-    <textarea id="jarvis-ta" placeholder="Pose-moi une question..."></textarea>
-    <button id="jarvis-send">Envoyer</button>
+    <textarea id="jarvis-ta" placeholder=""></textarea>
+    <button id="jarvis-send"></button>
   </div>
 </div>
 
 <script>
 const LVL_T=['Débutant','Apprenti','Engagé','Déterminé','Ambitieux','Courageux','Warrior','Champion','Légende','Invincible'];
+function tLvl(i){return typeof t==='function'?t('lvl_'+i):LVL_T[i];}
 const LVL_X=[0,100,250,450,700,1000,1400,1900,2500,3200];
 const LVL_G=[0,10,15,20,25,35,50,75,100,150];
 const pad=n=>String(n).padStart(2,'0'),now=new Date(),TD=now.toDateString();
 function getWK(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.toDateString();}
 const WK=getWK();
-const SEASONS=[{n:1,name:'Fondations',col:'#d4aa4a'},{n:2,name:'Momentum',col:'#4db87a'},{n:3,name:'Maîtrise',col:'#4a9ed4'},{n:4,name:'Ascension',col:'#8b6de0'}];
-const BOSSES=[{name:'Boss Procrastination',hp:500,r:{xp:200,g:20}},{name:'Tyran du Sommeil',hp:400,r:{xp:180,g:18}},{name:'Démon Inactivité',hp:600,r:{xp:250,g:25}},{name:'Virus Distraction',hp:700,r:{xp:300,g:30}}];
-const QPOOL=[{id:'ci',ico:'📋',nm:'Check-in',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',nm:'3 tâches faites',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',nm:'Parler au coach',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',nm:'2 Pomodoros',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',nm:'10min de marche',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',nm:'15min de soleil',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',nm:'Session respiration',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',nm:'Module formation',target:1,type:'form',xp:50,g:5}];
-const FLASH=[{ico:'💪',title:'30 Pompes maintenant',desc:'Stop. 30 pompes. Reviens.',xp:80,g:8},{ico:'🚶',title:'20min dehors sans téléphone',desc:'Sors maintenant. 20 min.',xp:70,g:7},{ico:'💨',title:'5min cohérence cardiaque',desc:'5-5 maintenant.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'3 choses positives dans ta vie.',xp:40,g:4},{ico:'☀️',title:'5min de soleil',desc:'Sors. Lève la tête. 5 min.',xp:40,g:4},{ico:'🧊',title:'30sec eau froide',desc:'Finir la prochaine douche en froid.',xp:60,g:6},{ico:'🧘',title:'10min méditation',desc:'Silence. Yeux fermés. Respire.',xp:60,g:6}];
+const SEASONS=[{n:1,key:'season_1',col:'#d4aa4a'},{n:2,key:'season_2',col:'#4db87a'},{n:3,key:'season_3',col:'#4a9ed4'},{n:4,key:'season_4',col:'#8b6de0'}];
+function getSeason(s){return{n:s.n,name:typeof t==='function'?t(s.key):s.key,col:s.col};}
+const BOSSES=[{k:'boss_1',hp:500,r:{xp:200,g:20}},{k:'boss_2',hp:400,r:{xp:180,g:18}},{k:'boss_3',hp:600,r:{xp:250,g:25}},{k:'boss_4',hp:700,r:{xp:300,g:30}}];
+function bossNm(b){return typeof t==='function'?t(b.k):b.k;}
+const QPOOL=[{id:'ci',ico:'📋',tk:'quest_checkin',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',tk:'quest_3tasks',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',tk:'quest_coach',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',tk:'quest_2pomo',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',tk:'quest_walk',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',tk:'quest_sun',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',tk:'quest_breath',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',tk:'quest_form',target:1,type:'form',xp:50,g:5}];
+const FLASH=[{ico:'💪',tk:'flash_pushups',xp:80,g:8},{ico:'🚶',tk:'flash_outside',xp:70,g:7},{ico:'💨',tk:'flash_breathing',xp:50,g:5},{ico:'📝',tk:'flash_gratitude',xp:40,g:4},{ico:'☀️',tk:'flash_sun',xp:40,g:4},{ico:'🧊',tk:'flash_cold',xp:60,g:6},{ico:'🧘',tk:'flash_meditate',xp:60,g:6}];
 const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'}];
 const BOOKS=[{ico:'🔥',t:'The 5 AM Club',a:'Robin Sharma',cat:'Mental',lvl:'Facile',p:450,sum:'Lever à 5h, routine 20-20-20. Transforme les matins, transforme ta vie.',key:'Le matin appartient à ceux qui se lèvent tôt. 66j pour ancrer une habitude.',act:'Demain: réveil 15 min plus tôt. Une seule fois.'},{ico:'🌊',t:'Atomic Habits',a:'James Clear',cat:'Mental',lvl:'Facile',p:320,sum:'1% par jour = +37x en 1 an. Systèmes, pas objectifs.',key:'Tu tombes au niveau de tes systèmes, pas au niveau de tes objectifs.',act:'Identifie 1 habitude. Ancre-la: après [X], je fais [Y].'},{ico:'🧠',t:'Deep Work',a:'Cal Newport',cat:'Mental',lvl:'Intermédiaire',p:296,sum:'Le focus intense est la super-puissance du 21e siècle. 4h deep work > 8h ordinaires.',key:'La distraction est le défaut, pas la règle. Reprends le contrôle.',act:'Planifie 1 bloc 90min deep work demain. Téléphone en mode avion.'},{ico:'💰',t:'Rich Dad Poor Dad',a:'Robert Kiyosaki',cat:'Finance',lvl:'Facile',p:207,sum:'Actifs vs passifs. Fais travailler l argent pour toi.',key:'Ta maison n est pas un actif. Un actif met de l argent dans ta poche.',act:'Liste tes actifs et passifs. Quel premier actif crées-tu ce mois-ci?'},{ico:'🚀',t:'Zero to One',a:'Peter Thiel',cat:'Business',lvl:'Intermédiaire',p:224,sum:'Créer quelque chose de nouveau > copier. Monopoles > compétition.',key:'La compétition détruit les profits. Vise un monopole sur un marché que tu crées.',act:'Quel problème résous-tu mieux que quiconque? C est là ton business.'},{ico:'🌿',t:'The Nature Fix',a:'Florence Williams',cat:'Nature',lvl:'Facile',p:280,sum:'60min nature/semaine réduit cortisol de 13%. La science du vert.',key:'20 min en nature baisse la tension. 90 min désactive la rumination.',act:'Sors 20 minutes aujourd hui. Pas de téléphone. 3 choses jamais remarquées.'},{ico:'😴',t:'Why We Sleep',a:'Matthew Walker',cat:'Santé',lvl:'Facile',p:368,sum:'Le sommeil est la fondation de tout: mémoire, immunité, créativité.',key:'Après 16h sans sommeil, tu es aussi altéré qu un conducteur ivre.',act:'Écrans off 1h avant dormir. Chambre 18 degrés. Blackout total.'},{ico:'💪',t:'Can t Hurt Me',a:'David Goggins',cat:'Mental',lvl:'Intense',p:364,sum:'L esprit abandonne à 40% des capacités réelles. Callusing the mind.',key:'Quand ton esprit dit stop, tu n as utilisé que 40% de tes capacités.',act:'Ta chose la plus difficile de la semaine. Fais-la en premier demain matin.'},{ico:'⚡',t:'The 4-Hour Work Week',a:'Tim Ferriss',cat:'Business',lvl:'Intermédiaire',p:308,sum:'80/20, délégation, automatisation. Ne remet pas les rêves à plus tard.',key:'Rien de vertueux à bosser 80h/semaine si le même résultat en 4h.',act:'Identifie 20% des activités = 80% des résultats. Coupe le reste.'},{ico:'🧘',t:'The Power of Now',a:'Eckhart Tolle',cat:'Spiritualité',lvl:'Profond',p:236,sum:'Le moment présent est tout ce qui existe vraiment. Conscience pure.',key:'Le moment présent est tout ce que tu auras jamais. Vis-y.',act:'5 min: observe ta respiration sans essayer de la changer.'},{ico:'❤️',t:'The 5 Love Languages',a:'Gary Chapman',cat:'Relations',lvl:'Facile',p:208,sum:'5 langages: mots, temps, cadeaux, services, toucher.',key:'Parler le mauvais langage, c est parler à quelqu un dans une langue incomprise.',act:'Identifie ton langage primaire. Puis celui des 3 personnes proches.'},{ico:'🌅',t:'Ikigai',a:'Garcia & Miralles',cat:'Spiritualité',lvl:'Facile',p:208,sum:'Raison d être japonaise: passion + mission + vocation + profession.',key:'L ikigai se révèle en s oubliant dans l action.',act:'Dessine tes 4 cercles. Qu est-ce qui est au centre aujourd hui?'}];
 const SKILL_TREES={focus:{lbl:'🎯 Focus',col:'var(--ac)',n:[{i:'📋',nm:'To-do'},{i:'⏱️',nm:'Pomodoro'},{i:'🔇',nm:'Deep Work'},{i:'🧠',nm:'Mental clair'},{i:'🚀',nm:'Peak State'},{i:'⚡',nm:'Flow maître'}]},nature:{lbl:'🌿 Nature',col:'var(--nt)',n:[{i:'🚶',nm:'Marche'},{i:'☀️',nm:'Soleil'},{i:'💨',nm:'Respiration'},{i:'🧊',nm:'Froid'},{i:'🌊',nm:'Plein air'},{i:'🌍',nm:'Nomade'}]},mind:{lbl:'🧠 Mental',col:'var(--pu)',n:[{i:'🧘',nm:'Méditation'},{i:'📓',nm:'Journal'},{i:'💡',nm:'Clarté'},{i:'🔮',nm:'Vision'},{i:'⚡',nm:'Stoïcisme'},{i:'🌟',nm:'Maître'}]},biz:{lbl:'💰 Business',col:'var(--ac)',n:[{i:'📱',nm:'Personal Brand'},{i:'💼',nm:'Freelance'},{i:'🚀',nm:'Startup'},{i:'📈',nm:'Scaling'},{i:'🤖',nm:'IA Business'},{i:'👑',nm:'Empire'}]}};
 const AFF_T=[{ico:'🌱',nm:'Débutant',refs:0,pct:15,col:'var(--gr)'},{ico:'🔥',nm:'Actif',refs:5,pct:20,col:'var(--or)'},{ico:'💎',nm:'Pro',refs:15,pct:25,col:'var(--bl)'},{ico:'👑',nm:'Elite',refs:30,pct:30,col:'var(--ac)'}];
 const PLANS_D=[{id:'free',nm:'Free',price:0,bc:'var(--bd)',tc:'var(--tx)',feats:['✅ Accueil perso','✅ Nature complet','✅ Check-in IA','✅ 2 formations','✅ Affiliation 15%','❌ Coach illimité','❌ Livres IA perso','❌ Tournoi premium']},{id:'starter',nm:'Starter',price:4.99,bc:'#2a4020',tc:'var(--gr)',feats:['✅ Tout Free','✅ Coach 30msg/j','✅ 5 formations','✅ Livres IA','✅ Plan 90j','✅ Affiliation 20%','❌ Coach illimité','❌ Guildes']},{id:'pro',nm:'Pro ⭐',price:9.99,bc:'var(--acm)',tc:'var(--ac)',pop:true,feats:['✅ Tout Starter','✅ Coach illimité','✅ Toutes formations','✅ Guildes et Tournoi','✅ Vision Board','✅ Affiliation 25%','✅ 50💎/mois']},{id:'elite',nm:'Elite 👑',price:19.99,bc:'var(--pud)',tc:'var(--pu)',feats:['✅ Tout Pro','✅ Affiliation 30%','✅ 200💎/mois','✅ Certifications','✅ Support VIP','✅ Bilan audio mensuel']}];
-const BREATHS=[{id:'cardiac',nm:'Cohérence cardiaque',ico:'💚',in:5,hold:0,out:5,rounds:6,col:'var(--gr)',desc:'5-5. Cortisol↓ calme↑'},{id:'box',nm:'Box Breathing',ico:'📦',in:4,hold:4,out:4,rounds:8,col:'var(--pu)',desc:'4-4-4. Navy SEALs'},{id:'478',nm:'4-7-8 Sommeil',ico:'😴',in:4,hold:7,out:8,rounds:4,col:'var(--tl)',desc:'Endormissement rapide'},{id:'wim',nm:'Wim Hof',ico:'❄️',in:4,hold:0,out:4,rounds:30,col:'var(--bl)',desc:'Activation et énergie'}];
+const BREATHS=[{id:'cardiac',k:'breath_cardiac',ico:'💚',in:5,hold:0,out:5,rounds:6,col:'var(--gr)'},{id:'box',k:'breath_box',ico:'📦',in:4,hold:4,out:4,rounds:8,col:'var(--pu)'},{id:'478',k:'breath_478',ico:'😴',in:4,hold:7,out:8,rounds:4,col:'var(--tl)'},{id:'wim',k:'breath_wim',ico:'❄️',in:4,hold:0,out:4,rounds:30,col:'var(--bl)'}];
+function brNm(b){return typeof t==='function'?t(b.k):b.k;}
+function brDesc(b){return typeof t==='function'?t(b.k+'_d'):b.k;}
 const GOAL_WG={focus:['w-quests','w-pomo'],wellbeing:['w-streak','w-nat'],grow:['w-quests'],health:['w-streak','w-nat'],money:['w-quests','w-boss'],all:['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']};
 const MW_STEPS=[{dur:120,t:'Ancre-toi',d:'Sens tes pieds toucher le sol. Gauche. Droite.',ico:'👣'},{dur:180,t:'Observe',d:'5 choses autour de toi. Couleurs, formes, mouvements.',ico:'👁️'},{dur:120,t:'Écoute',d:'Ferme les yeux 10 sec. Combien de sons?',ico:'👂'},{dur:180,t:'Sens',d:'Air sur la peau. Température. Odeurs.',ico:'🌬️'},{dur:120,t:'Respire en marchant',d:'Inspire 4 pas. Expire 4 pas.',ico:'💨'},{dur:180,t:'Gratitude',d:'Pour chaque pas, une chose positive.',ico:'💛'}];
 let S=JSON.parse(localStorage.getItem('rise_v9')||'null')||{ob:false,lang:'fr',name:'',goal:'all',theme:'default',mode:'full',xp:0,gems:0,streak:0,lck:'',lsd:'',checkins:{},todos:[],formProg:{},plan:'free',notifs:[],chatH:[],chatMode:'coach',coachMem:{n:0,notes:''},pomoTot:0,bossW:'',bossProg:{},curBoss:0,dq:{date:'',qs:[]},season:1,ss:'',chests:{av:0,nx:3},plan90:{c:'',date:''},vb:{t:'',date:''},letter:{t:'',sealed:false,date:''},guild:{id:'',nm:'',ico:'🏆',members:[],bossHp:1000},aff:{code:'',refs:[],earn:0,pend:0,clicks:0},nat:{walkLogs:[],sunLogs:[],breathLogs:[],coldLogs:[],wDate:'',sDate:'',wMin:0,sMin:0,wStreak:0,lw:'',jEntries:[],sleepLogs:[],odProg:{}},flash:{date:'',idx:0,done:false},h21:[],skills:{focus:{p:0},nature:{p:0},mind:{p:0},biz:{p:0}},tourn:{wk:'',sc:{}},books:{read:[],reading:''},quote:{t:'',date:''},activeWg:['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash'],
@@ -1077,7 +1082,7 @@ function floatXP(n){const el=document.createElement('div');el.className='xpf';el
 function addN(ico,title,text){S.notifs=S.notifs||[];S.notifs.unshift({id:Date.now(),ico,title,text,read:false,time:pad(now.getHours())+':'+pad(now.getMinutes()),date:TD});save();updNDot();}
 function updNDot(){const c=(S.notifs||[]).filter(x=>!x.read).length;const d=document.getElementById('ndot');if(d)d.style.display=c>0?'block':'none';}
 function markRead(){(S.notifs||[]).forEach(n=>n.read=true);save();updNDot();renderNotifs();}
-function renderNotifs(){const el=document.getElementById('notifs-list');if(!el)return;const ns=S.notifs||[];if(!ns.length){el.innerHTML='<div style="text-align:center;padding:52px;color:var(--tx3)">🔔 Aucune notification</div>';return;}el.innerHTML=ns.slice(0,30).map(n=>'<div class="nit '+(n.read?'':'unread')+'"><div style="font-size:20px;flex-shrink:0">'+n.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+n.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+n.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+n.time+'</div></div></div>').join('');}
+function renderNotifs(){const el=document.getElementById('notifs-list');if(!el)return;const ns=S.notifs||[];if(!ns.length){el.innerHTML='<div style="text-align:center;padding:52px;color:var(--tx3)">🔔 '+t('no_notifications')+'</div>';return;}el.innerHTML=ns.slice(0,30).map(n=>'<div class="nit '+(n.read?'':'unread')+'"><div style="font-size:20px;flex-shrink:0">'+n.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+n.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+n.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+n.time+'</div></div></div>').join('');}
 function applyTheme(t){S.theme=t;save();document.documentElement.setAttribute('data-theme',t==='default'?'':t);}
 let _goal='all',_theme='default',_mode='full';
 function obNext(s){document.querySelectorAll('.ob-step').forEach(x=>x.classList.remove('on'));document.getElementById('ob-'+s).classList.add('on');}
@@ -1094,25 +1099,25 @@ function finishOb(){
     if(_goals.includes('all')||_goals.length>=4){ S.activeWg=['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']; }
     else { const merged=new Set(); _goals.forEach(g=>(wgMap[g]||[]).forEach(w=>merged.add(w))); S.activeWg=[...merged]; }
   }
-  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
+  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀',t('welcome')+' '+S.name+' !','RISE v9 · +50 XP');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
 var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
-function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
-function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
-function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
+function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const ssn=getSeason(ss);const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ssn.n+' '+ssn.name;el.style.color=ssn.col;}updNDot();}
+function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁',t('login_bonus')+' '+ls.streak,t('daily_bonus')+' +'+rw+' XP!');}}
+function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=[t('quote_1'),t('quote_2'),t('quote_3'),t('quote_4'),t('quote_5')];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
-function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
+function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=tLvl(nl);const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟',t('level_up')+' '+(nl+1)+' !',tLvl(nl)+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}var youKey=S.name||'You';S.tourn.sc[youKey]=(S.tourn.sc[youKey]||0)+n2;}
 function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
-function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',LVL_T[lvl]);set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP pour '+LVL_T[Math.min(lvl+1,9)]);}
+function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',tLvl(lvl));set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP → '+tLvl(Math.min(lvl+1,9)));}
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
-function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
+function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',bossNm(boss));set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
 function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('BOSS VAINCU ! +'+boss.r.xp+' XP','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
 function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);S.dq={date:TD,qs:sh.slice(0,5).map(q=>({...q,progress:0,done:false}))};save();}renderDQ();}
-function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+q.nm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
-function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' accomplie !','⚡',2000);}}});save();renderDQ();}
+function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);const qnm=q.tk?t(q.tk):(q.nm||'');return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+qnm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
+function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast((q.tk?t(q.tk):q.nm)+' ✓','⚡',2000);}}});save();renderDQ();}
 function initFlash(){if(S.flash.date!==TD){S.flash={date:TD,idx:Math.floor(Math.random()*FLASH.length),done:false};save();}renderFlash();}
 function renderFlash(){const el=document.getElementById('w-flash');if(!el)return;if(S.flash.done||!(S.activeWg||[]).includes('w-flash')){el.style.display='none';return;}el.style.display='block';const fc=FLASH[S.flash.idx];const mid=new Date();mid.setHours(23,59,0,0);const rem=Math.floor((mid-Date.now())/1000);el.innerHTML='<div class="wg" style="border-color:var(--rd);background:var(--rdd);cursor:pointer;margin-bottom:0" onclick="showFlash()"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚡ DÉFI FLASH — expire à minuit</div><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+fc.ico+'</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px">'+fc.title+'</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">'+fmtT(rem)+' restants · +'+fc.xp+' XP</div></div></div></div>';}
-function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=fc.title;document.getElementById('fl-desc').textContent=fc.desc;document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
+function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=t(fc.tk);document.getElementById('fl-desc').textContent=t(fc.tk+'_d');document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
 function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi Flash ! +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();}
 let ciE=0,ciF=[];
 function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
@@ -1150,7 +1155,7 @@ function rstSun(){clearInterval(sunInt);sunR=false;sunSec=0;renderNat();}
 function addSun(min){finSun(min);}
 function finSun(min){const nm=S.nat;if(nm.sDate!==TD){nm.sMin=0;nm.sDate=TD;}nm.sMin=(nm.sMin||0)+min;gainXP(min*2,'sun');gainGems(Math.floor(min/5));complQ('sun',min);toast(min+'min soleil ! +'+(min*2)+' XP','☀️',2500);save();updNatMini();sunSec=0;sunR=false;clearInterval(sunInt);renderNat();}
 let brR=false,brInt=null,brCyc=0,selBr=BREATHS[0];
-function rBreath(el){el.innerHTML='<div class="nat-c" style="border-color:'+selBr.col+';text-align:center"><div style="font-size:11px;color:'+selBr.col+';text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">'+selBr.ico+' '+selBr.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-bottom:14px">'+selBr.desc+'</div><div style="width:120px;height:120px;border-radius:50%;border:3px solid '+selBr.col+';display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform 4s ease" id="br-c"><div><div style="font-size:22px">💨</div><div style="font-size:16px;font-weight:700;color:'+selBr.col+';margin-top:5px" id="br-lbl">INSPIRE</div></div></div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:'+selBr.col+';margin-bottom:5px" id="br-cnt">0</div><div style="font-size:11px;color:var(--tx3);margin-bottom:14px" id="br-cyc">Cycle 0/'+selBr.rounds+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="br-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:'+selBr.col+';color:#fff" onclick="togBr()">💨 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstBr()">↺</button></div></div><div style="margin-top:14px">'+BREATHS.map(p=>'<div style="background:var(--sf);border:2px solid '+(p.id===selBr.id?p.col:'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="selBrP(\''+p.id+'\')"><div style="font-size:22px">'+p.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+p.nm+'</div><div style="font-size:11px;color:var(--tx3)">'+p.desc+'</div></div><div style="font-size:12px;font-weight:700;color:'+p.col+'">'+p.rounds+'×</div></div>').join('')+'</div>';}
+function rBreath(el){el.innerHTML='<div class="nat-c" style="border-color:'+selBr.col+';text-align:center"><div style="font-size:11px;color:'+selBr.col+';text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">'+selBr.ico+' '+brNm(selBr)+'</div><div style="font-size:12px;color:var(--tx3);margin-bottom:14px">'+brDesc(selBr)+'</div><div style="width:120px;height:120px;border-radius:50%;border:3px solid '+selBr.col+';display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform 4s ease" id="br-c"><div><div style="font-size:22px">💨</div><div style="font-size:16px;font-weight:700;color:'+selBr.col+';margin-top:5px" id="br-lbl">INSPIRE</div></div></div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:'+selBr.col+';margin-bottom:5px" id="br-cnt">0</div><div style="font-size:11px;color:var(--tx3);margin-bottom:14px" id="br-cyc">Cycle 0/'+selBr.rounds+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="br-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:'+selBr.col+';color:#fff" onclick="togBr()">💨 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstBr()">↺</button></div></div><div style="margin-top:14px">'+BREATHS.map(p=>'<div style="background:var(--sf);border:2px solid '+(p.id===selBr.id?p.col:'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="selBrP(\''+p.id+'\')"><div style="font-size:22px">'+p.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+brNm(p)+'</div><div style="font-size:11px;color:var(--tx3)">'+brDesc(p)+'</div></div><div style="font-size:12px;font-weight:700;color:'+p.col+'">'+p.rounds+'×</div></div>').join('')+'</div>';}
 function selBrP(id){selBr=BREATHS.find(p=>p.id===id)||BREATHS[0];rstBr();renderNat();}
 function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast('Respiration ! +20 XP','💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#ff8080)':selBr.col;}}
 function brRound(){if(!brR||brCyc>=selBr.rounds){brR=false;gainXP(40,'br_done');gainGems(4);toast(selBr.nm+' complète ! +40 XP','💨',3000);save();return;}brCyc++;const c=document.getElementById('br-cyc');if(c)c.textContent='Cycle '+brCyc+'/'+selBr.rounds;brStep(selBr.in,'INSPIRE','in');}
@@ -1307,17 +1312,19 @@ const _origGs=typeof gs!=='undefined'?gs:null;
 // New screens made visible inside merged launchApp
 // ══ AVATAR ══
 const AV_DATA=[
-  {ico:'🌱',nm:'Graine',col:'var(--tx3)',desc:'Le voyage commence maintenant.'},
-  {ico:'🌿',nm:'Pousse',col:'var(--nt)',desc:'Les habitudes prennent racine.'},
-  {ico:'🧘',nm:'Meditant',col:'var(--pu)',desc:'Le calme devient une force.'},
-  {ico:'🏃',nm:'Actif',col:'var(--gr)',desc:'Le corps suit le mental.'},
-  {ico:'⚡',nm:'Focalise',col:'var(--ac)',desc:'Le focus est ton arme.'},
-  {ico:'🦁',nm:'Courageux',col:'var(--or)',desc:'Tu fais ce que les autres evitent.'},
-  {ico:'🔥',nm:'Warrior',col:'var(--rd)',desc:'Rien ne peut t\'arreter.'},
-  {ico:'🌊',nm:'Fluide',col:'var(--bl)',desc:'L\'adaptabilite est ta force.'},
-  {ico:'🌟',nm:'Lumiere',col:'var(--ac2)',desc:'Tu inspires ceux qui t\'entourent.'},
-  {ico:'👑',nm:'Invincible',col:'#ffd700',desc:'Le sommet est ta residence.'},
+  {ico:'🌱',k:0,col:'var(--tx3)'},
+  {ico:'🌿',k:1,col:'var(--nt)'},
+  {ico:'🧘',k:2,col:'var(--pu)'},
+  {ico:'🏃',k:3,col:'var(--gr)'},
+  {ico:'⚡',k:4,col:'var(--ac)'},
+  {ico:'🦁',k:5,col:'var(--or)'},
+  {ico:'🔥',k:6,col:'var(--rd)'},
+  {ico:'🌊',k:7,col:'var(--bl)'},
+  {ico:'🌟',k:8,col:'var(--ac2)'},
+  {ico:'👑',k:9,col:'#ffd700'},
 ];
+function avNm(a){return t('av_'+a.k);}
+function avDesc(a){return t('av_d'+a.k);}
 function getAv(){const lvl=Math.min(getLvl(S.xp||0),9);return AV_DATA[lvl]||AV_DATA[0];}
 function renderAvatar(el){
   const av=getAv();const lvl=getLvl(S.xp||0)+1;
@@ -1332,17 +1339,17 @@ function renderAvatar(el){
       <div class="av-body" style="border-color:${av.col};box-shadow:0 0 20px ${av.col}40">${av.ico}</div>
       <div class="av-aura" style="border-color:${av.col}"></div>
     </div>
-    <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:4px">${av.nm}</div>
-    <div style="font-size:13px;color:var(--tx3);max-width:230px;margin:0 auto 12px;line-height:1.55">${av.desc}</div>
-    <div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">LVL ${lvl} · ${LVL_T[lvl-1]}</div>
+    <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:4px">${avNm(av)}</div>
+    <div style="font-size:13px;color:var(--tx3);max-width:230px;margin:0 auto 12px;line-height:1.55">${avDesc(av)}</div>
+    <div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">LVL ${lvl} · ${tLvl(lvl-1)}</div>
     <div style="background:var(--sf3);border-radius:4px;height:6px;overflow:hidden;width:180px;margin:0 auto 5px">
       <div style="height:100%;background:${av.col};border-radius:4px;width:${pct}%;transition:width 1.2s"></div>
     </div>
-    <div style="font-size:10px;color:var(--tx3)">${pct}% → ${nxtAv?nxtAv.ico+' '+nxtAv.nm:'MAX'}</div>
+    <div style="font-size:10px;color:var(--tx3)">${pct}% → ${nxtAv?nxtAv.ico+' '+avNm(nxtAv):'MAX'}</div>
   </div>
-  <div class="lbl" style="margin-bottom:10px">Tous les avatars</div>
+  <div class="lbl" style="margin-bottom:10px">${t('all_avatars')}</div>
   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px">
-    ${AV_DATA.map((a,i)=>{const done=lvl>i+1;const cur=lvl===i+1;return `<div style="text-align:center;padding:10px 4px;border-radius:var(--rs);background:${done||cur?'var(--agg)':'var(--sf)'};border:1px solid ${cur?a.col:done?'var(--bd2)':'var(--bd)'};opacity:${done||cur?1:.3}"><div style="font-size:22px">${a.ico}</div><div style="font-size:9px;color:${cur?'var(--ac)':'var(--tx3)'};font-weight:700;margin-top:2px">${a.nm}</div></div>`;}).join('')}
+    ${AV_DATA.map((a,i)=>{const done=lvl>i+1;const cur=lvl===i+1;return `<div style="text-align:center;padding:10px 4px;border-radius:var(--rs);background:${done||cur?'var(--agg)':'var(--sf)'};border:1px solid ${cur?a.col:done?'var(--bd2)':'var(--bd)'};opacity:${done||cur?1:.3}"><div style="font-size:22px">${a.ico}</div><div style="font-size:9px;color:${cur?'var(--ac)':'var(--tx3)'};font-weight:700;margin-top:2px">${avNm(a)}</div></div>`;}).join('')}
   </div>`;
 }
 // ══ RAPPORT HEBDO ══
@@ -1354,12 +1361,12 @@ async function renderRapport(el){
   const wkCI=Object.keys(S.checkins||{}).filter(d=>(Date.now()-new Date(d))/(864e5)<7).length;
   const ctx='Utilisateur: '+S.name+'. Semaine: '+wkCI+' check-ins, '+wkWalk+'min marche, streak '+S.streak+'j, '+S.pomoTot+' pomodoros, objectif: '+S.goal+', XP: '+S.xp+', plan: '+S.plan+'.';
   try{ const r=RISE_AI.generateWeeklyReport(); S.weekRpt={...r,date:TD};save();showRpt(el,r);
-  }catch(e){el.innerHTML='<div style="color:var(--rd);padding:12px">Erreur génération rapport.</div>';}
+  }catch(e){el.innerHTML='<div style="color:var(--rd);padding:12px">'+t('error_report')+'</div>';}
 }
 function showRpt(el,r){
   el.innerHTML=`
   <div class="rpt-c" style="border-color:var(--ac);background:radial-gradient(ellipse 80% 40% at 50% 0%,var(--agg) 0%,transparent 60%)">
-    <div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">📊 Rapport Hebdo</div>
+    <div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">📊 ${t('weekly_report')}</div>
     <div style="font-family:var(--fd);font-weight:700;font-size:17px;margin-bottom:12px">${r.titre}</div>
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
       <div style="width:60px;height:60px;border-radius:50%;background:conic-gradient(var(--ac) ${(r.score||70)*3.6}deg,var(--sf3) 0deg);display:flex;align-items:center;justify-content:center;flex-shrink:0">
@@ -1368,35 +1375,35 @@ function showRpt(el,r){
       <div style="font-size:13px;color:var(--tx2);line-height:1.65;font-style:italic">${r.coach||''}</div>
     </div>
     <div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--rs);padding:11px;margin-bottom:9px">
-      <div style="font-size:10px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">✅ Points forts</div>
+      <div style="font-size:10px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">✅ ${t('strengths')}</div>
       ${(r.forts||[]).map(p=>`<div style="font-size:12px;color:var(--tx2);padding:3px 0;line-height:1.5">· ${p}</div>`).join('')}
     </div>
     <div style="background:var(--ord);border:1px solid var(--or);border-radius:var(--rs);padding:11px;margin-bottom:9px">
-      <div style="font-size:10px;font-weight:700;color:var(--or);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">⚠️ A ameliorer</div>
+      <div style="font-size:10px;font-weight:700;color:var(--or);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">⚠️ ${t('to_improve')}</div>
       ${(r.faibles||[]).map(p=>`<div style="font-size:12px;color:var(--tx2);padding:3px 0;line-height:1.5">· ${p}</div>`).join('')}
     </div>
     <div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:11px;margin-bottom:9px">
-      <div style="font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px">💡 Insight</div>
+      <div style="font-size:10px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px">💡 ${t('insight')}</div>
       <div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65">${r.insight||''}</div>
     </div>
     <div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:11px;margin-bottom:9px">
-      <div style="font-size:10px;font-weight:700;color:var(--bl);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px">🎯 Priorite semaine prochaine</div>
+      <div style="font-size:10px;font-weight:700;color:var(--bl);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px">🎯 ${t('priority_next_week')}</div>
       <div style="font-size:14px;font-weight:700;color:var(--tx)">${r.priorite||''}</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:5px">
       ${Object.entries(r.radar||{}).map(([k,v])=>`<div style="display:flex;align-items:center;gap:10px"><div style="width:70px;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:1px">${k}</div><div style="flex:1;background:var(--sf3);border-radius:3px;height:5px;overflow:hidden"><div style="height:100%;background:var(--ac);border-radius:3px;width:${v||0}%"></div></div><div style="width:28px;text-align:right;font-size:11px;font-weight:700;color:var(--tx2)">${v||0}</div></div>`).join('')}
     </div>
   </div>
-  <button class="btn btn-sf" onclick="S.weekRpt=null;save();renderFeat()">🔄 Regenerer</button>`;
+  <button class="btn btn-sf" onclick="S.weekRpt=null;save();renderFeat()">🔄 ${t('regenerate')}</button>`;
 }
 // ══ DEFIS ENTRE AMIS ══
 const CHALL_T=[
-  {id:'walk7',ico:'🚶',t:'7j de Marche',desc:'15min min par jour pendant 7j',dur:7,xp:300,badge:'🏅'},
-  {id:'pomo10',ico:'⏱️',t:'10 Pomodoros',desc:'10 sessions focus en 7 jours',dur:7,xp:200,badge:'🎯'},
-  {id:'sun5',ico:'☀️',t:'5j de Soleil',desc:'20min dehors 5 jours de suite',dur:5,xp:250,badge:'☀️'},
-  {id:'cold5',ico:'🧊',t:'5 Douches Froides',desc:'5 douches froides consecutives',dur:5,xp:280,badge:'❄️'},
-  {id:'read7',ico:'📚',t:'7j de Lecture',desc:'20min de lecture par jour',dur:7,xp:220,badge:'📖'},
-  {id:'noscreen',ico:'📵',t:'Soiree sans ecran',desc:'0 ecran apres 21h pendant 3j',dur:3,xp:180,badge:'🌙'},
+  {id:'walk7',ico:'🚶',tk:'ch_walk7',dur:7,xp:300,badge:'🏅'},
+  {id:'pomo10',ico:'⏱️',tk:'ch_pomo10',dur:7,xp:200,badge:'🎯'},
+  {id:'sun5',ico:'☀️',tk:'ch_sun5',dur:5,xp:250,badge:'☀️'},
+  {id:'cold5',ico:'🧊',tk:'ch_cold5',dur:5,xp:280,badge:'❄️'},
+  {id:'read7',ico:'📚',tk:'ch_read7',dur:7,xp:220,badge:'📖'},
+  {id:'noscreen',ico:'📵',tk:'ch_noscreen',dur:3,xp:180,badge:'🌙'},
 ];
 function renderChallenges(el){
   const chs=S.friendChs||[];
@@ -1408,7 +1415,7 @@ function renderChallenges(el){
     return `<div class="chc ${c.status}">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
         <div style="font-size:26px">${fc.ico}</div>
-        <div style="flex:1"><div style="font-size:13px;font-weight:700">${fc.t}</div><div style="font-size:11px;color:var(--tx3)">vs ${c.opp||'Ami'} · ${c.status==='won'?'Gagne':'En cours'}</div></div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">${t(fc.tk)}</div><div style="font-size:11px;color:var(--tx3)">vs ${c.opp||'Ami'}</div></div>
         <div style="font-size:20px">${c.status==='won'?'🏆':'⚔️'}</div>
       </div>
       <div class="pbar" style="margin-bottom:5px"><div class="pfill pac" style="width:${prog}%"></div></div>
@@ -1418,7 +1425,7 @@ function renderChallenges(el){
   <div class="lbl" style="margin-bottom:10px;margin-top:4px">Nouveau defi</div>
   ${CHALL_T.map(fc=>`<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="startCh('${fc.id}')">
     <div style="font-size:26px">${fc.ico}</div>
-    <div style="flex:1"><div style="font-size:13px;font-weight:700">${fc.t}</div><div style="font-size:11px;color:var(--tx3)">${fc.desc}</div></div>
+    <div style="flex:1"><div style="font-size:13px;font-weight:700">${t(fc.tk)}</div><div style="font-size:11px;color:var(--tx3)">${t(fc.tk+'_d')}</div></div>
     <div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ac)">+${fc.xp}XP</div><div style="font-size:12px">${fc.badge}</div></div>
   </div>`).join('')}`;
 }
@@ -1429,7 +1436,7 @@ function startCh(type){
   S.friendChs.push({id,type,status:'active',prog:0,opp:'Ami',xp:fc.xp});
   save();
   const lnk='https://rise.app/c/'+id;
-  navigator.clipboard.writeText('⚔️ Defi RISE: '+fc.t+'\n'+S.name+' te defie ! Qui complete en premier?\n'+lnk).then(()=>{toast('Defi lance ! Lien copie','⚔️',4000);renderFeat();});
+  navigator.clipboard.writeText('⚔️ RISE: '+t(fc.tk)+'\n'+S.name+'\n'+lnk).then(()=>{toast('Defi lance ! Lien copie','⚔️',4000);renderFeat();});
 }
 function progressCh(id){
   const c=(S.friendChs||[]).find(x=>x.id===id);if(!c)return;
@@ -2283,7 +2290,7 @@ function renderOrga() {
 function rAgenda(el) {
   var today=new Date();
   var days=Array.from({length:10},function(_,i){var d=new Date(today);d.setDate(today.getDate()+i);return d;});
-  var DN=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],MN=['jan','fév','mar','avr','mai','jun','jul','aoû','sep','oct','nov','déc'];
+  var DN=[t('day_sun'),t('day_mon'),t('day_tue'),t('day_wed'),t('day_thu'),t('day_fri'),t('day_sat')],MN=[t('month_jan'),t('month_feb'),t('month_mar'),t('month_apr'),t('month_may'),t('month_jun'),t('month_jul'),t('month_aug'),t('month_sep'),t('month_oct'),t('month_nov'),t('month_dec')];
   el.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:16px">📅 Agenda — 10 jours</div><div style="display:flex;gap:7px"><button style="padding:6px 12px;border-radius:20px;background:var(--sf);border:1px solid var(--bd2);color:var(--tx2);font-size:11px;font-weight:700;cursor:pointer" onclick="addEvt()">+ Ajouter</button><button style="padding:6px 12px;border-radius:20px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:11px;font-weight:700;cursor:pointer" onclick="syncGcal()">🔄 Sync GCal</button></div></div>'
     +days.map(function(d){
       var ds=ymd(d),isT=ds===ymd(today);
@@ -2342,7 +2349,7 @@ function renderShare() {
   var xp = S.xp||0;
   var msgs = [
     {id:'streak', ico:'🔥', title:'Mon streak', msg:'Je suis à '+streak+' jours de suite sur RISE ! Mon coach IA me pousse chaque jour. #RISE #Growth #Discipline', preview:'🔥 Streak '+streak+'j · LVL '+lvl+' · '+xp+' XP'},
-    {id:'level', ico:'⭐', title:'Mon niveau', msg:'Je viens de passer LVL '+lvl+' '+LVL_T[lvl-1]+' sur RISE ! '+xp+' XP accumulés. L\'app IA qui transforme ma vie. #RISE #PersonalDevelopment', preview:'⭐ LVL '+lvl+' '+LVL_T[lvl-1]+' · '+xp+' XP · Streak '+streak+'j'},
+    {id:'level', ico:'⭐', title:t('level_up'), msg:'LVL '+lvl+' '+tLvl(lvl-1)+' RISE! '+xp+' XP. #RISE #PersonalDevelopment', preview:'⭐ LVL '+lvl+' '+tLvl(lvl-1)+' · '+xp+' XP · Streak '+streak},
     {id:'boss', ico:'⚔️', title:'Boss vaincu', msg:'Je viens de vaincre un boss sur RISE ! L\'app gamifie le développement personnel. Incroyable. #RISE #Gamification', preview:'⚔️ Boss vaincu · LVL '+lvl+' · '+streak+'j de streak'},
     {id:'nature', ico:'🌿', title:'Nature du jour', msg:''+( S.nat&&S.nat.wMin>0?S.nat.wMin+' min de marche':'Dehors aujourd\'hui')+' grâce à RISE ! Mon coach nature IA me motive chaque jour. #RISE #Nature #Wellbeing', preview:'🌿 '+(S.nat&&S.nat.wMin>0?S.nat.wMin+'min marche':'Nature')+' · '+streak+'j streak'},
     {id:'custom', ico:'✍️', title:'Message perso', msg:'Je transforme ma vie avec RISE — la plateforme IA tout-en-un. Coaching, nature, business, langues. 100% perso. #RISE', preview:'✍️ Mon message personnalisé'},
@@ -2408,7 +2415,7 @@ function genShareImg() {
   ctx.font = '18px sans-serif';
   ctx.fillStyle = '#8a9099';
   ctx.fillText('⭐ ' + (S.xp||0) + ' XP   🔥 ' + (S.streak||0) + ' jours   💎 ' + (S.gems||0), 40, 185);
-  ctx.fillText('LVL ' + (getLvl(S.xp||0)+1) + ' · ' + LVL_T[getLvl(S.xp||0)], 40, 215);
+  ctx.fillText('LVL ' + (getLvl(S.xp||0)+1) + ' · ' + tLvl(getLvl(S.xp||0)), 40, 215);
   // Date
   ctx.fillStyle = '#424b57';
   ctx.font = '14px sans-serif';
@@ -4559,7 +4566,7 @@ function saveExpense(){
   S.budget.expenses.push({label,amount,cat,date:TD});
   save();
   document.getElementById('ov-expense')?.remove();
-  toast('Dépense ajoutée','💸',2000);
+  toast(t('expense_added'),'💸',2000);
   renderBudget();
 }
 
@@ -4567,40 +4574,42 @@ function saveExpense(){
 // ── ACHIEVEMENT SYSTEM ──
 const ACHIEVEMENTS=[
   // Streaks
-  {id:'streak3',nm:'Régulier',desc:'3 jours de connexion',ico:'🔥',cond:()=>(S.loginS?.streak||0)>=3,xp:50},
-  {id:'streak7',nm:'Semaine parfaite',desc:'7 jours consécutifs',ico:'🔥',cond:()=>(S.loginS?.streak||0)>=7,xp:100},
-  {id:'streak30',nm:'Machine',desc:'30 jours consécutifs',ico:'💎',cond:()=>(S.loginS?.streak||0)>=30,xp:500},
+  {id:'streak3',k:'ach_streak3',ico:'🔥',cond:()=>(S.loginS?.streak||0)>=3,xp:50},
+  {id:'streak7',k:'ach_streak7',ico:'🔥',cond:()=>(S.loginS?.streak||0)>=7,xp:100},
+  {id:'streak30',k:'ach_streak30',ico:'💎',cond:()=>(S.loginS?.streak||0)>=30,xp:500},
   // XP
-  {id:'xp100',nm:'Premiers pas',desc:'100 XP accumulés',ico:'⭐',cond:()=>(S.xp||0)>=100,xp:20},
-  {id:'xp500',nm:'En route',desc:'500 XP accumulés',ico:'⭐',cond:()=>(S.xp||0)>=500,xp:50},
-  {id:'xp1000',nm:'Millionnaire XP',desc:'1000 XP accumulés',ico:'🏆',cond:()=>(S.xp||0)>=1000,xp:100},
-  {id:'xp5000',nm:'Légende',desc:'5000 XP accumulés',ico:'👑',cond:()=>(S.xp||0)>=5000,xp:250},
+  {id:'xp100',k:'ach_xp100',ico:'⭐',cond:()=>(S.xp||0)>=100,xp:20},
+  {id:'xp500',k:'ach_xp500',ico:'⭐',cond:()=>(S.xp||0)>=500,xp:50},
+  {id:'xp1000',k:'ach_xp1000',ico:'🏆',cond:()=>(S.xp||0)>=1000,xp:100},
+  {id:'xp5000',k:'ach_xp5000',ico:'👑',cond:()=>(S.xp||0)>=5000,xp:250},
   // Coach
-  {id:'coach5',nm:'Curieux',desc:'5 conversations avec le coach',ico:'🧠',cond:()=>(S.coachMem?.n||0)>=5,xp:30},
-  {id:'coach25',nm:'Apprenti',desc:'25 conversations avec le coach',ico:'🧠',cond:()=>(S.coachMem?.n||0)>=25,xp:75},
-  {id:'coach100',nm:'Sage',desc:'100 conversations avec le coach',ico:'🎓',cond:()=>(S.coachMem?.n||0)>=100,xp:200},
+  {id:'coach5',k:'ach_coach5',ico:'🧠',cond:()=>(S.coachMem?.n||0)>=5,xp:30},
+  {id:'coach25',k:'ach_coach25',ico:'🧠',cond:()=>(S.coachMem?.n||0)>=25,xp:75},
+  {id:'coach100',k:'ach_coach100',ico:'🎓',cond:()=>(S.coachMem?.n||0)>=100,xp:200},
   // Workout
-  {id:'wk1',nm:'Premier training',desc:'Complète ta première séance',ico:'💪',cond:()=>(S.workouts?.length||0)>=1,xp:30},
-  {id:'wk10',nm:'Athlète',desc:'10 séances complétées',ico:'💪',cond:()=>(S.workouts?.length||0)>=10,xp:100},
-  {id:'wk50',nm:'Beast Mode',desc:'50 séances complétées',ico:'🔥',cond:()=>(S.workouts?.length||0)>=50,xp:300},
+  {id:'wk1',k:'ach_wk1',ico:'💪',cond:()=>(S.workouts?.length||0)>=1,xp:30},
+  {id:'wk10',k:'ach_wk10',ico:'💪',cond:()=>(S.workouts?.length||0)>=10,xp:100},
+  {id:'wk50',k:'ach_wk50',ico:'🔥',cond:()=>(S.workouts?.length||0)>=50,xp:300},
   // Journal
-  {id:'j1',nm:'Introspection',desc:'Première entrée journal',ico:'📖',cond:()=>(S.journal?.length||0)>=1,xp:20},
-  {id:'j10',nm:'Écrivain',desc:'10 entrées journal',ico:'📖',cond:()=>(S.journal?.length||0)>=10,xp:75},
-  {id:'j30',nm:'Philosophe',desc:'30 entrées journal',ico:'📖',cond:()=>(S.journal?.length||0)>=30,xp:200},
+  {id:'j1',k:'ach_j1',ico:'📖',cond:()=>(S.journal?.length||0)>=1,xp:20},
+  {id:'j10',k:'ach_j10',ico:'📖',cond:()=>(S.journal?.length||0)>=10,xp:75},
+  {id:'j30',k:'ach_j30',ico:'📖',cond:()=>(S.journal?.length||0)>=30,xp:200},
   // Sleep
-  {id:'sl7',nm:'Dormeur régulier',desc:'7 nuits trackées',ico:'😴',cond:()=>(S.sleepLog?.length||0)>=7,xp:50},
-  {id:'sl30',nm:'Maître du sommeil',desc:'30 nuits trackées',ico:'😴',cond:()=>(S.sleepLog?.length||0)>=30,xp:150},
+  {id:'sl7',k:'ach_sl7',ico:'😴',cond:()=>(S.sleepLog?.length||0)>=7,xp:50},
+  {id:'sl30',k:'ach_sl30',ico:'😴',cond:()=>(S.sleepLog?.length||0)>=30,xp:150},
   // Formations
-  {id:'form1',nm:'Étudiant',desc:'Complète 1 module de formation',ico:'📚',cond:()=>{const c=S.formProg||{};return Object.values(c).some(f=>Object.values(f||{}).some(m=>m===true))},xp:30},
-  {id:'form10',nm:'Scholar',desc:'Complète 10 modules',ico:'🎓',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>Object.values(f||{}).forEach(m=>{if(m===true)n++;}));return n>=10;},xp:150},
+  {id:'form1',k:'ach_form1',ico:'📚',cond:()=>{const c=S.formProg||{};return Object.values(c).some(f=>Object.values(f||{}).some(m=>m===true))},xp:30},
+  {id:'form10',k:'ach_form10',ico:'🎓',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>Object.values(f||{}).forEach(m=>{if(m===true)n++;}));return n>=10;},xp:150},
   // Budget
-  {id:'budget1',nm:'Comptable',desc:'Track 10 dépenses',ico:'💰',cond:()=>(S.budget?.expenses?.length||0)>=10,xp:50},
+  {id:'budget1',k:'ach_budget1',ico:'💰',cond:()=>(S.budget?.expenses?.length||0)>=10,xp:50},
   // Flash
-  {id:'flash5',nm:'Challenger',desc:'5 défis flash complétés',ico:'⚡',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=5;},xp:75},
+  {id:'flash5',k:'ach_flash5',ico:'⚡',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=5;},xp:75},
   // Level
-  {id:'lvl5',nm:'Niveau 5',desc:'Atteins le niveau 5',ico:'🌟',cond:()=>getLvl(S.xp||0)>=4,xp:100},
-  {id:'lvl10',nm:'Niveau 10',desc:'Atteins le niveau 10',ico:'👑',cond:()=>getLvl(S.xp||0)>=9,xp:500}
+  {id:'lvl5',k:'ach_lvl5',ico:'🌟',cond:()=>getLvl(S.xp||0)>=4,xp:100},
+  {id:'lvl10',k:'ach_lvl10',ico:'👑',cond:()=>getLvl(S.xp||0)>=9,xp:500}
 ];
+function achNm(a){return t(a.k);}
+function achDesc(a){return t(a.k+'_d');}
 
 function chkAchievements(trigger){
   if(!S.achievements)S.achievements=[];
@@ -4611,8 +4620,8 @@ function chkAchievements(trigger){
       if(a.cond()){
         S.achievements.push(a.id);
         gainXP(a.xp,'achievement');
-        addN(a.ico,'Achievement: '+a.nm,a.desc+' · +'+a.xp+' XP');
-        toast(a.ico+' '+a.nm+' débloqué!','🏆',4000);
+        addN(a.ico,'Achievement: '+achNm(a),achDesc(a)+' · +'+a.xp+' XP');
+        toast(a.ico+' '+achNm(a)+' '+t('unlocked'),'🏆',4000);
         newCount++;
       }
     }catch(e){}
@@ -4629,7 +4638,7 @@ function renderAchievements(){
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
     ACHIEVEMENTS.map(a=>{
       const done=unlocked.includes(a.id);
-      return '<div class="wg" style="padding:12px;text-align:center;opacity:'+(done?1:0.4)+';position:relative"><div style="font-size:28px">'+(done?a.ico:'🔒')+'</div><div style="font-size:12px;font-weight:700;margin-top:4px">'+(done?a.nm:'???')+'</div><div style="font-size:10px;color:var(--tx3)">'+a.desc+'</div>'+(done?'<div style="font-size:9px;color:var(--ac);margin-top:2px">+'+a.xp+' XP</div>':'')+'</div>';
+      return '<div class="wg" style="padding:12px;text-align:center;opacity:'+(done?1:0.4)+';position:relative"><div style="font-size:28px">'+(done?a.ico:'🔒')+'</div><div style="font-size:12px;font-weight:700;margin-top:4px">'+(done?achNm(a):'???')+'</div><div style="font-size:10px;color:var(--tx3)">'+achDesc(a)+'</div>'+(done?'<div style="font-size:9px;color:var(--ac);margin-top:2px">+'+a.xp+' XP</div>':'')+'</div>';
     }).join('')+
     '</div>';
 }
@@ -5337,13 +5346,13 @@ Object.keys(LANG_EXTRA).forEach(function(lang){
 
 // ══ V24 — DEFI 7 JOURS (Guided Onboarding Challenge) ══
 var DEFI7_DAYS=[
-  {day:1,title:'Jour 1 — Respire',ico:'💨',tool:'nature',tab:'breath',desc:'Fais 1 exercice de respiration dans l\'onglet Nature.',xp:30,action:'Ouvrir Nature',screen:'nature'},
-  {day:2,title:'Jour 2 — Bouge',ico:'🏋️',tool:'workout',desc:'Ajoute 1 exercice dans ton Workout Tracker.',xp:35,action:'Ouvrir Workout',screen:'workout'},
-  {day:3,title:'Jour 3 — Ecris',ico:'📓',tool:'smartjournal',desc:'Ecris ta premiere entree dans le Journal Intelligent.',xp:35,action:'Ouvrir Journal',screen:'smartjournal'},
-  {day:4,title:'Jour 4 — Planifie',ico:'🍽️',tool:'meal',desc:'Remplis ton plan repas pour aujourd\'hui.',xp:35,action:'Ouvrir Repas',screen:'meal'},
-  {day:5,title:'Jour 5 — Apprends',ico:'🌍',tool:'lang',desc:'Complete 3 mots de vocabulaire dans une langue.',xp:40,action:'Ouvrir Langues',screen:'lang'},
-  {day:6,title:'Jour 6 — Gere',ico:'💰',tool:'budget',desc:'Ajoute 1 revenu et 1 depense dans ton Budget.',xp:40,action:'Ouvrir Budget',screen:'budget'},
-  {day:7,title:'Jour 7 — Triomphe',ico:'🏆',tool:'achievements',desc:'Debloque le badge "Semaine Complete" !',xp:100,action:'Voir Succes',screen:'achievements'}
+  {day:1,tk:'d7_1',ico:'💨',tool:'nature',tab:'breath',xp:30,screen:'nature'},
+  {day:2,tk:'d7_2',ico:'🏋️',tool:'workout',xp:35,screen:'workout'},
+  {day:3,tk:'d7_3',ico:'📓',tool:'smartjournal',xp:35,screen:'smartjournal'},
+  {day:4,tk:'d7_4',ico:'🍽️',tool:'meal',xp:35,screen:'meal'},
+  {day:5,tk:'d7_5',ico:'🌍',tool:'lang',xp:40,screen:'lang'},
+  {day:6,tk:'d7_6',ico:'💰',tool:'budget',xp:40,screen:'budget'},
+  {day:7,tk:'d7_7',ico:'🏆',tool:'achievements',xp:100,screen:'achievements'}
 ];
 function initDefi7(){
   S.defi7=S.defi7||{started:null,completed:[],dismissed:false};
@@ -5389,14 +5398,14 @@ function renderDefi7Widget(){
   h+='<div style="display:flex;align-items:center;gap:12px">';
   h+='<div style="font-size:36px">'+day.ico+'</div>';
   h+='<div style="flex:1">';
-  h+='<div style="font-family:var(--fd);font-weight:700;font-size:14px">'+day.title+'</div>';
-  h+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">'+day.desc+'</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:14px">'+t(day.tk)+'</div>';
+  h+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">'+t(day.tk+'d')+'</div>';
   h+='</div></div>';
   if(isDone){
     h+='<div style="text-align:center;padding:10px;margin-top:10px;background:var(--grd);border-radius:var(--rs);font-size:13px;font-weight:700;color:var(--gr)">Fait ! +'+day.xp+' XP</div>';
   }else{
     h+='<div style="display:flex;gap:8px;margin-top:10px">';
-    h+='<button class="btn btn-ac" style="flex:1;font-size:13px" onclick="gs(\''+day.screen+'\',null)">'+day.action+' →</button>';
+    h+='<button class="btn btn-ac" style="flex:1;font-size:13px" onclick="gs(\''+day.screen+'\',null)">'+t(day.tk+'a')+' →</button>';
     h+='<button style="flex:0;padding:10px 16px;background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--r);font-size:12px;font-weight:700;color:var(--gr)" onclick="completeDefi7Day('+dayIdx+','+day.xp+')">Fait ✓</button>';
     h+='</div>';
   }
@@ -6080,7 +6089,7 @@ function toggleZenMode(){
       {ico:'⭐',val:(S.xp||0)+' XP',lbl:'Experience'},
       {ico:'🔥',val:(S.loginS?.streak||0)+' jours',lbl:'Streak'},
       {ico:'💎',val:String(S.gems||0),lbl:'Gemmes'},
-      {ico:'🏆',val:'LVL '+(getLvl(S.xp||0)+1),lbl:LVL_T[getLvl(S.xp||0)]}
+      {ico:'🏆',val:'LVL '+(getLvl(S.xp||0)+1),lbl:tLvl(getLvl(S.xp||0))}
     ];
     stats.forEach(function(st,i){
       var x=50+i*185;var y=180;
@@ -9786,7 +9795,185 @@ var RISE_I18N = {
     pace_check_too_much: 'Tu fais beaucoup cette semaine, attention au burnout',
     pace_check_too_little: 'C\'est tranquille, ajoute un peu d\'ambition',
     day_of: 'Jour',
-    milestone: 'Étape'
+    milestone: 'Étape',
+    // Days & months
+    day_sun: 'Dim', day_mon: 'Lun', day_tue: 'Mar', day_wed: 'Mer', day_thu: 'Jeu', day_fri: 'Ven', day_sat: 'Sam',
+    month_jan: 'jan', month_feb: 'fév', month_mar: 'mar', month_apr: 'avr', month_may: 'mai', month_jun: 'jun', month_jul: 'jul', month_aug: 'aoû', month_sep: 'sep', month_oct: 'oct', month_nov: 'nov', month_dec: 'déc',
+    // Levels
+    lvl_0: 'Débutant', lvl_1: 'Apprenti', lvl_2: 'Engagé', lvl_3: 'Déterminé', lvl_4: 'Ambitieux', lvl_5: 'Courageux', lvl_6: 'Warrior', lvl_7: 'Champion', lvl_8: 'Légende', lvl_9: 'Invincible',
+    // Seasons
+    season_1: 'Fondations', season_2: 'Momentum', season_3: 'Maîtrise', season_4: 'Ascension',
+    // Bosses
+    boss_1: 'Boss Procrastination', boss_2: 'Tyran du Sommeil', boss_3: 'Démon Inactivité', boss_4: 'Virus Distraction',
+    // Avatars
+    av_0: 'Graine', av_1: 'Pousse', av_2: 'Meditant', av_3: 'Actif', av_4: 'Focalisé', av_5: 'Courageux', av_6: 'Warrior', av_7: 'Fluide', av_8: 'Lumière', av_9: 'Invincible',
+    av_d0: 'Le voyage commence maintenant.', av_d1: 'Les habitudes prennent racine.', av_d2: 'Le calme devient une force.', av_d3: 'Le corps suit le mental.', av_d4: 'Le focus est ton arme.', av_d5: 'Tu fais ce que les autres évitent.', av_d6: 'Rien ne peut t\'arrêter.', av_d7: 'L\'adaptabilité est ta force.', av_d8: 'Tu inspires ceux qui t\'entourent.', av_d9: 'Le sommet est ta résidence.',
+    // Breathing exercises
+    breath_cardiac: 'Cohérence cardiaque', breath_box: 'Box Breathing', breath_478: '4-7-8 Sommeil', breath_wim: 'Wim Hof',
+    breath_cardiac_d: '5-5. Cortisol↓ calme↑', breath_box_d: '4-4-4. Navy SEALs', breath_478_d: 'Endormissement rapide', breath_wim_d: 'Activation et énergie',
+    // Quests
+    quest_checkin: 'Check-in', quest_3tasks: '3 tâches faites', quest_coach: 'Parler au coach', quest_2pomo: '2 Pomodoros', quest_walk: '10min de marche', quest_sun: '15min de soleil', quest_breath: 'Session respiration', quest_form: 'Module formation',
+    // Flash challenges
+    flash_pushups: '30 Pompes maintenant', flash_pushups_d: 'Stop. 30 pompes. Reviens.',
+    flash_outside: '20min dehors sans téléphone', flash_outside_d: 'Sors maintenant. 20 min.',
+    flash_breathing: '5min cohérence cardiaque', flash_breathing_d: '5-5 maintenant.',
+    flash_gratitude: '3 gratitudes', flash_gratitude_d: '3 choses positives dans ta vie.',
+    flash_sun: '5min de soleil', flash_sun_d: 'Sors. Lève la tête. 5 min.',
+    flash_cold: '30sec eau froide', flash_cold_d: 'Finir la prochaine douche en froid.',
+    flash_meditate: '10min méditation', flash_meditate_d: 'Silence. Yeux fermés. Respire.',
+    // Challenges
+    ch_walk7: '7j de Marche', ch_walk7_d: '15min min par jour pendant 7j',
+    ch_pomo10: '10 Pomodoros', ch_pomo10_d: '10 sessions focus en 7 jours',
+    ch_sun5: '5j de Soleil', ch_sun5_d: '20min dehors 5 jours de suite',
+    ch_cold5: '5 Douches Froides', ch_cold5_d: '5 douches froides consécutives',
+    ch_read7: '7j de Lecture', ch_read7_d: '20min de lecture par jour',
+    ch_noscreen: 'Soirée sans écran', ch_noscreen_d: '0 écran après 21h pendant 3j',
+    // 7-day challenge
+    d7_1: 'Jour 1 — Respire', d7_1d: 'Fais 1 exercice de respiration dans l\'onglet Nature.', d7_1a: 'Ouvrir Nature',
+    d7_2: 'Jour 2 — Bouge', d7_2d: 'Ajoute 1 exercice dans ton Workout Tracker.', d7_2a: 'Ouvrir Workout',
+    d7_3: 'Jour 3 — Écris', d7_3d: 'Écris ta première entrée dans le Journal Intelligent.', d7_3a: 'Ouvrir Journal',
+    d7_4: 'Jour 4 — Planifie', d7_4d: 'Remplis ton plan repas pour aujourd\'hui.', d7_4a: 'Ouvrir Repas',
+    d7_5: 'Jour 5 — Apprends', d7_5d: 'Complète 3 mots de vocabulaire dans une langue.', d7_5a: 'Ouvrir Langues',
+    d7_6: 'Jour 6 — Gère', d7_6d: 'Ajoute 1 revenu et 1 dépense dans ton Budget.', d7_6a: 'Ouvrir Budget',
+    d7_7: 'Jour 7 — Triomphe', d7_7d: 'Débloque le badge "Semaine Complète" !', d7_7a: 'Voir Succès',
+    // Achievements
+    ach_streak3: 'Régulier', ach_streak3_d: '3 jours de connexion',
+    ach_streak7: 'Semaine parfaite', ach_streak7_d: '7 jours consécutifs',
+    ach_streak30: 'Machine', ach_streak30_d: '30 jours consécutifs',
+    ach_xp100: 'Premiers pas', ach_xp100_d: '100 XP accumulés',
+    ach_xp500: 'En route', ach_xp500_d: '500 XP accumulés',
+    ach_xp1000: 'Millionnaire XP', ach_xp1000_d: '1000 XP accumulés',
+    ach_xp5000: 'Légende', ach_xp5000_d: '5000 XP accumulés',
+    ach_coach5: 'Curieux', ach_coach5_d: '5 conversations avec le coach',
+    ach_coach25: 'Apprenti', ach_coach25_d: '25 conversations avec le coach',
+    ach_coach100: 'Sage', ach_coach100_d: '100 conversations avec le coach',
+    ach_wk1: 'Premier training', ach_wk1_d: 'Complète ta première séance',
+    ach_wk10: 'Athlète', ach_wk10_d: '10 séances complétées',
+    ach_wk50: 'Beast Mode', ach_wk50_d: '50 séances complétées',
+    ach_j1: 'Introspection', ach_j1_d: 'Première entrée journal',
+    ach_j10: 'Écrivain', ach_j10_d: '10 entrées journal',
+    ach_j30: 'Philosophe', ach_j30_d: '30 entrées journal',
+    ach_sl7: 'Dormeur régulier', ach_sl7_d: '7 nuits trackées',
+    ach_sl30: 'Maître du sommeil', ach_sl30_d: '30 nuits trackées',
+    ach_form1: 'Étudiant', ach_form1_d: 'Complète 1 module de formation',
+    ach_form10: 'Scholar', ach_form10_d: 'Complète 10 modules',
+    ach_budget1: 'Comptable', ach_budget1_d: 'Track 10 dépenses',
+    ach_flash5: 'Challenger', ach_flash5_d: '5 défis flash complétés',
+    ach_lvl5: 'Niveau 5', ach_lvl5_d: 'Atteins le niveau 5',
+    ach_lvl10: 'Niveau 10', ach_lvl10_d: 'Atteins le niveau 10',
+    // Zodiac signs
+    zodiac_aries: 'Bélier', zodiac_taurus: 'Taureau', zodiac_gemini: 'Gémeaux', zodiac_cancer: 'Cancer', zodiac_leo: 'Lion', zodiac_virgo: 'Vierge', zodiac_libra: 'Balance', zodiac_scorpio: 'Scorpion', zodiac_sagittarius: 'Sagittaire', zodiac_capricorn: 'Capricorne', zodiac_aquarius: 'Verseau', zodiac_pisces: 'Poissons',
+    // Elements
+    elem_fire: 'Feu', elem_earth: 'Terre', elem_air: 'Air', elem_water: 'Eau',
+    // Colors
+    color_red: '🔴 Rouge', color_orange: '🟠 Orange', color_yellow: '🟡 Jaune', color_green: '🟢 Vert', color_blue: '🔵 Bleu', color_purple: '🟣 Violet', color_black: '⚫ Noir', color_white: '⚪ Blanc', color_gray: '🩶 Gris', color_brown: '🤎 Marron',
+    // Default habits
+    habit_meditate: 'Méditer 10 min', habit_exercise: 'Exercice 30 min', habit_read: 'Lire 20 pages', habit_water: '3L eau', habit_noscreen: 'Pas de réseaux 1h', habit_journal: 'Journal / Gratitude', habit_walk: 'Marche dehors', habit_deepwork: 'Deep Work 2h',
+    // Expense categories
+    cat_housing: 'Logement', cat_food: 'Alimentation', cat_transport: 'Transport', cat_health: 'Santé', cat_leisure: 'Loisirs', cat_shopping: 'Shopping', cat_savings: 'Épargne', cat_other: 'Autre',
+    // Affiliation tiers
+    aff_beginner: 'Débutant', aff_active: 'Actif', aff_pro: 'Pro', aff_elite: 'Elite',
+    // Formations
+    form_mindset: 'Mindset Entrepreneur', form_mindset_d: 'Vision, risque, résilience.',
+    form_rich: 'Devenir Riche', form_rich_d: 'Revenus passifs, liberté financière.',
+    form_social: 'Social Media Pro', form_social_d: 'TikTok, YouTube, viral.',
+    form_psych: 'Psychologie du Succès', form_psych_d: 'Confiance, reprogrammation.',
+    form_code: 'Code pour Tous', form_code_d: 'HTML, CSS, JS, Python.',
+    form_calisthenics: 'Calisténie Progressive', form_calisthenics_d: 'Muscle-up, handstand.',
+    form_nature: 'Bien-être Nature', form_nature_d: 'Marche, soleil, sommeil.',
+    form_ai: 'Business avec IA', form_ai_d: 'Claude, ChatGPT, business IA.',
+    form_nutrition: 'Nutrition Scientifique', form_nutrition_d: 'Macros, timing, vrais effets.',
+    form_sales: 'Vente et Persuasion', form_sales_d: 'Copywriting, closing.',
+    // Mindful walk
+    mw_1: 'Ancre-toi', mw_1d: 'Sens tes pieds toucher le sol. Gauche. Droite.',
+    mw_2: 'Observe', mw_2d: '5 choses autour de toi. Couleurs, formes, mouvements.',
+    mw_3: 'Écoute', mw_3d: 'Ferme les yeux 10 sec. Combien de sons?',
+    mw_4: 'Sens', mw_4d: 'Air sur la peau. Température. Odeurs.',
+    mw_5: 'Respire en marchant', mw_5d: 'Inspire 4 pas. Expire 4 pas.',
+    mw_6: 'Gratitude', mw_6d: 'Pour chaque pas, une chose positive.',
+    // Skill trees
+    sk_focus: '🎯 Focus', sk_nature: '🌿 Nature', sk_mind: '🧠 Mental', sk_biz: '💰 Business',
+    sk_todo: 'To-do', sk_pomodoro: 'Pomodoro', sk_deepwork: 'Deep Work', sk_clarity: 'Mental clair', sk_peak: 'Peak State', sk_flow: 'Flow maître',
+    sk_walk: 'Marche', sk_sun: 'Soleil', sk_breathing: 'Respiration', sk_cold: 'Froid', sk_outdoor: 'Plein air', sk_nomad: 'Nomade',
+    sk_meditation: 'Méditation', sk_journal_sk: 'Journal', sk_clarity_sk: 'Clarté', sk_vision: 'Vision', sk_stoicism: 'Stoïcisme', sk_master: 'Maître',
+    sk_brand: 'Personal Brand', sk_freelance: 'Freelance', sk_startup: 'Startup', sk_scaling: 'Scaling', sk_ai_biz: 'IA Business', sk_empire: 'Empire',
+    // Plans
+    plan_free_feats: 'Accueil perso', plan_nature_complete: 'Nature complet', plan_checkin_ai: 'Check-in IA', plan_2_formations: '2 formations', plan_affiliation_15: 'Affiliation 15%',
+    plan_coach_unlimited: 'Coach illimité', plan_ai_books: 'Livres IA perso', plan_premium_tourney: 'Tournoi premium',
+    // Common UI
+    send: 'Envoyer', add: 'Ajouter', delete_btn: 'Supprimer', edit_btn: 'Modifier', confirm: 'Confirmer',
+    welcome: 'Bienvenue', congratulations: 'Félicitations',
+    no_notifications: 'Aucune notification', login_bonus: 'Connexion J', daily_bonus: 'Bonus quotidien',
+    level_up: 'Niveau', unlocked: 'débloqué!', mystery_chest: 'Coffre mystère !', chest_won: 'Tu as gagné un coffre !',
+    error_report: 'Erreur génération rapport.',
+    weekly_report: 'Rapport Hebdo', strengths: 'Points forts', to_improve: 'À améliorer', insight: 'Insight', priority_next_week: 'Priorité semaine prochaine', regenerate: 'Régénérer',
+    all_avatars: 'Tous les avatars',
+    expense_added: 'Dépense ajoutée',
+    placeholder_question: 'Pose-moi une question...',
+    placeholder_name: 'Ton prénom', placeholder_age: 'Ton âge (optionnel)',
+    select_domain: 'Sélectionne au moins 1 domaine',
+    placeholder_journal: 'Comment te sens-tu aujourd\'hui ?',
+    placeholder_gratitude: 'Je suis reconnaissant pour...',
+    placeholder_note: 'Ajoute une note (optionnel)',
+    write_few_words: 'Écris au moins quelques mots',
+    fill_desc_amount: 'Remplis la description et le montant',
+    describe_idea: 'Décris ton idée',
+    add_content: 'Ajoute du contenu!',
+    write_suggestion: 'Écris ta suggestion!',
+    journal_weekly_goal: 'Écris dans ton journal 5 jours cette semaine',
+    task_prompt: 'Tâche:', title_prompt: 'Titre ?', date_prompt: 'Date (YYYY-MM-DD) ?', time_prompt: 'Heure (HH:MM, opt.)',
+    tag_prompt: 'Tag (opt.)', goal_prompt: 'Objectif ?', deadline_prompt: 'Deadline ?', key_result_prompt: 'Key Result ?',
+    name_prompt: 'Nom ?', company_prompt: 'Entreprise (opt.)', role_prompt: 'Rôle (opt.)',
+    add_transaction: 'Ajouter une transaction',
+    // Personalized tips
+    tip_morning_1: 'Commence par un verre d\'eau, ton corps te remerciera',
+    tip_morning_2: 'Respire profondément, tu contrôles ta journée',
+    tip_morning_3: 'Une petite victoire rapide te donnera de l\'élan',
+    tip_morning_4: 'Définis tes 3 priorités, le reste est du bruit',
+    tip_morning_5: 'Médite 5 minutes, c\'est magique pour la clarté',
+    tip_evening_1: 'Félicite-toi d\'au moins une chose d\'aujourd\'hui',
+    tip_evening_2: 'Révise ce que tu as appris aujourd\'hui',
+    tip_evening_3: 'Prépare demain pour être plus efficace',
+    tip_evening_4: 'Débranche-toi, tu l\'as mérité',
+    tip_evening_5: 'Lâche le contrôle, demain est un autre jour',
+    tip_biz_1: 'Le timing est tout, il est peut-être temps d\'agir',
+    tip_biz_2: 'Un client c\'est une relation, pas une transaction',
+    tip_biz_3: 'Documente ton processus, c\'est ta richesse',
+    tip_biz_4: 'L\'expansion commence quand tu lâches le contrôle',
+    tip_biz_5: 'Teste vite, apprends vite, itère',
+    tip_health_1: 'Le mouvement est la meilleure médecine',
+    tip_health_2: 'L\'hydratation affecte ton énergie mentale',
+    tip_health_3: 'Le sommeil est un superpower, ne le néglige pas',
+    tip_health_4: 'La nutrition impacte ta clarté',
+    tip_health_5: 'Marche 30 min, ça résout beaucoup',
+    tip_beg_1: 'Apprends les bases d\'abord, la vitesse viendra après',
+    tip_beg_2: 'Trouve un mentor, c\'est plus rapide',
+    tip_int_1: 'Scale ce qui marche, drop ce qui ne marche pas',
+    tip_int_2: 'Automatise les tâches répétitives',
+    tip_adv_1: 'Pense comme un investisseur, pas comme un employé',
+    tip_adv_2: 'Ton temps est ta ressource la plus rare',
+    // Zodiac tips
+    ztip_aries: 'Canalise ton énergie brute en action stratégique',
+    ztip_taurus: 'La patience paie, mais reste flexible',
+    ztip_gemini: 'Focus sur une chose, pas trois',
+    ztip_cancer: 'Protège ton énergie émotionnelle d\'abord',
+    ztip_leo: 'Partage tes succès, ne domine pas',
+    ztip_virgo: 'La perfection est l\'ennemi du progrès',
+    ztip_libra: 'Décide maintenant, pas dans 2 semaines',
+    ztip_scorpio: 'L\'intensité c\'est bien, la vengeance non',
+    ztip_sagittarius: 'Les promesses c\'est sérieux, tiens-les',
+    ztip_capricorn: 'Le plaisir aussi fait partie du plan',
+    ztip_aquarius: 'L\'innovation sans humanité c\'est vide',
+    ztip_pisces: 'La réalité existe, n\'oublie pas',
+    // Quote fallbacks
+    quote_1: 'Chaque jour est une nouvelle chance de devenir meilleur.',
+    quote_2: 'Le succès est la somme de petits efforts répétés jour après jour.',
+    quote_3: 'La discipline est le pont entre tes objectifs et tes résultats.',
+    quote_4: 'Tu es plus fort que tu ne le penses.',
+    quote_5: 'Un petit pas chaque jour mène très loin.',
+    // Horoscope
+    horoscope_unavailable: 'Horoscope indisponible',
+    mysterious_day: 'Jour mystérieux'
   },
   en: {
     home: 'Home',
@@ -9872,7 +10059,185 @@ var RISE_I18N = {
     pace_check_too_much: 'You\'re doing a lot this week, watch for burnout',
     pace_check_too_little: 'It\'s quiet, add some ambition',
     day_of: 'Day',
-    milestone: 'Milestone'
+    milestone: 'Milestone',
+    // Days & months
+    day_sun: 'Sun', day_mon: 'Mon', day_tue: 'Tue', day_wed: 'Wed', day_thu: 'Thu', day_fri: 'Fri', day_sat: 'Sat',
+    month_jan: 'Jan', month_feb: 'Feb', month_mar: 'Mar', month_apr: 'Apr', month_may: 'May', month_jun: 'Jun', month_jul: 'Jul', month_aug: 'Aug', month_sep: 'Sep', month_oct: 'Oct', month_nov: 'Nov', month_dec: 'Dec',
+    // Levels
+    lvl_0: 'Beginner', lvl_1: 'Apprentice', lvl_2: 'Committed', lvl_3: 'Determined', lvl_4: 'Ambitious', lvl_5: 'Fearless', lvl_6: 'Warrior', lvl_7: 'Champion', lvl_8: 'Legend', lvl_9: 'Unstoppable',
+    // Seasons
+    season_1: 'Foundations', season_2: 'Momentum', season_3: 'Mastery', season_4: 'Ascension',
+    // Bosses
+    boss_1: 'Procrastination Boss', boss_2: 'Sleep Tyrant', boss_3: 'Inactivity Demon', boss_4: 'Distraction Virus',
+    // Avatars
+    av_0: 'Seed', av_1: 'Sprout', av_2: 'Meditator', av_3: 'Active', av_4: 'Focused', av_5: 'Fearless', av_6: 'Warrior', av_7: 'Fluid', av_8: 'Light', av_9: 'Unstoppable',
+    av_d0: 'The journey starts now.', av_d1: 'Habits are taking root.', av_d2: 'Calm becomes strength.', av_d3: 'Body follows mind.', av_d4: 'Focus is your weapon.', av_d5: 'You do what others avoid.', av_d6: 'Nothing can stop you.', av_d7: 'Adaptability is your power.', av_d8: 'You inspire those around you.', av_d9: 'The summit is your home.',
+    // Breathing exercises
+    breath_cardiac: 'Cardiac coherence', breath_box: 'Box Breathing', breath_478: '4-7-8 Sleep', breath_wim: 'Wim Hof',
+    breath_cardiac_d: '5-5. Cortisol↓ calm↑', breath_box_d: '4-4-4. Navy SEALs', breath_478_d: 'Fall asleep fast', breath_wim_d: 'Activation and energy',
+    // Quests
+    quest_checkin: 'Check-in', quest_3tasks: '3 tasks done', quest_coach: 'Talk to coach', quest_2pomo: '2 Pomodoros', quest_walk: '10min walk', quest_sun: '15min sunshine', quest_breath: 'Breathing session', quest_form: 'Course module',
+    // Flash challenges
+    flash_pushups: '30 Push-ups now', flash_pushups_d: 'Stop. 30 push-ups. Come back.',
+    flash_outside: '20min outside no phone', flash_outside_d: 'Go outside now. 20 min.',
+    flash_breathing: '5min cardiac coherence', flash_breathing_d: '5-5 right now.',
+    flash_gratitude: '3 gratitudes', flash_gratitude_d: '3 positive things in your life.',
+    flash_sun: '5min of sunshine', flash_sun_d: 'Go out. Look up. 5 min.',
+    flash_cold: '30sec cold water', flash_cold_d: 'End your next shower cold.',
+    flash_meditate: '10min meditation', flash_meditate_d: 'Silence. Eyes closed. Breathe.',
+    // Challenges
+    ch_walk7: '7 Days of Walking', ch_walk7_d: '15min minimum per day for 7 days',
+    ch_pomo10: '10 Pomodoros', ch_pomo10_d: '10 focus sessions in 7 days',
+    ch_sun5: '5 Days of Sunshine', ch_sun5_d: '20min outside 5 days straight',
+    ch_cold5: '5 Cold Showers', ch_cold5_d: '5 consecutive cold showers',
+    ch_read7: '7 Days of Reading', ch_read7_d: '20min of reading per day',
+    ch_noscreen: 'Screen-free Evening', ch_noscreen_d: 'No screens after 9 PM for 3 days',
+    // 7-day challenge
+    d7_1: 'Day 1 — Breathe', d7_1d: 'Do 1 breathing exercise in the Nature tab.', d7_1a: 'Open Nature',
+    d7_2: 'Day 2 — Move', d7_2d: 'Add 1 exercise in your Workout Tracker.', d7_2a: 'Open Workout',
+    d7_3: 'Day 3 — Write', d7_3d: 'Write your first entry in the Smart Journal.', d7_3a: 'Open Journal',
+    d7_4: 'Day 4 — Plan', d7_4d: 'Fill in your meal plan for today.', d7_4a: 'Open Meals',
+    d7_5: 'Day 5 — Learn', d7_5d: 'Complete 3 vocabulary words in a language.', d7_5a: 'Open Languages',
+    d7_6: 'Day 6 — Manage', d7_6d: 'Add 1 income and 1 expense in your Budget.', d7_6a: 'Open Budget',
+    d7_7: 'Day 7 — Triumph', d7_7d: 'Unlock the "Complete Week" badge!', d7_7a: 'View Achievements',
+    // Achievements
+    ach_streak3: 'Consistent', ach_streak3_d: '3 days logged in',
+    ach_streak7: 'Perfect Week', ach_streak7_d: '7 consecutive days',
+    ach_streak30: 'Machine', ach_streak30_d: '30 consecutive days',
+    ach_xp100: 'First Steps', ach_xp100_d: '100 XP earned',
+    ach_xp500: 'On the Way', ach_xp500_d: '500 XP earned',
+    ach_xp1000: 'XP Millionaire', ach_xp1000_d: '1,000 XP earned',
+    ach_xp5000: 'Legend', ach_xp5000_d: '5,000 XP earned',
+    ach_coach5: 'Curious', ach_coach5_d: '5 conversations with coach',
+    ach_coach25: 'Apprentice', ach_coach25_d: '25 conversations with coach',
+    ach_coach100: 'Wise', ach_coach100_d: '100 conversations with coach',
+    ach_wk1: 'First Training', ach_wk1_d: 'Complete your first session',
+    ach_wk10: 'Athlete', ach_wk10_d: '10 sessions completed',
+    ach_wk50: 'Beast Mode', ach_wk50_d: '50 sessions completed',
+    ach_j1: 'Introspection', ach_j1_d: 'First journal entry',
+    ach_j10: 'Writer', ach_j10_d: '10 journal entries',
+    ach_j30: 'Philosopher', ach_j30_d: '30 journal entries',
+    ach_sl7: 'Regular Sleeper', ach_sl7_d: '7 nights tracked',
+    ach_sl30: 'Sleep Master', ach_sl30_d: '30 nights tracked',
+    ach_form1: 'Student', ach_form1_d: 'Complete 1 course module',
+    ach_form10: 'Scholar', ach_form10_d: 'Complete 10 modules',
+    ach_budget1: 'Accountant', ach_budget1_d: 'Track 10 expenses',
+    ach_flash5: 'Challenger', ach_flash5_d: '5 flash challenges completed',
+    ach_lvl5: 'Level 5', ach_lvl5_d: 'Reach level 5',
+    ach_lvl10: 'Level 10', ach_lvl10_d: 'Reach level 10',
+    // Zodiac signs
+    zodiac_aries: 'Aries', zodiac_taurus: 'Taurus', zodiac_gemini: 'Gemini', zodiac_cancer: 'Cancer', zodiac_leo: 'Leo', zodiac_virgo: 'Virgo', zodiac_libra: 'Libra', zodiac_scorpio: 'Scorpio', zodiac_sagittarius: 'Sagittarius', zodiac_capricorn: 'Capricorn', zodiac_aquarius: 'Aquarius', zodiac_pisces: 'Pisces',
+    // Elements
+    elem_fire: 'Fire', elem_earth: 'Earth', elem_air: 'Air', elem_water: 'Water',
+    // Colors
+    color_red: '🔴 Red', color_orange: '🟠 Orange', color_yellow: '🟡 Yellow', color_green: '🟢 Green', color_blue: '🔵 Blue', color_purple: '🟣 Purple', color_black: '⚫ Black', color_white: '⚪ White', color_gray: '🩶 Gray', color_brown: '🤎 Brown',
+    // Default habits
+    habit_meditate: 'Meditate 10 min', habit_exercise: 'Exercise 30 min', habit_read: 'Read 20 pages', habit_water: '3L water', habit_noscreen: 'No social media 1h', habit_journal: 'Journal / Gratitude', habit_walk: 'Walk outside', habit_deepwork: 'Deep Work 2h',
+    // Expense categories
+    cat_housing: 'Housing', cat_food: 'Food', cat_transport: 'Transport', cat_health: 'Health', cat_leisure: 'Leisure', cat_shopping: 'Shopping', cat_savings: 'Savings', cat_other: 'Other',
+    // Affiliation tiers
+    aff_beginner: 'Beginner', aff_active: 'Active', aff_pro: 'Pro', aff_elite: 'Elite',
+    // Formations
+    form_mindset: 'Entrepreneur Mindset', form_mindset_d: 'Vision, risk, resilience.',
+    form_rich: 'Get Rich', form_rich_d: 'Passive income, financial freedom.',
+    form_social: 'Social Media Pro', form_social_d: 'TikTok, YouTube, viral.',
+    form_psych: 'Psychology of Success', form_psych_d: 'Confidence, reprogramming.',
+    form_code: 'Code for Everyone', form_code_d: 'HTML, CSS, JS, Python.',
+    form_calisthenics: 'Progressive Calisthenics', form_calisthenics_d: 'Muscle-up, handstand.',
+    form_nature: 'Nature Wellness', form_nature_d: 'Walking, sun, sleep.',
+    form_ai: 'AI Business', form_ai_d: 'Claude, ChatGPT, AI business.',
+    form_nutrition: 'Scientific Nutrition', form_nutrition_d: 'Macros, timing, real effects.',
+    form_sales: 'Sales & Persuasion', form_sales_d: 'Copywriting, closing.',
+    // Mindful walk
+    mw_1: 'Ground yourself', mw_1d: 'Feel your feet on the ground. Left. Right.',
+    mw_2: 'Observe', mw_2d: '5 things around you. Colors, shapes, movements.',
+    mw_3: 'Listen', mw_3d: 'Close your eyes 10 sec. How many sounds?',
+    mw_4: 'Feel', mw_4d: 'Air on your skin. Temperature. Smells.',
+    mw_5: 'Breathe while walking', mw_5d: 'Inhale 4 steps. Exhale 4 steps.',
+    mw_6: 'Gratitude', mw_6d: 'For each step, one positive thing.',
+    // Skill trees
+    sk_focus: '🎯 Focus', sk_nature: '🌿 Nature', sk_mind: '🧠 Mind', sk_biz: '💰 Business',
+    sk_todo: 'To-do', sk_pomodoro: 'Pomodoro', sk_deepwork: 'Deep Work', sk_clarity: 'Clear mind', sk_peak: 'Peak State', sk_flow: 'Flow master',
+    sk_walk: 'Walk', sk_sun: 'Sun', sk_breathing: 'Breathing', sk_cold: 'Cold', sk_outdoor: 'Outdoors', sk_nomad: 'Nomad',
+    sk_meditation: 'Meditation', sk_journal_sk: 'Journal', sk_clarity_sk: 'Clarity', sk_vision: 'Vision', sk_stoicism: 'Stoicism', sk_master: 'Master',
+    sk_brand: 'Personal Brand', sk_freelance: 'Freelance', sk_startup: 'Startup', sk_scaling: 'Scaling', sk_ai_biz: 'AI Business', sk_empire: 'Empire',
+    // Plans
+    plan_free_feats: 'Personal home', plan_nature_complete: 'Full Nature', plan_checkin_ai: 'AI Check-in', plan_2_formations: '2 courses', plan_affiliation_15: 'Affiliation 15%',
+    plan_coach_unlimited: 'Unlimited coach', plan_ai_books: 'AI Books', plan_premium_tourney: 'Premium tournament',
+    // Common UI
+    send: 'Send', add: 'Add', delete_btn: 'Delete', edit_btn: 'Edit', confirm: 'Confirm',
+    welcome: 'Welcome', congratulations: 'Congratulations',
+    no_notifications: 'No notifications', login_bonus: 'Login Day', daily_bonus: 'Daily bonus',
+    level_up: 'Level', unlocked: 'unlocked!', mystery_chest: 'Mystery Chest!', chest_won: 'You won a chest!',
+    error_report: 'Error generating report.',
+    weekly_report: 'Weekly Report', strengths: 'Strengths', to_improve: 'To improve', insight: 'Insight', priority_next_week: 'Priority next week', regenerate: 'Regenerate',
+    all_avatars: 'All avatars',
+    expense_added: 'Expense added',
+    placeholder_question: 'Ask me a question...',
+    placeholder_name: 'Your first name', placeholder_age: 'Your age (optional)',
+    select_domain: 'Select at least 1 domain',
+    placeholder_journal: 'How are you feeling today?',
+    placeholder_gratitude: 'I am grateful for...',
+    placeholder_note: 'Add a note (optional)',
+    write_few_words: 'Write at least a few words',
+    fill_desc_amount: 'Fill in description and amount',
+    describe_idea: 'Describe your idea',
+    add_content: 'Add content!',
+    write_suggestion: 'Write your suggestion!',
+    journal_weekly_goal: 'Write in your journal 5 days this week',
+    task_prompt: 'Task:', title_prompt: 'Title?', date_prompt: 'Date (YYYY-MM-DD)?', time_prompt: 'Time (HH:MM, opt.)',
+    tag_prompt: 'Tag (opt.)', goal_prompt: 'Goal?', deadline_prompt: 'Deadline?', key_result_prompt: 'Key Result?',
+    name_prompt: 'Name?', company_prompt: 'Company (opt.)', role_prompt: 'Role (opt.)',
+    add_transaction: 'Add a transaction',
+    // Personalized tips
+    tip_morning_1: 'Start with a glass of water — your body will thank you',
+    tip_morning_2: 'Breathe deeply — you control your day',
+    tip_morning_3: 'A quick win will give you momentum',
+    tip_morning_4: 'Define your 3 priorities — the rest is noise',
+    tip_morning_5: 'Meditate 5 minutes — magic for clarity',
+    tip_evening_1: 'Celebrate at least one thing from today',
+    tip_evening_2: 'Review what you learned today',
+    tip_evening_3: 'Prepare tomorrow to be more effective',
+    tip_evening_4: 'Unplug — you earned it',
+    tip_evening_5: 'Let go — tomorrow is a new day',
+    tip_biz_1: 'Timing is everything — maybe it\'s time to act',
+    tip_biz_2: 'A client is a relationship, not a transaction',
+    tip_biz_3: 'Document your process — it\'s your wealth',
+    tip_biz_4: 'Expansion starts when you let go of control',
+    tip_biz_5: 'Test fast, learn fast, iterate',
+    tip_health_1: 'Movement is the best medicine',
+    tip_health_2: 'Hydration affects your mental energy',
+    tip_health_3: 'Sleep is a superpower — don\'t neglect it',
+    tip_health_4: 'Nutrition impacts your clarity',
+    tip_health_5: 'Walk 30 min — it solves a lot',
+    tip_beg_1: 'Learn the basics first — speed comes later',
+    tip_beg_2: 'Find a mentor — it\'s faster',
+    tip_int_1: 'Scale what works, drop what doesn\'t',
+    tip_int_2: 'Automate repetitive tasks',
+    tip_adv_1: 'Think like an investor, not an employee',
+    tip_adv_2: 'Your time is your scarcest resource',
+    // Zodiac tips
+    ztip_aries: 'Channel your raw energy into strategic action',
+    ztip_taurus: 'Patience pays, but stay flexible',
+    ztip_gemini: 'Focus on one thing, not three',
+    ztip_cancer: 'Protect your emotional energy first',
+    ztip_leo: 'Share your wins — don\'t dominate',
+    ztip_virgo: 'Perfection is the enemy of progress',
+    ztip_libra: 'Decide now, not in 2 weeks',
+    ztip_scorpio: 'Intensity is good — revenge is not',
+    ztip_sagittarius: 'Promises are serious — keep them',
+    ztip_capricorn: 'Pleasure is also part of the plan',
+    ztip_aquarius: 'Innovation without humanity is empty',
+    ztip_pisces: 'Reality exists — don\'t forget',
+    // Quote fallbacks
+    quote_1: 'Every day is a new chance to become better.',
+    quote_2: 'Success is the sum of small efforts repeated day after day.',
+    quote_3: 'Discipline is the bridge between your goals and your results.',
+    quote_4: 'You are stronger than you think.',
+    quote_5: 'One small step every day leads very far.',
+    // Horoscope
+    horoscope_unavailable: 'Horoscope unavailable',
+    mysterious_day: 'Mysterious day'
   },
   es: {
     home: 'Inicio',
@@ -9958,10 +10323,188 @@ var RISE_I18N = {
     pace_check_too_much: 'Estás haciendo mucho esta semana, cuidado con el agotamiento',
     pace_check_too_little: 'Está tranquilo, añade ambición',
     day_of: 'Día',
-    milestone: 'Hito'
+    milestone: 'Hito',
+    // Days & months
+    day_sun: 'Dom', day_mon: 'Lun', day_tue: 'Mar', day_wed: 'Mié', day_thu: 'Jue', day_fri: 'Vie', day_sat: 'Sáb',
+    month_jan: 'ene', month_feb: 'feb', month_mar: 'mar', month_apr: 'abr', month_may: 'may', month_jun: 'jun', month_jul: 'jul', month_aug: 'ago', month_sep: 'sep', month_oct: 'oct', month_nov: 'nov', month_dec: 'dic',
+    // Levels
+    lvl_0: 'Principiante', lvl_1: 'Aprendiz', lvl_2: 'Comprometido', lvl_3: 'Determinado', lvl_4: 'Ambicioso', lvl_5: 'Valiente', lvl_6: 'Guerrero', lvl_7: 'Campeón', lvl_8: 'Leyenda', lvl_9: 'Imparable',
+    // Seasons
+    season_1: 'Fundamentos', season_2: 'Momentum', season_3: 'Maestría', season_4: 'Ascensión',
+    // Bosses
+    boss_1: 'Jefe Procrastinación', boss_2: 'Tirano del Sueño', boss_3: 'Demonio Inactividad', boss_4: 'Virus Distracción',
+    // Avatars
+    av_0: 'Semilla', av_1: 'Brote', av_2: 'Meditador', av_3: 'Activo', av_4: 'Enfocado', av_5: 'Valiente', av_6: 'Guerrero', av_7: 'Fluido', av_8: 'Luz', av_9: 'Imparable',
+    av_d0: 'El viaje comienza ahora.', av_d1: 'Los hábitos echan raíces.', av_d2: 'La calma se vuelve fuerza.', av_d3: 'El cuerpo sigue a la mente.', av_d4: 'El enfoque es tu arma.', av_d5: 'Haces lo que otros evitan.', av_d6: 'Nada puede detenerte.', av_d7: 'La adaptabilidad es tu fuerza.', av_d8: 'Inspiras a quienes te rodean.', av_d9: 'La cima es tu hogar.',
+    // Breathing exercises
+    breath_cardiac: 'Coherencia cardíaca', breath_box: 'Box Breathing', breath_478: '4-7-8 Sueño', breath_wim: 'Wim Hof',
+    breath_cardiac_d: '5-5. Cortisol↓ calma↑', breath_box_d: '4-4-4. Navy SEALs', breath_478_d: 'Dormirse rápido', breath_wim_d: 'Activación y energía',
+    // Quests
+    quest_checkin: 'Check-in', quest_3tasks: '3 tareas hechas', quest_coach: 'Hablar con el coach', quest_2pomo: '2 Pomodoros', quest_walk: '10min caminata', quest_sun: '15min de sol', quest_breath: 'Sesión respiración', quest_form: 'Módulo formación',
+    // Flash challenges
+    flash_pushups: '30 Flexiones ahora', flash_pushups_d: 'Para. 30 flexiones. Vuelve.',
+    flash_outside: '20min fuera sin teléfono', flash_outside_d: 'Sal ahora. 20 min.',
+    flash_breathing: '5min coherencia cardíaca', flash_breathing_d: '5-5 ahora mismo.',
+    flash_gratitude: '3 gratitudes', flash_gratitude_d: '3 cosas positivas en tu vida.',
+    flash_sun: '5min de sol', flash_sun_d: 'Sal. Mira arriba. 5 min.',
+    flash_cold: '30seg agua fría', flash_cold_d: 'Termina tu próxima ducha en frío.',
+    flash_meditate: '10min meditación', flash_meditate_d: 'Silencio. Ojos cerrados. Respira.',
+    // Challenges
+    ch_walk7: '7 Días Caminando', ch_walk7_d: '15min mínimo por día durante 7 días',
+    ch_pomo10: '10 Pomodoros', ch_pomo10_d: '10 sesiones de enfoque en 7 días',
+    ch_sun5: '5 Días de Sol', ch_sun5_d: '20min fuera 5 días seguidos',
+    ch_cold5: '5 Duchas Frías', ch_cold5_d: '5 duchas frías consecutivas',
+    ch_read7: '7 Días Leyendo', ch_read7_d: '20min de lectura por día',
+    ch_noscreen: 'Noche sin pantalla', ch_noscreen_d: '0 pantallas después de las 21h durante 3 días',
+    // 7-day challenge
+    d7_1: 'Día 1 — Respira', d7_1d: 'Haz 1 ejercicio de respiración en la pestaña Naturaleza.', d7_1a: 'Abrir Naturaleza',
+    d7_2: 'Día 2 — Muévete', d7_2d: 'Añade 1 ejercicio en tu Workout Tracker.', d7_2a: 'Abrir Workout',
+    d7_3: 'Día 3 — Escribe', d7_3d: 'Escribe tu primera entrada en el Diario Inteligente.', d7_3a: 'Abrir Diario',
+    d7_4: 'Día 4 — Planifica', d7_4d: 'Rellena tu plan de comidas para hoy.', d7_4a: 'Abrir Comidas',
+    d7_5: 'Día 5 — Aprende', d7_5d: 'Completa 3 palabras de vocabulario en un idioma.', d7_5a: 'Abrir Idiomas',
+    d7_6: 'Día 6 — Gestiona', d7_6d: 'Añade 1 ingreso y 1 gasto en tu Presupuesto.', d7_6a: 'Abrir Presupuesto',
+    d7_7: 'Día 7 — Triunfa', d7_7d: '¡Desbloquea el badge "Semana Completa"!', d7_7a: 'Ver Logros',
+    // Achievements
+    ach_streak3: 'Constante', ach_streak3_d: '3 días conectado',
+    ach_streak7: 'Semana perfecta', ach_streak7_d: '7 días consecutivos',
+    ach_streak30: 'Máquina', ach_streak30_d: '30 días consecutivos',
+    ach_xp100: 'Primeros pasos', ach_xp100_d: '100 XP acumulados',
+    ach_xp500: 'En camino', ach_xp500_d: '500 XP acumulados',
+    ach_xp1000: 'Millonario XP', ach_xp1000_d: '1.000 XP acumulados',
+    ach_xp5000: 'Leyenda', ach_xp5000_d: '5.000 XP acumulados',
+    ach_coach5: 'Curioso', ach_coach5_d: '5 conversaciones con el coach',
+    ach_coach25: 'Aprendiz', ach_coach25_d: '25 conversaciones con el coach',
+    ach_coach100: 'Sabio', ach_coach100_d: '100 conversaciones con el coach',
+    ach_wk1: 'Primer entrenamiento', ach_wk1_d: 'Completa tu primera sesión',
+    ach_wk10: 'Atleta', ach_wk10_d: '10 sesiones completadas',
+    ach_wk50: 'Beast Mode', ach_wk50_d: '50 sesiones completadas',
+    ach_j1: 'Introspección', ach_j1_d: 'Primera entrada en el diario',
+    ach_j10: 'Escritor', ach_j10_d: '10 entradas en el diario',
+    ach_j30: 'Filósofo', ach_j30_d: '30 entradas en el diario',
+    ach_sl7: 'Dormilón regular', ach_sl7_d: '7 noches registradas',
+    ach_sl30: 'Maestro del sueño', ach_sl30_d: '30 noches registradas',
+    ach_form1: 'Estudiante', ach_form1_d: 'Completa 1 módulo de formación',
+    ach_form10: 'Erudito', ach_form10_d: 'Completa 10 módulos',
+    ach_budget1: 'Contable', ach_budget1_d: 'Registra 10 gastos',
+    ach_flash5: 'Challenger', ach_flash5_d: '5 desafíos flash completados',
+    ach_lvl5: 'Nivel 5', ach_lvl5_d: 'Alcanza el nivel 5',
+    ach_lvl10: 'Nivel 10', ach_lvl10_d: 'Alcanza el nivel 10',
+    // Zodiac signs
+    zodiac_aries: 'Aries', zodiac_taurus: 'Tauro', zodiac_gemini: 'Géminis', zodiac_cancer: 'Cáncer', zodiac_leo: 'Leo', zodiac_virgo: 'Virgo', zodiac_libra: 'Libra', zodiac_scorpio: 'Escorpio', zodiac_sagittarius: 'Sagitario', zodiac_capricorn: 'Capricornio', zodiac_aquarius: 'Acuario', zodiac_pisces: 'Piscis',
+    // Elements
+    elem_fire: 'Fuego', elem_earth: 'Tierra', elem_air: 'Aire', elem_water: 'Agua',
+    // Colors
+    color_red: '🔴 Rojo', color_orange: '🟠 Naranja', color_yellow: '🟡 Amarillo', color_green: '🟢 Verde', color_blue: '🔵 Azul', color_purple: '🟣 Violeta', color_black: '⚫ Negro', color_white: '⚪ Blanco', color_gray: '🩶 Gris', color_brown: '🤎 Marrón',
+    // Default habits
+    habit_meditate: 'Meditar 10 min', habit_exercise: 'Ejercicio 30 min', habit_read: 'Leer 20 páginas', habit_water: '3L agua', habit_noscreen: 'Sin redes 1h', habit_journal: 'Diario / Gratitud', habit_walk: 'Caminar', habit_deepwork: 'Deep Work 2h',
+    // Expense categories
+    cat_housing: 'Vivienda', cat_food: 'Alimentación', cat_transport: 'Transporte', cat_health: 'Salud', cat_leisure: 'Ocio', cat_shopping: 'Compras', cat_savings: 'Ahorro', cat_other: 'Otro',
+    // Affiliation tiers
+    aff_beginner: 'Principiante', aff_active: 'Activo', aff_pro: 'Pro', aff_elite: 'Elite',
+    // Formations
+    form_mindset: 'Mentalidad Emprendedora', form_mindset_d: 'Visión, riesgo, resiliencia.',
+    form_rich: 'Hacerse Rico', form_rich_d: 'Ingresos pasivos, libertad financiera.',
+    form_social: 'Social Media Pro', form_social_d: 'TikTok, YouTube, viral.',
+    form_psych: 'Psicología del Éxito', form_psych_d: 'Confianza, reprogramación.',
+    form_code: 'Código para Todos', form_code_d: 'HTML, CSS, JS, Python.',
+    form_calisthenics: 'Calistenia Progresiva', form_calisthenics_d: 'Muscle-up, handstand.',
+    form_nature: 'Bienestar Natural', form_nature_d: 'Caminar, sol, sueño.',
+    form_ai: 'Negocios con IA', form_ai_d: 'Claude, ChatGPT, negocios IA.',
+    form_nutrition: 'Nutrición Científica', form_nutrition_d: 'Macros, timing, efectos reales.',
+    form_sales: 'Ventas y Persuasión', form_sales_d: 'Copywriting, cierre.',
+    // Mindful walk
+    mw_1: 'Ancla tu cuerpo', mw_1d: 'Siente tus pies en el suelo. Izquierdo. Derecho.',
+    mw_2: 'Observa', mw_2d: '5 cosas a tu alrededor. Colores, formas, movimientos.',
+    mw_3: 'Escucha', mw_3d: 'Cierra los ojos 10 seg. ¿Cuántos sonidos?',
+    mw_4: 'Siente', mw_4d: 'Aire en tu piel. Temperatura. Olores.',
+    mw_5: 'Respira caminando', mw_5d: 'Inspira 4 pasos. Expira 4 pasos.',
+    mw_6: 'Gratitud', mw_6d: 'Por cada paso, algo positivo.',
+    // Skill trees
+    sk_focus: '🎯 Enfoque', sk_nature: '🌿 Naturaleza', sk_mind: '🧠 Mental', sk_biz: '💰 Negocios',
+    sk_todo: 'To-do', sk_pomodoro: 'Pomodoro', sk_deepwork: 'Deep Work', sk_clarity: 'Mente clara', sk_peak: 'Peak State', sk_flow: 'Maestro flow',
+    sk_walk: 'Caminar', sk_sun: 'Sol', sk_breathing: 'Respiración', sk_cold: 'Frío', sk_outdoor: 'Aire libre', sk_nomad: 'Nómada',
+    sk_meditation: 'Meditación', sk_journal_sk: 'Diario', sk_clarity_sk: 'Claridad', sk_vision: 'Visión', sk_stoicism: 'Estoicismo', sk_master: 'Maestro',
+    sk_brand: 'Marca Personal', sk_freelance: 'Freelance', sk_startup: 'Startup', sk_scaling: 'Scaling', sk_ai_biz: 'IA Negocios', sk_empire: 'Imperio',
+    // Plans
+    plan_free_feats: 'Inicio personalizado', plan_nature_complete: 'Naturaleza completa', plan_checkin_ai: 'Check-in IA', plan_2_formations: '2 formaciones', plan_affiliation_15: 'Afiliación 15%',
+    plan_coach_unlimited: 'Coach ilimitado', plan_ai_books: 'Libros IA', plan_premium_tourney: 'Torneo premium',
+    // Common UI
+    send: 'Enviar', add: 'Añadir', delete_btn: 'Eliminar', edit_btn: 'Editar', confirm: 'Confirmar',
+    welcome: 'Bienvenido', congratulations: 'Felicidades',
+    no_notifications: 'Sin notificaciones', login_bonus: 'Conexión Día', daily_bonus: 'Bonus diario',
+    level_up: 'Nivel', unlocked: '¡desbloqueado!', mystery_chest: '¡Cofre misterioso!', chest_won: '¡Has ganado un cofre!',
+    error_report: 'Error al generar el informe.',
+    weekly_report: 'Informe Semanal', strengths: 'Puntos fuertes', to_improve: 'A mejorar', insight: 'Insight', priority_next_week: 'Prioridad próxima semana', regenerate: 'Regenerar',
+    all_avatars: 'Todos los avatares',
+    expense_added: 'Gasto añadido',
+    placeholder_question: 'Hazme una pregunta...',
+    placeholder_name: 'Tu nombre', placeholder_age: 'Tu edad (opcional)',
+    select_domain: 'Selecciona al menos 1 dominio',
+    placeholder_journal: '¿Cómo te sientes hoy?',
+    placeholder_gratitude: 'Estoy agradecido por...',
+    placeholder_note: 'Añade una nota (opcional)',
+    write_few_words: 'Escribe al menos unas palabras',
+    fill_desc_amount: 'Rellena la descripción y el monto',
+    describe_idea: 'Describe tu idea',
+    add_content: '¡Añade contenido!',
+    write_suggestion: '¡Escribe tu sugerencia!',
+    journal_weekly_goal: 'Escribe en tu diario 5 días esta semana',
+    task_prompt: 'Tarea:', title_prompt: '¿Título?', date_prompt: '¿Fecha (AAAA-MM-DD)?', time_prompt: 'Hora (HH:MM, opc.)',
+    tag_prompt: 'Etiqueta (opc.)', goal_prompt: '¿Objetivo?', deadline_prompt: '¿Fecha límite?', key_result_prompt: '¿Key Result?',
+    name_prompt: '¿Nombre?', company_prompt: 'Empresa (opc.)', role_prompt: 'Rol (opc.)',
+    add_transaction: 'Añadir transacción',
+    // Personalized tips
+    tip_morning_1: 'Empieza con un vaso de agua — tu cuerpo te lo agradecerá',
+    tip_morning_2: 'Respira hondo — tú controlas tu día',
+    tip_morning_3: 'Una victoria rápida te dará impulso',
+    tip_morning_4: 'Define tus 3 prioridades — el resto es ruido',
+    tip_morning_5: 'Medita 5 minutos — es mágico para la claridad',
+    tip_evening_1: 'Felicítate por al menos una cosa de hoy',
+    tip_evening_2: 'Repasa lo que aprendiste hoy',
+    tip_evening_3: 'Prepara mañana para ser más efectivo',
+    tip_evening_4: 'Desconéctate — te lo mereces',
+    tip_evening_5: 'Suelta el control — mañana es un nuevo día',
+    tip_biz_1: 'El timing lo es todo — quizá es momento de actuar',
+    tip_biz_2: 'Un cliente es una relación, no una transacción',
+    tip_biz_3: 'Documenta tu proceso — es tu riqueza',
+    tip_biz_4: 'La expansión empieza cuando sueltas el control',
+    tip_biz_5: 'Prueba rápido, aprende rápido, itera',
+    tip_health_1: 'El movimiento es la mejor medicina',
+    tip_health_2: 'La hidratación afecta tu energía mental',
+    tip_health_3: 'El sueño es un superpoder — no lo descuides',
+    tip_health_4: 'La nutrición impacta tu claridad',
+    tip_health_5: 'Camina 30 min — resuelve mucho',
+    tip_beg_1: 'Aprende las bases primero — la velocidad vendrá después',
+    tip_beg_2: 'Encuentra un mentor — es más rápido',
+    tip_int_1: 'Escala lo que funciona, deja lo que no',
+    tip_int_2: 'Automatiza las tareas repetitivas',
+    tip_adv_1: 'Piensa como inversor, no como empleado',
+    tip_adv_2: 'Tu tiempo es tu recurso más escaso',
+    // Zodiac tips
+    ztip_aries: 'Canaliza tu energía bruta en acción estratégica',
+    ztip_taurus: 'La paciencia paga, pero mantente flexible',
+    ztip_gemini: 'Enfócate en una cosa, no en tres',
+    ztip_cancer: 'Protege tu energía emocional primero',
+    ztip_leo: 'Comparte tus éxitos — no domines',
+    ztip_virgo: 'La perfección es enemiga del progreso',
+    ztip_libra: 'Decide ahora, no en 2 semanas',
+    ztip_scorpio: 'La intensidad está bien — la venganza no',
+    ztip_sagittarius: 'Las promesas son serias — cúmplelas',
+    ztip_capricorn: 'El placer también forma parte del plan',
+    ztip_aquarius: 'La innovación sin humanidad está vacía',
+    ztip_pisces: 'La realidad existe — no lo olvides',
+    // Quote fallbacks
+    quote_1: 'Cada día es una nueva oportunidad para ser mejor.',
+    quote_2: 'El éxito es la suma de pequeños esfuerzos repetidos día tras día.',
+    quote_3: 'La disciplina es el puente entre tus objetivos y tus resultados.',
+    quote_4: 'Eres más fuerte de lo que piensas.',
+    quote_5: 'Un pequeño paso cada día te lleva muy lejos.',
+    // Horoscope
+    horoscope_unavailable: 'Horóscopo no disponible',
+    mysterious_day: 'Día misterioso'
   },
   pt: {
-    home: 'Casa',
+    home: 'Início',
     discover: 'Descobrir',
     coach: 'Coach',
     nature: 'Natureza',
@@ -10044,7 +10587,185 @@ var RISE_I18N = {
     pace_check_too_much: 'Você está fazendo muito esta semana, cuidado com o burnout',
     pace_check_too_little: 'Está quieto, adicione ambição',
     day_of: 'Dia',
-    milestone: 'Marco'
+    milestone: 'Marco',
+    // Days & months
+    day_sun: 'Dom', day_mon: 'Seg', day_tue: 'Ter', day_wed: 'Qua', day_thu: 'Qui', day_fri: 'Sex', day_sat: 'Sáb',
+    month_jan: 'jan', month_feb: 'fev', month_mar: 'mar', month_apr: 'abr', month_may: 'mai', month_jun: 'jun', month_jul: 'jul', month_aug: 'ago', month_sep: 'set', month_oct: 'out', month_nov: 'nov', month_dec: 'dez',
+    // Levels
+    lvl_0: 'Iniciante', lvl_1: 'Aprendiz', lvl_2: 'Comprometido', lvl_3: 'Determinado', lvl_4: 'Ambicioso', lvl_5: 'Corajoso', lvl_6: 'Guerreiro', lvl_7: 'Campeão', lvl_8: 'Lenda', lvl_9: 'Imparável',
+    // Seasons
+    season_1: 'Fundamentos', season_2: 'Momentum', season_3: 'Maestria', season_4: 'Ascensão',
+    // Bosses
+    boss_1: 'Boss Procrastinação', boss_2: 'Tirano do Sono', boss_3: 'Demônio Inatividade', boss_4: 'Vírus Distração',
+    // Avatars
+    av_0: 'Semente', av_1: 'Broto', av_2: 'Meditador', av_3: 'Ativo', av_4: 'Focado', av_5: 'Corajoso', av_6: 'Guerreiro', av_7: 'Fluido', av_8: 'Luz', av_9: 'Imparável',
+    av_d0: 'A jornada começa agora.', av_d1: 'Os hábitos estão criando raízes.', av_d2: 'A calma se torna força.', av_d3: 'O corpo segue a mente.', av_d4: 'O foco é sua arma.', av_d5: 'Você faz o que outros evitam.', av_d6: 'Nada pode te parar.', av_d7: 'A adaptabilidade é sua força.', av_d8: 'Você inspira quem está ao redor.', av_d9: 'O topo é sua casa.',
+    // Breathing exercises
+    breath_cardiac: 'Coerência cardíaca', breath_box: 'Box Breathing', breath_478: '4-7-8 Sono', breath_wim: 'Wim Hof',
+    breath_cardiac_d: '5-5. Cortisol↓ calma↑', breath_box_d: '4-4-4. Navy SEALs', breath_478_d: 'Dormir rápido', breath_wim_d: 'Ativação e energia',
+    // Quests
+    quest_checkin: 'Check-in', quest_3tasks: '3 tarefas feitas', quest_coach: 'Falar com o coach', quest_2pomo: '2 Pomodoros', quest_walk: '10min caminhada', quest_sun: '15min de sol', quest_breath: 'Sessão de respiração', quest_form: 'Módulo de curso',
+    // Flash challenges
+    flash_pushups: '30 Flexões agora', flash_pushups_d: 'Para. 30 flexões. Volta.',
+    flash_outside: '20min fora sem celular', flash_outside_d: 'Sai agora. 20 min.',
+    flash_breathing: '5min coerência cardíaca', flash_breathing_d: '5-5 agora.',
+    flash_gratitude: '3 gratidões', flash_gratitude_d: '3 coisas positivas na sua vida.',
+    flash_sun: '5min de sol', flash_sun_d: 'Sai. Olha pra cima. 5 min.',
+    flash_cold: '30seg água fria', flash_cold_d: 'Termine o próximo banho no frio.',
+    flash_meditate: '10min meditação', flash_meditate_d: 'Silêncio. Olhos fechados. Respire.',
+    // Challenges
+    ch_walk7: '7 Dias Caminhando', ch_walk7_d: '15min mínimo por dia durante 7 dias',
+    ch_pomo10: '10 Pomodoros', ch_pomo10_d: '10 sessões de foco em 7 dias',
+    ch_sun5: '5 Dias de Sol', ch_sun5_d: '20min fora por 5 dias seguidos',
+    ch_cold5: '5 Banhos Frios', ch_cold5_d: '5 banhos frios consecutivos',
+    ch_read7: '7 Dias Lendo', ch_read7_d: '20min de leitura por dia',
+    ch_noscreen: 'Noite sem tela', ch_noscreen_d: '0 tela depois das 21h por 3 dias',
+    // 7-day challenge
+    d7_1: 'Dia 1 — Respire', d7_1d: 'Faça 1 exercício de respiração na aba Natureza.', d7_1a: 'Abrir Natureza',
+    d7_2: 'Dia 2 — Mova-se', d7_2d: 'Adicione 1 exercício no seu Workout Tracker.', d7_2a: 'Abrir Workout',
+    d7_3: 'Dia 3 — Escreva', d7_3d: 'Escreva sua primeira entrada no Diário Inteligente.', d7_3a: 'Abrir Diário',
+    d7_4: 'Dia 4 — Planeje', d7_4d: 'Preencha seu plano de refeições para hoje.', d7_4a: 'Abrir Refeições',
+    d7_5: 'Dia 5 — Aprenda', d7_5d: 'Complete 3 palavras de vocabulário em um idioma.', d7_5a: 'Abrir Idiomas',
+    d7_6: 'Dia 6 — Gerencie', d7_6d: 'Adicione 1 receita e 1 despesa no seu Orçamento.', d7_6a: 'Abrir Orçamento',
+    d7_7: 'Dia 7 — Triunfe', d7_7d: 'Desbloqueie o badge "Semana Completa"!', d7_7a: 'Ver Conquistas',
+    // Achievements
+    ach_streak3: 'Consistente', ach_streak3_d: '3 dias conectado',
+    ach_streak7: 'Semana perfeita', ach_streak7_d: '7 dias consecutivos',
+    ach_streak30: 'Máquina', ach_streak30_d: '30 dias consecutivos',
+    ach_xp100: 'Primeiros passos', ach_xp100_d: '100 XP acumulados',
+    ach_xp500: 'A caminho', ach_xp500_d: '500 XP acumulados',
+    ach_xp1000: 'Milionário XP', ach_xp1000_d: '1.000 XP acumulados',
+    ach_xp5000: 'Lenda', ach_xp5000_d: '5.000 XP acumulados',
+    ach_coach5: 'Curioso', ach_coach5_d: '5 conversas com o coach',
+    ach_coach25: 'Aprendiz', ach_coach25_d: '25 conversas com o coach',
+    ach_coach100: 'Sábio', ach_coach100_d: '100 conversas com o coach',
+    ach_wk1: 'Primeiro treino', ach_wk1_d: 'Complete sua primeira sessão',
+    ach_wk10: 'Atleta', ach_wk10_d: '10 sessões completadas',
+    ach_wk50: 'Beast Mode', ach_wk50_d: '50 sessões completadas',
+    ach_j1: 'Introspecção', ach_j1_d: 'Primeira entrada no diário',
+    ach_j10: 'Escritor', ach_j10_d: '10 entradas no diário',
+    ach_j30: 'Filósofo', ach_j30_d: '30 entradas no diário',
+    ach_sl7: 'Sono regular', ach_sl7_d: '7 noites registradas',
+    ach_sl30: 'Mestre do sono', ach_sl30_d: '30 noites registradas',
+    ach_form1: 'Estudante', ach_form1_d: 'Complete 1 módulo de curso',
+    ach_form10: 'Acadêmico', ach_form10_d: 'Complete 10 módulos',
+    ach_budget1: 'Contador', ach_budget1_d: 'Registre 10 despesas',
+    ach_flash5: 'Challenger', ach_flash5_d: '5 desafios flash completados',
+    ach_lvl5: 'Nível 5', ach_lvl5_d: 'Alcance o nível 5',
+    ach_lvl10: 'Nível 10', ach_lvl10_d: 'Alcance o nível 10',
+    // Zodiac signs
+    zodiac_aries: 'Áries', zodiac_taurus: 'Touro', zodiac_gemini: 'Gêmeos', zodiac_cancer: 'Câncer', zodiac_leo: 'Leão', zodiac_virgo: 'Virgem', zodiac_libra: 'Libra', zodiac_scorpio: 'Escorpião', zodiac_sagittarius: 'Sagitário', zodiac_capricorn: 'Capricórnio', zodiac_aquarius: 'Aquário', zodiac_pisces: 'Peixes',
+    // Elements
+    elem_fire: 'Fogo', elem_earth: 'Terra', elem_air: 'Ar', elem_water: 'Água',
+    // Colors
+    color_red: '🔴 Vermelho', color_orange: '🟠 Laranja', color_yellow: '🟡 Amarelo', color_green: '🟢 Verde', color_blue: '🔵 Azul', color_purple: '🟣 Roxo', color_black: '⚫ Preto', color_white: '⚪ Branco', color_gray: '🩶 Cinza', color_brown: '🤎 Marrom',
+    // Default habits
+    habit_meditate: 'Meditar 10 min', habit_exercise: 'Exercício 30 min', habit_read: 'Ler 20 páginas', habit_water: '3L água', habit_noscreen: 'Sem redes 1h', habit_journal: 'Diário / Gratidão', habit_walk: 'Caminhar', habit_deepwork: 'Deep Work 2h',
+    // Expense categories
+    cat_housing: 'Moradia', cat_food: 'Alimentação', cat_transport: 'Transporte', cat_health: 'Saúde', cat_leisure: 'Lazer', cat_shopping: 'Compras', cat_savings: 'Poupança', cat_other: 'Outro',
+    // Affiliation tiers
+    aff_beginner: 'Iniciante', aff_active: 'Ativo', aff_pro: 'Pro', aff_elite: 'Elite',
+    // Formations
+    form_mindset: 'Mentalidade Empreendedora', form_mindset_d: 'Visão, risco, resiliência.',
+    form_rich: 'Ficar Rico', form_rich_d: 'Renda passiva, liberdade financeira.',
+    form_social: 'Social Media Pro', form_social_d: 'TikTok, YouTube, viral.',
+    form_psych: 'Psicologia do Sucesso', form_psych_d: 'Confiança, reprogramação.',
+    form_code: 'Código para Todos', form_code_d: 'HTML, CSS, JS, Python.',
+    form_calisthenics: 'Calistenia Progressiva', form_calisthenics_d: 'Muscle-up, handstand.',
+    form_nature: 'Bem-estar Natural', form_nature_d: 'Caminhada, sol, sono.',
+    form_ai: 'Negócios com IA', form_ai_d: 'Claude, ChatGPT, negócios IA.',
+    form_nutrition: 'Nutrição Científica', form_nutrition_d: 'Macros, timing, efeitos reais.',
+    form_sales: 'Vendas e Persuasão', form_sales_d: 'Copywriting, fechamento.',
+    // Mindful walk
+    mw_1: 'Ancore-se', mw_1d: 'Sinta seus pés no chão. Esquerdo. Direito.',
+    mw_2: 'Observe', mw_2d: '5 coisas ao redor. Cores, formas, movimentos.',
+    mw_3: 'Escute', mw_3d: 'Feche os olhos 10 seg. Quantos sons?',
+    mw_4: 'Sinta', mw_4d: 'Ar na pele. Temperatura. Cheiros.',
+    mw_5: 'Respire caminhando', mw_5d: 'Inspire 4 passos. Expire 4 passos.',
+    mw_6: 'Gratidão', mw_6d: 'A cada passo, algo positivo.',
+    // Skill trees
+    sk_focus: '🎯 Foco', sk_nature: '🌿 Natureza', sk_mind: '🧠 Mental', sk_biz: '💰 Negócios',
+    sk_todo: 'To-do', sk_pomodoro: 'Pomodoro', sk_deepwork: 'Deep Work', sk_clarity: 'Mente clara', sk_peak: 'Peak State', sk_flow: 'Mestre do flow',
+    sk_walk: 'Caminhada', sk_sun: 'Sol', sk_breathing: 'Respiração', sk_cold: 'Frio', sk_outdoor: 'Ar livre', sk_nomad: 'Nômade',
+    sk_meditation: 'Meditação', sk_journal_sk: 'Diário', sk_clarity_sk: 'Clareza', sk_vision: 'Visão', sk_stoicism: 'Estoicismo', sk_master: 'Mestre',
+    sk_brand: 'Marca Pessoal', sk_freelance: 'Freelance', sk_startup: 'Startup', sk_scaling: 'Scaling', sk_ai_biz: 'IA Negócios', sk_empire: 'Império',
+    // Plans
+    plan_free_feats: 'Início personalizado', plan_nature_complete: 'Natureza completa', plan_checkin_ai: 'Check-in IA', plan_2_formations: '2 cursos', plan_affiliation_15: 'Afiliação 15%',
+    plan_coach_unlimited: 'Coach ilimitado', plan_ai_books: 'Livros IA', plan_premium_tourney: 'Torneio premium',
+    // Common UI
+    send: 'Enviar', add: 'Adicionar', delete_btn: 'Excluir', edit_btn: 'Editar', confirm: 'Confirmar',
+    welcome: 'Bem-vindo', congratulations: 'Parabéns',
+    no_notifications: 'Sem notificações', login_bonus: 'Conexão Dia', daily_bonus: 'Bônus diário',
+    level_up: 'Nível', unlocked: 'desbloqueado!', mystery_chest: 'Baú misterioso!', chest_won: 'Você ganhou um baú!',
+    error_report: 'Erro ao gerar relatório.',
+    weekly_report: 'Relatório Semanal', strengths: 'Pontos fortes', to_improve: 'A melhorar', insight: 'Insight', priority_next_week: 'Prioridade próxima semana', regenerate: 'Regenerar',
+    all_avatars: 'Todos os avatares',
+    expense_added: 'Despesa adicionada',
+    placeholder_question: 'Me faça uma pergunta...',
+    placeholder_name: 'Seu nome', placeholder_age: 'Sua idade (opcional)',
+    select_domain: 'Selecione pelo menos 1 área',
+    placeholder_journal: 'Como você está se sentindo hoje?',
+    placeholder_gratitude: 'Sou grato por...',
+    placeholder_note: 'Adicione uma nota (opcional)',
+    write_few_words: 'Escreva pelo menos algumas palavras',
+    fill_desc_amount: 'Preencha a descrição e o valor',
+    describe_idea: 'Descreva sua ideia',
+    add_content: 'Adicione conteúdo!',
+    write_suggestion: 'Escreva sua sugestão!',
+    journal_weekly_goal: 'Escreva no seu diário 5 dias esta semana',
+    task_prompt: 'Tarefa:', title_prompt: 'Título?', date_prompt: 'Data (AAAA-MM-DD)?', time_prompt: 'Hora (HH:MM, opc.)',
+    tag_prompt: 'Tag (opc.)', goal_prompt: 'Objetivo?', deadline_prompt: 'Prazo?', key_result_prompt: 'Key Result?',
+    name_prompt: 'Nome?', company_prompt: 'Empresa (opc.)', role_prompt: 'Cargo (opc.)',
+    add_transaction: 'Adicionar transação',
+    // Personalized tips
+    tip_morning_1: 'Comece com um copo de água — seu corpo vai agradecer',
+    tip_morning_2: 'Respire fundo — você controla seu dia',
+    tip_morning_3: 'Uma vitória rápida vai te dar impulso',
+    tip_morning_4: 'Defina suas 3 prioridades — o resto é ruído',
+    tip_morning_5: 'Medite 5 minutos — é mágico para a clareza',
+    tip_evening_1: 'Se parabenize por pelo menos uma coisa de hoje',
+    tip_evening_2: 'Revise o que aprendeu hoje',
+    tip_evening_3: 'Prepare amanhã para ser mais eficiente',
+    tip_evening_4: 'Desconecte-se — você mereceu',
+    tip_evening_5: 'Solte o controle — amanhã é um novo dia',
+    tip_biz_1: 'Timing é tudo — talvez seja hora de agir',
+    tip_biz_2: 'Um cliente é um relacionamento, não uma transação',
+    tip_biz_3: 'Documente seu processo — é sua riqueza',
+    tip_biz_4: 'A expansão começa quando você solta o controle',
+    tip_biz_5: 'Teste rápido, aprenda rápido, itere',
+    tip_health_1: 'Movimento é o melhor remédio',
+    tip_health_2: 'A hidratação afeta sua energia mental',
+    tip_health_3: 'O sono é um superpoder — não o negligencie',
+    tip_health_4: 'A nutrição impacta sua clareza',
+    tip_health_5: 'Caminhe 30 min — resolve muita coisa',
+    tip_beg_1: 'Aprenda o básico primeiro — a velocidade vem depois',
+    tip_beg_2: 'Encontre um mentor — é mais rápido',
+    tip_int_1: 'Escale o que funciona, largue o que não funciona',
+    tip_int_2: 'Automatize tarefas repetitivas',
+    tip_adv_1: 'Pense como investidor, não como empregado',
+    tip_adv_2: 'Seu tempo é seu recurso mais escasso',
+    // Zodiac tips
+    ztip_aries: 'Canalize sua energia bruta em ação estratégica',
+    ztip_taurus: 'A paciência compensa, mas mantenha a flexibilidade',
+    ztip_gemini: 'Foque em uma coisa, não em três',
+    ztip_cancer: 'Proteja sua energia emocional primeiro',
+    ztip_leo: 'Compartilhe seus sucessos — não domine',
+    ztip_virgo: 'A perfeição é inimiga do progresso',
+    ztip_libra: 'Decida agora, não daqui a 2 semanas',
+    ztip_scorpio: 'Intensidade é bom — vingança não',
+    ztip_sagittarius: 'Promessas são sérias — cumpra-as',
+    ztip_capricorn: 'O prazer também faz parte do plano',
+    ztip_aquarius: 'Inovação sem humanidade é vazia',
+    ztip_pisces: 'A realidade existe — não esqueça',
+    // Quote fallbacks
+    quote_1: 'Cada dia é uma nova chance de evoluir.',
+    quote_2: 'O sucesso é a soma de pequenos esforços repetidos dia após dia.',
+    quote_3: 'A disciplina é a ponte entre seus objetivos e seus resultados.',
+    quote_4: 'Você é mais forte do que imagina.',
+    quote_5: 'Um pequeno passo por dia leva muito longe.',
+    // Horoscope
+    horoscope_unavailable: 'Horóscopo indisponível',
+    mysterious_day: 'Dia misterioso'
   },
   it: {
     home: 'Casa',
@@ -10138,7 +10859,7 @@ var RISE_I18N = {
     coach: 'Coach',
     nature: 'Natur',
     more: 'Mehr',
-    dashboard: 'Armaturenbrett',
+    dashboard: 'Dashboard',
     goals: 'Ziele',
     habits: 'Gewohnheiten',
     todos: 'Aufgaben',
@@ -10152,7 +10873,7 @@ var RISE_I18N = {
     accounting: 'Buchhaltung',
     visionboard: 'Visionstafel',
     books: 'Bücher',
-    calculators: 'Taschenrechner',
+    calculators: 'Rechner',
     processes: 'Prozesse',
     lifescore: 'Lebenspunktzahl',
     daily_horoscope: 'Tägliches Horoskop',
@@ -10200,11 +10921,11 @@ var RISE_I18N = {
     entrepreneur_level: 'Unternehmerebene',
     beginner: 'Anfänger',
     intermediate: 'Fortgeschrittene',
-    advanced: 'Fortgeschrittene',
+    advanced: 'Experte',
     male: 'Mann',
     female: 'Frau',
     other: 'Sonstiges',
-    save: 'Sparen',
+    save: 'Speichern',
     cancel: 'Abbrechen',
     next: 'Weiter',
     previous: 'Zurück',
@@ -10216,7 +10937,185 @@ var RISE_I18N = {
     pace_check_too_much: 'Du tust diese Woche viel, achte auf Burnout',
     pace_check_too_little: 'Es ist ruhig, füge ehrgeiz hinzu',
     day_of: 'Tag',
-    milestone: 'Meilenstein'
+    milestone: 'Meilenstein',
+    // Days & months
+    day_sun: 'So', day_mon: 'Mo', day_tue: 'Di', day_wed: 'Mi', day_thu: 'Do', day_fri: 'Fr', day_sat: 'Sa',
+    month_jan: 'Jan', month_feb: 'Feb', month_mar: 'Mär', month_apr: 'Apr', month_may: 'Mai', month_jun: 'Jun', month_jul: 'Jul', month_aug: 'Aug', month_sep: 'Sep', month_oct: 'Okt', month_nov: 'Nov', month_dec: 'Dez',
+    // Levels
+    lvl_0: 'Anfänger', lvl_1: 'Lehrling', lvl_2: 'Engagiert', lvl_3: 'Entschlossen', lvl_4: 'Ehrgeizig', lvl_5: 'Mutig', lvl_6: 'Krieger', lvl_7: 'Champion', lvl_8: 'Legende', lvl_9: 'Unaufhaltbar',
+    // Seasons
+    season_1: 'Fundamente', season_2: 'Momentum', season_3: 'Meisterschaft', season_4: 'Aufstieg',
+    // Bosses
+    boss_1: 'Boss Prokrastination', boss_2: 'Schlaf-Tyrann', boss_3: 'Inaktivitäts-Dämon', boss_4: 'Ablenkungsvirus',
+    // Avatars
+    av_0: 'Samen', av_1: 'Spross', av_2: 'Meditierender', av_3: 'Aktiv', av_4: 'Fokussiert', av_5: 'Mutig', av_6: 'Krieger', av_7: 'Fließend', av_8: 'Licht', av_9: 'Unaufhaltbar',
+    av_d0: 'Die Reise beginnt jetzt.', av_d1: 'Gewohnheiten schlagen Wurzeln.', av_d2: 'Ruhe wird zur Stärke.', av_d3: 'Der Körper folgt dem Geist.', av_d4: 'Fokus ist deine Waffe.', av_d5: 'Du tust, was andere vermeiden.', av_d6: 'Nichts kann dich aufhalten.', av_d7: 'Anpassungsfähigkeit ist deine Stärke.', av_d8: 'Du inspirierst alle um dich herum.', av_d9: 'Der Gipfel ist dein Zuhause.',
+    // Breathing exercises
+    breath_cardiac: 'Herzkohärenz', breath_box: 'Box Breathing', breath_478: '4-7-8 Schlaf', breath_wim: 'Wim Hof',
+    breath_cardiac_d: '5-5. Cortisol↓ Ruhe↑', breath_box_d: '4-4-4. Navy SEALs', breath_478_d: 'Schnell einschlafen', breath_wim_d: 'Aktivierung und Energie',
+    // Quests
+    quest_checkin: 'Check-in', quest_3tasks: '3 Aufgaben erledigt', quest_coach: 'Mit dem Coach sprechen', quest_2pomo: '2 Pomodoros', quest_walk: '10 Min. Spaziergang', quest_sun: '15 Min. Sonne', quest_breath: 'Atemübung', quest_form: 'Kursmodul',
+    // Flash challenges
+    flash_pushups: '30 Liegestütze jetzt', flash_pushups_d: 'Stopp. 30 Liegestütze. Zurück.',
+    flash_outside: '20 Min. draußen ohne Handy', flash_outside_d: 'Geh jetzt raus. 20 Min.',
+    flash_breathing: '5 Min. Herzkohärenz', flash_breathing_d: '5-5 jetzt sofort.',
+    flash_gratitude: '3 Dankbarkeiten', flash_gratitude_d: '3 positive Dinge in deinem Leben.',
+    flash_sun: '5 Min. Sonne', flash_sun_d: 'Geh raus. Blick nach oben. 5 Min.',
+    flash_cold: '30 Sek. kaltes Wasser', flash_cold_d: 'Beende deine nächste Dusche kalt.',
+    flash_meditate: '10 Min. Meditation', flash_meditate_d: 'Stille. Augen geschlossen. Atme.',
+    // Challenges
+    ch_walk7: '7 Tage Gehen', ch_walk7_d: '15 Min. Minimum pro Tag für 7 Tage',
+    ch_pomo10: '10 Pomodoros', ch_pomo10_d: '10 Fokus-Sessions in 7 Tagen',
+    ch_sun5: '5 Tage Sonne', ch_sun5_d: '20 Min. draußen an 5 Tagen hintereinander',
+    ch_cold5: '5 Kalte Duschen', ch_cold5_d: '5 aufeinanderfolgende kalte Duschen',
+    ch_read7: '7 Tage Lesen', ch_read7_d: '20 Min. Lesen pro Tag',
+    ch_noscreen: 'Bildschirmfreier Abend', ch_noscreen_d: 'Kein Bildschirm nach 21 Uhr für 3 Tage',
+    // 7-day challenge
+    d7_1: 'Tag 1 — Atme', d7_1d: 'Mache 1 Atemübung im Natur-Tab.', d7_1a: 'Natur öffnen',
+    d7_2: 'Tag 2 — Bewege dich', d7_2d: 'Füge 1 Übung in deinem Workout Tracker hinzu.', d7_2a: 'Workout öffnen',
+    d7_3: 'Tag 3 — Schreibe', d7_3d: 'Schreibe deinen ersten Eintrag im Smart Journal.', d7_3a: 'Journal öffnen',
+    d7_4: 'Tag 4 — Plane', d7_4d: 'Fülle deinen Ernährungsplan für heute aus.', d7_4a: 'Mahlzeiten öffnen',
+    d7_5: 'Tag 5 — Lerne', d7_5d: 'Lerne 3 Vokabeln in einer Sprache.', d7_5a: 'Sprachen öffnen',
+    d7_6: 'Tag 6 — Verwalte', d7_6d: 'Füge 1 Einnahme und 1 Ausgabe in dein Budget ein.', d7_6a: 'Budget öffnen',
+    d7_7: 'Tag 7 — Triumph', d7_7d: 'Schalte das "Komplette Woche" Badge frei!', d7_7a: 'Erfolge anzeigen',
+    // Achievements
+    ach_streak3: 'Regelmäßig', ach_streak3_d: '3 Tage angemeldet',
+    ach_streak7: 'Perfekte Woche', ach_streak7_d: '7 aufeinanderfolgende Tage',
+    ach_streak30: 'Maschine', ach_streak30_d: '30 aufeinanderfolgende Tage',
+    ach_xp100: 'Erste Schritte', ach_xp100_d: '100 XP gesammelt',
+    ach_xp500: 'Auf dem Weg', ach_xp500_d: '500 XP gesammelt',
+    ach_xp1000: 'XP-Millionär', ach_xp1000_d: '1.000 XP gesammelt',
+    ach_xp5000: 'Legende', ach_xp5000_d: '5.000 XP gesammelt',
+    ach_coach5: 'Neugierig', ach_coach5_d: '5 Gespräche mit dem Coach',
+    ach_coach25: 'Lehrling', ach_coach25_d: '25 Gespräche mit dem Coach',
+    ach_coach100: 'Weise', ach_coach100_d: '100 Gespräche mit dem Coach',
+    ach_wk1: 'Erstes Training', ach_wk1_d: 'Schließe deine erste Session ab',
+    ach_wk10: 'Athlet', ach_wk10_d: '10 Sessions abgeschlossen',
+    ach_wk50: 'Beast Mode', ach_wk50_d: '50 Sessions abgeschlossen',
+    ach_j1: 'Selbstreflexion', ach_j1_d: 'Erster Journal-Eintrag',
+    ach_j10: 'Schriftsteller', ach_j10_d: '10 Journal-Einträge',
+    ach_j30: 'Philosoph', ach_j30_d: '30 Journal-Einträge',
+    ach_sl7: 'Regelmäßiger Schläfer', ach_sl7_d: '7 Nächte erfasst',
+    ach_sl30: 'Schlafmeister', ach_sl30_d: '30 Nächte erfasst',
+    ach_form1: 'Student', ach_form1_d: 'Schließe 1 Kursmodul ab',
+    ach_form10: 'Gelehrter', ach_form10_d: 'Schließe 10 Module ab',
+    ach_budget1: 'Buchhalter', ach_budget1_d: 'Erfasse 10 Ausgaben',
+    ach_flash5: 'Challenger', ach_flash5_d: '5 Flash-Challenges geschafft',
+    ach_lvl5: 'Level 5', ach_lvl5_d: 'Erreiche Level 5',
+    ach_lvl10: 'Level 10', ach_lvl10_d: 'Erreiche Level 10',
+    // Zodiac signs
+    zodiac_aries: 'Widder', zodiac_taurus: 'Stier', zodiac_gemini: 'Zwillinge', zodiac_cancer: 'Krebs', zodiac_leo: 'Löwe', zodiac_virgo: 'Jungfrau', zodiac_libra: 'Waage', zodiac_scorpio: 'Skorpion', zodiac_sagittarius: 'Schütze', zodiac_capricorn: 'Steinbock', zodiac_aquarius: 'Wassermann', zodiac_pisces: 'Fische',
+    // Elements
+    elem_fire: 'Feuer', elem_earth: 'Erde', elem_air: 'Luft', elem_water: 'Wasser',
+    // Colors
+    color_red: '🔴 Rot', color_orange: '🟠 Orange', color_yellow: '🟡 Gelb', color_green: '🟢 Grün', color_blue: '🔵 Blau', color_purple: '🟣 Violett', color_black: '⚫ Schwarz', color_white: '⚪ Weiß', color_gray: '🩶 Grau', color_brown: '🤎 Braun',
+    // Default habits
+    habit_meditate: '10 Min. meditieren', habit_exercise: '30 Min. Bewegung', habit_read: '20 Seiten lesen', habit_water: '3L Wasser', habit_noscreen: 'Kein Social Media 1h', habit_journal: 'Journal / Dankbarkeit', habit_walk: 'Draußen gehen', habit_deepwork: 'Deep Work 2h',
+    // Expense categories
+    cat_housing: 'Wohnen', cat_food: 'Lebensmittel', cat_transport: 'Verkehr', cat_health: 'Gesundheit', cat_leisure: 'Freizeit', cat_shopping: 'Einkaufen', cat_savings: 'Sparen', cat_other: 'Sonstiges',
+    // Affiliation tiers
+    aff_beginner: 'Anfänger', aff_active: 'Aktiv', aff_pro: 'Pro', aff_elite: 'Elite',
+    // Formations
+    form_mindset: 'Unternehmer-Mindset', form_mindset_d: 'Vision, Risiko, Resilienz.',
+    form_rich: 'Reich werden', form_rich_d: 'Passives Einkommen, finanzielle Freiheit.',
+    form_social: 'Social Media Pro', form_social_d: 'TikTok, YouTube, viral.',
+    form_psych: 'Erfolgspsychologie', form_psych_d: 'Selbstvertrauen, Neuprogrammierung.',
+    form_code: 'Programmieren für alle', form_code_d: 'HTML, CSS, JS, Python.',
+    form_calisthenics: 'Progressive Calisthenics', form_calisthenics_d: 'Muscle-up, Handstand.',
+    form_nature: 'Natur-Wellness', form_nature_d: 'Gehen, Sonne, Schlaf.',
+    form_ai: 'KI-Business', form_ai_d: 'Claude, ChatGPT, KI-Geschäft.',
+    form_nutrition: 'Wissenschaftliche Ernährung', form_nutrition_d: 'Makros, Timing, echte Effekte.',
+    form_sales: 'Verkauf & Überzeugung', form_sales_d: 'Copywriting, Abschluss.',
+    // Mindful walk
+    mw_1: 'Erde dich', mw_1d: 'Spüre deine Füße auf dem Boden. Links. Rechts.',
+    mw_2: 'Beobachte', mw_2d: '5 Dinge um dich herum. Farben, Formen, Bewegungen.',
+    mw_3: 'Höre', mw_3d: 'Schließe die Augen 10 Sek. Wie viele Geräusche?',
+    mw_4: 'Fühle', mw_4d: 'Luft auf der Haut. Temperatur. Gerüche.',
+    mw_5: 'Atme beim Gehen', mw_5d: 'Einatmen 4 Schritte. Ausatmen 4 Schritte.',
+    mw_6: 'Dankbarkeit', mw_6d: 'Bei jedem Schritt etwas Positives.',
+    // Skill trees
+    sk_focus: '🎯 Fokus', sk_nature: '🌿 Natur', sk_mind: '🧠 Mental', sk_biz: '💰 Business',
+    sk_todo: 'To-do', sk_pomodoro: 'Pomodoro', sk_deepwork: 'Deep Work', sk_clarity: 'Klarer Kopf', sk_peak: 'Peak State', sk_flow: 'Flow-Meister',
+    sk_walk: 'Gehen', sk_sun: 'Sonne', sk_breathing: 'Atmung', sk_cold: 'Kälte', sk_outdoor: 'Draußen', sk_nomad: 'Nomade',
+    sk_meditation: 'Meditation', sk_journal_sk: 'Journal', sk_clarity_sk: 'Klarheit', sk_vision: 'Vision', sk_stoicism: 'Stoizismus', sk_master: 'Meister',
+    sk_brand: 'Personal Brand', sk_freelance: 'Freelance', sk_startup: 'Startup', sk_scaling: 'Skalierung', sk_ai_biz: 'KI-Business', sk_empire: 'Imperium',
+    // Plans
+    plan_free_feats: 'Persönliche Startseite', plan_nature_complete: 'Natur komplett', plan_checkin_ai: 'KI-Check-in', plan_2_formations: '2 Kurse', plan_affiliation_15: 'Affiliation 15%',
+    plan_coach_unlimited: 'Unbegrenzter Coach', plan_ai_books: 'KI-Bücher', plan_premium_tourney: 'Premium-Turnier',
+    // Common UI
+    send: 'Senden', add: 'Hinzufügen', delete_btn: 'Löschen', edit_btn: 'Bearbeiten', confirm: 'Bestätigen',
+    welcome: 'Willkommen', congratulations: 'Glückwunsch',
+    no_notifications: 'Keine Benachrichtigungen', login_bonus: 'Anmeldung Tag', daily_bonus: 'Tagesbonus',
+    level_up: 'Level', unlocked: 'freigeschaltet!', mystery_chest: 'Mysteriöse Truhe!', chest_won: 'Du hast eine Truhe gewonnen!',
+    error_report: 'Fehler beim Erstellen des Berichts.',
+    weekly_report: 'Wochenbericht', strengths: 'Stärken', to_improve: 'Zu verbessern', insight: 'Erkenntnis', priority_next_week: 'Priorität nächste Woche', regenerate: 'Regenerieren',
+    all_avatars: 'Alle Avatare',
+    expense_added: 'Ausgabe hinzugefügt',
+    placeholder_question: 'Stelle mir eine Frage...',
+    placeholder_name: 'Dein Vorname', placeholder_age: 'Dein Alter (optional)',
+    select_domain: 'Wähle mindestens 1 Bereich',
+    placeholder_journal: 'Wie fühlst du dich heute?',
+    placeholder_gratitude: 'Ich bin dankbar für...',
+    placeholder_note: 'Notiz hinzufügen (optional)',
+    write_few_words: 'Schreibe mindestens ein paar Worte',
+    fill_desc_amount: 'Beschreibung und Betrag ausfüllen',
+    describe_idea: 'Beschreibe deine Idee',
+    add_content: 'Füge Inhalt hinzu!',
+    write_suggestion: 'Schreibe deinen Vorschlag!',
+    journal_weekly_goal: 'Schreibe 5 Tage diese Woche in dein Journal',
+    task_prompt: 'Aufgabe:', title_prompt: 'Titel?', date_prompt: 'Datum (JJJJ-MM-TT)?', time_prompt: 'Uhrzeit (HH:MM, opt.)',
+    tag_prompt: 'Tag (opt.)', goal_prompt: 'Ziel?', deadline_prompt: 'Frist?', key_result_prompt: 'Key Result?',
+    name_prompt: 'Name?', company_prompt: 'Unternehmen (opt.)', role_prompt: 'Rolle (opt.)',
+    add_transaction: 'Transaktion hinzufügen',
+    // Personalized tips
+    tip_morning_1: 'Starte mit einem Glas Wasser — dein Körper wird es dir danken',
+    tip_morning_2: 'Atme tief — du kontrollierst deinen Tag',
+    tip_morning_3: 'Ein schneller Erfolg gibt dir Schwung',
+    tip_morning_4: 'Definiere deine 3 Prioritäten — der Rest ist Rauschen',
+    tip_morning_5: 'Meditiere 5 Minuten — Magie für Klarheit',
+    tip_evening_1: 'Beglückwünsche dich für mindestens eine Sache heute',
+    tip_evening_2: 'Überprüfe, was du heute gelernt hast',
+    tip_evening_3: 'Bereite morgen vor, um effektiver zu sein',
+    tip_evening_4: 'Schalte ab — du hast es verdient',
+    tip_evening_5: 'Lass los — morgen ist ein neuer Tag',
+    tip_biz_1: 'Timing ist alles — vielleicht ist es Zeit zu handeln',
+    tip_biz_2: 'Ein Kunde ist eine Beziehung, keine Transaktion',
+    tip_biz_3: 'Dokumentiere deinen Prozess — das ist dein Reichtum',
+    tip_biz_4: 'Expansion beginnt, wenn du die Kontrolle loslässt',
+    tip_biz_5: 'Teste schnell, lerne schnell, iteriere',
+    tip_health_1: 'Bewegung ist die beste Medizin',
+    tip_health_2: 'Hydration beeinflusst deine mentale Energie',
+    tip_health_3: 'Schlaf ist eine Superkraft — vernachlässige ihn nicht',
+    tip_health_4: 'Ernährung beeinflusst deine Klarheit',
+    tip_health_5: '30 Min. gehen — das löst vieles',
+    tip_beg_1: 'Lerne zuerst die Grundlagen — Geschwindigkeit kommt später',
+    tip_beg_2: 'Finde einen Mentor — das geht schneller',
+    tip_int_1: 'Skaliere, was funktioniert — lass fallen, was nicht',
+    tip_int_2: 'Automatisiere repetitive Aufgaben',
+    tip_adv_1: 'Denke wie ein Investor, nicht wie ein Angestellter',
+    tip_adv_2: 'Deine Zeit ist deine knappste Ressource',
+    // Zodiac tips
+    ztip_aries: 'Kanalisiere deine rohe Energie in strategisches Handeln',
+    ztip_taurus: 'Geduld zahlt sich aus, aber bleib flexibel',
+    ztip_gemini: 'Fokussiere dich auf eine Sache, nicht auf drei',
+    ztip_cancer: 'Schütze zuerst deine emotionale Energie',
+    ztip_leo: 'Teile deine Erfolge — dominiere nicht',
+    ztip_virgo: 'Perfektion ist der Feind des Fortschritts',
+    ztip_libra: 'Entscheide jetzt, nicht in 2 Wochen',
+    ztip_scorpio: 'Intensität ist gut — Rache nicht',
+    ztip_sagittarius: 'Versprechen sind ernst — halte sie',
+    ztip_capricorn: 'Vergnügen gehört auch zum Plan',
+    ztip_aquarius: 'Innovation ohne Menschlichkeit ist leer',
+    ztip_pisces: 'Realität existiert — vergiss das nicht',
+    // Quote fallbacks
+    quote_1: 'Jeder Tag ist eine neue Chance, besser zu werden.',
+    quote_2: 'Erfolg ist die Summe kleiner Anstrengungen, Tag für Tag wiederholt.',
+    quote_3: 'Disziplin ist die Brücke zwischen deinen Zielen und deinen Ergebnissen.',
+    quote_4: 'Du bist stärker, als du denkst.',
+    quote_5: 'Ein kleiner Schritt jeden Tag führt sehr weit.',
+    // Horoscope
+    horoscope_unavailable: 'Horoskop nicht verfügbar',
+    mysterious_day: 'Mysteriöser Tag'
   },
   ca: {
     home: 'Inici',
@@ -10302,7 +11201,185 @@ var RISE_I18N = {
     pace_check_too_much: 'Estàs fent molt aquesta setmana, ves en compte amb l\'esgotament',
     pace_check_too_little: 'Està tranquil, afegeix ambició',
     day_of: 'Dia',
-    milestone: 'Fita'
+    milestone: 'Fita',
+    // Days & months
+    day_sun: 'Dg', day_mon: 'Dl', day_tue: 'Dt', day_wed: 'Dc', day_thu: 'Dj', day_fri: 'Dv', day_sat: 'Ds',
+    month_jan: 'gen', month_feb: 'feb', month_mar: 'mar', month_apr: 'abr', month_may: 'mai', month_jun: 'jun', month_jul: 'jul', month_aug: 'ago', month_sep: 'set', month_oct: 'oct', month_nov: 'nov', month_dec: 'des',
+    // Levels
+    lvl_0: 'Principiant', lvl_1: 'Aprenent', lvl_2: 'Compromès', lvl_3: 'Determinat', lvl_4: 'Ambiciós', lvl_5: 'Valent', lvl_6: 'Guerrer', lvl_7: 'Campió', lvl_8: 'Llegenda', lvl_9: 'Imparable',
+    // Seasons
+    season_1: 'Fonaments', season_2: 'Momentum', season_3: 'Mestratge', season_4: 'Ascensió',
+    // Bosses
+    boss_1: 'Boss Procrastinació', boss_2: 'Tirà del Son', boss_3: 'Dimoni Inactivitat', boss_4: 'Virus Distracció',
+    // Avatars
+    av_0: 'Llavor', av_1: 'Brot', av_2: 'Meditador', av_3: 'Actiu', av_4: 'Enfocat', av_5: 'Valent', av_6: 'Guerrer', av_7: 'Fluid', av_8: 'Llum', av_9: 'Imparable',
+    av_d0: 'El viatge comença ara.', av_d1: 'Els hàbits arrenquen.', av_d2: 'La calma es torna força.', av_d3: 'El cos segueix la ment.', av_d4: 'El focus és la teva arma.', av_d5: 'Fas el que els altres eviten.', av_d6: 'Res no et pot aturar.', av_d7: 'L\'adaptabilitat és la teva força.', av_d8: 'Inspires els qui t\'envolten.', av_d9: 'El cim és casa teva.',
+    // Breathing exercises
+    breath_cardiac: 'Coherència cardíaca', breath_box: 'Box Breathing', breath_478: '4-7-8 Son', breath_wim: 'Wim Hof',
+    breath_cardiac_d: '5-5. Cortisol↓ calma↑', breath_box_d: '4-4-4. Navy SEALs', breath_478_d: 'Adormir-se ràpid', breath_wim_d: 'Activació i energia',
+    // Quests
+    quest_checkin: 'Check-in', quest_3tasks: '3 tasques fetes', quest_coach: 'Parlar amb el coach', quest_2pomo: '2 Pomodoros', quest_walk: '10min caminada', quest_sun: '15min de sol', quest_breath: 'Sessió respiració', quest_form: 'Mòdul formació',
+    // Flash challenges
+    flash_pushups: '30 Flexions ara', flash_pushups_d: 'Para. 30 flexions. Torna.',
+    flash_outside: '20min fora sense mòbil', flash_outside_d: 'Surt ara. 20 min.',
+    flash_breathing: '5min coherència cardíaca', flash_breathing_d: '5-5 ara mateix.',
+    flash_gratitude: '3 gratituds', flash_gratitude_d: '3 coses positives a la teva vida.',
+    flash_sun: '5min de sol', flash_sun_d: 'Surt. Mira amunt. 5 min.',
+    flash_cold: '30seg aigua freda', flash_cold_d: 'Acaba la propera dutxa amb fred.',
+    flash_meditate: '10min meditació', flash_meditate_d: 'Silenci. Ulls tancats. Respira.',
+    // Challenges
+    ch_walk7: '7 Dies Caminant', ch_walk7_d: '15min mínim per dia durant 7 dies',
+    ch_pomo10: '10 Pomodoros', ch_pomo10_d: '10 sessions de focus en 7 dies',
+    ch_sun5: '5 Dies de Sol', ch_sun5_d: '20min fora 5 dies seguits',
+    ch_cold5: '5 Dutxes Fredes', ch_cold5_d: '5 dutxes fredes consecutives',
+    ch_read7: '7 Dies Llegint', ch_read7_d: '20min de lectura per dia',
+    ch_noscreen: 'Nit sense pantalla', ch_noscreen_d: '0 pantalla després de les 21h durant 3 dies',
+    // 7-day challenge
+    d7_1: 'Dia 1 — Respira', d7_1d: 'Fes 1 exercici de respiració a la pestanya Natura.', d7_1a: 'Obrir Natura',
+    d7_2: 'Dia 2 — Mou-te', d7_2d: 'Afegeix 1 exercici al teu Workout Tracker.', d7_2a: 'Obrir Workout',
+    d7_3: 'Dia 3 — Escriu', d7_3d: 'Escriu la teva primera entrada al Diari Intel·ligent.', d7_3a: 'Obrir Diari',
+    d7_4: 'Dia 4 — Planifica', d7_4d: 'Omple el teu pla d\'àpats per avui.', d7_4a: 'Obrir Àpats',
+    d7_5: 'Dia 5 — Aprèn', d7_5d: 'Completa 3 paraules de vocabulari en un idioma.', d7_5a: 'Obrir Idiomes',
+    d7_6: 'Dia 6 — Gestiona', d7_6d: 'Afegeix 1 ingrés i 1 despesa al teu Pressupost.', d7_6a: 'Obrir Pressupost',
+    d7_7: 'Dia 7 — Triomfa', d7_7d: 'Desbloqueja el badge "Setmana Completa"!', d7_7a: 'Veure Èxits',
+    // Achievements
+    ach_streak3: 'Constant', ach_streak3_d: '3 dies connectat',
+    ach_streak7: 'Setmana perfecta', ach_streak7_d: '7 dies consecutius',
+    ach_streak30: 'Màquina', ach_streak30_d: '30 dies consecutius',
+    ach_xp100: 'Primers passos', ach_xp100_d: '100 XP acumulats',
+    ach_xp500: 'En camí', ach_xp500_d: '500 XP acumulats',
+    ach_xp1000: 'Milionari XP', ach_xp1000_d: '1.000 XP acumulats',
+    ach_xp5000: 'Llegenda', ach_xp5000_d: '5.000 XP acumulats',
+    ach_coach5: 'Curiós', ach_coach5_d: '5 converses amb el coach',
+    ach_coach25: 'Aprenent', ach_coach25_d: '25 converses amb el coach',
+    ach_coach100: 'Savi', ach_coach100_d: '100 converses amb el coach',
+    ach_wk1: 'Primer entrenament', ach_wk1_d: 'Completa la teva primera sessió',
+    ach_wk10: 'Atleta', ach_wk10_d: '10 sessions completades',
+    ach_wk50: 'Beast Mode', ach_wk50_d: '50 sessions completades',
+    ach_j1: 'Introspecció', ach_j1_d: 'Primera entrada al diari',
+    ach_j10: 'Escriptor', ach_j10_d: '10 entrades al diari',
+    ach_j30: 'Filòsof', ach_j30_d: '30 entrades al diari',
+    ach_sl7: 'Dormidor regular', ach_sl7_d: '7 nits registrades',
+    ach_sl30: 'Mestre del son', ach_sl30_d: '30 nits registrades',
+    ach_form1: 'Estudiant', ach_form1_d: 'Completa 1 mòdul de formació',
+    ach_form10: 'Erudit', ach_form10_d: 'Completa 10 mòduls',
+    ach_budget1: 'Comptable', ach_budget1_d: 'Registra 10 despeses',
+    ach_flash5: 'Challenger', ach_flash5_d: '5 reptes flash completats',
+    ach_lvl5: 'Nivell 5', ach_lvl5_d: 'Arriba al nivell 5',
+    ach_lvl10: 'Nivell 10', ach_lvl10_d: 'Arriba al nivell 10',
+    // Zodiac signs
+    zodiac_aries: 'Àries', zodiac_taurus: 'Taure', zodiac_gemini: 'Bessons', zodiac_cancer: 'Cranc', zodiac_leo: 'Lleó', zodiac_virgo: 'Verge', zodiac_libra: 'Balança', zodiac_scorpio: 'Escorpí', zodiac_sagittarius: 'Sagitari', zodiac_capricorn: 'Capricorn', zodiac_aquarius: 'Aquari', zodiac_pisces: 'Peixos',
+    // Elements
+    elem_fire: 'Foc', elem_earth: 'Terra', elem_air: 'Aire', elem_water: 'Aigua',
+    // Colors
+    color_red: '🔴 Vermell', color_orange: '🟠 Taronja', color_yellow: '🟡 Groc', color_green: '🟢 Verd', color_blue: '🔵 Blau', color_purple: '🟣 Violeta', color_black: '⚫ Negre', color_white: '⚪ Blanc', color_gray: '🩶 Gris', color_brown: '🤎 Marró',
+    // Default habits
+    habit_meditate: 'Meditar 10 min', habit_exercise: 'Exercici 30 min', habit_read: 'Llegir 20 pàgines', habit_water: '3L aigua', habit_noscreen: 'Sense xarxes 1h', habit_journal: 'Diari / Gratitud', habit_walk: 'Caminar', habit_deepwork: 'Deep Work 2h',
+    // Expense categories
+    cat_housing: 'Habitatge', cat_food: 'Alimentació', cat_transport: 'Transport', cat_health: 'Salut', cat_leisure: 'Oci', cat_shopping: 'Compres', cat_savings: 'Estalvi', cat_other: 'Altres',
+    // Affiliation tiers
+    aff_beginner: 'Principiant', aff_active: 'Actiu', aff_pro: 'Pro', aff_elite: 'Elite',
+    // Formations
+    form_mindset: 'Mentalitat Emprenedora', form_mindset_d: 'Visió, risc, resiliència.',
+    form_rich: 'Fer-se Ric', form_rich_d: 'Ingressos passius, llibertat financera.',
+    form_social: 'Social Media Pro', form_social_d: 'TikTok, YouTube, viral.',
+    form_psych: 'Psicologia de l\'Èxit', form_psych_d: 'Confiança, reprogramació.',
+    form_code: 'Codi per a Tothom', form_code_d: 'HTML, CSS, JS, Python.',
+    form_calisthenics: 'Calistènia Progressiva', form_calisthenics_d: 'Muscle-up, handstand.',
+    form_nature: 'Benestar Natural', form_nature_d: 'Caminar, sol, son.',
+    form_ai: 'Negocis amb IA', form_ai_d: 'Claude, ChatGPT, negocis IA.',
+    form_nutrition: 'Nutrició Científica', form_nutrition_d: 'Macros, timing, efectes reals.',
+    form_sales: 'Vendes i Persuasió', form_sales_d: 'Copywriting, tancament.',
+    // Mindful walk
+    mw_1: 'Ancora\'t', mw_1d: 'Sent els peus tocar el terra. Esquerre. Dret.',
+    mw_2: 'Observa', mw_2d: '5 coses al teu voltant. Colors, formes, moviments.',
+    mw_3: 'Escolta', mw_3d: 'Tanca els ulls 10 seg. Quants sons?',
+    mw_4: 'Sent', mw_4d: 'Aire a la pell. Temperatura. Olors.',
+    mw_5: 'Respira caminant', mw_5d: 'Inspira 4 passes. Expira 4 passes.',
+    mw_6: 'Gratitud', mw_6d: 'Per cada pas, una cosa positiva.',
+    // Skill trees
+    sk_focus: '🎯 Focus', sk_nature: '🌿 Natura', sk_mind: '🧠 Mental', sk_biz: '💰 Negocis',
+    sk_todo: 'To-do', sk_pomodoro: 'Pomodoro', sk_deepwork: 'Deep Work', sk_clarity: 'Ment clara', sk_peak: 'Peak State', sk_flow: 'Mestre del flow',
+    sk_walk: 'Caminar', sk_sun: 'Sol', sk_breathing: 'Respiració', sk_cold: 'Fred', sk_outdoor: 'A l\'aire lliure', sk_nomad: 'Nòmada',
+    sk_meditation: 'Meditació', sk_journal_sk: 'Diari', sk_clarity_sk: 'Claredat', sk_vision: 'Visió', sk_stoicism: 'Estoïcisme', sk_master: 'Mestre',
+    sk_brand: 'Marca Personal', sk_freelance: 'Freelance', sk_startup: 'Startup', sk_scaling: 'Escalat', sk_ai_biz: 'IA Negocis', sk_empire: 'Imperi',
+    // Plans
+    plan_free_feats: 'Inici personalitzat', plan_nature_complete: 'Natura complet', plan_checkin_ai: 'Check-in IA', plan_2_formations: '2 formacions', plan_affiliation_15: 'Afiliació 15%',
+    plan_coach_unlimited: 'Coach il·limitat', plan_ai_books: 'Llibres IA', plan_premium_tourney: 'Torneig premium',
+    // Common UI
+    send: 'Enviar', add: 'Afegir', delete_btn: 'Eliminar', edit_btn: 'Editar', confirm: 'Confirmar',
+    welcome: 'Benvingut', congratulations: 'Felicitats',
+    no_notifications: 'Cap notificació', login_bonus: 'Connexió Dia', daily_bonus: 'Bonus diari',
+    level_up: 'Nivell', unlocked: 'desbloquejat!', mystery_chest: 'Cofre misteriós!', chest_won: 'Has guanyat un cofre!',
+    error_report: 'Error en generar l\'informe.',
+    weekly_report: 'Informe Setmanal', strengths: 'Punts forts', to_improve: 'A millorar', insight: 'Insight', priority_next_week: 'Prioritat setmana vinent', regenerate: 'Regenerar',
+    all_avatars: 'Tots els avatars',
+    expense_added: 'Despesa afegida',
+    placeholder_question: 'Fes-me una pregunta...',
+    placeholder_name: 'El teu nom', placeholder_age: 'La teva edat (opcional)',
+    select_domain: 'Selecciona almenys 1 àmbit',
+    placeholder_journal: 'Com et sents avui?',
+    placeholder_gratitude: 'Estic agraït per...',
+    placeholder_note: 'Afegeix una nota (opcional)',
+    write_few_words: 'Escriu almenys unes paraules',
+    fill_desc_amount: 'Omple la descripció i l\'import',
+    describe_idea: 'Descriu la teva idea',
+    add_content: 'Afegeix contingut!',
+    write_suggestion: 'Escriu el teu suggeriment!',
+    journal_weekly_goal: 'Escriu al teu diari 5 dies aquesta setmana',
+    task_prompt: 'Tasca:', title_prompt: 'Títol?', date_prompt: 'Data (AAAA-MM-DD)?', time_prompt: 'Hora (HH:MM, opc.)',
+    tag_prompt: 'Etiqueta (opc.)', goal_prompt: 'Objectiu?', deadline_prompt: 'Data límit?', key_result_prompt: 'Key Result?',
+    name_prompt: 'Nom?', company_prompt: 'Empresa (opc.)', role_prompt: 'Rol (opc.)',
+    add_transaction: 'Afegir transacció',
+    // Personalized tips
+    tip_morning_1: 'Comença amb un got d\'aigua — el teu cos t\'ho agrairà',
+    tip_morning_2: 'Respira profundament — tu controles el teu dia',
+    tip_morning_3: 'Una victòria ràpida et donarà impuls',
+    tip_morning_4: 'Defineix les teves 3 prioritats — la resta és soroll',
+    tip_morning_5: 'Medita 5 minuts — és màgic per a la claredat',
+    tip_evening_1: 'Felicita\'t per almenys una cosa d\'avui',
+    tip_evening_2: 'Revisa el que has après avui',
+    tip_evening_3: 'Prepara demà per ser més eficient',
+    tip_evening_4: 'Desconnecta\'t — t\'ho has guanyat',
+    tip_evening_5: 'Deixa anar el control — demà és un altre dia',
+    tip_biz_1: 'El timing ho és tot — potser és moment d\'actuar',
+    tip_biz_2: 'Un client és una relació, no una transacció',
+    tip_biz_3: 'Documenta el teu procés — és la teva riquesa',
+    tip_biz_4: 'L\'expansió comença quan deixes anar el control',
+    tip_biz_5: 'Prova ràpid, aprèn ràpid, itera',
+    tip_health_1: 'El moviment és la millor medicina',
+    tip_health_2: 'La hidratació afecta la teva energia mental',
+    tip_health_3: 'El son és un superpoder — no el descuidis',
+    tip_health_4: 'La nutrició impacta la teva claredat',
+    tip_health_5: 'Camina 30 min — resol molt',
+    tip_beg_1: 'Aprèn les bases primer — la velocitat vindrà després',
+    tip_beg_2: 'Troba un mentor — és més ràpid',
+    tip_int_1: 'Escala el que funciona, deixa el que no',
+    tip_int_2: 'Automatitza les tasques repetitives',
+    tip_adv_1: 'Pensa com un inversor, no com un empleat',
+    tip_adv_2: 'El teu temps és el teu recurs més escàs',
+    // Zodiac tips
+    ztip_aries: 'Canalitza la teva energia bruta en acció estratègica',
+    ztip_taurus: 'La paciència paga, però mantén-te flexible',
+    ztip_gemini: 'Centra\'t en una cosa, no en tres',
+    ztip_cancer: 'Protegeix la teva energia emocional primer',
+    ztip_leo: 'Comparteix els teus èxits — no dominis',
+    ztip_virgo: 'La perfecció és enemiga del progrés',
+    ztip_libra: 'Decideix ara, no d\'aquí a 2 setmanes',
+    ztip_scorpio: 'La intensitat està bé — la revenja no',
+    ztip_sagittarius: 'Les promeses són serioses — compleix-les',
+    ztip_capricorn: 'El plaer també forma part del pla',
+    ztip_aquarius: 'La innovació sense humanitat és buida',
+    ztip_pisces: 'La realitat existeix — no ho oblidis',
+    // Quote fallbacks
+    quote_1: 'Cada dia és una nova oportunitat per ser millor.',
+    quote_2: 'L\'èxit és la suma de petits esforços repetits dia rere dia.',
+    quote_3: 'La disciplina és el pont entre els teus objectius i els teus resultats.',
+    quote_4: 'Ets més fort del que penses.',
+    quote_5: 'Un petit pas cada dia porta molt lluny.',
+    // Horoscope
+    horoscope_unavailable: 'Horòscop no disponible',
+    mysterious_day: 'Dia misteriós'
   },
   ja: {
     home: 'ホーム',
@@ -10487,61 +11564,63 @@ function t(key) {
 // Initialize language in state
 if(!S.lang) { S.lang = userLang; }
 
+// Locale-aware formatting helpers
+function getLocaleCode() {
+  var map = {fr:'fr-FR',en:'en-US',es:'es-MX',pt:'pt-BR',it:'it-IT',de:'de-DE',ca:'ca-ES',ja:'ja-JP',ar:'ar-SA'};
+  return map[S.lang||userLang] || 'fr-FR';
+}
+function fmtDate(d) {
+  try { return new Intl.DateTimeFormat(getLocaleCode(),{day:'numeric',month:'long',year:'numeric'}).format(d instanceof Date ? d : new Date(d)); }
+  catch(e) { return d.toString(); }
+}
+function fmtDateShort(d) {
+  try { return new Intl.DateTimeFormat(getLocaleCode(),{day:'numeric',month:'short'}).format(d instanceof Date ? d : new Date(d)); }
+  catch(e) { return d.toString(); }
+}
+function fmtNumber(n) {
+  try { return new Intl.NumberFormat(getLocaleCode()).format(n); }
+  catch(e) { return n.toString(); }
+}
+function fmtCurrency(n) {
+  var lang = S.lang || userLang;
+  var curr = lang==='en'?'USD':lang==='pt'?'BRL':'EUR';
+  try { return new Intl.NumberFormat(getLocaleCode(),{style:'currency',currency:curr}).format(n); }
+  catch(e) { return n.toFixed(2); }
+}
+
+// Set dynamic i18n placeholders after DOM ready
+function applyI18nPlaceholders() {
+  var ta = document.getElementById('jarvis-ta');
+  if(ta) ta.placeholder = t('placeholder_question');
+  var btn = document.getElementById('jarvis-send');
+  if(btn) btn.textContent = t('send');
+}
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applyI18nPlaceholders);
+} else {
+  applyI18nPlaceholders();
+}
+
 // ============================================================================
 // 3. PERSONALIZATION ENGINE
 // ============================================================================
 window.getPersonalizedTip = function(category) {
   var tips = {
-    morning: [
-      'Commence par un verre d\'eau, ton corps te remerciera',
-      'Respire profondément, tu contrôles ta journée',
-      'Une petite victoire rapide te donnera de l\'élan',
-      'Definis tes 3 priorités, le reste est du bruit',
-      'Medite 5 minutes, c\'est magique pour la clarté'
-    ],
-    evening: [
-      'Felicite-toi d\'au moins une chose d\'aujourd\'hui',
-      'Revise ce que tu as appris aujourd\'hui',
-      'Prepare demain pour être plus efficace',
-      'Debranche-toi, tu l\'as mérité',
-      'Lâche le contrôle, demain est un autre jour'
-    ],
-    business: [
-      'Le timing est tout, il est peut-être temps d\'agir',
-      'Un client c\'est une relation, pas une transaction',
-      'Documente ton processus, c\'est ta richesse',
-      'L\'expansion commence quand tu lâches le contrôle',
-      'Teste vite, apprends vite, itère'
-    ],
-    health: [
-      'Le mouvement est la meilleure médecine',
-      'L\'hydratation affecte ton énergie mentale',
-      'Le sommeil est un superpower, ne le negliges pas',
-      'La nutrition impacte ta clarté',
-      'Marche 30 min, ça résout beaucoup'
-    ]
+    morning: [t('tip_morning_1'),t('tip_morning_2'),t('tip_morning_3'),t('tip_morning_4'),t('tip_morning_5')],
+    evening: [t('tip_evening_1'),t('tip_evening_2'),t('tip_evening_3'),t('tip_evening_4'),t('tip_evening_5')],
+    business: [t('tip_biz_1'),t('tip_biz_2'),t('tip_biz_3'),t('tip_biz_4'),t('tip_biz_5')],
+    health: [t('tip_health_1'),t('tip_health_2'),t('tip_health_3'),t('tip_health_4'),t('tip_health_5')]
   };
 
   var entrepreneurLevelTips = {
-    beginner: ['Apprends les bases d\'abord, la vitesse viendra après', 'Trouve un mentor, c\'est plus rapide'],
-    intermediate: ['Scale ce qui marche, drop ce qui ne marche pas', 'Automatise les tasks répétitives'],
-    advanced: ['Pense comme un investisseur, pas comme un employé', 'Ton temps est ta ressource la plus rare']
+    beginner: [t('tip_beg_1'), t('tip_beg_2')],
+    intermediate: [t('tip_int_1'), t('tip_int_2')],
+    advanced: [t('tip_adv_1'), t('tip_adv_2')]
   };
 
-  var zodiacTips = {
-    'Bélier': 'Canalise ton énergie brute en action stratégique',
-    'Taureau': 'La patience paie, mais reste flexible',
-    'Gémeaux': 'Focus sur une chose, pas trois',
-    'Cancer': 'Protège ton énergie émotionnelle d\'abord',
-    'Lion': 'Partage tes succès, ne domines pas',
-    'Vierge': 'La perfection est l\'ennemi du progrès',
-    'Balance': 'Décide maintenant, pas dans 2 semaines',
-    'Scorpion': 'L\'intensité c\'est bien, la vengeance non',
-    'Sagittaire': 'Les promesses c\'est sérieux, tiens-les',
-    'Capricorne': 'Le plaisir aussi fait partie du plan',
-    'Verseau': 'L\'innovation sans humanité c\'est vide',
-    'Poissons': 'La réalité existe, n\'oublie pas'
-  };
+  var zodiacSignToKey = {'Bélier':'aries','Taureau':'taurus','Gémeaux':'gemini','Cancer':'cancer','Lion':'leo','Vierge':'virgo','Balance':'libra','Scorpion':'scorpio','Sagittaire':'sagittarius','Capricorne':'capricorn','Verseau':'aquarius','Poissons':'pisces'};
+  var zodiacTips = {};
+  Object.keys(zodiacSignToKey).forEach(function(sign){zodiacTips[sign]=t('ztip_'+zodiacSignToKey[sign]);});
 
   var baseTip = tips[category] ? tips[category][Math.floor(Math.random() * tips[category].length)] : tips.business[0];
   var levelTip = S.entreprLevel && entrepreneurLevelTips[S.entreprLevel] ? entrepreneurLevelTips[S.entreprLevel][Math.floor(Math.random() * entrepreneurLevelTips[S.entreprLevel].length)] : '';
@@ -10554,10 +11633,10 @@ window.getPersonalizedTip = function(category) {
 // 4. DAILY ASTROLOGY SYSTEM
 // ============================================================================
 function generateDailyHoroscope(sign, dateStr) {
-  if(!sign || !ZODIAC_DATA[sign]) return 'Horoscope indisponible';
+  if(!sign || !ZODIAC_DATA[sign]) return t('horoscope_unavailable');
 
   var zodiacInfo = ZODIAC_DATA[sign];
-  var horoscopes = zodiacInfo.horoscopes || ['Jour mystérieux'];
+  var horoscopes = zodiacInfo.horoscopes || [t('mysterious_day')];
 
   // Simple deterministic seeding based on date + sign
   var seed = 0;
@@ -10578,7 +11657,7 @@ function generateEnergyOfDay(sign, dateStr) {
 }
 
 function generateColorOfDay(sign, dateStr) {
-  var colors = ['🔴 Rouge', '🟠 Orange', '🟡 Jaune', '🟢 Vert', '🔵 Bleu', '🟣 Violet', '⚫ Noir', '⚪ Blanc', '🩶 Gris', '🤎 Marron'];
+  var colors = [t('color_red'),t('color_orange'),t('color_yellow'),t('color_green'),t('color_blue'),t('color_purple'),t('color_black'),t('color_white'),t('color_gray'),t('color_brown')];
   var seed = 0;
   for(var i=0; i<dateStr.length; i++) { seed += dateStr.charCodeAt(i); }
   var index = Math.abs(seed) % colors.length;
