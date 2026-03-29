@@ -1578,6 +1578,33 @@ else if(name==='content'){renderContentPlanner(document.getElementById('content-
 else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
 document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
+// Auto-backup: save a secondary copy every 5 minutes and on beforeunload
+(function(){
+  var BACKUP_KEY='rise_v9_backup';
+  var BACKUP_TS_KEY='rise_v9_backup_ts';
+  function autoBackup(){
+    try{
+      var data=localStorage.getItem('rise_v9');
+      if(data){
+        localStorage.setItem(BACKUP_KEY,data);
+        localStorage.setItem(BACKUP_TS_KEY,String(Date.now()));
+      }
+    }catch(e){}
+  }
+  // Backup every 5 minutes
+  setInterval(autoBackup,300000);
+  // Backup on page unload
+  window.addEventListener('beforeunload',autoBackup);
+  // Recovery: if main data is corrupted, offer restore from backup
+  try{
+    var main=localStorage.getItem('rise_v9');
+    var backup=localStorage.getItem(BACKUP_KEY);
+    if(!main&&backup){
+      localStorage.setItem('rise_v9',backup);
+      console.log('RISE: Restored from auto-backup');
+    }
+  }catch(e){}
+})();
 // Register Service Worker for offline PWA
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(e){console.log('SW registration failed:',e);});}
 // Offline/Online detection
@@ -2181,7 +2208,17 @@ function rRoutines(el) {
   const matinTotal = S.routines.matin.filter(s=>s.active).length;
   const soirDone = S.routines.soir.filter(s=>s.active&&s.doneDates.includes(TD)).length;
   const soirTotal = S.routines.soir.filter(s=>s.active).length;
-  el.innerHTML = '<div style="background:linear-gradient(135deg,#1a1208,#100e04);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px">'
+  // Calculate routine streaks
+  var rStreak=0;var dd=new Date();
+  for(var ri=0;ri<60;ri++){
+    var rds=dd.toDateString();
+    var mAll=S.routines.matin.filter(function(s){return s.active;});
+    var mDn=mAll.filter(function(s){return s.doneDates&&s.doneDates.includes(rds);}).length;
+    if(mAll.length>0&&mDn===mAll.length)rStreak++;else if(ri>0)break;
+    dd.setDate(dd.getDate()-1);
+  }
+  el.innerHTML = (rStreak>1?'<div style="text-align:center;padding:10px;background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);margin-bottom:11px;font-size:13px;font-weight:700;color:var(--ac)">🔥 '+rStreak+' jours de routine complete d\'affilee !</div>':'')+
+    '<div style="background:linear-gradient(135deg,#1a1208,#100e04);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px">'
     + '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px;color:var(--ac2)">🌅 Routine Matin <span style="font-size:12px;color:var(--tx3)">'+matinDone+'/'+matinTotal+'</span></div>'
     + '<div class="pbar" style="margin-bottom:12px"><div class="pfill pac" style="width:'+( matinTotal?Math.round(matinDone/matinTotal*100):0)+'%"></div></div>'
     + S.routines.matin.filter(s=>s.active).map(s => {
@@ -2191,6 +2228,7 @@ function rRoutines(el) {
         +'<div style="font-size:22px">'+s.ico+'</div>'
         +'<div style="font-size:13px">'+s.txt+'</div></div>';
     }).join('')
+    + '<button style="width:100%;margin-top:8px;padding:8px;border-radius:var(--rs);border:1px dashed var(--acm);background:none;color:var(--tx3);font-size:11px;cursor:pointer" onclick="addRoutineStep(\'matin\')">+ Ajouter une etape</button>'
     + '</div>'
     + '<div style="background:linear-gradient(135deg,#0a0818,#080614);border:1px solid var(--bd);border-radius:var(--r);padding:14px">'
     + '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px;color:var(--tx2)">🌙 Routine Soir <span style="font-size:12px;color:var(--tx3)">'+soirDone+'/'+soirTotal+'</span></div>'
@@ -2202,7 +2240,15 @@ function rRoutines(el) {
         +'<div style="font-size:22px">'+s.ico+'</div>'
         +'<div style="font-size:13px">'+s.txt+'</div></div>';
     }).join('')
+    + '<button style="width:100%;margin-top:8px;padding:8px;border-radius:var(--rs);border:1px dashed var(--bd2);background:none;color:var(--tx3);font-size:11px;cursor:pointer" onclick="addRoutineStep(\'soir\')">+ Ajouter une etape</button>'
     + '</div>';
+}
+function addRoutineStep(type){
+  var txt=prompt('Nouvelle etape pour la routine '+(type==='matin'?'matin':'soir')+' :');
+  if(!txt||!txt.trim())return;
+  S.routines[type].push({id:type[0]+Date.now(),ico:'✨',txt:txt.trim(),active:true,doneDates:[]});
+  save();toast('Etape ajoutee !','✨',2000);
+  rRoutines(document.getElementById('orga-content'));
 }
 function togRoutine(type, id) {
   const step = S.routines[type].find(s => s.id === id);
@@ -2214,7 +2260,7 @@ function togRoutine(type, id) {
     gainXP(8,'routine'); gainGems(1);
     const all = S.routines[type].filter(s=>s.active);
     const done = all.filter(s=>s.doneDates.includes(TD));
-    if (done.length === all.length) { gainXP(50,'routine_full'); confetti(); toast('Routine ' +type+' complete ! +50 XP', '🔥', 3000); }
+    if (done.length === all.length) { gainXP(50,'routine_full'); confetti(); toast('Routine ' +type+' complete ! +50 XP', '🔥', 3000); try{updRiseScore();}catch(e){} }
   }
   save();
   rRoutines(document.getElementById('orga-content'));
@@ -4689,18 +4735,83 @@ function initSmartJournal(){
   renderSmartJournal();
 }
 
+function analyzeJournalPatterns(){
+  var entries=S.journal||[];if(entries.length<3)return null;
+  var moodMap={happy:5,motivated:4,neutral:3,sad:2,stressed:1};
+  var moodLabels={happy:'😊 Content',motivated:'🔥 Motive',neutral:'😐 Normal',sad:'😢 Triste',stressed:'😰 Stresse'};
+  // 7-day mood trend
+  var last7=entries.slice(-7);
+  var avg7=last7.reduce(function(a,e){return a+(moodMap[e.mood]||3);},0)/last7.length;
+  // Mood distribution
+  var dist={happy:0,motivated:0,neutral:0,sad:0,stressed:0};
+  entries.forEach(function(e){if(e.mood)dist[e.mood]=(dist[e.mood]||0)+1;});
+  var dominant=Object.keys(dist).sort(function(a,b){return dist[b]-dist[a];})[0];
+  // Day-of-week patterns
+  var dayMoods={0:[],1:[],2:[],3:[],4:[],5:[],6:[]};
+  entries.forEach(function(e){
+    try{var d=new Date(e.ts||e.date);var day=d.getDay();dayMoods[day].push(moodMap[e.mood]||3);}catch(x){}
+  });
+  var bestDay=-1,worstDay=-1,bestAvg=0,worstAvg=6;
+  var dayNames=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  for(var d=0;d<7;d++){
+    if(dayMoods[d].length>=2){
+      var avg=dayMoods[d].reduce(function(a,v){return a+v;},0)/dayMoods[d].length;
+      if(avg>bestAvg){bestAvg=avg;bestDay=d;}
+      if(avg<worstAvg){worstAvg=avg;worstDay=d;}
+    }
+  }
+  // Keyword detection in recent entries
+  var recentTexts=entries.slice(-10).map(function(e){return(e.text||'').toLowerCase();}).join(' ');
+  var themes=[];
+  if(recentTexts.match(/stress|anxie|pression|surcharge/))themes.push('stress');
+  if(recentTexts.match(/gratitude|reconnaiss|chance|merci/))themes.push('gratitude');
+  if(recentTexts.match(/progres|avance|reussi|fier/))themes.push('progress');
+  if(recentTexts.match(/fatigue|epuise|dormi|sommeil/))themes.push('fatigue');
+  if(recentTexts.match(/motiv|energie|excite|inspire/))themes.push('motivation');
+  // Trend
+  var prev7=entries.slice(-14,-7);
+  var avgPrev=prev7.length?prev7.reduce(function(a,e){return a+(moodMap[e.mood]||3);},0)/prev7.length:avg7;
+  var trend=avg7>avgPrev+0.3?'up':avg7<avgPrev-0.3?'down':'stable';
+  return {avg7:Math.round(avg7*10)/10,dominant:dominant,dominantLabel:moodLabels[dominant],dist:dist,bestDay:bestDay>=0?dayNames[bestDay]:null,worstDay:worstDay>=0?dayNames[worstDay]:null,themes:themes,trend:trend,total:entries.length};
+}
 function renderSmartJournal(){
   const el=document.getElementById('smartjournal-c');
   if(!el)return;
   const entries=S.journal||[];
   const todayEntry=entries.find(e=>e.date===TD);
   const streak=calcJournalStreak();
+  var patterns=analyzeJournalPatterns();
 
   el.innerHTML=
     '<div style="display:flex;gap:8px;margin-bottom:16px">'+
-    '<div class="wg" style="flex:1;text-align:center;padding:12px"><div style="font-size:20px;font-weight:700;font-family:var(--fd)">'+entries.length+'</div><div style="font-size:10px;color:var(--tx3)">Entrées</div></div>'+
+    '<div class="wg" style="flex:1;text-align:center;padding:12px"><div style="font-size:20px;font-weight:700;font-family:var(--fd)">'+entries.length+'</div><div style="font-size:10px;color:var(--tx3)">Entrees</div></div>'+
     '<div class="wg" style="flex:1;text-align:center;padding:12px"><div style="font-size:20px;font-weight:700;font-family:var(--fd)">'+streak+'🔥</div><div style="font-size:10px;color:var(--tx3)">Streak</div></div>'+
     '</div>'+
+    // AI Insights panel
+    (patterns?
+      '<div style="background:linear-gradient(135deg,var(--pud),transparent);border:1px solid var(--pu);border-radius:var(--r);padding:14px;margin-bottom:14px">'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="font-size:18px">🧠</div><div style="font-family:var(--fd);font-weight:700;font-size:13px;color:var(--pu)">Analyse JARVIS</div></div>'+
+      // Mood trend
+      '<div style="display:flex;gap:8px;margin-bottom:10px">'+
+      '<div style="flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-size:20px;margin-bottom:2px">'+(patterns.trend==='up'?'📈':patterns.trend==='down'?'📉':'➡️')+'</div><div style="font-size:10px;color:var(--tx3)">'+(patterns.trend==='up'?'En hausse':patterns.trend==='down'?'En baisse':'Stable')+'</div></div>'+
+      '<div style="flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-size:20px;margin-bottom:2px">'+escHTML(patterns.dominantLabel.split(' ')[0])+'</div><div style="font-size:10px;color:var(--tx3)">Humeur dominante</div></div>'+
+      '<div style="flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)">'+patterns.avg7+'</div><div style="font-size:10px;color:var(--tx3)">Score 7j /5</div></div>'+
+      '</div>'+
+      // Mood distribution mini bars
+      '<div style="display:flex;gap:3px;align-items:flex-end;height:32px;margin-bottom:8px">'+
+      [{k:'happy',c:'var(--gr)',l:'😊'},{k:'motivated',c:'var(--or)',l:'🔥'},{k:'neutral',c:'var(--tx3)',l:'😐'},{k:'sad',c:'var(--bl)',l:'😢'},{k:'stressed',c:'var(--rd)',l:'😰'}].map(function(m){
+        var pct=patterns.total>0?Math.max(4,Math.round((patterns.dist[m.k]||0)/patterns.total*28)):4;
+        return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:'+pct+'px;background:'+m.c+';border-radius:2px"></div><div style="font-size:9px">'+m.l+'</div></div>';
+      }).join('')+
+      '</div>'+
+      // Insights
+      '<div style="font-size:12px;color:var(--tx2);line-height:1.6">'+
+      (patterns.bestDay?'<div>'+escHTML(patterns.bestDay)+' est ton meilleur jour.</div>':'')+
+      (patterns.worstDay&&patterns.worstDay!==patterns.bestDay?'<div>'+escHTML(patterns.worstDay)+' tend a etre plus difficile.</div>':'')+
+      (patterns.themes.length?'<div>Themes recents : '+patterns.themes.map(function(t){return t==='stress'?'⚡ stress':t==='gratitude'?'🙏 gratitude':t==='progress'?'📈 progres':t==='fatigue'?'😴 fatigue':'💪 motivation';}).join(', ')+'</div>':'')+
+      '</div>'+
+      '</div>'
+    :'')+
     (!todayEntry?
       '<div style="margin-bottom:16px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:12px">Comment tu te sens?</div>'+
       '<div style="display:flex;gap:8px;justify-content:center" id="j-mood-sel">'+
@@ -4762,7 +4873,7 @@ function saveJournalEntry(mood){
 function viewJournalEntry(date){
   const entry=(S.journal||[]).find(e=>e.date===date);
   if(!entry)return;
-  const h='<div class="ov show" id="ov-jview" style="z-index:999"><div class="ov-c" style="padding:24px;max-height:80vh;overflow-y:auto"><div style="font-size:12px;color:var(--tx3)">'+entry.date+'</div><div style="font-size:32px;margin:8px 0">'+(entry.mood==='happy'?'😊':entry.mood==='sad'?'😢':entry.mood==='stressed'?'😰':entry.mood==='motivated'?'🔥':'😐')+'</div><div style="font-size:14px;white-space:pre-wrap;line-height:1.6">'+entry.text+'</div><button onclick="document.getElementById(\'ov-jview\').remove()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:20px">Fermer</button></div></div>';
+  const h='<div class="ov show" id="ov-jview" style="z-index:999"><div class="ov-c" style="padding:24px;max-height:80vh;overflow-y:auto"><div style="font-size:12px;color:var(--tx3)">'+escHTML(entry.date)+'</div><div style="font-size:32px;margin:8px 0">'+(entry.mood==='happy'?'😊':entry.mood==='sad'?'😢':entry.mood==='stressed'?'😰':entry.mood==='motivated'?'🔥':'😐')+'</div><div style="font-size:14px;white-space:pre-wrap;line-height:1.6">'+escHTML(entry.text)+'</div><button onclick="document.getElementById(\'ov-jview\').remove()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:20px">Fermer</button></div></div>';
   document.body.insertAdjacentHTML('beforeend',h);
 }
 
@@ -5506,6 +5617,30 @@ function stopDW(){
   dwSec=0;renderPomoPro(document.getElementById('pomo-c'));
 }
 function cancelDW(){clearInterval(dwInt);dwRunning=false;dwSec=0;renderPomoPro(document.getElementById('pomo-c'));}
+// ── KEYBOARD HELP ──
+function showKbdHelp(){
+  var existing=document.getElementById('ov-kbd');if(existing){existing.remove();return;}
+  var shortcuts=[
+    {k:'Ctrl+K',d:'Command palette'},
+    {k:'N',d:'Quick Capture'},
+    {k:'H',d:'Accueil'},
+    {k:'C',d:'Coach IA'},
+    {k:'J',d:'Journal'},
+    {k:'D',d:'Deep Work'},
+    {k:'P',d:'Menu Plus'},
+    {k:'?',d:'Cette aide'},
+    {k:'Esc',d:'Fermer'}
+  ];
+  var h='<div class="full-ov show" id="ov-kbd" style="z-index:9500" onclick="this.remove()">';
+  h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;max-width:320px;width:90%" onclick="event.stopPropagation()">';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:14px">⌨️ Raccourcis clavier</div>';
+  shortcuts.forEach(function(s){
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd)"><div style="font-size:13px;color:var(--tx2)">'+escHTML(s.d)+'</div><div class="kbd-hint">'+escHTML(s.k)+'</div></div>';
+  });
+  h+='<button class="btn btn-sf" style="margin-top:14px" onclick="document.getElementById(\'ov-kbd\').remove()">Fermer</button>';
+  h+='</div></div>';
+  document.body.insertAdjacentHTML('beforeend',h);
+}
 // ── QUICK CAPTURE ──
 var qcapType='auto';
 function openQCap(){openM('m-qcap');setTimeout(function(){var t=document.getElementById('qcap-txt');if(t)t.focus();},200);}
@@ -6978,14 +7113,35 @@ function toggleZenMode(){
     if(e.target===overlay)closePalette();
   });
   
-  // Global keyboard shortcut: Ctrl+K or Cmd+K
+  // Global keyboard shortcuts
   document.addEventListener('keydown',function(e){
+    // Ctrl+K / Cmd+K: command palette
     if((e.ctrlKey||e.metaKey)&&e.key==='k'){
       e.preventDefault();
       if(overlay.classList.contains('open'))closePalette();
       else openPalette();
+      return;
     }
-    if(e.key==='Escape'&&overlay.classList.contains('open'))closePalette();
+    if(e.key==='Escape'){
+      if(overlay.classList.contains('open'))closePalette();
+      return;
+    }
+    // Skip shortcuts when typing in inputs
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+    // N: Quick capture
+    if(e.key==='n'&&!e.ctrlKey&&!e.metaKey){try{openQCap();}catch(ex){}return;}
+    // H: Home
+    if(e.key==='h'){gs('home',null);return;}
+    // C: Coach/Chat
+    if(e.key==='c'){gs('chat',null);return;}
+    // J: Smart Journal
+    if(e.key==='j'){gs('smartjournal',null);return;}
+    // D: Deep Work / Pomodoro
+    if(e.key==='d'){gs('pomo',null);return;}
+    // P: Plus panel
+    if(e.key==='p'){try{var pp=document.getElementById('plus-panel');if(pp)pp.style.display=pp.style.display==='block'?'none':'block';}catch(ex){}return;}
+    // ?: Help overlay
+    if(e.key==='?'){showKbdHelp();return;}
   });
   
   // Add search button to gbar
