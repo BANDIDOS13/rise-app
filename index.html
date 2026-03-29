@@ -510,17 +510,24 @@ textarea.inp{resize:none}
   </div>
   <div class="ob-step" id="ob-1">
     <div class="ob-form">
-      <div class="ob-prog"><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Comment tu t'appelles ?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">C'est tout ce dont FORGE a besoin pour commencer.</div>
+      <div class="ob-prog"><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
+      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Parle-nous de toi</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">FORGE personnalise ton expérience grâce à ces infos.</div>
       <input class="inp" id="ob-name" placeholder="Ton prénom" maxlength="30" style="margin-bottom:10px">
-      <input class="inp" id="ob-age" type="number" min="13" max="99" placeholder="Ton âge (optionnel)">
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <select class="inp" id="ob-sex" style="flex:1;color:var(--tx2)"><option value="" disabled selected>Genre</option><option value="male">👨 Homme</option><option value="female">👩 Femme</option><option value="other">🌟 Autre</option></select>
+        <input class="inp" id="ob-age" type="number" min="13" max="99" placeholder="Âge" style="flex:0.6">
+      </div>
+      <div style="font-size:11px;color:var(--tx3);margin-bottom:6px;font-weight:600">📅 Date de naissance</div>
+      <input class="inp" id="ob-birthdate" type="date" style="margin-bottom:10px;color:var(--tx2)">
+      <input class="inp" id="ob-email" type="email" placeholder="Email (optionnel)" style="margin-bottom:4px">
+      <div style="font-size:10px;color:var(--tx3);margin-bottom:4px">🔒 Jamais partagé. Pour récupérer ton compte.</div>
       <div class="ob-foot"><button class="btn btn-ac" id="ob1n" onclick="obNext(2)" disabled>Continuer →</button></div>
     </div>
   </div>
   <div class="ob-step" id="ob-2">
     <div class="ob-form">
-      <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd cur"></div><div class="ob-pd"></div></div>
+      <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
       <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Qu'est-ce que tu veux améliorer ?</div>
       <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">Choisis tout ce qui t'intéresse. FORGE active les modules correspondants.</div>
       <div id="ob-goals">
@@ -539,9 +546,17 @@ textarea.inp{resize:none}
   </div>
   <div class="ob-step" id="ob-3">
     <div class="ob-form">
-      <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd done"></div><div class="ob-pd cur"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Choisis ton style</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Modifiable à tout moment dans Paramètres.</div>
+      <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd done"></div><div class="ob-pd cur"></div><div class="ob-pd"></div></div>
+      <div id="ob-astro-reveal" style="text-align:center;margin-bottom:18px;display:none">
+        <div id="ob-astro-ico" style="font-size:56px;margin-bottom:6px;animation:pulse 1.5s ease infinite">♈</div>
+        <div id="ob-astro-sign" style="font-family:var(--fd);font-weight:700;font-size:24px;background:linear-gradient(135deg,var(--ac),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Bélier</div>
+        <div id="ob-astro-info" style="font-size:12px;color:var(--tx3);margin-top:4px">Feu · 21 mars — 19 avril</div>
+        <div id="ob-astro-trait" style="font-size:13px;color:var(--tx2);margin-top:8px;line-height:1.6;font-style:italic"></div>
+      </div>
+      <div id="ob-no-astro" style="text-align:center;margin-bottom:14px">
+        <div style="font-size:38px;margin-bottom:6px">🔮</div>
+        <div style="font-size:13px;color:var(--tx3)">Ajoute ta date de naissance à l'étape 1 pour ton horoscope quotidien !</div>
+      </div>
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--tx3);font-weight:700;margin-bottom:10px">Thème</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px" id="ob-themes">
         <div class="th-sw on" style="background:linear-gradient(135deg,#07080a,#d4aa4a)" onclick="selTh('default',this)"></div>
@@ -567,6 +582,7 @@ textarea.inp{resize:none}
   <div class="pad">
     <div id="ctx-banner" class="ctx-b au"></div>
     <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">Chargement...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Citation personnalisée du jour</div></div>
+    <div id="w-astro" class="wg au1" style="display:none;cursor:pointer;background:linear-gradient(135deg,rgba(102,126,234,0.15),rgba(118,75,162,0.15));border:1px solid rgba(102,126,234,0.3)" onclick="gs('astro',null)"><div style="display:flex;align-items:center;gap:12px"><div id="astro-home-ico" style="font-size:32px">♈</div><div style="flex:1"><div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-family:var(--fd);font-weight:700;font-size:14px;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="astro-home-sign">Bélier</span><span style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;font-weight:700">🔮 Horoscope</span></div><div style="font-size:12px;color:var(--tx2);line-height:1.5;font-style:italic" id="astro-home-msg">Chargement...</div></div><div style="font-size:12px;color:var(--pu);font-weight:700">→</div></div></div>
     <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
     <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--or)" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or)">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
     <div id="w-boss" class="boss-c au2" style="display:none"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚔️ Boss de la semaine</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:4px" id="boss-nm">Boss Procrastination</div><div style="background:var(--rdd);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px"><div style="height:100%;background:linear-gradient(90deg,var(--rd),#ff8080);border-radius:4px;transition:width .8s" id="boss-hp-fill"></div></div><div style="font-size:10px;color:var(--tx3)" id="boss-hp-txt">500/500</div></div>
@@ -665,6 +681,12 @@ textarea.inp{resize:none}
   </div>
 </div>
 <!-- FEATURES -->
+<div class="screen" id="screen-astro">
+  <div class="pad">
+    <div class="sct au">🔮 Horoscope du jour</div>
+    <div id="astro-full-content" style="padding-bottom:20px"></div>
+  </div>
+</div>
 <div class="screen" id="screen-feat">
   <div class="pad">
     <div class="sct au">Features</div>
@@ -1436,7 +1458,7 @@ function markRead(){(S.notifs||[]).forEach(n=>n.read=true);save();updNDot();rend
 function renderNotifs(){const el=document.getElementById('notifs-list');if(!el)return;const ns=S.notifs||[];if(!ns.length){el.innerHTML='<div style="text-align:center;padding:52px;color:var(--tx3)">🔔 Aucune notification</div>';return;}el.innerHTML=ns.slice(0,30).map(n=>'<div class="nit '+(n.read?'':'unread')+'"><div style="font-size:20px;flex-shrink:0">'+n.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+n.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+n.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+n.time+'</div></div></div>').join('');}
 function applyTheme(t){S.theme=t;save();document.documentElement.setAttribute('data-theme',t==='default'?'':t);}
 let _goal='all',_theme='default',_mode='full';
-function obNext(s){document.querySelectorAll('.ob-step').forEach(x=>x.classList.remove('on'));document.getElementById('ob-'+s).classList.add('on');}
+function obNext(s){document.querySelectorAll('.ob-step').forEach(x=>x.classList.remove('on'));document.getElementById('ob-'+s).classList.add('on');if(s===3){var bd=document.getElementById('ob-birthdate');if(bd&&bd.value&&typeof getZodiac==='function'){var z=getZodiac(bd.value);if(z&&z.sign){document.getElementById('ob-astro-reveal').style.display='block';document.getElementById('ob-no-astro').style.display='none';document.getElementById('ob-astro-ico').textContent=z.ico;document.getElementById('ob-astro-sign').textContent=z.sign;document.getElementById('ob-astro-info').textContent=z.element+' · '+z.dates;var zd=typeof ZODIAC_DATA!=='undefined'?ZODIAC_DATA[z.sign]:null;if(zd)document.getElementById('ob-astro-trait').textContent='"'+zd.personnalite+'"';}else{document.getElementById('ob-astro-reveal').style.display='none';document.getElementById('ob-no-astro').style.display='block';}}else{document.getElementById('ob-astro-reveal').style.display='none';document.getElementById('ob-no-astro').style.display='block';}}}
 function obBack(s){obNext(s);}
 function selTh(t,btn){_theme=t;document.querySelectorAll('.th-sw').forEach(b=>b.classList.remove('on'));btn.classList.add('on');applyTheme(t);}
 function selMd(m){_mode=m;['zen','full'].forEach(x=>{const b=document.getElementById('mb-'+x);if(b){b.style.borderColor=x===m?'var(--ac)':'var(--bd2)';b.style.background=x===m?'var(--agg)':'var(--sf)';b.style.color=x===m?'var(--ac)':'var(--tx2)';}});}
@@ -1450,9 +1472,14 @@ function finishOb(){try{
     if(_goals.includes('all')||_goals.length>=4){ S.activeWg=['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']; }
     else { const merged=new Set(); _goals.forEach(g=>(wgMap[g]||[]).forEach(w=>merged.add(w))); S.activeWg=[...merged]; }
   }
-  S.ob=true;S.name=document.getElementById('ob-name')?.value?.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age')?.value)||0;S.goal=(typeof _goals!=='undefined'&&_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):(_goal||'all'));S.theme=_theme||'default';S.mode=_mode||'full';S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff=S.aff||{};S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=S.activeWg||((_mode||'full')==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all);addN('🚀','Bienvenue '+(S.name||'Champion')+' !','FORGE configuré pour toi. +50 XP de bienvenue !');save();launchApp();}catch(e){console.log('finishOb error:',e);S.ob=true;S.name=S.name||'Champion';S.xp=S.xp||50;S.gems=S.gems||10;S.season=S.season||1;S.ss=TD;S.aff=S.aff||{};S.aff.code=S.aff.code||genCode('AFF');S.chests=S.chests||{av:0,nx:3};S.activeWg=S.activeWg||GOAL_WG.all;save();launchApp();}}
+  S.ob=true;S.name=document.getElementById('ob-name')?.value?.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age')?.value)||0;
+  // Save sex, birthdate, email, zodiac
+  var obSex=document.getElementById('ob-sex');if(obSex&&obSex.value)S.sex=obSex.value;
+  var obBd=document.getElementById('ob-birthdate');if(obBd&&obBd.value){S.birthdate=obBd.value;if(typeof getZodiac==='function'){S.zodiac=getZodiac(obBd.value);}}
+  var obEmail=document.getElementById('ob-email');if(obEmail&&obEmail.value.trim())S.email=obEmail.value.trim();
+  S.goal=(typeof _goals!=='undefined'&&_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):(_goal||'all'));S.theme=_theme||'default';S.mode=_mode||'full';S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff=S.aff||{};S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=S.activeWg||((_mode||'full')==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all);addN('🚀','Bienvenue '+(S.name||'Champion')+' !','FORGE configuré pour toi. +50 XP de bienvenue !');if(S.zodiac)addN('🔮','Ton signe : '+S.zodiac.ico+' '+S.zodiac.sign,'Horoscope quotidien activé !');save();launchApp();}catch(e){console.log('finishOb error:',e);S.ob=true;S.name=S.name||'Champion';S.xp=S.xp||50;S.gems=S.gems||10;S.season=S.season||1;S.ss=TD;S.aff=S.aff||{};S.aff.code=S.aff.code||genCode('AFF');S.chests=S.chests||{av:0,nx:3};S.activeWg=S.activeWg||GOAL_WG.all;save();launchApp();}}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap','screen-astro'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
@@ -1471,7 +1498,9 @@ function renderFlash(){const el=document.getElementById('w-flash');if(!el)return
 function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=fc.title;document.getElementById('fl-desc').textContent=fc.desc;document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
 function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi Flash ! +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();}
 let ciE=0,ciF=[];
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function renderAstroScreen(){var el=document.getElementById('astro-full-content');if(!el)return;if(!S.zodiac||!S.zodiac.sign){el.innerHTML='<div style="text-align:center;padding:40px"><div style="font-size:48px;margin-bottom:12px">🔮</div><div style="font-size:15px;color:var(--tx2);margin-bottom:12px">Aucun signe configuré</div><div style="font-size:12px;color:var(--tx3)">Va dans Profil → ajoute ta date de naissance</div></div>';return;}var z=S.zodiac,zd=(typeof ZODIAC_DATA!=='undefined')?ZODIAC_DATA[z.sign]:{},horo=(typeof generateDailyHoroscope==='function')?generateDailyHoroscope(z.sign,TD):'Les astres veillent sur toi.',nrj=(typeof generateEnergyOfDay==='function')?generateEnergyOfDay(z.sign,TD):7,col=(typeof generateColorOfDay==='function')?generateColorOfDay(z.sign,TD):'🟡 Jaune',compat=(typeof getCompatibleSigns==='function')?getCompatibleSigns(z.sign):[];el.innerHTML='<div style="text-align:center;padding:24px;background:linear-gradient(135deg,rgba(102,126,234,0.2),rgba(118,75,162,0.2));border-radius:var(--r);margin-bottom:16px"><div style="font-size:64px;margin-bottom:8px">'+z.ico+'</div><div style="font-family:var(--fd);font-weight:700;font-size:26px;background:linear-gradient(135deg,#667eea,#764ba2);-webkit-background-clip:text;-webkit-text-fill-color:transparent">'+z.sign+'</div><div style="font-size:12px;color:var(--tx3);margin-top:4px">'+z.element+' · '+z.dates+'</div></div>'+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:16px;margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">📖 Horoscope du jour</div><div style="font-size:14px;color:var(--tx);line-height:1.7;font-style:italic">"'+horo+'"</div></div>'+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px"><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;text-align:center"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">⚡ Énergie</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;color:var(--ac)">'+nrj+'<span style="font-size:14px;color:var(--tx3)">/10</span></div><div style="background:var(--bd);border-radius:4px;height:5px;overflow:hidden;margin-top:6px"><div style="height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:4px;width:'+(nrj*10)+'%"></div></div></div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;text-align:center"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">🎨 Couleur</div><div style="font-size:22px;margin-top:8px">'+col+'</div></div></div>'+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;margin-bottom:12px"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🧠 Personnalité</div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+(zd.personnalite||'Mystérieux et unique')+'</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">'+(zd.forces||[]).map(function(f){return'<span style="padding:4px 10px;background:var(--agg);color:var(--ac);border-radius:20px;font-size:11px;font-weight:600">'+f+'</span>';}).join('')+'</div></div>'+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;margin-bottom:12px"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💼 Conseil business</div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+(zd.businessStyle||'Fais confiance à ton instinct')+'</div></div>'+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;margin-bottom:12px"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🏃 Conseil santé</div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+(zd.healthTip||'Prends soin de toi')+'</div></div>'+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;margin-bottom:12px"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💕 Compatibilité du jour</div><div style="font-size:15px;margin-top:4px">'+compat.join(' · ')+'</div></div>'+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px"><div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">✨ Affirmation</div><div style="font-size:14px;color:var(--ac);line-height:1.6;font-style:italic">"'+(zd.affirmation||'Je forge mon destin')+'"</div></div>'+'<button class="btn btn-sf" style="width:100%;margin-top:14px" onclick="gs(\'home\',document.querySelector(\'.nb\'))">← Retour</button>';}
+function initAstroWidget(){var w=document.getElementById('w-astro');if(!w)return;if(S.zodiac&&S.zodiac.sign){w.style.display='';document.getElementById('astro-home-ico').textContent=S.zodiac.ico;document.getElementById('astro-home-sign').textContent=S.zodiac.sign;var msg=(typeof generateDailyHoroscope==='function')?generateDailyHoroscope(S.zodiac.sign,TD):'Les astres sont avec toi.';document.getElementById('astro-home-msg').textContent=msg;}else{w.style.display='none';}}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();initAstroWidget();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1638,6 +1667,7 @@ function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classLis
 if(name==='nature'){S.nat=S.nat||{walkLogs:[],sunLogs:[],breathLogs:[],coldLogs:[],wDate:'',sDate:'',wMin:0,sMin:0,wStreak:0,lw:'',jEntries:[],sleepLogs:[],odProg:{}};if(!nTab)nTab='walk';try{renderNat();}catch(e){console.log('renderNat error:',e);document.getElementById('nat-content').innerHTML='<div style="text-align:center;padding:40px;color:var(--tx3)">🌿 Chargement...</div>';nTab='walk';try{renderNat();}catch(e2){}}}
 if(name==='chat')initChat();
 if(name==='disc')initDisc();
+if(name==='astro')try{renderAstroScreen();}catch(e){console.log('astro error:',e);}
 if(name==='feat')renderFeat();
 if(name==='moi')renderMoi();
 if(name==='notifs'){markRead();renderNotifs();}
@@ -3205,7 +3235,7 @@ async function sendCoach(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         message:msg,
-        context:{name:S.name,age:S.age,goal:S.goal,level:getLvl(S.xp||0)+1,streak:S.loginS?.streak||0,xp:S.xp||0},
+        context:{name:S.name,age:S.age,sex:S.sex||'',goal:S.goal,level:getLvl(S.xp||0)+1,streak:S.loginS?.streak||0,xp:S.xp||0,zodiac:S.zodiac?.sign||'',zodiacElement:S.zodiac?.element||'',forgeTitle:LVL_T[getLvl(S.xp||0)]||'Forgeur'},
         history:S.chatHist.slice(-6)
       })
     });
@@ -10970,76 +11000,12 @@ function getCompatibleSigns(sign) {
 // 5. ENHANCED ONBOARDING
 // ============================================================================
 function enhanceOnboarding() {
-  // Wait for DOM
-  if(typeof document === 'undefined') return;
-
-  // Modify ob-1: Add email, birthdate, sex fields
-  var ob1Form = document.querySelector('#ob-1 .ob-form');
-  if(ob1Form) {
-    var ageInput = document.getElementById('ob-age');
-    if(ageInput) {
-      var newFieldsHtml = '<div class="ob-field"><label>Email</label><input type="email" id="ob-email" placeholder="toi@example.com" /></div>' +
-        '<div class="ob-field"><label>' + t('birthdate') + '</label><input type="date" id="ob-birthdate" /></div>' +
-        '<div class="ob-field"><label>' + t('sex') + '</label><select id="ob-sex"><option value="">--</option><option value="male">' + t('male') + '</option><option value="female">' + t('female') + '</option><option value="other">' + t('other') + '</option></select></div>';
-      var newFieldsDiv = document.createElement('div');
-      newFieldsDiv.innerHTML = newFieldsHtml;
-      ageInput.parentNode.insertBefore(newFieldsDiv, ageInput.nextSibling);
-    }
-  }
-
-  // Add ob-4 (astro) before current ob-3 (theme)
-  var ob3 = document.getElementById('ob-3');
-  if(ob3) {
-    var astroHtml = '<div id="ob-4" class="ob-screen" style="display:none;">' +
-      '<h2>🔮 ' + t('astrology') + '</h2>' +
-      '<div class="ob-content" style="text-align:center; padding:20px;">' +
-      '<div id="astro-sign" style="font-size:48px; margin:20px 0;"></div>' +
-      '<div id="astro-info" style="font-size:14px; color:#666; margin:20px 0;"></div>' +
-      '<div class="ob-field"><label>' + t('entrepreneur_level') + '</label><select id="ob-entreprevel"><option value="beginner">' + t('beginner') + '</option><option value="intermediate">' + t('intermediate') + '</option><option value="advanced">' + t('advanced') + '</option></select></div>' +
-      '</div>' +
-      '</div>';
-    var astroDiv = document.createElement('div');
-    astroDiv.innerHTML = astroHtml;
-    ob3.parentNode.insertBefore(astroDiv.firstChild, ob3);
-  }
-
-  // ob-3 stays as ob-3 — renaming broke obNext(3) navigation from step 2
-
-  // Update progress dots if they exist
-  var progressDots = document.querySelectorAll('.ob-progress-dot');
-  if(progressDots.length > 0) {
-    for(var i=0; i<progressDots.length; i++) {
-      progressDots[i].setAttribute('data-step', i);
-    }
-  }
+  // Sex, birthdate, email fields are now native in ob-1 HTML
+  // Astro reveal is now native in ob-3 HTML
+  // Nothing to inject dynamically anymore
 }
 
-// Override finishOb to capture new fields
-var _origFinishOb = window.finishOb || function(){};
-window.finishOb = function() {
-  // Capture new fields BEFORE calling original (which calls launchApp)
-  try {
-    var emailInput = document.getElementById('ob-email');
-    var birthdateInput = document.getElementById('ob-birthdate');
-    var sexInput = document.getElementById('ob-sex');
-    var entreInput = document.getElementById('ob-entreprevel');
-
-    if(emailInput && emailInput.value) { S.email = emailInput.value; }
-    if(birthdateInput && birthdateInput.value) {
-      S.birthdate = birthdateInput.value;
-      if(typeof getZodiac === 'function') S.zodiac = getZodiac(birthdateInput.value);
-    }
-    if(sexInput && sexInput.value) { S.sex = sexInput.value; }
-    if(entreInput && entreInput.value) { S.entreprLevel = entreInput.value; }
-  } catch(e) { console.log('Enhanced ob fields error:', e); }
-
-  // Call original finishOb (which calls save + launchApp)
-  if(typeof _origFinishOb === 'function') {
-    _origFinishOb.apply(this, arguments);
-  }
-
-  if(typeof save === 'function') { save(); }
-};
+// finishOb override removed — sex, birthdate, email, zodiac are now handled in the native finishOb
 
 // ============================================================================
 // 6. NEW SCREENS: ACCOUNTING, VISION BOARD, BOOKS, CALCULATORS, PROCESS, LIFESCORE
@@ -11566,22 +11532,7 @@ function initSession10() {
     // For now, users can navigate via gs() function
   }
 
-  // Add astro widget to home if user has zodiac
-  if(S.zodiac) {
-    var homeScreen = document.getElementById('screen-home') || document.querySelector('[data-screen="home"]');
-    if(homeScreen) {
-      var astroWidget = document.createElement('div');
-      astroWidget.className = 'astro-widget';
-      astroWidget.style.cssText = 'padding:15px; background:linear-gradient(135deg,#667eea,#764ba2); color:white; border-radius:10px; margin:15px 0; cursor:pointer;';
-      astroWidget.innerHTML = '<div style="text-align:center;"><div style="font-size:48px;">' + S.zodiac.ico + '</div><p style="margin:5px 0;">' + S.zodiac.sign + '</p><small>' + generateDailyHoroscope(S.zodiac.sign, TD) + '</small></div>';
-      astroWidget.onclick = function() { if(typeof gs === 'function') { gs('astro'); } };
-
-      // Try to append after header or at the beginning of content
-      if(homeScreen.querySelector('.screen-content')) {
-        homeScreen.querySelector('.screen-content').insertBefore(astroWidget, homeScreen.querySelector('.screen-content').firstChild);
-      }
-    }
-  }
+  // Astro widget is now native in home HTML, managed by initAstroWidget()
 
   console.log('%c ✅ SESSION 10 LOADED ','background:#4ade80;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 }
