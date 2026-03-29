@@ -1441,16 +1441,16 @@ function obBack(s){obNext(s);}
 function selTh(t,btn){_theme=t;document.querySelectorAll('.th-sw').forEach(b=>b.classList.remove('on'));btn.classList.add('on');applyTheme(t);}
 function selMd(m){_mode=m;['zen','full'].forEach(x=>{const b=document.getElementById('mb-'+x);if(b){b.style.borderColor=x===m?'var(--ac)':'var(--bd2)';b.style.background=x===m?'var(--agg)':'var(--sf)';b.style.color=x===m?'var(--ac)':'var(--tx2)';}});}
 document.getElementById('ob-name').addEventListener('input',function(){document.getElementById('ob1n').disabled=!this.value.trim();});
-function finishOb(){
+function finishOb(){try{
   // Apply multi-goals
-  if(_goals.length > 0) {
+  if(typeof _goals!=='undefined'&&_goals.length > 0) {
     S.goals = _goals;
     S.goal = _goals.includes('all')||_goals.length>=4 ? 'all' : _goals[0];
     const wgMap={focus:['w-quests','w-pomo'],wellbeing:['w-streak','w-nat'],health:['w-streak','w-nat'],grow:['w-quests'],money:['w-quests','w-boss'],orga:['w-quests','w-pomo'],social:['w-streak'],all:['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']};
     if(_goals.includes('all')||_goals.length>=4){ S.activeWg=['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']; }
     else { const merged=new Set(); _goals.forEach(g=>(wgMap[g]||[]).forEach(w=>merged.add(w))); S.activeWg=[...merged]; }
   }
-  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','FORGE configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
+  S.ob=true;S.name=document.getElementById('ob-name')?.value?.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age')?.value)||0;S.goal=(typeof _goals!=='undefined'&&_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):(_goal||'all'));S.theme=_theme||'default';S.mode=_mode||'full';S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff=S.aff||{};S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=S.activeWg||((_mode||'full')==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all);addN('🚀','Bienvenue '+(S.name||'Champion')+' !','FORGE configuré pour toi. +50 XP de bienvenue !');save();launchApp();}catch(e){console.log('finishOb error:',e);S.ob=true;S.name=S.name||'Champion';S.xp=S.xp||50;S.gems=S.gems||10;S.season=S.season||1;S.ss=TD;S.aff=S.aff||{};S.aff.code=S.aff.code||genCode('AFF');S.chests=S.chests||{av:0,nx:3};S.activeWg=S.activeWg||GOAL_WG.all;save();launchApp();}}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
 var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
@@ -1635,7 +1635,7 @@ function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free a
 function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
 function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}
-if(name==='nature'){if(!nTab)nTab='walk';renderNat();}
+if(name==='nature'){S.nat=S.nat||{walkLogs:[],sunLogs:[],breathLogs:[],coldLogs:[],wDate:'',sDate:'',wMin:0,sMin:0,wStreak:0,lw:'',jEntries:[],sleepLogs:[],odProg:{}};if(!nTab)nTab='walk';try{renderNat();}catch(e){console.log('renderNat error:',e);document.getElementById('nat-content').innerHTML='<div style="text-align:center;padding:40px;color:var(--tx3)">🌿 Chargement...</div>';nTab='walk';try{renderNat();}catch(e2){}}}
 if(name==='chat')initChat();
 if(name==='disc')initDisc();
 if(name==='feat')renderFeat();
@@ -11003,11 +11003,7 @@ function enhanceOnboarding() {
     ob3.parentNode.insertBefore(astroDiv.firstChild, ob3);
   }
 
-  // Renumber ob-3 to ob-5 (theme)
-  var ob3Renamed = document.getElementById('ob-3');
-  if(ob3Renamed) {
-    ob3Renamed.id = 'ob-5';
-  }
+  // ob-3 stays as ob-3 — renaming broke obNext(3) navigation from step 2
 
   // Update progress dots if they exist
   var progressDots = document.querySelectorAll('.ob-progress-dot');
@@ -11021,30 +11017,25 @@ function enhanceOnboarding() {
 // Override finishOb to capture new fields
 var _origFinishOb = window.finishOb || function(){};
 window.finishOb = function() {
+  // Capture new fields BEFORE calling original (which calls launchApp)
+  try {
+    var emailInput = document.getElementById('ob-email');
+    var birthdateInput = document.getElementById('ob-birthdate');
+    var sexInput = document.getElementById('ob-sex');
+    var entreInput = document.getElementById('ob-entreprevel');
+
+    if(emailInput && emailInput.value) { S.email = emailInput.value; }
+    if(birthdateInput && birthdateInput.value) {
+      S.birthdate = birthdateInput.value;
+      if(typeof getZodiac === 'function') S.zodiac = getZodiac(birthdateInput.value);
+    }
+    if(sexInput && sexInput.value) { S.sex = sexInput.value; }
+    if(entreInput && entreInput.value) { S.entreprLevel = entreInput.value; }
+  } catch(e) { console.log('Enhanced ob fields error:', e); }
+
+  // Call original finishOb (which calls save + launchApp)
   if(typeof _origFinishOb === 'function') {
     _origFinishOb.apply(this, arguments);
-  }
-
-  // Capture new fields
-  var emailInput = document.getElementById('ob-email');
-  var birthdateInput = document.getElementById('ob-birthdate');
-  var sexInput = document.getElementById('ob-sex');
-  var entreInput = document.getElementById('ob-entreprevel');
-
-  if(emailInput && emailInput.value) { S.email = emailInput.value; }
-  if(birthdateInput && birthdateInput.value) {
-    S.birthdate = birthdateInput.value;
-    S.zodiac = getZodiac(birthdateInput.value);
-  }
-  if(sexInput && sexInput.value) { S.sex = sexInput.value; }
-  if(entreInput && entreInput.value) { S.entreprLevel = entreInput.value; }
-
-  // Populate astro screen if on ob-4
-  if(S.zodiac) {
-    var astroSign = document.getElementById('astro-sign');
-    var astroInfo = document.getElementById('astro-info');
-    if(astroSign) { astroSign.textContent = S.zodiac.ico + ' ' + S.zodiac.sign; }
-    if(astroInfo) { astroInfo.textContent = S.zodiac.dates + ' | Element: ' + S.zodiac.element; }
   }
 
   if(typeof save === 'function') { save(); }

@@ -39,7 +39,7 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <a href="#pricing">Tarifs</a>
 <a href="#faq">FAQ</a>
 </div>
-<button class="nav-cta" data-i18n="cta_start">Commencer →</button>
+<button class="nav-cta" data-i18n="cta_start" onclick="window.location.href='/index.html'">Commencer →</button>
 <select id="lang-switch" style="background:var(--sf2);border:1px solid var(--bd2);border-radius:6px;padding:6px 10px;color:var(--tx);font-size:12px;font-weight:600;cursor:pointer;outline:none" onchange="switchLandingLang(this.value)">
 <option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="es">🇪🇸 ES</option><option value="pt">🇧🇷 PT</option><option value="it">🇮🇹 IT</option><option value="de">🇩🇪 DE</option><option value="ca">🏴 CA</option><option value="ja">🇯🇵 JA</option><option value="ar">🇸🇦 AR</option>
 </select>
@@ -55,8 +55,8 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <div class="badge">🚀 30+ <span data-i18n="features">fonctionnalités</span></div>
 </div>
 <div class="cta-buttons">
-<button class="btn btn-primary" data-i18n="cta_access">Accéder à FORGE →</button>
-<button class="btn btn-secondary" data-i18n="cta_demo">Voir la démo ▶</button>
+<button class="btn btn-primary" data-i18n="cta_access" onclick="window.location.href='/index.html'">Accéder à FORGE →</button>
+<button class="btn btn-secondary" data-i18n="cta_demo" onclick="document.getElementById('outils').scrollIntoView({behavior:'smooth'})">Voir la démo ▶</button>
 </div>
 </div>
 </section>
@@ -140,9 +140,9 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <h2 class="section-title" style="text-align:center" data-i18n="pricing_title">Plans Simples et Justes</h2>
 <p class="section-desc" style="text-align:center" data-i18n="pricing_desc">Gratuit pour toujours, Premium ou Elite.</p>
 <div class="pricing-grid">
-<div class="price-card fade-in"><h3 data-i18n="plan_free">Gratuit</h3><div class="amount">0€</div><div class="period" data-i18n="plan_free_period">Pour toujours</div><div class="features"><div class="feature" data-i18n="pf_1">Check-ins quotidiens</div><div class="feature" data-i18n="pf_2">35+ achievements</div><div class="feature" data-i18n="pf_3">Pomodoro basic</div><div class="feature" data-i18n="pf_4">Budget tracker</div><div class="feature" data-i18n="pf_5">Habitudes (15)</div><div class="feature" data-i18n="pf_6">Journal simple</div><div class="feature" data-i18n="pf_7">JARVIS chat (10 msg/j)</div></div><button class="btn btn-secondary" data-i18n="plan_free_cta">Démarrer</button></div>
-<div class="price-card featured fade-in"><div class="badge" data-i18n="plan_popular">POPULAIRE</div><h3>Premium</h3><div class="amount">9,99€</div><div class="period" data-i18n="plan_prem_period">par mois</div><div class="features"><div class="feature" data-i18n="pp_1">Tout en Gratuit +</div><div class="feature" data-i18n="pp_2">Pomodoro Pro (stats)</div><div class="feature" data-i18n="pp_3">Budget avancé</div><div class="feature" data-i18n="pp_4">Heatmap habitudes</div><div class="feature" data-i18n="pp_5">Journal prompts</div><div class="feature" data-i18n="pp_6">JARVIS illimité</div><div class="feature" data-i18n="pp_7">12 formations</div></div><button class="btn btn-primary" data-i18n="plan_prem_cta">7 jours gratuits — sans CB</button></div>
-<div class="price-card fade-in"><h3>Elite</h3><div class="amount">19,99€</div><div class="period" data-i18n="plan_elite_period">par mois</div><div class="features"><div class="feature" data-i18n="pe_1">Tout Premium +</div><div class="feature" data-i18n="pe_2">12 formations complètes</div><div class="feature" data-i18n="pe_3">Coaching personnalisé</div><div class="feature" data-i18n="pe_4">Community exclusive</div><div class="feature" data-i18n="pe_5">Export & backup auto</div><div class="feature" data-i18n="pe_6">Priorité support 24/7</div><div class="feature" data-i18n="pe_7">Themes custom</div></div><button class="btn btn-secondary" data-i18n="plan_elite_cta">Upgrade Elite</button></div>
+<div class="price-card fade-in"><h3 data-i18n="plan_free">Gratuit</h3><div class="amount">0€</div><div class="period" data-i18n="plan_free_period">Pour toujours</div><div class="features"><div class="feature" data-i18n="pf_1">Check-ins quotidiens</div><div class="feature" data-i18n="pf_2">35+ achievements</div><div class="feature" data-i18n="pf_3">Pomodoro basic</div><div class="feature" data-i18n="pf_4">Budget tracker</div><div class="feature" data-i18n="pf_5">Habitudes (15)</div><div class="feature" data-i18n="pf_6">Journal simple</div><div class="feature" data-i18n="pf_7">JARVIS chat (10 msg/j)</div></div><button class="btn btn-secondary" data-i18n="plan_free_cta" onclick="window.location.href='/index.html'">Démarrer</button></div>
+<div class="price-card featured fade-in"><div class="badge" data-i18n="plan_popular">POPULAIRE</div><h3>Premium</h3><div class="amount">9,99€</div><div class="period" data-i18n="plan_prem_period">par mois</div><div class="features"><div class="feature" data-i18n="pp_1">Tout en Gratuit +</div><div class="feature" data-i18n="pp_2">Pomodoro Pro (stats)</div><div class="feature" data-i18n="pp_3">Budget avancé</div><div class="feature" data-i18n="pp_4">Heatmap habitudes</div><div class="feature" data-i18n="pp_5">Journal prompts</div><div class="feature" data-i18n="pp_6">JARVIS illimité</div><div class="feature" data-i18n="pp_7">12 formations</div></div><button class="btn btn-primary" data-i18n="plan_prem_cta" onclick="startCheckout('premium')">7 jours gratuits — sans CB</button></div>
+<div class="price-card fade-in"><h3>Elite</h3><div class="amount">19,99€</div><div class="period" data-i18n="plan_elite_period">par mois</div><div class="features"><div class="feature" data-i18n="pe_1">Tout Premium +</div><div class="feature" data-i18n="pe_2">12 formations complètes</div><div class="feature" data-i18n="pe_3">Coaching personnalisé</div><div class="feature" data-i18n="pe_4">Community exclusive</div><div class="feature" data-i18n="pe_5">Export & backup auto</div><div class="feature" data-i18n="pe_6">Priorité support 24/7</div><div class="feature" data-i18n="pe_7">Themes custom</div></div><button class="btn btn-secondary" data-i18n="plan_elite_cta" onclick="startCheckout('elite')">Upgrade Elite</button></div>
 </div>
 <div style="text-align:center;margin-top:40px;padding:20px">
   <div style="font-size:13px;color:#8a9099;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;align-items:center">
@@ -174,7 +174,7 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <p data-i18n="cta_final_desc">Rejoins les premiers forgeurs qui transforment leurs vies. Gratuit pour toujours.</p>
 <div class="email-form">
 <input type="email" placeholder="Ton email..." data-i18n-placeholder="cta_email_ph">
-<button class="btn btn-primary" data-i18n="cta_final_btn">7 jours gratuits — Débloquer →</button>
+<button class="btn btn-primary" data-i18n="cta_final_btn" onclick="startCheckout('premium')">7 jours gratuits — Débloquer →</button>
 </div>
 </div>
 
@@ -802,6 +802,33 @@ function switchLandingLang(lang) {
   } else {
     document.documentElement.dir = 'ltr';
   }
+}
+
+// Stripe checkout handler
+function startCheckout(plan) {
+  var btn = event && event.target;
+  if(btn) { btn.disabled = true; btn.textContent = 'Chargement...'; }
+  var emailInput = document.querySelector('.email-form input[type="email"]');
+  var email = emailInput ? emailInput.value.trim() : '';
+  fetch('/api/create-checkout', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ plan: plan, email: email || undefined })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if(data.url) {
+      window.location.href = data.url;
+    } else {
+      alert(data.error || 'Erreur lors de la création du checkout. Réessaye.');
+      if(btn) { btn.disabled = false; btn.textContent = plan === 'elite' ? 'Upgrade Elite' : '7 jours gratuits'; }
+    }
+  })
+  .catch(function(err) {
+    console.error('Checkout error:', err);
+    alert('Erreur de connexion. Vérifie ta connexion internet et réessaye.');
+    if(btn) { btn.disabled = false; btn.textContent = plan === 'elite' ? 'Upgrade Elite' : '7 jours gratuits'; }
+  });
 }
 
 (function() {
