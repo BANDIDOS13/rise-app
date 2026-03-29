@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>RISE — AI Life OS</title>
-<meta name="description" content="RISE — Plateforme de vie IA. Coach personnel, habitudes, nature, business, gamification.">
+<title>RISE — Deviens 1% meilleur chaque jour</title>
+<meta name="description" content="RISE — Ton quartier général pour évoluer. Mentor IA, habitudes, nature, business, gamification. Corps, esprit, vie.">
 <meta name="theme-color" content="#07080a">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RISE%20%E2%80%94%20AI%20Life%20OS%22%2C%22short_name%22%3A%22RISE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1030,19 +1030,19 @@ textarea.inp{resize:none}
 </div>
 
 <script>
-const LVL_T=['Débutant','Apprenti','Engagé','Déterminé','Ambitieux','Courageux','Warrior','Champion','Légende','Invincible'];
+const LVL_T=['Débutant','Apprenti','Engagé','Déterminé','Ambitieux','Résilient','Guerrier','Champion','Légende','Invincible'];
 const LVL_X=[0,100,250,450,700,1000,1400,1900,2500,3200];
 const LVL_G=[0,10,15,20,25,35,50,75,100,150];
 const pad=n=>String(n).padStart(2,'0'),now=new Date(),TD=now.toDateString();
 function getWK(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.toDateString();}
 const WK=getWK();
 const SEASONS=[{n:1,name:'Fondations',col:'#d4aa4a'},{n:2,name:'Momentum',col:'#4db87a'},{n:3,name:'Maîtrise',col:'#4a9ed4'},{n:4,name:'Ascension',col:'#8b6de0'}];
-const BOSSES=[{name:'Boss Procrastination',hp:500,r:{xp:200,g:20}},{name:'Tyran du Sommeil',hp:400,r:{xp:180,g:18}},{name:'Démon Inactivité',hp:600,r:{xp:250,g:25}},{name:'Virus Distraction',hp:700,r:{xp:300,g:30}}];
+const BOSSES=[{name:'Le Procrastinateur',hp:500,r:{xp:200,g:20},flavor:'Il te murmure "demain". Chaque action le fait taire.'},{name:'L\'Insomniaque',hp:400,r:{xp:180,g:18},flavor:'Il vole tes nuits. Reprends le contrôle de ton repos.'},{name:'Le Sédentaire',hp:600,r:{xp:250,g:25},flavor:'Il t\'enchaîne au canapé. Chaque mouvement brise ses chaînes.'},{name:'Le Distracteur',hp:700,r:{xp:300,g:30},flavor:'Il contrôle ton attention. Le focus est ton arme.'}];
 const QPOOL=[{id:'ci',ico:'📋',nm:'Faire le point',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',nm:'3 tâches bouclées',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',nm:'Consulter JARVIS',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',nm:'2 sprints de focus',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',nm:'10 min dehors',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',nm:'15 min de lumière',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',nm:'Respire',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',nm:'Apprendre un module',target:1,type:'form',xp:50,g:5}];
 const FLASH=[{ico:'💪',title:'30 pompes. Maintenant.',desc:'Pose tout. 30 pompes. Reviens transformé.',xp:80,g:8},{ico:'🚶',title:'20 min dehors, zéro écran',desc:'Sors. Pas de téléphone. 20 minutes. C\'est tout.',xp:70,g:7},{ico:'💨',title:'Cohérence cardiaque',desc:'Inspire 5 secondes. Expire 5 secondes. Pendant 5 minutes. Ton cortisol te remerciera.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'Note 3 choses positives dans ta vie. Maintenant. La gratitude reprogramme le cerveau.',xp:40,g:4},{ico:'☀️',title:'5 min de soleil',desc:'Sors. Lève la tête. La lumière naturelle règle ton horloge interne.',xp:40,g:4},{ico:'🧊',title:'30 sec d\'eau froide',desc:'Finis ta prochaine douche par 30 secondes de froid. L\'inconfort crée la résilience.',xp:60,g:6},{ico:'🧘',title:'10 min de silence',desc:'Pas de musique. Pas d\'écran. Juste toi et ta respiration.',xp:60,g:6}];
 const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'}];
 const BOOKS=[{ico:'🔥',t:'The 5 AM Club',a:'Robin Sharma',cat:'Mental',lvl:'Facile',p:450,sum:'Lever à 5h, routine 20-20-20. Transforme les matins, transforme ta vie.',key:'Le matin appartient à ceux qui se lèvent tôt. 66j pour ancrer une habitude.',act:'Demain: réveil 15 min plus tôt. Une seule fois.'},{ico:'🌊',t:'Atomic Habits',a:'James Clear',cat:'Mental',lvl:'Facile',p:320,sum:'1% par jour = +37x en 1 an. Systèmes, pas objectifs.',key:'Tu tombes au niveau de tes systèmes, pas au niveau de tes objectifs.',act:'Identifie 1 habitude. Ancre-la: après [X], je fais [Y].'},{ico:'🧠',t:'Deep Work',a:'Cal Newport',cat:'Mental',lvl:'Intermédiaire',p:296,sum:'Le focus intense est la super-puissance du 21e siècle. 4h deep work > 8h ordinaires.',key:'La distraction est le défaut, pas la règle. Reprends le contrôle.',act:'Planifie 1 bloc 90min deep work demain. Téléphone en mode avion.'},{ico:'💰',t:'Rich Dad Poor Dad',a:'Robert Kiyosaki',cat:'Finance',lvl:'Facile',p:207,sum:'Actifs vs passifs. Fais travailler l argent pour toi.',key:'Ta maison n est pas un actif. Un actif met de l argent dans ta poche.',act:'Liste tes actifs et passifs. Quel premier actif crées-tu ce mois-ci?'},{ico:'🚀',t:'Zero to One',a:'Peter Thiel',cat:'Business',lvl:'Intermédiaire',p:224,sum:'Créer quelque chose de nouveau > copier. Monopoles > compétition.',key:'La compétition détruit les profits. Vise un monopole sur un marché que tu crées.',act:'Quel problème résous-tu mieux que quiconque? C est là ton business.'},{ico:'🌿',t:'The Nature Fix',a:'Florence Williams',cat:'Nature',lvl:'Facile',p:280,sum:'60min nature/semaine réduit cortisol de 13%. La science du vert.',key:'20 min en nature baisse la tension. 90 min désactive la rumination.',act:'Sors 20 minutes aujourd hui. Pas de téléphone. 3 choses jamais remarquées.'},{ico:'😴',t:'Why We Sleep',a:'Matthew Walker',cat:'Santé',lvl:'Facile',p:368,sum:'Le sommeil est la fondation de tout: mémoire, immunité, créativité.',key:'Après 16h sans sommeil, tu es aussi altéré qu un conducteur ivre.',act:'Écrans off 1h avant dormir. Chambre 18 degrés. Blackout total.'},{ico:'💪',t:'Can t Hurt Me',a:'David Goggins',cat:'Mental',lvl:'Intense',p:364,sum:'L esprit abandonne à 40% des capacités réelles. Callusing the mind.',key:'Quand ton esprit dit stop, tu n as utilisé que 40% de tes capacités.',act:'Ta chose la plus difficile de la semaine. Fais-la en premier demain matin.'},{ico:'⚡',t:'The 4-Hour Work Week',a:'Tim Ferriss',cat:'Business',lvl:'Intermédiaire',p:308,sum:'80/20, délégation, automatisation. Ne remet pas les rêves à plus tard.',key:'Rien de vertueux à bosser 80h/semaine si le même résultat en 4h.',act:'Identifie 20% des activités = 80% des résultats. Coupe le reste.'},{ico:'🧘',t:'The Power of Now',a:'Eckhart Tolle',cat:'Spiritualité',lvl:'Profond',p:236,sum:'Le moment présent est tout ce qui existe vraiment. Conscience pure.',key:'Le moment présent est tout ce que tu auras jamais. Vis-y.',act:'5 min: observe ta respiration sans essayer de la changer.'},{ico:'❤️',t:'The 5 Love Languages',a:'Gary Chapman',cat:'Relations',lvl:'Facile',p:208,sum:'5 langages: mots, temps, cadeaux, services, toucher.',key:'Parler le mauvais langage, c est parler à quelqu un dans une langue incomprise.',act:'Identifie ton langage primaire. Puis celui des 3 personnes proches.'},{ico:'🌅',t:'Ikigai',a:'Garcia & Miralles',cat:'Spiritualité',lvl:'Facile',p:208,sum:'Raison d être japonaise: passion + mission + vocation + profession.',key:'L ikigai se révèle en s oubliant dans l action.',act:'Dessine tes 4 cercles. Qu est-ce qui est au centre aujourd hui?'}];
-const SKILL_TREES={focus:{lbl:'🎯 Focus',col:'var(--ac)',n:[{i:'📋',nm:'To-do'},{i:'⏱️',nm:'Pomodoro'},{i:'🔇',nm:'Deep Work'},{i:'🧠',nm:'Mental clair'},{i:'🚀',nm:'Peak State'},{i:'⚡',nm:'Flow maître'}]},nature:{lbl:'🌿 Nature',col:'var(--nt)',n:[{i:'🚶',nm:'Marche'},{i:'☀️',nm:'Soleil'},{i:'💨',nm:'Respiration'},{i:'🧊',nm:'Froid'},{i:'🌊',nm:'Plein air'},{i:'🌍',nm:'Nomade'}]},mind:{lbl:'🧠 Mental',col:'var(--pu)',n:[{i:'🧘',nm:'Méditation'},{i:'📓',nm:'Journal'},{i:'💡',nm:'Clarté'},{i:'🔮',nm:'Vision'},{i:'⚡',nm:'Stoïcisme'},{i:'🌟',nm:'Maître'}]},biz:{lbl:'💰 Business',col:'var(--ac)',n:[{i:'📱',nm:'Personal Brand'},{i:'💼',nm:'Freelance'},{i:'🚀',nm:'Startup'},{i:'📈',nm:'Scaling'},{i:'🤖',nm:'IA Business'},{i:'👑',nm:'Empire'}]}};
+const SKILL_TREES={focus:{lbl:'🎯 Focus',col:'var(--ac)',n:[{i:'📋',nm:'Organisation'},{i:'⏱️',nm:'Sprints'},{i:'🔇',nm:'Deep Work'},{i:'🧠',nm:'Clarté'},{i:'🚀',nm:'Peak State'},{i:'⚡',nm:'Flow'}]},nature:{lbl:'🌿 Nature',col:'var(--nt)',n:[{i:'🚶',nm:'Marche'},{i:'☀️',nm:'Lumière'},{i:'💨',nm:'Souffle'},{i:'🧊',nm:'Froid'},{i:'🌊',nm:'Immersion'},{i:'🌍',nm:'Nomade'}]},mind:{lbl:'🧠 Mental',col:'var(--pu)',n:[{i:'🧘',nm:'Présence'},{i:'📓',nm:'Écriture'},{i:'💡',nm:'Lucidité'},{i:'🔮',nm:'Vision'},{i:'⚡',nm:'Résilience'},{i:'🌟',nm:'Sagesse'}]},biz:{lbl:'💰 Business',col:'var(--ac)',n:[{i:'📱',nm:'Marque'},{i:'💼',nm:'Freelance'},{i:'🚀',nm:'Lancement'},{i:'📈',nm:'Croissance'},{i:'🤖',nm:'IA & Auto'},{i:'👑',nm:'Empire'}]}};
 const AFF_T=[{ico:'🌱',nm:'Débutant',refs:0,pct:15,col:'var(--gr)'},{ico:'🔥',nm:'Actif',refs:5,pct:20,col:'var(--or)'},{ico:'💎',nm:'Pro',refs:15,pct:25,col:'var(--bl)'},{ico:'👑',nm:'Elite',refs:30,pct:30,col:'var(--ac)'}];
 const PLANS_D=[{id:'free',nm:'Free',price:0,bc:'var(--bd)',tc:'var(--tx)',feats:['✅ Accueil perso','✅ Nature complet','✅ Check-in IA','✅ 2 formations','✅ Affiliation 15%','❌ Coach illimité','❌ Livres IA perso','❌ Tournoi premium']},{id:'starter',nm:'Starter',price:4.99,bc:'#2a4020',tc:'var(--gr)',feats:['✅ Tout Free','✅ Coach 30msg/j','✅ 5 formations','✅ Livres IA','✅ Plan 90j','✅ Affiliation 20%','❌ Coach illimité','❌ Guildes']},{id:'pro',nm:'Pro ⭐',price:9.99,bc:'var(--acm)',tc:'var(--ac)',pop:true,feats:['✅ Tout Starter','✅ Coach illimité','✅ Toutes formations','✅ Guildes et Tournoi','✅ Vision Board','✅ Affiliation 25%','✅ 50💎/mois']},{id:'elite',nm:'Elite 👑',price:19.99,bc:'var(--pud)',tc:'var(--pu)',feats:['✅ Tout Pro','✅ Affiliation 30%','✅ 200💎/mois','✅ Certifications','✅ Support VIP','✅ Bilan audio mensuel']}];
 const BREATHS=[{id:'cardiac',nm:'Cohérence cardiaque',ico:'💚',in:5,hold:0,out:5,rounds:6,col:'var(--gr)',desc:'5-5. Cortisol↓ calme↑'},{id:'box',nm:'Box Breathing',ico:'📦',in:4,hold:4,out:4,rounds:8,col:'var(--pu)',desc:'4-4-4. Navy SEALs'},{id:'478',nm:'4-7-8 Sommeil',ico:'😴',in:4,hold:7,out:8,rounds:4,col:'var(--tl)',desc:'Endormissement rapide'},{id:'wim',nm:'Wim Hof',ico:'❄️',in:4,hold:0,out:4,rounds:30,col:'var(--bl)',desc:'Activation et énergie'}];
@@ -1107,9 +1107,12 @@ function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
 function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
 function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('Boss vaincu. +'+boss.r.xp+' XP. Au suivant.','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
-function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);S.dq={date:TD,qs:sh.slice(0,5).map(q=>({...q,progress:0,done:false}))};save();}renderDQ();}
-function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+q.nm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
-function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' accomplie !','⚡',2000);}}});save();renderDQ();}
+function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);const qs=sh.slice(0,5).map(q=>({...q,progress:0,done:false}));
+// Add a bonus quest from QUEST_BANK if available
+if(typeof QUEST_BANK!=='undefined'){const domains=Object.keys(QUEST_BANK);const dom=domains[Math.floor(Math.random()*domains.length)];const pool=QUEST_BANK[dom];const bq=pool[Math.floor(Math.random()*pool.length)];qs.push({id:'bq_'+dom.toLowerCase(),ico:'🎯',nm:bq.t,target:1,type:'bonus',xp:bq.xp,g:Math.floor(bq.xp/10),progress:0,done:false,desc:bq.d,domain:dom});}
+S.dq={date:TD,qs:qs};save();}renderDQ();}
+function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);const isBonus=q.type==='bonus';return '<div class="qit"'+(isBonus?' style="border-left:2px solid var(--ac)"':'')+'><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+(isBonus?'<span style="font-size:9px;color:var(--ac);text-transform:uppercase;letter-spacing:1px">Bonus </span>':'')+q.nm+'</div>'+(q.desc&&isBonus?'<div style="font-size:10px;color:var(--tx3);margin-top:2px;line-height:1.4">'+q.desc+'</div>':'')+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
+function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' — accomplie. +'+q.xp+' XP','⚡',2000);}}});save();renderDQ();}
 function initFlash(){if(S.flash.date!==TD){S.flash={date:TD,idx:Math.floor(Math.random()*FLASH.length),done:false};save();}renderFlash();}
 function renderFlash(){const el=document.getElementById('w-flash');if(!el)return;if(S.flash.done||!(S.activeWg||[]).includes('w-flash')){el.style.display='none';return;}el.style.display='block';const fc=FLASH[S.flash.idx];const mid=new Date();mid.setHours(23,59,0,0);const rem=Math.floor((mid-Date.now())/1000);el.innerHTML='<div class="wg" style="border-color:var(--rd);background:var(--rdd);cursor:pointer;margin-bottom:0" onclick="showFlash()"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚡ DÉFI FLASH — expire à minuit</div><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+fc.ico+'</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px">'+fc.title+'</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">'+fmtT(rem)+' restants · +'+fc.xp+' XP</div></div></div></div>';}
 function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=fc.title;document.getElementById('fl-desc').textContent=fc.desc;document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
@@ -1174,7 +1177,7 @@ function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
 function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée','📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
-const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
+const CH_M={coach:{sys:'',ph:'Demande-moi n\'importe quoi...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision. Tu es l\'opposant — réaliste, pas complaisant.',ph:'Simule un entretien, un pitch, une négo...'},debate:{sys:'MODE DÉBAT: avocat du diable. Challenge chaque argument. Sois respectueux mais implacable.',ph:'Défends une idée. Je vais la tester.'},plan90:{sys:'MODE PLAN 90J: plan de transformation complet, mois par mois, avec jalons concrets.',ph:'Mon objectif à 90 jours : ...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre, 3 points clés, une action ce soir.',ph:'Trouve-moi le bon livre pour...'},nature_c:{sys:'MODE NATURE: expert bien-être par la nature. Marche, lumière, respiration, froid, sommeil.',ph:'Nature, sommeil, soleil, respiration...'}};
 let chatH=[],chatBusy=false;
 function setM(m,btn){S.chatMode=m;save();document.querySelectorAll('.ch-mode').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const ta=document.getElementById('ch-ta');if(ta)ta.placeholder=CH_M[m]?.ph||'Parle à ton coach...';}
 function initChat(){chatH=S.chatH||[];updCLvl();const msgs=document.getElementById('ch-msgs');msgs.innerHTML='';if(!chatH.length){const fm='Salut '+S.name+' ! 👋\n\nJe suis ton Coach RISE v9 — je m\'adapte à toi. Objectif: '+S.goal+'.\n\nModes dispo: Coach, Roleplay, Débat, Plan 90j, Livres IA, Coach nature.\n\nDe quoi as-tu besoin maintenant ?';addCMsg(fm,false);S.chatH=[{role:'assistant',content:fm}];save();}else chatH.forEach(m=>m.role==='assistant'?addCMsg(m.content,false):addUMsg(m.content,false));scrollChat();renderSuggs();}
@@ -1187,7 +1190,7 @@ function scrollChat(){const el=document.getElementById('ch-msgs');if(el)setTimeo
 function ck(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}}
 function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 function sndSug(btn){const ta=document.getElementById('ch-ta');if(ta){ta.value=btn.textContent.trim();sendMsg();}}
-function renderSuggs(){const suggs=['🌿 Nature et plein air','☀️ Vitamine D','💨 Respiration','😴 Sommeil optimal','📚 Recommande un livre','💰 Business et revenus','💪 Sport','🧠 Confiance en soi','🔥 Discipline'];const el=document.getElementById('ch-suggs');if(!el)return;el.innerHTML=suggs.map(x=>'<button class="csug" onclick="sndSug(this)">'+x+'</button>').join('');}
+function renderSuggs(){const suggs=['🌿 Comment sortir plus souvent','☀️ Optimiser mon énergie','💨 Gérer mon stress','😴 Mieux dormir','📚 Un livre pour moi','💰 Gagner plus','💪 Programme sport','🧠 Être plus confiant','🔥 Rester discipliné'];const el=document.getElementById('ch-suggs');if(!el)return;el.innerHTML=suggs.map(x=>'<button class="csug" onclick="sndSug(this)">'+x+'</button>').join('');}
 function sendMsg(){const ta=document.getElementById('ch-ta');const txt=ta.value.trim();if(!txt||chatBusy)return;ta.value='';ta.style.height='auto';addUMsg(txt,true);chatH.push({role:'user',content:txt});S.chatH=chatH;chatBusy=true;const snd=document.getElementById('ch-snd');if(snd)snd.disabled=true;showTyp();const reply=RISE_AI.processCoachInput(txt,S.chatMode||'coach');setTimeout(()=>{hideTyp();addCMsg(reply,true);chatH.push({role:'assistant',content:reply});S.chatH=chatH;const m=S.coachMem||{};m.n=(m.n||0)+1;gainXP(3,'chat');complQ('chat');dmgBoss(10);if(S.chatMode==='plan90'&&reply.length>400){S.plan90={c:reply,date:TD};}save();updCLvl();chatBusy=false;if(snd)snd.disabled=false;},600);}
 let dTab='forms';
 function setDT(t,btn){dTab=t;document.querySelectorAll('#screen-disc .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');initDisc();}
@@ -4698,7 +4701,150 @@ const ACHIEVEMENTS=[
   {id:'ach10',nm:'Collectionneur',desc:'10 succès débloqués.',flavor:'10 badges. Tu commences une belle collection.',ico:'🏅',rarity:'uncommon',cond:()=>(S.achievements?.length||0)>=10,xp:60},
   {id:'ach25',nm:'Chasseur de Badges',desc:'25 succès débloqués.',flavor:'25 badges. La moitié du chemin. Continue.',ico:'🏅',rarity:'rare',cond:()=>(S.achievements?.length||0)>=25,xp:150},
   {id:'ach50',nm:'Légende Vivante',desc:'50 succès débloqués.',flavor:'50 succès. Tu es une légende dans ce jeu. Et le jeu, c\'est ta vie.',ico:'🏅',rarity:'epic',cond:()=>(S.achievements?.length||0)>=50,xp:400},
-  {id:'ach100',nm:'Mythique',desc:'100 succès débloqués.',flavor:'Cent preuves. Cent victoires. Tu es devenu ce que tu voulais être.',ico:'🏅',rarity:'mythic',cond:()=>(S.achievements?.length||0)>=100,xp:1000}
+  {id:'ach100',nm:'Mythique',desc:'100 succès débloqués.',flavor:'Cent preuves. Cent victoires. Tu es devenu ce que tu voulais être.',ico:'🏅',rarity:'mythic',cond:()=>(S.achievements?.length||0)>=100,xp:1000},
+  // ── KANBAN ──
+  {id:'kan1',nm:'Premier Ticket',desc:'Crée ta première carte Kanban.',flavor:'Une tâche visible est une tâche qui avance.',ico:'📋',rarity:'common',cond:()=>(S.kanban?.cards?.length||0)>=1,xp:15},
+  {id:'kan10',nm:'Flux Tendu',desc:'10 cartes Kanban créées.',flavor:'10 tâches organisées. Le chaos recule.',ico:'📋',rarity:'uncommon',cond:()=>(S.kanban?.cards?.length||0)>=10,xp:50},
+  {id:'kan_done5',nm:'Liquidateur',desc:'5 tâches terminées dans le Kanban.',flavor:'5 tâches bouclées. La pile "Done" grandit. C\'est ça, le momentum.',ico:'✅',rarity:'uncommon',cond:()=>(S.kanban?.cards||[]).filter(c=>c.col==='done').length>=5,xp:60},
+  {id:'kan_done25',nm:'Machine à Terminer',desc:'25 tâches Kanban terminées.',flavor:'25 tâches finies. Tu ne commences pas des choses — tu les termines.',ico:'✅',rarity:'rare',cond:()=>(S.kanban?.cards||[]).filter(c=>c.col==='done').length>=25,xp:150},
+  // ── ROUTINES ──
+  {id:'rout_matin1',nm:'Rituel Matinal',desc:'Complète ta routine du matin une première fois.',flavor:'La journée est gagnée avant 9h. Tu le sais maintenant.',ico:'🌅',rarity:'common',cond:()=>{const r=S.routines;if(!r)return false;return r.matin&&r.matin.filter(s=>s.active&&s.doneDates?.includes(TD)).length>=r.matin.filter(s=>s.active).length&&r.matin.filter(s=>s.active).length>0;},xp:30},
+  {id:'rout_soir1',nm:'Rituel du Soir',desc:'Complète ta routine du soir une première fois.',flavor:'La journée de demain commence ce soir. Bien joué.',ico:'🌙',rarity:'common',cond:()=>{const r=S.routines;if(!r)return false;return r.soir&&r.soir.filter(s=>s.active&&s.doneDates?.includes(TD)).length>=r.soir.filter(s=>s.active).length&&r.soir.filter(s=>s.active).length>0;},xp:30},
+  // ── OKR ──
+  {id:'okr1',nm:'Cap Fixé',desc:'Crée ton premier OKR.',flavor:'Sans direction, l\'effort se disperse. Tu viens de fixer la boussole.',ico:'🎯',rarity:'common',cond:()=>(S.okr?.objectives?.length||0)>=1,xp:25},
+  {id:'okr_kr1',nm:'Résultat Clé',desc:'Un Key Result atteint à 100%.',flavor:'Un résultat mesurable, atteint. C\'est la différence entre rêver et exécuter.',ico:'🎯',rarity:'uncommon',cond:()=>(S.okr?.objectives||[]).some(o=>(o.keyResults||[]).some(kr=>kr.progress>=100)),xp:80},
+  {id:'okr3',nm:'Stratège',desc:'3 OKR définis.',flavor:'3 objectifs clairs. Tu sais exactement où tu vas ce trimestre.',ico:'🎯',rarity:'rare',cond:()=>(S.okr?.objectives?.length||0)>=3,xp:120},
+  // ── PLAN 90 JOURS ──
+  {id:'plan90',nm:'Visionnaire',desc:'Crée ton plan 90 jours.',flavor:'90 jours, c\'est assez pour changer de vie. Pas assez pour se décourager.',ico:'📐',rarity:'uncommon',cond:()=>!!(S.plan90?.c),xp:40},
+  // ── VISION BOARD ──
+  {id:'vb1',nm:'Visualisateur',desc:'Crée ton Vision Board.',flavor:'Visualiser, c\'est programmer ton subconscient. La science le confirme.',ico:'🎨',rarity:'uncommon',cond:()=>!!(S.vb?.t),xp:40},
+  // ── LETTRE AU FUTUR ──
+  {id:'letter1',nm:'Capsule Temporelle',desc:'Scelle ta lettre au futur.',flavor:'Dans 90 jours, tu ouvriras cette lettre. Qui seras-tu alors ?',ico:'💌',rarity:'uncommon',cond:()=>!!(S.letter?.sealed),xp:50},
+  // ── SEASONS ──
+  {id:'s2',nm:'Momentum',desc:'Atteins la Saison 2.',flavor:'Les fondations sont posées. Place à l\'accélération.',ico:'🌿',rarity:'uncommon',cond:()=>(S.season||1)>=2,xp:80},
+  {id:'s3',nm:'Maîtrise',desc:'Atteins la Saison 3.',flavor:'Tu ne tâtonnes plus. Tu maîtrises.',ico:'🌊',rarity:'rare',cond:()=>(S.season||1)>=3,xp:150},
+  {id:'s4',nm:'Ascension',desc:'Atteins la Saison 4 — le sommet.',flavor:'La dernière saison. Pas la dernière étape. L\'ascension n\'a pas de fin.',ico:'🏔️',rarity:'epic',cond:()=>(S.season||1)>=4,xp:300},
+  // ── CONTENT PLANNING ──
+  {id:'content1',nm:'Créateur',desc:'Planifie ton premier post.',flavor:'Créer du contenu, c\'est penser à voix haute. Le monde écoute.',ico:'📱',rarity:'common',cond:()=>(S.contentPlan?.posts?.length||0)>=1,xp:20},
+  {id:'content10',nm:'Régulier du Contenu',desc:'10 posts planifiés.',flavor:'10 posts. Tu construis une présence. La régularité bat le talent.',ico:'📱',rarity:'uncommon',cond:()=>(S.contentPlan?.posts?.length||0)>=10,xp:70},
+  // ── AFFILIATION ──
+  {id:'aff1',nm:'Recruteur',desc:'Premier parrainage.',flavor:'Quelqu\'un te fait confiance. C\'est le début d\'un réseau.',ico:'🤝',rarity:'uncommon',cond:()=>(S.aff?.refs?.length||0)>=1,xp:50},
+  {id:'aff5',nm:'Connecteur',desc:'5 parrainages.',flavor:'5 personnes. Tu ne grandis plus seul.',ico:'🤝',rarity:'rare',cond:()=>(S.aff?.refs?.length||0)>=5,xp:120},
+  // ── NATURE JOURNAL ──
+  {id:'nj1',nm:'Première Note Dehors',desc:'Première entrée dans le journal nature.',flavor:'Observer la nature, c\'est observer ce qui ne ment jamais.',ico:'🍃',rarity:'common',cond:()=>(S.nat?.jEntries?.length||0)>=1,xp:20},
+  {id:'nj10',nm:'Naturaliste',desc:'10 entrées nature.',flavor:'10 observations. Tu vois ce que les autres ne regardent pas.',ico:'🍃',rarity:'uncommon',cond:()=>(S.nat?.jEntries?.length||0)>=10,xp:60},
+  {id:'nj30',nm:'Thoreau',desc:'30 entrées nature.',flavor:'"J\'allai dans les bois parce que je voulais vivre avec intention." Toi aussi.',ico:'🍃',rarity:'rare',cond:()=>(S.nat?.jEntries?.length||0)>=30,xp:150},
+  // ── NUTRITION ──
+  {id:'meal1',nm:'Premier Repas Planifié',desc:'Note ton premier repas.',flavor:'Manger bien commence par décider avant. Pas pendant.',ico:'🥗',rarity:'common',cond:()=>{const n=S.nutri;return n&&(n.water?.[TD]>0||Object.keys(n.meals||{}).length>0);},xp:15},
+  {id:'water8',nm:'Hydraté',desc:'Bois 8 verres d\'eau en un jour.',flavor:'8 verres. Ton cerveau fonctionne 14% mieux hydraté. C\'est prouvé.',ico:'💧',rarity:'uncommon',cond:()=>(S.nutri?.water?.[TD]||0)>=8,xp:40},
+  // ── TODOS ──
+  {id:'todo1',nm:'Première Tâche',desc:'Crée ta première tâche.',flavor:'Écrire une tâche, c\'est la première étape pour la faire.',ico:'✅',rarity:'common',cond:()=>(S.todos?.length||0)>=1,xp:10},
+  {id:'todo10',nm:'Organisé',desc:'Crée 10 tâches.',flavor:'10 tâches organisées. Tu penses en système, pas en urgence.',ico:'✅',rarity:'common',cond:()=>(S.todos?.length||0)>=10,xp:30},
+  {id:'todo50',nm:'Taskmaster',desc:'50 tâches créées.',flavor:'50 tâches. Tu as compris que productivité = clarté + action.',ico:'✅',rarity:'uncommon',cond:()=>(S.todos?.length||0)>=50,xp:80},
+  // ── CHESTS ──
+  {id:'chest1',nm:'Premier Coffre',desc:'Ouvre ton premier coffre mystère.',flavor:'La surprise récompense ceux qui persévèrent.',ico:'🎁',rarity:'common',cond:()=>(S.chests?.av||0)>=1||(S.chestsOpened||0)>=1,xp:20},
+  {id:'chest5',nm:'Chercheur de Trésors',desc:'5 coffres ouverts.',flavor:'5 coffres. La chance sourit aux réguliers.',ico:'🎁',rarity:'uncommon',cond:()=>(S.chestsOpened||0)>=5,xp:60},
+  // ── STREAK NATURE ──
+  {id:'wstreak7',nm:'Marcheur Régulier',desc:'7 jours de marche d\'affilée.',flavor:'7 jours dehors. Ton cortisol a baissé de 13% cette semaine.',ico:'🚶',rarity:'rare',cond:()=>(S.nat?.wStreak||0)>=7,xp:100},
+  {id:'wstreak30',nm:'Nomade Urbain',desc:'30 jours de marche d\'affilée.',flavor:'Un mois de marche quotidienne. Darwin, Beethoven, Jobs — ils marchaient tous.',ico:'🚶',rarity:'epic',cond:()=>(S.nat?.wStreak||0)>=30,xp:300},
+  // ── WORKOUT COMBOS ──
+  {id:'wk5',nm:'En Mouvement',desc:'5 séances complétées.',flavor:'5 séances. Le corps commence à comprendre que c\'est sérieux.',ico:'💪',rarity:'common',cond:()=>(S.workouts?.length||0)>=5,xp:50},
+  {id:'wk200',nm:'Titan',desc:'200 séances complétées.',flavor:'200 séances. Tu es fait de sueur, de discipline et de choix quotidiens.',ico:'💪',rarity:'mythic',cond:()=>(S.workouts?.length||0)>=200,xp:1000},
+  // ── POMO AVANCÉ ──
+  {id:'pomo10',nm:'Focalisé',desc:'10 sessions Pomodoro.',flavor:'250 minutes de concentration. Tu deviens dangereux quand tu te concentres.',ico:'⏱️',rarity:'uncommon',cond:()=>(S.pomoStats?.sessions?.length||0)>=10,xp:70},
+  {id:'pomo50',nm:'Flow State',desc:'50 sessions Pomodoro.',flavor:'1 250 minutes de deep work. Tu as un super-pouvoir que 99% n\'ont pas.',ico:'⏱️',rarity:'rare',cond:()=>(S.pomoStats?.sessions?.length||0)>=50,xp:200},
+  {id:'pomo200',nm:'Maître du Temps',desc:'200 sessions Pomodoro.',flavor:'5 000 minutes. Tu ne gères plus le temps — il travaille pour toi.',ico:'⏱️',rarity:'legendary',cond:()=>(S.pomoStats?.sessions?.length||0)>=200,xp:600},
+  // ── XP MILESTONES ──
+  {id:'xp3000',nm:'Progression Pure',desc:'3 000 XP accumulés.',flavor:'3 000 points d\'action réelle. Pas d\'intentions — des preuves.',ico:'🚀',rarity:'rare',cond:()=>(S.xp||0)>=3000,xp:200},
+  {id:'xp7500',nm:'Imparable',desc:'7 500 XP accumulés.',flavor:'À ce stade, te ralentir est impossible. Le momentum est de ton côté.',ico:'🚀',rarity:'epic',cond:()=>(S.xp||0)>=7500,xp:350},
+  {id:'xp15000',nm:'Transcendance',desc:'15 000 XP.',flavor:'15 000 XP. Tu es passé de l\'autre côté. Celui où les excuses n\'existent plus.',ico:'🌌',rarity:'mythic',cond:()=>(S.xp||0)>=15000,xp:750},
+  {id:'xp25000',nm:'Légende Absolue',desc:'25 000 XP.',flavor:'Vingt-cinq mille actions. Il n\'y a pas de mot pour ça. Si : légende.',ico:'🌌',rarity:'mythic',cond:()=>(S.xp||0)>=25000,xp:1000},
+  // ── STREAK MILESTONES ──
+  {id:'streak21',nm:'Habitude Née',desc:'21 jours de streak consécutifs.',flavor:'21 jours. La science dit que l\'habitude est formée. Tu confirmes.',ico:'🔥',rarity:'rare',cond:()=>(S.loginS?.streak||0)>=21,xp:300},
+  {id:'streak180',nm:'Six Mois',desc:'180 jours de streak consécutifs.',flavor:'Six mois sans pause. Tu es devenu quelqu\'un d\'autre. En mieux.',ico:'🌌',rarity:'mythic',cond:()=>(S.loginS?.streak||0)>=180,xp:2000},
+  {id:'streak365',nm:'L\'Année',desc:'365 jours de streak. Un an complet.',flavor:'365 jours. Un an entier. Si quelqu\'un dit que c\'est impossible, montre-lui ce badge.',ico:'🌌',rarity:'mythic',cond:()=>(S.loginS?.streak||0)>=365,xp:5000},
+  // ── COACH MILESTONES ──
+  {id:'coach10',nm:'Habitué',desc:'10 conversations avec JARVIS.',flavor:'10 échanges. Tu commences à penser différemment.',ico:'🧠',rarity:'common',cond:()=>(S.coachMem?.n||0)>=10,xp:40},
+  {id:'coach500',nm:'Connexion Profonde',desc:'500 conversations avec JARVIS.',flavor:'500 dialogues. JARVIS te connaît mieux que la plupart de tes amis.',ico:'🎓',rarity:'mythic',cond:()=>(S.coachMem?.n||0)>=500,xp:750},
+  // ── JOURNAL MILESTONES ──
+  {id:'j5',nm:'Habitude d\'Écrire',desc:'5 entrées dans ton journal.',flavor:'5 pages. L\'écriture est devenue un réflexe, pas un effort.',ico:'📖',rarity:'common',cond:()=>(S.journal?.length||0)>=5,xp:30},
+  {id:'j200',nm:'Autobiographe',desc:'200 entrées dans ton journal.',flavor:'200 chapitres. Tu pourrais publier un livre sur ta transformation.',ico:'📖',rarity:'mythic',cond:()=>(S.journal?.length||0)>=200,xp:800},
+  // ── BOOK MILESTONES ──
+  {id:'book24',nm:'Deux Par Mois',desc:'24 livres terminés.',flavor:'24 livres. 2 par mois. Tu es dans le top 0.1% des lecteurs.',ico:'📚',rarity:'legendary',cond:()=>(S.books?.read?.length||0)>=24,xp:700},
+  // ── SLEEP QUALITY ──
+  {id:'sl_good7',nm:'Bien Reposé',desc:'7 nuits de 7h30+ de sommeil.',flavor:'7 bonnes nuits. Ton corps récupère, ton esprit performe.',ico:'😴',rarity:'rare',cond:()=>{const logs=S.nat?.sleepLogs||S.sleepLog||[];return logs.filter(l=>l.h>=7.5).length>=7;},xp:100},
+  // ── NATURE COMBO ──
+  {id:'nat_combo',nm:'Quadriforce Nature',desc:'Marche + soleil + respiration + froid en un seul jour.',flavor:'Les 4 piliers nature en un jour. Ton système nerveux te dit merci.',ico:'🌿',rarity:'epic',cond:()=>{const n=S.nat||{};return n.wDate===TD&&n.sDate===TD&&(n.breathLogs||[]).some(l=>l.date===TD)&&(n.coldLogs||[]).some(l=>l.date===TD);},xp:200},
+  // ── HABIT COMBOS ──
+  {id:'hab_add5',nm:'Architecte d\'Habitudes',desc:'5 habitudes actives.',flavor:'5 habitudes = 5 piliers. Tu construis une vie par design.',ico:'🏗️',rarity:'uncommon',cond:()=>(S.habits?.list?.length||0)>=5,xp:40},
+  {id:'hab_add8',nm:'Système Complet',desc:'8 habitudes actives.',flavor:'8 habitudes. Tu as un système qui tourne sans effort.',ico:'🏗️',rarity:'rare',cond:()=>(S.habits?.list?.length||0)>=8,xp:80},
+  // ── TIME-BASED SPECIALS ──
+  {id:'newyear',nm:'Bonne Résolution',desc:'Utilise RISE le 1er janvier.',flavor:'Pendant que les autres promettent, toi tu agis. Bonne année.',ico:'🎆',rarity:'rare',cond:()=>{const d=new Date();return d.getMonth()===0&&d.getDate()===1;},xp:100},
+  {id:'birthday_r',nm:'Cadeau de RISE',desc:'Utilise RISE le jour de ton anniversaire.',flavor:'Joyeux anniversaire. Le meilleur cadeau, c\'est celui que tu te fais à toi-même.',ico:'🎂',rarity:'rare',cond:()=>{if(!S.birthdate)return false;const b=new Date(S.birthdate);const n=new Date();return b.getMonth()===n.getMonth()&&b.getDate()===n.getDate();},xp:100},
+  {id:'friday_grind',nm:'Vendredi Productif',desc:'100+ XP gagnés un vendredi.',flavor:'Vendredi. Là où la plupart lèvent le pied, toi tu accélères.',ico:'🔥',rarity:'uncommon',cond:()=>new Date().getDay()===5&&(S._todayXP||0)>=100,xp:50},
+  {id:'lundi_start',nm:'Lundi Fort',desc:'Complète une quête avant 9h un lundi.',flavor:'Lundi matin. Pendant que le monde snooze, tu exécutes.',ico:'💪',rarity:'uncommon',cond:()=>{const d=new Date();return d.getDay()===1&&d.getHours()<9&&(S.dq?.qs||[]).some(q=>q.done);},xp:50},
+  // ── MEMORY + LANGUAGE ──
+  {id:'mem10',nm:'Mémoire Affûtée',desc:'10 parties de Memory.',flavor:'Ta mémoire de travail s\'améliore. Les effets sont partout.',ico:'🃏',rarity:'rare',cond:()=>(S.memoryCount||0)>=10,xp:100},
+  {id:'lang50',nm:'Polyglotte',desc:'50 mots appris dans les langues.',flavor:'50 mots dans une nouvelle langue. Ton cerveau a créé de nouveaux chemins.',ico:'🌍',rarity:'rare',cond:()=>{const l=S.langProg||{};let n=0;Object.values(l).forEach(v=>n+=(v?.learned||0));return n>=50;},xp:120},
+  {id:'lang100',nm:'Babel',desc:'100 mots appris.',flavor:'100 mots. Tu commences à penser dans une autre langue.',ico:'🌍',rarity:'epic',cond:()=>{const l=S.langProg||{};let n=0;Object.values(l).forEach(v=>n+=(v?.learned||0));return n>=100;},xp:250},
+  // ── DEFI 7 JOURS ──
+  {id:'defi7_done',nm:'Semaine Complète',desc:'Termine le Défi 7 Jours.',flavor:'7 jours. 7 défis. Tu as prouvé que tu sais commencer — et finir.',ico:'🏆',rarity:'rare',cond:()=>(S.defi7?.completed?.length||0)>=7,xp:200},
+  // ── MULTI-STREAK ──
+  {id:'multi_streak3',nm:'Multi-Flammes',desc:'3 habitudes avec un streak de 3+ jours en même temps.',flavor:'3 habitudes actives, 3 streaks. Tu ne fais pas une chose — tu construis un système.',ico:'🔥',rarity:'rare',cond:()=>(S.habits?.list||[]).filter(h=>(h.streak||0)>=3).length>=3,xp:120},
+  {id:'multi_streak5',nm:'Système Vivant',desc:'5 habitudes avec un streak de 7+ jours.',flavor:'5 habitudes ancrées. Tu es un système qui fonctionne.',ico:'🔥',rarity:'legendary',cond:()=>(S.habits?.list||[]).filter(h=>(h.streak||0)>=7).length>=5,xp:400},
+  // ── FORMATION FINALE ──
+  {id:'form_done5',nm:'Maître',desc:'5 formations complètes.',flavor:'5 disciplines maîtrisées. Tu es une machine à apprendre.',ico:'🎓',rarity:'legendary',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>{if(f&&f.done===true)n++;});return n>=5;},xp:800},
+  {id:'form_done_all',nm:'Omniscient',desc:'Toutes les formations complétées.',flavor:'Tout appris. Tout maîtrisé. Maintenant, enseigne.',ico:'🎓',rarity:'mythic',cond:()=>{const c=S.formProg||{};const total=FORMS_D.length;let n=0;Object.values(c).forEach(f=>{if(f&&f.done===true)n++;});return n>=total&&total>0;},xp:2000},
+  // ── ULTIMATE ──
+  {id:'ach150',nm:'Chasseur Suprême',desc:'150 succès débloqués.',flavor:'150 badges. Tu as fait ce que personne ne croyait possible.',ico:'🏅',rarity:'legendary',cond:()=>(S.achievements?.length||0)>=150,xp:750},
+  {id:'ach200',nm:'Immortel',desc:'200 succès débloqués. Tous.',flavor:'Deux cents. Chaque badge est un chapitre. Et l\'histoire, c\'est toi.',ico:'🏅',rarity:'mythic',cond:()=>(S.achievements?.length||0)>=200,xp:2000},
+  // ── DISCIPLINE ──
+  {id:'streak45',nm:'Quarante-Cinq',desc:'45 jours de streak consécutifs.',flavor:'45 jours. Le moment où la discipline devient plaisir.',ico:'🔥',rarity:'epic',cond:()=>(S.loginS?.streak||0)>=45,xp:600},
+  {id:'streak90',nm:'Un Trimestre',desc:'90 jours de streak consécutifs.',flavor:'90 jours. Un trimestre entier. Tu es la preuve vivante que c\'est possible.',ico:'🔥',rarity:'legendary',cond:()=>(S.loginS?.streak||0)>=90,xp:1200},
+  // ── FLASH MILESTONES ──
+  {id:'flash50',nm:'Éclair',desc:'50 défis flash relevés.',flavor:'50 réflexes. L\'hésitation a disparu. Tu agis.',ico:'⚡',rarity:'legendary',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=50;},xp:400},
+  // ── BUDGET BOSS ──
+  {id:'budget_income',nm:'Premier Revenu',desc:'Track ton premier revenu.',flavor:'Savoir combien entre est aussi important que savoir combien sort.',ico:'💰',rarity:'common',cond:()=>(S.budget?.income||0)>0,xp:15},
+  // ── BOOKS DEEP ──
+  {id:'book_read_start',nm:'En Lecture',desc:'Commence un livre.',flavor:'Le plus dur est d\'ouvrir la première page. C\'est fait.',ico:'📖',rarity:'common',cond:()=>!!(S.books?.reading),xp:10},
+  // ── BREATH MILESTONES ──
+  {id:'breath25',nm:'Régulier du Souffle',desc:'25 sessions de respiration.',flavor:'25 sessions. Ta gestion du stress est devenue un avantage compétitif.',ico:'💨',rarity:'rare',cond:()=>(S.nat?.breathLogs?.length||0)>=25,xp:120},
+  {id:'breath100',nm:'Pranayama',desc:'100 sessions de respiration.',flavor:'100 sessions. Tu respires différemment de tous les gens autour de toi.',ico:'💨',rarity:'legendary',cond:()=>(S.nat?.breathLogs?.length||0)>=100,xp:500},
+  // ── COLD ──
+  {id:'cold10',nm:'Endurci',desc:'10 sessions d\'eau froide.',flavor:'10 douches froides. Wim Hof approuve.',ico:'🧊',rarity:'uncommon',cond:()=>(S.nat?.coldLogs?.length||0)>=10,xp:80},
+  {id:'cold60',nm:'Cryonaute',desc:'60 sessions d\'eau froide.',flavor:'60 sessions de froid. Tu es immunisé contre l\'inconfort.',ico:'🧊',rarity:'epic',cond:()=>(S.nat?.coldLogs?.length||0)>=60,xp:300},
+  // ── SUN ──
+  {id:'sun10',nm:'Lumineux',desc:'10 sessions de soleil.',flavor:'10 doses de vitamine D naturelle. Ton humeur te remercie.',ico:'☀️',rarity:'common',cond:()=>(S.nat?.sunLogs?.length||0)>=10,xp:40},
+  {id:'sun60',nm:'Solaire',desc:'60 sessions de soleil.',flavor:'60 sessions. Le soleil est ton antidépresseur gratuit.',ico:'☀️',rarity:'rare',cond:()=>(S.nat?.sunLogs?.length||0)>=60,xp:180},
+  // ── WALK MEGA ──
+  {id:'walk200',nm:'Marathon de Vie',desc:'200 sessions de marche.',flavor:'200 marches. Des milliers de pas. Chacun t\'a rapproché de toi-même.',ico:'🥾',rarity:'legendary',cond:()=>(S.nat?.walkLogs?.length||0)>=200,xp:600},
+  // ── SLEEP MEGA ──
+  {id:'sl100',nm:'Centurion du Sommeil',desc:'100 nuits trackées.',flavor:'100 nuits. Tu connais ton sommeil mieux que n\'importe quel médecin.',ico:'😴',rarity:'legendary',cond:()=>(S.sleepLog?.length||0)>=100||(S.nat?.sleepLogs?.length||0)>=100,xp:400},
+  // ── QUIZ MEGA ──
+  {id:'quiz50',nm:'Encyclopédie',desc:'50 quiz complétés.',flavor:'50 tests réussis. Ta mémoire est un coffre-fort.',ico:'🧠',rarity:'epic',cond:()=>(S.quizCount||0)>=50,xp:250},
+  // ── MOOD DEEP ──
+  {id:'mood60',nm:'Maître Émotionnel',desc:'60 jours de suivi d\'humeur.',flavor:'60 jours. Tu ne subis plus tes émotions — tu les comprends.',ico:'🎭',rarity:'epic',cond:()=>(S.moodLog?.length||0)>=60,xp:250},
+  // ── SHARE MEGA ──
+  {id:'share25',nm:'Porte-Parole',desc:'25 partages.',flavor:'25 partages. Tu es devenu un modèle pour quelqu\'un. Même si tu ne le sais pas.',ico:'📲',rarity:'epic',cond:()=>(S.shared||0)>=25,xp:200},
+  // ── CHECKIN MEGA ──
+  {id:'ci200',nm:'Vétéran',desc:'200 check-ins.',flavor:'200 bilans. Tu es le pilote le plus expérimenté de ton propre cockpit.',ico:'📋',rarity:'legendary',cond:()=>Object.keys(S.checkins||{}).length>=200,xp:600},
+  // ── MIDNIGHT GRIND ──
+  {id:'midnight',nm:'Minuit',desc:'Utilise RISE à exactement minuit (0h00-0h05).',flavor:'Minuit. Un nouveau jour commence. Tu es déjà là.',ico:'🕛',rarity:'rare',cond:()=>{const h=new Date().getHours();const m=new Date().getMinutes();return h===0&&m<5;},xp:60},
+  // ── BOSS ADVANCED ──
+  {id:'boss8',nm:'Tueur en Série',desc:'8 boss vaincus.',flavor:'8 boss. Tu as fait 2 tours complets. Les démons te connaissent.',ico:'⚔️',rarity:'epic',cond:()=>(S.curBoss||0)>=8,xp:350},
+  {id:'boss16',nm:'Exterminateur',desc:'16 boss vaincus.',flavor:'16 victoires. Il n\'y a plus rien qui te résiste.',ico:'⚔️',rarity:'legendary',cond:()=>(S.curBoss||0)>=16,xp:600},
+  // ── GEMS FINAL ──
+  {id:'gems2000',nm:'Coffre-Fort',desc:'2 000 gemmes.',flavor:'2 000 gemmes. La preuve que les petits gains quotidiens créent la fortune.',ico:'💎',rarity:'legendary',cond:()=>(S.gems||0)>=2000,xp:500},
+  // ── HABIT ULTIMATE ──
+  {id:'habit60',nm:'Identité',desc:'60 jours de streak sur une habitude.',flavor:'60 jours. Cette habitude n\'est plus quelque chose que tu fais. C\'est quelque chose que tu es.',ico:'🔗',rarity:'mythic',cond:()=>(S.habits?.list||[]).some(h=>(h.streak||0)>=60),xp:800},
+  // ── POMO FINAL ──
+  {id:'pomo500',nm:'5000 Minutes',desc:'500 sessions Pomodoro.',flavor:'12 500 minutes de focus pur. Tu as littéralement changé la structure de ton cerveau.',ico:'⏱️',rarity:'mythic',cond:()=>(S.pomoStats?.sessions?.length||0)>=500,xp:1500},
+  // ── MULTI PERFECT ──
+  {id:'perfect7',nm:'Semaine Parfaite',desc:'7 jours consécutifs où toutes les habitudes sont complétées.',flavor:'7 jours parfaits d\'affilée. C\'est ce qui sépare les amateurs des pros.',ico:'💯',rarity:'legendary',cond:()=>{const h=S.habits;if(!h||!h.list||h.list.length===0)return false;let streak=0;for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()-i);const ds=d.toDateString();if(h.list.every(x=>x.lastDone===ds||x.doneDates?.includes(ds)))streak++;else break;}return streak>=7;},xp:500},
+  // ── AFFILIATION FINAL ──
+  {id:'aff15',nm:'Leader',desc:'15 parrainages.',flavor:'15 personnes te suivent. Tu ne montes plus seul — tu tires les autres vers le haut.',ico:'🤝',rarity:'epic',cond:()=>(S.aff?.refs?.length||0)>=15,xp:250},
+  // ── THE ONE ──
+  {id:'theone',nm:'The One',desc:'Score RISE parfait : 10 000+ XP, streak 30+, toutes habitudes actives.',flavor:'Tu es devenu ce que RISE a été conçu pour créer. La meilleure version de toi-même.',ico:'🌌',rarity:'mythic',cond:()=>(S.xp||0)>=10000&&(S.loginS?.streak||0)>=30&&(S.habits?.list||[]).length>=5&&(S.habits?.list||[]).every(h=>(h.streak||0)>=7),xp:3000}
 ];
 
 function chkAchievements(trigger){
@@ -7135,6 +7281,65 @@ window.PUSH_TEMPLATES={
   perfectDay:['💯 Toutes les habitudes cochées hier. Refais exactement la même aujourd\'hui.'],
   nightOwl:['🌙 Il est tard. Log ton sommeil avant de dormir. Demain commence maintenant.']
 };
+
+// ── SÉQUENCE EMAIL POST-INSCRIPTION (7 emails) ──
+window.EMAIL_SEQUENCE=[
+  {day:0,subject:'Bienvenue dans RISE, {name}',preview:'JARVIS est prêt. Ton premier brief t\'attend.',
+   body:'Bienvenue, {name}.\n\nJe suis JARVIS. Je ne te juge pas. Je t\'observe, je t\'analyse, et je t\'aide à aller là où tu veux vraiment aller.\n\nVoici ce qui t\'attend :\n- Un brief personnalisé chaque matin\n- Des quêtes adaptées à tes objectifs\n- Un système de progression qui récompense la constance\n\nTa première quête t\'attend dans l\'app. Elle prend 5 minutes.\n\n1% meilleur chaque jour. Ça commence maintenant.\n\n— JARVIS'},
+  {day:1,subject:'JARVIS a un premier insight pour toi',preview:'Ton domaine prioritaire mérite une attention spéciale.',
+   body:'{name},\n\nTu as choisi {domain} comme priorité. Voici ce que la recherche dit :\n\nLes personnes qui trackent leurs progrès quotidiennement dans un domaine précis progressent 2.5x plus vite que celles qui ne le font pas.\n\nAujourd\'hui, fais une seule chose : complète ton check-in dans RISE. 40 XP. 2 minutes.\n\nC\'est tout ce que je te demande.\n\n— JARVIS'},
+  {day:3,subject:'Pourquoi 1% change tout',preview:'Les maths de la progression exponentielle.',
+   body:'{name},\n\n1% par jour, ça semble ridicule.\n\nMais fais le calcul : 1.01^365 = 37.78\n\nEn un an, tu es 37 fois meilleur. Pas 2 fois. Pas 10 fois. 37 fois.\n\nC\'est exactement ce que RISE mesure. Chaque quête complétée, chaque habitude cochée, chaque check-in — c\'est ton 1% du jour.\n\nTon score actuel : {xp} XP. Ton streak : {streak} jours.\n\nLe système fonctionne. Si tu le nourris.\n\n— JARVIS'},
+  {day:7,subject:'Ta première semaine — ce que JARVIS a observé',preview:'7 jours de données. Voici tes patterns.',
+   body:'{name}, voici ta première semaine.\n\n{weekSummary}\n\nCe que j\'observe :\n- Ton domaine fort : {strongDomain}\n- Ton angle mort : {weakDomain}\n- Ton meilleur jour : {bestDay}\n\nSi cette semaine était un chapitre, son titre serait : "{chapterTitle}"\n\nLa semaine 2 commence. Je vais te challenger sur {weakDomain}.\n\n— JARVIS'},
+  {day:14,subject:'7 jours de RISE Pro — offert',preview:'Pas une promo. Une invitation logique.',
+   body:'{name},\n\n2 semaines. Tu as prouvé que tu es sérieux.\n\nJe t\'offre 7 jours de RISE Pro pour voir ce que ça change :\n- JARVIS illimité (pas 3 messages/jour — autant que tu veux)\n- Toutes les formations débloquées\n- Guildes et tournois\n- Vision Board IA\n\nPas d\'engagement. Pas de carte bancaire. Juste 7 jours pour tester.\n\nSi ça ne change rien, tu reviens en Free. Aucun piège.\n\n— JARVIS'},
+  {day:21,subject:'Rejoins une guilde avant vendredi',preview:'Les personnes qui progressent ensemble vont 3x plus loin.',
+   body:'{name},\n\nFait : les personnes qui partagent leurs objectifs avec un groupe ont 3x plus de chances de les atteindre.\n\nLes guildes RISE, c\'est exactement ça. Un petit groupe. Un objectif commun. Un boss hebdo à vaincre ensemble.\n\nLes meilleures guildes se construisent sur la confiance, pas sur le nombre.\n\nRejoins-en une ou crée la tienne avant vendredi.\n\n— JARVIS'},
+  {day:30,subject:'{name}, tu as 30 jours de RISE derrière toi',preview:'30 jours. C\'est un milestone. Célébrons-le.',
+   body:'{name},\n\n30 jours.\n\n{monthSummary}\n\nIl y a un mois, tu as ouvert RISE pour la première fois. Aujourd\'hui, tu as {xp} XP, {achievements} succès, et {streak} jours de streak.\n\nCe ne sont pas des chiffres. Ce sont des preuves que tu es capable de tenir.\n\nLes 90 prochains jours vont être différents. JARVIS va s\'adapter. Les quêtes vont évoluer. Le challenge va monter.\n\nTu es prêt. Je le sais.\n\n— JARVIS'}
+];
+
+// ── JARVIS SMART NOTIFICATIONS ──
+(function(){
+  var _lastNotifCheck='';
+  window.jarvisSmartNotifs=function(){
+    if(_lastNotifCheck===TD)return;_lastNotifCheck=TD;
+    var hour=new Date().getHours();
+    var name=S.name||'Champion';
+    var streak=S.loginS?.streak||0;
+    var xp=S.xp||0;var lvl=getLvl(xp);var nxt=LVL_X[Math.min(lvl+1,9)];var xpLeft=nxt-xp;
+    var habits=S.habits?.list||[];var undone=habits.filter(function(h){return h.lastDone!==TD;}).length;
+    // Morning brief (8-10h)
+    if(hour>=8&&hour<=10){
+      var questCount=(S.dq?.qs||[]).filter(function(q){return !q.done;}).length;
+      if(questCount>0)addN('☀️','Brief du jour',name+', '+questCount+' quêtes t\'attendent. '+(streak>0?'Streak : '+streak+'j. ':'')+'C\'est parti.');
+    }
+    // Streak danger (21h+)
+    if(hour>=21&&undone>0&&streak>=3){
+      addN('🔥','Streak en danger','Ton streak de '+streak+' jours est en jeu. '+undone+' habitude'+(undone>1?'s':'')+' restante'+(undone>1?'s':'')+'. Une action suffit.');
+    }
+    // Milestone close
+    if(xpLeft>0&&xpLeft<150){
+      addN('⚡','Presque','Plus que '+xpLeft+' XP pour le niveau '+(lvl+2)+'. Tu y es presque.');
+    }
+    // Stagnation (no XP in 3+ days)
+    var lastActive=S.loginS?.last;
+    if(lastActive){var daysSince=Math.floor((new Date()-new Date(lastActive))/(864e5));
+      if(daysSince>=3&&daysSince<=7)addN('🤖','JARVIS t\'attend','Ça fait '+daysSince+' jours. Ton XP t\'attend. Une seule action pour relancer.');
+    }
+    save();
+  };
+  // Run on app launch
+  var _origLaunch=window.launchApp;
+  if(typeof _origLaunch==='function'){
+    var _smartNotifWired=false;
+    window.launchApp=function(){
+      _origLaunch.apply(this,arguments);
+      if(!_smartNotifWired){_smartNotifWired=true;try{jarvisSmartNotifs();}catch(e){}}
+    };
+  }
+})();
 
   window._throttle=function(fn,ms){
     var last=0;
