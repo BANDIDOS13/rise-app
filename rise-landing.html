@@ -40,7 +40,7 @@ section{padding:60px 20px;max-width:1200px;margin:0 auto}.section-title{font-fam
 .cta-final{background:linear-gradient(135deg,rgba(212,170,74,.1) 0%,rgba(75,216,122,.05) 100%);border:1px solid var(--bd);border-radius:16px;padding:60px 20px;text-align:center;margin:60px auto;max-width:700px}.cta-final h2{font-family:var(--fd);font-size:32px;font-weight:700;margin-bottom:16px;color:var(--tx)}.cta-final p{font-size:15px;color:var(--tx2);margin-bottom:24px}.email-form{display:flex;gap:12px;margin-bottom:0}.email-form input{flex:1;padding:12px 16px;background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;color:var(--tx);font-size:13px}.email-form input::placeholder{color:var(--tx3)}.email-form .btn{width:auto;padding:12px 32px}
 footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;margin-top:80px}.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-bottom:32px}.footer-col h3{font-family:var(--fd);font-size:12px;font-weight:700;text-transform:uppercase;color:var(--ac);margin-bottom:12px;letter-spacing:1px}.footer-col a{display:block;font-size:12px;color:var(--tx2);margin-bottom:8px;transition:color .3s}.footer-col a:hover{color:var(--ac)}.footer-bottom{text-align:center;padding-top:32px;border-top:1px solid var(--bd);font-size:12px;color:var(--tx3)}
 .fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
-@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}}
+@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}#hamburger{display:block!important}}
 </style>
 <script defer data-domain="rise-app.com" src="https://plausible.io/js/script.js"></script>
 </head>
@@ -55,12 +55,24 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <a href="#pricing">Tarifs</a>
 <a href="#faq">FAQ</a>
 </div>
+<button id="hamburger" onclick="toggleMobileMenu()" style="display:none;background:none;border:none;color:var(--tx);font-size:24px;cursor:pointer;padding:8px">☰</button>
 <a href="/index.html" class="nav-cta" data-i18n="cta_start">Commencer →</a>
 <select id="lang-switch" style="background:var(--sf2);border:1px solid var(--bd2);border-radius:6px;padding:6px 10px;color:var(--tx);font-size:12px;font-weight:600;cursor:pointer;outline:none" onchange="switchLandingLang(this.value)">
 <option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="es">🇪🇸 ES</option><option value="pt">🇧🇷 PT</option><option value="it">🇮🇹 IT</option><option value="de">🇩🇪 DE</option><option value="ca">🏴 CA</option><option value="ja">🇯🇵 JA</option><option value="ar">🇸🇦 AR</option>
 </select>
 </div>
 </nav>
+<div id="mobile-menu" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(7,8,10,.98);z-index:200;padding:80px 20px 20px;animation:fadeIn .3s ease">
+<button onclick="toggleMobileMenu()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#f0ece4;font-size:28px;cursor:pointer">&times;</button>
+<div style="display:flex;flex-direction:column;gap:16px;text-align:center">
+<a href="#jarvis" onclick="toggleMobileMenu()" style="color:#f0ece4;font-size:18px;font-weight:600;padding:12px">JARVIS</a>
+<a href="#formations" onclick="toggleMobileMenu()" style="color:#f0ece4;font-size:18px;font-weight:600;padding:12px">Formations</a>
+<a href="#outils" onclick="toggleMobileMenu()" style="color:#f0ece4;font-size:18px;font-weight:600;padding:12px">Outils</a>
+<a href="#pricing" onclick="toggleMobileMenu()" style="color:#f0ece4;font-size:18px;font-weight:600;padding:12px">Tarifs</a>
+<a href="#faq" onclick="toggleMobileMenu()" style="color:#f0ece4;font-size:18px;font-weight:600;padding:12px">FAQ</a>
+<a href="/index.html" style="display:inline-block;margin-top:16px;padding:14px 32px;background:linear-gradient(135deg,#d4aa4a,#e8c86a);color:#07080a;border-radius:8px;font-weight:700;font-size:16px">Commencer →</a>
+</div>
+</div>
 
 <section class="hero">
 <div class="hero-content">
@@ -205,7 +217,7 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <div class="footer-col"><h3 data-i18n="foot_product">Product</h3><a href="#formations" data-i18n="formations_title">Formations</a><a href="#outils" data-i18n="tools_title">Outils</a><a href="#pricing" data-i18n="foot_pricing">Pricing</a><a href="#faq">FAQ</a></div>
 <div class="footer-col"><h3 data-i18n="foot_company">Company</h3><a href="#hero" data-i18n="foot_about">À Propos</a><a href="#jarvis">Blog</a><a href="mailto:support@rise-app.com" data-i18n="foot_careers">Contact</a><a href="#faq" data-i18n="foot_press">FAQ</a></div>
 <div class="footer-col"><h3 data-i18n="foot_legal">Legal</h3><a href="#" onclick="openLegalModal('terms');return false" data-i18n="foot_terms">Conditions</a><a href="#" onclick="openLegalModal('privacy');return false" data-i18n="foot_privacy">Confidentialité</a><a href="#" onclick="openLegalModal('cookies');return false">Cookies</a><a href="#" onclick="openLegalModal('gdpr');return false">RGPD</a></div>
-<div class="footer-col"><h3>Social</h3><a href="#">Twitter</a><a href="#">Discord</a><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+<div class="footer-col"><h3>Social</h3><a href="https://twitter.com/rise_app_ai" target="_blank" rel="noopener">Twitter</a><a href="https://discord.gg/rise-app" target="_blank" rel="noopener">Discord</a><a href="https://instagram.com/rise.app.ai" target="_blank" rel="noopener">Instagram</a><a href="https://linkedin.com/company/rise-app-ai" target="_blank" rel="noopener">LinkedIn</a></div>
 </div>
 <div class="footer-bottom" data-i18n="foot_copy">
 © 2026 RISE. Tous droits réservés. | Propulsé par l'IA pour votre meilleur avenir.
@@ -884,6 +896,7 @@ function closeLegalModal(){
   document.body.style.overflow='';
 }
 
+function toggleMobileMenu(){var m=document.getElementById('mobile-menu');m.style.display=m.style.display==='none'?'block':'none'}
 function submitEmail(e){
   e.preventDefault();
   var email=document.getElementById('cta-email').value;

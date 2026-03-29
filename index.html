@@ -16,7 +16,7 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="/">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%2307080a' width='32' height='32' rx='6'/%3E%3Ctext x='50%25' y='62%25' text-anchor='middle' font-size='20'%3E🚀%3C/text%3E%3C/svg%3E">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RISE%20%E2%80%94%20AI%20Life%20OS%22%2C%22short_name%22%3A%22RISE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+<link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="RISE">
@@ -460,6 +460,14 @@ textarea.inp{resize:none}
 </head>
 <body>
 <a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
+<div id="splash-screen" style="position:fixed;inset:0;background:#07080a;display:flex;align-items:center;justify-content:center;z-index:99999;flex-direction:column;gap:16px;transition:opacity .5s">
+<div style="font-family:'Clash Display',sans-serif;font-size:42px;font-weight:700;letter-spacing:4px;background:linear-gradient(135deg,#d4aa4a,#e8c86a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 2s ease-in-out infinite">RISE</div>
+<div style="width:120px;height:3px;background:#1e252e;border-radius:2px;overflow:hidden"><div style="height:100%;width:30%;background:linear-gradient(90deg,#d4aa4a,#e8c86a);border-radius:2px;animation:loading 1.5s ease-in-out infinite"></div></div>
+<div style="font-size:11px;color:#424b57;letter-spacing:2px;text-transform:uppercase;font-weight:600">AI Life OS</div>
+</div>
+<style>
+@keyframes loading{0%{transform:translateX(-100%)}50%{transform:translateX(250%)}100%{transform:translateX(-100%)}}
+</style>
 <div id="app" role="application" aria-label="RISE AI Life OS">
 <aside id="desktop-sidebar" style="display:none">
 <div class="ds-logo">RISE</div>
@@ -697,6 +705,11 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setMoiT('stats',this)">📈 Stats</button>
     </div>
     <div id="moi-content"></div>
+<div style="margin-top:24px;padding:16px;background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r)">
+<div style="font-weight:700;font-size:14px;color:var(--rd);margin-bottom:8px">Zone danger</div>
+<p style="font-size:12px;color:var(--tx2);margin-bottom:12px">La suppression est irréversible. Toutes tes données seront effacées.</p>
+<button class="btn" onclick="confirmDeleteAccount()" style="background:var(--rd);color:#fff;font-size:12px;padding:10px">Supprimer mon compte</button>
+</div>
   </div>
 </div>
 <!-- NOTIFS -->
@@ -1364,7 +1377,7 @@ else if(name==='shop'){renderShop(document.getElementById('shop-c'));}
 else if(name==='content'){renderContentPlanner(document.getElementById('content-c'));}
 else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
-document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
+document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){var sp=document.getElementById('splash-screen');if(sp){sp.style.opacity='0';setTimeout(function(){sp.remove()},500)}},800);if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
 // ══ V10 FEATURES ══
 // Plus panel
 function togglePlus(btn){
@@ -12745,6 +12758,26 @@ try { save(); } catch(e){}
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
 
+// PWA Install Prompt
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();
+  deferredPrompt=e;
+  showInstallBanner();
+});
+function showInstallBanner(){
+  if(localStorage.getItem('rise_pwa_dismissed'))return;
+  var b=document.createElement('div');
+  b.id='pwa-install';
+  b.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);max-width:400px;width:calc(100% - 32px);background:linear-gradient(135deg,rgba(212,170,74,.15),rgba(92,184,122,.1));border:1px solid rgba(212,170,74,.3);border-radius:14px;padding:16px;z-index:999;display:flex;align-items:center;gap:12px;backdrop-filter:blur(20px);animation:slideUp .4s ease';
+  b.innerHTML='<div style="font-size:28px">📲</div><div style="flex:1"><div style="font-weight:700;font-size:13px;color:var(--tx,#f0ece4);margin-bottom:2px">Installer RISE</div><div style="font-size:11px;color:var(--tx2,#8a9099)">Accès rapide depuis ton écran d\'accueil</div></div><button onclick="installPWA()" style="padding:8px 16px;background:linear-gradient(135deg,#d4aa4a,#e8c86a);color:#07080a;border:none;border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap">Installer</button><button onclick="dismissInstall()" style="background:none;border:none;color:#8a9099;font-size:18px;cursor:pointer;padding:4px">&times;</button>';
+  document.body.appendChild(b);
+}
+function installPWA(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;var el=document.getElementById('pwa-install');if(el)el.remove();})}
+}
+function dismissInstall(){localStorage.setItem('rise_pwa_dismissed','1');var el=document.getElementById('pwa-install');if(el)el.remove();}
+
 // Desktop sidebar logic
 function dGo(s,btn){
   if(typeof gs==='function')gs(s,null);
@@ -12775,6 +12808,70 @@ function updateDesktopStats(){
 }
 setInterval(updateDesktopStats,5000);
 document.addEventListener('DOMContentLoaded',initDesktop);
+
+// Error reporting beacon (lightweight Sentry alternative)
+window.addEventListener('error',function(e){
+  try{
+    var errors=JSON.parse(localStorage.getItem('rise_errors')||'[]');
+    errors.push({msg:e.message,file:e.filename,line:e.lineno,col:e.colno,ts:Date.now(),ua:navigator.userAgent.substring(0,100)});
+    if(errors.length>50)errors=errors.slice(-50);
+    localStorage.setItem('rise_errors',JSON.stringify(errors));
+  }catch(ex){}
+});
+window.addEventListener('unhandledrejection',function(e){
+  try{
+    var errors=JSON.parse(localStorage.getItem('rise_errors')||'[]');
+    errors.push({msg:'Promise: '+(e.reason&&e.reason.message||String(e.reason)).substring(0,200),ts:Date.now()});
+    if(errors.length>50)errors=errors.slice(-50);
+    localStorage.setItem('rise_errors',JSON.stringify(errors));
+  }catch(ex){}
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown',function(e){
+  if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA'||e.target.tagName==='SELECT')return;
+  if(e.key==='?'&&!e.ctrlKey&&!e.metaKey){toggleShortcutsPanel();return;}
+  if(e.key==='Escape'){var p=document.getElementById('shortcuts-panel');if(p)p.remove();return;}
+  if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();if(typeof gs==='function')gs('chat',null);return;}
+  if(e.key==='1'&&e.altKey){e.preventDefault();if(typeof gs==='function')gs('home',null);return;}
+  if(e.key==='2'&&e.altKey){e.preventDefault();if(typeof gs==='function')gs('nature',null);return;}
+  if(e.key==='3'&&e.altKey){e.preventDefault();if(typeof gs==='function')gs('chat',null);return;}
+  if(e.key==='4'&&e.altKey){e.preventDefault();if(typeof gs==='function')gs('habits',null);return;}
+  if(e.key==='5'&&e.altKey){e.preventDefault();if(typeof gs==='function')gs('pomo',null);return;}
+});
+function toggleShortcutsPanel(){
+  var existing=document.getElementById('shortcuts-panel');
+  if(existing){existing.remove();return;}
+  var p=document.createElement('div');
+  p.id='shortcuts-panel';
+  p.style.cssText='position:fixed;inset:0;background:rgba(7,8,10,.9);z-index:10000;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)';
+  p.onclick=function(e){if(e.target===p)p.remove()};
+  p.innerHTML='<div style="background:var(--sf,#111418);border:1px solid var(--bd,#1e252e);border-radius:16px;padding:32px;max-width:420px;width:100%"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 style="font-family:var(--fd);font-size:20px;color:var(--ac,#d4aa4a);margin:0">Raccourcis clavier</h2><button onclick="document.getElementById(\'shortcuts-panel\').remove()" style="background:none;border:none;color:var(--tx2,#8a9099);font-size:22px;cursor:pointer">&times;</button></div>'
+  +'<div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--tx2,#8a9099)">'
+  +'<div style="display:flex;justify-content:space-between"><span>Aide raccourcis</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">?</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Coach IA</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Ctrl+K</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Accueil</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Alt+1</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Nature</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Alt+2</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Coach</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Alt+3</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Habitudes</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Alt+4</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Pomodoro</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Alt+5</kbd></div>'
+  +'<div style="display:flex;justify-content:space-between"><span>Fermer popup</span><kbd style="background:var(--sf2,#181c21);padding:2px 8px;border-radius:4px;color:var(--tx,#f0ece4);font-size:12px">Esc</kbd></div>'
+  +'</div></div>';
+  document.body.appendChild(p);
+}
+
+// Account deletion
+function confirmDeleteAccount(){
+  var ok=confirm('Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible. Toutes tes données seront perdues.');
+  if(!ok)return;
+  var ok2=confirm('Dernière chance. Tape OK pour confirmer la suppression définitive.');
+  if(!ok2)return;
+  localStorage.removeItem('RISE');
+  localStorage.removeItem('rise_cookies_consent');
+  localStorage.removeItem('rise_pwa_dismissed');
+  alert('Ton compte a été supprimé. Tu seras redirigé vers la page d\'accueil.');
+  window.location.href='/rise-landing.html';
+}
 </script>
 </body>
 </html>
