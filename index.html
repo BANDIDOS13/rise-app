@@ -1106,7 +1106,7 @@ function renderQuote(){const el=document.getElementById('quote-card');if(!el)ret
 // ── ANTI-EXPLOIT: Daily XP cap & rate limiting ──
 const XP_DAILY_CAP=800;
 const XP_COOLDOWN_MS=3000;
-const XP_SOURCE_LIMITS={login:1,ci:1,flash:1,boss:1,achievement:10,quest:8,pomo:8,walk:6,sun:6,breath:4,chat:5,form:3,'stoic-journal':2,'habit':10};
+const XP_SOURCE_LIMITS={login:1,ci:1,flash:1,boss:1,achievement:10,quest:8,pomo:8,walk:6,sun:6,breath:4,chat:5,form:3,'stoic-journal':2,'habit':10,suggestion:3,wheel:1,h21:3,evt:5,kanban:5,crm:5,nj:3,sleep:2,unknown:2};
 let _lastXPTime=0;
 function _getDailyXP(){S._xpLog=S._xpLog||{date:'',total:0,sources:{}};if(S._xpLog.date!==TD){S._xpLog={date:TD,total:0,sources:{}};}return S._xpLog;}
 function gainXP(n2,src){
@@ -1118,12 +1118,14 @@ function gainXP(n2,src){
   if(src!=='login'&&src!=='achievement'&&nowMs-_lastXPTime<XP_COOLDOWN_MS){return;}
   _lastXPTime=nowMs;
   var srcKey=src||'unknown';
+  if(!XP_SOURCE_LIMITS.hasOwnProperty(srcKey)){srcKey='unknown';}
   xpLog.sources[srcKey]=(xpLog.sources[srcKey]||0)+1;
-  var srcLimit=XP_SOURCE_LIMITS[srcKey]||5;
+  var srcLimit=XP_SOURCE_LIMITS[srcKey]||2;
   if(xpLog.sources[srcKey]>srcLimit){return;}
   n2=Math.min(n2,XP_DAILY_CAP-xpLog.total);
   if(n2<=0)return;
   xpLog.total+=n2;
+  try{if(S.weeklyCh&&S.weeklyCh.challenges){S.weeklyCh.challenges.forEach(function(c){if(!c.done&&c.type==='xp'){c.progress=Math.min(c.target,(c.progress||0)+n2);if(c.progress>=c.target){c.done=true;c.doneAt=Date.now();toast('Défi semaine : '+c.nm+' !','🏅',3000);}}});}}catch(e){}
   const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;
 }
 let _lastGemGain=0;
@@ -1185,7 +1187,7 @@ function togWalk(){if(walkR){clearInterval(walkInt);walkR=false;finWalk(Math.flo
 function rstWalk(){clearInterval(walkInt);walkR=false;walkSec=0;renderNat();}
 let _lastWalkLog=0;
 function addWalk(min){if(Date.now()-_lastWalkLog<30000){toast('Attends avant d\'ajouter à nouveau','⏳',2000);return;}finWalk(min);}
-function finWalk(min){min=Math.min(Math.max(Math.round(min),1),60);var nowMs=Date.now();_lastWalkLog=nowMs;const nm=S.nat;if(nm.wDate!==TD){nm.wMin=0;nm.wDate=TD;}if((nm.wMin||0)>=120){toast('Maximum marche atteint aujourd\'hui !','🛡️',2000);return;}nm.wMin=Math.min((nm.wMin||0)+min,120);nm.walkLogs=nm.walkLogs||[];nm.walkLogs.unshift({date:TD,min,ts:nowMs});const y=new Date(now);y.setDate(now.getDate()-1);if(nm.lw===y.toDateString()||!nm.lw)nm.wStreak=(nm.wStreak||0)+1;else if(nm.lw!==TD)nm.wStreak=1;nm.lw=TD;gainXP(min*2,'walk');gainGems(Math.floor(min/5));complQ('walk',min);dmgBoss(min*2);toast(min+'min marche ! +'+(min*2)+' XP','🚶',2500);save();updNatMini();walkSec=0;walkR=false;clearInterval(walkInt);renderNat();}
+function finWalk(min){min=Math.min(Math.max(Math.round(min),1),60);var nowMs=Date.now();_lastWalkLog=nowMs;const nm=S.nat;if(nm.wDate!==TD){nm.wMin=0;nm.wDate=TD;}if((nm.wMin||0)>=120){toast('Maximum marche atteint aujourd\'hui !','🛡️',2000);return;}nm.wMin=Math.min((nm.wMin||0)+min,120);nm.walkLogs=nm.walkLogs||[];nm.walkLogs.unshift({date:TD,min,ts:nowMs});const y=new Date(now);y.setDate(now.getDate()-1);if(nm.lw===y.toDateString()||!nm.lw)nm.wStreak=(nm.wStreak||0)+1;else if(nm.lw!==TD)nm.wStreak=1;nm.lw=TD;gainXP(min*2,'walk');gainGems(Math.floor(min/5));complQ('walk',min);dmgBoss(min*2);try{updateWeeklyChallenge('nature',1);}catch(e){}toast(min+'min marche ! +'+(min*2)+' XP','🚶',2500);save();updNatMini();walkSec=0;walkR=false;clearInterval(walkInt);renderNat();}
 let sunR=false,sunSec=0,sunInt=null;
 function rSun(el){const nm=S.nat;const ts=nm.sDate===TD?nm.sMin||0:0;el.innerHTML='<div class="nat-c" style="border-color:var(--ac)"><div style="position:relative;z-index:1;text-align:center"><div style="font-size:48px;animation:sun-p 3s ease-in-out infinite;margin-bottom:8px">☀️</div><div class="big-timer" id="sun-d" style="color:var(--ac)">'+fmtT(sunSec||0)+'</div><div style="font-size:14px;color:var(--ac2);font-weight:700;margin-bottom:10px">'+ts+' / 20 min aujourd hui</div><div style="background:rgba(0,0,0,.3);border-radius:4px;height:6px;overflow:hidden;margin:0 0 16px;"><div style="height:100%;border-radius:4px;background:linear-gradient(90deg,var(--or),var(--ac));width:'+Math.min(100,ts/20*100)+'%"></div></div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"><button id="sun-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)" onclick="togSun()">☀️ Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstSun()">↺</button></div><div style="display:flex;gap:6px;justify-content:center"><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(5)">+5min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(15)">+15min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(20)">+20min</button></div></div></div><div style="background:linear-gradient(135deg,#1a1208,#100e04);border:1px solid var(--acm);border-radius:var(--rs);padding:12px;margin-top:11px;font-size:12px;color:var(--tx2);line-height:1.7"><strong style="color:var(--ac)">Protocole:</strong> Idéal 9h-11h et 16h-18h. Peau nue. 20min = synthèse vitamine D. Aix = jackpot solaire !</div>';}
 function togSun(){if(sunR){clearInterval(sunInt);sunR=false;finSun(Math.floor(sunSec/60));sunSec=0;}else{sunR=true;const b=document.getElementById('sun-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}sunInt=setInterval(()=>{sunSec++;const t=document.getElementById('sun-d');if(t)t.textContent=fmtT(sunSec);if(sunSec>=1200){clearInterval(sunInt);sunR=false;finSun(20);sunSec=0;}},1000);}}
@@ -1203,7 +1205,7 @@ function rstBr(){clearInterval(brInt);brR=false;brCyc=0;}
 let sqV=0;
 function selSQ(btn,v){sqV=v;document.querySelectorAll('#sq-row button').forEach(b=>{b.style.borderColor='transparent';b.style.background='var(--sf2)';});btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';}
 function rSleep(el){const logs=S.nat.sleepLogs||[];const goal=7.5;const days=['L','M','M','J','V','S','D'];const avg=logs.length?Math.round(logs.slice(0,7).reduce((a,l)=>a+(l.h||0),0)/Math.min(7,logs.length)*10)/10:0;el.innerHTML='<div style="background:var(--pud);border:1px solid var(--pu);border-radius:var(--r);padding:16px;margin-bottom:11px"><div style="display:flex;justify-content:space-between;margin-bottom:12px"><div><div style="font-family:var(--fd);font-weight:700;font-size:22px;color:var(--pu)">'+avg+'h</div><div style="font-size:11px;color:var(--tx3)">Moyenne 7 jours</div></div><button style="padding:8px 16px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:11px;font-weight:700;border:none;cursor:pointer" onclick="openM(\'m-sleep\')">+ Logger</button></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px">'+Array.from({length:7},(_,i)=>{const l=logs[6-i]||null;const h=l?l.h:0;const ok=h>=goal;return '<div style="background:var(--sf2);border-radius:6px;padding:8px 4px;text-align:center"><div style="font-size:9px;color:var(--tx3);margin-bottom:4px">'+days[(new Date(now).getDay()+i-6+7)%7]+'</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+(h>=goal?'var(--gr)':h>=6?'var(--ac)':'var(--rd)')+'">'+( h?h:'-')+'</div><div style="height:4px;border-radius:2px;background:'+(ok?'var(--gr)':h>=6?'var(--ac)':'var(--rd)')+';margin-top:4px"></div></div>';}).join('')+'</div></div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px"><div class="lbl" style="margin-bottom:8px">Protocole sommeil</div>'+['🌙 Même heure tous les jours','📱 Écrans off 60min avant','🌡️ Chambre à 18-19°C','☀️ 10min lumière naturelle dès réveil','🚶 30min marche améliore le sommeil de 15%','🚿 Douche chaude 1h avant = meilleur sommeil'].map(s=>'<div style="font-size:12px;color:var(--tx2);padding:6px 0;border-bottom:1px solid var(--bd);line-height:1.5">'+s+'</div>').join('')+'</div>';}
-function logSlp(){const h=parseFloat(document.getElementById('slp-h')?.value||0);if(h<2||h>14)return;S.nat.sleepLogs=S.nat.sleepLogs||[];S.nat.sleepLogs.unshift({date:TD,h,q:sqV});gainXP(h>=7.5?30:15,'sleep');if(h>=7.5)gainGems(3);closeM('m-sleep');toast(h+'h loggées !','😴',2500);save();if(nTab==='sleep')renderNat();}
+function logSlp(){const h=parseFloat(document.getElementById('slp-h')?.value||0);if(h<2||h>14){toast('Durée invalide (entre 2h et 14h)','⚠️',2000);return;}S.nat.sleepLogs=S.nat.sleepLogs||[];S.nat.sleepLogs.unshift({date:TD,h,q:sqV});gainXP(h>=7.5?30:15,'sleep');try{updateWeeklyChallenge('sleep',1);}catch(e){}if(h>=7.5)gainGems(3);closeM('m-sleep');toast(h+'h loggées !','😴',2500);save();if(nTab==='sleep')renderNat();}
 let coldR=false,coldSec=0,coldInt=null,coldTgt=30;
 function rCold(el){const logs=S.nat.coldLogs||[];let str=0;const d=new Date();for(let i=0;i<logs.length;i++){const ld=new Date(logs[i].date);if(Math.floor((d-ld)/(1000*60*60*24))===i)str++;else break;}const lvl=Math.min(5,Math.floor(logs.length/5)+1);coldTgt=[30,60,120,180,300][lvl-1];el.innerHTML='<div class="nat-c" style="border-color:var(--bl);background:linear-gradient(135deg,#0a0e1a,#080c14);text-align:center"><div style="font-size:10px;color:var(--bl);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">🧊 Niveau '+lvl+'/5 · Streak: '+str+' j</div><div class="big-timer" id="cold-d" style="color:var(--bl)">'+fmtT(coldTgt)+'</div><div style="background:var(--bld);border-radius:4px;height:6px;overflow:hidden;margin-bottom:16px"><div style="height:100%;background:linear-gradient(90deg,var(--bl),#7bbfee);border-radius:4px;width:0%" id="cold-pb"></div></div><div style="display:flex;gap:8px;justify-content:center"><button id="cold-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--bl),#7bbfee);color:#0a0800" onclick="togCold()">🧊 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstCold()">↺</button></div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:12px;margin-top:11px;font-size:12px;color:var(--tx2);line-height:1.7">⚡ Dopamine +250% · 🔥 Métabolisme+ · 🧠 Clarté mentale · 😴 Meilleur sommeil</div>';}
 function togCold(){if(coldR){clearInterval(coldInt);coldR=false;const s=coldSec;S.nat.coldLogs.unshift({date:TD,sec:s});const xpG=Math.round(s/30*20);gainXP(xpG,'cold');gainGems(Math.floor(s/60)+1);toast(s+'s froid ! +'+xpG+' XP','❄️',2500);save();coldSec=0;renderNat();}else{coldR=true;coldSec=coldTgt;const b=document.getElementById('cold-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}coldInt=setInterval(()=>{coldSec--;const t=document.getElementById('cold-d');if(t)t.textContent=fmtT(coldSec);const pb=document.getElementById('cold-pb');if(pb)pb.style.width=((coldTgt-coldSec)/coldTgt*100)+'%';if(coldSec<=0){clearInterval(coldInt);coldR=false;S.nat.coldLogs.unshift({date:TD,sec:coldTgt});const xpG=Math.round(coldTgt/30*20);gainXP(xpG,'cold');confetti();toast(coldTgt+'s COMPLET ! +'+xpG+' XP','❄️',4000);save();coldSec=0;renderNat();}},1000);}}
@@ -1216,7 +1218,7 @@ function rstMW(){clearInterval(mwInt);mwR=false;mwStep=0;mwSec=0;renderNat();}
 const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de suite',target:7,xp:200,g:20},{id:'s5',ico:'☀️',t:'5 jours de soleil',d:'20min/j pendant 5 jours',target:5,xp:150,g:15},{id:'c7',ico:'🧊',t:'7 douches froides',d:'Consécutives',target:7,xp:250,g:25},{id:'n60',ico:'🌿',t:'1h dans la nature',d:'Une sortie d 1h minimum',target:60,xp:180,g:18},{id:'sr',ico:'🌅',t:'Lever de soleil',d:'Dehors avant le lever',target:1,xp:100,g:10}];
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
-function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
+function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=Math.min(Math.max(parseInt(document.getElementById('nj-dur')?.value||0),0),120);if(!txt){toast('Écris quelque chose dans ton journal','✏️',2000);return;}S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
 let chatH=[],chatBusy=false;
@@ -1274,7 +1276,14 @@ function complMod(fid,num){
     }
     const ans = userAns.value.trim().toLowerCase();
     const correct = q.answer.toLowerCase();
-    if(!ans.includes(correct) && !correct.includes(ans) && ans.length < 3) {
+    var isCorrect = false;
+    if(ans.length >= 3 && (ans.includes(correct) || correct.includes(ans))){
+      isCorrect = true;
+    }
+    if(q.keywords && Array.isArray(q.keywords)){
+      isCorrect = isCorrect || q.keywords.some(function(k){ return ans.includes(k.toLowerCase()); });
+    }
+    if(!isCorrect) {
       toast('Mauvaise réponse, réessaie! 💡','❌',3000);
       return;
     }
@@ -1289,7 +1298,7 @@ function genVision(){const el=document.getElementById('feat-content');el.innerHT
 function rPlan90(el){if(S.plan90&&S.plan90.c){el.innerHTML='<div class="plan-c"><div class="lbl" style="color:var(--bl);margin-bottom:12px">📅 Plan 90 jours</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;white-space:pre-wrap">'+S.plan90.c+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.plan90={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="plan-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">📅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Plan 90 jours IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Plan complet, mois par mois, jalons mesurables.</div><button class="btn btn-ac" onclick="go90()">Générer →</button></div>';}
 function go90(){gs('chat',null);setTimeout(()=>{document.querySelectorAll('.ch-mode').forEach(b=>{if(b.textContent.includes('Plan'))b.click();});},200);}
 function rLetter(el){if(S.letter&&S.letter.sealed){const od=new Date(S.letter.date);od.setDate(od.getDate()+90);const canOpen=new Date()>=od;const rem=Math.ceil((od-new Date())/(1000*60*60*24));el.innerHTML=canOpen?'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px"><div class="lbl" style="color:var(--ac);margin-bottom:12px">💌 Lettre — 90 jours plus tard</div><div style="font-size:14px;color:var(--tx);line-height:1.8;white-space:pre-wrap">'+S.letter.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.letter={};save();renderFeat()">Écrire une nouvelle lettre</button>':'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">💌</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);margin-bottom:6px">Lettre scellée</div><div style="font-size:13px;color:var(--tx3)">Ouverture dans <strong style="color:var(--ac)">'+rem+' jours</strong></div></div>';return;}el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px">✍️</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Lettre au futur toi</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Scellée 90 jours. Reçue au bon moment.</div><button class="btn btn-ac" onclick="openM(\'m-letter\')">Écrire 💌</button></div>';}
-function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast('Lettre scellée 90 jours !','💌',3500);renderFeat();}
+function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30){toast('Écris au moins 30 caractères pour ta lettre','✏️',2500);return;}S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast('Lettre scellée 90 jours !','💌',3500);renderFeat();}
 function rTourn(el){const t=S.tourn||{wk:WK,sc:{}};const bots=[{nm:'Alex',xp:1240},{nm:'Sophie',xp:987},{nm:'Lucas',xp:1567},{nm:'Emma',xp:432},{nm:'Noah',xp:2100}];const all=[{nm:'Toi',xp:t.sc['Toi']||S.xp||0,me:true},...bots].sort((a,b)=>b.xp-a.xp);const medals=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'];el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="color:var(--ac);margin-bottom:4px">🏆 Tournoi de la semaine</div><div style="font-size:12px;color:var(--tx3)">XP gagné · Reset lundi</div></div>'+all.slice(0,6).map((p,i)=>'<div style="background:'+(p.me?'var(--agg)':'var(--sf)')+';border:1px solid '+(p.me?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="font-size:14px;flex-shrink:0">'+medals[i]+'</div><div style="flex:1;font-size:13px;font-weight:600">'+p.nm+(p.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac)">'+p.xp.toLocaleString()+' XP</div></div>').join('');}
 function rSkills(el){el.innerHTML=Object.entries(SKILL_TREES).map(([key,tree])=>{const pts=S.skills[key]?.p||0;return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:12px;color:'+tree.col+'">'+tree.lbl+'</div><div style="display:flex;align-items:center;gap:6px">'+tree.n.map((node,i)=>{const done=pts>i;const unlocked=pts===i;return '<div class="stn '+(done?'done':unlocked?'unlocked':'locked')+'" title="'+node.nm+'" onclick="unlSk(\''+key+'\','+i+')">'+node.i+'</div>'+(i<tree.n.length-1?'<div class="st-line '+(done?'done':'')+'"></div>':'');}).join('')+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">'+pts+'/'+tree.n.length+' · Suivante: '+(tree.n[pts]?.nm||'MAX')+'</div></div>';}).join('');}
 function unlSk(key,i){if((S.skills[key]?.p||0)===i&&S.xp>=(i+1)*100){S.skills[key].p=(S.skills[key].p||0)+1;gainXP(0,'sk');toast(SKILL_TREES[key].n[i].nm+' débloqué !','🌟',2500);save();rSkills(document.getElementById('feat-content'));}else toast('Gagne plus de XP d\'abord','ℹ️',2000);}
@@ -1313,7 +1322,7 @@ function rPerso(el){const themes=[{id:'default',bg:'linear-gradient(135deg,#0708
 function setMode(m){S.mode=m;S.activeWg=m==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;save();renderWgVisibility();renderMoi();toast(m==='zen'?'Mode Zen 🧘':'Mode Complet ⚡','✨',2000);}
 function rWidgets(el){const allW=[{id:'w-streak',l:'🔥 Streak',d:'Jours consécutifs'},{id:'w-boss',l:'⚔️ Boss',d:'Boss de la semaine'},{id:'w-quests',l:'⚡ Quêtes',d:'Quêtes quotidiennes'},{id:'w-nat',l:'🌿 Nature',d:'Accès rapide nature'},{id:'w-pomo',l:'⏱️ Pomodoro',d:'Timer focus'},{id:'w-flash',l:'⚡ Flash',d:'Défi flash du jour'}];el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">Widgets affichés sur l\'accueil.</div>'+allW.map(w=>{const on=(S.activeWg||[]).includes(w.id);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">'+w.l+'</div><div style="font-size:11px;color:var(--tx3)">'+w.d+'</div></div><div class="tog-sw '+(on?'on':'')+'" onclick="togWg(\''+w.id+'\',this)"><div class="tog-knob"></div></div></div>';}).join('')+'<button class="btn btn-ac" style="margin-top:14px" onclick="gs(\'home\',null)">Voir mon accueil →</button>';}
 function togWg(id,sw){const aw=S.activeWg||[];const on=aw.includes(id);S.activeWg=on?aw.filter(w=>w!==id):[...aw,id];sw.classList.toggle('on',!on);save();renderWgVisibility();}
-function rTodo(el){const todos=S.todos||[];el.innerHTML='<div style="display:flex;gap:7px;margin-bottom:11px"><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+todos.filter(t=>!t.done).length+' à faire</span><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">'+todos.filter(t=>t.done).length+' faites</span></div><div style="display:flex;gap:8px;margin-bottom:11px"><input class="inp" id="td-q" style="flex:1" placeholder="Ajouter vite..." onkeydown="if(event.key===\'Enter\')qAdd()"><button style="width:42px;height:42px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:var(--rs);font-size:20px;color:var(--bg);flex-shrink:0;cursor:pointer" onclick="openM(\'m-todo\')">+</button></div>'+todos.slice(0,30).map(t=>'<div class="tod-it '+(t.done?'dn':'')+(t.priority&&!t.done?' pr':'')+'"><div class="tchk '+(t.done?'on':'')+'" onclick="doneTd('+t.id+')">'+(t.done?'✓':'')+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;line-height:1.4'+(t.done?';text-decoration:line-through;color:var(--tx3)':'')+'">'+t.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+t.cat+(t.ai?' · ✨ IA':'')+(t.priority?' · ⭐':'')+'</div></div><button style="font-size:14px;color:var(--tx3);padding:3px;cursor:pointer" onclick="delTd('+t.id+')">🗑</button></div>').join('');}
+function rTodo(el){const todos=S.todos||[];el.innerHTML='<div style="display:flex;gap:7px;margin-bottom:11px"><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+todos.filter(t=>!t.done).length+' à faire</span><span style="padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">'+todos.filter(t=>t.done).length+' faites</span></div><div style="display:flex;gap:8px;margin-bottom:11px"><input class="inp" id="td-q" style="flex:1" placeholder="Ajouter vite..." onkeydown="if(event.key===\'Enter\')qAdd()"><button style="width:42px;height:42px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:var(--rs);font-size:20px;color:var(--bg);flex-shrink:0;cursor:pointer" onclick="openM(\'m-todo\')">+</button></div>'+todos.slice(0,30).map(t=>'<div class="tod-it '+(t.done?'dn':'')+(t.priority&&!t.done?' pr':'')+'"><div class="tchk '+(t.done?'on':'')+'" onclick="doneTd('+t.id+')">'+(t.done?'✓':'')+'</div><div style="flex:1;min-width:0"><div style="font-size:13px;line-height:1.4'+(t.done?';text-decoration:line-through;color:var(--tx3)':'')+'">'+esc(t.text)+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+t.cat+(t.ai?' · ✨ IA':'')+(t.priority?' · ⭐':'')+'</div></div><button style="font-size:14px;color:var(--tx3);padding:3px;cursor:pointer" onclick="delTd('+t.id+')">🗑</button></div>').join('');}
 function qAdd(){const i=document.getElementById('td-q');if(!i||!i.value.trim())return;S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:i.value.trim(),done:false,priority:false,cat:'focus',ai:false,date:TD});save();i.value='';if(moiTab==='todo')renderMoi();}
 function addTdM(){const txt=document.getElementById('td-txt')?.value.trim();if(!txt){closeM('m-todo');return;}S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:txt,done:false,priority:document.getElementById('td-pr')?.checked||false,cat:document.getElementById('td-cat')?.value||'focus',ai:false,date:TD});save();closeM('m-todo');if(moiTab==='todo')renderMoi();}
 function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);const td=S.todos.find(t=>t.id===id);if(td?.done){gainXP(5,'todo');gainGems(1);complQ('todos');dmgBoss(10);}save();if(moiTab==='todo')renderMoi();}
@@ -1812,7 +1821,7 @@ async function rAgenda(el) {
       return '<div style="margin-bottom:10px">'
         + '<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:'+(isToday?'var(--ac)':'var(--tx3)')+';margin-bottom:6px">'+dayLabel+'</div>'
         + (dayEvts.length ? dayEvts.map(e =>
-          '<div class="gcal-ev" style="border-left-color:'+( e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:11px;color:var(--tx3)">'+( e.time||'')+'</div></div>'+(e.desc?'<div style="font-size:11px;color:var(--tx3);margin-top:3px">'+e.desc+'</div>':'')+'<div style="display:flex;gap:6px;margin-top:7px"><button style="font-size:10px;padding:3px 9px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt('+JSON.stringify(e.id)+')">🗑 Suppr</button></div></div>'
+          '<div class="gcal-ev" style="border-left-color:'+( e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:13px;font-weight:600">'+esc(e.title)+'</div><div style="font-size:11px;color:var(--tx3)">'+esc(e.time||'')+'</div></div>'+(e.desc?'<div style="font-size:11px;color:var(--tx3);margin-top:3px">'+esc(e.desc)+'</div>':'')+'<div style="display:flex;gap:6px;margin-top:7px"><button style="font-size:10px;padding:3px 9px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt('+JSON.stringify(e.id)+')">🗑 Suppr</button></div></div>'
         ).join('') : '<div style="font-size:12px;color:var(--tx3);padding:8px 0;font-style:italic">Aucun événement</div>')
         + '</div>';
     }).join('')
@@ -1874,7 +1883,7 @@ function rKanban(el) {
         + '<div class="kanban-col-hdr" style="color:'+col.color+'">'+col.label+'<span style="margin-left:6px;background:var(--sf3);padding:1px 7px;border-radius:10px;font-size:10px">'+colCards.length+'</span></div>'
         + '<div style="padding:4px">'
         + colCards.map(c => '<div class="kanban-card" onclick="moveCard(\''+c.id+'\')">'
-          +'<div style="font-size:12px;font-weight:600;margin-bottom:4px">'+c.title+'</div>'
+          +'<div style="font-size:12px;font-weight:600;margin-bottom:4px">'+esc(c.title)+'</div>'
           +(c.tag?'<span style="font-size:9px;padding:2px 7px;border-radius:10px;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+c.tag+'</span>':'')
           +'</div>').join('')
         + '<button style="width:100%;padding:7px;margin:4px 0 6px;border-radius:var(--rs);border:1px dashed var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;background:none" onclick="addKCard(\''+col.id+'\')">+ Ajouter</button>'
@@ -1976,7 +1985,7 @@ function rOKR(el) {
       const krs = obj.keyResults||[];
       const avg = krs.length ? Math.round(krs.reduce((a,k)=>a+(k.progress||0),0)/krs.length) : 0;
       return '<div class="okr-obj"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
-        +'<div><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+obj.title+'</div>'
+        +'<div><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+esc(obj.title)+'</div>'
         +'<div style="font-size:11px;color:var(--tx3)">'+obj.deadline+'</div></div>'
         +'<div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+(avg>=70?'var(--gr)':avg>=40?'var(--ac)':'var(--rd)')+'">'+avg+'%</div></div>'
         +'<div class="pbar" style="margin-bottom:10px"><div class="pfill '+(avg>=70?'pgr':'pac')+'" style="width:'+avg+'%"></div></div>'
@@ -2041,7 +2050,7 @@ function rRevenus(el) {
     + (monthEntries.length
       ? '<div class="lbl" style="margin-bottom:9px">Historique du mois</div>'
         + monthEntries.slice().reverse().map(e =>
-          '<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+' · '+e.cat+'</div></div>'
+          '<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+esc(e.title)+'</div><div style="font-size:10px;color:var(--tx3)">'+esc(e.date)+' · '+esc(e.cat)+'</div></div>'
           +'<div class="'+(e.amount>0?'rev-pos':'rev-neg')+'">'+( e.amount>0?'+':'')+e.amount+'€</div></div>'
         ).join('')
       : '<div style="text-align:center;padding:32px;color:var(--tx3)">Aucune entrée ce mois.</div>'
@@ -2255,7 +2264,7 @@ function showTodayExtras() {
         chips.className = 'ev-chips';
         chips.style.cssText = 'margin-top:8px;display:flex;gap:5px;flex-wrap:wrap';
         chips.innerHTML = todayEvts.map(function(e) {
-          return '<div style="padding:2px 8px;border-radius:10px;background:rgba(0,0,0,.35);font-size:10px;color:var(--ac2);font-weight:700">📅 '+e.title+(e.time?' '+e.time:'')+'</div>';
+          return '<div style="padding:2px 8px;border-radius:10px;background:rgba(0,0,0,.35);font-size:10px;color:var(--ac2);font-weight:700">📅 '+esc(e.title)+(e.time?' '+esc(e.time):'')+'</div>';
         }).join('');
         el.appendChild(chips);
       }
@@ -2273,7 +2282,7 @@ function showTodayExtras() {
             + pending.slice(0,4).map(function(t) {
               return '<div style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:6px;cursor:pointer" onclick="doneTd('+t.id+')">'
                 +'<div style="width:20px;height:20px;border-radius:50%;border:2px solid var(--bd2);flex-shrink:0"></div>'
-                +'<div style="font-size:13px;flex:1">'+t.text+'</div></div>';
+                +'<div style="font-size:13px;flex:1">'+esc(t.text)+'</div></div>';
             }).join('')
             + '<button style="width:100%;padding:8px;border-radius:var(--rs);border:1px dashed var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;background:none" onclick="window.gs(\'moi\',null)">Voir toutes les tâches →</button>';
           planSec.after(el2);
@@ -2334,7 +2343,7 @@ function rAgenda(el) {
       var evts=(S.events||[]).filter(function(e){return e.date===ds;}).sort(function(a,b){return(a.time||'').localeCompare(b.time||'');});
       var lbl=(isT?"Aujourd'hui — ":"")+DN[d.getDay()]+' '+d.getDate()+' '+MN[d.getMonth()];
       return '<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:'+(isT?'var(--ac)':'var(--tx3)')+';margin-bottom:6px">'+lbl+'</div>'
-        +(evts.length?evts.map(function(e){return'<div class="gcal-ev" style="border-left-color:'+(e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-size:13px;font-weight:600">'+e.title+'</div>'+(e.location?'<div style="font-size:10px;color:var(--tx3);margin-top:1px">📍 '+e.location+'</div>':'')+(e.source==='gcal'?'<div style="font-size:9px;color:var(--bl);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Google Cal</div>':'')+'</div>'+(e.time?'<div style="text-align:right;font-size:11px;color:var(--tx3);font-weight:700;flex-shrink:0;margin-left:8px">'+e.time+(e.timeEnd?'→'+e.timeEnd:'')+'</div>':'')+'</div>'+(e.source!=='gcal'?'<button style="margin-top:6px;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt(\''+e.id+'\')">✕</button>':'')+'</div>';}).join(''):'<div style="font-size:12px;color:var(--tx3);padding:7px 0;font-style:italic">Aucun événement</div>')
+        +(evts.length?evts.map(function(e){return'<div class="gcal-ev" style="border-left-color:'+(e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-size:13px;font-weight:600">'+esc(e.title)+'</div>'+(e.location?'<div style="font-size:10px;color:var(--tx3);margin-top:1px">📍 '+esc(e.location)+'</div>':'')+(e.source==='gcal'?'<div style="font-size:9px;color:var(--bl);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Google Cal</div>':'')+'</div>'+(e.time?'<div style="text-align:right;font-size:11px;color:var(--tx3);font-weight:700;flex-shrink:0;margin-left:8px">'+esc(e.time)+(e.timeEnd?'→'+esc(e.timeEnd):'')+'</div>':'')+'</div>'+(e.source!=='gcal'?'<button style="margin-top:6px;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt(\''+esc(e.id)+'\')">✕</button>':'')+'</div>';}).join(''):'<div style="font-size:12px;color:var(--tx3);padding:7px 0;font-style:italic">Aucun événement</div>')
         +'</div>';
     }).join('')+'<div id="gcal-status" style="font-size:11px;color:var(--tx3);text-align:center;margin-top:8px"></div>';
 }
@@ -2753,7 +2762,7 @@ function renderFinance(el) {
       var col = t.type === 'income' ? 'var(--gr)' : 'var(--rd)';
       var sign = t.type === 'income' ? '+' : '-';
       h += '<div style="display:flex;justify-content:space-between;align-items:center;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;margin-bottom:5px">';
-      h += '<div style="display:flex;gap:10px;align-items:center"><span>' + ico + '</span><div><div style="font-size:12px;font-weight:600;color:var(--tx)">' + t.desc + '</div><div style="font-size:10px;color:var(--tx3)">' + t.cat + ' · ' + t.date + '</div></div></div>';
+      h += '<div style="display:flex;gap:10px;align-items:center"><span>' + ico + '</span><div><div style="font-size:12px;font-weight:600;color:var(--tx)">' + esc(t.desc) + '</div><div style="font-size:10px;color:var(--tx3)">' + esc(t.cat) + ' · ' + esc(t.date) + '</div></div></div>';
       h += '<div style="font-family:var(--fd);font-weight:700;color:' + col + ';font-size:14px">' + sign + t.amount + '€</div>';
       h += '</div>';
     });
@@ -4222,6 +4231,7 @@ function finishWorkout(){
   const xpGain=Math.max(30,w.exercises.length*15);
   gainXP(xpGain,'workout');
   gainGems(Math.floor(xpGain/10));
+  try{updateWeeklyChallenge('workout',1);}catch(e){}
   S.workoutToday={date:TD,exercises:[]};
   save();
   confetti();
@@ -5036,12 +5046,19 @@ function renderSuggestions(){
     }).join(''):'');
 }
 
+let _lastSuggestion=0;
 function submitSuggestion(){
   const text=document.getElementById('sug-text')?.value?.trim();
   const cat=document.getElementById('sug-cat')?.value||'feature';
   if(!text){toast('Écris ta suggestion!','💡',2000);return;}
+  if(text.length<10){toast('Ta suggestion est trop courte (min. 10 caractères)','✏️',2000);return;}
+  var nowMs=Date.now();
+  if(nowMs-_lastSuggestion<30000){toast('Attends avant de soumettre à nouveau','⏳',2000);return;}
   if(!S.suggestions)S.suggestions=[];
-  S.suggestions.push({text,cat,date:TD,status:'sent',ts:Date.now()});
+  var todaySugs=S.suggestions.filter(function(s){return s.date===TD;}).length;
+  if(todaySugs>=3){toast('Maximum 3 suggestions par jour','🛡️',2000);return;}
+  _lastSuggestion=nowMs;
+  S.suggestions.push({text,cat,date:TD,status:'sent',ts:nowMs});
   save();
   document.getElementById('sug-text').value='';
   gainXP(10,'suggestion');
@@ -5083,6 +5100,26 @@ function renderWeeklyChallenges(){
       const pct=Math.min(100,Math.round((c.progress/c.target)*100));
       return '<div class="wg" style="padding:14px;margin-bottom:8px;opacity:'+(c.done?'0.6':'1')+'"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+(c.done?'✅':c.ico)+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+(c.done?'<s>'+c.nm+'</s>':c.nm)+'</div><div style="font-size:11px;color:var(--tx3);margin-top:2px">'+c.desc+'</div><div class="pbar" style="margin-top:6px;height:6px"><div class="pfill pac" style="width:'+pct+'%;transition:width .5s"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+c.progress+'/'+c.target+(c.done?' ✓ Complété!':' · +'+c.xp+' XP')+'</div></div></div></div>';
     }).join('');
+}
+
+// ── WEEKLY CHALLENGE PROGRESS ──
+let _lastWChUpdate=0;
+function updateWeeklyChallenge(type,amt){
+  if(!S.weeklyCh||!S.weeklyCh.challenges)return;
+  var nowMs=Date.now();
+  if(nowMs-_lastWChUpdate<5000)return;
+  _lastWChUpdate=nowMs;
+  amt=Math.min(Math.max(Math.round(amt||1),1),10);
+  S.weeklyCh.challenges.forEach(function(c){
+    if(c.done||c.type!==type)return;
+    c.progress=Math.min(c.target,(c.progress||0)+amt);
+    if(c.progress>=c.target){
+      c.done=true;c.doneAt=nowMs;
+      gainXP(c.xp,'quest');
+      toast('Défi semaine : '+c.nm+' !','🏅',3000);
+    }
+  });
+  save();
 }
 
 // ── SCREEN INIT HOOKS ──
@@ -6700,25 +6737,37 @@ function toggleZenMode(){
     }
   };
   
+  function _validateImport(data){
+    if(!data||typeof data!=='object')return false;
+    if(!data.ob&&!data.name)return false;
+    if(data.xp!==undefined){data.xp=Math.max(0,Math.min(parseInt(data.xp)||0,50000));}
+    if(data.gems!==undefined){data.gems=Math.max(0,Math.min(parseInt(data.gems)||0,10000));}
+    if(data.streak!==undefined){data.streak=Math.max(0,Math.min(parseInt(data.streak)||0,365));}
+    if(data.plan&&!['free','starter','pro','elite'].includes(data.plan)){data.plan='free';}
+    if(data.season!==undefined){data.season=Math.max(1,Math.min(parseInt(data.season)||1,4));}
+    var maxStr=500000;
+    var json=JSON.stringify(data);
+    if(json.length>maxStr)return false;
+    return true;
+  }
   window.importRiseData=function(){
     var input=document.createElement('input');
     input.type='file';
     input.accept='.json';
     input.onchange=function(e){
       var file=e.target.files[0];
-      if(!file)return;
+      if(!file||file.size>2000000){toast('Fichier trop volumineux (max 2Mo)','❌',2000);return;}
       var reader=new FileReader();
       reader.onload=function(ev){
         try{
           var data=JSON.parse(ev.target.result);
-          if(!data.ob&&!data.name){throw new Error('Fichier invalide');}
-          // Backup current first
+          if(!_validateImport(data)){throw new Error('Données invalides ou corrompues');}
           localStorage.setItem('rise_v9_pre_import',localStorage.getItem('rise_v9')||'{}');
           localStorage.setItem('rise_v9',JSON.stringify(data));
           toast('Données importées ! Rechargement...','✅',2000);
           setTimeout(function(){location.reload();},2000);
         }catch(err){
-          toast('Fichier invalide: '+err.message,'❌',3000);
+          toast('Fichier invalide: '+esc(err.message),'❌',3000);
         }
       };
       reader.readAsText(file);
@@ -9160,9 +9209,9 @@ window.render_network = function(){
     var urgColor = daysSince > 30 ? 'var(--rd)' : daysSince > 14 ? 'var(--or)' : 'var(--gr)';
     h += '<div class="wg" style="margin-bottom:8px">';
     h += '<div style="display:flex;justify-content:space-between;align-items:flex-start">';
-    h += '<div><div style="font-weight:700;font-size:14px">'+c.name+'</div>';
-    h += '<div style="font-size:11px;color:var(--tx2)">'+c.role+' · '+c.company+'</div></div>';
-    h += '<span style="padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd);font-size:9px;font-weight:700;color:var(--tx3)">'+c.tag+'</span>';
+    h += '<div><div style="font-weight:700;font-size:14px">'+esc(c.name)+'</div>';
+    h += '<div style="font-size:11px;color:var(--tx2)">'+esc(c.role)+' · '+esc(c.company)+'</div></div>';
+    h += '<span style="padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd);font-size:9px;font-weight:700;color:var(--tx3)">'+esc(c.tag)+'</span>';
     h += '</div>';
     h += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd)">';
     h += '<div style="font-size:10px;color:'+urgColor+'">Dernier contact: '+(daysSince < 999 ? daysSince+'j' : 'jamais')+'</div>';
@@ -11324,7 +11373,7 @@ try { TD = window.TD || new Date().toDateString(); } catch(e){ TD = new Date().t
 try { now = window.now || new Date(); } catch(e){ now = new Date(); }
 
 // Utility
-function esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;'); }
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).substr(2,5); }
 function fmtDate(d){ var dd=new Date(d); return dd.toLocaleDateString('fr-FR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
 
@@ -12114,13 +12163,11 @@ function importEncryptedData(){
   try {
     var decoded = decodeURIComponent(escape(atob(inp.value.trim())));
     var data = JSON.parse(decoded);
-    if(data && typeof data === 'object'){
-      localStorage.setItem('rise_v9_pre_import', localStorage.getItem('rise_v9')||'{}');
-      Object.assign(S, data);
-      save();
-      toast('Données importées avec succès!','✅',2500);
-      setTimeout(function(){ location.reload(); }, 1500);
-    }
+    if(!_validateImport(data)){toast('Données invalides ou corrompues','❌',2500);return;}
+    localStorage.setItem('rise_v9_pre_import', localStorage.getItem('rise_v9')||'{}');
+    localStorage.setItem('rise_v9', JSON.stringify(data));
+    toast('Données importées avec succès ! Rechargement...','✅',2500);
+    setTimeout(function(){ location.reload(); }, 1500);
   } catch(e){ toast('Données invalides','❌',2500); }
 }
 
