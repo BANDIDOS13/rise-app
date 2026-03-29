@@ -438,10 +438,10 @@ textarea.inp{resize:none}
     <div class="ob-splash" style="position:relative">
       <canvas id="ob-canvas" style="position:absolute;inset:0;opacity:0.3;pointer-events:none" width="400" height="700"></canvas>
       <div class="ob-logo au">RISE</div>
-      <div style="font-size:10px;color:var(--tx3);letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:10px" class="au1">v9 · Your Life, Your Way</div>
-      <p style="font-size:14px;color:var(--tx2);line-height:1.7;margin-bottom:44px;max-width:290px" class="au2">Coach IA · Nature · Livres · 100% personnalisable. Seulement ce dont tu as besoin.</p>
+      <div style="font-size:10px;color:var(--tx3);letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:10px" class="au1">Deviens 1% meilleur chaque jour.</div>
+      <p style="font-size:14px;color:var(--tx2);line-height:1.7;margin-bottom:44px;max-width:290px" class="au2">Ton quartier général pour évoluer — corps, esprit, business, vie. Pas de méthode miracle. Juste des actions cohérentes, tous les jours.</p>
       <div style="width:100%;display:flex;flex-direction:column;gap:10px" class="au3">
-        <button class="btn btn-ac" onclick="obNext(1)">3 questions → C'est parti</button>
+        <button class="btn btn-ac" onclick="obNext(1)">Commencer →</button>
         <button class="btn btn-sf" onclick="loadEx()">J'ai déjà un compte</button>
       </div>
     </div>
@@ -450,7 +450,7 @@ textarea.inp{resize:none}
     <div class="ob-form">
       <div class="ob-prog"><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
       <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Comment tu t'appelles ?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">C'est tout ce dont RISE a besoin pour commencer.</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">JARVIS a besoin de savoir à qui il parle.</div>
       <input class="inp" id="ob-name" placeholder="Ton prénom" maxlength="30" style="margin-bottom:10px">
       <input class="inp" id="ob-age" type="number" min="13" max="99" placeholder="Ton âge (optionnel)">
       <div class="ob-foot"><button class="btn btn-ac" id="ob1n" onclick="obNext(2)" disabled>Continuer →</button></div>
@@ -459,8 +459,8 @@ textarea.inp{resize:none}
   <div class="ob-step" id="ob-2">
     <div class="ob-form">
       <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd cur"></div><div class="ob-pd"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Qu'est-ce que tu veux améliorer ?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">Choisis tout ce qui t'intéresse. RISE active les modules correspondants.</div>
+      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Par où tu veux commencer ?</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">Choisis les domaines qui comptent pour toi. RISE s'adapte.</div>
       <div id="ob-goals">
         <div class="ob-ch ms-ch" data-g="focus" onclick="togG(this,'focus')"><span style="font-size:22px">🎯</span><div><div style="font-size:14px;font-weight:600">Focus & Productivité</div><div style="font-size:11px;color:var(--tx3)">Tâches, Pomodoro, Deep Work, Kanban</div></div><div class="ob-chk"></div></div>
         <div class="ob-ch ms-ch" data-g="wellbeing" onclick="togG(this,'wellbeing')"><span style="font-size:22px">🌿</span><div><div style="font-size:14px;font-weight:600">Bien-être & Nature</div><div style="font-size:11px;color:var(--tx3)">Marche, soleil, sommeil, respiration</div></div><div class="ob-chk"></div></div>
@@ -478,8 +478,8 @@ textarea.inp{resize:none}
   <div class="ob-step" id="ob-3">
     <div class="ob-form">
       <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd done"></div><div class="ob-pd cur"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Choisis ton style</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Modifiable à tout moment dans Paramètres.</div>
+      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Ton univers, ton style</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Tu pourras changer à tout moment. Pour l'instant, choisis ce qui te parle.</div>
       <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--tx3);font-weight:700;margin-bottom:10px">Thème</div>
       <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px" id="ob-themes">
         <div class="th-sw on" style="background:linear-gradient(135deg,#07080a,#d4aa4a)" onclick="selTh('default',this)"></div>
@@ -504,7 +504,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-home">
   <div class="pad">
     <div id="ctx-banner" class="ctx-b au"></div>
-    <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">Chargement...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Citation personnalisée du jour</div></div>
+    <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">JARVIS prépare ta citation...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Ta pensée du jour</div></div>
     <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
     <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--or)" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or)">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
     <div id="w-boss" class="boss-c au2" style="display:none"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚔️ Boss de la semaine</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:4px" id="boss-nm">Boss Procrastination</div><div style="background:var(--rdd);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px"><div style="height:100%;background:linear-gradient(90deg,var(--rd),#ff8080);border-radius:4px;transition:width .8s" id="boss-hp-fill"></div></div><div style="font-size:10px;color:var(--tx3)" id="boss-hp-txt">500/500</div></div>
@@ -980,8 +980,8 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-achievements">
   <div style="padding:20px 16px">
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Succès</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Achievements</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Collectionne-les tous!</div>
+    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Succès</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Chaque badge est une preuve. Collectionne tes victoires.</div>
     <div id="achiev-c"></div>
   </div>
 </div>
@@ -991,7 +991,7 @@ textarea.inp{resize:none}
   <div style="padding:20px 16px">
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📊 Dashboard</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Dashboard</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Tes chiffres ne mentent pas. Voici où tu en es.</div>
     <div id="dash-c"></div>
   </div>
 
@@ -1000,7 +1000,7 @@ textarea.inp{resize:none}
   <div style="padding:20px 16px">
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)" aria-label="Retour">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📋 RISE Recap</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📋 Résumé Hebdo</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta semaine en un coup d'oeil</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ce que JARVIS a observé cette semaine.</div>
     <div id="recap-c"></div>
   </div>
 </div>
@@ -1024,7 +1024,7 @@ textarea.inp{resize:none}
   <div id="jarvis-msgs" class="jarvis-msgs"></div>
   <div id="jarvis-suggs" class="jarvis-suggs"></div>
   <div class="jarvis-input">
-    <textarea id="jarvis-ta" placeholder="Pose-moi une question..."></textarea>
+    <textarea id="jarvis-ta" placeholder="Demande-moi n'importe quoi..."></textarea>
     <button id="jarvis-send">Envoyer</button>
   </div>
 </div>
@@ -1038,8 +1038,8 @@ function getWK(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.t
 const WK=getWK();
 const SEASONS=[{n:1,name:'Fondations',col:'#d4aa4a'},{n:2,name:'Momentum',col:'#4db87a'},{n:3,name:'Maîtrise',col:'#4a9ed4'},{n:4,name:'Ascension',col:'#8b6de0'}];
 const BOSSES=[{name:'Boss Procrastination',hp:500,r:{xp:200,g:20}},{name:'Tyran du Sommeil',hp:400,r:{xp:180,g:18}},{name:'Démon Inactivité',hp:600,r:{xp:250,g:25}},{name:'Virus Distraction',hp:700,r:{xp:300,g:30}}];
-const QPOOL=[{id:'ci',ico:'📋',nm:'Check-in',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',nm:'3 tâches faites',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',nm:'Parler au coach',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',nm:'2 Pomodoros',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',nm:'10min de marche',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',nm:'15min de soleil',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',nm:'Session respiration',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',nm:'Module formation',target:1,type:'form',xp:50,g:5}];
-const FLASH=[{ico:'💪',title:'30 Pompes maintenant',desc:'Stop. 30 pompes. Reviens.',xp:80,g:8},{ico:'🚶',title:'20min dehors sans téléphone',desc:'Sors maintenant. 20 min.',xp:70,g:7},{ico:'💨',title:'5min cohérence cardiaque',desc:'5-5 maintenant.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'3 choses positives dans ta vie.',xp:40,g:4},{ico:'☀️',title:'5min de soleil',desc:'Sors. Lève la tête. 5 min.',xp:40,g:4},{ico:'🧊',title:'30sec eau froide',desc:'Finir la prochaine douche en froid.',xp:60,g:6},{ico:'🧘',title:'10min méditation',desc:'Silence. Yeux fermés. Respire.',xp:60,g:6}];
+const QPOOL=[{id:'ci',ico:'📋',nm:'Faire le point',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',nm:'3 tâches bouclées',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',nm:'Consulter JARVIS',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',nm:'2 sprints de focus',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',nm:'10 min dehors',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',nm:'15 min de lumière',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',nm:'Respire',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',nm:'Apprendre un module',target:1,type:'form',xp:50,g:5}];
+const FLASH=[{ico:'💪',title:'30 pompes. Maintenant.',desc:'Pose tout. 30 pompes. Reviens transformé.',xp:80,g:8},{ico:'🚶',title:'20 min dehors, zéro écran',desc:'Sors. Pas de téléphone. 20 minutes. C\'est tout.',xp:70,g:7},{ico:'💨',title:'Cohérence cardiaque',desc:'Inspire 5 secondes. Expire 5 secondes. Pendant 5 minutes. Ton cortisol te remerciera.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'Note 3 choses positives dans ta vie. Maintenant. La gratitude reprogramme le cerveau.',xp:40,g:4},{ico:'☀️',title:'5 min de soleil',desc:'Sors. Lève la tête. La lumière naturelle règle ton horloge interne.',xp:40,g:4},{ico:'🧊',title:'30 sec d\'eau froide',desc:'Finis ta prochaine douche par 30 secondes de froid. L\'inconfort crée la résilience.',xp:60,g:6},{ico:'🧘',title:'10 min de silence',desc:'Pas de musique. Pas d\'écran. Juste toi et ta respiration.',xp:60,g:6}];
 const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'}];
 const BOOKS=[{ico:'🔥',t:'The 5 AM Club',a:'Robin Sharma',cat:'Mental',lvl:'Facile',p:450,sum:'Lever à 5h, routine 20-20-20. Transforme les matins, transforme ta vie.',key:'Le matin appartient à ceux qui se lèvent tôt. 66j pour ancrer une habitude.',act:'Demain: réveil 15 min plus tôt. Une seule fois.'},{ico:'🌊',t:'Atomic Habits',a:'James Clear',cat:'Mental',lvl:'Facile',p:320,sum:'1% par jour = +37x en 1 an. Systèmes, pas objectifs.',key:'Tu tombes au niveau de tes systèmes, pas au niveau de tes objectifs.',act:'Identifie 1 habitude. Ancre-la: après [X], je fais [Y].'},{ico:'🧠',t:'Deep Work',a:'Cal Newport',cat:'Mental',lvl:'Intermédiaire',p:296,sum:'Le focus intense est la super-puissance du 21e siècle. 4h deep work > 8h ordinaires.',key:'La distraction est le défaut, pas la règle. Reprends le contrôle.',act:'Planifie 1 bloc 90min deep work demain. Téléphone en mode avion.'},{ico:'💰',t:'Rich Dad Poor Dad',a:'Robert Kiyosaki',cat:'Finance',lvl:'Facile',p:207,sum:'Actifs vs passifs. Fais travailler l argent pour toi.',key:'Ta maison n est pas un actif. Un actif met de l argent dans ta poche.',act:'Liste tes actifs et passifs. Quel premier actif crées-tu ce mois-ci?'},{ico:'🚀',t:'Zero to One',a:'Peter Thiel',cat:'Business',lvl:'Intermédiaire',p:224,sum:'Créer quelque chose de nouveau > copier. Monopoles > compétition.',key:'La compétition détruit les profits. Vise un monopole sur un marché que tu crées.',act:'Quel problème résous-tu mieux que quiconque? C est là ton business.'},{ico:'🌿',t:'The Nature Fix',a:'Florence Williams',cat:'Nature',lvl:'Facile',p:280,sum:'60min nature/semaine réduit cortisol de 13%. La science du vert.',key:'20 min en nature baisse la tension. 90 min désactive la rumination.',act:'Sors 20 minutes aujourd hui. Pas de téléphone. 3 choses jamais remarquées.'},{ico:'😴',t:'Why We Sleep',a:'Matthew Walker',cat:'Santé',lvl:'Facile',p:368,sum:'Le sommeil est la fondation de tout: mémoire, immunité, créativité.',key:'Après 16h sans sommeil, tu es aussi altéré qu un conducteur ivre.',act:'Écrans off 1h avant dormir. Chambre 18 degrés. Blackout total.'},{ico:'💪',t:'Can t Hurt Me',a:'David Goggins',cat:'Mental',lvl:'Intense',p:364,sum:'L esprit abandonne à 40% des capacités réelles. Callusing the mind.',key:'Quand ton esprit dit stop, tu n as utilisé que 40% de tes capacités.',act:'Ta chose la plus difficile de la semaine. Fais-la en premier demain matin.'},{ico:'⚡',t:'The 4-Hour Work Week',a:'Tim Ferriss',cat:'Business',lvl:'Intermédiaire',p:308,sum:'80/20, délégation, automatisation. Ne remet pas les rêves à plus tard.',key:'Rien de vertueux à bosser 80h/semaine si le même résultat en 4h.',act:'Identifie 20% des activités = 80% des résultats. Coupe le reste.'},{ico:'🧘',t:'The Power of Now',a:'Eckhart Tolle',cat:'Spiritualité',lvl:'Profond',p:236,sum:'Le moment présent est tout ce qui existe vraiment. Conscience pure.',key:'Le moment présent est tout ce que tu auras jamais. Vis-y.',act:'5 min: observe ta respiration sans essayer de la changer.'},{ico:'❤️',t:'The 5 Love Languages',a:'Gary Chapman',cat:'Relations',lvl:'Facile',p:208,sum:'5 langages: mots, temps, cadeaux, services, toucher.',key:'Parler le mauvais langage, c est parler à quelqu un dans une langue incomprise.',act:'Identifie ton langage primaire. Puis celui des 3 personnes proches.'},{ico:'🌅',t:'Ikigai',a:'Garcia & Miralles',cat:'Spiritualité',lvl:'Facile',p:208,sum:'Raison d être japonaise: passion + mission + vocation + profession.',key:'L ikigai se révèle en s oubliant dans l action.',act:'Dessine tes 4 cercles. Qu est-ce qui est au centre aujourd hui?'}];
 const SKILL_TREES={focus:{lbl:'🎯 Focus',col:'var(--ac)',n:[{i:'📋',nm:'To-do'},{i:'⏱️',nm:'Pomodoro'},{i:'🔇',nm:'Deep Work'},{i:'🧠',nm:'Mental clair'},{i:'🚀',nm:'Peak State'},{i:'⚡',nm:'Flow maître'}]},nature:{lbl:'🌿 Nature',col:'var(--nt)',n:[{i:'🚶',nm:'Marche'},{i:'☀️',nm:'Soleil'},{i:'💨',nm:'Respiration'},{i:'🧊',nm:'Froid'},{i:'🌊',nm:'Plein air'},{i:'🌍',nm:'Nomade'}]},mind:{lbl:'🧠 Mental',col:'var(--pu)',n:[{i:'🧘',nm:'Méditation'},{i:'📓',nm:'Journal'},{i:'💡',nm:'Clarté'},{i:'🔮',nm:'Vision'},{i:'⚡',nm:'Stoïcisme'},{i:'🌟',nm:'Maître'}]},biz:{lbl:'💰 Business',col:'var(--ac)',n:[{i:'📱',nm:'Personal Brand'},{i:'💼',nm:'Freelance'},{i:'🚀',nm:'Startup'},{i:'📈',nm:'Scaling'},{i:'🤖',nm:'IA Business'},{i:'👑',nm:'Empire'}]}};
@@ -1077,7 +1077,7 @@ function floatXP(n){const el=document.createElement('div');el.className='xpf';el
 function addN(ico,title,text){S.notifs=S.notifs||[];S.notifs.unshift({id:Date.now(),ico,title,text,read:false,time:pad(now.getHours())+':'+pad(now.getMinutes()),date:TD});save();updNDot();}
 function updNDot(){const c=(S.notifs||[]).filter(x=>!x.read).length;const d=document.getElementById('ndot');if(d)d.style.display=c>0?'block':'none';}
 function markRead(){(S.notifs||[]).forEach(n=>n.read=true);save();updNDot();renderNotifs();}
-function renderNotifs(){const el=document.getElementById('notifs-list');if(!el)return;const ns=S.notifs||[];if(!ns.length){el.innerHTML='<div style="text-align:center;padding:52px;color:var(--tx3)">🔔 Aucune notification</div>';return;}el.innerHTML=ns.slice(0,30).map(n=>'<div class="nit '+(n.read?'':'unread')+'"><div style="font-size:20px;flex-shrink:0">'+n.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+n.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+n.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+n.time+'</div></div></div>').join('');}
+function renderNotifs(){const el=document.getElementById('notifs-list');if(!el)return;const ns=S.notifs||[];if(!ns.length){el.innerHTML='<div style="text-align:center;padding:52px;color:var(--tx3)"><div style="font-size:36px;margin-bottom:8px">🔔</div><div style="font-weight:700;font-size:14px;color:var(--tx2)">Tout est calme.</div><div style="font-size:12px;margin-top:4px">Tes prochaines actions apparaîtront ici.</div></div>';return;}el.innerHTML=ns.slice(0,30).map(n=>'<div class="nit '+(n.read?'':'unread')+'"><div style="font-size:20px;flex-shrink:0">'+n.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+n.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+n.text+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+n.time+'</div></div></div>').join('');}
 function applyTheme(t){S.theme=t;save();document.documentElement.setAttribute('data-theme',t==='default'?'':t);}
 let _goal='all',_theme='default',_mode='full';
 function obNext(s){document.querySelectorAll('.ob-step').forEach(x=>x.classList.remove('on'));document.getElementById('ob-'+s).classList.add('on');}
@@ -1094,26 +1094,26 @@ function finishOb(){
     if(_goals.includes('all')||_goals.length>=4){ S.activeWg=['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']; }
     else { const merged=new Set(); _goals.forEach(g=>(wgMap[g]||[]).forEach(w=>merged.add(w))); S.activeWg=[...merged]; }
   }
-  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
+  S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name,'JARVIS est prêt. Ton voyage commence maintenant. +50 XP de départ.');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
 var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
-function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
-function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
+function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Jour '+ls.streak+' — Streak actif','+'+rw+' XP. La régularité paie toujours.');}}
+function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['1% par jour. Dans un an, tu seras 37 fois plus fort qu\'aujourd\'hui.','La discipline n\'est pas une punition. C\'est une forme de respect envers toi-même.','Les gens qui réussissent ne sont pas plus doués. Ils sont plus réguliers.','Tu n\'as pas besoin de motivation. Tu as besoin d\'un système.','La seule compétition qui compte, c\'est celle contre la version d\'hier.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
-function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
+function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' atteint',LVL_T[nl]+'. Ce n\'est pas un chiffre — c\'est des jours de décisions. +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre débloqué','Ta régularité paie. Ouvre-le pour découvrir ta récompense.');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
 function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
 function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',LVL_T[lvl]);set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP pour '+LVL_T[Math.min(lvl+1,9)]);}
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
 function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
-function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('BOSS VAINCU ! +'+boss.r.xp+' XP','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
+function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('Boss vaincu. +'+boss.r.xp+' XP. Au suivant.','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
 function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);S.dq={date:TD,qs:sh.slice(0,5).map(q=>({...q,progress:0,done:false}))};save();}renderDQ();}
 function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+q.nm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
 function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' accomplie !','⚡',2000);}}});save();renderDQ();}
 function initFlash(){if(S.flash.date!==TD){S.flash={date:TD,idx:Math.floor(Math.random()*FLASH.length),done:false};save();}renderFlash();}
 function renderFlash(){const el=document.getElementById('w-flash');if(!el)return;if(S.flash.done||!(S.activeWg||[]).includes('w-flash')){el.style.display='none';return;}el.style.display='block';const fc=FLASH[S.flash.idx];const mid=new Date();mid.setHours(23,59,0,0);const rem=Math.floor((mid-Date.now())/1000);el.innerHTML='<div class="wg" style="border-color:var(--rd);background:var(--rdd);cursor:pointer;margin-bottom:0" onclick="showFlash()"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚡ DÉFI FLASH — expire à minuit</div><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+fc.ico+'</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px">'+fc.title+'</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">'+fmtT(rem)+' restants · +'+fc.xp+' XP</div></div></div></div>';}
 function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=fc.title;document.getElementById('fl-desc').textContent=fc.desc;document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
-function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi Flash ! +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();}
+function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi relevé. +'+fc.xp+' XP','⚡',4000);renderFlash();}
 let ciE=0,ciF=[];
 function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
@@ -1152,7 +1152,7 @@ function finSun(min){const nm=S.nat;if(nm.sDate!==TD){nm.sMin=0;nm.sDate=TD;}nm.
 let brR=false,brInt=null,brCyc=0,selBr=BREATHS[0];
 function rBreath(el){el.innerHTML='<div class="nat-c" style="border-color:'+selBr.col+';text-align:center"><div style="font-size:11px;color:'+selBr.col+';text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">'+selBr.ico+' '+selBr.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-bottom:14px">'+selBr.desc+'</div><div style="width:120px;height:120px;border-radius:50%;border:3px solid '+selBr.col+';display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform 4s ease" id="br-c"><div><div style="font-size:22px">💨</div><div style="font-size:16px;font-weight:700;color:'+selBr.col+';margin-top:5px" id="br-lbl">INSPIRE</div></div></div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:'+selBr.col+';margin-bottom:5px" id="br-cnt">0</div><div style="font-size:11px;color:var(--tx3);margin-bottom:14px" id="br-cyc">Cycle 0/'+selBr.rounds+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="br-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:'+selBr.col+';color:#fff" onclick="togBr()">💨 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstBr()">↺</button></div></div><div style="margin-top:14px">'+BREATHS.map(p=>'<div style="background:var(--sf);border:2px solid '+(p.id===selBr.id?p.col:'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="selBrP(\''+p.id+'\')"><div style="font-size:22px">'+p.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+p.nm+'</div><div style="font-size:11px;color:var(--tx3)">'+p.desc+'</div></div><div style="font-size:12px;font-weight:700;color:'+p.col+'">'+p.rounds+'×</div></div>').join('')+'</div>';}
 function selBrP(id){selBr=BREATHS.find(p=>p.id===id)||BREATHS[0];rstBr();renderNat();}
-function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast('Respiration ! +20 XP','💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#ff8080)':selBr.col;}}
+function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast('Session terminée. +20 XP','💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#ff8080)':selBr.col;}}
 function brRound(){if(!brR||brCyc>=selBr.rounds){brR=false;gainXP(40,'br_done');gainGems(4);toast(selBr.nm+' complète ! +40 XP','💨',3000);save();return;}brCyc++;const c=document.getElementById('br-cyc');if(c)c.textContent='Cycle '+brCyc+'/'+selBr.rounds;brStep(selBr.in,'INSPIRE','in');}
 function brStep(dur,lbl,phase){clearInterval(brInt);const c=document.getElementById('br-c');const l=document.getElementById('br-lbl');const cnt=document.getElementById('br-cnt');if(l)l.textContent=lbl;if(c)c.style.transform=phase==='out'?'scale(.4)':'scale(1)';let t=dur;if(cnt)cnt.textContent=t;brInt=setInterval(()=>{t--;if(cnt)cnt.textContent=Math.max(0,t);if(t<=0){clearInterval(brInt);if(!brR)return;if(phase==='in'&&selBr.hold>0)brStep(selBr.hold,'RETIENS','hold');else if(phase==='in'||phase==='hold')brStep(selBr.out,'EXPIRE','out');else brRound();}},1000);}
 function rstBr(){clearInterval(brInt);brR=false;brCyc=0;}
@@ -1166,13 +1166,13 @@ function togCold(){if(coldR){clearInterval(coldInt);coldR=false;const s=coldSec;
 function rstCold(){clearInterval(coldInt);coldR=false;coldSec=0;renderNat();}
 let mwR=false,mwSec=0,mwInt=null,mwStep=0;
 function rMindful(el){el.innerHTML='<div class="nat-c" style="text-align:center"><div style="font-size:40px;margin-bottom:8px;animation:float 3s ease-in-out infinite" id="mw-ico">🧘</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--nt2);margin-bottom:5px" id="mw-t">Marche Pleine Conscience</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;max-width:260px;margin:0 auto 12px" id="mw-d">6 étapes · 15 min</div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--nt);margin-bottom:12px" id="mw-timer">15:00</div><div style="display:flex;gap:5px;justify-content:center;margin-bottom:12px">'+MW_STEPS.map((_,i)=>'<div style="width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);transition:all .3s" id="mw-d'+i+'"></div>').join('')+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="mw-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togMW()">▶ Commencer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstMW()">↺</button></div></div>'+MW_STEPS.map((s,i)=>'<div style="display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="font-size:20px">'+s.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+(i+1)+'. '+s.t+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+s.d+'</div></div></div>').join('');}
-function togMW(){if(mwR){clearInterval(mwInt);mwR=false;gainXP(50,'mindful');toast('Marche conscience ! +50 XP','🧘',3000);save();}else{mwR=true;mwStep=0;mwSec=0;advMW();}const b=document.getElementById('mw-btn');if(b)b.textContent=mwR?'⏹ Terminer':'▶ Commencer';}
+function togMW(){if(mwR){clearInterval(mwInt);mwR=false;gainXP(50,'mindful');toast('Marche consciente terminée. +50 XP','🧘',3000);save();}else{mwR=true;mwStep=0;mwSec=0;advMW();}const b=document.getElementById('mw-btn');if(b)b.textContent=mwR?'⏹ Terminer':'▶ Commencer';}
 function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];const ico=document.getElementById('mw-ico');if(ico)ico.textContent=s.ico;const tt=document.getElementById('mw-t');if(tt)tt.textContent=s.t;const tx=document.getElementById('mw-d');if(tx)tx.textContent=s.d;for(let i=0;i<MW_STEPS.length;i++){const d=document.getElementById('mw-d'+i);if(d){d.style.background=i<mwStep?'var(--nt)':i===mwStep?'var(--ac)':'var(--sf2)';d.style.borderColor=i<=mwStep?'var(--ac)':'var(--bd2)';}}let rem=s.dur;const tm=document.getElementById('mw-timer');if(tm)tm.textContent=fmtT(rem);mwInt=setInterval(()=>{rem--;if(tm)tm.textContent=fmtT(rem);gainXP(1,'mwt');if(rem<=0){clearInterval(mwInt);mwStep++;if(mwStep<MW_STEPS.length)advMW();else{mwR=false;gainXP(50,'mw_done');gainGems(10);confetti();toast('COMPLET ! +50 XP','🧘',4000);save();}}},1000);}
 function rstMW(){clearInterval(mwInt);mwR=false;mwStep=0;mwSec=0;renderNat();}
 const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de suite',target:7,xp:200,g:20},{id:'s5',ico:'☀️',t:'5 jours de soleil',d:'20min/j pendant 5 jours',target:5,xp:150,g:15},{id:'c7',ico:'🧊',t:'7 douches froides',d:'Consécutives',target:7,xp:250,g:25},{id:'n60',ico:'🌿',t:'1h dans la nature',d:'Une sortie d 1h minimum',target:60,xp:180,g:18},{id:'sr',ico:'🌅',t:'Lever de soleil',d:'Dehors avant le lever',target:1,xp:100,g:10}];
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
-function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
+function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée','📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
 let chatH=[],chatBusy=false;
@@ -1195,7 +1195,7 @@ function initDisc(){const el=document.getElementById('disc-content');if(!el)retu
 function renderForms(el){el.innerHTML=FORMS_D.map(f=>{const p=(S.formProg||{})[f.id]||{m:0};const pct=Math.round((p.m||0)/8*100);return '<div class="book-c" onclick="openForm(\''+f.id+'\')"><div class="book-spine"></div><div style="min-width:60px;background:'+f.bg+';display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+f.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+f.tc+';margin-bottom:2px">'+f.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px">'+f.desc+'</div>'+(p.m>0?'<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.m+'/8 modules</div>':'<div style="font-size:10px;color:var(--ac)">8 modules · +1600 XP</div>')+'</div></div>';}).join('');}
 function renderBooks(el){el.innerHTML='<button style="width:100%;background:linear-gradient(135deg,var(--pud),var(--bld));border:1px solid var(--pu);border-radius:var(--r);padding:13px;margin-bottom:11px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="askBookReco()"><div style="font-size:24px">✨</div><div style="text-align:left"><div style="font-size:13px;font-weight:700;color:var(--pu)">Recommandations IA personnalisées</div><div style="font-size:11px;color:var(--tx3)">3 livres exactement pour toi maintenant</div></div></button>'+BOOKS.map(b=>{const read=S.books.read.includes(b.t);const reading=S.books.reading===b.t;return '<div class="book-c" onclick="openBook(\''+encodeURIComponent(b.t)+'\')"><div class="book-spine" style="background:linear-gradient(180deg,var(--pu),var(--bl))"></div><div style="min-width:60px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+b.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:1px">'+b.t+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+b.a+' · '+b.p+'p · '+b.lvl+'</div><div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:5px">'+b.sum.slice(0,70)+'...</div><div style="display:flex;gap:4px">'+(read?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">✅ Lu</span>':reading?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--bld);color:var(--bl);border:1px solid var(--bl)">📖 En cours</span>':'')+'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+b.cat+'</span></div></div></div>';}).join('');}
 function openBook(enc){const title=decodeURIComponent(enc);const b=BOOKS.find(x=>x.t===title);if(!b)return;document.getElementById('fov-tit').textContent=b.ico+' '+b.t;document.getElementById('fov-sub').textContent=b.a+' · '+b.p+'p · '+b.lvl;document.getElementById('fov-body').innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px">'+b.sum+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">💡 Point clé</div><div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65">'+b.key+'</div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">✏️ Action ce soir</div><div style="font-size:13px;color:var(--tx2);line-height:1.65">'+b.act+'</div></div><div style="display:flex;gap:8px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'read\')">✅ Marquer lu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--bld);border:1px solid var(--bl);color:var(--bl);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'reading\')">📖 Je lis ça</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--agg);border:1px solid var(--acm);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer" onclick="askAboutBk(\''+enc+'\')">🤖 Coach</button></div>';document.getElementById('form-ov').classList.add('show');}
-function markBk(enc,status){const title=decodeURIComponent(enc);if(status==='read'){if(!S.books.read.includes(title)){S.books.read.push(title);gainXP(50,'book');gainGems(5);toast('Livre lu ! +50 XP','📚',2500);}}else{S.books.reading=title;toast('Bonne lecture !','📖',2000);}save();}
+function markBk(enc,status){const title=decodeURIComponent(enc);if(status==='read'){if(!S.books.read.includes(title)){S.books.read.push(title);gainXP(50,'book');gainGems(5);toast('Livre terminé. +50 XP. Qu\'est-ce que tu en retiens ?','📚',2500);}}else{S.books.reading=title;toast('Bonne lecture !','📖',2000);}save();}
 function askAboutBk(enc){const title=decodeURIComponent(enc);document.getElementById('form-ov').classList.remove('show');gs('chat',null);setTimeout(()=>{const ta=document.getElementById('ch-ta');if(ta)ta.value='Parle-moi du livre "'+title+'" — ce que je dois absolument retenir et comment l\'appliquer maintenant.';sendMsg();},200);}
 function askBookReco(){gs('chat',null);setTimeout(()=>{const ta=document.getElementById('ch-ta');if(ta)ta.value='Recommande-moi les 3 livres les plus importants pour moi maintenant, compte tenu de mon objectif ('+S.goal+'). Pour chaque livre: titre, auteur, pourquoi moi spécifiquement, 3 points clés, action ce soir.';sendMsg();},200);}
 
@@ -1235,7 +1235,7 @@ function complMod(fid,num){
       return;
     }
   }
-  S.formProg=S.formProg||{};const p=S.formProg[fid]=S.formProg[fid]||{m:0};p.m=Math.max(p.m,num);if(p.m>=8){p.done=true;gainXP(500,'form');gainGems(25);toast('FORMATION COMPLÈTE ! 🎓','🏆');confetti();}else{gainXP(200,'form');gainGems(5);toast('Module '+num+' validé! +200 XP','📚');}complQ('form');dmgBoss(80);save();openForm(fid);}
+  S.formProg=S.formProg||{};const p=S.formProg[fid]=S.formProg[fid]||{m:0};p.m=Math.max(p.m,num);if(p.m>=8){p.done=true;gainXP(500,'form');gainGems(25);toast('Formation terminée. Tu sais des choses que 99% ignorent.','🏆');confetti();}else{gainXP(200,'form');gainGems(5);toast('Module '+num+' valid��. +200 XP','📚');}complQ('form');dmgBoss(80);save();openForm(fid);}
 function closeFormOv(){document.getElementById('form-ov').classList.remove('show');}
 let fTab='vision';
 function setFT(tab,btn){fTab=tab;document.querySelectorAll('#screen-feat .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderFeat();}
@@ -1245,15 +1245,15 @@ function genVision(){const el=document.getElementById('feat-content');el.innerHT
 function rPlan90(el){if(S.plan90&&S.plan90.c){el.innerHTML='<div class="plan-c"><div class="lbl" style="color:var(--bl);margin-bottom:12px">📅 Plan 90 jours</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;white-space:pre-wrap">'+S.plan90.c+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.plan90={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="plan-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">📅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Plan 90 jours IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Plan complet, mois par mois, jalons mesurables.</div><button class="btn btn-ac" onclick="go90()">Générer →</button></div>';}
 function go90(){gs('chat',null);setTimeout(()=>{document.querySelectorAll('.ch-mode').forEach(b=>{if(b.textContent.includes('Plan'))b.click();});},200);}
 function rLetter(el){if(S.letter&&S.letter.sealed){const od=new Date(S.letter.date);od.setDate(od.getDate()+90);const canOpen=new Date()>=od;const rem=Math.ceil((od-new Date())/(1000*60*60*24));el.innerHTML=canOpen?'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px"><div class="lbl" style="color:var(--ac);margin-bottom:12px">💌 Lettre — 90 jours plus tard</div><div style="font-size:14px;color:var(--tx);line-height:1.8;white-space:pre-wrap">'+S.letter.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.letter={};save();renderFeat()">Écrire une nouvelle lettre</button>':'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">💌</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);margin-bottom:6px">Lettre scellée</div><div style="font-size:13px;color:var(--tx3)">Ouverture dans <strong style="color:var(--ac)">'+rem+' jours</strong></div></div>';return;}el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px">✍️</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Lettre au futur toi</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Scellée 90 jours. Reçue au bon moment.</div><button class="btn btn-ac" onclick="openM(\'m-letter\')">Écrire 💌</button></div>';}
-function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast('Lettre scellée 90 jours !','💌',3500);renderFeat();}
+function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast('Lettre scellée. Rendez-vous dans 90 jours.','💌',3500);renderFeat();}
 function rTourn(el){const t=S.tourn||{wk:WK,sc:{}};const bots=[{nm:'Alex',xp:1240},{nm:'Sophie',xp:987},{nm:'Lucas',xp:1567},{nm:'Emma',xp:432},{nm:'Noah',xp:2100}];const all=[{nm:'Toi',xp:t.sc['Toi']||S.xp||0,me:true},...bots].sort((a,b)=>b.xp-a.xp);const medals=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'];el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="color:var(--ac);margin-bottom:4px">🏆 Tournoi de la semaine</div><div style="font-size:12px;color:var(--tx3)">XP gagné · Reset lundi</div></div>'+all.slice(0,6).map((p,i)=>'<div style="background:'+(p.me?'var(--agg)':'var(--sf)')+';border:1px solid '+(p.me?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="font-size:14px;flex-shrink:0">'+medals[i]+'</div><div style="flex:1;font-size:13px;font-weight:600">'+p.nm+(p.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac)">'+p.xp.toLocaleString()+' XP</div></div>').join('');}
 function rSkills(el){el.innerHTML=Object.entries(SKILL_TREES).map(([key,tree])=>{const pts=S.skills[key]?.p||0;return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:12px;color:'+tree.col+'">'+tree.lbl+'</div><div style="display:flex;align-items:center;gap:6px">'+tree.n.map((node,i)=>{const done=pts>i;const unlocked=pts===i;return '<div class="stn '+(done?'done':unlocked?'unlocked':'locked')+'" title="'+node.nm+'" onclick="unlSk(\''+key+'\','+i+')">'+node.i+'</div>'+(i<tree.n.length-1?'<div class="st-line '+(done?'done':'')+'"></div>':'');}).join('')+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">'+pts+'/'+tree.n.length+' · Suivante: '+(tree.n[pts]?.nm||'MAX')+'</div></div>';}).join('');}
 function unlSk(key,i){if((S.skills[key]?.p||0)===i&&S.xp>=(i+1)*100){S.skills[key].p=(S.skills[key].p||0)+1;gainXP(0,'sk');toast(SKILL_TREES[key].n[i].nm+' débloqué !','🌟',2500);save();rSkills(document.getElementById('feat-content'));}else toast('Gagne plus de XP d\'abord','ℹ️',2000);}
 function rH21(el){const habits=S.h21||[];el.innerHTML='<button class="btn btn-ac" style="margin-bottom:11px" onclick="openM(\'m-h21\')">+ Nouvelle habitude 21j</button>'+(habits.length?habits.map((h)=>{const today=new Date();const start=new Date(h.start);const daysSince=Math.floor((today-start)/(1000*60*60*24));const completed=Math.min(21,daysSince+1);const pct=Math.round(completed/21*100);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:9px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><div style="font-size:14px;font-weight:600">'+h.name+'</div><div style="font-size:11px;color:var(--tx3)">'+h.time+' · '+h.cat+'</div></div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)">J'+completed+'</div></div><div class="h21g">'+Array.from({length:21},(_,i)=>{const isDone=i<completed-1;const isToday=i===completed-1;return '<div class="h21d '+(isDone?'done':isToday?'today':'')+'">'+(isDone?'✓':isToday?'·':'')+'</div>';}).join('')+'</div><div class="pbar" style="margin-top:8px"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+completed+'/21 · '+(21-completed)+' restants</div>'+(completed>=21?'<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--rs);padding:8px;margin-top:8px;font-size:12px;color:var(--gr);text-align:center">🏆 Habitude ancrée ! +200 XP</div>':'')+'</div>';}).join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">⚡ Aucune habitude en cours.</div>');}
 function addH21(){const name=document.getElementById('h21-name')?.value.trim();if(!name)return;const time=document.getElementById('h21-time')?.value.trim()||'Flexible';const cat=document.getElementById('h21-cat')?.value||'habit';S.h21=S.h21||[];S.h21.push({name,time,cat,start:TD,id:Date.now()});save();closeM('m-h21');toast('Défi 21j lancé !','⚡',2500);gainXP(20,'h21');renderFeat();}
 function rGuilds(el){if(S.guild&&S.guild.nm){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px"><div style="height:56px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:11px">'+S.guild.ico+'</div><div style="font-family:var(--fd);font-weight:700;font-size:17px;margin-bottom:10px">'+S.guild.nm+'</div>'+[{nm:S.name,xp:S.xp||0,av:'👑',me:true},...(S.guild.members||[])].map(m=>'<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bd)"><div style="width:32px;height:32px;border-radius:50%;background:var(--sf2);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:15px">'+m.av+'</div><div style="flex:1;font-size:13px;font-weight:600">'+m.nm+(m.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:13px;color:var(--ac)">'+m.xp.toLocaleString()+'</div></div>').join('')+'<button class="btn btn-sf" style="margin-top:11px" onclick="invG()">+ Inviter</button></div>';return;}el.innerHTML='<div style="text-align:center;padding:20px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-size:48px;margin-bottom:12px">🤝</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Guildes</div><div style="font-size:13px;color:var(--tx2);margin-bottom:18px">Groupes 5-10. Boss collectif. Accountability réelle.</div><button class="btn btn-ac" style="margin-bottom:9px" onclick="mkGuild()">Créer une guilde</button><button class="btn btn-sf" onclick="jnGuild()">Rejoindre</button></div>';}
-function mkGuild(){S.guild={id:'G-'+Date.now(),nm:S.name+' Guild',ico:'🏆',members:[{nm:'Marie',xp:1200,av:'🎯'},{nm:'Alex',xp:850,av:'💪'}],bossHp:1000};save();toast('Guilde créée !','🤝',2500);renderFeat();}
-function jnGuild(){S.guild={id:'ALPHA',nm:'Alpha Warriors',ico:'⚔️',members:[{nm:'Thomas',xp:2100,av:'👊'},{nm:'Sofia',xp:1650,av:'🔥'}],bossHp:700};save();toast('Alpha Warriors rejoint !','⚔️',2500);renderFeat();}
+function mkGuild(){S.guild={id:'G-'+Date.now(),nm:S.name+' Guild',ico:'🏆',members:[{nm:'Marie',xp:1200,av:'🎯'},{nm:'Alex',xp:850,av:'💪'}],bossHp:1000};save();toast('Guilde créée. Tu es le fondateur.','🤝',2500);renderFeat();}
+function jnGuild(){S.guild={id:'ALPHA',nm:'Alpha Warriors',ico:'⚔️',members:[{nm:'Thomas',xp:2100,av:'👊'},{nm:'Sofia',xp:1650,av:'🔥'}],bossHp:700};save();toast('Bienvenue chez les Alpha Warriors','⚔️',2500);renderFeat();}
 function invG(){navigator.clipboard.writeText('Rejoins ma guilde RISE ! Code: '+S.guild.id).then(()=>toast('Code copié !','📋',2000));}
 function rWealth(el){el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:18px;margin-bottom:11px;text-align:center"><div class="lbl" style="color:var(--gr);margin-bottom:6px">💰 Calculateur de Richesse</div><div style="font-family:var(--fd);font-weight:700;font-size:40px;color:var(--gr);line-height:1;margin:12px 0 4px" id="w-res">0€</div><div style="font-size:12px;color:var(--tx3)" id="w-tl">Configure les paramètres ci-dessous</div></div><div class="card" style="margin-bottom:11px">'+[{id:'wI',min:0,max:10000,val:0,lbl:'Revenu mensuel net (€)'},{id:'wS',min:5,max:70,val:5,lbl:'Taux d\'épargne (%)'},{id:'wR',min:3,max:12,val:7,lbl:'Rendement annuel (%)'},{id:'wY',min:1,max:30,val:10,lbl:'Horizon (années)'}].map(s=>'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px"><span style="color:var(--tx2)">'+s.lbl+'</span><span style="font-weight:700;color:var(--ac)" id="sv-'+s.id+'">'+s.val+'</span></div><input type="range" min="'+s.min+'" max="'+s.max+'" value="'+s.val+'" style="width:100%;accent-color:var(--ac);height:5px" oninput="updW(this,\''+s.id+'\')"></div>').join('')+'</div>';}
 const wV={wI:0,wS:5,wR:7,wY:10};
@@ -1261,7 +1261,7 @@ function updW(inp,id){wV[id]=parseFloat(inp.value);const sv=document.getElementB
 function rProgress(el){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="margin-bottom:12px">📈 Activité 7 jours</div><div style="display:flex;align-items:flex-end;gap:4px;height:70px;margin-bottom:8px">'+Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-6+i);const ci=(S.checkins||{})[d.toDateString()];const h=ci?Math.floor(Math.random()*60+25):8;return '<div style="flex:1;background:'+(ci?'var(--ac)':'var(--sf3)')+';border-radius:3px 3px 0 0;height:'+h+'%;opacity:'+(i===6?'1':'.6')+';transition:height .6s"></div>';}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)">'+['L','M','M','J','V','S','D'].map(d=>'<span>'+d+'</span>').join('')+'</div></div><div class="row3" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'💎 Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.nat.walkLogs||[]).length,l:'Marches',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-ac" onclick="toast(\'Carte générée ! Partage ton succès 🔥\',\'🎴\',3000)">🎴 Générer carte de victoire</button>';}
 function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+curT.nm+' — '+curT.pct+'%</span></div>'+AFF_T.map(t=>'<div style="background:var(--sf);border:1px solid '+(t===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+t.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.nm+' — '+t.refs+'+ filleuls</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+t.col+'">'+t.pct+'%</div></div>').join('');}
 function cpAff(){navigator.clipboard.writeText('https://rise.app/?ref='+S.aff.code).then(()=>toast('Lien copié !','📋',2000));}
-function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec RISE v9 ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
+function shAff(){navigator.clipboard.writeText('Je deviens 1% meilleur chaque jour avec RISE. Mentor IA, habitudes, gamification. Essaie : https://rise.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
 let moiTab='perso';
 function setMoiT(tab,btn){moiTab=tab;document.querySelectorAll('#screen-moi .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMoi();}
 function renderMoi(){const el=document.getElementById('moi-content');if(!el)return;if(moiTab==='perso')rPerso(el);else if(moiTab==='widgets')rWidgets(el);else if(moiTab==='todo')rTodo(el);else if(moiTab==='plans')rPlans(el);else if(moiTab==='stats')rStats(el);}
@@ -1435,7 +1435,7 @@ function progressCh(id){
   const c=(S.friendChs||[]).find(x=>x.id===id);if(!c)return;
   const fc=CHALL_T.find(f=>f.id===c.type)||CHALL_T[0];
   c.prog=(c.prog||0)+1;
-  if(c.prog>=fc.dur){c.status='won';gainXP(fc.xp,'ch');gainGems(15);confetti();toast('DEFI GAGNE ! +'+fc.xp+' XP','⚔️',5000);}
+  if(c.prog>=fc.dur){c.status='won';gainXP(fc.xp,'ch');gainGems(15);confetti();toast('Défi gagné. +'+fc.xp+' XP','⚔️',5000);}
   save();renderFeat();
 }
 function shareCh(id){navigator.clipboard.writeText('Suis mon avancement RISE ! https://rise.app/c/'+id).then(()=>toast('Lien copie !','📤',2000));}
@@ -1567,7 +1567,7 @@ function answerQ(idx,ans,correct){
     if(p.lastDone===y.toDateString()||!p.lastDone)p.streak=(p.streak||0)+1;
     else if(p.lastDone!==TD)p.streak=1;
     p.lastDone=TD;save();
-    toast('Bonne reponse ! +15 XP','✅',1500);
+    toast('Bonne réponse. +15 XP','✅',1500);
     setTimeout(()=>nextW(),1300);
   }else{
     el.classList.add('no');
@@ -1637,7 +1637,7 @@ function addWater(n){
   const prev=S.nutri.water[TD]||0;
   S.nutri.water[TD]=Math.max(0,prev+n);
   if(n>0&&S.nutri.water[TD]<=8)gainXP(2,'water');
-  if(S.nutri.water[TD]>=8&&prev<8){toast('8 verres atteints ! +20 XP','💧',3000);gainXP(18,'water_goal');}
+  if(S.nutri.water[TD]>=8&&prev<8){toast('8 verres. Objectif atteint. +20 XP','💧',3000);gainXP(18,'water_goal');}
   save();if(nuTab==='water')renderNutri();
 }
 function rNuFast(el){
@@ -1769,7 +1769,7 @@ async function rAgenda(el) {
         + '<div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:'+(isToday?'var(--ac)':'var(--tx3)')+';margin-bottom:6px">'+dayLabel+'</div>'
         + (dayEvts.length ? dayEvts.map(e =>
           '<div class="gcal-ev" style="border-left-color:'+( e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:11px;color:var(--tx3)">'+( e.time||'')+'</div></div>'+(e.desc?'<div style="font-size:11px;color:var(--tx3);margin-top:3px">'+e.desc+'</div>':'')+'<div style="display:flex;gap:6px;margin-top:7px"><button style="font-size:10px;padding:3px 9px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt('+JSON.stringify(e.id)+')">🗑 Suppr</button></div></div>'
-        ).join('') : '<div style="font-size:12px;color:var(--tx3);padding:8px 0;font-style:italic">Aucun événement</div>')
+        ).join('') : '<div style="font-size:12px;color:var(--tx3);padding:8px 0;font-style:italic">Rien de prévu. Ajoute un événement.</div>')
         + '</div>';
     }).join('')
     + '</div>'
@@ -1789,7 +1789,7 @@ function syncGcal() {
       toast('Calendrier : ' + localEvts.length + ' événements','📅',3000);
       rAgenda(document.getElementById('orga-content'));
     } else {
-      if (st) st.textContent = 'Aucun événement. Utilisez + pour en ajouter.';
+      if (st) st.textContent = 'Rien de prévu. Ajoute un événement.. Utilisez + pour en ajouter.';
     }
   } catch(e) {
     if (st) st.textContent = 'Erreur calendrier.';
@@ -1853,7 +1853,7 @@ function moveCard(id) {
   const cols = KANBAN_COLS.map(c => c.id);
   const next = cols[(cols.indexOf(card.col)+1) % cols.length];
   card.col = next;
-  if (next === 'done') { gainXP(20,'kanban_done'); gainGems(2); toast('Tâche terminée ! +20 XP', '✅', 2000); damageBoss ? dmgBoss(20):null; }
+  if (next === 'done') { gainXP(20,'kanban_done'); gainGems(2); toast('C\'est fait. +20 XP', '✅', 2000); damageBoss ? dmgBoss(20):null; }
   save();
   rKanban(document.getElementById('orga-content'));
 }
@@ -1946,7 +1946,7 @@ function rOKR(el) {
         ).join('')
         +'<button style="width:100%;padding:7px;margin-top:6px;border-radius:var(--rs);border:1px dashed var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;background:none" onclick="addKR(\''+obj.id+'\')">+ Key Result</button>'
         +'</div>';
-    }).join('') : '<div style="text-align:center;padding:40px;color:var(--tx3)">Aucun OKR. Crée ton premier objectif trimestriel.</div>');
+    }).join('') : '<div style="text-align:center;padding:40px;color:var(--tx3)">Pas encore d\'objectifs définis. Les meilleurs résultats commencent par une direction claire.</div>');
 }
 function addOKRObj() {
   const title = prompt('Objectif ? (ex: Atteindre 10k€/mois en Q2)');
@@ -2000,7 +2000,7 @@ function rRevenus(el) {
           '<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+' · '+e.cat+'</div></div>'
           +'<div class="'+(e.amount>0?'rev-pos':'rev-neg')+'">'+( e.amount>0?'+':'')+e.amount+'€</div></div>'
         ).join('')
-      : '<div style="text-align:center;padding:32px;color:var(--tx3)">Aucune entrée ce mois.</div>'
+      : '<div style="text-align:center;padding:32px;color:var(--tx3)">Aucune entrée ce mois. Même une ligne compte.</div>'
     )
     + '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-top:4px;font-size:12px;color:var(--tx2);line-height:1.7">'
     + '<strong style="color:var(--ac)">Objectif mensuel:</strong> '+(S.revenue.budget||0).toLocaleString()+'€ '
@@ -2290,7 +2290,7 @@ function rAgenda(el) {
       var evts=(S.events||[]).filter(function(e){return e.date===ds;}).sort(function(a,b){return(a.time||'').localeCompare(b.time||'');});
       var lbl=(isT?"Aujourd'hui — ":"")+DN[d.getDay()]+' '+d.getDate()+' '+MN[d.getMonth()];
       return '<div style="margin-bottom:12px"><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:'+(isT?'var(--ac)':'var(--tx3)')+';margin-bottom:6px">'+lbl+'</div>'
-        +(evts.length?evts.map(function(e){return'<div class="gcal-ev" style="border-left-color:'+(e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-size:13px;font-weight:600">'+e.title+'</div>'+(e.location?'<div style="font-size:10px;color:var(--tx3);margin-top:1px">📍 '+e.location+'</div>':'')+(e.source==='gcal'?'<div style="font-size:9px;color:var(--bl);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Google Cal</div>':'')+'</div>'+(e.time?'<div style="text-align:right;font-size:11px;color:var(--tx3);font-weight:700;flex-shrink:0;margin-left:8px">'+e.time+(e.timeEnd?'→'+e.timeEnd:'')+'</div>':'')+'</div>'+(e.source!=='gcal'?'<button style="margin-top:6px;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt(\''+e.id+'\')">✕</button>':'')+'</div>';}).join(''):'<div style="font-size:12px;color:var(--tx3);padding:7px 0;font-style:italic">Aucun événement</div>')
+        +(evts.length?evts.map(function(e){return'<div class="gcal-ev" style="border-left-color:'+(e.color||'var(--ac)')+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-size:13px;font-weight:600">'+e.title+'</div>'+(e.location?'<div style="font-size:10px;color:var(--tx3);margin-top:1px">📍 '+e.location+'</div>':'')+(e.source==='gcal'?'<div style="font-size:9px;color:var(--bl);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Google Cal</div>':'')+'</div>'+(e.time?'<div style="text-align:right;font-size:11px;color:var(--tx3);font-weight:700;flex-shrink:0;margin-left:8px">'+e.time+(e.timeEnd?'→'+e.timeEnd:'')+'</div>':'')+'</div>'+(e.source!=='gcal'?'<button style="margin-top:6px;font-size:10px;padding:2px 8px;border-radius:10px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);cursor:pointer" onclick="delEvt(\''+e.id+'\')">✕</button>':'')+'</div>';}).join(''):'<div style="font-size:12px;color:var(--tx3);padding:7px 0;font-style:italic">Rien de prévu. Ajoute un événement.</div>')
         +'</div>';
     }).join('')+'<div id="gcal-status" style="font-size:11px;color:var(--tx3);text-align:center;margin-top:8px"></div>';
 }
@@ -2311,7 +2311,7 @@ function addOKRObj(){var t=prompt('Objectif ?');if(!t)return;var d2=prompt('Dead
 function addKR(oid){var obj=(S.okr.objectives||[]).find(function(o){return o.id===oid;});if(!obj)return;var t=prompt('Key Result ?');if(!t)return;obj.keyResults=obj.keyResults||[];obj.keyResults.push({id:'kr'+Date.now(),title:t,progress:0});save();rOKR(document.getElementById('orga-content'));}
 function updKR(oid,krid,delta){var obj=(S.okr.objectives||[]).find(function(o){return o.id===oid;});var kr=(obj&&obj.keyResults||[]).find(function(k){return k.id===krid;});if(!kr)return;kr.progress=Math.max(0,Math.min(100,(kr.progress||0)+delta));if(kr.progress===100){gainXP(50,'okr');toast('Key Result atteint ! +50 XP','🎯',3000);}save();rOKR(document.getElementById('orga-content'));}
 // Revenus
-function rRevenus(el){S.revenue=S.revenue||{entries:[],budget:0};var ents=S.revenue.entries||[],m=new Date().toISOString().slice(0,7),me=ents.filter(function(e){return e.date.startsWith(m);});var tin=me.filter(function(e){return e.amount>0;}).reduce(function(a,e){return a+e.amount;},0);var tout=me.filter(function(e){return e.amount<0;}).reduce(function(a,e){return a+Math.abs(e.amount);},0);var net=tin-tout;el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💰 Ce mois</div><div class="row3"><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--gr)">+'+Math.round(tin).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Revenus</div></div><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--rd)">-'+Math.round(tout).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Dépenses</div></div><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+(net>=0?'var(--ac)':'var(--rd)')+'">'+( net>=0?'+':'')+Math.round(net).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Net</div></div></div>'+(S.revenue.budget?'<div class="pbar" style="margin-top:12px;height:7px"><div class="pfill pgr" style="width:'+Math.min(100,Math.round(tin/S.revenue.budget*100))+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+Math.min(100,Math.round(tin/S.revenue.budget*100))+'% de l\'objectif '+S.revenue.budget.toLocaleString()+'€</div>':'')+'</div><div style="display:flex;gap:8px;margin-bottom:11px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:13px;font-weight:700;cursor:pointer" onclick="addRev(1)">+ Revenu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--rdd);border:1px solid var(--rd);color:var(--rd);font-size:13px;font-weight:700;cursor:pointer" onclick="addRev(-1)">- Dépense</button><button style="padding:11px 14px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:13px;cursor:pointer" onclick="setBudget()">🎯</button></div>'+(me.length?'<div class="lbl" style="margin-bottom:9px">Historique</div>'+me.slice().reverse().map(function(e){return'<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+' · '+(e.cat||'')+'</div></div><div style="font-family:var(--fd);font-weight:700;color:'+(e.amount>0?'var(--gr)':'var(--rd)')+'">'+( e.amount>0?'+':'')+e.amount+'€</div></div>';}).join(''):'<div style="text-align:center;padding:28px;color:var(--tx3)">Aucune entrée ce mois.</div>');}
+function rRevenus(el){S.revenue=S.revenue||{entries:[],budget:0};var ents=S.revenue.entries||[],m=new Date().toISOString().slice(0,7),me=ents.filter(function(e){return e.date.startsWith(m);});var tin=me.filter(function(e){return e.amount>0;}).reduce(function(a,e){return a+e.amount;},0);var tout=me.filter(function(e){return e.amount<0;}).reduce(function(a,e){return a+Math.abs(e.amount);},0);var net=tin-tout;el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:16px;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💰 Ce mois</div><div class="row3"><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--gr)">+'+Math.round(tin).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Revenus</div></div><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--rd)">-'+Math.round(tout).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Dépenses</div></div><div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+(net>=0?'var(--ac)':'var(--rd)')+'">'+( net>=0?'+':'')+Math.round(net).toLocaleString()+'€</div><div style="font-size:10px;color:var(--tx3)">Net</div></div></div>'+(S.revenue.budget?'<div class="pbar" style="margin-top:12px;height:7px"><div class="pfill pgr" style="width:'+Math.min(100,Math.round(tin/S.revenue.budget*100))+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+Math.min(100,Math.round(tin/S.revenue.budget*100))+'% de l\'objectif '+S.revenue.budget.toLocaleString()+'€</div>':'')+'</div><div style="display:flex;gap:8px;margin-bottom:11px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:13px;font-weight:700;cursor:pointer" onclick="addRev(1)">+ Revenu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--rdd);border:1px solid var(--rd);color:var(--rd);font-size:13px;font-weight:700;cursor:pointer" onclick="addRev(-1)">- Dépense</button><button style="padding:11px 14px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:13px;cursor:pointer" onclick="setBudget()">🎯</button></div>'+(me.length?'<div class="lbl" style="margin-bottom:9px">Historique</div>'+me.slice().reverse().map(function(e){return'<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+' · '+(e.cat||'')+'</div></div><div style="font-family:var(--fd);font-weight:700;color:'+(e.amount>0?'var(--gr)':'var(--rd)')+'">'+( e.amount>0?'+':'')+e.amount+'€</div></div>';}).join(''):'<div style="text-align:center;padding:28px;color:var(--tx3)">Aucune entrée ce mois. Même une ligne compte.</div>');}
 function addRev(sign){var title=prompt(sign>0?'Source du revenu ?':'Dépense ?');if(!title)return;var amount=parseFloat(prompt('Montant (€) ?','0')||'0');if(isNaN(amount)||amount<=0)return;var cats=['YouTube/Streaming','Affiliation','Freelance','Business','Investissement','Perso','Autre'];var ci2=parseInt(prompt('Catégorie ?\n'+cats.map(function(c,i){return i+': '+c;}).join('\n'),'0')||'0');S.revenue=S.revenue||{entries:[],budget:0};S.revenue.entries.push({id:'r'+Date.now(),title:title,amount:sign*amount,cat:cats[ci2]||'Autre',date:new Date().toISOString().slice(0,10)});if(sign>0)gainXP(10,'revenue');save();toast('Ajouté !','💰',1500);rRevenus(document.getElementById('orga-content'));}
 function setBudget(){var v=parseFloat(prompt('Objectif mensuel (€) ?',S.revenue&&S.revenue.budget||0)||'0');if(!isNaN(v)){S.revenue=S.revenue||{entries:[],budget:0};S.revenue.budget=v;save();rRevenus(document.getElementById('orga-content'));}}
 // ── CRM ──
@@ -2778,7 +2778,7 @@ function renderIdeas(el) {
       h += '</div></div>';
     });
   } else {
-    h += '<div style="text-align:center;padding:30px;color:var(--tx3);font-size:13px">Aucune idée encore. Capture tes inspirations !</div>';
+    h += '<div style="text-align:center;padding:30px;color:var(--tx3);font-size:13px">Ton espace d\'inspiration est vide. La prochaine grande idée commence par une note rapide.</div>';
   }
   el.innerHTML = h;
 }
@@ -3428,10 +3428,10 @@ const RISE_AI = {
     // SMART FALLBACK — Analyse le message et donne une réponse pertinente
     const words = msg.split(/\s+/).length;
     if(words < 4) {
-      return `${name}, dis-moi en plus! Plus tu es précis, plus je peux t'aider concrètement.\n\nExemples de ce que tu peux me demander:\n• "Fais-moi un programme street workout"\n• "Comment gagner mes premiers 1000€ en freelance"\n• "Je suis stressé, aide-moi"\n• "Programme nutrition pour perdre 5 kg"\n• "Comment être plus productif le matin"\n\nJe peux te faire des programmes complets, des plans d'action, des conseils précis. Vas-y, teste-moi! 💪`;
+      return `${name}, je veux t'aider — mais j'ai besoin de plus de contexte.\n\nEssaie quelque chose de précis :\n• "Fais-moi un programme street workout"\n• "Comment gagner mes premiers 1000€ en freelance"\n• "Je suis stressé, aide-moi à me recentrer"\n• "Programme nutrition pour perdre 5 kg"\n• "Comment être plus productif le matin"\n\nPlus tu es précis, plus ma réponse sera utile.`;
     }
 
-    return `💡 ${name}, bonne question.\n\nVoici mon analyse de "${userMessage.slice(0,50)}${userMessage.length>50?'...':''}":\n\n1️⃣ CONSTAT: C'est un sujet qui mérite une vraie réflexion. Pas une réponse bateau.\n\n2️⃣ MON CONSEIL:\n• Définis clairement ton objectif: où veux-tu être dans 90 jours?\n• Identifie le premier petit pas (pas le grand saut)\n• Bloque du temps dans ton agenda (ce qui n'est pas planifié n'arrive pas)\n\n3️⃣ PLAN D'ACTION:\nAujourd'hui: Écris ton objectif en 1 phrase claire\nCette semaine: Fais 1 action concrète vers cet objectif\nCe mois: Crée une routine quotidienne autour de cet objectif\n\nTu veux que j'approfondisse un point précis? Demande-moi un programme détaillé sur:\n• Sport & corps 💪\n• Business & argent 💰\n• Mental & bien-être 🧠\n• Productivité & organisation ⚡\n• Relations & communication ❤️`;
+    return `${name}, voici ce que j'observe.\n\nSur "${userMessage.slice(0,50)}${userMessage.length>50?'...':''}" :\n\n1. La première étape est toujours la même : définis clairement ce que tu veux. Pas vaguement — en une phrase.\n2. Identifie le premier petit pas. Pas le grand saut.\n3. Bloque du temps dans ton agenda. Ce qui n'est pas planifié n'arrive pas.\n\nPLAN CONCRET :\n• Aujourd'hui : écris ton objectif en 1 phrase claire.\n• Cette semaine : 1 action concrète.\n• Ce mois : installe une routine quotidienne autour.\n\nTu veux que j'approfondisse ? Dis-moi le domaine.`;
   },
   // ============================================================================
   // TRAINING MODULES - Pre-built structured content
@@ -4079,7 +4079,7 @@ function renderWorkout(){
     '</div>'+
     '<div id="ex-cat-list"></div>'+
     '<div style="margin-top:16px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📋 Séance du jour'+(today.exercises.length>0?' ('+today.exercises.length+' exercices)':'')+'</div>'+
-    (today.exercises.length===0?'<div style="color:var(--tx3);font-size:13px;padding:20px;text-align:center">Aucun exercice ajouté. Choisis une catégorie ci-dessus!</div>':
+    (today.exercises.length===0?'<div style="color:var(--tx3);font-size:13px;padding:20px;text-align:center">Pas encore d\'exercice. Choisis une catégorie et lance-toi — même 5 minutes comptent.</div>':
     today.exercises.map((ex,i)=>
       '<div class="wg" style="margin-bottom:8px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center"><div><span style="font-size:18px">'+ex.ico+'</span> <strong>'+ex.nm+'</strong></div><button onclick="rmWorkoutEx('+i+')" style="background:none;border:none;font-size:16px;cursor:pointer">❌</button></div>'+
       '<div style="margin-top:8px;font-size:12px;color:var(--tx3)">'+
@@ -4324,7 +4324,7 @@ function renderSleep(){
     '</div>'+
     (!todayLogged?'<button onclick="logSleep()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-bottom:16px">🌙 Logger ma nuit</button>':'<div style="text-align:center;padding:12px;color:var(--ac);font-weight:600;font-size:13px">✅ Nuit enregistrée!</div>')+
     '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📈 Dernières nuits</div>'+
-    (last7.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Aucune nuit enregistrée</div>':
+    (last7.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Aucune nuit trackée. Le sommeil est la fondation de tout — commence ce soir.</div>':
     '<div style="display:flex;gap:4px;align-items:flex-end;height:100px;margin-bottom:8px">'+
     last7.map(l=>{
       const pct=Math.round((l.dur/10)*100);
@@ -4415,7 +4415,7 @@ function renderSmartJournal(){
       '<div class="wg" style="padding:16px;margin-bottom:16px"><div style="font-size:11px;color:var(--tx3)">Aujourd\'hui — '+todayEntry.mood+'</div><div style="font-size:13px;margin-top:8px;white-space:pre-wrap">'+todayEntry.text.slice(0,200)+(todayEntry.text.length>200?'...':'')+'</div></div>'
     )+
     '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📖 Entrées récentes</div>'+
-    (entries.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Ton journal est vide. Commence aujourd\'hui!</div>':
+    (entries.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Ton premier chapitre t\'attend. Les gens qui écrivent progressent 40% plus vite. Même une ligne compte.</div>':
     entries.slice(-5).reverse().map(e=>
       '<div class="wg" style="margin-bottom:8px;padding:12px;cursor:pointer" onclick="viewJournalEntry(\''+e.date+'\')"><div style="display:flex;justify-content:space-between"><div style="font-size:12px;color:var(--tx3)">'+e.date+'</div><div style="font-size:16px">'+(e.mood==='happy'?'😊':e.mood==='sad'?'😢':e.mood==='stressed'?'😰':e.mood==='motivated'?'🔥':'😐')+'</div></div><div style="font-size:13px;margin-top:4px;color:var(--tx2)">'+e.text.slice(0,80)+'...</div></div>'
     ).join(''));
@@ -4521,7 +4521,7 @@ function renderBudget(){
     }).join('')+
     '</div>':'')+
     '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📝 Dernières dépenses</div>'+
-    (b.expenses.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Aucune dépense enregistrée</div>':
+    (b.expenses.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Aucune dépense trackée. On ne maîtrise que ce qu\'on mesure.</div>':
     b.expenses.slice(-10).reverse().map(e=>{
       const cat=BUDGET_CATS.find(c=>c.id===e.cat)||BUDGET_CATS[7];
       return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--c2)"><div style="display:flex;gap:8px;align-items:center"><span>'+cat.ico+'</span><div><div style="font-size:13px;font-weight:600">'+e.label+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+'</div></div></div><div style="font-weight:700;color:var(--rd)">-'+e.amount.toFixed(0)+'€</div></div>';
@@ -4559,47 +4559,50 @@ function saveExpense(){
   S.budget.expenses.push({label,amount,cat,date:TD});
   save();
   document.getElementById('ov-expense')?.remove();
-  toast('Dépense ajoutée','💸',2000);
+  toast('Dépense enregistrée','💸',2000);
   renderBudget();
 }
 
 
 // ── ACHIEVEMENT SYSTEM ──
+// Rarity: common / uncommon / rare / epic / legendary / mythic
+const RARITY_COLORS={common:'var(--tx2)',uncommon:'var(--gr)',rare:'var(--bl)',epic:'var(--pu)',legendary:'var(--ac)',mythic:'#ff6b6b'};
+const RARITY_LABELS={common:'Commun',uncommon:'Peu commun',rare:'Rare',epic:'Épique',legendary:'Légendaire',mythic:'Mythique'};
 const ACHIEVEMENTS=[
-  // Streaks
-  {id:'streak3',nm:'Régulier',desc:'3 jours de connexion',ico:'🔥',cond:()=>(S.loginS?.streak||0)>=3,xp:50},
-  {id:'streak7',nm:'Semaine parfaite',desc:'7 jours consécutifs',ico:'🔥',cond:()=>(S.loginS?.streak||0)>=7,xp:100},
-  {id:'streak30',nm:'Machine',desc:'30 jours consécutifs',ico:'💎',cond:()=>(S.loginS?.streak||0)>=30,xp:500},
-  // XP
-  {id:'xp100',nm:'Premiers pas',desc:'100 XP accumulés',ico:'⭐',cond:()=>(S.xp||0)>=100,xp:20},
-  {id:'xp500',nm:'En route',desc:'500 XP accumulés',ico:'⭐',cond:()=>(S.xp||0)>=500,xp:50},
-  {id:'xp1000',nm:'Millionnaire XP',desc:'1000 XP accumulés',ico:'🏆',cond:()=>(S.xp||0)>=1000,xp:100},
-  {id:'xp5000',nm:'Légende',desc:'5000 XP accumulés',ico:'👑',cond:()=>(S.xp||0)>=5000,xp:250},
-  // Coach
-  {id:'coach5',nm:'Curieux',desc:'5 conversations avec le coach',ico:'🧠',cond:()=>(S.coachMem?.n||0)>=5,xp:30},
-  {id:'coach25',nm:'Apprenti',desc:'25 conversations avec le coach',ico:'🧠',cond:()=>(S.coachMem?.n||0)>=25,xp:75},
-  {id:'coach100',nm:'Sage',desc:'100 conversations avec le coach',ico:'🎓',cond:()=>(S.coachMem?.n||0)>=100,xp:200},
-  // Workout
-  {id:'wk1',nm:'Premier training',desc:'Complète ta première séance',ico:'💪',cond:()=>(S.workouts?.length||0)>=1,xp:30},
-  {id:'wk10',nm:'Athlète',desc:'10 séances complétées',ico:'💪',cond:()=>(S.workouts?.length||0)>=10,xp:100},
-  {id:'wk50',nm:'Beast Mode',desc:'50 séances complétées',ico:'🔥',cond:()=>(S.workouts?.length||0)>=50,xp:300},
-  // Journal
-  {id:'j1',nm:'Introspection',desc:'Première entrée journal',ico:'📖',cond:()=>(S.journal?.length||0)>=1,xp:20},
-  {id:'j10',nm:'Écrivain',desc:'10 entrées journal',ico:'📖',cond:()=>(S.journal?.length||0)>=10,xp:75},
-  {id:'j30',nm:'Philosophe',desc:'30 entrées journal',ico:'📖',cond:()=>(S.journal?.length||0)>=30,xp:200},
-  // Sleep
-  {id:'sl7',nm:'Dormeur régulier',desc:'7 nuits trackées',ico:'😴',cond:()=>(S.sleepLog?.length||0)>=7,xp:50},
-  {id:'sl30',nm:'Maître du sommeil',desc:'30 nuits trackées',ico:'😴',cond:()=>(S.sleepLog?.length||0)>=30,xp:150},
-  // Formations
-  {id:'form1',nm:'Étudiant',desc:'Complète 1 module de formation',ico:'📚',cond:()=>{const c=S.formProg||{};return Object.values(c).some(f=>Object.values(f||{}).some(m=>m===true))},xp:30},
-  {id:'form10',nm:'Scholar',desc:'Complète 10 modules',ico:'🎓',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>Object.values(f||{}).forEach(m=>{if(m===true)n++;}));return n>=10;},xp:150},
-  // Budget
-  {id:'budget1',nm:'Comptable',desc:'Track 10 dépenses',ico:'💰',cond:()=>(S.budget?.expenses?.length||0)>=10,xp:50},
-  // Flash
-  {id:'flash5',nm:'Challenger',desc:'5 défis flash complétés',ico:'⚡',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=5;},xp:75},
-  // Level
-  {id:'lvl5',nm:'Niveau 5',desc:'Atteins le niveau 5',ico:'🌟',cond:()=>getLvl(S.xp||0)>=4,xp:100},
-  {id:'lvl10',nm:'Niveau 10',desc:'Atteins le niveau 10',ico:'👑',cond:()=>getLvl(S.xp||0)>=9,xp:500}
+  // ── STREAKS ──
+  {id:'streak3',nm:'Trois Flammes',desc:'3 jours de connexion consécutifs.',flavor:'La répétition crée le réflexe. Le réflexe crée l\'identité.',ico:'🔥',rarity:'common',cond:()=>(S.loginS?.streak||0)>=3,xp:50},
+  {id:'streak7',nm:'Semaine de Feu',desc:'7 jours consécutifs sans faillir.',flavor:'Une semaine complète. Tu viens de prouver que tu sais tenir.',ico:'🔥',rarity:'uncommon',cond:()=>(S.loginS?.streak||0)>=7,xp:100},
+  {id:'streak30',nm:'Trente Flammes',desc:'Streak de 30 jours consécutifs.',flavor:'La constance est la forme la plus rare de discipline.',ico:'💎',rarity:'epic',cond:()=>(S.loginS?.streak||0)>=30,xp:500},
+  // ── XP ──
+  {id:'xp100',nm:'Premier Pas',desc:'100 XP accumulés.',flavor:'Tout voyage commence par un pas. Le tien vient de commencer.',ico:'🌱',rarity:'common',cond:()=>(S.xp||0)>=100,xp:20},
+  {id:'xp500',nm:'Élan',desc:'500 XP accumulés.',flavor:'Tu n\'es plus au début. Tu es en mouvement.',ico:'⭐',rarity:'uncommon',cond:()=>(S.xp||0)>=500,xp:50},
+  {id:'xp1000',nm:'Force Tranquille',desc:'1 000 XP accumulés.',flavor:'Mille actions. Mille décisions. Une seule direction.',ico:'🏆',rarity:'rare',cond:()=>(S.xp||0)>=1000,xp:100},
+  {id:'xp5000',nm:'L\'Ascension',desc:'5 000 XP accumulés.',flavor:'Tu ne comptes plus les points. Tu comptes les jours où tu n\'as pas lâché.',ico:'👑',rarity:'legendary',cond:()=>(S.xp||0)>=5000,xp:250},
+  // ── COACH / JARVIS ──
+  {id:'coach5',nm:'Premier Dialogue',desc:'5 conversations avec JARVIS.',flavor:'Poser des questions, c\'est déjà avancer.',ico:'🧠',rarity:'common',cond:()=>(S.coachMem?.n||0)>=5,xp:30},
+  {id:'coach25',nm:'Esprit Ouvert',desc:'25 conversations avec JARVIS.',flavor:'Tu cherches des réponses. C\'est le signe que tu poses les bonnes questions.',ico:'🧠',rarity:'uncommon',cond:()=>(S.coachMem?.n||0)>=25,xp:75},
+  {id:'coach100',nm:'Le Penseur',desc:'100 conversations avec JARVIS.',flavor:'Cent échanges. Ton esprit ne fonctionne plus comme avant.',ico:'🎓',rarity:'epic',cond:()=>(S.coachMem?.n||0)>=100,xp:200},
+  // ── WORKOUT ──
+  {id:'wk1',nm:'Première Sueur',desc:'Complète ta première séance.',flavor:'Le corps ne ment pas. Aujourd\'hui, tu lui as dit oui.',ico:'💪',rarity:'common',cond:()=>(S.workouts?.length||0)>=1,xp:30},
+  {id:'wk10',nm:'Athlète',desc:'10 séances complétées.',flavor:'Dix fois tu as choisi l\'effort. Dix fois tu as gagné.',ico:'💪',rarity:'uncommon',cond:()=>(S.workouts?.length||0)>=10,xp:100},
+  {id:'wk50',nm:'Beast Mode',desc:'50 séances complétées.',flavor:'Ton corps est devenu ton allié. Il te le rend bien.',ico:'🔥',rarity:'epic',cond:()=>(S.workouts?.length||0)>=50,xp:300},
+  // ── JOURNAL ──
+  {id:'j1',nm:'Première Page',desc:'Première entrée dans ton journal.',flavor:'Les gens qui écrivent dorment mieux, décident mieux, et avancent plus vite.',ico:'📖',rarity:'common',cond:()=>(S.journal?.length||0)>=1,xp:20},
+  {id:'j10',nm:'Encre & Clarté',desc:'10 entrées dans ton journal.',flavor:'Écrire, c\'est penser deux fois. Tu commences à te connaître.',ico:'📖',rarity:'uncommon',cond:()=>(S.journal?.length||0)>=10,xp:75},
+  {id:'j30',nm:'L\'Auteur',desc:'30 entrées dans ton journal.',flavor:'Trente pages de ta propre histoire. Qui d\'autre peut en dire autant ?',ico:'📖',rarity:'rare',cond:()=>(S.journal?.length||0)>=30,xp:200},
+  // ── SLEEP ──
+  {id:'sl7',nm:'Nuits Comptées',desc:'7 nuits de sommeil trackées.',flavor:'Mesurer son sommeil, c\'est reprendre le contrôle de ses journées.',ico:'😴',rarity:'common',cond:()=>(S.sleepLog?.length||0)>=7,xp:50},
+  {id:'sl30',nm:'Architecte du Repos',desc:'30 nuits de sommeil trackées.',flavor:'Tu as compris : la performance commence sur l\'oreiller.',ico:'😴',rarity:'rare',cond:()=>(S.sleepLog?.length||0)>=30,xp:150},
+  // ── FORMATIONS ──
+  {id:'form1',nm:'Première Leçon',desc:'Complète ton premier module de formation.',flavor:'Savoir, c\'est pouvoir. Tu viens d\'ouvrir la porte.',ico:'📚',rarity:'common',cond:()=>{const c=S.formProg||{};return Object.values(c).some(f=>Object.values(f||{}).some(m=>m===true))},xp:30},
+  {id:'form10',nm:'Étudiant Acharné',desc:'10 modules de formation complétés.',flavor:'Dix modules. Des dizaines d\'heures investies en toi-même.',ico:'🎓',rarity:'rare',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>Object.values(f||{}).forEach(m=>{if(m===true)n++;}));return n>=10;},xp:150},
+  // ── BUDGET ──
+  {id:'budget1',nm:'Lucidité Financière',desc:'10 dépenses suivies dans ton budget.',flavor:'On ne maîtrise que ce qu\'on mesure. Tes finances ne t\'échappent plus.',ico:'💰',rarity:'uncommon',cond:()=>(S.budget?.expenses?.length||0)>=10,xp:50},
+  // ── FLASH ──
+  {id:'flash5',nm:'Instinct',desc:'5 défis flash relevés.',flavor:'Quand l\'opportunité frappe, tu réponds. C\'est ça, l\'instinct.',ico:'⚡',rarity:'uncommon',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=5;},xp:75},
+  // ── LEVEL ──
+  {id:'lvl5',nm:'Esprit Affûté',desc:'Niveau 5 atteint.',flavor:'Tu ne penses plus pareil qu\'il y a quelques semaines. C\'est ça, grandir.',ico:'🌟',rarity:'rare',cond:()=>getLvl(S.xp||0)>=4,xp:100},
+  {id:'lvl10',nm:'Le Sommet',desc:'Niveau 10 atteint — le maximum.',flavor:'Tu n\'as plus rien à prouver. Sauf à toi-même. Toujours.',ico:'👑',rarity:'legendary',cond:()=>getLvl(S.xp||0)>=9,xp:500}
 ];
 
 function chkAchievements(trigger){
@@ -4611,8 +4614,8 @@ function chkAchievements(trigger){
       if(a.cond()){
         S.achievements.push(a.id);
         gainXP(a.xp,'achievement');
-        addN(a.ico,'Achievement: '+a.nm,a.desc+' · +'+a.xp+' XP');
-        toast(a.ico+' '+a.nm+' débloqué!','🏆',4000);
+        addN(a.ico,'Succès : '+a.nm,(a.flavor||a.desc)+' · +'+a.xp+' XP');
+        toast(a.ico+' '+a.nm+' — débloqué','🏆',4000);
         newCount++;
       }
     }catch(e){}
@@ -4625,11 +4628,17 @@ function renderAchievements(){
   if(!el)return;
   const unlocked=S.achievements||[];
   el.innerHTML=
-    '<div style="text-align:center;margin-bottom:16px"><div style="font-size:28px;font-weight:700;font-family:var(--fd)">'+unlocked.length+'/'+ACHIEVEMENTS.length+'</div><div style="font-size:12px;color:var(--tx3)">Achievements débloqués</div></div>'+
+    '<div style="text-align:center;margin-bottom:20px"><div style="font-size:28px;font-weight:700;font-family:var(--fd)">'+unlocked.length+'/'+ACHIEVEMENTS.length+'</div><div style="font-size:12px;color:var(--tx3)">Succès débloqués</div><div style="font-size:11px;color:var(--tx3);margin-top:4px">Chaque badge raconte une histoire. Écris la tienne.</div></div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
     ACHIEVEMENTS.map(a=>{
       const done=unlocked.includes(a.id);
-      return '<div class="wg" style="padding:12px;text-align:center;opacity:'+(done?1:0.4)+';position:relative"><div style="font-size:28px">'+(done?a.ico:'🔒')+'</div><div style="font-size:12px;font-weight:700;margin-top:4px">'+(done?a.nm:'???')+'</div><div style="font-size:10px;color:var(--tx3)">'+a.desc+'</div>'+(done?'<div style="font-size:9px;color:var(--ac);margin-top:2px">+'+a.xp+' XP</div>':'')+'</div>';
+      const rc=RARITY_COLORS[a.rarity||'common']||'var(--tx2)';
+      const rl=RARITY_LABELS[a.rarity||'common']||'';
+      return '<div class="wg" style="padding:12px;text-align:center;opacity:'+(done?1:0.4)+';position:relative;border-color:'+(done?rc:'var(--bd)')+'"><div style="font-size:28px">'+(done?a.ico:'🔒')+'</div><div style="font-size:12px;font-weight:700;margin-top:4px;color:'+(done?rc:'var(--tx2)')+'">'+
+      (done?a.nm:'???')+'</div><div style="font-size:10px;color:var(--tx3)">'+a.desc+'</div>'+
+      (done&&a.flavor?'<div style="font-size:9px;color:var(--tx2);margin-top:4px;font-style:italic;line-height:1.4">"'+a.flavor+'"</div>':'')+
+      '<div style="font-size:8px;color:'+rc+';margin-top:3px;text-transform:uppercase;letter-spacing:1px;font-weight:700">'+rl+'</div>'+
+      (done?'<div style="font-size:9px;color:var(--ac);margin-top:2px">+'+a.xp+' XP</div>':'')+'</div>';
     }).join('')+
     '</div>';
 }
@@ -4741,7 +4750,7 @@ function renderDashboard(){
     ACHIEVEMENTS.filter(a=>(S.achievements||[]).includes(a.id)).slice(-6).map(a=>
       '<div style="min-width:60px;text-align:center;padding:8px;background:var(--sf2);border-radius:12px"><div style="font-size:24px">'+a.ico+'</div><div style="font-size:9px;font-weight:600;margin-top:2px">'+a.nm+'</div></div>'
     ).join('')+
-    (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Aucun achievement débloqué</div>':'')+
+    (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Tes premiers succès t\'attendent. Continue.</div>':'')+
     '</div>'+
 
     // Recap button
@@ -4804,7 +4813,7 @@ function _old_renderDashboard(){
     ACHIEVEMENTS.filter(a=>(S.achievements||[]).includes(a.id)).slice(-6).map(a=>
       '<div style="min-width:60px;text-align:center;padding:8px;background:var(--c2);border-radius:12px"><div style="font-size:24px">'+a.ico+'</div><div style="font-size:9px;font-weight:600;margin-top:2px">'+a.nm+'</div></div>'
     ).join('')+
-    (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Aucun achievement débloqué</div>':'')+
+    (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Tes premiers succès t\'attendent. Continue.</div>':'')+
     '</div>';
 }
 
@@ -4911,7 +4920,7 @@ function joinGuild(id){
   save();
   const g=GUILDS.find(x=>x.id===id);
   gainXP(25,'guild');
-  toast('Bienvenue chez '+g.nm+'! +25 XP','🤝',4000);
+  toast('Bienvenue chez '+g.nm+'. +25 XP','🤝',4000);
   confetti();
   addN(g.ico,'Guilde: '+g.nm,'Tu as rejoint '+g.nm+'!');
   renderGuildScreen();
@@ -5337,13 +5346,13 @@ Object.keys(LANG_EXTRA).forEach(function(lang){
 
 // ══ V24 — DEFI 7 JOURS (Guided Onboarding Challenge) ══
 var DEFI7_DAYS=[
-  {day:1,title:'Jour 1 — Respire',ico:'💨',tool:'nature',tab:'breath',desc:'Fais 1 exercice de respiration dans l\'onglet Nature.',xp:30,action:'Ouvrir Nature',screen:'nature'},
-  {day:2,title:'Jour 2 — Bouge',ico:'🏋️',tool:'workout',desc:'Ajoute 1 exercice dans ton Workout Tracker.',xp:35,action:'Ouvrir Workout',screen:'workout'},
-  {day:3,title:'Jour 3 — Ecris',ico:'📓',tool:'smartjournal',desc:'Ecris ta premiere entree dans le Journal Intelligent.',xp:35,action:'Ouvrir Journal',screen:'smartjournal'},
-  {day:4,title:'Jour 4 — Planifie',ico:'🍽️',tool:'meal',desc:'Remplis ton plan repas pour aujourd\'hui.',xp:35,action:'Ouvrir Repas',screen:'meal'},
-  {day:5,title:'Jour 5 — Apprends',ico:'🌍',tool:'lang',desc:'Complete 3 mots de vocabulaire dans une langue.',xp:40,action:'Ouvrir Langues',screen:'lang'},
-  {day:6,title:'Jour 6 — Gere',ico:'💰',tool:'budget',desc:'Ajoute 1 revenu et 1 depense dans ton Budget.',xp:40,action:'Ouvrir Budget',screen:'budget'},
-  {day:7,title:'Jour 7 — Triomphe',ico:'🏆',tool:'achievements',desc:'Debloque le badge "Semaine Complete" !',xp:100,action:'Voir Succes',screen:'achievements'}
+  {day:1,title:'Jour 1 — Respire',ico:'💨',tool:'nature',tab:'breath',desc:'5 minutes de respiration. Ton corps te remerciera avant la fin.',xp:30,action:'C\'est parti',screen:'nature'},
+  {day:2,title:'Jour 2 — Bouge',ico:'🏋️',tool:'workout',desc:'Un exercice. N\'importe lequel. Bouger, c\'est déjà gagner.',xp:35,action:'C\'est parti',screen:'workout'},
+  {day:3,title:'Jour 3 — Écris',ico:'📓',tool:'smartjournal',desc:'Quelques lignes sur ta journée. Écrire, c\'est penser deux fois.',xp:35,action:'C\'est parti',screen:'smartjournal'},
+  {day:4,title:'Jour 4 — Nourris-toi',ico:'🍽️',tool:'meal',desc:'Planifie un repas. Manger bien commence par décider avant.',xp:35,action:'C\'est parti',screen:'meal'},
+  {day:5,title:'Jour 5 — Apprends',ico:'🌍',tool:'lang',desc:'3 mots dans une nouvelle langue. Petit effort, grand signal.',xp:40,action:'C\'est parti',screen:'lang'},
+  {day:6,title:'Jour 6 — Maîtrise',ico:'💰',tool:'budget',desc:'Un revenu, une dépense. Voir clair dans ses finances change tout.',xp:40,action:'C\'est parti',screen:'budget'},
+  {day:7,title:'Jour 7 — Victoire',ico:'🏆',tool:'achievements',desc:'7 jours. 7 actions. Tu as tenu. Débloque ton premier badge.',xp:100,action:'Voir mes succès',screen:'achievements'}
 ];
 function initDefi7(){
   S.defi7=S.defi7||{started:null,completed:[],dismissed:false};
@@ -5788,10 +5797,10 @@ function toggleZenMode(){
 (function(){
   var _origObNext=obNext;
   var featureSlides=[
-    {ico:'🤖',title:'Coach IA Personnel',desc:'Un coach qui apprend de toi. Plus tu utilises RISE, plus il te connaît.'},
-    {ico:'🌿',title:'Nature & Bien-être',desc:'Marche, soleil, respiration, froid. Reconnecte-toi à la nature.'},
-    {ico:'⚡',title:'Gamification Totale',desc:'XP, niveaux, badges, boss, tournois. Ta vie devient un jeu.'},
-    {ico:'📊',title:'Dashboard Intelligent',desc:'Toutes tes stats en un coup d\'oeil. Graphiques, tendances, progrès.'}
+    {ico:'🤖',title:'JARVIS, ton mentor IA',desc:'Il t\'observe, t\'analyse, et t\'aide à aller là où tu veux vraiment aller. Sans jugement.'},
+    {ico:'🌿',title:'Nature & Bien-être',desc:'Marche, soleil, respiration, froid. Ton corps est ton premier outil de performance.'},
+    {ico:'⚡',title:'Ta vie, gamifiée',desc:'XP, niveaux, succès, boss hebdo. Chaque action compte. Chaque jour te rapproche.'},
+    {ico:'📊',title:'Tout en un coup d\'œil',desc:'Dashboard intelligent. Tes progrès, tes tendances, tes forces et tes angles morts.'}
   ];
   // Inject feature tour after ob-0 splash click
   window._obFeatureTourDone=false;
@@ -5810,19 +5819,19 @@ function toggleZenMode(){
 (function(){
   // Add more achievements to the existing array
   var newAchievements=[
-    {id:'first_ci',nm:'Premier Check-in',desc:'Fais ton premier check-in',ico:'☀️',cond:function(){return Object.keys(S.checkins||{}).length>=1;},xp:30},
-    {id:'xp100day',nm:'Productif',desc:'100 XP en un seul jour',ico:'⚡',cond:function(){return (S._todayXP||0)>=100;},xp:75},
-    {id:'explorer10',nm:'Explorateur',desc:'Visite 10 écrans différents',ico:'🧭',cond:function(){return Object.keys(S.screenVisits||{}).length>=10;},xp:60},
-    {id:'habit7',nm:'Habitude ancrée',desc:'7 jours de streak sur une habitude',ico:'🔗',cond:function(){return (S.habits?.list||[]).some(function(h){return (h.streak||0)>=7;});},xp:100},
-    {id:'mood7',nm:'Introspectif',desc:'7 jours de mood tracking',ico:'🎭',cond:function(){return (S.moodLog||[]).length>=7;},xp:60},
-    {id:'share1',nm:'Ambassadeur',desc:'Partage pour la première fois',ico:'📲',cond:function(){return (S.shared||0)>=1;},xp:40},
-    {id:'night_owl',nm:'Noctambule',desc:'Utilise RISE après 23h',ico:'🦉',cond:function(){return new Date().getHours()>=23;},xp:30},
-    {id:'early_bird',nm:'Lève-tôt',desc:'Utilise RISE avant 7h',ico:'🐦',cond:function(){return new Date().getHours()<7;},xp:30},
-    {id:'pomo5',nm:'Focus Master',desc:'5 sessions Pomodoro',ico:'⏱️',cond:function(){return (S.pomoStats?.sessions?.length||0)>=5;},xp:50},
-    {id:'allhabits',nm:'Journée parfaite',desc:'Complète toutes tes habitudes en 1 jour',ico:'💯',cond:function(){var h=S.habits;if(!h||!h.list)return false;var today=new Date().toDateString();return h.list.length>0&&h.list.every(function(x){return x.lastDone===today;});},xp:150},
-    {id:'gems100',nm:'Collectionneur',desc:'Accumule 100 gemmes',ico:'💎',cond:function(){return (S.gems||0)>=100;},xp:50},
-    {id:'quiz10',nm:'Cerveau',desc:'10 quiz complétés',ico:'🧠',cond:function(){return (S.quizCount||0)>=10;},xp:80},
-    {id:'mem5',nm:'Mémoire de fer',desc:'5 parties de Memory',ico:'🃏',cond:function(){return (S.memoryCount||0)>=5;},xp:60}
+    {id:'first_ci',nm:'Présent',desc:'Ton premier check-in quotidien.',flavor:'Se pointer, c\'est déjà 80% du travail.',ico:'☀️',rarity:'common',cond:function(){return Object.keys(S.checkins||{}).length>=1;},xp:30},
+    {id:'xp100day',nm:'Jour de Feu',desc:'100 XP gagnés en une seule journée.',flavor:'Certains jours valent plus que d\'autres. Celui-ci en fait partie.',ico:'⚡',rarity:'uncommon',cond:function(){return (S._todayXP||0)>=100;},xp:75},
+    {id:'explorer10',nm:'Cartographe',desc:'10 écrans différents explorés.',flavor:'Tu connais RISE mieux que la plupart. Continue à creuser.',ico:'🧭',rarity:'uncommon',cond:function(){return Object.keys(S.screenVisits||{}).length>=10;},xp:60},
+    {id:'habit7',nm:'Ancrage',desc:'7 jours de streak sur une habitude.',flavor:'21 jours pour créer une habitude, dit-on. Tu en es à un tiers. Ne lâche pas.',ico:'🔗',rarity:'rare',cond:function(){return (S.habits?.list||[]).some(function(h){return (h.streak||0)>=7;});},xp:100},
+    {id:'mood7',nm:'Miroir Intérieur',desc:'7 jours de suivi d\'humeur.',flavor:'Observer ses émotions, c\'est le premier pas pour les maîtriser.',ico:'🎭',rarity:'uncommon',cond:function(){return (S.moodLog||[]).length>=7;},xp:60},
+    {id:'share1',nm:'Ambassadeur',desc:'Premier partage de tes progrès.',flavor:'Partager ses victoires, c\'est les ancrer. Et inspirer les autres.',ico:'📲',rarity:'common',cond:function(){return (S.shared||0)>=1;},xp:40},
+    {id:'night_owl',nm:'Noctambule',desc:'Utilise RISE après 23h.',flavor:'La nuit appartient à ceux qui n\'ont pas fini de se construire.',ico:'🦉',rarity:'uncommon',cond:function(){return new Date().getHours()>=23;},xp:30},
+    {id:'early_bird',nm:'L\'Aube',desc:'Utilise RISE avant 7h.',flavor:'Le monde appartient à ceux qui se lèvent tôt. Tu le sais déjà.',ico:'🐦',rarity:'uncommon',cond:function(){return new Date().getHours()<7;},xp:30},
+    {id:'pomo5',nm:'Deep Focus',desc:'5 sessions Pomodoro terminées.',flavor:'25 minutes de silence dans un monde de bruit. C\'est un super-pouvoir.',ico:'⏱️',rarity:'uncommon',cond:function(){return (S.pomoStats?.sessions?.length||0)>=5;},xp:50},
+    {id:'allhabits',nm:'Sans Faille',desc:'Toutes tes habitudes complétées en un jour.',flavor:'Zéro excuse. Zéro oubli. Une journée comme celle-ci vaut un mois.',ico:'💯',rarity:'epic',cond:function(){var h=S.habits;if(!h||!h.list)return false;var today=new Date().toDateString();return h.list.length>0&&h.list.every(function(x){return x.lastDone===today;});},xp:150},
+    {id:'gems100',nm:'Trésor',desc:'100 gemmes accumulées.',flavor:'Les gemmes récompensent la régularité, pas la chance.',ico:'💎',rarity:'rare',cond:function(){return (S.gems||0)>=100;},xp:50},
+    {id:'quiz10',nm:'Esprit Vif',desc:'10 quiz réussis.',flavor:'Apprendre, tester, retenir. Ton cerveau te remercie.',ico:'🧠',rarity:'uncommon',cond:function(){return (S.quizCount||0)>=10;},xp:80},
+    {id:'mem5',nm:'Mémoire Vive',desc:'5 parties de Memory terminées.',flavor:'La mémoire se muscle. Tu viens de faire une série.',ico:'🃏',rarity:'uncommon',cond:function(){return (S.memoryCount||0)>=5;},xp:60}
   ];
   // Merge safely
   try{
@@ -7625,9 +7634,9 @@ function toggleZenMode(){
     var streak = S.streak || 0;
     var lvl = (S.xp || 0);
 
-    var msg = greet + ' ' + name + ' ! Je suis JARVIS, ton assistant personnel RISE.';
-    if(streak > 0) msg += ' Tu es à ' + streak + ' jours de streak, continue comme ça !';
-    msg += ' Comment puis-je t\'aider ?';
+    var msg = greet + ' ' + name + '. Je suis JARVIS — ton observateur, ton analyste, et parfois ta conscience.';
+    if(streak > 0) msg += ' Ton streak est à ' + streak + ' jours. Ne le casse pas aujourd\'hui.';
+    msg += ' Qu\'est-ce qu\'on attaque ?';
 
     addJarvisMsg('jarvis', msg);
   }
@@ -9044,7 +9053,7 @@ window.render_okr = function(){
   var h = '<div style="margin-bottom:16px"><div class="sct" style="font-size:22px">🎯 Objectifs OKR</div><div style="font-size:12px;color:var(--tx2);margin-top:4px">Objectives & Key Results — trimestre en cours</div></div>';
   
   if(S.okrs.length === 0){
-    h += '<div class="empty-state"><div class="empty-state-ico">🎯</div><div class="empty-state-title">Aucun OKR</div><div class="empty-state-desc">Définis tes objectifs et résultats clés</div></div>';
+    h += '<div class="empty-state"><div class="empty-state-ico">🎯</div><div class="empty-state-title">Aucun objectif défini</div><div class="empty-state-desc">Sans direction, l\'effort se disperse. Définis tes OKR et donne un cap à ton trimestre.</div></div>';
   }
   
   S.okrs.forEach(function(okr, oi){
@@ -9100,7 +9109,7 @@ window.render_network = function(){
   h += '</div>';
   
   if(S.network.length === 0){
-    h += '<div class="empty-state"><div class="empty-state-ico">🤝</div><div class="empty-state-title">Aucun contact</div><div class="empty-state-desc">Ajoute tes contacts pro pour suivre ton réseau</div></div>';
+    h += '<div class="empty-state"><div class="empty-state-ico">🤝</div><div class="empty-state-title">Ton réseau commence ici</div><div class="empty-state-desc">Les meilleures opportunités viennent des bonnes relations. Ajoute tes contacts clés.</div></div>';
   }
   
   S.network.forEach(function(c, ci){
@@ -9154,7 +9163,7 @@ window.render_ideas_biz = function(){
   var sorted = S.bizIdeas.slice().sort(function(a,b){ return (b.potential*b.feasibility*b.passion) - (a.potential*a.feasibility*a.passion); });
   
   if(sorted.length === 0){
-    h += '<div class="empty-state"><div class="empty-state-ico">💡</div><div class="empty-state-title">Aucune idée</div><div class="empty-state-desc">Capture tes idées business et évalue-les</div></div>';
+    h += '<div class="empty-state"><div class="empty-state-ico">💡</div><div class="empty-state-title">L\'idée viendra</div><div class="empty-state-desc">Les meilleures idées arrivent quand on les cherche. Note tout ici — même les brouillons.</div></div>';
   }
   
   sorted.forEach(function(idea, ii){
@@ -11590,7 +11599,7 @@ function renderNotesScreen(){
   }
 
   if(!pinned.length && !others.length){
-    h += '<div style="text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:8px">📝</div><div style="font-size:14px;font-weight:700">Aucune note</div><div style="font-size:12px">Capture tes idées ci-dessus!</div></div>';
+    h += '<div style="text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:8px">📝</div><div style="font-size:14px;font-weight:700">Ton espace est prêt</div><div style="font-size:12px">Une idée notée est une idée sauvée. Capture tes pensées ici.</div></div>';
   }
 
   el.innerHTML = h;
@@ -11679,7 +11688,7 @@ function renderBizIdeas(){
   h += '<button class="btn btn-ac" style="margin-bottom:14px" onclick="generateBizIdea()">💡 Générer une idée business</button>';
 
   if(!ideas.length){
-    h += '<div style="text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:8px">🚀</div><div style="font-size:14px;font-weight:700">Aucune idée encore</div><div style="font-size:12px">Génère ta première idée!</div></div>';
+    h += '<div style="text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:8px">🚀</div><div style="font-size:14px;font-weight:700">Prêt à créer ?</div><div style="font-size:12px">Génère ta première idée. L\'IA fait le travail, tu fais le tri.</div></div>';
   } else {
     ideas.forEach(function(idea){
       var col = idea.status==='active'?'var(--gr)':idea.status==='archived'?'var(--tx3)':'var(--ac)';
@@ -12302,7 +12311,7 @@ function renderFinanceAdv(){
       h += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--tx2)">'+esc(item[0])+'</span><span style="color:var(--rd);font-weight:700">-'+item[1].toFixed(0)+'€</span></div>';
       h += '<div class="pbar"><div class="pfill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--rd),#ff8080)"></div></div></div>';
     });
-    if(!Object.keys(byCat).length) h += '<div style="font-size:12px;color:var(--tx3)">Aucune dépense ce mois</div>';
+    if(!Object.keys(byCat).length) h += '<div style="font-size:12px;color:var(--tx3)">Pas de dépense enregistrée ce mois. Bonne nouvelle ou angle mort ?</div>';
     h += '</div>';
 
     // Financial goals
