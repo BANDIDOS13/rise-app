@@ -1043,16 +1043,16 @@ const BOSSES=[{k:'boss_1',hp:500,r:{xp:200,g:20}},{k:'boss_2',hp:400,r:{xp:180,g
 function bossNm(b){return typeof t==='function'?t(b.k):b.k;}
 const QPOOL=[{id:'ci',ico:'📋',tk:'quest_checkin',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',tk:'quest_3tasks',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',tk:'quest_coach',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',tk:'quest_2pomo',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',tk:'quest_walk',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',tk:'quest_sun',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',tk:'quest_breath',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',tk:'quest_form',target:1,type:'form',xp:50,g:5}];
 const FLASH=[{ico:'💪',tk:'flash_pushups',xp:80,g:8},{ico:'🚶',tk:'flash_outside',xp:70,g:7},{ico:'💨',tk:'flash_breathing',xp:50,g:5},{ico:'📝',tk:'flash_gratitude',xp:40,g:4},{ico:'☀️',tk:'flash_sun',xp:40,g:4},{ico:'🧊',tk:'flash_cold',xp:60,g:6},{ico:'🧘',tk:'flash_meditate',xp:60,g:6}];
-const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'}];
+const FORMS_D=[{id:'ep',tk:'form_mindset',ico:'🚀',bg:'#1a1208',tc:'var(--ac)'},{id:'rch',tk:'form_rich',ico:'💰',bg:'#081208',tc:'var(--gr)'},{id:'sm',tk:'form_social',ico:'📱',bg:'#0a0818',tc:'var(--pu)'},{id:'ps',tk:'form_psych',ico:'🧠',bg:'#14080a',tc:'#d46a9e'},{id:'cd',tk:'form_code',ico:'💻',bg:'#0a1218',tc:'var(--bl)'},{id:'ca',tk:'form_calisthenics',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)'},{id:'nw',tk:'form_nature',ico:'🌿',bg:'#081408',tc:'var(--nt)'},{id:'ai',tk:'form_ai',ico:'🤖',bg:'#080a18',tc:'var(--bl)'},{id:'nu',tk:'form_nutrition',ico:'🥗',bg:'#0a1808',tc:'var(--tl)'},{id:'sa',tk:'form_sales',ico:'🤝',bg:'#1a1008',tc:'var(--or)'}];
 const BOOKS=[{ico:'🔥',t:'The 5 AM Club',a:'Robin Sharma',cat:'Mental',lvl:'Facile',p:450,sum:'Lever à 5h, routine 20-20-20. Transforme les matins, transforme ta vie.',key:'Le matin appartient à ceux qui se lèvent tôt. 66j pour ancrer une habitude.',act:'Demain: réveil 15 min plus tôt. Une seule fois.'},{ico:'🌊',t:'Atomic Habits',a:'James Clear',cat:'Mental',lvl:'Facile',p:320,sum:'1% par jour = +37x en 1 an. Systèmes, pas objectifs.',key:'Tu tombes au niveau de tes systèmes, pas au niveau de tes objectifs.',act:'Identifie 1 habitude. Ancre-la: après [X], je fais [Y].'},{ico:'🧠',t:'Deep Work',a:'Cal Newport',cat:'Mental',lvl:'Intermédiaire',p:296,sum:'Le focus intense est la super-puissance du 21e siècle. 4h deep work > 8h ordinaires.',key:'La distraction est le défaut, pas la règle. Reprends le contrôle.',act:'Planifie 1 bloc 90min deep work demain. Téléphone en mode avion.'},{ico:'💰',t:'Rich Dad Poor Dad',a:'Robert Kiyosaki',cat:'Finance',lvl:'Facile',p:207,sum:'Actifs vs passifs. Fais travailler l argent pour toi.',key:'Ta maison n est pas un actif. Un actif met de l argent dans ta poche.',act:'Liste tes actifs et passifs. Quel premier actif crées-tu ce mois-ci?'},{ico:'🚀',t:'Zero to One',a:'Peter Thiel',cat:'Business',lvl:'Intermédiaire',p:224,sum:'Créer quelque chose de nouveau > copier. Monopoles > compétition.',key:'La compétition détruit les profits. Vise un monopole sur un marché que tu crées.',act:'Quel problème résous-tu mieux que quiconque? C est là ton business.'},{ico:'🌿',t:'The Nature Fix',a:'Florence Williams',cat:'Nature',lvl:'Facile',p:280,sum:'60min nature/semaine réduit cortisol de 13%. La science du vert.',key:'20 min en nature baisse la tension. 90 min désactive la rumination.',act:'Sors 20 minutes aujourd hui. Pas de téléphone. 3 choses jamais remarquées.'},{ico:'😴',t:'Why We Sleep',a:'Matthew Walker',cat:'Santé',lvl:'Facile',p:368,sum:'Le sommeil est la fondation de tout: mémoire, immunité, créativité.',key:'Après 16h sans sommeil, tu es aussi altéré qu un conducteur ivre.',act:'Écrans off 1h avant dormir. Chambre 18 degrés. Blackout total.'},{ico:'💪',t:'Can t Hurt Me',a:'David Goggins',cat:'Mental',lvl:'Intense',p:364,sum:'L esprit abandonne à 40% des capacités réelles. Callusing the mind.',key:'Quand ton esprit dit stop, tu n as utilisé que 40% de tes capacités.',act:'Ta chose la plus difficile de la semaine. Fais-la en premier demain matin.'},{ico:'⚡',t:'The 4-Hour Work Week',a:'Tim Ferriss',cat:'Business',lvl:'Intermédiaire',p:308,sum:'80/20, délégation, automatisation. Ne remet pas les rêves à plus tard.',key:'Rien de vertueux à bosser 80h/semaine si le même résultat en 4h.',act:'Identifie 20% des activités = 80% des résultats. Coupe le reste.'},{ico:'🧘',t:'The Power of Now',a:'Eckhart Tolle',cat:'Spiritualité',lvl:'Profond',p:236,sum:'Le moment présent est tout ce qui existe vraiment. Conscience pure.',key:'Le moment présent est tout ce que tu auras jamais. Vis-y.',act:'5 min: observe ta respiration sans essayer de la changer.'},{ico:'❤️',t:'The 5 Love Languages',a:'Gary Chapman',cat:'Relations',lvl:'Facile',p:208,sum:'5 langages: mots, temps, cadeaux, services, toucher.',key:'Parler le mauvais langage, c est parler à quelqu un dans une langue incomprise.',act:'Identifie ton langage primaire. Puis celui des 3 personnes proches.'},{ico:'🌅',t:'Ikigai',a:'Garcia & Miralles',cat:'Spiritualité',lvl:'Facile',p:208,sum:'Raison d être japonaise: passion + mission + vocation + profession.',key:'L ikigai se révèle en s oubliant dans l action.',act:'Dessine tes 4 cercles. Qu est-ce qui est au centre aujourd hui?'}];
-const SKILL_TREES={focus:{lbl:'🎯 Focus',col:'var(--ac)',n:[{i:'📋',nm:'To-do'},{i:'⏱️',nm:'Pomodoro'},{i:'🔇',nm:'Deep Work'},{i:'🧠',nm:'Mental clair'},{i:'🚀',nm:'Peak State'},{i:'⚡',nm:'Flow maître'}]},nature:{lbl:'🌿 Nature',col:'var(--nt)',n:[{i:'🚶',nm:'Marche'},{i:'☀️',nm:'Soleil'},{i:'💨',nm:'Respiration'},{i:'🧊',nm:'Froid'},{i:'🌊',nm:'Plein air'},{i:'🌍',nm:'Nomade'}]},mind:{lbl:'🧠 Mental',col:'var(--pu)',n:[{i:'🧘',nm:'Méditation'},{i:'📓',nm:'Journal'},{i:'💡',nm:'Clarté'},{i:'🔮',nm:'Vision'},{i:'⚡',nm:'Stoïcisme'},{i:'🌟',nm:'Maître'}]},biz:{lbl:'💰 Business',col:'var(--ac)',n:[{i:'📱',nm:'Personal Brand'},{i:'💼',nm:'Freelance'},{i:'🚀',nm:'Startup'},{i:'📈',nm:'Scaling'},{i:'🤖',nm:'IA Business'},{i:'👑',nm:'Empire'}]}};
-const AFF_T=[{ico:'🌱',nm:'Débutant',refs:0,pct:15,col:'var(--gr)'},{ico:'🔥',nm:'Actif',refs:5,pct:20,col:'var(--or)'},{ico:'💎',nm:'Pro',refs:15,pct:25,col:'var(--bl)'},{ico:'👑',nm:'Elite',refs:30,pct:30,col:'var(--ac)'}];
+const SKILL_TREES={focus:{tk:'sk_focus',col:'var(--ac)',n:[{i:'📋',tk:'sk_todo'},{i:'⏱️',tk:'sk_pomodoro'},{i:'🔇',tk:'sk_deepwork'},{i:'🧠',tk:'sk_clarity'},{i:'🚀',tk:'sk_peak'},{i:'⚡',tk:'sk_flow'}]},nature:{tk:'sk_nature',col:'var(--nt)',n:[{i:'🚶',tk:'sk_walk'},{i:'☀️',tk:'sk_sun'},{i:'💨',tk:'sk_breathing'},{i:'🧊',tk:'sk_cold'},{i:'🌊',tk:'sk_outdoor'},{i:'🌍',tk:'sk_nomad'}]},mind:{tk:'sk_mind',col:'var(--pu)',n:[{i:'🧘',tk:'sk_meditation'},{i:'📓',tk:'sk_journal_sk'},{i:'💡',tk:'sk_clarity_sk'},{i:'🔮',tk:'sk_vision'},{i:'⚡',tk:'sk_stoicism'},{i:'🌟',tk:'sk_master'}]},biz:{tk:'sk_biz',col:'var(--ac)',n:[{i:'📱',tk:'sk_brand'},{i:'💼',tk:'sk_freelance'},{i:'🚀',tk:'sk_startup'},{i:'📈',tk:'sk_scaling'},{i:'🤖',tk:'sk_ai_biz'},{i:'👑',tk:'sk_empire'}]}};
+const AFF_T=[{ico:'🌱',tk:'aff_beginner',refs:0,pct:15,col:'var(--gr)'},{ico:'🔥',tk:'aff_active',refs:5,pct:20,col:'var(--or)'},{ico:'💎',tk:'aff_pro',refs:15,pct:25,col:'var(--bl)'},{ico:'👑',tk:'aff_elite',refs:30,pct:30,col:'var(--ac)'}];
 const PLANS_D=[{id:'free',nm:'Free',price:0,bc:'var(--bd)',tc:'var(--tx)',feats:['✅ Accueil perso','✅ Nature complet','✅ Check-in IA','✅ 2 formations','✅ Affiliation 15%','❌ Coach illimité','❌ Livres IA perso','❌ Tournoi premium']},{id:'starter',nm:'Starter',price:4.99,bc:'#2a4020',tc:'var(--gr)',feats:['✅ Tout Free','✅ Coach 30msg/j','✅ 5 formations','✅ Livres IA','✅ Plan 90j','✅ Affiliation 20%','❌ Coach illimité','❌ Guildes']},{id:'pro',nm:'Pro ⭐',price:9.99,bc:'var(--acm)',tc:'var(--ac)',pop:true,feats:['✅ Tout Starter','✅ Coach illimité','✅ Toutes formations','✅ Guildes et Tournoi','✅ Vision Board','✅ Affiliation 25%','✅ 50💎/mois']},{id:'elite',nm:'Elite 👑',price:19.99,bc:'var(--pud)',tc:'var(--pu)',feats:['✅ Tout Pro','✅ Affiliation 30%','✅ 200💎/mois','✅ Certifications','✅ Support VIP','✅ Bilan audio mensuel']}];
 const BREATHS=[{id:'cardiac',k:'breath_cardiac',ico:'💚',in:5,hold:0,out:5,rounds:6,col:'var(--gr)'},{id:'box',k:'breath_box',ico:'📦',in:4,hold:4,out:4,rounds:8,col:'var(--pu)'},{id:'478',k:'breath_478',ico:'😴',in:4,hold:7,out:8,rounds:4,col:'var(--tl)'},{id:'wim',k:'breath_wim',ico:'❄️',in:4,hold:0,out:4,rounds:30,col:'var(--bl)'}];
 function brNm(b){return typeof t==='function'?t(b.k):b.k;}
 function brDesc(b){return typeof t==='function'?t(b.k+'_d'):b.k;}
 const GOAL_WG={focus:['w-quests','w-pomo'],wellbeing:['w-streak','w-nat'],grow:['w-quests'],health:['w-streak','w-nat'],money:['w-quests','w-boss'],all:['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash']};
-const MW_STEPS=[{dur:120,t:'Ancre-toi',d:'Sens tes pieds toucher le sol. Gauche. Droite.',ico:'👣'},{dur:180,t:'Observe',d:'5 choses autour de toi. Couleurs, formes, mouvements.',ico:'👁️'},{dur:120,t:'Écoute',d:'Ferme les yeux 10 sec. Combien de sons?',ico:'👂'},{dur:180,t:'Sens',d:'Air sur la peau. Température. Odeurs.',ico:'🌬️'},{dur:120,t:'Respire en marchant',d:'Inspire 4 pas. Expire 4 pas.',ico:'💨'},{dur:180,t:'Gratitude',d:'Pour chaque pas, une chose positive.',ico:'💛'}];
+const MW_STEPS=[{dur:120,tk:'mw_1',ico:'👣'},{dur:180,tk:'mw_2',ico:'👁️'},{dur:120,tk:'mw_3',ico:'👂'},{dur:180,tk:'mw_4',ico:'🌬️'},{dur:120,tk:'mw_5',ico:'💨'},{dur:180,tk:'mw_6',ico:'💛'}];
 let S=JSON.parse(localStorage.getItem('rise_v9')||'null')||{ob:false,lang:'fr',name:'',goal:'all',theme:'default',mode:'full',xp:0,gems:0,streak:0,lck:'',lsd:'',checkins:{},todos:[],formProg:{},plan:'free',notifs:[],chatH:[],chatMode:'coach',coachMem:{n:0,notes:''},pomoTot:0,bossW:'',bossProg:{},curBoss:0,dq:{date:'',qs:[]},season:1,ss:'',chests:{av:0,nx:3},plan90:{c:'',date:''},vb:{t:'',date:''},letter:{t:'',sealed:false,date:''},guild:{id:'',nm:'',ico:'🏆',members:[],bossHp:1000},aff:{code:'',refs:[],earn:0,pend:0,clicks:0},nat:{walkLogs:[],sunLogs:[],breathLogs:[],coldLogs:[],wDate:'',sDate:'',wMin:0,sMin:0,wStreak:0,lw:'',jEntries:[],sleepLogs:[],odProg:{}},flash:{date:'',idx:0,done:false},h21:[],skills:{focus:{p:0},nature:{p:0},mind:{p:0},biz:{p:0}},tourn:{wk:'',sc:{}},books:{read:[],reading:''},quote:{t:'',date:''},activeWg:['w-streak','w-boss','w-quests','w-nat','w-pomo','w-flash'],
 habits:{list:[
 {id:'h1',name:'Méditer 10 min',ico:'🧘',streak:0,lastDone:'',cat:'mental'},
@@ -1118,7 +1118,7 @@ function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&
 function initFlash(){if(S.flash.date!==TD){S.flash={date:TD,idx:Math.floor(Math.random()*FLASH.length),done:false};save();}renderFlash();}
 function renderFlash(){const el=document.getElementById('w-flash');if(!el)return;if(S.flash.done||!(S.activeWg||[]).includes('w-flash')){el.style.display='none';return;}el.style.display='block';const fc=FLASH[S.flash.idx];const mid=new Date();mid.setHours(23,59,0,0);const rem=Math.floor((mid-Date.now())/1000);el.innerHTML='<div class="wg" style="border-color:var(--rd);background:var(--rdd);cursor:pointer;margin-bottom:0" onclick="showFlash()"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚡ DÉFI FLASH — expire à minuit</div><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+fc.ico+'</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px">'+fc.title+'</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">'+fmtT(rem)+' restants · +'+fc.xp+' XP</div></div></div></div>';}
 function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=t(fc.tk);document.getElementById('fl-desc').textContent=t(fc.tk+'_d');document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
-function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi Flash ! +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();}
+function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast(t('flash_challenge_done')+' +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();}
 let ciE=0,ciF=[];
 function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
@@ -1170,14 +1170,14 @@ function rCold(el){const logs=S.nat.coldLogs||[];let str=0;const d=new Date();fo
 function togCold(){if(coldR){clearInterval(coldInt);coldR=false;const s=coldSec;S.nat.coldLogs.unshift({date:TD,sec:s});const xpG=Math.round(s/30*20);gainXP(xpG,'cold');gainGems(Math.floor(s/60)+1);toast(s+'s froid ! +'+xpG+' XP','❄️',2500);save();coldSec=0;renderNat();}else{coldR=true;coldSec=coldTgt;const b=document.getElementById('cold-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}coldInt=setInterval(()=>{coldSec--;const t=document.getElementById('cold-d');if(t)t.textContent=fmtT(coldSec);const pb=document.getElementById('cold-pb');if(pb)pb.style.width=((coldTgt-coldSec)/coldTgt*100)+'%';if(coldSec<=0){clearInterval(coldInt);coldR=false;S.nat.coldLogs.unshift({date:TD,sec:coldTgt});const xpG=Math.round(coldTgt/30*20);gainXP(xpG,'cold');confetti();toast(coldTgt+'s COMPLET ! +'+xpG+' XP','❄️',4000);save();coldSec=0;renderNat();}},1000);}}
 function rstCold(){clearInterval(coldInt);coldR=false;coldSec=0;renderNat();}
 let mwR=false,mwSec=0,mwInt=null,mwStep=0;
-function rMindful(el){el.innerHTML='<div class="nat-c" style="text-align:center"><div style="font-size:40px;margin-bottom:8px;animation:float 3s ease-in-out infinite" id="mw-ico">🧘</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--nt2);margin-bottom:5px" id="mw-t">Marche Pleine Conscience</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;max-width:260px;margin:0 auto 12px" id="mw-d">6 étapes · 15 min</div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--nt);margin-bottom:12px" id="mw-timer">15:00</div><div style="display:flex;gap:5px;justify-content:center;margin-bottom:12px">'+MW_STEPS.map((_,i)=>'<div style="width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);transition:all .3s" id="mw-d'+i+'"></div>').join('')+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="mw-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togMW()">▶ Commencer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstMW()">↺</button></div></div>'+MW_STEPS.map((s,i)=>'<div style="display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="font-size:20px">'+s.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+(i+1)+'. '+s.t+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+s.d+'</div></div></div>').join('');}
+function rMindful(el){el.innerHTML='<div class="nat-c" style="text-align:center"><div style="font-size:40px;margin-bottom:8px;animation:float 3s ease-in-out infinite" id="mw-ico">🧘</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--nt2);margin-bottom:5px" id="mw-t">Marche Pleine Conscience</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;max-width:260px;margin:0 auto 12px" id="mw-d">6 étapes · 15 min</div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--nt);margin-bottom:12px" id="mw-timer">15:00</div><div style="display:flex;gap:5px;justify-content:center;margin-bottom:12px">'+MW_STEPS.map((_,i)=>'<div style="width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);transition:all .3s" id="mw-d'+i+'"></div>').join('')+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="mw-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togMW()">▶ Commencer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstMW()">↺</button></div></div>'+MW_STEPS.map((s,i)=>'<div style="display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="font-size:20px">'+s.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+(i+1)+'. '+t(s.tk)+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+t(s.tk+'d')+'</div></div></div>').join('');}
 function togMW(){if(mwR){clearInterval(mwInt);mwR=false;gainXP(50,'mindful');toast('Marche conscience ! +50 XP','🧘',3000);save();}else{mwR=true;mwStep=0;mwSec=0;advMW();}const b=document.getElementById('mw-btn');if(b)b.textContent=mwR?'⏹ Terminer':'▶ Commencer';}
-function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];const ico=document.getElementById('mw-ico');if(ico)ico.textContent=s.ico;const tt=document.getElementById('mw-t');if(tt)tt.textContent=s.t;const tx=document.getElementById('mw-d');if(tx)tx.textContent=s.d;for(let i=0;i<MW_STEPS.length;i++){const d=document.getElementById('mw-d'+i);if(d){d.style.background=i<mwStep?'var(--nt)':i===mwStep?'var(--ac)':'var(--sf2)';d.style.borderColor=i<=mwStep?'var(--ac)':'var(--bd2)';}}let rem=s.dur;const tm=document.getElementById('mw-timer');if(tm)tm.textContent=fmtT(rem);mwInt=setInterval(()=>{rem--;if(tm)tm.textContent=fmtT(rem);gainXP(1,'mwt');if(rem<=0){clearInterval(mwInt);mwStep++;if(mwStep<MW_STEPS.length)advMW();else{mwR=false;gainXP(50,'mw_done');gainGems(10);confetti();toast('COMPLET ! +50 XP','🧘',4000);save();}}},1000);}
+function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];const ico=document.getElementById('mw-ico');if(ico)ico.textContent=s.ico;const tt=document.getElementById('mw-t');if(tt)tt.textContent=t(s.tk);const tx=document.getElementById('mw-d');if(tx)tx.textContent=t(s.tk+'d');for(let i=0;i<MW_STEPS.length;i++){const d=document.getElementById('mw-d'+i);if(d){d.style.background=i<mwStep?'var(--nt)':i===mwStep?'var(--ac)':'var(--sf2)';d.style.borderColor=i<=mwStep?'var(--ac)':'var(--bd2)';}}let rem=s.dur;const tm=document.getElementById('mw-timer');if(tm)tm.textContent=fmtT(rem);mwInt=setInterval(()=>{rem--;if(tm)tm.textContent=fmtT(rem);gainXP(1,'mwt');if(rem<=0){clearInterval(mwInt);mwStep++;if(mwStep<MW_STEPS.length)advMW();else{mwR=false;gainXP(50,'mw_done');gainGems(10);confetti();toast('COMPLET ! +50 XP','🧘',4000);save();}}},1000);}
 function rstMW(){clearInterval(mwInt);mwR=false;mwStep=0;mwSec=0;renderNat();}
 const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de suite',target:7,xp:200,g:20},{id:'s5',ico:'☀️',t:'5 jours de soleil',d:'20min/j pendant 5 jours',target:5,xp:150,g:15},{id:'c7',ico:'🧊',t:'7 douches froides',d:'Consécutives',target:7,xp:250,g:25},{id:'n60',ico:'🌿',t:'1h dans la nature',d:'Une sortie d 1h minimum',target:60,xp:180,g:18},{id:'sr',ico:'🌅',t:'Lever de soleil',d:'Dehors avant le lever',target:1,xp:100,g:10}];
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
-function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
+function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast(t('entry_saved'),'📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
 let chatH=[],chatBusy=false;
@@ -1197,7 +1197,7 @@ function sendMsg(){const ta=document.getElementById('ch-ta');const txt=ta.value.
 let dTab='forms';
 function setDT(t,btn){dTab=t;document.querySelectorAll('#screen-disc .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');initDisc();}
 function initDisc(){const el=document.getElementById('disc-content');if(!el)return;if(dTab==='forms')renderForms(el);else renderBooks(el);}
-function renderForms(el){el.innerHTML=FORMS_D.map(f=>{const p=(S.formProg||{})[f.id]||{m:0};const pct=Math.round((p.m||0)/8*100);return '<div class="book-c" onclick="openForm(\''+f.id+'\')"><div class="book-spine"></div><div style="min-width:60px;background:'+f.bg+';display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+f.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+f.tc+';margin-bottom:2px">'+f.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px">'+f.desc+'</div>'+(p.m>0?'<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.m+'/8 modules</div>':'<div style="font-size:10px;color:var(--ac)">8 modules · +1600 XP</div>')+'</div></div>';}).join('');}
+function renderForms(el){el.innerHTML=FORMS_D.map(f=>{const p=(S.formProg||{})[f.id]||{m:0};const pct=Math.round((p.m||0)/8*100);return '<div class="book-c" onclick="openForm(\''+f.id+'\')"><div class="book-spine"></div><div style="min-width:60px;background:'+f.bg+';display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+f.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+f.tc+';margin-bottom:2px">'+(f.tk?t(f.tk):f.title)+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px">'+(f.tk?t(f.tk+'_d'):f.desc)+'</div>'+(p.m>0?'<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.m+'/8 modules</div>':'<div style="font-size:10px;color:var(--ac)">8 modules · +1600 XP</div>')+'</div></div>';}).join('');}
 function renderBooks(el){el.innerHTML='<button style="width:100%;background:linear-gradient(135deg,var(--pud),var(--bld));border:1px solid var(--pu);border-radius:var(--r);padding:13px;margin-bottom:11px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="askBookReco()"><div style="font-size:24px">✨</div><div style="text-align:left"><div style="font-size:13px;font-weight:700;color:var(--pu)">Recommandations IA personnalisées</div><div style="font-size:11px;color:var(--tx3)">3 livres exactement pour toi maintenant</div></div></button>'+BOOKS.map(b=>{const read=S.books.read.includes(b.t);const reading=S.books.reading===b.t;return '<div class="book-c" onclick="openBook(\''+encodeURIComponent(b.t)+'\')"><div class="book-spine" style="background:linear-gradient(180deg,var(--pu),var(--bl))"></div><div style="min-width:60px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+b.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:1px">'+b.t+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+b.a+' · '+b.p+'p · '+b.lvl+'</div><div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:5px">'+b.sum.slice(0,70)+'...</div><div style="display:flex;gap:4px">'+(read?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">✅ Lu</span>':reading?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--bld);color:var(--bl);border:1px solid var(--bl)">📖 En cours</span>':'')+'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+b.cat+'</span></div></div></div>';}).join('');}
 function openBook(enc){const title=decodeURIComponent(enc);const b=BOOKS.find(x=>x.t===title);if(!b)return;document.getElementById('fov-tit').textContent=b.ico+' '+b.t;document.getElementById('fov-sub').textContent=b.a+' · '+b.p+'p · '+b.lvl;document.getElementById('fov-body').innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px">'+b.sum+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">💡 Point clé</div><div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65">'+b.key+'</div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">✏️ Action ce soir</div><div style="font-size:13px;color:var(--tx2);line-height:1.65">'+b.act+'</div></div><div style="display:flex;gap:8px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'read\')">✅ Marquer lu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--bld);border:1px solid var(--bl);color:var(--bl);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'reading\')">📖 Je lis ça</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--agg);border:1px solid var(--acm);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer" onclick="askAboutBk(\''+enc+'\')">🤖 Coach</button></div>';document.getElementById('form-ov').classList.add('show');}
 function markBk(enc,status){const title=decodeURIComponent(enc);if(status==='read'){if(!S.books.read.includes(title)){S.books.read.push(title);gainXP(50,'book');gainGems(5);toast('Livre lu ! +50 XP','📚',2500);}}else{S.books.reading=title;toast('Bonne lecture !','📖',2000);}save();}
@@ -1219,7 +1219,7 @@ function renderFormQuiz(fid, num) {
     '<button class="btn btn-ac" style="padding:11px" onclick="complMod(\''+fid+'\','+num+')">Valider ma réponse → +200 XP</button>';
 }
 
-function openForm(id){const form=FORMS_D.find(f=>f.id===id);if(!form)return;document.getElementById('fov-tit').textContent=form.ico+' '+form.title;document.getElementById('fov-sub').textContent='8 modules · +1600 XP';const ov=document.getElementById('fov-body');ov.innerHTML='<div class="shim"></div><div class="shim"></div>';document.getElementById('form-ov').classList.add('show');const prog=(S.formProg||{})[id]||{m:0};const content=RISE_AI.openForm(id);ov.innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px">'+(form.desc||'')+'</div>'+(content.modules||[]).map(m=>{const done=(prog.m||0)>m.num-1,cur=(prog.m||0)===m.num-1;let h='<div style="background:var(--sf);border:1px solid '+(done?'var(--gr)':cur?'var(--ac)':'var(--bd)')+';border-radius:var(--r);padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="font-size:22px">'+(done?'✅':cur?form.ico:'🔒')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:1px">'+m.num+'. '+m.title+'</div><div style="font-size:11px;color:var(--tx3)">'+m.duration+' · +200 XP</div></div></div>';if(done||cur)h+='<div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:8px">'+m.desc+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--ac2);margin-bottom:'+(cur?'9px':'0')+'">💡 '+m.key+'</div>';if(cur)h+='<div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--tx2);line-height:1.5;margin-top:8px;margin-bottom:9px">✏️ '+m.exercise+'</div>'+renderFormQuiz(id, m.num)+'';h+='</div>';return h;}).join('');}
+function openForm(id){const form=FORMS_D.find(f=>f.id===id);if(!form)return;document.getElementById('fov-tit').textContent=form.ico+' '+(form.tk?t(form.tk):form.title);document.getElementById('fov-sub').textContent='8 modules · +1600 XP';const ov=document.getElementById('fov-body');ov.innerHTML='<div class="shim"></div><div class="shim"></div>';document.getElementById('form-ov').classList.add('show');const prog=(S.formProg||{})[id]||{m:0};const content=RISE_AI.openForm(id);ov.innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px">'+(form.tk?t(form.tk+'_d'):(form.desc||''))+'</div>'+(content.modules||[]).map(m=>{const done=(prog.m||0)>m.num-1,cur=(prog.m||0)===m.num-1;let h='<div style="background:var(--sf);border:1px solid '+(done?'var(--gr)':cur?'var(--ac)':'var(--bd)')+';border-radius:var(--r);padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="font-size:22px">'+(done?'✅':cur?form.ico:'🔒')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:1px">'+m.num+'. '+m.title+'</div><div style="font-size:11px;color:var(--tx3)">'+m.duration+' · +200 XP</div></div></div>';if(done||cur)h+='<div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:8px">'+m.desc+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--ac2);margin-bottom:'+(cur?'9px':'0')+'">💡 '+m.key+'</div>';if(cur)h+='<div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--tx2);line-height:1.5;margin-top:8px;margin-bottom:9px">✏️ '+m.exercise+'</div>'+renderFormQuiz(id, m.num)+'';h+='</div>';return h;}).join('');}
 function complMod(fid,num){
   // Quiz validation - user must answer correctly
   const form = FORMS_D.find(f=>f.id===fid);
@@ -1230,13 +1230,13 @@ function complMod(fid,num){
     const q = mod.quiz;
     const userAns = document.getElementById('quiz-ans-'+fid+'-'+num);
     if(!userAns || !userAns.value.trim()) {
-      toast('Réponds à la question pour valider! 📝','⚠️',3000);
+      toast(t('answer_question'),'⚠️',3000);
       return;
     }
     const ans = userAns.value.trim().toLowerCase();
     const correct = q.answer.toLowerCase();
     if(!ans.includes(correct) && !correct.includes(ans) && ans.length < 3) {
-      toast('Mauvaise réponse, réessaie! 💡','❌',3000);
+      toast(t('wrong_answer'),'❌',3000);
       return;
     }
   }
@@ -1246,27 +1246,27 @@ let fTab='vision';
 function setFT(tab,btn){fTab=tab;document.querySelectorAll('#screen-feat .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderFeat();}
 function renderFeat(){const el=document.getElementById('feat-content');if(!el)return;if(fTab==='vision')rVision(el);else if(fTab==='plan90')rPlan90(el);else if(fTab==='letter')rLetter(el);else if(fTab==='tourn')rTourn(el);else if(fTab==='skills')rSkills(el);else if(fTab==='h21')rH21(el);else if(fTab==='guilds')rGuilds(el);else if(fTab==='wealth')rWealth(el);else if(fTab==='progress')rProgress(el);else if(fTab==='aff')rAff(el);else if(fTab==='avatar')renderAvatar(el);else if(fTab==='rapport')renderRapport(el);else if(fTab==='challenges')renderChallenges(el);}
 async function rVision(el){if(S.vb&&S.vb.t){el.innerHTML='<div class="vis-c"><div class="lbl" style="color:var(--pu);margin-bottom:10px">🌈 Ta Vision dans 1 an</div><div style="font-size:14px;color:var(--tx);line-height:1.8;font-style:italic">'+S.vb.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.vb={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="vis-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">🌈</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Vision Board IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Description cinématographique de ta vie idéale dans 1 an.</div><button class="btn btn-pu" onclick="genVision()">Créer ma vision 🌈</button></div>';}
-function genVision(){const el=document.getElementById('feat-content');el.innerHTML='<div class="shim"></div><div class="shim"></div>';RISE_AI.genVision();save();toast('Vision créée !','🌈',2500);rVision(el);}
+function genVision(){const el=document.getElementById('feat-content');el.innerHTML='<div class="shim"></div><div class="shim"></div>';RISE_AI.genVision();save();toast(t('vision_created'),'🌈',2500);rVision(el);}
 function rPlan90(el){if(S.plan90&&S.plan90.c){el.innerHTML='<div class="plan-c"><div class="lbl" style="color:var(--bl);margin-bottom:12px">📅 Plan 90 jours</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;white-space:pre-wrap">'+S.plan90.c+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.plan90={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="plan-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">📅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Plan 90 jours IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Plan complet, mois par mois, jalons mesurables.</div><button class="btn btn-ac" onclick="go90()">Générer →</button></div>';}
 function go90(){gs('chat',null);setTimeout(()=>{document.querySelectorAll('.ch-mode').forEach(b=>{if(b.textContent.includes('Plan'))b.click();});},200);}
 function rLetter(el){if(S.letter&&S.letter.sealed){const od=new Date(S.letter.date);od.setDate(od.getDate()+90);const canOpen=new Date()>=od;const rem=Math.ceil((od-new Date())/(1000*60*60*24));el.innerHTML=canOpen?'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px"><div class="lbl" style="color:var(--ac);margin-bottom:12px">💌 Lettre — 90 jours plus tard</div><div style="font-size:14px;color:var(--tx);line-height:1.8;white-space:pre-wrap">'+S.letter.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.letter={};save();renderFeat()">Écrire une nouvelle lettre</button>':'<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">💌</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);margin-bottom:6px">Lettre scellée</div><div style="font-size:13px;color:var(--tx3)">Ouverture dans <strong style="color:var(--ac)">'+rem+' jours</strong></div></div>';return;}el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:18px;text-align:center"><div style="font-size:48px;margin-bottom:12px">✍️</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Lettre au futur toi</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Scellée 90 jours. Reçue au bon moment.</div><button class="btn btn-ac" onclick="openM(\'m-letter\')">Écrire 💌</button></div>';}
-function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast('Lettre scellée 90 jours !','💌',3500);renderFeat();}
+function saveLtr(){const txt=document.getElementById('ltr-txt')?.value.trim();if(!txt||txt.length<30)return;S.letter={t:txt,sealed:true,date:TD};save();closeM('m-letter');toast(t('letter_sealed'),'💌',3500);renderFeat();}
 function rTourn(el){const t=S.tourn||{wk:WK,sc:{}};const bots=[{nm:'Alex',xp:1240},{nm:'Sophie',xp:987},{nm:'Lucas',xp:1567},{nm:'Emma',xp:432},{nm:'Noah',xp:2100}];const all=[{nm:'Toi',xp:t.sc['Toi']||S.xp||0,me:true},...bots].sort((a,b)=>b.xp-a.xp);const medals=['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣'];el.innerHTML='<div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="color:var(--ac);margin-bottom:4px">🏆 Tournoi de la semaine</div><div style="font-size:12px;color:var(--tx3)">XP gagné · Reset lundi</div></div>'+all.slice(0,6).map((p,i)=>'<div style="background:'+(p.me?'var(--agg)':'var(--sf)')+';border:1px solid '+(p.me?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:11px 13px;margin-bottom:7px;display:flex;align-items:center;gap:10px"><div style="font-size:14px;flex-shrink:0">'+medals[i]+'</div><div style="flex:1;font-size:13px;font-weight:600">'+p.nm+(p.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac)">'+p.xp.toLocaleString()+' XP</div></div>').join('');}
-function rSkills(el){el.innerHTML=Object.entries(SKILL_TREES).map(([key,tree])=>{const pts=S.skills[key]?.p||0;return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:12px;color:'+tree.col+'">'+tree.lbl+'</div><div style="display:flex;align-items:center;gap:6px">'+tree.n.map((node,i)=>{const done=pts>i;const unlocked=pts===i;return '<div class="stn '+(done?'done':unlocked?'unlocked':'locked')+'" title="'+node.nm+'" onclick="unlSk(\''+key+'\','+i+')">'+node.i+'</div>'+(i<tree.n.length-1?'<div class="st-line '+(done?'done':'')+'"></div>':'');}).join('')+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">'+pts+'/'+tree.n.length+' · Suivante: '+(tree.n[pts]?.nm||'MAX')+'</div></div>';}).join('');}
-function unlSk(key,i){if((S.skills[key]?.p||0)===i&&S.xp>=(i+1)*100){S.skills[key].p=(S.skills[key].p||0)+1;gainXP(0,'sk');toast(SKILL_TREES[key].n[i].nm+' débloqué !','🌟',2500);save();rSkills(document.getElementById('feat-content'));}else toast('Gagne plus de XP d\'abord','ℹ️',2000);}
+function rSkills(el){el.innerHTML=Object.entries(SKILL_TREES).map(([key,tree])=>{const pts=S.skills[key]?.p||0;return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:12px;color:'+tree.col+'">'+t(tree.tk)+'</div><div style="display:flex;align-items:center;gap:6px">'+tree.n.map((node,i)=>{const done=pts>i;const unlocked=pts===i;return '<div class="stn '+(done?'done':unlocked?'unlocked':'locked')+'" title="'+t(node.tk)+'" onclick="unlSk(\''+key+'\','+i+')">'+node.i+'</div>'+(i<tree.n.length-1?'<div class="st-line '+(done?'done':'')+'"></div>':'');}).join('')+'</div><div style="font-size:11px;color:var(--tx3);margin-top:8px">'+pts+'/'+tree.n.length+' → '+(tree.n[pts]?t(tree.n[pts].tk):'MAX')+'</div></div>';}).join('');}
+function unlSk(key,i){if((S.skills[key]?.p||0)===i&&S.xp>=(i+1)*100){S.skills[key].p=(S.skills[key].p||0)+1;gainXP(0,'sk');toast(t(SKILL_TREES[key].n[i].tk)+' '+t('unlocked'),'🌟',2500);save();rSkills(document.getElementById('feat-content'));}else toast(t('need_more_xp'),'ℹ️',2000);}
 function rH21(el){const habits=S.h21||[];el.innerHTML='<button class="btn btn-ac" style="margin-bottom:11px" onclick="openM(\'m-h21\')">+ Nouvelle habitude 21j</button>'+(habits.length?habits.map((h)=>{const today=new Date();const start=new Date(h.start);const daysSince=Math.floor((today-start)/(1000*60*60*24));const completed=Math.min(21,daysSince+1);const pct=Math.round(completed/21*100);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:9px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div><div style="font-size:14px;font-weight:600">'+h.name+'</div><div style="font-size:11px;color:var(--tx3)">'+h.time+' · '+h.cat+'</div></div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)">J'+completed+'</div></div><div class="h21g">'+Array.from({length:21},(_,i)=>{const isDone=i<completed-1;const isToday=i===completed-1;return '<div class="h21d '+(isDone?'done':isToday?'today':'')+'">'+(isDone?'✓':isToday?'·':'')+'</div>';}).join('')+'</div><div class="pbar" style="margin-top:8px"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+completed+'/21 · '+(21-completed)+' restants</div>'+(completed>=21?'<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--rs);padding:8px;margin-top:8px;font-size:12px;color:var(--gr);text-align:center">🏆 Habitude ancrée ! +200 XP</div>':'')+'</div>';}).join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">⚡ Aucune habitude en cours.</div>');}
-function addH21(){const name=document.getElementById('h21-name')?.value.trim();if(!name)return;const time=document.getElementById('h21-time')?.value.trim()||'Flexible';const cat=document.getElementById('h21-cat')?.value||'habit';S.h21=S.h21||[];S.h21.push({name,time,cat,start:TD,id:Date.now()});save();closeM('m-h21');toast('Défi 21j lancé !','⚡',2500);gainXP(20,'h21');renderFeat();}
+function addH21(){const name=document.getElementById('h21-name')?.value.trim();if(!name)return;const time=document.getElementById('h21-time')?.value.trim()||'Flexible';const cat=document.getElementById('h21-cat')?.value||'habit';S.h21=S.h21||[];S.h21.push({name,time,cat,start:TD,id:Date.now()});save();closeM('m-h21');toast(t('challenge_21_started'),'⚡',2500);gainXP(20,'h21');renderFeat();}
 function rGuilds(el){if(S.guild&&S.guild.nm){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px"><div style="height:56px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:11px">'+S.guild.ico+'</div><div style="font-family:var(--fd);font-weight:700;font-size:17px;margin-bottom:10px">'+S.guild.nm+'</div>'+[{nm:S.name,xp:S.xp||0,av:'👑',me:true},...(S.guild.members||[])].map(m=>'<div style="display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid var(--bd)"><div style="width:32px;height:32px;border-radius:50%;background:var(--sf2);border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:15px">'+m.av+'</div><div style="flex:1;font-size:13px;font-weight:600">'+m.nm+(m.me?' (Toi)':'')+'</div><div style="font-family:var(--fd);font-weight:700;font-size:13px;color:var(--ac)">'+m.xp.toLocaleString()+'</div></div>').join('')+'<button class="btn btn-sf" style="margin-top:11px" onclick="invG()">+ Inviter</button></div>';return;}el.innerHTML='<div style="text-align:center;padding:20px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-size:48px;margin-bottom:12px">🤝</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Guildes</div><div style="font-size:13px;color:var(--tx2);margin-bottom:18px">Groupes 5-10. Boss collectif. Accountability réelle.</div><button class="btn btn-ac" style="margin-bottom:9px" onclick="mkGuild()">Créer une guilde</button><button class="btn btn-sf" onclick="jnGuild()">Rejoindre</button></div>';}
-function mkGuild(){S.guild={id:'G-'+Date.now(),nm:S.name+' Guild',ico:'🏆',members:[{nm:'Marie',xp:1200,av:'🎯'},{nm:'Alex',xp:850,av:'💪'}],bossHp:1000};save();toast('Guilde créée !','🤝',2500);renderFeat();}
+function mkGuild(){S.guild={id:'G-'+Date.now(),nm:S.name+' Guild',ico:'🏆',members:[{nm:'Marie',xp:1200,av:'🎯'},{nm:'Alex',xp:850,av:'💪'}],bossHp:1000};save();toast(t('guild_created'),'🤝',2500);renderFeat();}
 function jnGuild(){S.guild={id:'ALPHA',nm:'Alpha Warriors',ico:'⚔️',members:[{nm:'Thomas',xp:2100,av:'👊'},{nm:'Sofia',xp:1650,av:'🔥'}],bossHp:700};save();toast('Alpha Warriors rejoint !','⚔️',2500);renderFeat();}
-function invG(){navigator.clipboard.writeText('Rejoins ma guilde RISE ! Code: '+S.guild.id).then(()=>toast('Code copié !','📋',2000));}
+function invG(){navigator.clipboard.writeText('Rejoins ma guilde RISE ! Code: '+S.guild.id).then(()=>toast(t('code_copied'),'📋',2000));}
 function rWealth(el){el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:18px;margin-bottom:11px;text-align:center"><div class="lbl" style="color:var(--gr);margin-bottom:6px">💰 Calculateur de Richesse</div><div style="font-family:var(--fd);font-weight:700;font-size:40px;color:var(--gr);line-height:1;margin:12px 0 4px" id="w-res">0€</div><div style="font-size:12px;color:var(--tx3)" id="w-tl">Configure les paramètres ci-dessous</div></div><div class="card" style="margin-bottom:11px">'+[{id:'wI',min:0,max:10000,val:0,lbl:'Revenu mensuel net (€)'},{id:'wS',min:5,max:70,val:5,lbl:'Taux d\'épargne (%)'},{id:'wR',min:3,max:12,val:7,lbl:'Rendement annuel (%)'},{id:'wY',min:1,max:30,val:10,lbl:'Horizon (années)'}].map(s=>'<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between;margin-bottom:5px;font-size:12px"><span style="color:var(--tx2)">'+s.lbl+'</span><span style="font-weight:700;color:var(--ac)" id="sv-'+s.id+'">'+s.val+'</span></div><input type="range" min="'+s.min+'" max="'+s.max+'" value="'+s.val+'" style="width:100%;accent-color:var(--ac);height:5px" oninput="updW(this,\''+s.id+'\')"></div>').join('')+'</div>';}
 const wV={wI:0,wS:5,wR:7,wY:10};
 function updW(inp,id){wV[id]=parseFloat(inp.value);const sv=document.getElementById('sv-'+id);if(sv)sv.textContent=inp.value+(id==='wI'?'€':id==='wY'?'ans':'%');const m=wV.wI*(wV.wS/100);const r=wV.wR/100;const n=wV.wY;const f=m*((Math.pow(1+r/12,n*12)-1)/(r/12));const fmt=v=>v>=1000000?Math.round(v/100000)/10+'M€':v>=1000?Math.round(v/100)/10+'k€':Math.round(v)+'€';const wr=document.getElementById('w-res');if(wr)wr.textContent=fmt(f);const wt=document.getElementById('w-tl');if(wt)wt.textContent='En '+n+' ans · Épargne: '+fmt(m*12)+'/an';}
 function rProgress(el){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="margin-bottom:12px">📈 Activité 7 jours</div><div style="display:flex;align-items:flex-end;gap:4px;height:70px;margin-bottom:8px">'+Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-6+i);const ci=(S.checkins||{})[d.toDateString()];const h=ci?Math.floor(Math.random()*60+25):8;return '<div style="flex:1;background:'+(ci?'var(--ac)':'var(--sf3)')+';border-radius:3px 3px 0 0;height:'+h+'%;opacity:'+(i===6?'1':'.6')+';transition:height .6s"></div>';}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)">'+['L','M','M','J','V','S','D'].map(d=>'<span>'+d+'</span>').join('')+'</div></div><div class="row3" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'💎 Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.nat.walkLogs||[]).length,l:'Marches',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-ac" onclick="toast(\'Carte générée ! Partage ton succès 🔥\',\'🎴\',3000)">🎴 Générer carte de victoire</button>';}
-function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+curT.nm+' — '+curT.pct+'%</span></div>'+AFF_T.map(t=>'<div style="background:var(--sf);border:1px solid '+(t===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+t.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.nm+' — '+t.refs+'+ filleuls</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+t.col+'">'+t.pct+'%</div></div>').join('');}
-function cpAff(){navigator.clipboard.writeText('https://rise.app/?ref='+S.aff.code).then(()=>toast('Lien copié !','📋',2000));}
-function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec RISE v9 ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
+function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+t(curT.tk)+' — '+curT.pct+'%</span></div>'+AFF_T.map(a=>'<div style="background:var(--sf);border:1px solid '+(a===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+a.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t(a.tk)+' — '+a.refs+'+</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+a.col+'">'+a.pct+'%</div></div>').join('');}
+function cpAff(){navigator.clipboard.writeText('https://rise.app/?ref='+S.aff.code).then(()=>toast(t('link_copied'),'📋',2000));}
+function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec RISE v9 ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise.app/?ref='+S.aff.code).then(()=>toast(t('message_copied'),'📤',2000));}
 let moiTab='perso';
 function setMoiT(tab,btn){moiTab=tab;document.querySelectorAll('#screen-moi .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMoi();}
 function renderMoi(){const el=document.getElementById('moi-content');if(!el)return;if(moiTab==='perso')rPerso(el);else if(moiTab==='widgets')rWidgets(el);else if(moiTab==='todo')rTodo(el);else if(moiTab==='plans')rPlans(el);else if(moiTab==='stats')rStats(el);}
@@ -1812,7 +1812,7 @@ function addEvt() {
   S.events.push({id: 'ev_'+Date.now(), title, date, time, desc: '', color:'var(--ac)'});
   save();
   gainXP(5,'evt');
-  toast('Événement ajouté !', '📅', 2000);
+  toast(t('event_added'), '📅', 2000);
   rAgenda(document.getElementById('orga-content'));
 }
 function delEvt(id) {
@@ -1860,7 +1860,7 @@ function moveCard(id) {
   const cols = KANBAN_COLS.map(c => c.id);
   const next = cols[(cols.indexOf(card.col)+1) % cols.length];
   card.col = next;
-  if (next === 'done') { gainXP(20,'kanban_done'); gainGems(2); toast('Tâche terminée ! +20 XP', '✅', 2000); damageBoss ? dmgBoss(20):null; }
+  if (next === 'done') { gainXP(20,'kanban_done'); gainGems(2); toast(t('task_done')+' +20 XP', '✅', 2000); damageBoss ? dmgBoss(20):null; }
   save();
   rKanban(document.getElementById('orga-content'));
 }
@@ -2025,7 +2025,7 @@ function addRev(sign) {
   S.revenue = S.revenue||{entries:[], budget:0};
   S.revenue.entries.push({id:'r'+Date.now(), title, amount: sign*Math.abs(amount), cat, date:new Date().toISOString().slice(0,10)});
   if (sign>0) gainXP(10,'revenue');
-  save(); toast('Entrée ajoutée !', '💰', 1500);
+  save(); toast(t('entry_added'), '💰', 1500);
   rRevenus(document.getElementById('orga-content'));
 }
 // setBudget merged below
@@ -2301,7 +2301,7 @@ function rAgenda(el) {
         +'</div>';
     }).join('')+'<div id="gcal-status" style="font-size:11px;color:var(--tx3);text-align:center;margin-top:8px"></div>';
 }
-function addEvt(){var t=prompt('Titre ?');if(!t)return;var d=prompt('Date (YYYY-MM-DD) ?',ymd(new Date()));if(!d)return;var h=prompt('Heure (HH:MM, opt.)','')||'';S.events=S.events||[];S.events.push({id:'ev_'+Date.now(),title:t,date:d,time:h,timeEnd:'',location:'',color:'var(--ac)',source:'manual'});save();gainXP(5,'evt');toast('Ajouté !','📅',2000);rAgenda(document.getElementById('orga-content'));}
+function addEvt(){var t=prompt('Titre ?');if(!t)return;var d=prompt('Date (YYYY-MM-DD) ?',ymd(new Date()));if(!d)return;var h=prompt('Heure (HH:MM, opt.)','')||'';S.events=S.events||[];S.events.push({id:'ev_'+Date.now(),title:t,date:d,time:h,timeEnd:'',location:'',color:'var(--ac)',source:'manual'});save();gainXP(5,'evt');toast(t('added'),'📅',2000);rAgenda(document.getElementById('orga-content'));}
 function delEvt(id){S.events=(S.events||[]).filter(function(e){return e.id!==id;});save();rAgenda(document.getElementById('orga-content'));}
 // Kanban
 var KB=[{id:'backlog',lbl:'📋 Backlog',col:'var(--tx3)'},{id:'todo',lbl:'⚡ À faire',col:'var(--or)'},{id:'doing',lbl:'🔥 En cours',col:'var(--ac)'},{id:'done',lbl:'✅ Terminé',col:'var(--gr)'}];
@@ -4479,14 +4479,14 @@ function viewJournalEntry(date){
 
 // ── BUDGET TRACKER ──
 const BUDGET_CATS=[
-  {id:'housing',nm:'Logement',ico:'🏠',color:'#FF6B6B'},
-  {id:'food',nm:'Alimentation',ico:'🛒',color:'#4ECDC4'},
-  {id:'transport',nm:'Transport',ico:'🚗',color:'#45B7D1'},
-  {id:'health',nm:'Santé',ico:'💊',color:'#96CEB4'},
-  {id:'leisure',nm:'Loisirs',ico:'🎮',color:'#FFEAA7'},
-  {id:'shopping',nm:'Shopping',ico:'🛍️',color:'#DDA0DD'},
-  {id:'savings',nm:'Épargne',ico:'💰',color:'#98D8C8'},
-  {id:'other',nm:'Autre',ico:'📦',color:'#B8B8B8'}
+  {id:'housing',tk:'cat_housing',ico:'🏠',color:'#FF6B6B'},
+  {id:'food',tk:'cat_food',ico:'🛒',color:'#4ECDC4'},
+  {id:'transport',tk:'cat_transport',ico:'🚗',color:'#45B7D1'},
+  {id:'health',tk:'cat_health',ico:'💊',color:'#96CEB4'},
+  {id:'leisure',tk:'cat_leisure',ico:'🎮',color:'#FFEAA7'},
+  {id:'shopping',tk:'cat_shopping',ico:'🛍️',color:'#DDA0DD'},
+  {id:'savings',tk:'cat_savings',ico:'💰',color:'#98D8C8'},
+  {id:'other',tk:'cat_other',ico:'📦',color:'#B8B8B8'}
 ];
 
 function initBudget(){
@@ -4524,7 +4524,7 @@ function renderBudget(){
     BUDGET_CATS.filter(c=>byCat[c.id]).map(c=>{
       const amt=byCat[c.id];
       const pct=b.income>0?Math.round(amt/b.income*100):0;
-      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:18px">'+c.ico+'</span><div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span style="font-weight:600">'+c.nm+'</span><span>'+amt.toFixed(0)+'€ ('+pct+'%)</span></div><div class="pbar" style="height:6px"><div class="pfill" style="width:'+Math.min(pct,100)+'%;background:'+c.color+'"></div></div></div></div>';
+      return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="font-size:18px">'+c.ico+'</span><div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span style="font-weight:600">'+t(c.tk)+'</span><span>'+amt.toFixed(0)+'€ ('+pct+'%)</span></div><div class="pbar" style="height:6px"><div class="pfill" style="width:'+Math.min(pct,100)+'%;background:'+c.color+'"></div></div></div></div>';
     }).join('')+
     '</div>':'')+
     '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📝 Dernières dépenses</div>'+
@@ -4548,7 +4548,7 @@ function addExpense(){
     '<input type="number" id="exp-amount" placeholder="Montant (€)" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--c3);font-size:14px;margin-bottom:12px;box-sizing:border-box">'+
     '<div style="font-size:12px;font-weight:600;margin-bottom:8px">Catégorie</div>'+
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px" id="exp-cats">'+
-    BUDGET_CATS.map(c=>'<button onclick="document.querySelectorAll(\'#exp-cats button\').forEach(b=>b.style.borderColor=\'var(--c3)\');this.style.borderColor=\'var(--ac)\';this.dataset.cat=\''+c.id+'\'" style="padding:10px;border-radius:8px;background:var(--c2);border:2px solid var(--c3);font-size:12px;cursor:pointer;text-align:center" data-cat="'+c.id+'">'+c.ico+' '+c.nm+'</button>').join('')+
+    BUDGET_CATS.map(c=>'<button onclick="document.querySelectorAll(\'#exp-cats button\').forEach(b=>b.style.borderColor=\'var(--c3)\');this.style.borderColor=\'var(--ac)\';this.dataset.cat=\''+c.id+'\'" style="padding:10px;border-radius:8px;background:var(--c2);border:2px solid var(--c3);font-size:12px;cursor:pointer;text-align:center" data-cat="'+c.id+'">'+c.ico+' '+t(c.tk)+'</button>').join('')+
     '</div>'+
     '<button onclick="saveExpense()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">Ajouter</button>'+
     '<button onclick="document.getElementById(\'ov-expense\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);cursor:pointer;margin-top:8px">Annuler</button>'+
@@ -7370,7 +7370,7 @@ function toggleZenMode(){
       h += '<div style="display:flex;justify-content:center;align-items:center;height:140px"><div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(' + conicGradient + ')"></div></div>';
       h += '<div style="font-size:11px;color:var(--tx3)">';
       catList.filter(c => byCat[c.id]).forEach(c => {
-        h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span>' + c.ico + '</span><span style="flex:1">' + c.nm + '</span><span style="font-weight:700;color:' + c.color + '">' + byCat[c.id].toFixed(0) + '€</span></div>';
+        h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span>' + c.ico + '</span><span style="flex:1">' + t(c.tk) + '</span><span style="font-weight:700;color:' + c.color + '">' + byCat[c.id].toFixed(0) + '€</span></div>';
       });
       h += '</div>';
       h += '</div>';
@@ -9973,7 +9973,26 @@ var RISE_I18N = {
     quote_5: 'Un petit pas chaque jour mène très loin.',
     // Horoscope
     horoscope_unavailable: 'Horoscope indisponible',
-    mysterious_day: 'Jour mystérieux'
+    mysterious_day: 'Jour mystérieux',
+    // Toast messages
+    flash_challenge_done: 'Défi Flash !',
+    entry_saved: 'Entrée sauvegardée !',
+    answer_question: 'Réponds à la question pour valider !',
+    wrong_answer: 'Mauvaise réponse, réessaie !',
+    vision_created: 'Vision créée !',
+    letter_sealed: 'Lettre scellée 90 jours !',
+    challenge_21_started: 'Défi 21j lancé !',
+    guild_created: 'Guilde créée !',
+    code_copied: 'Code copié !',
+    link_copied: 'Lien copié !',
+    message_copied: 'Message copié !',
+    event_added: 'Événement ajouté !',
+    task_done: 'Tâche terminée !',
+    entry_added: 'Entrée ajoutée !',
+    added: 'Ajouté !',
+    exported: 'Exporté !',
+    need_more_xp: 'Gagne plus de XP d\'abord',
+    copied: 'Copié !'
   },
   en: {
     home: 'Home',
@@ -10237,7 +10256,25 @@ var RISE_I18N = {
     quote_5: 'One small step every day leads very far.',
     // Horoscope
     horoscope_unavailable: 'Horoscope unavailable',
-    mysterious_day: 'Mysterious day'
+    mysterious_day: 'Mysterious day',
+    flash_challenge_done: 'Flash Challenge!',
+    entry_saved: 'Entry saved!',
+    answer_question: 'Answer the question to validate!',
+    wrong_answer: 'Wrong answer, try again!',
+    vision_created: 'Vision created!',
+    letter_sealed: 'Letter sealed for 90 days!',
+    challenge_21_started: '21-day challenge started!',
+    guild_created: 'Guild created!',
+    code_copied: 'Code copied!',
+    link_copied: 'Link copied!',
+    message_copied: 'Message copied!',
+    event_added: 'Event added!',
+    task_done: 'Task done!',
+    entry_added: 'Entry added!',
+    added: 'Added!',
+    exported: 'Exported!',
+    need_more_xp: 'Earn more XP first',
+    copied: 'Copied!'
   },
   es: {
     home: 'Inicio',
@@ -10501,7 +10538,25 @@ var RISE_I18N = {
     quote_5: 'Un pequeño paso cada día te lleva muy lejos.',
     // Horoscope
     horoscope_unavailable: 'Horóscopo no disponible',
-    mysterious_day: 'Día misterioso'
+    mysterious_day: 'Día misterioso',
+    flash_challenge_done: '¡Desafío Flash!',
+    entry_saved: '¡Entrada guardada!',
+    answer_question: '¡Responde la pregunta para validar!',
+    wrong_answer: '¡Respuesta incorrecta, inténtalo de nuevo!',
+    vision_created: '¡Visión creada!',
+    letter_sealed: '¡Carta sellada por 90 días!',
+    challenge_21_started: '¡Desafío de 21 días iniciado!',
+    guild_created: '¡Gremio creado!',
+    code_copied: '¡Código copiado!',
+    link_copied: '¡Enlace copiado!',
+    message_copied: '¡Mensaje copiado!',
+    event_added: '¡Evento añadido!',
+    task_done: '¡Tarea completada!',
+    entry_added: '¡Entrada añadida!',
+    added: '¡Añadido!',
+    exported: '¡Exportado!',
+    need_more_xp: 'Gana más XP primero',
+    copied: '¡Copiado!'
   },
   pt: {
     home: 'Início',
@@ -10765,7 +10820,25 @@ var RISE_I18N = {
     quote_5: 'Um pequeno passo por dia leva muito longe.',
     // Horoscope
     horoscope_unavailable: 'Horóscopo indisponível',
-    mysterious_day: 'Dia misterioso'
+    mysterious_day: 'Dia misterioso',
+    flash_challenge_done: 'Desafio Flash!',
+    entry_saved: 'Entrada salva!',
+    answer_question: 'Responda a pergunta para validar!',
+    wrong_answer: 'Resposta errada, tente de novo!',
+    vision_created: 'Visão criada!',
+    letter_sealed: 'Carta selada por 90 dias!',
+    challenge_21_started: 'Desafio de 21 dias iniciado!',
+    guild_created: 'Guilda criada!',
+    code_copied: 'Código copiado!',
+    link_copied: 'Link copiado!',
+    message_copied: 'Mensagem copiada!',
+    event_added: 'Evento adicionado!',
+    task_done: 'Tarefa concluída!',
+    entry_added: 'Entrada adicionada!',
+    added: 'Adicionado!',
+    exported: 'Exportado!',
+    need_more_xp: 'Ganhe mais XP primeiro',
+    copied: 'Copiado!'
   },
   it: {
     home: 'Casa',
@@ -11115,7 +11188,25 @@ var RISE_I18N = {
     quote_5: 'Ein kleiner Schritt jeden Tag führt sehr weit.',
     // Horoscope
     horoscope_unavailable: 'Horoskop nicht verfügbar',
-    mysterious_day: 'Mysteriöser Tag'
+    mysterious_day: 'Mysteriöser Tag',
+    flash_challenge_done: 'Flash-Challenge!',
+    entry_saved: 'Eintrag gespeichert!',
+    answer_question: 'Beantworte die Frage zur Bestätigung!',
+    wrong_answer: 'Falsche Antwort, versuch es nochmal!',
+    vision_created: 'Vision erstellt!',
+    letter_sealed: 'Brief für 90 Tage versiegelt!',
+    challenge_21_started: '21-Tage-Challenge gestartet!',
+    guild_created: 'Gilde erstellt!',
+    code_copied: 'Code kopiert!',
+    link_copied: 'Link kopiert!',
+    message_copied: 'Nachricht kopiert!',
+    event_added: 'Termin hinzugefügt!',
+    task_done: 'Aufgabe erledigt!',
+    entry_added: 'Eintrag hinzugefügt!',
+    added: 'Hinzugefügt!',
+    exported: 'Exportiert!',
+    need_more_xp: 'Sammle zuerst mehr XP',
+    copied: 'Kopiert!'
   },
   ca: {
     home: 'Inici',
@@ -11379,7 +11470,25 @@ var RISE_I18N = {
     quote_5: 'Un petit pas cada dia porta molt lluny.',
     // Horoscope
     horoscope_unavailable: 'Horòscop no disponible',
-    mysterious_day: 'Dia misteriós'
+    mysterious_day: 'Dia misteriós',
+    flash_challenge_done: 'Repte Flash!',
+    entry_saved: 'Entrada guardada!',
+    answer_question: 'Respon la pregunta per validar!',
+    wrong_answer: 'Resposta incorrecta, torna-ho a provar!',
+    vision_created: 'Visió creada!',
+    letter_sealed: 'Carta segellada 90 dies!',
+    challenge_21_started: 'Repte de 21 dies iniciat!',
+    guild_created: 'Gremi creat!',
+    code_copied: 'Codi copiat!',
+    link_copied: 'Enllaç copiat!',
+    message_copied: 'Missatge copiat!',
+    event_added: 'Esdeveniment afegit!',
+    task_done: 'Tasca completada!',
+    entry_added: 'Entrada afegida!',
+    added: 'Afegit!',
+    exported: 'Exportat!',
+    need_more_xp: 'Guanya més XP primer',
+    copied: 'Copiat!'
   },
   ja: {
     home: 'ホーム',
