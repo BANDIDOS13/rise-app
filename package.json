@@ -1,0 +1,11 @@
+{
+    "name": "forge-app",
+    "version": "9.7.0",
+    "private": true,
+    "dependencies": {
+          "stripe": "^14.0.0"
+    },
+    "engines": {
+          "node": ">=18"
+    }
+}
