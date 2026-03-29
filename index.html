@@ -1096,24 +1096,64 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){/* init extra */}}catch(ex){/* launchApp error */}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
-function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
+function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0,ts:0};const y=new Date(now);y.setDate(y.getDate()-1);
+  if(ls.ts&&Date.now()-ls.ts<43200000)return;
+  if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;ls.ts=Date.now();const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
-function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
-function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
+// ── ANTI-EXPLOIT: Daily XP cap & rate limiting ──
+const XP_DAILY_CAP=800;
+const XP_COOLDOWN_MS=3000;
+const XP_SOURCE_LIMITS={login:1,ci:1,flash:1,boss:1,achievement:10,quest:8,pomo:8,walk:6,sun:6,breath:4,chat:5,form:3,'stoic-journal':2,'habit':10};
+let _lastXPTime=0;
+function _getDailyXP(){S._xpLog=S._xpLog||{date:'',total:0,sources:{}};if(S._xpLog.date!==TD){S._xpLog={date:TD,total:0,sources:{}};}return S._xpLog;}
+function gainXP(n2,src){
+  if(n2<=0||!isFinite(n2))return;
+  n2=Math.min(Math.round(n2),300);
+  var xpLog=_getDailyXP();
+  if(xpLog.total>=XP_DAILY_CAP){toast('Cap XP du jour atteint ! Reviens demain','🛡️',3000);return;}
+  var nowMs=Date.now();
+  if(src!=='login'&&src!=='achievement'&&nowMs-_lastXPTime<XP_COOLDOWN_MS){return;}
+  _lastXPTime=nowMs;
+  var srcKey=src||'unknown';
+  xpLog.sources[srcKey]=(xpLog.sources[srcKey]||0)+1;
+  var srcLimit=XP_SOURCE_LIMITS[srcKey]||5;
+  if(xpLog.sources[srcKey]>srcLimit){return;}
+  n2=Math.min(n2,XP_DAILY_CAP-xpLog.total);
+  if(n2<=0)return;
+  xpLog.total+=n2;
+  const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;
+}
+let _lastGemGain=0;
+function gainGems(n2){if(n2<=0||!isFinite(n2))return;n2=Math.min(Math.round(n2),50);var nowMs=Date.now();if(nowMs-_lastGemGain<2000&&n2>5)return;_lastGemGain=nowMs;S.gems=(S.gems||0)+n2;save();updGB();}
 function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',LVL_T[lvl]);set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP pour '+LVL_T[Math.min(lvl+1,9)]);}
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
 function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
-function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('BOSS VAINCU ! +'+boss.r.xp+' XP','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
+let _lastBossDmg=0;
+function dmgBoss(a){
+  var nowMs=Date.now();
+  if(nowMs-_lastBossDmg<3000)return;
+  _lastBossDmg=nowMs;
+  a=Math.min(Math.max(Math.round(a),1),100);
+  const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;prog.doneAt=nowMs;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('BOSS VAINCU ! +'+boss.r.xp+' XP','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();
+}
 function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);S.dq={date:TD,qs:sh.slice(0,5).map(q=>({...q,progress:0,done:false}))};save();}renderDQ();}
 function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+q.nm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
-function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' accomplie !','⚡',2000);}}});save();renderDQ();}
+let _lastComplQ={};
+function complQ(type,amt){
+  var nowMs=Date.now();
+  if(_lastComplQ[type]&&nowMs-_lastComplQ[type]<5000)return;
+  _lastComplQ[type]=nowMs;
+  amt=Math.min(Math.max(Math.round(amt||1),1),20);
+  const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+amt);if(q.progress>=q.target){q.done=true;q.doneAt=nowMs;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' accomplie !','⚡',2000);}}});save();renderDQ();
+}
 function initFlash(){if(S.flash.date!==TD){S.flash={date:TD,idx:Math.floor(Math.random()*FLASH.length),done:false};save();}renderFlash();}
 function renderFlash(){const el=document.getElementById('w-flash');if(!el)return;if(S.flash.done||!(S.activeWg||[]).includes('w-flash')){el.style.display='none';return;}el.style.display='block';const fc=FLASH[S.flash.idx];const mid=new Date();mid.setHours(23,59,0,0);const rem=Math.floor((mid-Date.now())/1000);el.innerHTML='<div class="wg" style="border-color:var(--rd);background:var(--rdd);cursor:pointer;margin-bottom:0" onclick="showFlash()"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚡ DÉFI FLASH — expire à minuit</div><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+fc.ico+'</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px">'+fc.title+'</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">'+fmtT(rem)+' restants · +'+fc.xp+' XP</div></div></div></div>';}
 function showFlash(){const fc=FLASH[S.flash.idx];document.getElementById('fl-ico').textContent=fc.ico;document.getElementById('fl-title').textContent=fc.title;document.getElementById('fl-desc').textContent=fc.desc;document.getElementById('fl-xp').textContent=fc.xp;document.getElementById('ov-flash').classList.add('show');}
-function complFlash(){const fc=FLASH[S.flash.idx];S.flash.done=true;save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi Flash ! +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();}
+let _flashCompleting=false;
+function complFlash(){if(_flashCompleting||S.flash.done)return;_flashCompleting=true;const fc=FLASH[S.flash.idx];S.flash.done=true;S.flash.doneAt=Date.now();save();gainXP(fc.xp,'flash');gainGems(fc.g||5);document.getElementById('ov-flash').classList.remove('show');confetti();toast('Défi Flash ! +'+fc.xp+' XP 🔥','⚡',4000);renderFlash();setTimeout(function(){_flashCompleting=false;},2000);}
 let ciE=0,ciF=[];
 function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
@@ -1123,12 +1163,14 @@ function renderCtxBanner(){const el=document.getElementById('ctx-banner');if(!el
 function selE(btn,v){document.querySelectorAll('#e-row button').forEach(b=>{b.style.borderColor='transparent';b.style.background='var(--sf2)';});btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';ciE=v;chkCIR();}
 function togF(btn,v){const on=btn.style.borderColor==='var(--ac)';if(on){btn.style.borderColor='var(--bd2)';btn.style.background='var(--sf2)';btn.style.color='var(--tx2)';ciF=ciF.filter(f=>f!==v);}else{btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';btn.style.color='var(--ac)';if(!ciF.includes(v))ciF.push(v);}chkCIR();}
 function chkCIR(){const b=document.getElementById('ci-btn');if(b)b.disabled=!(ciE>0&&ciF.length>0);}
-function doCI(){const btn=document.getElementById('ci-btn');btn.disabled=true;btn.textContent='Génération...';document.getElementById('plan-sec').style.display='block';document.getElementById('plan-content').innerHTML='<div class="shim"></div><div class="shim"></div>';const plan=RISE_AI.doCI(ciE,ciF);S.checkins=S.checkins||{};S.checkins[TD]={e:ciE,f:ciF};S.lck=TD;S.todayPlan=plan;const y=new Date(now);y.setDate(now.getDate()-1);if(S.lsd===y.toDateString()||!S.lsd)S.streak=(S.streak||0)+1;else if(S.lsd!==TD)S.streak=1;S.lsd=TD;if(plan.todo_suggestions)plan.todo_suggestions.forEach(tx=>{S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:tx,done:false,priority:false,cat:ciF[0]||'focus',ai:true,date:TD});});gainXP(30+ciE*5,'ci');gainGems(2);complQ('checkin');dmgBoss(50);save();renderPlan(plan);renderStreakDots();const ci=document.getElementById('ci-sec');if(ci)ci.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px"><span style="font-size:28px">✅</span><div style="font-family:var(--fd);font-weight:700">Plan activé · Streak '+S.streak+'j 🔥</div></div>';addN('📋','Plan du jour prêt !','Tâches IA générées.');btn.disabled=false;btn.textContent='Générer mon plan du jour 🌅';}
+let _ciRunning=false;
+function doCI(){if(_ciRunning)return;if(S.lck===TD){toast('Check-in déjà fait aujourd\'hui !','✅',2000);return;}_ciRunning=true;const btn=document.getElementById('ci-btn');btn.disabled=true;btn.textContent='Génération...';document.getElementById('plan-sec').style.display='block';document.getElementById('plan-content').innerHTML='<div class="shim"></div><div class="shim"></div>';const plan=RISE_AI.doCI(ciE,ciF);S.checkins=S.checkins||{};S.checkins[TD]={e:ciE,f:ciF,ts:Date.now()};S.lck=TD;S.todayPlan=plan;const y=new Date(now);y.setDate(now.getDate()-1);if(S.lsd===y.toDateString()||!S.lsd)S.streak=(S.streak||0)+1;else if(S.lsd!==TD)S.streak=1;S.lsd=TD;if(plan.todo_suggestions)plan.todo_suggestions.forEach(tx=>{S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:tx,done:false,priority:false,cat:ciF[0]||'focus',ai:true,date:TD});});gainXP(30+ciE*5,'ci');gainGems(2);complQ('checkin');dmgBoss(50);save();renderPlan(plan);renderStreakDots();const ci=document.getElementById('ci-sec');if(ci)ci.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px"><span style="font-size:28px">✅</span><div style="font-family:var(--fd);font-weight:700">Plan activé · Streak '+S.streak+'j 🔥</div></div>';addN('📋','Plan du jour prêt !','Tâches IA générées.');btn.disabled=false;btn.textContent='Générer mon plan du jour 🌅';_ciRunning=false;}
 function renderPlan(p){let h='<div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65;padding:12px 14px;background:var(--agg);border-radius:var(--rs);border-left:3px solid var(--ac);margin-bottom:10px">'+p.intro+'</div>';if(p.coach_push)h+='<div style="background:var(--agg2);border:1px solid var(--acm);border-radius:var(--rs);padding:11px 13px;margin-bottom:8px;font-size:13px;color:var(--ac2);line-height:1.6;font-style:italic">🤖 '+p.coach_push+'</div>';if(p.nature_tip)h+='<div style="background:var(--ntd);border:1px solid var(--nt);border-radius:var(--rs);padding:11px 13px;margin-bottom:8px;font-size:13px;color:var(--nt2);line-height:1.5">🌿 '+p.nature_tip+'</div>';(p.tasks||[]).forEach(t=>{h+='<div style="display:flex;gap:12px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="text-align:center;flex-shrink:0"><div style="font-size:12px;font-weight:700;color:var(--ac)">'+t.time+'</div><div style="font-size:10px;color:var(--tx3)">'+t.duration+'</div></div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+t.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+t.desc+'</div></div></div>';});if(p.micro_habit)h+='<div style="padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px;font-size:13px;color:var(--tx2)">⚡ '+p.micro_habit+'</div>';document.getElementById('plan-content').innerHTML=h;document.getElementById('plan-sec').style.display='block';}
-let pomoR=false,pomoInt=null,pomoSec=1500,pomoMode='focus';
+let pomoR=false,pomoInt=null,pomoSec=1500,pomoMode='focus',_pomoStartTs=0;
 const POMO_C={focus:{sec:1500,lbl:'FOCUS',col:'var(--ac)'},short:{sec:300,lbl:'PAUSE',col:'var(--gr)'},long:{sec:900,lbl:'LONGUE',col:'var(--bl)'}};
+const POMO_MIN_ELAPSED=1200000;
 function updPomoUI(){const el=document.getElementById('pomo-d');if(el)el.textContent=fmtT(pomoSec);const ph=document.getElementById('pomo-ph');if(ph){ph.textContent=POMO_C[pomoMode].lbl;ph.style.color=POMO_C[pomoMode].col;}}
-function pomoTog(){if(pomoR){clearInterval(pomoInt);pomoR=false;const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}else{pomoR=true;const b=document.getElementById('pomo-btn');if(b){b.textContent='⏸ Pause';b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';}pomoInt=setInterval(()=>{pomoSec--;const d=document.getElementById('pomo-d');if(d)d.textContent=fmtT(pomoSec);if(pomoSec<=0){clearInterval(pomoInt);pomoR=false;if(pomoMode==='focus'){S.pomoTot=(S.pomoTot||0)+1;gainXP(30,'pomo');gainGems(1);complQ('pomo');dmgBoss(30);save();toast('Session focus ! +30 XP','⏱️',2500);pomoMode='short';}else{pomoMode='focus';}pomoSec=POMO_C[pomoMode].sec;updPomoUI();const b2=document.getElementById('pomo-btn');if(b2){b2.textContent='▶ Start';b2.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b2.style.color='#0a1808';}}},1000);}updPomoUI();}
+function pomoTog(){if(pomoR){clearInterval(pomoInt);pomoR=false;const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}else{pomoR=true;_pomoStartTs=Date.now();const b=document.getElementById('pomo-btn');if(b){b.textContent='⏸ Pause';b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';}pomoInt=setInterval(()=>{pomoSec--;const d=document.getElementById('pomo-d');if(d)d.textContent=fmtT(pomoSec);if(pomoSec<=0){clearInterval(pomoInt);pomoR=false;if(pomoMode==='focus'){var elapsed=Date.now()-_pomoStartTs;if(elapsed>=POMO_MIN_ELAPSED){S.pomoTot=(S.pomoTot||0)+1;gainXP(30,'pomo');gainGems(1);complQ('pomo');dmgBoss(30);save();toast('Session focus ! +30 XP','⏱️',2500);}else{toast('Session trop courte pour valider','⚠️',2000);}pomoMode='short';}else{pomoMode='focus';}pomoSec=POMO_C[pomoMode].sec;updPomoUI();const b2=document.getElementById('pomo-btn');if(b2){b2.textContent='▶ Start';b2.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b2.style.color='#0a1808';}}},1000);}updPomoUI();}
 function pomoRst(){if(pomoR){clearInterval(pomoInt);pomoR=false;}pomoMode='focus';pomoSec=1500;updPomoUI();const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}
 let sosInt=null;
 function openSOS(){document.getElementById('ov-sos').classList.add('show');sosCyc();}
@@ -1141,14 +1183,16 @@ let walkR=false,walkSec=0,walkInt=null;
 function rWalk(el){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;el.innerHTML='<div class="nat-c"><div style="position:relative;z-index:1"><div style="font-size:32px;text-align:center;animation:float 2s ease-in-out infinite;margin-bottom:6px">🚶</div><div class="big-timer" id="wt-d" style="color:var(--nt)">'+fmtT(walkSec||0)+'</div><div style="font-size:12px;color:var(--nt2);text-align:center;margin-bottom:10px">Aujourd hui: '+tw+'min · Objectif: 30min · Streak: '+(nm.wStreak||0)+'j</div><div class="pbar" style="height:7px;margin-bottom:14px"><div class="pfill pnt" style="width:'+Math.min(100,tw/30*100)+'%"></div></div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"><button id="walk-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togWalk()">▶ Marcher</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstWalk()">↺</button></div><div style="display:flex;gap:6px;justify-content:center"><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(10)">+10min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(20)">+20min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(30)">+30min</button></div></div></div><div style="background:var(--ntd);border:1px solid var(--nt);border-radius:var(--rs);padding:12px 13px;margin-top:11px;font-size:12px;color:var(--nt2);line-height:1.7"><strong>Bienfaits:</strong> Cortisol↓ · Créativité↑ · Sérotonine↑ · Vitamin D outdoor</div>';}
 function togWalk(){if(walkR){clearInterval(walkInt);walkR=false;finWalk(Math.floor(walkSec/60));walkSec=0;}else{walkR=true;const b=document.getElementById('walk-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}walkInt=setInterval(()=>{walkSec++;const t=document.getElementById('wt-d');if(t)t.textContent=fmtT(walkSec);},1000);}}
 function rstWalk(){clearInterval(walkInt);walkR=false;walkSec=0;renderNat();}
-function addWalk(min){finWalk(min);}
-function finWalk(min){if(min<1)return;const nm=S.nat;if(nm.wDate!==TD){nm.wMin=0;nm.wDate=TD;}nm.wMin=(nm.wMin||0)+min;nm.walkLogs=nm.walkLogs||[];nm.walkLogs.unshift({date:TD,min});const y=new Date(now);y.setDate(now.getDate()-1);if(nm.lw===y.toDateString()||!nm.lw)nm.wStreak=(nm.wStreak||0)+1;else if(nm.lw!==TD)nm.wStreak=1;nm.lw=TD;gainXP(min*2,'walk');gainGems(Math.floor(min/5));complQ('walk',min);dmgBoss(min*2);toast(min+'min marche ! +'+(min*2)+' XP','🚶',2500);save();updNatMini();walkSec=0;walkR=false;clearInterval(walkInt);renderNat();}
+let _lastWalkLog=0;
+function addWalk(min){if(Date.now()-_lastWalkLog<30000){toast('Attends avant d\'ajouter à nouveau','⏳',2000);return;}finWalk(min);}
+function finWalk(min){min=Math.min(Math.max(Math.round(min),1),60);var nowMs=Date.now();_lastWalkLog=nowMs;const nm=S.nat;if(nm.wDate!==TD){nm.wMin=0;nm.wDate=TD;}if((nm.wMin||0)>=120){toast('Maximum marche atteint aujourd\'hui !','🛡️',2000);return;}nm.wMin=Math.min((nm.wMin||0)+min,120);nm.walkLogs=nm.walkLogs||[];nm.walkLogs.unshift({date:TD,min,ts:nowMs});const y=new Date(now);y.setDate(now.getDate()-1);if(nm.lw===y.toDateString()||!nm.lw)nm.wStreak=(nm.wStreak||0)+1;else if(nm.lw!==TD)nm.wStreak=1;nm.lw=TD;gainXP(min*2,'walk');gainGems(Math.floor(min/5));complQ('walk',min);dmgBoss(min*2);toast(min+'min marche ! +'+(min*2)+' XP','🚶',2500);save();updNatMini();walkSec=0;walkR=false;clearInterval(walkInt);renderNat();}
 let sunR=false,sunSec=0,sunInt=null;
 function rSun(el){const nm=S.nat;const ts=nm.sDate===TD?nm.sMin||0:0;el.innerHTML='<div class="nat-c" style="border-color:var(--ac)"><div style="position:relative;z-index:1;text-align:center"><div style="font-size:48px;animation:sun-p 3s ease-in-out infinite;margin-bottom:8px">☀️</div><div class="big-timer" id="sun-d" style="color:var(--ac)">'+fmtT(sunSec||0)+'</div><div style="font-size:14px;color:var(--ac2);font-weight:700;margin-bottom:10px">'+ts+' / 20 min aujourd hui</div><div style="background:rgba(0,0,0,.3);border-radius:4px;height:6px;overflow:hidden;margin:0 0 16px;"><div style="height:100%;border-radius:4px;background:linear-gradient(90deg,var(--or),var(--ac));width:'+Math.min(100,ts/20*100)+'%"></div></div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"><button id="sun-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)" onclick="togSun()">☀️ Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstSun()">↺</button></div><div style="display:flex;gap:6px;justify-content:center"><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(5)">+5min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(15)">+15min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(20)">+20min</button></div></div></div><div style="background:linear-gradient(135deg,#1a1208,#100e04);border:1px solid var(--acm);border-radius:var(--rs);padding:12px;margin-top:11px;font-size:12px;color:var(--tx2);line-height:1.7"><strong style="color:var(--ac)">Protocole:</strong> Idéal 9h-11h et 16h-18h. Peau nue. 20min = synthèse vitamine D. Aix = jackpot solaire !</div>';}
 function togSun(){if(sunR){clearInterval(sunInt);sunR=false;finSun(Math.floor(sunSec/60));sunSec=0;}else{sunR=true;const b=document.getElementById('sun-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}sunInt=setInterval(()=>{sunSec++;const t=document.getElementById('sun-d');if(t)t.textContent=fmtT(sunSec);if(sunSec>=1200){clearInterval(sunInt);sunR=false;finSun(20);sunSec=0;}},1000);}}
 function rstSun(){clearInterval(sunInt);sunR=false;sunSec=0;renderNat();}
-function addSun(min){finSun(min);}
-function finSun(min){const nm=S.nat;if(nm.sDate!==TD){nm.sMin=0;nm.sDate=TD;}nm.sMin=(nm.sMin||0)+min;gainXP(min*2,'sun');gainGems(Math.floor(min/5));complQ('sun',min);toast(min+'min soleil ! +'+(min*2)+' XP','☀️',2500);save();updNatMini();sunSec=0;sunR=false;clearInterval(sunInt);renderNat();}
+let _lastSunLog=0;
+function addSun(min){if(Date.now()-_lastSunLog<30000){toast('Attends avant d\'ajouter à nouveau','⏳',2000);return;}finSun(min);}
+function finSun(min){min=Math.min(Math.max(Math.round(min),1),30);var nowMs=Date.now();_lastSunLog=nowMs;const nm=S.nat;if(nm.sDate!==TD){nm.sMin=0;nm.sDate=TD;}if((nm.sMin||0)>=60){toast('Maximum soleil atteint aujourd\'hui !','🛡️',2000);return;}nm.sMin=Math.min((nm.sMin||0)+min,60);gainXP(min*2,'sun');gainGems(Math.floor(min/5));complQ('sun',min);toast(min+'min soleil ! +'+(min*2)+' XP','☀️',2500);save();updNatMini();sunSec=0;sunR=false;clearInterval(sunInt);renderNat();}
 let brR=false,brInt=null,brCyc=0,selBr=BREATHS[0];
 function rBreath(el){el.innerHTML='<div class="nat-c" style="border-color:'+selBr.col+';text-align:center"><div style="font-size:11px;color:'+selBr.col+';text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">'+selBr.ico+' '+selBr.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-bottom:14px">'+selBr.desc+'</div><div style="width:120px;height:120px;border-radius:50%;border:3px solid '+selBr.col+';display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform 4s ease" id="br-c"><div><div style="font-size:22px">💨</div><div style="font-size:16px;font-weight:700;color:'+selBr.col+';margin-top:5px" id="br-lbl">INSPIRE</div></div></div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:'+selBr.col+';margin-bottom:5px" id="br-cnt">0</div><div style="font-size:11px;color:var(--tx3);margin-bottom:14px" id="br-cyc">Cycle 0/'+selBr.rounds+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="br-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:'+selBr.col+';color:#fff" onclick="togBr()">💨 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstBr()">↺</button></div></div><div style="margin-top:14px">'+BREATHS.map(p=>'<div style="background:var(--sf);border:2px solid '+(p.id===selBr.id?p.col:'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="selBrP(\''+p.id+'\')"><div style="font-size:22px">'+p.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+p.nm+'</div><div style="font-size:11px;color:var(--tx3)">'+p.desc+'</div></div><div style="font-size:12px;font-weight:700;color:'+p.col+'">'+p.rounds+'×</div></div>').join('')+'</div>';}
 function selBrP(id){selBr=BREATHS.find(p=>p.id===id)||BREATHS[0];rstBr();renderNat();}
@@ -4014,7 +4058,7 @@ const RISE_AI = {
     };
   }
 };
-console.log("RISE_AI Engine loaded. All features available locally.");
+/* RISE_AI Engine loaded */
 
 
 // ── WORKOUT TRACKER ──
@@ -4602,14 +4646,22 @@ const ACHIEVEMENTS=[
   {id:'lvl10',nm:'Niveau 10',desc:'Atteins le niveau 10',ico:'👑',cond:()=>getLvl(S.xp||0)>=9,xp:500}
 ];
 
+let _lastAchievementCheck=0;
 function chkAchievements(trigger){
+  var nowMs=Date.now();
+  if(nowMs-_lastAchievementCheck<10000)return;
+  _lastAchievementCheck=nowMs;
   if(!S.achievements)S.achievements=[];
+  if(!S._achTimestamps)S._achTimestamps={};
   let newCount=0;
+  const maxPerCheck=3;
   ACHIEVEMENTS.forEach(a=>{
+    if(newCount>=maxPerCheck)return;
     if(S.achievements.includes(a.id))return;
     try{
       if(a.cond()){
         S.achievements.push(a.id);
+        S._achTimestamps[a.id]=nowMs;
         gainXP(a.xp,'achievement');
         addN(a.ico,'Achievement: '+a.nm,a.desc+' · +'+a.xp+' XP');
         toast(a.ico+' '+a.nm+' débloqué!','🏆',4000);
@@ -4847,7 +4899,8 @@ function renderLeaderboard(){
   const el=document.getElementById('lb-c');
   if(!el)return;
   const rivals=[...S.lb.rivals];
-  const myWeekXP=S.tourn?.sc?.['Toi']||0;
+  const weekCap=XP_DAILY_CAP*7;
+  const myWeekXP=Math.min(S.tourn?.sc?.['Toi']||0,weekCap);
   const myTotal=S.xp||0;
 
   // Add user to the list
@@ -5746,7 +5799,7 @@ var RiseSounds=(function(){
       if(new Date().getDay()===0 && h===18 && m<5){
         addN('📋','RISE Recap disponible','C\'est dimanche ! Consulte ton récap hebdomadaire pour voir tes progrès.');
       }
-    }catch(e){console.log('Reminder check error:',e);}
+    }catch(e){/* reminder check */}
   }
 
   // Run every 5 minutes
@@ -5831,7 +5884,7 @@ function toggleZenMode(){
         ACHIEVEMENTS.push(a);
       }
     });
-  }catch(e){console.log('Achievement merge:',e);}
+  }catch(e){/* achievement merge */}
   
   // Track screen visits for Explorer badge
   var _origGs2=gs;
@@ -6590,7 +6643,7 @@ function toggleZenMode(){
   var gamesEl=document.getElementById('screen-games');
   if(gamesEl)gamesEl.style.display='';
   save();
-  console.log('✅ RISE Session 6 loaded — 12 improvements active');
+  /* Session 6 loaded */
 })();
 
 // ══ END SESSION 6 ══
@@ -6779,7 +6832,7 @@ function toggleZenMode(){
   // Detect if running as PWA
   if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){
     document.body.classList.add('pwa-mode');
-    console.log('RISE: Running as installed PWA');
+    /* PWA mode */
   }
 })();
 
@@ -7059,7 +7112,7 @@ function toggleZenMode(){
   var loadTime=Date.now();
   window.addEventListener('load',function(){
     var elapsed=Date.now()-loadTime;
-    console.log('RISE: Loaded in '+elapsed+'ms');
+    /* Loaded in '+elapsed+'ms */
     if(elapsed>3000){
       console.warn('RISE: Slow load detected ('+elapsed+'ms)');
     }
@@ -7148,8 +7201,7 @@ function toggleZenMode(){
     try{chkAchievements('periodic');}catch(e){}
   },120000); // Every 2 minutes
   
-  console.log('%c RISE v9.7 — Production Ready ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:14px;padding:8px 16px;border-radius:4px');
-  console.log('%c 35+ achievements · 30+ screens · PWA · Offline · Accessible ','background:#111418;color:#8a9099;font-size:11px;padding:4px 8px');
+  /* RISE v9.7 Production Ready */
 })();
 
 // ══ END SESSION 7 — PRODUCTION READY ══
@@ -7255,9 +7307,9 @@ function toggleZenMode(){
       }
     };
   } catch(e) {
-    console.log('trainingModules override deferred');
+    /* trainingModules override deferred */
   }
-  console.log('%c SESSION 8a — FORMATIONS OVERRIDE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  /* Session 8a loaded */
 })();
 
 // ══════════════════════════════════════════
@@ -7584,7 +7636,7 @@ function toggleZenMode(){
     };
   }
 
-  console.log('%c SESSION 8 — ENHANCED TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  /* Session 8 loaded */
 })();
 
 // ══════════════════════════════════════════
@@ -8324,7 +8376,7 @@ try {
 ;
   Object.assign(RISE_AI.trainingModules, newFormations79, newFormations1012);
 } catch(e) {
-  console.log('Session 9: formations deferred', e);
+  /* formations deferred */
 }
 
 // ── 3. UPDATE FORMS_D (formation cards list) ──
@@ -8339,7 +8391,7 @@ try {
   ];
   if(window.FORMS_D) window.FORMS_D = FORMS_D = FORMS_D.concat(newFormCards);
 } catch(e) {
-  console.log('Session 9: FORMS_D update deferred', e);
+  /* FORMS_D update deferred */
 }
 
 // ── 4. ENHANCED LANGUAGES ──
@@ -8972,7 +9024,7 @@ try {
     });
   }
 } catch(e) {
-  console.log('Session 9: LANG_DB update deferred', e);
+  /* LANG_DB update deferred */
 }
 
 // ── 5. UPDATE gs() FOR NEW SCREENS ──
@@ -8984,7 +9036,7 @@ window.gs = function(name, btn){
     try {
       var renderFn = window['render_' + name];
       if(renderFn) renderFn();
-    } catch(e) { console.log('render error:', name, e); }
+    } catch(e) { /* render error */ }
   }
 };
 
@@ -9478,7 +9530,7 @@ try {
     }
   }
 } catch(e) {
-  console.log('Session 9: plus panel update deferred', e);
+  /* plus panel update deferred */
 }
 
 // ── 9. OVERRIDE ideas screen to use business ideas ──
@@ -9538,11 +9590,10 @@ try {
     return suggs.slice(0, 6);
   };
 } catch(e) {
-  console.log('Session 9: JARVIS suggestions update deferred', e);
+  /* JARVIS suggestions update deferred */
 }
 
-console.log('%c SESSION 9 — MEGA BUSINESS & PRODUCTIVITY UPDATE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
-console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans business/productivité');
+/* Session 9 loaded */
 })();
 
 
@@ -9550,7 +9601,7 @@ console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans bus
 (function(){
 'use strict';
 
-console.log('%c SESSION 10 — PERSONALIZATION & TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+/* Session 10 loaded */
 
 // ============================================================================
 // INIT: Load state, define TD
@@ -11229,7 +11280,7 @@ function initSession10() {
     }
   }
 
-  console.log('%c ✅ SESSION 10 LOADED ','background:#4ade80;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  /* Session 10 loaded */
 }
 
 // Check if DOM is ready
@@ -11263,7 +11314,7 @@ var S, save, gs, toast, addN, gainXP, complQ, dmgBoss, TD, now, closePlus;
 try { S = window.S || JSON.parse(localStorage.getItem('rise_v9')||'{}'); } catch(e){ S = {}; }
 try { save = window.save || function(){ localStorage.setItem('rise_v9', JSON.stringify(S)); }; } catch(e){ save = function(){}; }
 try { gs = window.gs; } catch(e){}
-try { toast = window.toast || function(t,i,d){ console.log('TOAST:',t); }; } catch(e){ toast = function(){}; }
+try { toast = window.toast || function(t,i,d){}; } catch(e){ toast = function(){}; }
 try { addN = window.addN || function(){}; } catch(e){ addN = function(){}; }
 try { gainXP = window.gainXP || function(){}; } catch(e){ gainXP = function(){}; }
 try { complQ = window.complQ || function(){}; } catch(e){ complQ = function(){}; }
@@ -12615,7 +12666,7 @@ try {
       return _origProcess.call(this, txt, mode);
     };
   }
-} catch(e){ console.log('JARVIS enhance error:', e); }
+} catch(e){ /* JARVIS enhance error */ }
 
 
 // ════════════════════════════════════════════════════════════════
@@ -12623,8 +12674,8 @@ try {
 // ════════════════════════════════════════════════════════════════
 
 function initSession11(){
-  try { updatePlusPanel(); } catch(e){ console.log('Plus panel update:', e); }
-  try { addHomeWidgets(); } catch(e){ console.log('Home widgets:', e); }
+  try { updatePlusPanel(); } catch(e){ /* Plus panel init */ }
+  try { addHomeWidgets(); } catch(e){ /* Home widgets init */ }
 
   // Make screens visible on launchApp
   var newScreenIds = ['screen-stoic','screen-notes','screen-bizideas','screen-smm','screen-analyticsv','screen-financeadv','screen-security'];
@@ -12646,8 +12697,7 @@ function initSession11(){
     }
   } catch(e){}
 
-  console.log('%c ✅ SESSION 11 MEGA UPDATE LOADED ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
-  console.log('New features: Stoïcisme, Notes, Business Ideas, Social Media Manager, Analytics, Finance Hub, Sécurité, Mémoire JARVIS');
+  /* Session 11 loaded */
 }
 
 // Run initialization
