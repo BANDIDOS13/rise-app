@@ -3,6 +3,20 @@
 
 export const config = { runtime: 'edge' };
 
+async function verifyStripeSignature(body, sig, secret) {
+  const parts = Object.fromEntries(sig.split(',').map(p => { const [k, v] = p.split('='); return [k, v]; }));
+  const timestamp = parts.t;
+  const v1 = parts.v1;
+  if (!timestamp || !v1) throw new Error('Invalid signature format');
+  // Reject timestamps older than 5 minutes to prevent replay attacks
+  if (Math.abs(Date.now() / 1000 - parseInt(timestamp)) > 300) throw new Error('Timestamp too old');
+  const payload = `${timestamp}.${body}`;
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  const expected = Array.from(new Uint8Array(signature)).map(b => b.toString(16).padStart(2, '0')).join('');
+  if (expected !== v1) throw new Error('Signature mismatch');
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
@@ -17,8 +31,11 @@ export default async function handler(req) {
     const body = await req.text();
     const sig = req.headers.get('stripe-signature');
 
-    // In production, verify the webhook signature here using Stripe's crypto
-    // For now, we parse and handle the event types
+    if (!sig) {
+      return new Response('Missing stripe-signature header', { status: 400 });
+    }
+
+    await verifyStripeSignature(body, sig, WEBHOOK_SECRET);
 
     const event = JSON.parse(body);
 

@@ -79,7 +79,7 @@ async function callClaude(apiKey, message, userContext, history) {
   ];
 
   const body = {
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 800,
     system: SYSTEM_PROMPT + userContext,
     messages,
@@ -125,7 +125,7 @@ async function callGPT(apiKey, message, userContext, history) {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 800, messages }),
+      body: JSON.stringify({ model: 'gpt-4o', max_tokens: 800, messages }),
     });
   } catch (fetchErr) {
     return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
