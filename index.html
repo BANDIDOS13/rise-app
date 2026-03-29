@@ -505,6 +505,12 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-home">
   <div class="pad">
     <div id="ctx-banner" class="ctx-b au"></div>
+    <!-- COACH CALL NUDGE -->
+    <div id="w-coachcall-nudge" class="smart-sug au" style="display:none;border-color:var(--pu);background:linear-gradient(135deg,var(--pud),transparent)" onclick="openCoachCall()">
+      <div class="smart-sug-ico" style="animation:float 2s ease-in-out infinite">🤖</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--pu)">Coach Call disponible</div><div style="font-size:12px;color:var(--tx2)">3 min de coaching hebdo avec JARVIS</div></div>
+      <div style="font-size:12px;color:var(--pu);font-weight:700">→</div>
+    </div>
     <!-- RISE SCORE -->
     <div id="w-risescore" class="wg au1" style="text-align:center;background:linear-gradient(135deg,var(--sf),var(--sf2));border:1.5px solid var(--acm);position:relative;overflow:hidden">
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--ac2))"></div>
@@ -543,6 +549,14 @@ textarea.inp{resize:none}
     <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">Chargement...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Citation personnalisée du jour</div></div>
     <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
     <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--or)" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or)">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
+    <!-- MULTI-STREAK -->
+    <div id="w-multistreak" class="wg au2">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-family:var(--fd);font-weight:700;font-size:13px">Mes Streaks</div>
+        <div style="font-size:10px;color:var(--tx3)" id="ms-total">0 actives</div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap" id="ms-chips"></div>
+    </div>
     <!-- 1% BETTER TRACKER -->
     <div id="w-onepct" class="wg au2" style="cursor:pointer" onclick="gs('dash',null)">
       <div style="display:flex;align-items:center;gap:12px">
@@ -1111,6 +1125,10 @@ textarea.inp{resize:none}
 
 </div>
 
+<!-- ═══ COACH CALL ═══ -->
+<div class="full-ov" id="ov-coachcall" style="z-index:1750;overflow-y:auto">
+  <div style="max-width:400px;width:100%;padding:20px" id="cc-content"></div>
+</div>
 <!-- ═══ TIME MACHINE ═══ -->
 <div class="full-ov" id="ov-timemachine" style="z-index:1700;overflow-y:auto">
   <div style="max-width:380px;width:100%;padding:20px" id="tm-content"></div>
@@ -1333,6 +1351,54 @@ function genMorningBrief(){
   txt.innerHTML=lines.join('<br>');
   el.style.display='block';
 }
+function updMultiStreak(){
+  var streaks=[];
+  // Login streak
+  var ls=S.loginS?S.loginS.streak||0:0;
+  if(ls>0)streaks.push({ico:'🔥',nm:'Connexion',val:ls,col:'var(--or)'});
+  // Journal streak
+  try{var js=calcJournalStreak();if(js>0)streaks.push({ico:'📝',nm:'Journal',val:js,col:'var(--pu)'});}catch(e){}
+  // Walk streak
+  var ws=S.nat?S.nat.wStreak||0:0;
+  if(ws>0)streaks.push({ico:'🚶',nm:'Marche',val:ws,col:'var(--nt)'});
+  // Habits streaks (best individual)
+  try{
+    var hList=(S.habits&&S.habits.list)||[];var bestH=0;var bestHName='';
+    hList.forEach(function(h){if((h.streak||0)>bestH){bestH=h.streak;bestHName=h.name;}});
+    if(bestH>0)streaks.push({ico:'⚡',nm:bestHName.slice(0,12),val:bestH,col:'var(--ac)'});
+  }catch(e){}
+  // Deep Work streak (consecutive days with DW sessions)
+  try{
+    var dwStreak=0;var dd=new Date();
+    for(var i=0;i<60;i++){
+      var ds=dd.toDateString();
+      var hasDW=(S.deepWork&&S.deepWork.sessions||[]).some(function(s){return s.date===ds;});
+      if(hasDW)dwStreak++;else if(i>0)break;
+      dd.setDate(dd.getDate()-1);
+    }
+    if(dwStreak>0)streaks.push({ico:'🎯',nm:'Deep Work',val:dwStreak,col:'var(--bl)'});
+  }catch(e){}
+  // Meditation streak
+  try{
+    var medStreak=0;var dd2=new Date();
+    for(var j=0;j<60;j++){
+      var ds2=dd2.toDateString();
+      var hasMed=(S.nat&&S.nat.breathLogs||[]).some(function(l){return l.date===ds2;});
+      if(hasMed)medStreak++;else if(j>0)break;
+      dd2.setDate(dd2.getDate()-1);
+    }
+    if(medStreak>0)streaks.push({ico:'🧘',nm:'Respiration',val:medStreak,col:'var(--tl)'});
+  }catch(e){}
+  // Render
+  var chipsEl=document.getElementById('ms-chips');var totalEl=document.getElementById('ms-total');
+  if(!chipsEl)return;
+  var activeStreaks=streaks.filter(function(s){return s.val>0;});
+  if(totalEl)totalEl.textContent=activeStreaks.length+' active'+(activeStreaks.length>1?'s':'');
+  if(!activeStreaks.length){chipsEl.innerHTML='<div style="font-size:12px;color:var(--tx3)">Commence une activite pour lancer un streak !</div>';return;}
+  chipsEl.innerHTML=activeStreaks.sort(function(a,b){return b.val-a.val;}).map(function(s){
+    return '<div style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700"><span>'+s.ico+'</span><span style="color:var(--tx2)">'+escHTML(s.nm)+'</span><span style="color:'+s.col+'">'+s.val+'j</span></div>';
+  }).join('');
+}
 function updNextObjective(){
   var el=document.getElementById('w-nextobjective');if(!el)return;
   var objectives=[];
@@ -1469,7 +1535,7 @@ function saveEveningReview(){
   toast('Review sauvegardee ! +50 XP','🌙',3000);
   addN('🌙','Bilan du soir','Review completee. Score: '+calcRiseScore().score+'/100');
 }
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updOnePct();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updMultiStreak();updOnePct();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();triggerCoachCall();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1501,8 +1567,8 @@ function renderPlan(p){let h='<div style="font-size:13px;color:var(--ac2);font-s
 let pomoR=false,pomoInt=null,pomoSec=1500,pomoMode='focus';
 const POMO_C={focus:{sec:1500,lbl:'FOCUS',col:'var(--ac)'},short:{sec:300,lbl:'PAUSE',col:'var(--gr)'},long:{sec:900,lbl:'LONGUE',col:'var(--bl)'}};
 function updPomoUI(){const el=document.getElementById('pomo-d');if(el)el.textContent=fmtT(pomoSec);const ph=document.getElementById('pomo-ph');if(ph){ph.textContent=POMO_C[pomoMode].lbl;ph.style.color=POMO_C[pomoMode].col;}}
-function pomoTog(){if(pomoR){clearInterval(pomoInt);pomoR=false;const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}else{pomoR=true;const b=document.getElementById('pomo-btn');if(b){b.textContent='⏸ Pause';b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';}pomoInt=setInterval(()=>{pomoSec--;const d=document.getElementById('pomo-d');if(d)d.textContent=fmtT(pomoSec);if(pomoSec<=0){clearInterval(pomoInt);pomoR=false;if(pomoMode==='focus'){S.pomoTot=(S.pomoTot||0)+1;gainXP(30,'pomo');gainGems(1);complQ('pomo');dmgBoss(30);save();toast('Session focus ! +30 XP','⏱️',2500);pomoMode='short';}else{pomoMode='focus';}pomoSec=POMO_C[pomoMode].sec;updPomoUI();const b2=document.getElementById('pomo-btn');if(b2){b2.textContent='▶ Start';b2.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b2.style.color='#0a1808';}}},1000);}updPomoUI();}
-function pomoRst(){if(pomoR){clearInterval(pomoInt);pomoR=false;}pomoMode='focus';pomoSec=1500;updPomoUI();const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}
+function pomoTog(){if(pomoR){clearInterval(pomoInt);pomoR=false;exitFocusMode();const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}else{pomoR=true;if(pomoMode==='focus')enterFocusMode(pomoSec,'POMODORO FOCUS');const b=document.getElementById('pomo-btn');if(b){b.textContent='⏸ Pause';b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';}var pomoTotal=POMO_C[pomoMode].sec;pomoInt=setInterval(()=>{pomoSec--;const d=document.getElementById('pomo-d');if(d)d.textContent=fmtT(pomoSec);if(pomoMode==='focus')updFocusMode(pomoSec,pomoTotal);if(pomoSec<=0){clearInterval(pomoInt);pomoR=false;exitFocusMode();if(pomoMode==='focus'){S.pomoTot=(S.pomoTot||0)+1;gainXP(30,'pomo');gainGems(1);complQ('pomo');dmgBoss(30);save();toast('Session focus ! +30 XP','⏱️',2500);try{updRiseScore();}catch(e){}pomoMode='short';}else{pomoMode='focus';}pomoSec=POMO_C[pomoMode].sec;updPomoUI();const b2=document.getElementById('pomo-btn');if(b2){b2.textContent='▶ Start';b2.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b2.style.color='#0a1808';}}},1000);}updPomoUI();}
+function pomoRst(){if(pomoR){clearInterval(pomoInt);pomoR=false;exitFocusMode();}pomoMode='focus';pomoSec=1500;updPomoUI();const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}
 let sosInt=null;
 function openSOS(){document.getElementById('ov-sos').classList.add('show');sosCyc();}
 function sosCyc(){clearInterval(sosInt);let ph='inhale',cnt=4;const ring=document.getElementById('sos-ring');const lbl=document.getElementById('sos-lbl');if(ring)ring.style.transform='scale(.4)';setTimeout(()=>{if(ring)ring.style.transform='scale(1)';},100);sosInt=setInterval(()=>{cnt--;if(cnt<=0){if(ph==='inhale'){ph='exhale';cnt=4;if(lbl)lbl.textContent='EXPIRE';if(ring)ring.style.transform='scale(.4)';}else{sosCyc();}}},1000);const tips=['Pose une main sur ton ventre.','Nomme 5 choses que tu vois.','Les émotions passent.','Un seul pas à la fois.'];document.getElementById('sos-tip').textContent=tips[Math.floor(Math.random()*tips.length)];}
@@ -6331,6 +6397,129 @@ function openTimeMachine(){
   h+='<button class="btn btn-ac" onclick="document.getElementById(\'ov-timemachine\').classList.remove(\'show\')">Revenir au present</button>';
   el.innerHTML=h;
   document.getElementById('ov-timemachine').classList.add('show');
+}
+// ── RISE COACH CALL ──
+var ccStep=0;var ccAnswers={};
+function shouldShowCoachCall(){
+  S.coachCall=S.coachCall||{lastDate:'',count:0};
+  var day=new Date().getDay();// 0=Sun,1=Mon
+  if(day!==1)return false;// Only on Mondays
+  if(S.coachCall.lastDate===TD)return false;
+  return true;
+}
+function triggerCoachCall(){
+  if(!shouldShowCoachCall())return;
+  // Show after 3 seconds on Home
+  setTimeout(function(){
+    var el=document.getElementById('w-coachcall-nudge');
+    if(el)el.style.display='flex';
+  },3000);
+}
+function openCoachCall(){
+  var nudge=document.getElementById('w-coachcall-nudge');if(nudge)nudge.style.display='none';
+  ccStep=0;ccAnswers={};
+  renderCoachCallStep();
+  document.getElementById('ov-coachcall').classList.add('show');
+}
+function renderCoachCallStep(){
+  var el=document.getElementById('cc-content');if(!el)return;
+  var h='';
+  if(ccStep===0){
+    // Step 0: Auto-generated weekly review
+    var scores=S.riseScores||{};var weekScores=[];
+    for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var sc=scores[d.toDateString()];if(sc!==undefined)weekScores.push(sc);}
+    var avgWeek=weekScores.length?Math.round(weekScores.reduce(function(a,v){return a+v;},0)/weekScores.length):0;
+    var bestWeek=weekScores.length?Math.max.apply(null,weekScores):0;
+    var streak=S.loginS?S.loginS.streak||0:0;
+    var dwWeek=(S.deepWork&&S.deepWork.sessions||[]).filter(function(s){try{var d=new Date(s.ts||s.date);return(Date.now()-d.getTime())<7*864e5;}catch(e){return false;}}).reduce(function(a,s){return a+(s.min||0);},0);
+    var habsDone=(S.habits&&S.habits.list||[]).filter(function(h2){return h2.lastDone===TD;}).length;
+    var habsTotal=(S.habits&&S.habits.list||[]).length;
+    h+='<div style="text-align:center;margin-bottom:16px">';
+    h+='<div style="font-size:36px;margin-bottom:6px">🤖</div>';
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px">Coach Call hebdo</div>';
+    h+='<div style="font-size:12px;color:var(--tx3)">Session de 3 min avec JARVIS</div>';
+    h+='</div>';
+    h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px">Etape 1/3 — Bilan de ta semaine</div>';
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:12px">';
+    h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px">';
+    h+='<div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--ac)">'+avgWeek+'</div><div style="font-size:10px;color:var(--tx3)">Score moyen</div></div>';
+    h+='<div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--gr)">'+bestWeek+'</div><div style="font-size:10px;color:var(--tx3)">Meilleur jour</div></div>';
+    h+='<div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--or)">'+streak+'j</div><div style="font-size:10px;color:var(--tx3)">Streak</div></div>';
+    h+='<div style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--pu)">'+dwWeek+'m</div><div style="font-size:10px;color:var(--tx3)">Deep Work</div></div>';
+    h+='</div>';
+    // Mini sparkline for the week
+    h+='<div style="display:flex;gap:4px;align-items:flex-end;height:30px">';
+    var labels2=['L','M','M','J','V','S','D'];
+    for(var j=6;j>=0;j--){var d2=new Date();d2.setDate(d2.getDate()-j);var sc2=scores[d2.toDateString()];
+      var barH=sc2!==undefined?Math.max(4,Math.round(sc2/100*26)):4;
+      var col2=sc2===undefined?'var(--sf3)':sc2>=70?'var(--gr)':sc2>=40?'var(--ac)':'var(--or)';
+      h+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px"><div style="width:100%;height:'+barH+'px;background:'+col2+';border-radius:2px"></div><div style="font-size:7px;color:var(--tx3)">'+labels2[d2.getDay()]+'</div></div>';
+    }
+    h+='</div></div>';
+    var verdict=avgWeek>=70?'Excellente semaine. Tu es dans le flow.':avgWeek>=50?'Semaine correcte. Tu peux aller plus loin.':avgWeek>=30?'Semaine moyenne. Identifions ce qui bloque.':'Semaine difficile. C\'est OK. On repart.';
+    h+='<div style="font-size:13px;color:var(--tx2);line-height:1.6;font-style:italic;margin-bottom:14px">🤖 '+verdict+'</div>';
+    h+='<button class="btn btn-ac" onclick="ccStep=1;renderCoachCallStep()">Continuer →</button>';
+  }else if(ccStep===1){
+    // Step 1: Deep question
+    var questions=[
+      'Qu\'est-ce qui t\'a empeche d\'atteindre 100% cette semaine ?',
+      'Quel moment de la semaine t\'a rendu le plus fier ?',
+      'Si tu pouvais refaire un jour de cette semaine, lequel et pourquoi ?',
+      'Qu\'est-ce que tu as appris sur toi-meme cette semaine ?',
+      'Quelle habitude a eu le plus d\'impact positif ?'
+    ];
+    var q=questions[Math.floor(Math.random()*questions.length)];
+    h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Etape 2/3 — Reflexion profonde</div>';
+    h+='<div style="font-size:28px;text-align:center;margin-bottom:12px">🧠</div>';
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:16px;text-align:center;margin-bottom:16px;color:var(--ac);line-height:1.5">'+q+'</div>';
+    h+='<textarea class="inp" id="cc-answer" rows="4" placeholder="Prends 30 secondes pour reflechir..." style="font-size:14px;margin-bottom:14px"></textarea>';
+    h+='<div style="display:flex;gap:8px"><button class="btn btn-sf" style="flex:1" onclick="ccStep=0;renderCoachCallStep()">← Retour</button><button class="btn btn-ac" style="flex:2" onclick="ccAnswers.reflection=(document.getElementById(\'cc-answer\')||{}).value||\'(skip)\';ccStep=2;renderCoachCallStep()">Continuer →</button></div>';
+  }else if(ccStep===2){
+    // Step 2: 3 micro-objectives for next week
+    var dna=computeDNA();var weak=dna.weak2[0];
+    var labels3={discipline:'Discipline',focus:'Focus',resilience:'Resilience',nature:'Nature',learning:'Apprentissage',social:'Social',mindfulness:'Pleine conscience',consistency:'Regularite'};
+    var objectives=[
+      {ico:'🎯',text:'1 session Deep Work de 60+ min',cat:'focus'},
+      {ico:'📝',text:'Ecrire dans ton journal 5 jours sur 7',cat:'mindfulness'},
+      {ico:'🌿',text:'30 min de marche dehors 4 jours',cat:'nature'},
+      {ico:'🧘',text:'Mediter 10 min chaque matin',cat:'mindfulness'},
+      {ico:'📚',text:'Lire 30 min par jour',cat:'learning'},
+      {ico:'💪',text:'Faire 3 sessions de sport',cat:'discipline'},
+      {ico:'🔥',text:'Completer toutes les quetes 3 jours sur 7',cat:'consistency'},
+      {ico:'🤝',text:'Lancer un defi Partner',cat:'social'},
+      {ico:'🧊',text:'5 douches froides cette semaine',cat:'resilience'},
+      {ico:'⏱️',text:'4 Pomodoros par jour 3 jours',cat:'focus'}
+    ];
+    // Pick 3: 1 related to weakness, 2 general
+    var weakObj=objectives.find(function(o){return o.cat===weak.id;})||objectives[0];
+    var others=objectives.filter(function(o){return o!==weakObj;});
+    var picked=[weakObj];
+    for(var pi=0;pi<2&&others.length;pi++){var idx=Math.floor(Math.random()*others.length);picked.push(others[idx]);others.splice(idx,1);}
+    h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:16px">Etape 3/3 — Plan de la semaine</div>';
+    h+='<div style="font-size:28px;text-align:center;margin-bottom:8px">🗺️</div>';
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:16px;text-align:center;margin-bottom:6px">Tes 3 micro-objectifs</div>';
+    h+='<div style="font-size:12px;color:var(--tx3);text-align:center;margin-bottom:14px">Base sur ton RISE DNA (axe: '+labels3[weak.id]+')</div>';
+    picked.forEach(function(obj,oi){
+      h+='<div style="background:var(--sf);border:1px solid '+(oi===0?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px">';
+      h+='<div style="font-size:24px">'+obj.ico+'</div>';
+      h+='<div style="flex:1;font-size:13px;font-weight:600">'+escHTML(obj.text)+'</div>';
+      if(oi===0)h+='<div style="padding:2px 8px;border-radius:10px;background:var(--agg);border:1px solid var(--acm);font-size:9px;font-weight:700;color:var(--ac)">DNA</div>';
+      h+='</div>';
+    });
+    h+='<button class="btn btn-gr" style="margin-top:14px" onclick="finishCoachCall()">Valider mon plan +100 XP</button>';
+  }
+  el.innerHTML=h;
+}
+function finishCoachCall(){
+  S.coachCall=S.coachCall||{};
+  S.coachCall.lastDate=TD;
+  S.coachCall.count=(S.coachCall.count||0)+1;
+  S.coachCall.lastReflection=ccAnswers.reflection||'';
+  gainXP(100,'coach_call');gainGems(10);confetti();
+  save();
+  document.getElementById('ov-coachcall').classList.remove('show');
+  toast('Coach Call complete ! +100 XP','🤖',3500);
+  addN('🤖','Coach Call #'+(S.coachCall.count),'Session hebdo terminee. Plan valide !');
 }
 function shareDNA(){
   var dna=computeDNA();
