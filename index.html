@@ -2,10 +2,20 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>RISE — AI Life OS</title>
 <meta name="description" content="RISE — Plateforme de vie IA. Coach personnel, habitudes, nature, business, gamification.">
 <meta name="theme-color" content="#07080a">
+<meta property="og:title" content="RISE — AI Life OS">
+<meta property="og:description" content="Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec RISE.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RISE — AI Life OS">
+<meta name="twitter:description" content="Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec RISE.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%2307080a' width='32' height='32' rx='6'/%3E%3Ctext x='50%25' y='62%25' text-anchor='middle' font-size='20'%3E🚀%3C/text%3E%3C/svg%3E">
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22RISE%20%E2%80%94%20AI%20Life%20OS%22%2C%22short_name%22%3A%22RISE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -418,6 +428,9 @@ textarea.inp{resize:none}
 #jarvis-ta:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(255,179,71,.1)}
 #jarvis-send{padding:8px 12px;border:none;border-radius:8px;background:var(--ac);color:var(--bg);cursor:pointer;font-weight:700;font-size:12px;transition:opacity .2s;white-space:nowrap}
 #jarvis-send:hover{opacity:.9}
+@media(min-width:768px){#app{max-width:600px}}
+@media(min-width:1024px){#app{max-width:900px;border-left:1px solid var(--bd);border-right:1px solid var(--bd)}.pad{padding:20px 24px 0}.screen{padding-bottom:80px}}
+@media(min-width:1440px){#app{max-width:1100px}}
 </style>
 </head>
 <body>
@@ -12663,6 +12676,9 @@ try { save(); } catch(e){}
 
 })();
 
+</script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){});}
 </script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Sitemap: /sitemap.xml
+
+# Landing page
+Allow: /rise-landing.html
+
+# Block API endpoints
+Disallow: /api/
