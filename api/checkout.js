@@ -1,52 +1,45 @@
-// FORGE Stripe Checkout — Vercel Serverless Function
+h// RISE Stripe Checkout — Vercel Serverless Function
 import Stripe from 'stripe';
 
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'nodejs' };
 
-// Map FORGE plan IDs to Stripe Price IDs
+// Map RISE plan IDs to Stripe Price IDs
 const PLAN_PRICES = {
-  starter: process.env.STRIPE_PRICE_STARTER  || '',
-  premium: process.env.STRIPE_PRICE_PREMIUM  || 'price_1TFsaKJK83rBK9aJcKAax3Be',
-  pro:     process.env.STRIPE_PRICE_PREMIUM  || 'price_1TFsaKJK83rBK9aJcKAax3Be',
-  elite:   process.env.STRIPE_PRICE_ELITE    || 'price_1TFsfRJK83rBK9aJNd5bziY2',
+  premium: process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  elite:   process.env.STRIPE_PRICE_ELITE   || 'price_1TFsfRJK83rBK9aJNd5bziY2',
 };
 
-const ALLOWED_ORIGINS = [/\.vercel\.app$/, /forge-app\.com$/, /localhost/];
-
-function getCorsOrigin(req) {
-  const origin = req.headers.get('origin') || '';
-  return ALLOWED_ORIGINS.some(p => p.test(origin)) ? origin : '';
-}
-
 export default async function handler(req) {
-  const corsOrigin = getCorsOrigin(req);
-
   if (req.method === 'OPTIONS') {
     return new Response(null, {
-      headers: { 'Access-Control-Allow-Origin': corsOrigin, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
+      headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
     });
   }
 
   if (req.method !== 'POST') {
-    return resp({ error: 'Method not allowed' }, 405, corsOrigin);
+    return jsonResp({ error: 'Method not allowed' }, 405);
   }
 
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) {
-    return resp({ error: 'Payment not configured' }, 500, corsOrigin);
+    return jsonResp({ error: 'Paiement non configuré. Contacte le support.' }, 500);
   }
 
   try {
     const { plan, email, name } = await req.json();
 
-    const priceId = plan && PLAN_PRICES[plan];
+    if (!plan || !PLAN_PRICES[plan]) {
+      return jsonResp({ error: 'Plan invalide.' }, 400);
+    }
+
+    const priceId = PLAN_PRICES[plan];
     if (!priceId) {
-      return resp({ error: 'Invalid plan' }, 400, corsOrigin);
+      return jsonResp({ error: 'Ce plan n\'est pas encore disponible.' }, 400);
     }
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2024-12-18.acacia' });
 
-    const origin = req.headers.get('origin') || 'https://forge-app.com';
+    const origin = req.headers.get('origin') || 'https://rise-app-mu.vercel.app';
 
     const sessionParams = {
       mode: 'subscription',
@@ -63,15 +56,15 @@ export default async function handler(req) {
 
     const session = await stripe.checkout.sessions.create(sessionParams);
 
-    return resp({ url: session.url }, 200, corsOrigin);
+    return jsonResp({ url: session.url });
   } catch (err) {
-    return resp({ error: 'Payment error' }, 500, corsOrigin);
+    return jsonResp({ error: 'Erreur lors de la création du paiement. Réessaie.' }, 500);
   }
 }
 
-function resp(obj, status = 200, origin = '') {
+function jsonResp(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': origin || '' },
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
   });
 }
