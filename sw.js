@@ -1,8 +1,10 @@
 // RISE PWA Service Worker v1
-const CACHE_NAME = 'rise-v9-cache-v1';
+const CACHE_NAME = 'rise-v9-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
+  '/rise.css',
+  '/sw.js',
   'https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap'
 ];
 

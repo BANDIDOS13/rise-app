@@ -12,6 +12,7 @@
 <meta name="apple-mobile-web-app-title" content="RISE">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%2307080a' width='180' height='180' rx='40'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='100' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rise.css">
 <style>
 :root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--grd:#0e1f16;--rd:#d95f5f;--rdd:#1e0e0e;--bl:#4a9ed4;--bld:#0c1c2a;--pu:#8b6de0;--pud:#140e28;--or:#e0874a;--ord:#1e1008;--tl:#3db8aa;--tld:#0a1e1a;--nt:#5cb87a;--ntd:#0a1c10;--nt2:#8dd4a0;--r:16px;--rs:10px;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
 [data-theme=ocean]{--bg:#040d14;--bg2:#07121c;--sf:#0a1a26;--sf2:#0f2030;--sf3:#142836;--bd:#1a2e3a;--bd2:#223848;--tx:#e8f4f8;--tx2:#7aa8b8;--tx3:#3a6070;--ac:#38b8d4;--ac2:#5cd4f0;--acm:#0a3a48;--agg:rgba(56,184,212,.08);--agg2:rgba(56,184,212,.16)}
@@ -505,6 +506,12 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-home">
   <div class="pad">
     <div id="ctx-banner" class="ctx-b au"></div>
+    <!-- MIRROR NUDGE -->
+    <div id="w-mirror-nudge" class="smart-sug au" style="display:none;border-color:var(--tl);background:linear-gradient(135deg,var(--tld),transparent)" onclick="openMirror()">
+      <div class="smart-sug-ico">🪞</div>
+      <div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--tl)">RISE Mirror</div><div style="font-size:12px;color:var(--tx2)">Un insight sur toi-meme t'attend</div></div>
+      <div style="font-size:12px;color:var(--tl);font-weight:700">→</div>
+    </div>
     <!-- NEWSLETTER NUDGE -->
     <div id="w-newsletter-nudge" class="smart-sug au" style="display:none;border-color:var(--bl);background:linear-gradient(135deg,var(--bld),transparent)" onclick="openNewsletter()">
       <div class="smart-sug-ico">📰</div>
@@ -1165,6 +1172,10 @@ textarea.inp{resize:none}
     <div style="display:flex;gap:8px"><button class="btn btn-ac" style="flex:2" onclick="downloadProfileCard()">Telecharger</button><button class="btn btn-sf" style="flex:1" onclick="document.getElementById('ov-profilecard').classList.remove('show')">Fermer</button></div>
   </div>
 </div>
+<!-- ═══ RISE MIRROR ═══ -->
+<div class="full-ov" id="ov-mirror" style="z-index:1630;overflow-y:auto">
+  <div style="max-width:380px;width:100%;padding:20px" id="mirror-content"></div>
+</div>
 <!-- ═══ WEEKLY PLAN ═══ -->
 <div class="full-ov" id="ov-weekplan" style="z-index:1640;overflow-y:auto">
   <div style="max-width:400px;width:100%;padding:20px" id="wp-content"></div>
@@ -1652,7 +1663,7 @@ function saveEveningReview(){
   toast('Review sauvegardee ! +50 XP','🌙',3000);
   addN('🌙','Bilan du soir','Review completee. Score: '+calcRiseScore().score+'/100');
 }
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updRadar();updMultiStreak();updOnePct();updEnergyWidget();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();triggerCoachCall();triggerNewsletter();genDailyMicroChallenge();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updRadar();updMultiStreak();updOnePct();updEnergyWidget();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();triggerCoachCall();triggerNewsletter();triggerMirror();genDailyMicroChallenge();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1669,12 +1680,15 @@ function renderCtxBanner(){const el=document.getElementById('ctx-banner');if(!el
       if(patterns.trend==='down'&&!moodInsight)moodInsight=' 🤖 JARVIS: ta tendance est en baisse. Un petit geste compte.';
     }
   }catch(e){}
+  // Energy-aware
+  var energyHint='';
+  try{var eVal=S.energy&&S.energy[TD];if(eVal&&eVal<=2)energyHint=' Energie basse — sois strategique, pas heroique.';else if(eVal&&eVal>=4)energyHint=' Energie haute — profites-en pour attaquer le plus dur.';}catch(e){}
   // Score-aware
   var scoreHint='';
   try{var r=calcRiseScore();if(r.score>0)scoreHint=' Score: '+r.score+'/100.';}catch(e){}
-  if(hr<12){bg='linear-gradient(135deg,#1a1208,#100e04)';ico='🌅';title='Bon matin, '+name+' !';sub='Cerveau au maximum. Attaque le plus dur en premier.'+scoreHint+moodInsight;}
-  else if(hr<18){bg='linear-gradient(135deg,#0a1218,#080e14)';ico='⚡';title='Maintiens l elan';sub='Apres-midi: focus. Evite les distractions.'+scoreHint+moodInsight;}
-  else{bg='linear-gradient(135deg,#0a0818,#080614)';ico='🌙';title='Bilan de soiree';sub='Revois ta journee. Prepare demain. Protege le sommeil.'+scoreHint+moodInsight;}
+  if(hr<12){bg='linear-gradient(135deg,#1a1208,#100e04)';ico='🌅';title='Bon matin, '+name+' !';sub='Cerveau au maximum. Attaque le plus dur en premier.'+scoreHint+energyHint+moodInsight;}
+  else if(hr<18){bg='linear-gradient(135deg,#0a1218,#080e14)';ico='⚡';title='Maintiens l elan';sub='Apres-midi: focus. Evite les distractions.'+scoreHint+energyHint+moodInsight;}
+  else{bg='linear-gradient(135deg,#0a0818,#080614)';ico='🌙';title='Bilan de soiree';sub='Revois ta journee. Prepare demain. Protege le sommeil.'+scoreHint+energyHint+moodInsight;}
   el.style.background=bg;el.style.border='1px solid var(--acm)';el.innerHTML='<div style="position:relative;z-index:1"><div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:3px">'+pad(hr)+':'+pad(now.getMinutes())+'</div><div style="font-family:var(--fd);font-weight:700;font-size:16px;margin-bottom:3px">'+title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+sub+'</div></div><div style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:40px;opacity:.2">'+ico+'</div>';}
 function selE(btn,v){document.querySelectorAll('#e-row button').forEach(b=>{b.style.borderColor='transparent';b.style.background='var(--sf2)';});btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';ciE=v;chkCIR();}
 function togF(btn,v){const on=btn.style.borderColor==='var(--ac)';if(on){btn.style.borderColor='var(--bd2)';btn.style.background='var(--sf2)';btn.style.color='var(--tx2)';ciF=ciF.filter(f=>f!==v);}else{btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';btn.style.color='var(--ac)';if(!ciF.includes(v))ciF.push(v);}chkCIR();}
@@ -1757,6 +1771,10 @@ function buildSys(){
     var hList=(S.habits&&S.habits.list)||[];var hDone=hList.filter(function(h){return h.lastDone===TD;}).length;
     if(hList.length>0)ctx+='Habitudes: '+hDone+'/'+hList.length+' faites auj. ';
   }catch(e){}
+  // Energy
+  try{var eToday=S.energy&&S.energy[TD];if(eToday)ctx+='Energie auj: '+eToday+'/5'+(eToday<=2?' (basse)':eToday>=4?' (haute)':'')+'. ';}catch(e){}
+  // Week plan
+  try{if(S.weekPlan&&S.weekPlan.week===getWK()&&S.weekPlan.goals.length){var wpDone=S.weekPlan.goals.filter(function(g){return g.done;}).length;ctx+='Plan semaine: '+wpDone+'/'+S.weekPlan.goals.length+' objectifs faits. ';}}catch(e){}
   ctx+='Regles: tutoiement, direct, actionnable, max 200 mots. Termine par une question ou un call-to-action.\n';
   return ctx;
 }
@@ -1862,7 +1880,7 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div style="margin-bottom:14px"><button class="btn btn-pu" onclick="openRewind()">🎬 RISE Rewind — Mon mois</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-pu" style="flex:1" onclick="openRewind()">🎬 Rewind</button><button class="btn btn-sf" style="flex:1" onclick="openStory()">📖 Story</button><button class="btn btn-sf" style="flex:1" onclick="openMirror()">🪞 Mirror</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
 function exportData(){
   var data=JSON.stringify(S,null,2);
@@ -6807,6 +6825,189 @@ function openTimeMachine(){
   h+='<button class="btn btn-ac" onclick="document.getElementById(\'ov-timemachine\').classList.remove(\'show\')">Revenir au present</button>';
   el.innerHTML=h;
   document.getElementById('ov-timemachine').classList.add('show');
+}
+// ── RISE STORY ──
+function generateStory(){
+  var name=S.name||'Champion';
+  var scores=S.riseScores||{};var weekScores=[];
+  for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var sc=scores[d.toDateString()];if(sc!==undefined)weekScores.push(sc);}
+  var avg=weekScores.length?Math.round(weekScores.reduce(function(a,v){return a+v;},0)/weekScores.length):0;
+  var best=weekScores.length?Math.max.apply(null,weekScores):0;
+  var streak=S.loginS?S.loginS.streak||0:0;
+  var dwMin=(S.deepWork&&S.deepWork.sessions||[]).filter(function(s){try{return(Date.now()-new Date(s.ts||s.date).getTime())<7*864e5;}catch(e){return false;}}).reduce(function(a,s){return a+(s.min||0);},0);
+  var journal=S.journal||[];var weekJournal=journal.filter(function(e){try{return(Date.now()-new Date(e.ts||e.date).getTime())<7*864e5;}catch(ex){return false;}});
+  var moods=weekJournal.map(function(e){return e.mood;}).filter(Boolean);
+  var dominantMood='neutre';
+  if(moods.length){var mc={};moods.forEach(function(m){mc[m]=(mc[m]||0)+1;});var dm='neutral';var dc=0;for(var k in mc){if(mc[k]>dc){dc=mc[k];dm=k;}}dominantMood={happy:'joyeuse',motivated:'motivee',neutral:'equilibree',sad:'difficile',stressed:'sous tension'}[dm]||'equilibree';}
+  var dna=computeDNA();var topTrait=dna.top3[0];
+  var traitLabels={discipline:'discipline',focus:'focus intense',resilience:'resilience',nature:'connexion a la nature',learning:'soif d\'apprendre',social:'liens humains',mindfulness:'pleine conscience',consistency:'regularite'};
+  // Build narrative
+  var story='';
+  // Opening
+  if(avg>=70)story+='Cette semaine, '+name+' a brille. ';
+  else if(avg>=50)story+=name+' a pose des briques solides cette semaine. ';
+  else if(avg>=30)story+='La semaine de '+name+' a ete un combat — et c\'est exactement ce qui forge la croissance. ';
+  else story+=name+' a traverse une semaine de recharge. Meme les meilleurs athletes ont des jours de repos. ';
+  // Body
+  if(streak>=7)story+='Avec '+streak+' jours de suite sans interruption, la discipline est devenue identite, pas juste intention. ';
+  else if(streak>=3)story+=streak+' jours consecutifs — le momentum est en train de se construire. ';
+  if(dwMin>=60)story+=Math.round(dwMin/60)+' heures de Deep Work cette semaine — le genre de focus que la plupart des gens ne touchent jamais. ';
+  if(best>=80)story+='Le meilleur jour a atteint '+best+'/100 — preuve que le potentiel est la, il suffit de le reproduire. ';
+  story+='L\'humeur dominante etait '+dominantMood+'. ';
+  if(weekJournal.length>=3)story+=weekJournal.length+' entrees de journal montrent un esprit qui cherche a comprendre, pas juste a performer. ';
+  // Closing
+  story+='La force de '+name+' cette semaine : '+(traitLabels[topTrait.id]||'determination')+' ('+topTrait.val+'/100). ';
+  if(avg>=50)story+='La semaine prochaine commence avec un avantage : l\'elan est deja la.';
+  else story+='La semaine prochaine sera differente. Pas parce que les circonstances changent — parce que '+name+' choisira de faire un pas de plus.';
+  return story;
+}
+function openStory(){
+  var story=generateStory();
+  var weekNum=Math.ceil((new Date().getTime()-new Date(new Date().getFullYear(),0,1).getTime())/604800000);
+  var existing=document.getElementById('ov-story');if(existing)existing.remove();
+  var h='<div class="full-ov show" id="ov-story" style="z-index:1620;overflow-y:auto" onclick="if(event.target===this)this.remove()">';
+  h+='<div style="max-width:380px;width:100%;padding:24px">';
+  h+='<div style="text-align:center;margin-bottom:20px">';
+  h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:3px;font-weight:700">RISE STORY</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-top:4px">Chapitre '+weekNum+'</div>';
+  h+='<div style="font-size:11px;color:var(--tx3)">Semaine '+weekNum+' de l\'annee</div>';
+  h+='</div>';
+  h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:20px;margin-bottom:14px">';
+  h+='<div style="font-size:14px;color:var(--tx2);line-height:1.85;font-style:italic">'+escHTML(story)+'</div>';
+  h+='</div>';
+  h+='<div style="display:flex;gap:8px"><button class="btn btn-ac" style="flex:2" onclick="document.getElementById(\'ov-story\').remove()">Fermer</button><button class="btn btn-sf" style="flex:1" onclick="shareStory()">Partager</button></div>';
+  h+='</div></div>';
+  document.body.insertAdjacentHTML('beforeend',h);
+  gainXP(15,'story');save();
+}
+function shareStory(){
+  var story=generateStory();
+  if(navigator.share)navigator.share({title:'RISE Story',text:story.slice(0,200)+'... #RISE'}).catch(function(){});
+  else{navigator.clipboard.writeText(story).then(function(){toast('Histoire copiee !','📖',2000);}).catch(function(){});}
+}
+// ── RISE MIRROR ──
+function computeMirrorInsights(){
+  var insights=[];
+  var scores=S.riseScores||{};var energy=S.energy||{};var moods=S.moods||{};
+  var checkins=S.checkins||{};
+  // Correlation: energy vs score
+  var ePairs=[];
+  for(var d in energy){if(scores[d]!==undefined)ePairs.push({e:energy[d],s:scores[d]});}
+  if(ePairs.length>=5){
+    var highE=ePairs.filter(function(p){return p.e>=4;});var lowE=ePairs.filter(function(p){return p.e<=2;});
+    var avgHighS=highE.length?Math.round(highE.reduce(function(a,p){return a+p.s;},0)/highE.length):0;
+    var avgLowS=lowE.length?Math.round(lowE.reduce(function(a,p){return a+p.s;},0)/lowE.length):0;
+    if(highE.length>=2&&lowE.length>=2&&avgHighS>avgLowS+15){
+      insights.push({ico:'⚡',type:'correlation',title:'Energie = Performance',text:'Quand ton energie est haute (4-5), ton score RISE moyen est '+avgHighS+'. Quand elle est basse (1-2), il tombe a '+avgLowS+'. Proteger ton energie est ta priorite #1.',weight:10});
+    }
+  }
+  // Correlation: check-in time pattern
+  var ciDays=Object.keys(checkins);
+  if(ciDays.length>=7){
+    var weekdayCIs=0;var weekendCIs=0;var wdTotal=0;var weTotal=0;
+    ciDays.forEach(function(d2){try{var day=new Date(d2).getDay();if(day===0||day===6){weTotal++;weekendCIs++;}else{wdTotal++;weekdayCIs++;}}catch(e){}});
+    if(weTotal>=4&&wdTotal>=10){
+      var wdRate=weekdayCIs/wdTotal;var weRate=weekendCIs/weTotal;
+      if(wdRate>weRate+0.3)insights.push({ico:'📅',type:'pattern',title:'Le weekend te fait decrocher',text:'Tu check-in '+ Math.round(wdRate*100)+'% des jours en semaine mais seulement '+Math.round(weRate*100)+'% le weekend. Le dimanche soir, planifie ton weekend comme ta semaine.',weight:8});
+    }
+  }
+  // Deep Work vs no Deep Work days
+  var dwSessions=S.deepWork&&S.deepWork.sessions||[];
+  if(dwSessions.length>=5){
+    var dwDays={};dwSessions.forEach(function(s){dwDays[s.date]=(dwDays[s.date]||0)+(s.min||0);});
+    var withDW=[];var withoutDW=[];
+    for(var d3 in scores){
+      if(dwDays[d3]&&dwDays[d3]>=30)withDW.push(scores[d3]);
+      else withoutDW.push(scores[d3]);
+    }
+    if(withDW.length>=3&&withoutDW.length>=3){
+      var avgWith=Math.round(withDW.reduce(function(a,v){return a+v;},0)/withDW.length);
+      var avgWithout=Math.round(withoutDW.reduce(function(a,v){return a+v;},0)/withoutDW.length);
+      if(avgWith>avgWithout+10)insights.push({ico:'🎯',type:'correlation',title:'Deep Work = Score +'+( avgWith-avgWithout),text:'Les jours ou tu fais du Deep Work, ton score moyen est '+avgWith+'. Sans, il tombe a '+avgWithout+'. Le focus est ton levier le plus puissant.',weight:9});
+    }
+  }
+  // Mood patterns from journal
+  var journal=S.journal||[];
+  if(journal.length>=10){
+    var moodByDay={};
+    journal.forEach(function(e){try{var day=new Date(e.ts||e.date).getDay();var mv={happy:5,motivated:4,neutral:3,sad:2,stressed:1}[e.mood]||3;moodByDay[day]=moodByDay[day]||[];moodByDay[day].push(mv);}catch(x){}});
+    var bestD=-1;var worstD=-1;var bestA=0;var worstA=6;
+    var dayN=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+    for(var dd=0;dd<7;dd++){if(moodByDay[dd]&&moodByDay[dd].length>=2){var a=moodByDay[dd].reduce(function(x,v){return x+v;},0)/moodByDay[dd].length;if(a>bestA){bestA=a;bestD=dd;}if(a<worstA){worstA=a;worstD=dd;}}}
+    if(bestD>=0&&worstD>=0&&bestD!==worstD)insights.push({ico:'🎭',type:'pattern',title:dayN[worstD]+' est ton jour critique',text:'Ton humeur moyenne le '+dayN[worstD]+' est '+Math.round(worstA*10)/10+'/5 vs '+Math.round(bestA*10)/10+'/5 le '+dayN[bestD]+'. Planifie quelque chose d\'agreable le '+dayN[worstD]+'.',weight:7});
+  }
+  // Habits that correlate with high scores
+  var habits=S.habits&&S.habits.list||[];
+  if(habits.length>=3&&Object.keys(scores).length>=10){
+    habits.forEach(function(hab){
+      var withH=[];var withoutH=[];
+      for(var d4 in scores){
+        // Check if habit was done on that date (approximate via streak)
+        if(hab.lastDone===d4)withH.push(scores[d4]);
+      }
+      // Simplified: just note habits with high streaks
+      if(hab.streak>=7)insights.push({ico:hab.ico,type:'habit',title:escHTML(hab.name)+' — '+hab.streak+'j de streak',text:'Cette habitude est ancree. C\'est devenu automatique. Continue sans reflechir.',weight:5+hab.streak/10});
+    });
+  }
+  // Evening Review correlation
+  var evDays=Object.keys(S.eveningReviews||{});
+  if(evDays.length>=5){
+    var withEv=evDays.filter(function(d5){return scores[d5]!==undefined;}).map(function(d5){return scores[d5];});
+    var avgEv=withEv.length?Math.round(withEv.reduce(function(a,v){return a+v;},0)/withEv.length):0;
+    var allScores=Object.values(scores);
+    var avgAll=allScores.length?Math.round(allScores.reduce(function(a,v){return a+v;},0)/allScores.length):0;
+    if(avgEv>avgAll+5)insights.push({ico:'🌙',type:'correlation',title:'L\'Evening Review booste le lendemain',text:'Les jours apres une Evening Review, ton score moyen est '+avgEv+' vs '+avgAll+' en general. La reflexion du soir prepare le jour suivant.',weight:8});
+  }
+  // Sort by weight
+  insights.sort(function(a,b){return b.weight-a.weight;});
+  return insights;
+}
+function openMirror(){
+  var el=document.getElementById('mirror-content');if(!el)return;
+  var insights=computeMirrorInsights();
+  var h='';
+  h+='<div style="text-align:center;margin-bottom:20px">';
+  h+='<div style="font-size:48px;margin-bottom:8px">🪞</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:4px">RISE Mirror</div>';
+  h+='<div style="font-size:12px;color:var(--tx3)">Ce que tes donnees disent sur toi</div>';
+  h+='</div>';
+  if(insights.length===0){
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;text-align:center">';
+    h+='<div style="font-size:32px;margin-bottom:8px">📊</div>';
+    h+='<div style="font-size:14px;font-weight:700;margin-bottom:4px">Pas encore assez de donnees</div>';
+    h+='<div style="font-size:12px;color:var(--tx3);line-height:1.6">Continue a utiliser RISE pendant quelques jours. Le Mirror a besoin de donnees pour reveler tes patterns.</div>';
+    h+='</div>';
+  }else{
+    // Show top 3 insights
+    insights.slice(0,3).forEach(function(ins,i){
+      var border=i===0?'var(--ac)':'var(--bd)';
+      h+='<div style="background:var(--sf);border:'+(i===0?'2':'1')+'px solid '+border+';border-radius:var(--r);padding:16px;margin-bottom:10px;'+(i===0?'background:linear-gradient(135deg,var(--agg),transparent)':'')+'">';
+      h+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><div style="font-size:24px">'+ins.ico+'</div><div><div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;font-weight:700">'+ins.type+'</div><div style="font-family:var(--fd);font-weight:700;font-size:15px">'+ins.title+'</div></div></div>';
+      h+='<div style="font-size:13px;color:var(--tx2);line-height:1.7">'+ins.text+'</div>';
+      h+='</div>';
+    });
+    if(insights.length>3){
+      h+='<div style="text-align:center;padding:8px;font-size:11px;color:var(--tx3)">+'+(insights.length-3)+' autres insights disponibles au fil du temps</div>';
+    }
+  }
+  h+='<button class="btn btn-ac" style="margin-top:12px" onclick="document.getElementById(\'ov-mirror\').classList.remove(\'show\')">Compris</button>';
+  el.innerHTML=h;
+  document.getElementById('ov-mirror').classList.add('show');
+  gainXP(20,'mirror');save();
+}
+// Trigger mirror mid-week (Wednesday or Thursday)
+function triggerMirror(){
+  var day=new Date().getDay();
+  if(day!==3&&day!==4)return;// Wed or Thu
+  S.mirror=S.mirror||{lastDate:''};
+  if(S.mirror.lastDate===TD)return;
+  S.mirror.lastDate=TD;save();
+  var insights=computeMirrorInsights();
+  if(insights.length===0)return;
+  setTimeout(function(){
+    var nudge=document.getElementById('w-mirror-nudge');
+    if(nudge)nudge.style.display='flex';
+  },5000);
 }
 // ── ENERGY TRACKING ──
 function updEnergyWidget(){
