@@ -1,4 +1,4 @@
-// RISE Stripe Webhook — Vercel Serverless Function
+// FORGE Stripe Webhook — Vercel Serverless Function
 // Handles subscription lifecycle events from Stripe
 
 export default async function handler(req) {
@@ -25,14 +25,14 @@ export default async function handler(req) {
         const session = event.data.object;
         // Log successful payment — plan activation handled client-side
         // via success_url redirect with ?payment=success&plan=xxx
-        console.log('RISE: Checkout completed', session.metadata?.plan, session.customer_email);
+        console.log('FORGE: Checkout completed', session.metadata?.plan, session.customer_email);
         break;
       }
 
       case 'customer.subscription.deleted':
       case 'customer.subscription.updated': {
         const sub = event.data.object;
-        console.log('RISE: Subscription ' + event.type, sub.id, sub.status);
+        console.log('FORGE: Subscription ' + event.type, sub.id, sub.status);
         // Future: store subscription status in a database
         // For now, plan management is client-side
         break;
@@ -40,7 +40,7 @@ export default async function handler(req) {
 
       case 'invoice.payment_failed': {
         const invoice = event.data.object;
-        console.log('RISE: Payment failed', invoice.customer_email);
+        console.log('FORGE: Payment failed', invoice.customer_email);
         break;
       }
 

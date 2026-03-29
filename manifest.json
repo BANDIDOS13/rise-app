@@ -1,6 +1,6 @@
 {
-  "name": "RISE — AI Life OS",
-  "short_name": "RISE",
+  "name": "FORGE — AI Life OS",
+  "short_name": "FORGE",
   "description": "All-in-one AI-powered platform to level up your life.",
   "start_url": "/index.html",
   "display": "standalone",
@@ -17,7 +17,7 @@
     {"src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
   ],
   "screenshots": [
-    {"src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "form_factor": "narrow", "label": "RISE Home Screen"}
+    {"src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "form_factor": "narrow", "label": "FORGE Home Screen"}
   ],
   "prefer_related_applications": false
 }

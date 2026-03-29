@@ -1,4 +1,4 @@
-// RISE Service Worker — Offline-First PWA
+// FORGE Service Worker — Offline-First PWA
 const CACHE_NAME = 'rise-v10-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
