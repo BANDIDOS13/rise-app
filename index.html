@@ -1077,7 +1077,7 @@ textarea.inp{resize:none}
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('ideas',null);hideMore()"><span style="font-size:18px">💡</span>Idées</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('habits',null);hideMore()"><span style="font-size:18px">⚡</span>Habitudes</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('dashboard',null);hideMore()"><span style="font-size:18px">📊</span>Dashboard</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:linear-gradient(135deg,#e8c86a,#d4aa4a);border:none;border-radius:var(--rs);font-size:11px;color:var(--bg);font-weight:700;cursor:pointer" onclick="window.gs('wheel',null);hideMore()"><span style="font-size:18px">🎰</span>Fortune</button>
+    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:linear-gradient(135deg,#FFD96A,#F5C842);border:none;border-radius:var(--rs);font-size:11px;color:var(--bg);font-weight:700;cursor:pointer" onclick="window.gs('wheel',null);hideMore()"><span style="font-size:18px">🎰</span>Fortune</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('shop',null);hideMore()"><span style="font-size:18px">🛒</span>Boutique</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('content',null);hideMore()"><span style="font-size:18px">📱</span>Contenu</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('pomo',null);hideMore()"><span style="font-size:18px">⏱️</span>Pomodoro</button>
@@ -1149,8 +1149,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-weeklych">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏅 Défis hebdo</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏅 Défis hebdo</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">3 défis par semaine, récompenses exclusives</div>
+    <div class="screen-hero"><div class="hero-title">🏅 Défis hebdo</div><div class="hero-desc">3 défis par semaine, récompenses exclusives</div></div>
     <div id="wch-c"></div>
   </div>
 </div>
@@ -1182,14 +1181,14 @@ textarea.inp{resize:none}
   <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:6px">Tu n'es pas seul.</div>
   <div style="width:120px;height:120px;border-radius:50%;border:3px solid var(--pu);display:flex;align-items:center;justify-content:center;margin:20px auto;transition:transform 4s ease" id="sos-ring"><div style="text-align:center"><div style="font-size:28px">😮‍💨</div><div style="font-size:14px;color:var(--pu);font-weight:700;margin-top:5px" id="sos-lbl">INSPIRE</div></div></div>
   <div style="font-size:12px;color:var(--tx3);margin-bottom:16px" id="sos-tip">Pose une main sur ton ventre.</div>
-  <div style="display:flex;gap:8px"><button style="padding:10px 20px;background:var(--pud);border:1px solid var(--pu);border-radius:20px;color:var(--pu);font-size:12px;font-weight:700" onclick="closeSOS()">Je vais mieux ✓</button><button style="padding:10px 20px;background:var(--sf);border:1px solid var(--bd);border-radius:20px;color:var(--tx2);font-size:12px;font-weight:700" onclick="gs('chat',null);closeSOS()">Parler au coach</button></div>
+  <div style="display:flex;gap:10px"><button style="padding:12px 22px;background:var(--pud);border:1px solid var(--pu);border-radius:var(--pill);color:var(--pu);font-size:12px;font-weight:700;transition:all .15s var(--ease)" onclick="closeSOS()">Je vais mieux ✓</button><button style="padding:12px 22px;background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--pill);color:var(--tx2);font-size:12px;font-weight:700;transition:all .15s var(--ease)" onclick="gs('chat',null);closeSOS()">Parler au coach</button></div>
 </div>
 <div class="full-ov" id="ov-flash" style="z-index:1800">
-  <div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:8px">⚡ DÉFI FLASH</div>
-  <div style="font-size:48px;margin-bottom:10px" id="fl-ico">💪</div>
-  <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:8px" id="fl-title">30 Pompes</div>
-  <div style="font-size:13px;color:var(--tx2);max-width:280px;line-height:1.65;margin-bottom:14px" id="fl-desc">Stop. 30 pompes. Reviens.</div>
-  <div style="display:flex;gap:9px"><button style="padding:13px 24px;background:linear-gradient(135deg,var(--rd),#ff8080);border-radius:var(--rs);color:#fff;font-size:13px;font-weight:700" onclick="complFlash()">C'est fait ! +<span id="fl-xp">80</span>XP</button><button style="padding:13px 24px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx3);font-size:13px;font-weight:700" onclick="document.getElementById('ov-flash').classList.remove('show')">Plus tard</button></div>
+  <div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:4px;font-weight:700;margin-bottom:10px;animation:fup .3s var(--ease) both">⚡ DÉFI FLASH</div>
+  <div style="font-size:56px;margin-bottom:12px;filter:drop-shadow(0 0 16px rgba(239,68,68,.3));animation:bounce-in .5s var(--ease) both" id="fl-ico">💪</div>
+  <div style="font-family:var(--fd);font-weight:800;font-size:24px;margin-bottom:8px;letter-spacing:-.02em;animation:fup .3s .15s var(--ease) both" id="fl-title">30 Pompes</div>
+  <div style="font-size:13px;color:var(--tx2);max-width:280px;line-height:1.7;margin-bottom:18px;animation:fup .3s .25s var(--ease) both" id="fl-desc">Stop. 30 pompes. Reviens.</div>
+  <div style="display:flex;gap:10px;animation:fup .3s .35s var(--ease) both"><button style="padding:14px 28px;background:linear-gradient(135deg,var(--rd),#f87171);border-radius:var(--pill);color:#fff;font-size:13px;font-weight:700;box-shadow:0 4px 16px rgba(239,68,68,.25);transition:all .15s var(--ease)" onclick="complFlash()">C'est fait ! +<span id="fl-xp">80</span>XP</button><button style="padding:14px 24px;background:var(--glass-bg);backdrop-filter:blur(12px);border:1px solid var(--glass-border);border-radius:var(--pill);color:var(--tx3);font-size:13px;font-weight:700;transition:all .15s var(--ease)" onclick="document.getElementById('ov-flash').classList.remove('show')">Plus tard</button></div>
 </div>
 <!-- MODALS -->
 <div class="mbk" id="m-todo"><div class="msh"><div class="mhdl"></div><div class="mtit">Nouvelle tâche</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="td-txt" placeholder="Description"><select class="inp" id="td-cat"><option value="focus">🎯 Focus</option><option value="sport">💪 Sport</option><option value="nature">🌿 Nature</option><option value="mental">🧠 Mental</option><option value="money">💰 Business</option><option value="habit">⚡ Habitude</option></select><label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tx2);cursor:pointer"><input type="checkbox" id="td-pr" style="accent-color:var(--ac);width:16px;height:16px"> Prioritaire ⭐</label></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-todo')">Annuler</button><button class="m-ok" onclick="addTdM()">Ajouter</button></div></div></div>
@@ -1202,8 +1201,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-workout">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏋️ Workout</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏋️ Workout Tracker</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Log tes séances, suis ta progression</div>
+    <div class="screen-hero"><div class="hero-title">🏋️ Workout Tracker</div><div class="hero-desc">Log tes séances, suis ta progression</div></div>
     <div id="workout-c"></div>
   </div>
 </div>
@@ -1212,8 +1210,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-meal">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🍽️ Plan Repas</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🍽️ Meal Planner</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Plan repas hebdomadaire + liste de courses</div>
+    <div class="screen-hero"><div class="hero-title">🍽️ Meal Planner</div><div class="hero-desc">Plan repas hebdomadaire + liste de courses</div></div>
     <div id="meal-c"></div>
   </div>
 </div>
@@ -1222,8 +1219,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-sleep">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">😴 Sommeil</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">😴 Sleep Tracker</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Optimise ton sommeil, optimise ta vie</div>
+    <div class="screen-hero"><div class="hero-title">😴 Sleep Tracker</div><div class="hero-desc">Optimise ton sommeil, optimise ta vie</div></div>
     <div id="sleep-c"></div>
   </div>
 </div>
@@ -1232,8 +1228,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-smartjournal">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">📓 Journal</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📖 Journal Intelligent</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Écris, réfléchis, progresse</div>
+    <div class="screen-hero"><div class="hero-title">📖 Journal Intelligent</div><div class="hero-desc">Écris, réfléchis, progresse</div></div>
     <div id="smartjournal-c"></div>
   </div>
 </div>
@@ -1242,8 +1237,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-budget">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">💰 Budget</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">💰 Budget Tracker</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Maîtrise tes finances, construis ta richesse</div>
+    <div class="screen-hero"><div class="hero-title">💰 Budget Tracker</div><div class="hero-desc">Maîtrise tes finances, construis ta richesse</div></div>
     <div id="budget-c"></div>
   </div>
 </div>
@@ -1252,8 +1246,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-achievements">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏆 Succès</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Achievements</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Collectionne-les tous!</div>
+    <div class="screen-hero"><div class="hero-title">🏆 Achievements</div><div class="hero-desc">Collectionne-les tous!</div></div>
     <div id="achiev-c"></div>
   </div>
 </div>
@@ -1262,7 +1255,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-dash">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">📊 Dashboard</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Dashboard</div>
+    <div class="screen-hero"><div class="hero-title">📊 Dashboard</div></div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
     <div id="dash-c"></div>
   </div>
@@ -1271,8 +1264,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-recap" style="display:none">
   <div style="padding:20px 16px">
     <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)" aria-label="Retour">←</button><div class="screen-title">📋 RISE Recap</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📋 Résumé Hebdo</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta semaine en un coup d'oeil</div>
+    <div class="screen-hero"><div class="hero-title">📋 Résumé Hebdo</div><div class="hero-desc">Ta semaine en un coup d'oeil</div></div>
     <div id="recap-c"></div>
   </div>
 </div>
@@ -1308,7 +1300,7 @@ const LVL_G=[0,10,15,20,25,35,50,75,100,150];
 const pad=n=>String(n).padStart(2,'0'),now=new Date(),TD=now.toDateString();
 function getWK(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.toDateString();}
 const WK=getWK();
-const SEASONS=[{n:1,name:'Fondations',col:'#d4aa4a'},{n:2,name:'Momentum',col:'#4db87a'},{n:3,name:'Maîtrise',col:'#4a9ed4'},{n:4,name:'Ascension',col:'#8b6de0'}];
+const SEASONS=[{n:1,name:'Fondations',col:'#F5C842'},{n:2,name:'Momentum',col:'#22C55E'},{n:3,name:'Maîtrise',col:'#3B82F6'},{n:4,name:'Ascension',col:'#A855F7'}];
 const BOSSES=[{name:'Boss Procrastination',hp:500,r:{xp:200,g:20}},{name:'Tyran du Sommeil',hp:400,r:{xp:180,g:18}},{name:'Démon Inactivité',hp:600,r:{xp:250,g:25}},{name:'Virus Distraction',hp:700,r:{xp:300,g:30}}];
 const QPOOL=[{id:'ci',ico:'📋',nm:'Check-in',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',nm:'3 tâches faites',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',nm:'Parler au coach',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',nm:'2 Pomodoros',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',nm:'10min de marche',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',nm:'15min de soleil',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',nm:'Session respiration',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',nm:'Module formation',target:1,type:'form',xp:50,g:5}];
 const FLASH=[{ico:'💪',title:'30 Pompes maintenant',desc:'Stop. 30 pompes. Reviens.',xp:80,g:8},{ico:'🚶',title:'20min dehors sans téléphone',desc:'Sors maintenant. 20 min.',xp:70,g:7},{ico:'💨',title:'5min cohérence cardiaque',desc:'5-5 maintenant.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'3 choses positives dans ta vie.',xp:40,g:4},{ico:'☀️',title:'5min de soleil',desc:'Sors. Lève la tête. 5 min.',xp:40,g:4},{ico:'🧊',title:'30sec eau froide',desc:'Finir la prochaine douche en froid.',xp:60,g:6},{ico:'🧘',title:'10min méditation',desc:'Silence. Yeux fermés. Respire.',xp:60,g:6}];
@@ -1401,8 +1393,8 @@ function renderPlan(p){let h='<div style="font-size:13px;color:var(--ac2);font-s
 let pomoR=false,pomoInt=null,pomoSec=1500,pomoMode='focus';
 const POMO_C={focus:{sec:1500,lbl:'FOCUS',col:'var(--ac)'},short:{sec:300,lbl:'PAUSE',col:'var(--gr)'},long:{sec:900,lbl:'LONGUE',col:'var(--bl)'}};
 function updPomoUI(){const el=document.getElementById('pomo-d');if(el)el.textContent=fmtT(pomoSec);const ph=document.getElementById('pomo-ph');if(ph){ph.textContent=POMO_C[pomoMode].lbl;ph.style.color=POMO_C[pomoMode].col;}}
-function pomoTog(){if(pomoR){clearInterval(pomoInt);pomoR=false;const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}else{pomoR=true;const b=document.getElementById('pomo-btn');if(b){b.textContent='⏸ Pause';b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';}pomoInt=setInterval(()=>{pomoSec--;const d=document.getElementById('pomo-d');if(d)d.textContent=fmtT(pomoSec);if(pomoSec<=0){clearInterval(pomoInt);pomoR=false;if(pomoMode==='focus'){S.pomoTot=(S.pomoTot||0)+1;gainXP(30,'pomo');gainGems(1);complQ('pomo');dmgBoss(30);save();toast('Session focus ! +30 XP','⏱️',2500);pomoMode='short';}else{pomoMode='focus';}pomoSec=POMO_C[pomoMode].sec;updPomoUI();const b2=document.getElementById('pomo-btn');if(b2){b2.textContent='▶ Start';b2.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b2.style.color='#0a1808';}}},1000);}updPomoUI();}
-function pomoRst(){if(pomoR){clearInterval(pomoInt);pomoR=false;}pomoMode='focus';pomoSec=1500;updPomoUI();const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#7de8a0)';b.style.color='#0a1808';}}
+function pomoTog(){if(pomoR){clearInterval(pomoInt);pomoR=false;const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#4ade80)';b.style.color='#0a1808';}}else{pomoR=true;const b=document.getElementById('pomo-btn');if(b){b.textContent='⏸ Pause';b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';}pomoInt=setInterval(()=>{pomoSec--;const d=document.getElementById('pomo-d');if(d)d.textContent=fmtT(pomoSec);if(pomoSec<=0){clearInterval(pomoInt);pomoR=false;if(pomoMode==='focus'){S.pomoTot=(S.pomoTot||0)+1;gainXP(30,'pomo');gainGems(1);complQ('pomo');dmgBoss(30);save();toast('Session focus ! +30 XP','⏱️',2500);pomoMode='short';}else{pomoMode='focus';}pomoSec=POMO_C[pomoMode].sec;updPomoUI();const b2=document.getElementById('pomo-btn');if(b2){b2.textContent='▶ Start';b2.style.background='linear-gradient(135deg,var(--gr),#4ade80)';b2.style.color='#0a1808';}}},1000);}updPomoUI();}
+function pomoRst(){if(pomoR){clearInterval(pomoInt);pomoR=false;}pomoMode='focus';pomoSec=1500;updPomoUI();const b=document.getElementById('pomo-btn');if(b){b.textContent='▶ Start';b.style.background='linear-gradient(135deg,var(--gr),#4ade80)';b.style.color='#0a1808';}}
 let sosInt=null;
 function openSOS(){document.getElementById('ov-sos').classList.add('show');sosCyc();}
 function sosCyc(){clearInterval(sosInt);let ph='inhale',cnt=4;const ring=document.getElementById('sos-ring');const lbl=document.getElementById('sos-lbl');if(ring)ring.style.transform='scale(.4)';setTimeout(()=>{if(ring)ring.style.transform='scale(1)';},100);sosInt=setInterval(()=>{cnt--;if(cnt<=0){if(ph==='inhale'){ph='exhale';cnt=4;if(lbl)lbl.textContent='EXPIRE';if(ring)ring.style.transform='scale(.4)';}else{sosCyc();}}},1000);const tips=['Pose une main sur ton ventre.','Nomme 5 choses que tu vois.','Les émotions passent.','Un seul pas à la fois.'];document.getElementById('sos-tip').textContent=tips[Math.floor(Math.random()*tips.length)];}
@@ -1412,20 +1404,20 @@ function setNT(tab,btn){nTab=tab;document.querySelectorAll('#nat-tabs .fbtn').fo
 function renderNat(){const el=document.getElementById('nat-content');if(!el)return;if(nTab==='walk')rWalk(el);else if(nTab==='sun')rSun(el);else if(nTab==='breath')rBreath(el);else if(nTab==='sleep')rSleep(el);else if(nTab==='cold')rCold(el);else if(nTab==='mindful')rMindful(el);else if(nTab==='outdoor')rOutdoor(el);else if(nTab==='journal')rJournal(el);}
 let walkR=false,walkSec=0,walkInt=null;
 function rWalk(el){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;el.innerHTML='<div class="nat-c"><div style="position:relative;z-index:1"><div style="font-size:32px;text-align:center;animation:float 2s ease-in-out infinite;margin-bottom:6px">🚶</div><div class="big-timer" id="wt-d" style="color:var(--nt)">'+fmtT(walkSec||0)+'</div><div style="font-size:12px;color:var(--nt2);text-align:center;margin-bottom:10px">Aujourd hui: '+tw+'min · Objectif: 30min · Streak: '+(nm.wStreak||0)+'j</div><div class="pbar" style="height:7px;margin-bottom:14px"><div class="pfill pnt" style="width:'+Math.min(100,tw/30*100)+'%"></div></div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"><button id="walk-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togWalk()">▶ Marcher</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstWalk()">↺</button></div><div style="display:flex;gap:6px;justify-content:center"><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(10)">+10min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(20)">+20min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(30)">+30min</button></div></div></div><div style="background:var(--ntd);border:1px solid var(--nt);border-radius:var(--rs);padding:12px 13px;margin-top:11px;font-size:12px;color:var(--nt2);line-height:1.7"><strong>Bienfaits:</strong> Cortisol↓ · Créativité↑ · Sérotonine↑ · Vitamin D outdoor</div>';}
-function togWalk(){if(walkR){clearInterval(walkInt);walkR=false;finWalk(Math.floor(walkSec/60));walkSec=0;}else{walkR=true;const b=document.getElementById('walk-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}walkInt=setInterval(()=>{walkSec++;const t=document.getElementById('wt-d');if(t)t.textContent=fmtT(walkSec);},1000);}}
+function togWalk(){if(walkR){clearInterval(walkInt);walkR=false;finWalk(Math.floor(walkSec/60));walkSec=0;}else{walkR=true;const b=document.getElementById('walk-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#f87171)';b.style.color='#fff';}walkInt=setInterval(()=>{walkSec++;const t=document.getElementById('wt-d');if(t)t.textContent=fmtT(walkSec);},1000);}}
 function rstWalk(){clearInterval(walkInt);walkR=false;walkSec=0;renderNat();}
 function addWalk(min){finWalk(min);}
 function finWalk(min){if(min<1)return;const nm=S.nat;if(nm.wDate!==TD){nm.wMin=0;nm.wDate=TD;}nm.wMin=(nm.wMin||0)+min;nm.walkLogs=nm.walkLogs||[];nm.walkLogs.unshift({date:TD,min});const y=new Date(now);y.setDate(now.getDate()-1);if(nm.lw===y.toDateString()||!nm.lw)nm.wStreak=(nm.wStreak||0)+1;else if(nm.lw!==TD)nm.wStreak=1;nm.lw=TD;gainXP(min*2,'walk');gainGems(Math.floor(min/5));complQ('walk',min);dmgBoss(min*2);toast(min+'min marche ! +'+(min*2)+' XP','🚶',2500);save();updNatMini();walkSec=0;walkR=false;clearInterval(walkInt);renderNat();}
 let sunR=false,sunSec=0,sunInt=null;
 function rSun(el){const nm=S.nat;const ts=nm.sDate===TD?nm.sMin||0:0;el.innerHTML='<div class="nat-c" style="border-color:var(--ac)"><div style="position:relative;z-index:1;text-align:center"><div style="font-size:48px;animation:sun-p 3s ease-in-out infinite;margin-bottom:8px">☀️</div><div class="big-timer" id="sun-d" style="color:var(--ac)">'+fmtT(sunSec||0)+'</div><div style="font-size:14px;color:var(--ac2);font-weight:700;margin-bottom:10px">'+ts+' / 20 min aujourd hui</div><div style="background:rgba(0,0,0,.3);border-radius:4px;height:6px;overflow:hidden;margin:0 0 16px;"><div style="height:100%;border-radius:4px;background:linear-gradient(90deg,var(--or),var(--ac));width:'+Math.min(100,ts/20*100)+'%"></div></div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"><button id="sun-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)" onclick="togSun()">☀️ Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstSun()">↺</button></div><div style="display:flex;gap:6px;justify-content:center"><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(5)">+5min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(15)">+15min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--ac2)" onclick="addSun(20)">+20min</button></div></div></div><div style="background:linear-gradient(135deg,#1a1208,#100e04);border:1px solid var(--acm);border-radius:var(--rs);padding:12px;margin-top:11px;font-size:12px;color:var(--tx2);line-height:1.7"><strong style="color:var(--ac)">Protocole:</strong> Idéal 9h-11h et 16h-18h. Peau nue. 20min = synthèse vitamine D. Aix = jackpot solaire !</div>';}
-function togSun(){if(sunR){clearInterval(sunInt);sunR=false;finSun(Math.floor(sunSec/60));sunSec=0;}else{sunR=true;const b=document.getElementById('sun-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}sunInt=setInterval(()=>{sunSec++;const t=document.getElementById('sun-d');if(t)t.textContent=fmtT(sunSec);if(sunSec>=1200){clearInterval(sunInt);sunR=false;finSun(20);sunSec=0;}},1000);}}
+function togSun(){if(sunR){clearInterval(sunInt);sunR=false;finSun(Math.floor(sunSec/60));sunSec=0;}else{sunR=true;const b=document.getElementById('sun-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#f87171)';b.style.color='#fff';}sunInt=setInterval(()=>{sunSec++;const t=document.getElementById('sun-d');if(t)t.textContent=fmtT(sunSec);if(sunSec>=1200){clearInterval(sunInt);sunR=false;finSun(20);sunSec=0;}},1000);}}
 function rstSun(){clearInterval(sunInt);sunR=false;sunSec=0;renderNat();}
 function addSun(min){finSun(min);}
 function finSun(min){const nm=S.nat;if(nm.sDate!==TD){nm.sMin=0;nm.sDate=TD;}nm.sMin=(nm.sMin||0)+min;gainXP(min*2,'sun');gainGems(Math.floor(min/5));complQ('sun',min);toast(min+'min soleil ! +'+(min*2)+' XP','☀️',2500);save();updNatMini();sunSec=0;sunR=false;clearInterval(sunInt);renderNat();}
 let brR=false,brInt=null,brCyc=0,selBr=BREATHS[0];
 function rBreath(el){el.innerHTML='<div class="nat-c" style="border-color:'+selBr.col+';text-align:center"><div style="font-size:11px;color:'+selBr.col+';text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">'+selBr.ico+' '+selBr.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-bottom:14px">'+selBr.desc+'</div><div style="width:120px;height:120px;border-radius:50%;border:3px solid '+selBr.col+';display:flex;align-items:center;justify-content:center;margin:0 auto 14px;transition:transform 4s ease" id="br-c"><div><div style="font-size:22px">💨</div><div style="font-size:16px;font-weight:700;color:'+selBr.col+';margin-top:5px" id="br-lbl">INSPIRE</div></div></div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:'+selBr.col+';margin-bottom:5px" id="br-cnt">0</div><div style="font-size:11px;color:var(--tx3);margin-bottom:14px" id="br-cyc">Cycle 0/'+selBr.rounds+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="br-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:'+selBr.col+';color:#fff" onclick="togBr()">💨 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstBr()">↺</button></div></div><div style="margin-top:14px">'+BREATHS.map(p=>'<div style="background:var(--sf);border:2px solid '+(p.id===selBr.id?p.col:'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="selBrP(\''+p.id+'\')"><div style="font-size:22px">'+p.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;margin-bottom:2px">'+p.nm+'</div><div style="font-size:11px;color:var(--tx3)">'+p.desc+'</div></div><div style="font-size:12px;font-weight:700;color:'+p.col+'">'+p.rounds+'×</div></div>').join('')+'</div>';}
 function selBrP(id){selBr=BREATHS.find(p=>p.id===id)||BREATHS[0];rstBr();renderNat();}
-function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast('Respiration ! +20 XP','💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#ff8080)':selBr.col;}}
+function togBr(){if(brR){clearInterval(brInt);brR=false;gainXP(20,'breath');gainGems(2);complQ('breath');toast('Respiration ! +20 XP','💨',2000);save();}else{brR=true;brCyc=0;brRound();}const b=document.getElementById('br-btn');if(b){b.textContent=brR?'⏹ Terminer':'💨 Démarrer';b.style.background=brR?'linear-gradient(135deg,var(--rd),#f87171)':selBr.col;}}
 function brRound(){if(!brR||brCyc>=selBr.rounds){brR=false;gainXP(40,'br_done');gainGems(4);toast(selBr.nm+' complète ! +40 XP','💨',3000);save();return;}brCyc++;const c=document.getElementById('br-cyc');if(c)c.textContent='Cycle '+brCyc+'/'+selBr.rounds;brStep(selBr.in,'INSPIRE','in');}
 function brStep(dur,lbl,phase){clearInterval(brInt);const c=document.getElementById('br-c');const l=document.getElementById('br-lbl');const cnt=document.getElementById('br-cnt');if(l)l.textContent=lbl;if(c)c.style.transform=phase==='out'?'scale(.4)':'scale(1)';let t=dur;if(cnt)cnt.textContent=t;brInt=setInterval(()=>{t--;if(cnt)cnt.textContent=Math.max(0,t);if(t<=0){clearInterval(brInt);if(!brR)return;if(phase==='in'&&selBr.hold>0)brStep(selBr.hold,'RETIENS','hold');else if(phase==='in'||phase==='hold')brStep(selBr.out,'EXPIRE','out');else brRound();}},1000);}
 function rstBr(){clearInterval(brInt);brR=false;brCyc=0;}
@@ -1435,7 +1427,7 @@ function rSleep(el){const logs=S.nat.sleepLogs||[];const goal=7.5;const days=['L
 function logSlp(){const h=parseFloat(document.getElementById('slp-h')?.value||0);if(h<2||h>14)return;S.nat.sleepLogs=S.nat.sleepLogs||[];S.nat.sleepLogs.unshift({date:TD,h,q:sqV});gainXP(h>=7.5?30:15,'sleep');if(h>=7.5)gainGems(3);closeM('m-sleep');toast(h+'h loggées !','😴',2500);save();if(nTab==='sleep')renderNat();}
 let coldR=false,coldSec=0,coldInt=null,coldTgt=30;
 function rCold(el){const logs=S.nat.coldLogs||[];let str=0;const d=new Date();for(let i=0;i<logs.length;i++){const ld=new Date(logs[i].date);if(Math.floor((d-ld)/(1000*60*60*24))===i)str++;else break;}const lvl=Math.min(5,Math.floor(logs.length/5)+1);coldTgt=[30,60,120,180,300][lvl-1];el.innerHTML='<div class="nat-c" style="border-color:var(--bl);background:linear-gradient(135deg,#0a0e1a,#080c14);text-align:center"><div style="font-size:10px;color:var(--bl);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">🧊 Niveau '+lvl+'/5 · Streak: '+str+' j</div><div class="big-timer" id="cold-d" style="color:var(--bl)">'+fmtT(coldTgt)+'</div><div style="background:var(--bld);border-radius:4px;height:6px;overflow:hidden;margin-bottom:16px"><div style="height:100%;background:linear-gradient(90deg,var(--bl),#7bbfee);border-radius:4px;width:0%" id="cold-pb"></div></div><div style="display:flex;gap:8px;justify-content:center"><button id="cold-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--bl),#7bbfee);color:#0a0800" onclick="togCold()">🧊 Démarrer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstCold()">↺</button></div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:12px;margin-top:11px;font-size:12px;color:var(--tx2);line-height:1.7">⚡ Dopamine +250% · 🔥 Métabolisme+ · 🧠 Clarté mentale · 😴 Meilleur sommeil</div>';}
-function togCold(){if(coldR){clearInterval(coldInt);coldR=false;const s=coldSec;S.nat.coldLogs.unshift({date:TD,sec:s});const xpG=Math.round(s/30*20);gainXP(xpG,'cold');gainGems(Math.floor(s/60)+1);toast(s+'s froid ! +'+xpG+' XP','❄️',2500);save();coldSec=0;renderNat();}else{coldR=true;coldSec=coldTgt;const b=document.getElementById('cold-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}coldInt=setInterval(()=>{coldSec--;const t=document.getElementById('cold-d');if(t)t.textContent=fmtT(coldSec);const pb=document.getElementById('cold-pb');if(pb)pb.style.width=((coldTgt-coldSec)/coldTgt*100)+'%';if(coldSec<=0){clearInterval(coldInt);coldR=false;S.nat.coldLogs.unshift({date:TD,sec:coldTgt});const xpG=Math.round(coldTgt/30*20);gainXP(xpG,'cold');confetti();toast(coldTgt+'s COMPLET ! +'+xpG+' XP','❄️',4000);save();coldSec=0;renderNat();}},1000);}}
+function togCold(){if(coldR){clearInterval(coldInt);coldR=false;const s=coldSec;S.nat.coldLogs.unshift({date:TD,sec:s});const xpG=Math.round(s/30*20);gainXP(xpG,'cold');gainGems(Math.floor(s/60)+1);toast(s+'s froid ! +'+xpG+' XP','❄️',2500);save();coldSec=0;renderNat();}else{coldR=true;coldSec=coldTgt;const b=document.getElementById('cold-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#f87171)';b.style.color='#fff';}coldInt=setInterval(()=>{coldSec--;const t=document.getElementById('cold-d');if(t)t.textContent=fmtT(coldSec);const pb=document.getElementById('cold-pb');if(pb)pb.style.width=((coldTgt-coldSec)/coldTgt*100)+'%';if(coldSec<=0){clearInterval(coldInt);coldR=false;S.nat.coldLogs.unshift({date:TD,sec:coldTgt});const xpG=Math.round(coldTgt/30*20);gainXP(xpG,'cold');confetti();toast(coldTgt+'s COMPLET ! +'+xpG+' XP','❄️',4000);save();coldSec=0;renderNat();}},1000);}}
 function rstCold(){clearInterval(coldInt);coldR=false;coldSec=0;renderNat();}
 let mwR=false,mwSec=0,mwInt=null,mwStep=0;
 function rMindful(el){el.innerHTML='<div class="nat-c" style="text-align:center"><div style="font-size:40px;margin-bottom:8px;animation:float 3s ease-in-out infinite" id="mw-ico">🧘</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--nt2);margin-bottom:5px" id="mw-t">Marche Pleine Conscience</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;max-width:260px;margin:0 auto 12px" id="mw-d">6 étapes · 15 min</div><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--nt);margin-bottom:12px" id="mw-timer">15:00</div><div style="display:flex;gap:5px;justify-content:center;margin-bottom:12px">'+MW_STEPS.map((_,i)=>'<div style="width:10px;height:10px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);transition:all .3s" id="mw-d'+i+'"></div>').join('')+'</div><div style="display:flex;gap:8px;justify-content:center"><button id="mw-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togMW()">▶ Commencer</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstMW()">↺</button></div></div>'+MW_STEPS.map((s,i)=>'<div style="display:flex;gap:10px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="font-size:20px">'+s.ico+'</div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+(i+1)+'. '+s.t+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+s.d+'</div></div></div>').join('');}
@@ -1532,13 +1524,13 @@ function rWealth(el){el.innerHTML='<div style="background:var(--grd);border:1px 
 const wV={wI:0,wS:5,wR:7,wY:10};
 function updW(inp,id){wV[id]=parseFloat(inp.value);const sv=document.getElementById('sv-'+id);if(sv)sv.textContent=inp.value+(id==='wI'?'€':id==='wY'?'ans':'%');const m=wV.wI*(wV.wS/100);const r=wV.wR/100;const n=wV.wY;const f=m*((Math.pow(1+r/12,n*12)-1)/(r/12));const fmt=v=>v>=1000000?Math.round(v/100000)/10+'M€':v>=1000?Math.round(v/100)/10+'k€':Math.round(v)+'€';const wr=document.getElementById('w-res');if(wr)wr.textContent=fmt(f);const wt=document.getElementById('w-tl');if(wt)wt.textContent='En '+n+' ans · Épargne: '+fmt(m*12)+'/an';}
 function rProgress(el){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="margin-bottom:12px">📈 Activité 7 jours</div><div style="display:flex;align-items:flex-end;gap:4px;height:70px;margin-bottom:8px">'+Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-6+i);const ci=(S.checkins||{})[d.toDateString()];const h=ci?Math.floor(Math.random()*60+25):8;return '<div style="flex:1;background:'+(ci?'var(--ac)':'var(--sf3)')+';border-radius:3px 3px 0 0;height:'+h+'%;opacity:'+(i===6?'1':'.6')+';transition:height .6s"></div>';}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)">'+['L','M','M','J','V','S','D'].map(d=>'<span>'+d+'</span>').join('')+'</div></div><div class="row3" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'💎 Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.nat.walkLogs||[]).length,l:'Marches',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-ac" onclick="toast(\'Carte générée ! Partage ton succès 🔥\',\'🎴\',3000)">🎴 Générer carte de victoire</button>';}
-function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+curT.nm+' — '+curT.pct+'%</span></div>'+AFF_T.map(t=>'<div style="background:var(--sf);border:1px solid '+(t===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+t.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.nm+' — '+t.refs+'+ filleuls</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+t.col+'">'+t.pct+'%</div></div>').join('');}
+function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#4ade80);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+curT.nm+' — '+curT.pct+'%</span></div>'+AFF_T.map(t=>'<div style="background:var(--sf);border:1px solid '+(t===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+t.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.nm+' — '+t.refs+'+ filleuls</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+t.col+'">'+t.pct+'%</div></div>').join('');}
 function cpAff(){navigator.clipboard.writeText('https://rise.app/?ref='+S.aff.code).then(()=>toast('Lien copié !','📋',2000));}
 function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec RISE v9 ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
 let moiTab='perso';
 function setMoiT(tab,btn){moiTab=tab;document.querySelectorAll('#screen-moi .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMoi();}
 function renderMoi(){const el=document.getElementById('moi-content');if(!el)return;if(moiTab==='perso')rPerso(el);else if(moiTab==='widgets')rWidgets(el);else if(moiTab==='todo')rTodo(el);else if(moiTab==='plans')rPlans(el);else if(moiTab==='stats')rStats(el);}
-function rPerso(el){const themes=[{id:'default',bg:'linear-gradient(135deg,#07080a,#d4aa4a)',l:'Dark Gold'},{id:'ocean',bg:'linear-gradient(135deg,#040d14,#38b8d4)',l:'Océan'},{id:'forest',bg:'linear-gradient(135deg,#040a06,#5cb87a)',l:'Forêt'},{id:'flame',bg:'linear-gradient(135deg,#0e0604,#e0874a)',l:'Flamme'},{id:'cosmos',bg:'linear-gradient(135deg,#06040e,#8b6de0)',l:'Cosmos'},{id:'sand',bg:'linear-gradient(135deg,#0e0c08,#c8a060)',l:'Sable'},{id:'neon',bg:'linear-gradient(135deg,#040608,#00e4c8)',l:'Neon'},{id:'light',bg:'linear-gradient(135deg,#f8f6f0,#2a6a4a)',l:'Clair'}];el.innerHTML='<div class="lbl" style="margin-bottom:10px">🎨 Thème</div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px">'+themes.map(t=>'<div style="text-align:center;cursor:pointer" onclick="applyTheme(\''+t.id+'\')"><div style="width:44px;height:44px;border-radius:50%;background:'+t.bg+';border:3px solid '+(S.theme===t.id||(!S.theme&&t.id==='default')?'var(--tx)':'transparent')+';transform:'+(S.theme===t.id||(!S.theme&&t.id==='default')?'scale(1.1)':'scale(1)')+';transition:all .2s"></div><div style="font-size:9px;color:var(--tx3);margin-top:4px">'+t.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:10px">⚡ Mode</div><div style="display:flex;gap:9px;margin-bottom:18px"><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='zen'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='zen'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='zen'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'zen\')">🧘 Zen<br><span style="font-size:10px;font-weight:400">Essentiel</span></button><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='full'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='full'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='full'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'full\')">⚡ Complet<br><span style="font-size:10px;font-weight:400">Tout activé</span></button></div><div class="lbl" style="margin-bottom:10px">🌍 Langue</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">'+[{id:'fr',f:'🇫🇷'},{id:'en',f:'🇬🇧'},{id:'es',f:'🇪🇸'},{id:'pt',f:'🇧🇷'},{id:'it',f:'🇮🇹'}].map(l=>'<button style="padding:8px 14px;border-radius:20px;border:1px solid '+(S.lang===l.id?'var(--ac)':'var(--bd2)')+';background:'+(S.lang===l.id?'var(--agg)':'var(--sf2)')+';font-size:14px;cursor:pointer" onclick="S.lang=\''+l.id+'\';save();toast(\'Langue changée\',\'🌍\',1500)">'+l.f+'</button>').join('')+'</div><button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rPerso(el){const themes=[{id:'default',bg:'linear-gradient(135deg,#0A0A0F,#F5C842)',l:'Dark Gold'},{id:'ocean',bg:'linear-gradient(135deg,#040d14,#38b8d4)',l:'Océan'},{id:'forest',bg:'linear-gradient(135deg,#040a06,#5cb87a)',l:'Forêt'},{id:'flame',bg:'linear-gradient(135deg,#0e0604,#e0874a)',l:'Flamme'},{id:'cosmos',bg:'linear-gradient(135deg,#06040e,#8b6de0)',l:'Cosmos'},{id:'sand',bg:'linear-gradient(135deg,#0e0c08,#c8a060)',l:'Sable'},{id:'neon',bg:'linear-gradient(135deg,#040608,#00e4c8)',l:'Neon'},{id:'light',bg:'linear-gradient(135deg,#f8f6f0,#2a6a4a)',l:'Clair'}];el.innerHTML='<div class="lbl" style="margin-bottom:10px">🎨 Thème</div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px">'+themes.map(t=>'<div style="text-align:center;cursor:pointer" onclick="applyTheme(\''+t.id+'\')"><div style="width:44px;height:44px;border-radius:50%;background:'+t.bg+';border:3px solid '+(S.theme===t.id||(!S.theme&&t.id==='default')?'var(--tx)':'transparent')+';transform:'+(S.theme===t.id||(!S.theme&&t.id==='default')?'scale(1.1)':'scale(1)')+';transition:all .2s"></div><div style="font-size:9px;color:var(--tx3);margin-top:4px">'+t.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:10px">⚡ Mode</div><div style="display:flex;gap:9px;margin-bottom:18px"><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='zen'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='zen'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='zen'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'zen\')">🧘 Zen<br><span style="font-size:10px;font-weight:400">Essentiel</span></button><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='full'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='full'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='full'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'full\')">⚡ Complet<br><span style="font-size:10px;font-weight:400">Tout activé</span></button></div><div class="lbl" style="margin-bottom:10px">🌍 Langue</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">'+[{id:'fr',f:'🇫🇷'},{id:'en',f:'🇬🇧'},{id:'es',f:'🇪🇸'},{id:'pt',f:'🇧🇷'},{id:'it',f:'🇮🇹'}].map(l=>'<button style="padding:8px 14px;border-radius:20px;border:1px solid '+(S.lang===l.id?'var(--ac)':'var(--bd2)')+';background:'+(S.lang===l.id?'var(--agg)':'var(--sf2)')+';font-size:14px;cursor:pointer" onclick="S.lang=\''+l.id+'\';save();toast(\'Langue changée\',\'🌍\',1500)">'+l.f+'</button>').join('')+'</div><button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function setMode(m){S.mode=m;S.activeWg=m==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;save();renderWgVisibility();renderMoi();toast(m==='zen'?'Mode Zen 🧘':'Mode Complet ⚡','✨',2000);}
 function rWidgets(el){const allW=[{id:'w-streak',l:'🔥 Streak',d:'Jours consécutifs'},{id:'w-boss',l:'⚔️ Boss',d:'Boss de la semaine'},{id:'w-quests',l:'⚡ Quêtes',d:'Quêtes quotidiennes'},{id:'w-nat',l:'🌿 Nature',d:'Accès rapide nature'},{id:'w-pomo',l:'⏱️ Pomodoro',d:'Timer focus'},{id:'w-flash',l:'⚡ Flash',d:'Défi flash du jour'}];el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">Widgets affichés sur l\'accueil.</div>'+allW.map(w=>{const on=(S.activeWg||[]).includes(w.id);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">'+w.l+'</div><div style="font-size:11px;color:var(--tx3)">'+w.d+'</div></div><div class="tog-sw '+(on?'on':'')+'" onclick="togWg(\''+w.id+'\',this)"><div class="tog-knob"></div></div></div>';}).join('')+'<button class="btn btn-ac" style="margin-top:14px" onclick="gs(\'home\',null)">Voir mon accueil →</button>';}
 function togWg(id,sw){const aw=S.activeWg||[];const on=aw.includes(id);S.activeWg=on?aw.filter(w=>w!==id):[...aw,id];sw.classList.toggle('on',!on);save();renderWgVisibility();}
@@ -1686,7 +1678,7 @@ function renderChallenges(el){
       </div>
       <div class="pbar" style="margin-bottom:5px"><div class="pfill pac" style="width:${prog}%"></div></div>
       <div style="font-size:10px;color:var(--tx3);margin-bottom:8px">${c.prog||0}/${fc.dur} jours · ${prog}%</div>
-      ${c.status==='active'?`<div style="display:flex;gap:7px"><button style="flex:1;padding:8px;border-radius:var(--rs);background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808;font-size:12px;font-weight:700;cursor:pointer;border:none" onclick="progressCh('${c.id}')">+1 jour ✓</button><button style="flex:1;padding:8px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2);font-size:12px;font-weight:700;cursor:pointer" onclick="shareCh('${c.id}')">📤 Partager</button></div>`:''}
+      ${c.status==='active'?`<div style="display:flex;gap:7px"><button style="flex:1;padding:8px;border-radius:var(--rs);background:linear-gradient(135deg,var(--gr),#4ade80);color:#0a1808;font-size:12px;font-weight:700;cursor:pointer;border:none" onclick="progressCh('${c.id}')">+1 jour ✓</button><button style="flex:1;padding:8px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2);font-size:12px;font-weight:700;cursor:pointer" onclick="shareCh('${c.id}')">📤 Partager</button></div>`:''}
     </div>`;}).join(''):''}
   <div class="lbl" style="margin-bottom:10px;margin-top:4px">Nouveau defi</div>
   ${CHALL_T.map(fc=>`<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="startCh('${fc.id}')">
@@ -1923,7 +1915,7 @@ function rNuFast(el){
     <div style="font-size:10px;color:${running?'var(--gr)':'var(--tx3)'};text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px">${running?'⏳ JEUNE EN COURS':'Pret a demarrer'}</div>
     <div style="font-family:var(--fd);font-weight:700;font-size:48px;color:${running?'var(--ac)':'var(--tx3)'};line-height:1;margin-bottom:14px" id="fast-t">${fmt(elapsed)}</div>
     ${running?`<div style="background:var(--sf3);border-radius:4px;height:6px;overflow:hidden;margin-bottom:16px"><div style="height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:4px;width:${Math.min(100,elapsed/57600*100)}%;transition:width .5s" id="fast-pb"></div></div>`:''}
-    <button style="padding:14px 32px;border-radius:20px;background:${running?'linear-gradient(135deg,var(--rd),#ff8080)':'linear-gradient(135deg,var(--ac),var(--ac2))'};color:${running?'#fff':'var(--bg)'};font-size:14px;font-weight:700;cursor:pointer;border:none" onclick="togFast()">${running?'⏹ Terminer':'▶ Demarrer'}</button>
+    <button style="padding:14px 32px;border-radius:20px;background:${running?'linear-gradient(135deg,var(--rd),#f87171)':'linear-gradient(135deg,var(--ac),var(--ac2))'};color:${running?'#fff':'var(--bg)'};font-size:14px;font-weight:700;cursor:pointer;border:none" onclick="togFast()">${running?'⏹ Terminer':'▶ Demarrer'}</button>
   </div>
   <div class="row3" style="margin-bottom:11px">
     ${[{l:'16:8',d:'Populaire',h:16},{l:'18:6',d:'Avance',h:18},{l:'14:10',d:'Debutant',h:14}].map(f=>`<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:15px;color:var(--ac)">${f.l}</div><div style="font-size:10px;color:var(--tx3)">${f.d}</div></div>`).join('')}
@@ -2662,15 +2654,15 @@ function genShareImg() {
   canvas.width = 600; canvas.height = 400;
   var ctx = canvas.getContext('2d');
   // Background
-  ctx.fillStyle = '#07080a';
+  ctx.fillStyle = '#0A0A0F';
   ctx.fillRect(0,0,600,400);
   // Gold gradient top bar
   var grd = ctx.createLinearGradient(0,0,600,0);
-  grd.addColorStop(0,'#d4aa4a'); grd.addColorStop(1,'#e8c86a');
+  grd.addColorStop(0,'#F5C842'); grd.addColorStop(1,'#FFD96A');
   ctx.fillStyle = grd;
   ctx.fillRect(0,0,600,6);
   // RISE logo
-  ctx.fillStyle = '#d4aa4a';
+  ctx.fillStyle = '#F5C842';
   ctx.font = 'bold 72px sans-serif';
   ctx.fillText('RISE', 40, 100);
   // Name
@@ -5142,11 +5134,11 @@ function renderLeaderboard(){
 
 // ── GUILD SYSTEM ──
 const GUILDS=[
-  {id:'warriors',nm:'Les Guerriers',ico:'⚔️',desc:'Pour ceux qui ne lâchent jamais. Sport, discipline, dépassement.',color:'#FF6B6B',focus:'Sport & Discipline'},
-  {id:'sages',nm:'Les Sages',ico:'🧠',desc:'Connaissance, lecture, méditation. Le savoir est le vrai pouvoir.',color:'#4ECDC4',focus:'Apprentissage & Sagesse'},
-  {id:'builders',nm:'Les Bâtisseurs',ico:'💰',desc:'Business, side hustles, liberté financière. On construit un empire.',color:'#FFD700',focus:'Business & Finances'},
-  {id:'artists',nm:'Les Créateurs',ico:'🎨',desc:'Musique, contenu, art. L\'expression est notre arme.',color:'#DDA0DD',focus:'Créativité & Expression'},
-  {id:'healers',nm:'Les Guérisseurs',ico:'🌿',desc:'Bien-être, nature, équilibre. On soigne le corps et l\'esprit.',color:'#96CEB4',focus:'Bien-être & Nature'}
+  {id:'warriors',nm:'Les Guerriers',ico:'⚔️',desc:'Pour ceux qui ne lâchent jamais. Sport, discipline, dépassement.',color:'#EF4444',focus:'Sport & Discipline'},
+  {id:'sages',nm:'Les Sages',ico:'🧠',desc:'Connaissance, lecture, méditation. Le savoir est le vrai pouvoir.',color:'#3B82F6',focus:'Apprentissage & Sagesse'},
+  {id:'builders',nm:'Les Bâtisseurs',ico:'💰',desc:'Business, side hustles, liberté financière. On construit un empire.',color:'#F5C842',focus:'Business & Finances'},
+  {id:'artists',nm:'Les Créateurs',ico:'🎨',desc:'Musique, contenu, art. L\'expression est notre arme.',color:'#A855F7',focus:'Créativité & Expression'},
+  {id:'healers',nm:'Les Guérisseurs',ico:'🌿',desc:'Bien-être, nature, équilibre. On soigne le corps et l\'esprit.',color:'#22C55E',focus:'Bien-être & Nature'}
 ];
 
 function initGuildScreen(){
@@ -6325,18 +6317,18 @@ function toggleZenMode(){
     
     // Background gradient
     var bgGrd=ctx.createLinearGradient(0,0,800,500);
-    bgGrd.addColorStop(0,'#07080a');bgGrd.addColorStop(1,'#0c1018');
+    bgGrd.addColorStop(0,'#0A0A0F');bgGrd.addColorStop(1,'#0c1018');
     ctx.fillStyle=bgGrd;
     ctx.fillRect(0,0,800,500);
     
     // Gold top border
     var topGrd=ctx.createLinearGradient(0,0,800,0);
-    topGrd.addColorStop(0,'#d4aa4a');topGrd.addColorStop(0.5,'#f0d878');topGrd.addColorStop(1,'#d4aa4a');
+    topGrd.addColorStop(0,'#F5C842');topGrd.addColorStop(0.5,'#FFD96A');topGrd.addColorStop(1,'#F5C842');
     ctx.fillStyle=topGrd;
     ctx.fillRect(0,0,800,5);
     
     // Logo
-    ctx.fillStyle='#d4aa4a';
+    ctx.fillStyle='#F5C842';
     ctx.font='bold 48px sans-serif';
     ctx.fillText('RISE',50,70);
     ctx.fillStyle='#424b57';
@@ -6371,7 +6363,7 @@ function toggleZenMode(){
     
     // Achievements count
     var achCount=(S.achievements||[]).length;
-    ctx.fillStyle='#d4aa4a';ctx.font='bold 18px sans-serif';
+    ctx.fillStyle='#F5C842';ctx.font='bold 18px sans-serif';
     ctx.fillText('🏅 '+achCount+' achievements débloqués',50,320);
     
     // Habits today
@@ -6385,14 +6377,14 @@ function toggleZenMode(){
     ctx.beginPath();ctx.roundRect(50,380,700,12,6);ctx.fill();
     var pct2=Math.min(100,(S.xp||0)/3200*100);
     var barGrd=ctx.createLinearGradient(50,0,50+700*pct2/100,0);
-    barGrd.addColorStop(0,'#d4aa4a');barGrd.addColorStop(1,'#e8c86a');
+    barGrd.addColorStop(0,'#F5C842');barGrd.addColorStop(1,'#FFD96A');
     ctx.fillStyle=barGrd;
     ctx.beginPath();ctx.roundRect(50,380,700*pct2/100,12,6);ctx.fill();
     
     // Footer
     ctx.fillStyle='#424b57';ctx.font='12px sans-serif';
     ctx.fillText('rise.app · '+new Date().toLocaleDateString('fr-FR')+' · Généré avec RISE AI Life OS',50,440);
-    ctx.fillStyle='#d4aa4a';ctx.font='bold 14px sans-serif';
+    ctx.fillStyle='#F5C842';ctx.font='bold 14px sans-serif';
     ctx.fillText('#RISE #Growth #Discipline',50,465);
     
     // Download
@@ -6642,7 +6634,7 @@ function toggleZenMode(){
   // Enhanced confetti with more particles & colors
   var _origConfetti=confetti;
   confetti=function(){
-    var colors=['#d4aa4a','#e8c86a','#4db87a','#4a9ed4','#8b6de0','#e0874a','#ff6b6b','#00e4c8'];
+    var colors=['#F5C842','#FFD96A','#22C55E','#3B82F6','#A855F7','#F97316','#EF4444','#06B6D4'];
     for(var i=0;i<40;i++){
       var el=document.createElement('div');
       el.style.cssText='position:fixed;left:'+Math.random()*100+'%;top:-10px;width:'+(4+Math.random()*10)+'px;height:'+(4+Math.random()*10)+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';pointer-events:none;z-index:9999;animation:cfall '+(1.5+Math.random()*1.5)+'s ease-in forwards;animation-delay:'+Math.random()*.5+'s;opacity:0';
@@ -7065,8 +7057,8 @@ function toggleZenMode(){
     description:"Coach IA, habitudes, nature, fitness, business, langues. Ton système d'exploitation de vie.",
     start_url:"/",
     display:"standalone",
-    background_color:"#07080a",
-    theme_color:"#07080a",
+    background_color:"#0A0A0F",
+    theme_color:"#0A0A0F",
     orientation:"portrait",
     categories:["productivity","health","education","lifestyle"],
     lang:"fr",
@@ -7421,7 +7413,7 @@ function toggleZenMode(){
     try{chkAchievements('periodic');}catch(e){}
   },120000); // Every 2 minutes
   
-  console.log('%c RISE v9.7 — Production Ready ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:14px;padding:8px 16px;border-radius:4px');
+  console.log('%c RISE v9.7 — Production Ready ','background:#F5C842;color:#0A0A0F;font-weight:bold;font-size:14px;padding:8px 16px;border-radius:4px');
   console.log('%c 35+ achievements · 30+ screens · PWA · Offline · Accessible ','background:#111418;color:#8a9099;font-size:11px;padding:4px 8px');
 })();
 
@@ -7530,7 +7522,7 @@ function toggleZenMode(){
   } catch(e) {
     console.log('trainingModules override deferred');
   }
-  console.log('%c SESSION 8a — FORMATIONS OVERRIDE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  console.log('%c SESSION 8a — FORMATIONS OVERRIDE ','background:#F5C842;color:#0A0A0F;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 })();
 
 // ══════════════════════════════════════════
@@ -7596,11 +7588,11 @@ function toggleZenMode(){
     var savingRate = b.income > 0 ? Math.round(remaining / b.income * 100) : 0;
 
     var catList = [
-      {id:'logement',nm:'Logement',ico:'🏠',color:'#4db87a'},
-      {id:'alimentation',nm:'Alimentation',ico:'🍽️',color:'#e0874a'},
-      {id:'transport',nm:'Transport',ico:'🚗',color:'#4a9ed4'},
-      {id:'loisirs',nm:'Loisirs',ico:'🎯',color:'#8b6de0'},
-      {id:'sante',nm:'Santé',ico:'💊',color:'#d95f5f'},
+      {id:'logement',nm:'Logement',ico:'🏠',color:'#22C55E'},
+      {id:'alimentation',nm:'Alimentation',ico:'🍽️',color:'#F97316'},
+      {id:'transport',nm:'Transport',ico:'🚗',color:'#3B82F6'},
+      {id:'loisirs',nm:'Loisirs',ico:'🎯',color:'#A855F7'},
+      {id:'sante',nm:'Santé',ico:'💊',color:'#EF4444'},
       {id:'education',nm:'Education',ico:'📚',color:'#3db8aa'},
       {id:'vetements',nm:'Vêtements',ico:'👔',color:'#c8a060'},
       {id:'tech',nm:'Tech',ico:'📱',color:'#38b8d4'},
@@ -7857,7 +7849,7 @@ function toggleZenMode(){
     };
   }
 
-  console.log('%c SESSION 8 — ENHANCED TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  console.log('%c SESSION 8 — ENHANCED TOOLS ','background:#F5C842;color:#0A0A0F;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 })();
 
 // ══════════════════════════════════════════
@@ -8606,7 +8598,7 @@ try {
     {id:'bizenligne',title:'Créer son Business en Ligne',ico:'🌐',bg:'#0a1418',tc:'var(--tl)',desc:'De l\'idée au scaling: lance ton business en ligne.'},
     {id:'marketing',title:'Marketing Digital Avancé',ico:'📢',bg:'#180a14',tc:'#e06a8a',desc:'SEO, ads, copywriting, growth hacking.'},
     {id:'vente',title:'Vente et Négociation',ico:'🤝',bg:'#18140a',tc:'var(--or)',desc:'Psychologie, prospection, closing, scaling.'},
-    {id:'leadership',title:'Leadership & Management',ico:'👑',bg:'#14080a',tc:'#d4aa4a',desc:'Manage, recrute, décide, inspire.'},
+    {id:'leadership',title:'Leadership & Management',ico:'👑',bg:'#14080a',tc:'#F5C842',desc:'Manage, recrute, décide, inspire.'},
     {id:'investissement',title:'Investissement & Patrimoine',ico:'📈',bg:'#081408',tc:'var(--gr)',desc:'Bourse, immo, crypto, fiscalité.'},
     {id:'freelance',title:'Freelance & Indépendant',ico:'💼',bg:'#0a0818',tc:'var(--bl)',desc:'Lance-toi, trouve des clients, scale.'}
   ];
@@ -9814,7 +9806,7 @@ try {
   console.log('Session 9: JARVIS suggestions update deferred', e);
 }
 
-console.log('%c SESSION 9 — MEGA BUSINESS & PRODUCTIVITY UPDATE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+console.log('%c SESSION 9 — MEGA BUSINESS & PRODUCTIVITY UPDATE ','background:#F5C842;color:#0A0A0F;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans business/productivité');
 })();
 
@@ -9823,7 +9815,7 @@ console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans bus
 (function(){
 'use strict';
 
-console.log('%c SESSION 10 — PERSONALIZATION & TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+console.log('%c SESSION 10 — PERSONALIZATION & TOOLS ','background:#F5C842;color:#0A0A0F;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 
 // ============================================================================
 // INIT: Load state, define TD
@@ -11502,7 +11494,7 @@ function initSession10() {
     }
   }
 
-  console.log('%c ✅ SESSION 10 LOADED ','background:#4ade80;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  console.log('%c ✅ SESSION 10 LOADED ','background:#4ade80;color:#0A0A0F;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 }
 
 // Check if DOM is ready
@@ -11629,7 +11621,7 @@ var STOIC_FORMATION = {
   title:'Stoïcisme Pratique',
   ico:'🏛️',
   bg:'linear-gradient(135deg,#1a1008,#0e0c04)',
-  tc:'#d4aa4a',
+  tc:'#F5C842',
   desc:'Maîtrise la philosophie qui a guidé empereurs, entrepreneurs et leaders pendant 2000 ans. Applique le stoïcisme au quotidien et au business.',
   modules:[
     {num:1,title:'Les 4 Vertus Cardinales',duration:'15 min',desc:'Sagesse (phronesis), Courage (andreia), Justice (dikaiosyne), Tempérance (sophrosyne). Les 4 piliers de la vie stoïque.',key:'La sagesse guide tes décisions, le courage tes actions, la justice tes relations, la tempérance tes désirs.',exercise:'Évalue-toi de 1 à 10 sur chaque vertu. Choisis la plus faible et pratique-la cette semaine.'},
@@ -11769,7 +11761,7 @@ try {
   if(typeof FORMS_D !== 'undefined'){
     var hasIt = FORMS_D.some(function(f){ return f.id === 'stoicism'; });
     if(!hasIt){
-      FORMS_D.push({id:'stoicism',ico:'🏛️',title:'Stoïcisme Pratique',desc:'Maîtrise la philosophie stoïque appliquée au quotidien et au business.',bg:'linear-gradient(135deg,#1a1008,#0e0c04)',tc:'#d4aa4a'});
+      FORMS_D.push({id:'stoicism',ico:'🏛️',title:'Stoïcisme Pratique',desc:'Maîtrise la philosophie stoïque appliquée au quotidien et au business.',bg:'linear-gradient(135deg,#1a1008,#0e0c04)',tc:'#F5C842'});
     }
   }
 } catch(e){}
@@ -11785,11 +11777,11 @@ window.renderStoicScreen = renderStoicScreen;
 
 S.notes = S.notes || [];
 var NOTE_CATS = [
-  {id:'idea',label:'Idée',col:'#8b6de0',ico:'💡'},
-  {id:'todo',label:'À faire',col:'#d4aa4a',ico:'✅'},
-  {id:'important',label:'Important',col:'#d95f5f',ico:'🔴'},
-  {id:'business',label:'Business',col:'#4db87a',ico:'💼'},
-  {id:'personal',label:'Personnel',col:'#4a9ed4',ico:'🧑'}
+  {id:'idea',label:'Idée',col:'#A855F7',ico:'💡'},
+  {id:'todo',label:'À faire',col:'#F5C842',ico:'✅'},
+  {id:'important',label:'Important',col:'#EF4444',ico:'🔴'},
+  {id:'business',label:'Business',col:'#22C55E',ico:'💼'},
+  {id:'personal',label:'Personnel',col:'#3B82F6',ico:'🧑'}
 ];
 
 function addQuickNote(){
@@ -12573,7 +12565,7 @@ function renderFinanceAdv(){
     Object.entries(byCat).sort(function(a,b){ return b[1]-a[1]; }).forEach(function(item){
       var pct = Math.round(item[1]/maxCat*100);
       h += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--tx2)">'+esc(item[0])+'</span><span style="color:var(--rd);font-weight:700">-'+item[1].toFixed(0)+'€</span></div>';
-      h += '<div class="pbar"><div class="pfill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--rd),#ff8080)"></div></div></div>';
+      h += '<div class="pbar"><div class="pfill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--rd),#f87171)"></div></div></div>';
     });
     if(!Object.keys(byCat).length) h += '<div style="font-size:12px;color:var(--tx3)">Aucune dépense ce mois</div>';
     h += '</div>';
@@ -12919,7 +12911,7 @@ function initSession11(){
     }
   } catch(e){}
 
-  console.log('%c ✅ SESSION 11 MEGA UPDATE LOADED ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  console.log('%c ✅ SESSION 11 MEGA UPDATE LOADED ','background:#F5C842;color:#0A0A0F;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
   console.log('New features: Stoïcisme, Notes, Business Ideas, Social Media Manager, Analytics, Finance Hub, Sécurité, Mémoire JARVIS');
 }
 
