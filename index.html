@@ -588,9 +588,21 @@ textarea.inp{resize:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .xpf{position:fixed;font-family:var(--fm);font-weight:700;font-size:18px;color:var(--ac);pointer-events:none;z-index:2000;animation:xpf 1.2s ease-out forwards;text-shadow:0 0 12px rgba(245,200,66,.5)}
 .cfp{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:1200;animation:cfall 2s ease-in forwards}
-.book-c{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .15s;overflow:hidden;display:flex}
+.book-c{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .2s var(--ease);overflow:hidden;display:flex;box-shadow:var(--shadow-s)}
 .book-c:active{border-color:var(--ac);transform:scale(.98)}
-.book-spine{width:6px;background:linear-gradient(180deg,var(--ac),var(--ac2));flex-shrink:0}
+.book-c .fc-icon{min-width:64px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+.book-c .fc-body{padding:12px;flex:1;min-width:0}
+.book-spine{width:6px;background:linear-gradient(180deg,var(--ac),var(--ac2));flex-shrink:0;border-radius:var(--r) 0 0 var(--r)}
+
+/* Formation & book card content styling */
+.book-c .fc-title{font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:2px;letter-spacing:-.01em}
+.book-c .fc-desc{font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px}
+.book-c .fc-meta{font-size:11px;color:var(--tx3);margin-bottom:5px}
+.book-c .fc-xp{font-size:10px;color:var(--ac);font-family:var(--fm);font-weight:700}
+.book-c .fc-tag{display:inline-flex;padding:2px 8px;border-radius:var(--pill);font-size:9px;font-weight:700;margin-right:4px}
+.book-c .fc-tag.read{background:var(--grd);color:var(--gr);border:1px solid var(--gr)}
+.book-c .fc-tag.reading{background:var(--bld);color:var(--bl);border:1px solid var(--bl)}
+.book-c .fc-tag.cat{background:var(--agg);color:var(--ac);border:1px solid var(--acm)}
 .stn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .25s var(--ease)}
 .stn.done{border-color:var(--gr);background:var(--grd);box-shadow:0 0 8px rgba(34,197,94,.2)}
 .stn.unlocked{border-color:var(--ac);background:var(--agg);box-shadow:0 0 8px rgba(245,200,66,.15);animation:pulse 3s ease-in-out infinite}
@@ -609,7 +621,13 @@ textarea.inp{resize:none}
 .nit{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;transition:all .2s var(--ease)}
 .nit.unread{border-left:3px solid var(--ac);background:var(--agg)}
 #form-ov{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column;max-width:430px;left:50%;transform:translateX(-50%)}
-#form-ov.show{display:flex;animation:fin .2s ease}
+#form-ov.show{display:flex;animation:fin .25s var(--ease)}
+#form-ov .fov-hdr{padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--bd);background:rgba(10,10,15,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);flex-shrink:0}
+#form-ov .fov-back{font-size:22px;color:var(--tx2);transition:all .15s var(--ease);padding:4px;border-radius:8px}
+#form-ov .fov-back:active{transform:scale(.85)}
+#form-ov .fov-title{font-family:var(--fd);font-weight:700;font-size:16px}
+#form-ov .fov-sub{font-size:11px;color:var(--tx3);margin-top:1px}
+#form-ov .fov-body{flex:1;overflow-y:auto;padding:16px}
 .av-body{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;border:3px solid var(--ac);background:var(--agg);animation:float 4s ease-in-out infinite;box-shadow:0 0 32px rgba(245,200,66,.2)}
 .av-aura{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ac);opacity:.3;animation:pulse 3s ease-in-out infinite}
 .lang-wrd{font-family:var(--fd);font-weight:700;font-size:34px;text-align:center;color:var(--ac);margin:14px 0 4px;letter-spacing:-1px}
@@ -792,7 +810,7 @@ textarea.inp{resize:none}
 #jarvis-send:hover{opacity:.9}
 </style>
 </head>
-<body>
+<body class="noise-overlay">
 <a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
 <div id="app" role="application" aria-label="RISE AI Life OS">
 <div class="gbar" id="gbar" style="display:none">
@@ -1184,30 +1202,30 @@ textarea.inp{resize:none}
   </div>
 </div>
 <!-- BOTTOM NAV -->
-<div id="plus-panel" style="display:none;position:fixed;bottom:62px;left:0;right:0;margin:0 auto;width:100%;max-width:430px;background:var(--bg2);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;z-index:400;padding:12px 14px 16px;max-height:70vh;overflow-y:auto">
-  <div style="width:36px;height:4px;background:var(--bd2);border-radius:4px;margin:0 auto 10px"></div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px">
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Mon espace</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('moi',null);closePlus()"><span style="font-size:18px">⚡</span>Moi</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('dash',null);closePlus()"><span style="font-size:18px">📊</span>Dashboard</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('achievements',null);closePlus()"><span style="font-size:18px">🏆</span>Succès</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('feat',null);closePlus()"><span style="font-size:18px">🚀</span>Features</button>
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Outils quotidiens</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('workout',null);closePlus()"><span style="font-size:18px">🏋️</span>Workout</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('meal',null);closePlus()"><span style="font-size:18px">🍽️</span>Repas</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('sleep',null);closePlus()"><span style="font-size:18px">😴</span>Sommeil</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('smartjournal',null);closePlus()"><span style="font-size:18px">📓</span>Journal</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('budget',null);closePlus()"><span style="font-size:18px">💰</span>Budget</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('nutri',null);closePlus()"><span style="font-size:18px">🥗</span>Nutrition</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('lang',null);closePlus()"><span style="font-size:18px">🌍</span>Langues</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('home',null);closePlus()"><span style="font-size:18px">🎯</span>Pomodoro</button>
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Social & Défis</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('leaderboard',null);closePlus()"><span style="font-size:18px">🏆</span>Classement</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('guilds',null);closePlus()"><span style="font-size:18px">🤝</span>Guildes</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('social',null);closePlus()"><span style="font-size:18px">📤</span>Partager</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('weeklych',null);closePlus()"><span style="font-size:18px">🏅</span>Défis Hebdo</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('suggestions',null);closePlus()"><span style="font-size:18px">💡</span>Suggestions</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('disc',null);closePlus()"><span style="font-size:18px">📚</span>Apprendre</button>
+<div class="plus-panel" id="plus-panel" style="display:none">
+  <div class="mhdl"></div>
+  <div class="more-grid">
+    <div class="plus-section">Mon espace</div>
+    <button class="more-btn" onclick="gs('moi',null);closePlus()"><span class="more-ico">⚡</span>Moi</button>
+    <button class="more-btn" onclick="gs('dash',null);closePlus()"><span class="more-ico">📊</span>Dashboard</button>
+    <button class="more-btn" onclick="gs('achievements',null);closePlus()"><span class="more-ico">🏆</span>Succès</button>
+    <button class="more-btn" onclick="gs('feat',null);closePlus()"><span class="more-ico">🚀</span>Features</button>
+    <div class="plus-section">Outils quotidiens</div>
+    <button class="more-btn" onclick="gs('workout',null);closePlus()"><span class="more-ico">🏋️</span>Workout</button>
+    <button class="more-btn" onclick="gs('meal',null);closePlus()"><span class="more-ico">🍽️</span>Repas</button>
+    <button class="more-btn" onclick="gs('sleep',null);closePlus()"><span class="more-ico">😴</span>Sommeil</button>
+    <button class="more-btn" onclick="gs('smartjournal',null);closePlus()"><span class="more-ico">📓</span>Journal</button>
+    <button class="more-btn" onclick="gs('budget',null);closePlus()"><span class="more-ico">💰</span>Budget</button>
+    <button class="more-btn" onclick="gs('nutri',null);closePlus()"><span class="more-ico">🥗</span>Nutrition</button>
+    <button class="more-btn" onclick="gs('lang',null);closePlus()"><span class="more-ico">🌍</span>Langues</button>
+    <button class="more-btn" onclick="gs('home',null);closePlus()"><span class="more-ico">🎯</span>Pomodoro</button>
+    <div class="plus-section">Social & Défis</div>
+    <button class="more-btn" onclick="gs('leaderboard',null);closePlus()"><span class="more-ico">🏆</span>Classement</button>
+    <button class="more-btn" onclick="gs('guilds',null);closePlus()"><span class="more-ico">🤝</span>Guildes</button>
+    <button class="more-btn" onclick="gs('social',null);closePlus()"><span class="more-ico">📤</span>Partager</button>
+    <button class="more-btn" onclick="gs('weeklych',null);closePlus()"><span class="more-ico">🏅</span>Défis Hebdo</button>
+    <button class="more-btn" onclick="gs('suggestions',null);closePlus()"><span class="more-ico">💡</span>Suggestions</button>
+    <button class="more-btn" onclick="gs('disc',null);closePlus()"><span class="more-ico">📚</span>Apprendre</button>
   </div>
 </div>
 
@@ -1263,8 +1281,8 @@ textarea.inp{resize:none}
 </nav>
 <!-- FORM OVERLAY -->
 <div id="form-ov">
-  <div style="padding:13px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--bd);background:var(--bg);flex-shrink:0"><button style="font-size:22px;color:var(--tx2)" onclick="closeFormOv()">←</button><div><div style="font-family:var(--fd);font-weight:700;font-size:16px" id="fov-tit"></div><div style="font-size:11px;color:var(--tx3)" id="fov-sub"></div></div></div>
-  <div style="flex:1;overflow-y:auto;padding:15px" id="fov-body"></div>
+  <div class="fov-hdr"><button class="fov-back" onclick="closeFormOv()">←</button><div><div class="fov-title" id="fov-tit"></div><div class="fov-sub" id="fov-sub"></div></div></div>
+  <div class="fov-body" id="fov-body"></div>
 </div>
 <!-- OVERLAYS -->
 <div class="full-ov" id="ov-lvlup" onclick="this.classList.remove('show')">
