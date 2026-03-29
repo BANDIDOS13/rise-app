@@ -1,7 +1,7 @@
 // Vercel Edge Function — Stripe Checkout Session Creator
 // Set STRIPE_SECRET_KEY in Vercel environment variables to activate
 
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'nodejs' };
 
 export default async function handler(req) {
   if (req.method !== 'POST') {
