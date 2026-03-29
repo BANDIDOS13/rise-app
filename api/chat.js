@@ -58,10 +58,10 @@ export default async function handler(req) {
     } else if (openaiKey) {
       return await callGPT(openaiKey, message, userContext, history || []);
     } else {
-      return jsonResp({ reply: null, fallback: true, error: 'NO_KEY: No API key configured' });
+      return jsonResp({ reply: null, fallback: true, error: 'Service temporairement indisponible. JARVIS local prend le relais.' });
     }
   } catch (err) {
-    return jsonResp({ reply: null, fallback: true, error: 'CATCH: ' + err.message }, 500);
+    return jsonResp({ reply: null, fallback: true, error: 'Une erreur est survenue. JARVIS local prend le relais.' }, 500);
   }
 }
 
@@ -97,13 +97,13 @@ async function callClaude(apiKey, message, userContext, history) {
       body: JSON.stringify(body),
     });
   } catch (fetchErr) {
-    return jsonResp({ reply: null, fallback: true, error: 'FETCH_ERR: ' + fetchErr.message });
+    return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
   }
 
   const data = await res.json();
 
   if (data.error) {
-    return jsonResp({ reply: null, fallback: true, error: 'CLAUDE_ERR: ' + (data.error.message || JSON.stringify(data.error)) });
+    return jsonResp({ reply: null, fallback: true, error: 'Le mentor IA est temporairement indisponible. JARVIS local prend le relais.' });
   }
 
   const reply = data.content?.[0]?.text || null;
@@ -128,13 +128,13 @@ async function callGPT(apiKey, message, userContext, history) {
       body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 800, messages }),
     });
   } catch (fetchErr) {
-    return jsonResp({ reply: null, fallback: true, error: 'FETCH_ERR: ' + fetchErr.message });
+    return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
   }
 
   const data = await res.json();
 
   if (data.error) {
-    return jsonResp({ reply: null, fallback: true, error: 'GPT_ERR: ' + (data.error.message || JSON.stringify(data.error)) });
+    return jsonResp({ reply: null, fallback: true, error: 'Le mentor IA est temporairement indisponible. JARVIS local prend le relais.' });
   }
 
   const reply = data.choices?.[0]?.message?.content || null;
