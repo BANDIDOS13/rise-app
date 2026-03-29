@@ -127,10 +127,10 @@ textarea.inp{resize:none}
 @keyframes glow{0%,100%{box-shadow:0 0 5px var(--ac)}50%{box-shadow:0 0 20px var(--ac)}}
 @keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @keyframes sun-p{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.au{animation:fup .4s cubic-bezier(.16,1,.3,1) both}
-.au1{animation:fup .4s .06s cubic-bezier(.16,1,.3,1) both}
-.au2{animation:fup .4s .12s cubic-bezier(.16,1,.3,1) both}
-.au3{animation:fup .4s .18s cubic-bezier(.16,1,.3,1) both}
+.au{animation:fup .4s var(--ease) both}
+.au1{animation:fup .4s .06s var(--ease) both}
+.au2{animation:fup .4s .12s var(--ease) both}
+.au3{animation:fup .4s .18s var(--ease) both}
 .gbar{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--bd);background:var(--bg);flex-shrink:0}
 .gbar-logo{font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);letter-spacing:-1px}
 .cur-w{display:flex;align-items:center;gap:4px;padding:5px 9px;background:var(--sf);border:1px solid var(--bd);border-radius:20px}
@@ -237,7 +237,7 @@ textarea.inp{resize:none}
 .vis-c{background:var(--pud);border:1px solid var(--pu);border-radius:var(--r);padding:16px;margin-bottom:11px}
 .nit{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 13px;margin-bottom:8px;display:flex;gap:10px}
 .nit.unread{border-left:3px solid var(--ac)}
-#form-ov{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column;max-width:430px;left:50%;transform:translateX(-50%)}
+#form-ov{position:fixed;inset:0;background:var(--bg);z-index:550;display:none;flex-direction:column;max-width:430px;left:50%;transform:translateX(-50%)}
 #form-ov.show{display:flex;animation:fin .2s ease}
 .av-body{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;border:3px solid var(--ac);background:var(--agg);animation:float 4s ease-in-out infinite}
 .av-aura{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ac);opacity:.3}
@@ -375,14 +375,14 @@ textarea.inp{resize:none}
 .jarvis-fab{position:fixed;bottom:74px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#ffd700 0%,#ffed4e 100%);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s;animation:jarvisPulse 2s infinite;font-size:24px;color:#333;gap:2px}
 .jarvis-fab:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(0,0,0,.4)}
 .jarvis-fab .jarvis-label{font-size:9px;font-weight:700;color:#333}
-.jarvis-fab .jarvis-dot{position:absolute;top:4px;right:4px;width:10px;height:10px;border-radius:50%;background:#e74c3c;animation:ping .9s infinite}
+.jarvis-fab .jarvis-dot{position:absolute;top:4px;right:4px;width:10px;height:10px;border-radius:50%;background:var(--rd);animation:ping .9s infinite}
 @keyframes jarvisPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(231,76,60,.7)}75%{box-shadow:0 0 0 8px rgba(231,76,60,0)}}
 
 .jarvis-backdrop{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0);z-index:790;opacity:0;pointer-events:none;transition:opacity .3s;display:none}
 .jarvis-backdrop.open{opacity:.5;pointer-events:auto;display:block}
 
-.jarvis-drawer{position:fixed;bottom:0;left:0;right:0;max-height:70vh;background:var(--bg);border-radius:24px 24px 0 0;z-index:800;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s ease-out;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
+.jarvis-drawer{position:fixed;bottom:0;left:0;right:0;max-height:70vh;background:var(--bg);border-radius:24px 24px 0 0;z-index:810;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s ease-out;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
 .jarvis-drawer.open{transform:translateY(0)}
 
 .jarvis-header{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
@@ -400,8 +400,8 @@ textarea.inp{resize:none}
 .jm-user .jm-bubble{background:var(--ac);color:var(--bg)}
 .jm-name{display:block;font-size:11px;font-weight:700;color:var(--ac);margin-bottom:2px}
 
-.dot-pulse{display:inline-flex;gap:2px}
-.dot-pulse span{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:pulse .6s infinite}
+.jarvis-dots{display:inline-flex;gap:2px}
+.jarvis-dots span{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:pulse .6s infinite}
 .dot-pulse span:nth-child(2){animation-delay:.2s}
 .dot-pulse span:nth-child(3){animation-delay:.4s}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
@@ -926,7 +926,8 @@ textarea.inp{resize:none}
 <div class="mbk" id="m-h21"><div class="msh"><div class="mhdl"></div><div class="mtit">⚡ Habitude 21 jours</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="h21-name" placeholder="Ex: Méditer 10 min le matin"><input class="inp" id="h21-time" placeholder="À quelle heure ? (ex: 7h30)"><select class="inp" id="h21-cat"><option value="mental">🧠 Mental</option><option value="sport">💪 Sport</option><option value="nature">🌿 Nature</option><option value="focus">🎯 Focus</option><option value="habit">⚡ Habitude</option></select></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-h21')">Annuler</button><button class="m-ok" onclick="addH21()">Lancer ⚡</button></div></div></div>
 <div class="mbk" id="m-letter"><div class="msh"><div class="mhdl"></div><div class="mtit">💌 Lettre au futur toi</div><p style="font-size:13px;color:var(--tx3);margin-bottom:14px;line-height:1.6">Scellée 90 jours. Reçue au bon moment.</p><textarea class="inp" id="ltr-txt" rows="8" placeholder="Cher moi dans 90 jours..."></textarea><div class="mbtns"><button class="m-cancel" onclick="closeM('m-letter')">Annuler</button><button class="m-ok" onclick="saveLtr()">Sceller 💌</button></div></div></div>
 <div class="mbk" id="m-nj"><div class="msh"><div class="mhdl"></div><div class="mtit">📓 Journal de Nature</div><textarea class="inp" id="nj-txt" rows="5" placeholder="Le vent, les oiseaux, le soleil..."></textarea><input class="inp" id="nj-dur" type="number" min="5" max="300" placeholder="Minutes dehors" style="margin-top:9px"><div class="mbtns"><button class="m-cancel" onclick="closeM('m-nj')">Annuler</button><button class="m-ok" onclick="saveNJ()">Sauvegarder 🌿</button></div></div></div>
-<div class="toast" id="toast"><span id="t-i">🎉</span><span id="t-m">Bravo !</span>
+<div class="toast" id="toast"><span id="t-i">🎉</span><span id="t-m">Bravo !</span></div>
+<div class="landscape-warn" style="display:none"><div style="font-size:40px;margin-bottom:12px">🔄</div><div style="font-family:var(--fd);font-weight:700;font-size:18px">Tourne ton écran</div><div style="font-size:13px;color:var(--tx3);margin-top:4px">RISE est optimisé en mode portrait</div></div>
 <!-- WORKOUT TRACKER SCREEN -->
 <div class="screen" id="screen-workout">
   <div style="padding:20px 16px">
@@ -8263,7 +8264,7 @@ window.EMAIL_SEQUENCE=[
     var typDiv = document.createElement('div');
     typDiv.className = 'jarvis-msg jm-bot';
     typDiv.id = 'jarvis-typing';
-    typDiv.innerHTML = '<div class="jm-bubble"><span class="jm-name">JARVIS</span><div class="dot-pulse"><span></span><span></span><span></span></div></div>';
+    typDiv.innerHTML = '<div class="jm-bubble"><span class="jm-name">JARVIS</span><div class="jarvis-dots"><span></span><span></span><span></span></div></div>';
     el.appendChild(typDiv);
     el.scrollTop = el.scrollHeight;
 
