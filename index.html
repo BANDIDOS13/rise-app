@@ -11289,7 +11289,45 @@ window.quickNote=function(){
   toolsGrid.appendChild(qnBtn);
 })();
 
-// ── 11. MORNING PRIORITY FROM LAST NIGHT'S REFLECTION ──
+// ── 11. CLOSED COACHING LOOP — Morning uses last night's reflection ──
+(function(){
+  if(!S.ob)return;
+  var hr=new Date().getHours();
+  // Between 5-11am, if there's a reflection from last night with a blocker,
+  // prepare a coaching prompt that references it
+  if(hr>=5 && hr<=11){
+    var y=new Date();y.setDate(y.getDate()-1);
+    var yds=y.toDateString();
+    var ref=S._reflections&&S._reflections[yds];
+    if(ref && (ref.block||ref.priority) && !S._coachLoopShown){
+      S._coachLoopShown=TD;save();
+      // Inject coaching suggestion into chat suggestions
+      setTimeout(function(){
+        var suggs=document.getElementById('ch-suggs');
+        if(!suggs)return;
+        var coachBtn=document.createElement('button');
+        coachBtn.className='csug';
+        coachBtn.style.cssText='border-color:var(--pu);color:var(--pu);font-weight:700';
+        coachBtn.textContent='🧠 Aide sur : '+(ref.block||ref.priority).slice(0,25)+'...';
+        coachBtn.onclick=function(){
+          var ta=document.getElementById('ch-ta');
+          if(ta){
+            var prompt='Hier soir j\'ai identifié '+(ref.block?'un blocage : "'+ref.block+'"':'ma priorité : "'+ref.priority+'"')+'. ';
+            if(ref.priority)prompt+='Ma priorité pour aujourd\'hui est : "'+ref.priority+'". ';
+            prompt+='Donne-moi un plan d\'action concret pour avancer là-dessus maintenant.';
+            ta.value=prompt;
+            gs('chat',null);
+            setTimeout(function(){sendMsg();},300);
+          }
+        };
+        suggs.insertBefore(coachBtn,suggs.firstChild);
+      },3000);
+    }
+  }
+  if(S._coachLoopShown && S._coachLoopShown!==TD){S._coachLoopShown=null;save();}
+})();
+
+// ── 12. MORNING PRIORITY FROM LAST NIGHT'S REFLECTION ──
 (function(){
   if(!S.ob)return;
   var hr=new Date().getHours();
@@ -11310,6 +11348,415 @@ window.quickNote=function(){
   if(S._morningPriorityShown && S._morningPriorityShown!==TD){
     S._morningPriorityShown=null;save();
   }
+})();
+
+// ── 13. AUTO-SYNC WEEKLY CHALLENGE PROGRESS ──
+(function(){
+  if(!S.weeklyCh||!S.weeklyCh.challenges)return;
+
+  // Patch activity functions to auto-update weekly challenge progress
+  function syncChallenge(type,increment){
+    var chs=S.weeklyCh.challenges||[];
+    chs.forEach(function(c){
+      if(c.done||c.type!==type)return;
+      c.progress=Math.min(c.target,(c.progress||0)+(increment||1));
+      if(c.progress>=c.target){
+        c.done=true;
+        gainXP(c.xp,'weekly_challenge');
+        gainGems(Math.floor(c.xp/20));
+        toast('Défi hebdo complété : '+c.nm+' ! +'+c.xp+' XP','🏆',4000);
+        confetti();
+        // Bonus for completing all 3
+        var allDone=chs.every(function(ch){return ch.done;});
+        if(allDone){
+          gainXP(200,'weekly_all');gainGems(20);
+          toast('TOUS LES DÉFIS COMPLÉTÉS ! +200 XP bonus','👑',6000);
+          confetti();
+        }
+      }
+      save();
+    });
+    if(typeof renderWeeklyChallenges==='function')renderWeeklyChallenges();
+  }
+
+  // Patch saveSleep
+  var _origSaveSleep=typeof saveSleep==='function'?saveSleep:null;
+  if(_origSaveSleep){
+    window.saveSleep=function(){_origSaveSleep();syncChallenge('sleep',1);};
+  }
+
+  // Patch submitReflection / smart journal save for journal challenge
+  var _origSubmitRef=window.submitReflection;
+  if(_origSubmitRef){
+    window.submitReflection=function(){_origSubmitRef();syncChallenge('journal',1);};
+  }
+
+  // Patch complQ for coach/nature/workout challenges
+  var _origComplQ=typeof complQ==='function'?complQ:null;
+  if(_origComplQ){
+    complQ=function(type,amt){
+      _origComplQ(type,amt);
+      if(type==='chat'||type==='coach')syncChallenge('coach',1);
+      if(type==='walk'||type==='sun'||type==='breath')syncChallenge('nature',1);
+    };
+  }
+
+  // Sync XP challenge on any XP gain
+  var _origGainXP2=gainXP;
+  gainXP=function(n2,src){
+    _origGainXP2(n2,src);
+    if(n2>0){
+      syncChallenge('xp',n2);
+      // Track tools used for all-rounder challenge
+      if(src){
+        S._toolsUsed=S._toolsUsed||{};
+        S._toolsUsed[WK]=S._toolsUsed[WK]||{};
+        S._toolsUsed[WK][src]=true;
+        var toolCount=Object.keys(S._toolsUsed[WK]).length;
+        syncChallenge('tools',toolCount);
+      }
+    }
+  };
+
+  // Patch finishWorkout for workout challenge
+  var _origFinishW=typeof window.finishWorkout==='function'?window.finishWorkout:null;
+  if(_origFinishW){
+    window.finishWorkout=function(){_origFinishW();syncChallenge('workout',1);};
+  }
+})();
+
+// ── 14. ENHANCED DASHBOARD WITH TRENDS ──
+(function(){
+  var _origRenderDash=typeof renderDashboard==='function'?renderDashboard:null;
+  if(!_origRenderDash)return;
+
+  renderDashboard=function(){
+    _origRenderDash();
+    var el=document.getElementById('dash-c');
+    if(!el)return;
+
+    // Fix: replace random XP estimate with actual tracked data
+    // Add trend comparison section
+    var dailyXP=S._dailyXP||{};
+    var last7=[],prev7=[];
+    for(var i=0;i<7;i++){
+      var d1=new Date();d1.setDate(d1.getDate()-i);
+      var d2=new Date();d2.setDate(d2.getDate()-i-7);
+      last7.push(dailyXP[d1.toDateString()]||0);
+      prev7.push(dailyXP[d2.toDateString()]||0);
+    }
+    var thisWeekXP=last7.reduce(function(a,b){return a+b;},0);
+    var prevWeekXP=prev7.reduce(function(a,b){return a+b;},0);
+    var trend=prevWeekXP>0?Math.round((thisWeekXP-prevWeekXP)/prevWeekXP*100):0;
+    var trendColor=trend>0?'var(--gr)':trend<0?'var(--rd)':'var(--tx3)';
+    var trendIcon=trend>0?'📈':trend<0?'📉':'➡️';
+
+    // Calculate average daily XP
+    var avgDaily=last7.length>0?Math.round(thisWeekXP/7):0;
+
+    // Best day
+    var bestDay=0,bestDayLabel='';
+    var dayNames=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+    for(var j=0;j<7;j++){
+      var dd=new Date();dd.setDate(dd.getDate()-j);
+      var xpd=dailyXP[dd.toDateString()]||0;
+      if(xpd>bestDay){bestDay=xpd;bestDayLabel=dayNames[dd.getDay()];}
+    }
+
+    // Prediction: days to next level
+    var xp=S.xp||0;var lvl=getLvl(xp);
+    var nxtThresh=[0,100,250,450,700,1000,1400,1900,2500,3200];
+    var toNext=nxtThresh[Math.min(lvl+1,9)]-xp;
+    var daysToLvl=avgDaily>0?Math.ceil(toNext/avgDaily):999;
+
+    var trendHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
+      +'<div class="wg" style="padding:14px;text-align:center">'
+      +'<div style="font-size:18px">'+trendIcon+'</div>'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+trendColor+'">'+(trend>0?'+':'')+trend+'%</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">vs semaine dernière</div></div>'
+      +'<div class="wg" style="padding:14px;text-align:center">'
+      +'<div style="font-size:18px">⚡</div>'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)">'+avgDaily+'</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">XP/jour moyenne</div></div></div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'
+      +'<div class="wg" style="padding:14px;text-align:center">'
+      +'<div style="font-size:18px">🏆</div>'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:18px">'+bestDay+'</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">Meilleur jour ('+bestDayLabel+')</div></div>'
+      +'<div class="wg" style="padding:14px;text-align:center">'
+      +'<div style="font-size:18px">🔮</div>'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--pu)">'+(daysToLvl<999?daysToLvl+'j':'—')+'</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">Prochain niveau</div></div></div>';
+
+    // Insert after the KPI cards
+    var kpiGrid=el.querySelector('div[style*="grid-template-columns:1fr 1fr 1fr"]');
+    if(kpiGrid&&kpiGrid.nextSibling){
+      kpiGrid.nextSibling.insertAdjacentHTML('beforebegin',
+        '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📊 Tendances</div>'
+        +trendHTML);
+    }
+  };
+})();
+
+// ── 15. FIX MEAL SHOPPING LIST — Real ingredient extraction ──
+(function(){
+  var INGREDIENT_MAP={
+    'Oeufs brouillés':['Oeufs (6)','Beurre'],
+    'avocat':['Avocat (2)'],
+    'pain complet':['Pain complet (1)'],
+    'Porridge':['Flocons d\'avoine (500g)'],
+    'banane':['Bananes (6)'],
+    'beurre cacahuète':['Beurre de cacahuète (1 pot)'],
+    'Yaourt grec':['Yaourt grec (6 pots)'],
+    'granola':['Granola (1 paquet)'],
+    'fruits rouges':['Fruits rouges (barquette)'],
+    'Smoothie protéiné':['Bananes (6)','Lait (1L)','Whey protéine','Flocons d\'avoine'],
+    'fromage frais':['Fromage frais (1)'],
+    'jambon':['Jambon blanc (tranches)'],
+    'Pancakes protéinés':['Farine complète','Oeufs (6)','Sirop d\'érable'],
+    'Omelette':['Oeufs (6)'],
+    'légumes':['Légumes variés (1kg)'],
+    'toast':['Pain de mie complet'],
+    'Poulet grillé':['Filets de poulet (500g)'],
+    'riz complet':['Riz complet (1kg)'],
+    'brocoli':['Brocoli (500g)'],
+    'Saumon':['Saumon (pavés x4)'],
+    'quinoa':['Quinoa (500g)'],
+    'pois chiches':['Pois chiches (bocal)'],
+    'Steak haché':['Steak haché 5% (x4)'],
+    'patate douce':['Patates douces (1kg)'],
+    'haricots verts':['Haricots verts (500g)'],
+    'Wraps':['Tortillas blé complet (x8)'],
+    'crudités':['Carottes','Concombre','Tomates cerises'],
+    'sauce yaourt':['Yaourt nature','Citron'],
+    'Pâtes complètes':['Pâtes complètes (500g)'],
+    'thon':['Thon en boîte (x3)'],
+    'sauce tomate':['Sauce tomate (bouteille)'],
+    'Curry de lentilles':['Lentilles corail (500g)','Lait de coco (boîte)','Curry en poudre'],
+    'riz basmati':['Riz basmati (1kg)'],
+    'Filet de poisson':['Filets de poisson blanc (x4)'],
+    'citron':['Citrons (3)'],
+    'Salade composée':['Salade verte','Oeufs','Tomates','Avocat'],
+    'Soupe de légumes':['Légumes à soupe (1kg)','Bouillon'],
+    'fromage':['Fromage (200g)'],
+    'Blanc de poulet':['Blancs de poulet (x4)'],
+    'ratatouille':['Courgettes','Aubergines','Poivrons','Tomates'],
+    'champignons':['Champignons (250g)'],
+    'salade verte':['Salade verte (1)'],
+    'Crevettes':['Crevettes (400g)'],
+    'nouilles':['Nouilles (paquet)'],
+    'Tofu':['Tofu ferme (400g)'],
+    'sauce soja':['Sauce soja (bouteille)'],
+    'amandes':['Amandes (200g)'],
+    'Pomme':['Pommes (6)'],
+    'Shake protéiné':['Whey protéine','Bananes'],
+    'Noix mélangées':['Noix mélangées (300g)','Fruits secs (200g)'],
+    'Cottage cheese':['Cottage cheese (2 pots)','Miel','Noix']
+  };
+
+  window.generateShopping=function(plan){
+    var items=new Set();
+    plan.forEach(function(d){
+      Object.values(d.meals).forEach(function(m){
+        // Try to match meal name parts against ingredient map
+        var found=false;
+        Object.keys(INGREDIENT_MAP).forEach(function(key){
+          if(m.nm.toLowerCase().indexOf(key.toLowerCase())!==-1){
+            INGREDIENT_MAP[key].forEach(function(ing){items.add(ing);});
+            found=true;
+          }
+        });
+        // Fallback: split on + if no map match
+        if(!found){
+          m.nm.split(/[+]/).forEach(function(p){items.add(p.trim());});
+        }
+      });
+    });
+    return[...items].sort();
+  };
+  // Regenerate shopping list for current plan if it exists
+  if(S.mealPlan&&S.mealPlan.days){
+    S.mealPlan.shopping=generateShopping(S.mealPlan.days);
+    save();
+  }
+})();
+
+// ── 16. WORKOUT REST TIMER ──
+(function(){
+  var restSec=0,restInt=null,restTarget=90;
+
+  window.startRestTimer=function(seconds){
+    restTarget=seconds||90;restSec=restTarget;
+    if(restInt)clearInterval(restInt);
+    var timerEl=document.getElementById('rest-timer');
+    if(!timerEl){
+      timerEl=document.createElement('div');
+      timerEl.id='rest-timer';
+      timerEl.style.cssText='position:fixed;bottom:74px;left:50%;transform:translateX(-50%);background:var(--sf);border:2px solid var(--ac);border-radius:20px;padding:10px 20px;display:flex;align-items:center;gap:12px;z-index:1000;box-shadow:0 8px 32px rgba(0,0,0,.5);max-width:300px';
+      document.body.appendChild(timerEl);
+    }
+    timerEl.style.display='flex';
+    updateRestDisplay();
+    restInt=setInterval(function(){
+      restSec--;
+      if(restSec<=0){
+        clearInterval(restInt);restInt=null;
+        timerEl.style.borderColor='var(--gr)';
+        timerEl.innerHTML='<div style="font-size:18px">✅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--gr)">GO !</div><button onclick="dismissRest()" style="padding:4px 12px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;margin-left:auto">✕</button>';
+        // Vibrate if supported
+        if(navigator.vibrate)navigator.vibrate([200,100,200]);
+        setTimeout(function(){dismissRest();},5000);
+        return;
+      }
+      updateRestDisplay();
+    },1000);
+  };
+
+  function updateRestDisplay(){
+    var el=document.getElementById('rest-timer');
+    if(!el)return;
+    var pct=Math.round((restTarget-restSec)/restTarget*100);
+    el.style.borderColor='var(--ac)';
+    el.innerHTML='<div style="font-size:18px">⏱️</div>'
+      +'<div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--ac)">'+Math.floor(restSec/60)+':'+('0'+(restSec%60)).slice(-2)+'</div>'
+      +'<div class="pbar" style="height:3px;margin-top:4px"><div class="pfill pac" style="width:'+pct+'%"></div></div></div>'
+      +'<button onclick="dismissRest()" style="padding:4px 10px;border-radius:12px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer">✕</button>';
+  }
+
+  window.dismissRest=function(){
+    if(restInt)clearInterval(restInt);restInt=null;
+    var el=document.getElementById('rest-timer');
+    if(el)el.style.display='none';
+  };
+
+  // Inject rest timer buttons into workout render
+  var _origRenderWorkout=typeof renderWorkout==='function'?renderWorkout:null;
+  if(_origRenderWorkout){
+    renderWorkout=function(){
+      _origRenderWorkout();
+      // Add rest timer buttons after each exercise card
+      var workoutEl=document.getElementById('workout-c');
+      if(!workoutEl)return;
+      var cards=workoutEl.querySelectorAll('.wg');
+      cards.forEach(function(card){
+        if(card.querySelector('.rest-btns'))return;
+        var btnsDiv=document.createElement('div');
+        btnsDiv.className='rest-btns';
+        btnsDiv.style.cssText='display:flex;gap:6px;margin-top:8px';
+        btnsDiv.innerHTML='<button onclick="startRestTimer(60)" style="flex:1;padding:6px;border-radius:8px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:10px;font-weight:700;cursor:pointer">⏱ 1min</button>'
+          +'<button onclick="startRestTimer(90)" style="flex:1;padding:6px;border-radius:8px;background:var(--agg);border:1px solid var(--acm);color:var(--ac);font-size:10px;font-weight:700;cursor:pointer">⏱ 1m30</button>'
+          +'<button onclick="startRestTimer(120)" style="flex:1;padding:6px;border-radius:8px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:10px;font-weight:700;cursor:pointer">⏱ 2min</button>';
+        card.appendChild(btnsDiv);
+      });
+    };
+  }
+})();
+
+// ── 17. SLEEP DEBT TRACKING & WEEKLY SLEEP SCORE ──
+(function(){
+  var _origRenderSleep=typeof renderSleep==='function'?renderSleep:null;
+  if(!_origRenderSleep)return;
+
+  renderSleep=function(){
+    _origRenderSleep();
+    var el=document.getElementById('sleep-c');
+    if(!el)return;
+    var logs=S.sleepLog||[];
+    if(logs.length<3)return;
+
+    // Sleep debt: difference from 8h target over last 7 days
+    var last7=logs.slice(-7);
+    var totalDebt=last7.reduce(function(a,l){return a+(8-l.dur);},0);
+    var debtColor=totalDebt>5?'var(--rd)':totalDebt>2?'var(--or)':'var(--gr)';
+    var debtLabel=totalDebt>5?'Dette critique':totalDebt>2?'Légère dette':'En forme';
+
+    // Weekly sleep score (0-100 based on duration, quality, consistency)
+    var avgDur=last7.reduce(function(a,l){return a+l.dur;},0)/last7.length;
+    var avgQual=last7.reduce(function(a,l){return a+l.qual;},0)/last7.length;
+    // Consistency: standard deviation of sleep times
+    var mean=avgDur;
+    var variance=last7.reduce(function(a,l){return a+Math.pow(l.dur-mean,2);},0)/last7.length;
+    var consistency=Math.max(0,100-variance*30); // lower variance = higher consistency
+    var sleepScore=Math.round((avgDur>=7&&avgDur<=9?30:Math.max(0,30-Math.abs(avgDur-8)*10))+(avgQual/5*40)+(consistency*0.3));
+    sleepScore=Math.min(100,Math.max(0,sleepScore));
+    var scoreColor=sleepScore>=80?'var(--gr)':sleepScore>=50?'var(--ac)':'var(--rd)';
+
+    var html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">'
+      +'<div class="wg" style="padding:14px;text-align:center">'
+      +'<div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">Score sommeil</div>'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:28px;color:'+scoreColor+'">'+sleepScore+'</div>'
+      +'<div style="font-size:10px;color:var(--tx3)">/100</div></div>'
+      +'<div class="wg" style="padding:14px;text-align:center">'
+      +'<div style="font-size:11px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px">Dette de sommeil</div>'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:28px;color:'+debtColor+'">'+Math.abs(Math.round(totalDebt*10)/10)+'h</div>'
+      +'<div style="font-size:10px;color:'+debtColor+'">'+debtLabel+'</div></div></div>';
+
+    // Consistency indicator
+    html+='<div class="wg" style="padding:12px;margin-top:8px">'
+      +'<div style="font-size:13px;font-weight:600;margin-bottom:6px">🎯 Régularité</div>'
+      +'<div class="pbar" style="height:6px"><div class="pfill '+(consistency>=80?'pgr':'pac')+'" style="width:'+Math.round(consistency)+'%"></div></div>'
+      +'<div style="font-size:10px;color:var(--tx3);margin-top:3px">'+Math.round(consistency)+'% — '+(consistency>=80?'Excellent rythme !':consistency>=50?'Essaie de te coucher à la même heure':'Horaires très irréguliers — stabilise')+'</div></div>';
+
+    el.insertAdjacentHTML('beforeend',html);
+  };
+})();
+
+// ── 18. WORKOUT TEMPLATES ──
+(function(){
+  var WORKOUT_TEMPLATES=[
+    {id:'ppl_push',nm:'Push Day',ico:'💪',desc:'Pectoraux, épaules, triceps',exercises:['pompes','dev_couche','dev_militaire','elev_lat','dips']},
+    {id:'ppl_pull',nm:'Pull Day',ico:'🔥',desc:'Dos, biceps',exercises:['tractions','rowing','tirage','curl']},
+    {id:'ppl_legs',nm:'Leg Day',ico:'🦵',desc:'Quadriceps, ischio, mollets',exercises:['squats','fentes','deadlift','mollets']},
+    {id:'fullbody',nm:'Full Body',ico:'⚡',desc:'Tout le corps en 1 séance',exercises:['pompes','squats','tractions','dev_militaire','gainage']},
+    {id:'cardio_core',nm:'Cardio + Core',ico:'🏃',desc:'Cardio et abdominaux',exercises:['hiit','course','gainage','crunchs','leg_raise']},
+    {id:'upper',nm:'Haut du corps',ico:'🏋️',desc:'Push + Pull combiné',exercises:['pompes','tractions','dev_militaire','curl','dips']}
+  ];
+
+  // Inject template selector into workout screen
+  var _origRenderWorkout2=typeof renderWorkout==='function'?renderWorkout:null;
+  if(!_origRenderWorkout2)return;
+
+  var origRW=renderWorkout;
+  renderWorkout=function(){
+    origRW();
+    var el=document.getElementById('workout-c');
+    if(!el)return;
+    var today=S.workoutToday||{exercises:[]};
+    // Only show templates if no exercises added yet
+    if(today.exercises&&today.exercises.length>0)return;
+
+    var tplHTML='<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin:12px 0 8px;color:var(--ac)">⚡ Templates rapides</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">'
+      +WORKOUT_TEMPLATES.map(function(t){
+        return '<button onclick="loadWorkoutTemplate(\''+t.id+'\')" style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);text-align:left;cursor:pointer">'
+          +'<div style="font-size:20px;margin-bottom:4px">'+t.ico+'</div>'
+          +'<div style="font-size:12px;font-weight:700">'+t.nm+'</div>'
+          +'<div style="font-size:10px;color:var(--tx3)">'+t.desc+'</div>'
+          +'</button>';
+      }).join('')+'</div>';
+    el.insertAdjacentHTML('beforeend',tplHTML);
+  };
+
+  window.loadWorkoutTemplate=function(tplId){
+    var tpl=WORKOUT_TEMPLATES.find(function(t){return t.id===tplId;});
+    if(!tpl)return;
+    // Find exercises in EXERCISE_DB
+    var allEx=[];
+    Object.values(EXERCISE_DB).forEach(function(cat){cat.forEach(function(ex){allEx.push(ex);});});
+    if(!S.workoutToday)S.workoutToday={date:TD,exercises:[]};
+    tpl.exercises.forEach(function(exId){
+      var ex=allEx.find(function(e){return e.id===exId;});
+      if(ex){
+        S.workoutToday.exercises.push({
+          id:ex.id,nm:ex.nm,ico:ex.ico,muscle:ex.muscle,
+          sets:ex.muscle==='Cardio'||ex.muscle==='Full body'?[{dur:20}]:[{reps:10,weight:0},{reps:10,weight:0},{reps:10,weight:0}]
+        });
+      }
+    });
+    save();
+    toast('Template '+tpl.nm+' chargé !','⚡',2000);
+    renderWorkout();
+  };
 })();
 
 if(typeof save === 'function') save();
