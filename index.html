@@ -1165,7 +1165,7 @@ if('serviceWorker' in navigator){
 </div>
 
 <!-- ═══ JARVIS AI ASSISTANT ═══ -->
-<div id="jarvis-fab" class="jarvis-fab" onclick="openJarvis()">
+<div id="jarvis-fab" class="jarvis-fab">
   <span>🤖</span>
   <span class="jarvis-label">JARVIS</span>
   <div class="jarvis-dot"></div>
@@ -13824,166 +13824,23 @@ try { save(); } catch(e){}
   document.head.appendChild(style);
 })();
 
-// ══════════════════════════════════════════════════════
-// JARVIS — Floating AI Assistant
-// Visible on every screen. Always available.
-// ══════════════════════════════════════════════════════
+// JARVIS: Force FAB visibility (the system at ~line 8066 handles everything)
 (function(){
-  var jarvisOpen = false;
-  var fab = document.getElementById('jarvis-fab');
-  var drawer = document.getElementById('jarvis-drawer');
-  var backdrop = document.getElementById('jarvis-backdrop');
-  var closeBtn = document.getElementById('jarvis-close');
-  var sendBtn = document.getElementById('jarvis-send');
-  var ta = document.getElementById('jarvis-ta');
-  var msgs = document.getElementById('jarvis-msgs');
-  var suggs = document.getElementById('jarvis-suggs');
-
-  window.openJarvis = function(){
-    if(!drawer || !backdrop) return;
-    jarvisOpen = true;
-    drawer.style.transform = 'translateY(0)';
-    backdrop.classList.add('open');
-    var jfab = document.getElementById('jarvis-fab');
-    if(jfab) jfab.style.cssText += 'display:none!important';
-    if(ta) ta.focus();
-    // Show welcome if empty
-    if(msgs && !msgs.children.length){
-      addJarvisMsg('Salut ' + (S.name||'Forgeur') + ' ! 🔥 Je suis JARVIS, ton mentor IA. Pose-moi une question sur tes objectifs, demande un plan d\'action, ou juste parle-moi de ta journée.', 'ai');
-    }
-    // Show suggestions
-    if(suggs && !suggs.children.length){
-      var chips = [
-        '🌅 Plan du matin',
-        '💪 Motivation',
-        '📊 Mon bilan',
-        '🧠 Conseil mental',
-        '💰 Astuce business',
-        '🌿 Bien-être'
-      ];
-      suggs.innerHTML = chips.map(function(c){
-        return '<button class="jarvis-chip" onclick="jarvisSuggest(this.textContent)">'+c+'</button>';
-      }).join('');
-    }
-  };
-
-  window.closeJarvis = function(){
-    jarvisOpen = false;
-    if(drawer) drawer.style.transform = 'translateY(100%)';
-    if(backdrop) backdrop.classList.remove('open');
-    setTimeout(function(){
-      var jfab = document.getElementById('jarvis-fab');
-      if(jfab) jfab.style.cssText = jfab.style.cssText.replace('display:none!important','') ;
-    }, 300);
-  };
-
-  if(closeBtn) closeBtn.onclick = closeJarvis;
-  if(backdrop) backdrop.onclick = closeJarvis;
-
-  function addJarvisMsg(text, role){
-    if(!msgs) return;
-    var div = document.createElement('div');
-    div.className = 'jarvis-msg ' + (role==='user' ? 'jm-user' : 'jm-ai');
-    div.innerHTML = '<div class="jm-bubble">' + text.replace(/\n/g,'<br>') + '</div>';
-    msgs.appendChild(div);
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function sendJarvisMsg(){
-    if(!ta) return;
-    var text = ta.value.trim();
-    if(!text) return;
-    ta.value = '';
-
-    addJarvisMsg(text, 'user');
-
-    // Show typing
-    var typing = document.createElement('div');
-    typing.className = 'jarvis-msg jm-ai';
-    typing.innerHTML = '<div class="jm-bubble" style="opacity:.5">JARVIS réfléchit...</div>';
-    typing.id = 'jarvis-typing';
-    msgs.appendChild(typing);
-    msgs.scrollTop = msgs.scrollHeight;
-
-    // Try API first
-    fetch('/api/chat', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        message: text,
-        context: {name:S.name,age:S.age,goal:S.goal,level:getLvl(S.xp||0)+1,streak:S.loginS?.streak||0,xp:S.xp||0},
-        history: (S.jarvisH||[]).slice(-6)
-      })
-    })
-    .then(function(r){return r.json();})
-    .then(function(data){
-      var t = document.getElementById('jarvis-typing');
-      if(t) t.remove();
-      var reply = data.reply || null;
-      if(!reply || data.fallback){
-        // Fallback local
-        reply = getLocalJarvisReply(text);
-      }
-      addJarvisMsg(reply, 'ai');
-      S.jarvisH = S.jarvisH || [];
-      S.jarvisH.push({role:'user',content:text});
-      S.jarvisH.push({role:'assistant',content:reply});
-      if(S.jarvisH.length > 20) S.jarvisH = S.jarvisH.slice(-20);
-      gainXP(3,'jarvis');
-      save();
-    })
-    .catch(function(){
-      var t = document.getElementById('jarvis-typing');
-      if(t) t.remove();
-      var reply = getLocalJarvisReply(text);
-      addJarvisMsg(reply, 'ai');
-    });
-  }
-
-  function getLocalJarvisReply(text){
-    var t = text.toLowerCase();
-    var name = S.name || 'Forgeur';
-    var streak = S.loginS?.streak || 0;
-    var lvl = getLvl(S.xp||0) + 1;
-
-    if(t.includes('matin') || t.includes('morning') || t.includes('plan')){
-      return '🌅 ' + name + ', voici ton plan du matin :\n\n1. ✅ Fais ton check-in (30s)\n2. 🚶 20 min de marche\n3. ⏱️ 1 Pomodoro sur ta tâche la plus importante\n4. 📓 3 lignes dans ton journal\n\nCommence par le check-in. Le reste suivra naturellement.';
-    }
-    if(t.includes('motiv') || t.includes('courage') || t.includes('lâche') || t.includes('abandon')){
-      return '💪 ' + name + ', écoute. Tu es niveau ' + lvl + ' avec ' + streak + ' jours de streak. Tu n\'en es pas là par hasard.\n\nLa motivation est un mythe. Ce qui compte c\'est la discipline — faire même quand t\'as pas envie.\n\nUn seul pas. Maintenant. Le reste suivra. Qu\'est-ce que tu peux faire dans les 5 prochaines minutes ?';
-    }
-    if(t.includes('bilan') || t.includes('stats') || t.includes('progress')){
-      return '📊 Ton bilan ' + name + ' :\n\n⭐ Niveau ' + lvl + '\n🔥 Streak: ' + streak + ' jours\n💎 ' + (S.gems||0) + ' gemmes\n⏱️ ' + (S.pomoTot||0) + ' Pomodoros\n📋 ' + Object.keys(S.checkins||{}).length + ' check-ins\n\n' + (streak >= 7 ? 'Impressionnant ! Continue comme ça.' : 'Chaque jour compte. Construis ta streak.');
-    }
-    if(t.includes('stress') || t.includes('anxié') || t.includes('peur') || t.includes('mental')){
-      return '🧠 Respire ' + name + '. Voici ce que je te conseille :\n\n1. 💨 Cohérence cardiaque : 5s inspire, 5s expire, 6 cycles\n2. 📝 Écris ce qui te stresse — le nommer c\'est le réduire\n3. 🚶 Sors 10 minutes — la nature reset le cortisol\n\nTu peux aussi utiliser le 🆘 Mode Urgence pour une séance guidée.';
-    }
-    if(t.includes('business') || t.includes('argent') || t.includes('revenu') || t.includes('gagner')){
-      return '💰 Conseil business pour toi ' + name + ' :\n\nLes 3 leviers les plus rapides :\n1. 🤝 Vends un service (pas un produit) — résultat en 7 jours\n2. 📱 Crée du contenu — 1 post/jour pendant 30 jours\n3. 📚 Suis la formation Business dans Apprendre\n\nAction immédiate : identifie 1 compétence que tu as et 1 personne qui en a besoin.';
-    }
-    if(t.includes('nature') || t.includes('bien-être') || t.includes('soleil') || t.includes('marche')){
-      return '🌿 La nature est ton alliée ' + name + '.\n\n📊 La science :\n- 20 min de marche = cortisol -14%\n- 15 min de soleil = vitamine D pour la journée\n- 5 min de respiration = focus +30%\n\nVa dans l\'onglet Nature et lance une session. Ton corps te remerciera.';
-    }
-    // Default
-    var defaults = [
-      'Je suis là pour toi ' + name + '. Dis-moi précisément ce sur quoi tu veux travailler et je te ferai un plan d\'action concret.',
-      name + ', pose-moi une question spécifique et je te donnerai un conseil actionnable. Pas de blabla, que du concret.',
-      'Tu veux progresser ' + name + ' ? Dis-moi ton objectif principal en ce moment et je t\'aide à définir les 3 prochaines actions.'
-    ];
-    return defaults[Math.floor(Math.random() * defaults.length)];
-  }
-
-  if(sendBtn) sendBtn.onclick = sendJarvisMsg;
-  if(ta) ta.addEventListener('keydown', function(e){
-    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendJarvisMsg(); }
-  });
-
-  window.jarvisSuggest = function(text){
-    if(ta){ ta.value = text; sendJarvisMsg(); }
-  };
-
-  // JARVIS FAB is always visible via CSS display:flex!important
-  // No JS needed to show it
+  // Guarantee the FAB is visible after page load
+  var jfab = document.getElementById('jarvis-fab');
+  if(jfab) jfab.style.display = 'flex';
+  
+  // Also ensure it stays visible after any JS runs
+  setTimeout(function(){
+    var jfab2 = document.getElementById('jarvis-fab');
+    if(jfab2) jfab2.style.display = 'flex';
+  }, 2000);
+  
+  // And after 5 seconds (in case launchApp delays)
+  setTimeout(function(){
+    var jfab3 = document.getElementById('jarvis-fab');
+    if(jfab3) jfab3.style.display = 'flex';
+  }, 5000);
 })();
 
 </script>
