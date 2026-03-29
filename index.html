@@ -1211,7 +1211,7 @@ function renderFormQuiz(fid, num) {
     '<input class="inp" id="quiz-ans-'+fid+'-'+num+'" placeholder="Ta réponse..." style="margin-bottom:8px">'+
     '<div style="font-size:10px;color:var(--tx3);margin-bottom:8px">💡 Indice: '+q.hint+'</div>'+
     '</div>'+
-    '<button class="btn btn-ac" style="padding:11px" onclick="complMod(\''+fid+'\','+num+')">Valider ma réponse → +200 XP</button>';
+    '<button class="btn btn-ac" style="padding:11px" onclick="complMod(\''+fid+'\','+num+')">Valider ma réponse</button>';
 }
 
 function openForm(id){const form=FORMS_D.find(f=>f.id===id);if(!form)return;document.getElementById('fov-tit').textContent=form.ico+' '+form.title;document.getElementById('fov-sub').textContent='8 modules · +1600 XP';const ov=document.getElementById('fov-body');ov.innerHTML='<div class="shim"></div><div class="shim"></div>';document.getElementById('form-ov').classList.add('show');const prog=(S.formProg||{})[id]||{m:0};const content=RISE_AI.openForm(id);ov.innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px">'+(form.desc||'')+'</div>'+(content.modules||[]).map(m=>{const done=(prog.m||0)>m.num-1,cur=(prog.m||0)===m.num-1;let h='<div style="background:var(--sf);border:1px solid '+(done?'var(--gr)':cur?'var(--ac)':'var(--bd)')+';border-radius:var(--r);padding:12px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><div style="font-size:22px">'+(done?'✅':cur?form.ico:'🔒')+'</div><div style="flex:1"><div style="font-size:14px;font-weight:600;margin-bottom:1px">'+m.num+'. '+m.title+'</div><div style="font-size:11px;color:var(--tx3)">'+m.duration+' · +200 XP</div></div></div>';if(done||cur)h+='<div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:8px">'+m.desc+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--ac2);margin-bottom:'+(cur?'9px':'0')+'">💡 '+m.key+'</div>';if(cur)h+='<div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:8px 12px;font-size:12px;color:var(--tx2);line-height:1.5;margin-top:8px;margin-bottom:9px">✏️ '+m.exercise+'</div>'+renderFormQuiz(id, m.num)+'';h+='</div>';return h;}).join('');}
@@ -1225,13 +1225,13 @@ function complMod(fid,num){
     const q = mod.quiz;
     const userAns = document.getElementById('quiz-ans-'+fid+'-'+num);
     if(!userAns || !userAns.value.trim()) {
-      toast('Réponds à la question pour valider! 📝','⚠️',3000);
+      toast('Réponds à la question pour valider','⚠️',3000);
       return;
     }
     const ans = userAns.value.trim().toLowerCase();
     const correct = q.answer.toLowerCase();
     if(!ans.includes(correct) && !correct.includes(ans) && ans.length < 3) {
-      toast('Mauvaise réponse, réessaie! 💡','❌',3000);
+      toast('Pas tout à fait. Réessaie.','❌',3000);
       return;
     }
   }
@@ -1354,7 +1354,7 @@ async function renderRapport(el){
   const wkCI=Object.keys(S.checkins||{}).filter(d=>(Date.now()-new Date(d))/(864e5)<7).length;
   const ctx='Utilisateur: '+S.name+'. Semaine: '+wkCI+' check-ins, '+wkWalk+'min marche, streak '+S.streak+'j, '+S.pomoTot+' pomodoros, objectif: '+S.goal+', XP: '+S.xp+', plan: '+S.plan+'.';
   try{ const r=RISE_AI.generateWeeklyReport(); S.weekRpt={...r,date:TD};save();showRpt(el,r);
-  }catch(e){el.innerHTML='<div style="color:var(--rd);padding:12px">Erreur génération rapport.</div>';}
+  }catch(e){el.innerHTML='<div style="color:var(--rd);padding:12px">Quelque chose s\'est mal passé. Réessaie.</div>';}
 }
 function showRpt(el,r){
   el.innerHTML=`
@@ -1572,7 +1572,7 @@ function answerQ(idx,ans,correct){
   }else{
     el.classList.add('no');
     document.querySelectorAll('.qopt').forEach(b=>{if(b.textContent===correct)b.classList.add('ok');});
-    toast('Presque — c\'etait: '+correct,'❌',2200);
+    toast('Presque. La réponse : '+correct,'❌',2200);
   }
 }
 function nextW(){curWI=(curWI+1)%LANG_DB[curLang].words.length;renderLang();}
@@ -1690,7 +1690,7 @@ async function rNuCoach(el){
       <div style="font-size:12px;color:var(--tx2);line-height:1.5">${(r.recette||{}).prep||''}</div>
     </div>
     <div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:12px;font-size:13px;color:var(--ac2)">⚡ Defi du jour: ${r.defi||''}</div>`;
-  }catch(e){el.innerHTML='<div style="color:var(--rd);padding:12px">Erreur API.</div>';}
+  }catch(e){el.innerHTML='<div style="color:var(--rd);padding:12px">JARVIS est temporairement indisponible. Réessaie.</div>';}
 }
 // renderFeat patched — avatar/rapport/challenges merged into original
 // ══ INIT NEW SCREENS ══
@@ -1792,7 +1792,7 @@ function syncGcal() {
       if (st) st.textContent = 'Rien de prévu. Ajoute un événement.. Utilisez + pour en ajouter.';
     }
   } catch(e) {
-    if (st) st.textContent = 'Erreur calendrier.';
+    if (st) st.textContent = 'Impossible de charger le calendrier. Réessaie.';
   }
 }
 function addEvt() {
@@ -2260,7 +2260,7 @@ function syncGcal() {
     var oc = document.getElementById('orga-content');
     if(oc && oTabV13==='agenda') rAgenda(oc);
   } catch(e2) {
-    if(st) st.textContent='Erreur calendrier.';
+    if(st) st.textContent='Impossible de charger le calendrier. Réessaie.';
     stEls.forEach(function(b) { b.textContent='🔄 Sync GCal'; });
   }
 }
@@ -4137,8 +4137,8 @@ function editWorkoutSets(idx){
     });
     h+='<button onclick="addSet('+idx+')" style="width:100%;padding:8px;background:var(--c2);border:none;border-radius:8px;font-size:12px;cursor:pointer;margin-top:4px">+ Ajouter une série</button>';
   }
-  h+='<button onclick="saveWorkoutSets('+idx+')" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">Valider</button>';
-  h+='<button onclick="document.getElementById(\'ov-sets\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer;margin-top:8px">Annuler</button>';
+  h+='<button onclick="saveWorkoutSets('+idx+')" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">C\'est fait</button>';
+  h+='<button onclick="document.getElementById(\'ov-sets\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);font-size:13px;cursor:pointer;margin-top:8px">Retour</button>';
   h+='</div></div>';
   document.body.insertAdjacentHTML('beforeend',h);
 }
@@ -4347,8 +4347,8 @@ function logSleep(){
     '<div style="margin:16px 0"><label style="font-size:12px;font-weight:600">Qualité (1-5)</label><div style="display:flex;gap:8px;margin-top:8px" id="sl-qual-btns">'+
     [1,2,3,4,5].map(n=>'<button onclick="document.querySelectorAll(\'#sl-qual-btns button\').forEach(b=>b.style.background=\'var(--c2)\');this.style.background=\'var(--ac)\';this.style.color=\'#fff\';this.dataset.val=\''+n+'\'" style="flex:1;padding:12px;border-radius:8px;background:var(--c2);border:none;font-size:16px;cursor:pointer" data-val="'+n+'">'+['😫','😴','😐','😊','⭐'][n-1]+'</button>').join('')+
     '</div></div>'+
-    '<button onclick="saveSleep()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">Enregistrer</button>'+
-    '<button onclick="document.getElementById(\'ov-sleep\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);cursor:pointer;margin-top:8px">Annuler</button>'+
+    '<button onclick="saveSleep()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">Sauvegarder ma nuit</button>'+
+    '<button onclick="document.getElementById(\'ov-sleep\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);cursor:pointer;margin-top:8px">Retour</button>'+
     '</div></div>';
   document.body.insertAdjacentHTML('beforeend',h);
 }
@@ -4442,7 +4442,7 @@ function startJournalEntry(mood){
     '<div style="font-family:var(--fd);font-weight:600;font-size:14px;text-align:center;margin:12px 0;color:var(--ac)">'+prompt+'</div>'+
     '<textarea id="j-text" rows="8" placeholder="Écris ici... Laisse aller tes pensées." style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--c3);font-size:14px;resize:none;font-family:inherit;box-sizing:border-box"></textarea>'+
     '<div style="display:flex;gap:8px;margin-top:12px">'+
-    '<button onclick="document.getElementById(\'ov-journal\').remove()" style="flex:1;padding:12px;border-radius:12px;background:var(--c2);border:none;font-size:13px;cursor:pointer">Annuler</button>'+
+    '<button onclick="document.getElementById(\'ov-journal\').remove()" style="flex:1;padding:12px;border-radius:12px;background:var(--c2);border:none;font-size:13px;cursor:pointer">Retour</button>'+
     '<button onclick="saveJournalEntry(\''+mood+'\')" class="btn-main" style="flex:2;padding:12px;border-radius:12px;font-weight:700">Sauvegarder</button>'+
     '</div></div></div>';
   document.body.insertAdjacentHTML('beforeend',h);
@@ -4531,7 +4531,7 @@ function renderBudget(){
 function setBudgetIncome(){
   const h='<div class="ov show" id="ov-income" style="z-index:999"><div class="ov-c" style="padding:24px"><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:16px">💰 Tes revenus mensuels</div>'+
     '<input type="number" id="income-val" placeholder="Ex: 2500" style="width:100%;padding:12px;border-radius:8px;border:1px solid var(--c3);font-size:18px;text-align:center;box-sizing:border-box">'+
-    '<button onclick="S.budget.income=parseInt(document.getElementById(\'income-val\').value)||0;save();document.getElementById(\'ov-income\').remove();renderBudget()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">Valider</button></div></div>';
+    '<button onclick="S.budget.income=parseInt(document.getElementById(\'income-val\').value)||0;save();document.getElementById(\'ov-income\').remove();renderBudget()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">C\'est noté</button></div></div>';
   document.body.insertAdjacentHTML('beforeend',h);
 }
 
@@ -4544,7 +4544,7 @@ function addExpense(){
     BUDGET_CATS.map(c=>'<button onclick="document.querySelectorAll(\'#exp-cats button\').forEach(b=>b.style.borderColor=\'var(--c3)\');this.style.borderColor=\'var(--ac)\';this.dataset.cat=\''+c.id+'\'" style="padding:10px;border-radius:8px;background:var(--c2);border:2px solid var(--c3);font-size:12px;cursor:pointer;text-align:center" data-cat="'+c.id+'">'+c.ico+' '+c.nm+'</button>').join('')+
     '</div>'+
     '<button onclick="saveExpense()" class="btn-main" style="width:100%;padding:14px;border-radius:12px;font-weight:700;margin-top:16px">Ajouter</button>'+
-    '<button onclick="document.getElementById(\'ov-expense\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);cursor:pointer;margin-top:8px">Annuler</button>'+
+    '<button onclick="document.getElementById(\'ov-expense\').remove()" style="width:100%;padding:10px;background:none;border:none;color:var(--tx3);cursor:pointer;margin-top:8px">Retour</button>'+
     '</div></div>';
   document.body.insertAdjacentHTML('beforeend',h);
 }
@@ -4602,7 +4602,103 @@ const ACHIEVEMENTS=[
   {id:'flash5',nm:'Instinct',desc:'5 défis flash relevés.',flavor:'Quand l\'opportunité frappe, tu réponds. C\'est ça, l\'instinct.',ico:'⚡',rarity:'uncommon',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=5;},xp:75},
   // ── LEVEL ──
   {id:'lvl5',nm:'Esprit Affûté',desc:'Niveau 5 atteint.',flavor:'Tu ne penses plus pareil qu\'il y a quelques semaines. C\'est ça, grandir.',ico:'🌟',rarity:'rare',cond:()=>getLvl(S.xp||0)>=4,xp:100},
-  {id:'lvl10',nm:'Le Sommet',desc:'Niveau 10 atteint — le maximum.',flavor:'Tu n\'as plus rien à prouver. Sauf à toi-même. Toujours.',ico:'👑',rarity:'legendary',cond:()=>getLvl(S.xp||0)>=9,xp:500}
+  {id:'lvl10',nm:'Le Sommet',desc:'Niveau 10 atteint — le maximum.',flavor:'Tu n\'as plus rien à prouver. Sauf à toi-même. Toujours.',ico:'👑',rarity:'legendary',cond:()=>getLvl(S.xp||0)>=9,xp:500},
+  // ── STREAKS AVANCÉS ──
+  {id:'streak14',nm:'Deux Semaines',desc:'14 jours consécutifs.',flavor:'Deux semaines. Tu as passé le cap où la plupart abandonnent.',ico:'🔥',rarity:'rare',cond:()=>(S.loginS?.streak||0)>=14,xp:200},
+  {id:'streak60',nm:'Soixante Jours',desc:'60 jours de streak consécutifs.',flavor:'60 jours. L\'habitude est devenue identité.',ico:'💎',rarity:'legendary',cond:()=>(S.loginS?.streak||0)>=60,xp:800},
+  {id:'streak100',nm:'Cent Jours de Feu',desc:'Streak de 100 jours — tous systèmes actifs.',flavor:'Cent jours. Aucune excuse. Aucune exception. Une seule direction.',ico:'🌌',rarity:'mythic',cond:()=>(S.loginS?.streak||0)>=100,xp:1500},
+  // ── XP AVANCÉS ──
+  {id:'xp2000',nm:'Momentum',desc:'2 000 XP accumulés.',flavor:'À ce stade, le mouvement se maintient tout seul.',ico:'🚀',rarity:'rare',cond:()=>(S.xp||0)>=2000,xp:150},
+  {id:'xp10000',nm:'L\'Architecte',desc:'10 000 XP accumulés.',flavor:'Tu construis quelque chose. Brique par brique. Jour après jour.',ico:'🌌',rarity:'mythic',cond:()=>(S.xp||0)>=10000,xp:500},
+  // ── NATURE ──
+  {id:'walk1',nm:'Premier Pas Dehors',desc:'Première session de marche enregistrée.',flavor:'Tu as mis un pied dehors. Le reste suivra.',ico:'🚶',rarity:'common',cond:()=>(S.nat?.walkLogs?.length||0)>=1,xp:20},
+  {id:'walk10',nm:'Marcheur',desc:'10 sessions de marche.',flavor:'Tes meilleures idées viendront en marchant. Demande à Darwin.',ico:'🚶',rarity:'uncommon',cond:()=>(S.nat?.walkLogs?.length||0)>=10,xp:60},
+  {id:'walk50',nm:'Randonneur',desc:'50 sessions de marche.',flavor:'50 marches. Des kilomètres de clarté mentale accumulée.',ico:'🥾',rarity:'rare',cond:()=>(S.nat?.walkLogs?.length||0)>=50,xp:200},
+  {id:'walk100',nm:'Nomade',desc:'100 sessions de marche.',flavor:'Tu marches comme on médite : par habitude, par besoin, par amour.',ico:'🌍',rarity:'epic',cond:()=>(S.nat?.walkLogs?.length||0)>=100,xp:400},
+  {id:'sun1',nm:'Photon',desc:'Première session de soleil.',flavor:'15 minutes de lumière naturelle. Ton horloge interne te remercie.',ico:'☀️',rarity:'common',cond:()=>(S.nat?.sunLogs?.length||0)>=1,xp:15},
+  {id:'sun30',nm:'Héliophile',desc:'30 sessions de soleil.',flavor:'Tu as compris : la lumière est un nutriment.',ico:'☀️',rarity:'uncommon',cond:()=>(S.nat?.sunLogs?.length||0)>=30,xp:100},
+  {id:'breath10',nm:'Souffle Régulier',desc:'10 sessions de respiration.',flavor:'10 fois tu as choisi le calme. 10 fois ton cortisol a baissé.',ico:'💨',rarity:'uncommon',cond:()=>(S.nat?.breathLogs?.length||0)>=10,xp:60},
+  {id:'breath50',nm:'Maître du Souffle',desc:'50 sessions de respiration.',flavor:'Ton système nerveux obéit à ta volonté. C\'est un super-pouvoir.',ico:'💨',rarity:'epic',cond:()=>(S.nat?.breathLogs?.length||0)>=50,xp:250},
+  {id:'cold1',nm:'Premier Frisson',desc:'Première douche froide enregistrée.',flavor:'L\'inconfort volontaire, c\'est le raccourci vers la résilience.',ico:'🧊',rarity:'common',cond:()=>(S.nat?.coldLogs?.length||0)>=1,xp:25},
+  {id:'cold30',nm:'Iceberg',desc:'30 sessions d\'eau froide.',flavor:'Ce que les autres fuient, tu le cherches. C\'est ça, la force.',ico:'🧊',rarity:'rare',cond:()=>(S.nat?.coldLogs?.length||0)>=30,xp:150},
+  // ── JOURNAL AVANCÉ ──
+  {id:'j50',nm:'Chroniqueur',desc:'50 entrées dans ton journal.',flavor:'50 pages. Tu pourrais écrire un livre sur ta propre transformation.',ico:'📖',rarity:'epic',cond:()=>(S.journal?.length||0)>=50,xp:300},
+  {id:'j100',nm:'Mémoire Vivante',desc:'100 entrées dans ton journal.',flavor:'100 chapitres de ta vie. Personne d\'autre n\'a ce livre.',ico:'📖',rarity:'legendary',cond:()=>(S.journal?.length||0)>=100,xp:500},
+  // ── WORKOUT AVANCÉ ──
+  {id:'wk25',nm:'Régulier du Fer',desc:'25 séances complétées.',flavor:'25 séances. Ton corps a changé. Ton esprit aussi.',ico:'💪',rarity:'rare',cond:()=>(S.workouts?.length||0)>=25,xp:200},
+  {id:'wk100',nm:'Centurion',desc:'100 séances complétées.',flavor:'100 séances. Tu es devenu quelqu\'un que tu admirerais.',ico:'💪',rarity:'legendary',cond:()=>(S.workouts?.length||0)>=100,xp:600},
+  // ── POMODORO ──
+  {id:'pomo1',nm:'Premier Focus',desc:'Première session Pomodoro.',flavor:'25 minutes de silence dans un monde de bruit.',ico:'⏱️',rarity:'common',cond:()=>(S.pomoStats?.sessions?.length||0)>=1,xp:15},
+  {id:'pomo25',nm:'Zone de Flow',desc:'25 sessions Pomodoro.',flavor:'Tu as trouvé ta zone. Le monde extérieur peut attendre.',ico:'⏱️',rarity:'rare',cond:()=>(S.pomoStats?.sessions?.length||0)>=25,xp:120},
+  {id:'pomo100',nm:'Deep Worker',desc:'100 sessions Pomodoro.',flavor:'2 500 minutes de focus pur. Cal Newport serait fier.',ico:'⏱️',rarity:'epic',cond:()=>(S.pomoStats?.sessions?.length||0)>=100,xp:350},
+  // ── SLEEP AVANCÉ ──
+  {id:'sl1',nm:'Bonne Nuit',desc:'Première nuit trackée.',flavor:'Mesurer, c\'est le début de l\'amélioration.',ico:'😴',rarity:'common',cond:()=>(S.sleepLog?.length||0)>=1||(S.nat?.sleepLogs?.length||0)>=1,xp:15},
+  {id:'sl60',nm:'Dormeur Pro',desc:'60 nuits de sommeil trackées.',flavor:'2 mois de données. Tu connais tes patterns mieux que ton médecin.',ico:'😴',rarity:'epic',cond:()=>(S.sleepLog?.length||0)>=60||(S.nat?.sleepLogs?.length||0)>=60,xp:250},
+  // ── BOOKS ──
+  {id:'book1',nm:'Première Page Tournée',desc:'Termine ton premier livre.',flavor:'Un livre. Une porte ouverte. Des centaines d\'autres t\'attendent.',ico:'📚',rarity:'common',cond:()=>(S.books?.read?.length||0)>=1,xp:30},
+  {id:'book3',nm:'Lecteur',desc:'3 livres terminés.',flavor:'3 livres. Tu en sais plus que 90% des gens sur ces sujets.',ico:'📚',rarity:'uncommon',cond:()=>(S.books?.read?.length||0)>=3,xp:80},
+  {id:'book6',nm:'Bibliophile',desc:'6 livres terminés.',flavor:'Un livre tous les deux mois. Rythme de champion.',ico:'📚',rarity:'rare',cond:()=>(S.books?.read?.length||0)>=6,xp:150},
+  {id:'book12',nm:'Dévoreur',desc:'12 livres terminés.',flavor:'Un livre par mois. Top 1% des lecteurs mondiaux.',ico:'📚',rarity:'epic',cond:()=>(S.books?.read?.length||0)>=12,xp:400},
+  // ── FORMATIONS AVANCÉ ──
+  {id:'form3',nm:'Apprenant',desc:'3 modules de formation complétés.',flavor:'Trois modules. Chaque leçon est un investissement en toi.',ico:'📚',rarity:'uncommon',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>Object.values(f||{}).forEach(m=>{if(m===true)n++;}));return n>=3;},xp:60},
+  {id:'form_done1',nm:'Diplômé',desc:'Termine une formation complète.',flavor:'Une formation entière. Tu sais des choses que 99% ignorent.',ico:'🎓',rarity:'rare',cond:()=>{const c=S.formProg||{};return Object.values(c).some(f=>f&&f.done===true);},xp:200},
+  {id:'form_done3',nm:'Érudit',desc:'3 formations complètes.',flavor:'Trois disciplines maîtrisées. Tu deviens dangereux.',ico:'🎓',rarity:'epic',cond:()=>{const c=S.formProg||{};let n=0;Object.values(c).forEach(f=>{if(f&&f.done===true)n++;});return n>=3;},xp:500},
+  // ── COACH AVANCÉ ──
+  {id:'coach50',nm:'Interlocuteur',desc:'50 conversations avec JARVIS.',flavor:'50 échanges. JARVIS commence à te connaître. Vraiment.',ico:'🧠',rarity:'rare',cond:()=>(S.coachMem?.n||0)>=50,xp:120},
+  {id:'coach250',nm:'Philosophe Digital',desc:'250 conversations avec JARVIS.',flavor:'250 dialogues. Tu as plus parlé à JARVIS qu\'à la plupart des humains ce mois-ci.',ico:'🎓',rarity:'legendary',cond:()=>(S.coachMem?.n||0)>=250,xp:400},
+  // ── BUDGET AVANCÉ ──
+  {id:'budget_first',nm:'Premier Bilan',desc:'Première dépense trackée.',flavor:'Voir où va l\'argent, c\'est le début de la liberté financière.',ico:'💰',rarity:'common',cond:()=>(S.budget?.expenses?.length||0)>=1,xp:15},
+  {id:'budget30',nm:'Gestionnaire',desc:'30 dépenses suivies.',flavor:'30 lignes de vérité. Tes finances n\'ont plus de secrets.',ico:'💰',rarity:'rare',cond:()=>(S.budget?.expenses?.length||0)>=30,xp:100},
+  {id:'budget100',nm:'CFO Personnel',desc:'100 dépenses suivies.',flavor:'100 transactions analysées. Tu gères ton argent comme un pro.',ico:'💰',rarity:'epic',cond:()=>(S.budget?.expenses?.length||0)>=100,xp:250},
+  // ── FLASH AVANCÉ ──
+  {id:'flash1',nm:'Réflexe',desc:'Premier défi flash relevé.',flavor:'Tu as dit oui quand c\'était facile de dire non.',ico:'⚡',rarity:'common',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=1;},xp:20},
+  {id:'flash15',nm:'Instinct Affûté',desc:'15 défis flash relevés.',flavor:'15 fois. Le réflexe est devenu instinct.',ico:'⚡',rarity:'rare',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=15;},xp:150},
+  {id:'flash30',nm:'Machine à Défis',desc:'30 défis flash relevés.',flavor:'30 défis. Tu ne réfléchis plus. Tu agis.',ico:'⚡',rarity:'epic',cond:()=>{let n=0;(S.flashHist||[]).forEach(f=>{if(f.done)n++});return n>=30;},xp:300},
+  // ── HABITUDES ──
+  {id:'habit3',nm:'Début de Routine',desc:'3 jours de streak sur une habitude.',flavor:'3 jours. Le minimum pour sentir que quelque chose change.',ico:'🔗',rarity:'common',cond:()=>(S.habits?.list||[]).some(h=>(h.streak||0)>=3),xp:30},
+  {id:'habit14',nm:'Enraciné',desc:'14 jours de streak sur une habitude.',flavor:'Deux semaines. L\'habitude commence à te manquer quand tu la sautes.',ico:'🔗',rarity:'rare',cond:()=>(S.habits?.list||[]).some(h=>(h.streak||0)>=14),xp:150},
+  {id:'habit21',nm:'Programmé',desc:'21 jours de streak — l\'habitude est née.',flavor:'21 jours. Ce n\'est plus un effort. C\'est toi.',ico:'🔗',rarity:'epic',cond:()=>(S.habits?.list||[]).some(h=>(h.streak||0)>=21),xp:250},
+  {id:'habit30',nm:'Pilier',desc:'30 jours de streak sur une habitude.',flavor:'Un mois complet. Cette habitude fait partie de ton identité.',ico:'🔗',rarity:'legendary',cond:()=>(S.habits?.list||[]).some(h=>(h.streak||0)>=30),xp:400},
+  // ── CHECKINS ──
+  {id:'ci5',nm:'Engagé',desc:'5 check-ins effectués.',flavor:'5 bilans. Tu sais ce que la plupart ignorent : où tu en es vraiment.',ico:'📋',rarity:'common',cond:()=>Object.keys(S.checkins||{}).length>=5,xp:30},
+  {id:'ci15',nm:'Régulier',desc:'15 check-ins effectués.',flavor:'15 points de contrôle. Tu pilotes ta vie, tu ne la subis pas.',ico:'📋',rarity:'uncommon',cond:()=>Object.keys(S.checkins||{}).length>=15,xp:75},
+  {id:'ci30',nm:'Observateur',desc:'30 check-ins effectués.',flavor:'Un mois de check-ins. Tu vois des patterns que personne d\'autre ne voit.',ico:'📋',rarity:'rare',cond:()=>Object.keys(S.checkins||{}).length>=30,xp:150},
+  {id:'ci100',nm:'Maître de Bord',desc:'100 check-ins effectués.',flavor:'100 bilans. Tu connais chaque recoin de ta progression.',ico:'📋',rarity:'epic',cond:()=>Object.keys(S.checkins||{}).length>=100,xp:400},
+  // ── GEMS ──
+  {id:'gems50',nm:'Éclat',desc:'50 gemmes accumulées.',flavor:'Tes premières gemmes. La monnaie de la persévérance.',ico:'💎',rarity:'common',cond:()=>(S.gems||0)>=50,xp:20},
+  {id:'gems250',nm:'Prospère',desc:'250 gemmes accumulées.',flavor:'250 gemmes. Tu commences à avoir les moyens de tes ambitions.',ico:'💎',rarity:'rare',cond:()=>(S.gems||0)>=250,xp:100},
+  {id:'gems500',nm:'Magnat',desc:'500 gemmes accumulées.',flavor:'500 gemmes. La richesse récompense la constance, pas la chance.',ico:'💎',rarity:'epic',cond:()=>(S.gems||0)>=500,xp:200},
+  {id:'gems1000',nm:'Roi Midas',desc:'1 000 gemmes.',flavor:'Mille gemmes. Tout ce que tu touches progresse.',ico:'💎',rarity:'legendary',cond:()=>(S.gems||0)>=1000,xp:400},
+  // ── BOSS ──
+  {id:'boss1',nm:'Tueur de Boss',desc:'Premier boss vaincu.',flavor:'Tu as vaincu ta première résistance. Les suivantes seront plus dures.',ico:'⚔️',rarity:'uncommon',cond:()=>(S.curBoss||0)>=1,xp:60},
+  {id:'boss4',nm:'Chasseur',desc:'4 boss vaincus.',flavor:'4 démons abattus. Procrastination, sommeil, inactivité, distraction — aucun n\'a tenu.',ico:'⚔️',rarity:'rare',cond:()=>(S.curBoss||0)>=4,xp:200},
+  // ── GUILD ──
+  {id:'guild1',nm:'Fondateur',desc:'Crée ou rejoins une guilde.',flavor:'Toute grande guilde a commencé avec une seule personne qui y croyait.',ico:'🤝',rarity:'common',cond:()=>!!(S.guild?.id),xp:30},
+  // ── SKILL TREE ──
+  {id:'sk_any1',nm:'Première Branche',desc:'Débloque un nœud dans un arbre de compétences.',flavor:'La première branche de ton arbre pousse. Le reste suivra.',ico:'🌳',rarity:'common',cond:()=>Object.values(S.skills||{}).some(s=>(s.p||0)>=1),xp:25},
+  {id:'sk_any3',nm:'Arbre en Croissance',desc:'3 nœuds de compétences débloqués.',flavor:'Ton arbre prend forme. Chaque branche est un choix délibéré.',ico:'🌳',rarity:'uncommon',cond:()=>{let n=0;Object.values(S.skills||{}).forEach(s=>n+=(s.p||0));return n>=3;},xp:80},
+  {id:'sk_max',nm:'Maîtrise Totale',desc:'Un arbre de compétences entièrement débloqué.',flavor:'Tu as atteint le sommet d\'une discipline. Rares sont ceux qui arrivent ici.',ico:'🌳',rarity:'legendary',cond:()=>Object.values(S.skills||{}).some(s=>(s.p||0)>=6),xp:500},
+  // ── DÉFI 21 JOURS ──
+  {id:'h21_start',nm:'Le Pacte',desc:'Lance ton premier défi 21 jours.',flavor:'21 jours pour changer. Le compte à rebours commence.',ico:'⚡',rarity:'common',cond:()=>(S.h21?.length||0)>=1,xp:25},
+  {id:'h21_3',nm:'Habitueur',desc:'Lance 3 défis 21 jours.',flavor:'3 défis. 3 habitudes en construction. Tu ne t\'arrêtes plus.',ico:'⚡',rarity:'uncommon',cond:()=>(S.h21?.length||0)>=3,xp:80},
+  // ── MOOD ──
+  {id:'mood1',nm:'Premier Ressenti',desc:'Premier suivi d\'humeur.',flavor:'Nommer ce qu\'on ressent, c\'est reprendre le contrôle.',ico:'🎭',rarity:'common',cond:()=>(S.moodLog?.length||0)>=1,xp:15},
+  {id:'mood30',nm:'Émotionnellement Lucide',desc:'30 jours de suivi d\'humeur.',flavor:'30 jours d\'observation. Tu sais maintenant ce qui te fait vibrer — et ce qui te vide.',ico:'🎭',rarity:'rare',cond:()=>(S.moodLog?.length||0)>=30,xp:150},
+  // ── QUIZ ──
+  {id:'quiz1',nm:'Première Réponse',desc:'Premier quiz réussi.',flavor:'Tester, c\'est ancrer. Tu viens de doubler ton taux de rétention.',ico:'🧠',rarity:'common',cond:()=>(S.quizCount||0)>=1,xp:15},
+  {id:'quiz25',nm:'Érudit Express',desc:'25 quiz complétés.',flavor:'25 tests. Ton cerveau est plus rapide, plus vif, plus sûr.',ico:'🧠',rarity:'rare',cond:()=>(S.quizCount||0)>=25,xp:120},
+  // ── SHARE ──
+  {id:'share5',nm:'Influenceur',desc:'5 partages de tes progrès.',flavor:'5 partages. Tu inspires déjà sans le savoir.',ico:'📲',rarity:'uncommon',cond:()=>(S.shared||0)>=5,xp:60},
+  {id:'share10',nm:'Voix Qui Porte',desc:'10 partages.',flavor:'10 fois tu as montré au monde que tu avances. L\'effet papillon est en marche.',ico:'📲',rarity:'rare',cond:()=>(S.shared||0)>=10,xp:120},
+  // ── MULTI-DOMAINES ──
+  {id:'polymath',nm:'Polymathes',desc:'Au moins 5 types d\'activités différentes dans la semaine.',flavor:'Corps, esprit, business, nature, social — tu ne choisis pas. Tu fais tout.',ico:'🌟',rarity:'epic',cond:()=>{let cats=new Set();if((S.workouts?.length||0)>0)cats.add('body');if((S.journal?.length||0)>0)cats.add('mind');if(Object.keys(S.checkins||{}).length>0)cats.add('ci');if((S.nat?.walkLogs?.length||0)>0)cats.add('nature');if((S.coachMem?.n||0)>0)cats.add('coach');if((S.pomoStats?.sessions?.length||0)>0)cats.add('focus');if((S.budget?.expenses?.length||0)>0)cats.add('money');return cats.size>=5;},xp:200},
+  // ── WEEKEND WARRIOR ──
+  {id:'weekend',nm:'Weekend Warrior',desc:'Active RISE un samedi ET un dimanche.',flavor:'Pas de pause le weekend. Les résultats non plus ne prennent pas de pause.',ico:'💪',rarity:'uncommon',cond:()=>{const d=new Date().getDay();return d===0&&S.loginS?.streak>=2;},xp:50},
+  // ── TOTAL ACHIEVEMENTS ──
+  {id:'ach10',nm:'Collectionneur',desc:'10 succès débloqués.',flavor:'10 badges. Tu commences une belle collection.',ico:'🏅',rarity:'uncommon',cond:()=>(S.achievements?.length||0)>=10,xp:60},
+  {id:'ach25',nm:'Chasseur de Badges',desc:'25 succès débloqués.',flavor:'25 badges. La moitié du chemin. Continue.',ico:'🏅',rarity:'rare',cond:()=>(S.achievements?.length||0)>=25,xp:150},
+  {id:'ach50',nm:'Légende Vivante',desc:'50 succès débloqués.',flavor:'50 succès. Tu es une légende dans ce jeu. Et le jeu, c\'est ta vie.',ico:'🏅',rarity:'epic',cond:()=>(S.achievements?.length||0)>=50,xp:400},
+  {id:'ach100',nm:'Mythique',desc:'100 succès débloqués.',flavor:'Cent preuves. Cent victoires. Tu es devenu ce que tu voulais être.',ico:'🏅',rarity:'mythic',cond:()=>(S.achievements?.length||0)>=100,xp:1000}
 ];
 
 function chkAchievements(trigger){
@@ -5170,7 +5266,7 @@ function importData(){
         Object.assign(S,d);save();
         toast('Donnees restaurees ! Rechargement...','✅',2000);
         setTimeout(function(){location.reload();},2000);
-      }catch(ex){toast('Erreur de lecture','❌',2500);}
+      }catch(ex){toast('Impossible de lire les données. Réessaie.','❌',2500);}
     };
     r.readAsText(f);
   };
@@ -6652,7 +6748,7 @@ function toggleZenMode(){
       URL.revokeObjectURL(url);
       toast('Backup téléchargé !','💾',3000);
     }catch(e){
-      toast('Erreur export: '+e.message,'❌',3000);
+      toast('Export échoué. Réessaie.','❌',3000);
     }
   };
   
@@ -6906,6 +7002,140 @@ function toggleZenMode(){
     };
   };
   
+// ── QUEST BANK BY DOMAIN (50 quêtes par domaine — rotation quotidienne) ──
+window.QUEST_BANK={
+  MIND:[
+    {t:'Reframe un problème',d:'Prends un problème qui t\'occupe. Écris 3 perspectives différentes en 5 minutes. Ton cerveau n\'est pas objectif — entraîne-le.',xp:80},
+    {t:'Journal de gratitude',d:'3 choses positives aujourd\'hui. La gratitude reprogramme le cerveau en 21 jours.',xp:50},
+    {t:'Médite 10 minutes',d:'Assis. Yeux fermés. Respire. Pas besoin d\'une app — juste du silence.',xp:60},
+    {t:'Apprends un concept',d:'Choisis un sujet que tu ne maîtrises pas. 15 min de lecture ciblée. Note l\'essentiel en 3 phrases.',xp:70},
+    {t:'Visualise ta journée',d:'Avant de commencer : ferme les yeux 3 min. Visualise ta journée idéale. Le cerveau ne différencie pas le réel du vividement imaginé.',xp:40},
+    {t:'Élimine une distraction',d:'Identifie LA distraction qui te coûte le plus de temps. Bloque-la pour 24h.',xp:70},
+    {t:'Enseigne quelque chose',d:'Explique un concept à quelqu\'un (ou à toi-même à voix haute). Enseigner, c\'est apprendre deux fois.',xp:80},
+    {t:'Stoic check',d:'Applique la dichotomie du contrôle : liste ce qui dépend de toi et ce qui n\'en dépend pas. Lâche le reste.',xp:60},
+    {t:'Digital detox 2h',d:'2 heures sans réseaux sociaux. Observe ce que ça change dans ta clarté mentale.',xp:90},
+    {t:'Lecture active',d:'Lis 10 pages. Note l\'idée principale en une phrase. La mémoire, c\'est de l\'écriture.',xp:60}
+  ],
+  BODY:[
+    {t:'10 minutes avant tout',d:'Avant de toucher ton téléphone ce matin : 10 min de mouvement. N\'importe quoi. Ça s\'appelle gagner sa journée.',xp:70},
+    {t:'50 squats',d:'50 squats. Chez toi. Maintenant. Pas demain.',xp:60},
+    {t:'Étire-toi 10 min',d:'10 minutes d\'étirements. Ton corps stocke le stress — libère-le.',xp:40},
+    {t:'30 pompes',d:'Pose tout. 30 pompes. Reviens transformé.',xp:60},
+    {t:'Marche rapide 20 min',d:'20 minutes de marche rapide. Pas une promenade — un entraînement.',xp:70},
+    {t:'Planche 2 minutes',d:'Tiens la planche 2 minutes. Si tu échoues, recommence demain. Le progrès est dans l\'essai.',xp:60},
+    {t:'Douche froide 60 sec',d:'60 secondes d\'eau froide à la fin de ta douche. L\'inconfort crée la résilience.',xp:80},
+    {t:'Session complète',d:'Fais une séance d\'entraînement complète : échauffement, exercices, retour au calme. 30 min minimum.',xp:100},
+    {t:'Mange propre',d:'Un repas 100% clean aujourd\'hui. Pas de sucre ajouté, pas de transformé. Juste du vrai.',xp:50},
+    {t:'Track tes macros',d:'Note ce que tu manges aujourd\'hui. Protéines, glucides, lipides. La conscience change les habitudes.',xp:60}
+  ],
+  HUSTLE:[
+    {t:'Sprint de 25 minutes',d:'Choisis la tâche que tu repousses depuis 3 jours. 25 min, téléphone retourné, rien d\'autre.',xp:90},
+    {t:'Inbox Zero',d:'Vide ta boîte mail. Réponds, archive ou supprime. Chaque email ouvert est une décision en attente.',xp:70},
+    {t:'3 tâches prioritaires',d:'Écris les 3 tâches les plus importantes de demain ce soir. Le matin, exécute. Pas de réflexion, juste de l\'action.',xp:60},
+    {t:'Deep Work 90 min',d:'90 minutes de travail profond. Téléphone en mode avion. Notifications off. C\'est là que la magie opère.',xp:120},
+    {t:'Automatise une tâche',d:'Identifie une tâche répétitive. Automatise-la ou délègue-la. Ton temps est ton actif le plus rare.',xp:100},
+    {t:'Revue hebdo',d:'15 min : qu\'est-ce qui a fonctionné cette semaine ? Qu\'est-ce qui n\'a pas marché ? Qu\'est-ce que tu changes ?',xp:80},
+    {t:'Pitch en 30 sec',d:'Résume ton projet/objectif en 30 secondes. Si tu ne peux pas l\'expliquer simplement, tu ne le comprends pas assez.',xp:70},
+    {t:'Dis non à quelque chose',d:'Refuse une sollicitation qui ne sert pas tes priorités. Chaque oui est un non à quelque chose d\'autre.',xp:60},
+    {t:'Eisenhower matrix',d:'Classe tes tâches : urgent+important, important, urgent, ni l\'un ni l\'autre. Supprime la dernière catégorie.',xp:80},
+    {t:'Planifie ta semaine',d:'30 min dimanche soir. Bloque tes priorités dans le calendrier AVANT que les urgences ne le fassent.',xp:90}
+  ],
+  VITALITY:[
+    {t:'Eau d\'abord',d:'2 grands verres d\'eau dans les 10 premières minutes de ta journée. Simple. Radical. Efficace.',xp:40},
+    {t:'Couche-toi tôt',d:'Au lit 30 min plus tôt ce soir. Le sommeil est le multiplicateur de tout le reste.',xp:60},
+    {t:'Pas d\'écran 1h avant le lit',d:'Coupe tous les écrans 1h avant de dormir. La mélatonine te remerciera.',xp:70},
+    {t:'15 min de soleil',d:'Sors prendre 15 min de lumière naturelle, idéalement le matin. Ton horloge biologique en a besoin.',xp:50},
+    {t:'Respire consciemment',d:'5 minutes de cohérence cardiaque. Inspire 5 sec, expire 5 sec. Ton cortisol baisse en temps réel.',xp:50},
+    {t:'Pas de sucre ajouté',d:'Zéro sucre ajouté aujourd\'hui. Lis les étiquettes. Tu seras surpris.',xp:60},
+    {t:'Track ton sommeil',d:'Note tes heures de sommeil ce soir. Ce qui est mesuré s\'améliore.',xp:40},
+    {t:'Jeûne intermittent',d:'Saute un repas ou mange dans une fenêtre de 8h. Ton corps sait se régénérer — laisse-le faire.',xp:70},
+    {t:'Marche digestive',d:'15 min de marche après le déjeuner. La glycémie baisse de 30%. La science, pas le blabla.',xp:50},
+    {t:'Bilan énergie',d:'Note ton énergie de 1 à 10 trois fois dans la journée. Matin, midi, soir. Trouve tes patterns.',xp:40}
+  ],
+  WISDOM:[
+    {t:'Lis 20 pages',d:'20 pages de ton livre en cours. 20 pages par jour = 30 livres par an. Top 1% des lecteurs.',xp:60},
+    {t:'Écoute un podcast',d:'Un épisode de podcast sur un sujet nouveau. La curiosité est un muscle.',xp:50},
+    {t:'Note une leçon',d:'Quelle est la leçon la plus importante que tu as apprise cette semaine ? Écris-la. Une phrase suffit.',xp:40},
+    {t:'Module de formation',d:'Complète un module de formation RISE. 15-20 min d\'apprentissage structuré.',xp:80},
+    {t:'Apprends 5 mots',d:'5 mots dans une langue étrangère. Petit effort quotidien, résultats exponentiels.',xp:50},
+    {t:'Résume un concept',d:'Prends un concept appris récemment. Résume-le en 3 phrases pour un enfant de 12 ans.',xp:60},
+    {t:'Regarde un TED Talk',d:'Un TED Talk de 15 min sur un sujet hors de ta zone de confort.',xp:50},
+    {t:'Échange avec un expert',d:'Envoie un message à quelqu\'un qui sait ce que tu veux apprendre. Une question suffit.',xp:70},
+    {t:'Débat intérieur',d:'Prends une de tes convictions. Argumente l\'inverse pendant 5 min. L\'esprit souple survit.',xp:60},
+    {t:'Quiz du jour',d:'Fais un quiz RISE. Tester ses connaissances, c\'est les ancrer 2x plus vite.',xp:50}
+  ],
+  SOCIAL:[
+    {t:'Message sincère',d:'Envoie un message de gratitude ou d\'encouragement à quelqu\'un. Sans attente de retour.',xp:50},
+    {t:'Appel de 10 min',d:'Appelle quelqu\'un que tu n\'as pas appelé depuis longtemps. Les relations se cultivent.',xp:60},
+    {t:'Partage un win',d:'Partage une victoire (même petite) avec quelqu\'un. Célébrer ancre le progrès.',xp:40},
+    {t:'Aide quelqu\'un',d:'Offre ton aide à une personne aujourd\'hui. Sans condition. Le karma est réel.',xp:60},
+    {t:'Écoute active',d:'Dans ta prochaine conversation, écoute 80% du temps. Pose des questions. Ne prépare pas ta réponse.',xp:50},
+    {t:'Feedback constructif',d:'Demande un feedback honnête à quelqu\'un sur un projet ou une habitude. L\'ego apprend.',xp:70},
+    {t:'Réseau +1',d:'Connecte-toi avec une nouvelle personne. LinkedIn, event, café. Ton réseau est ton patrimoine.',xp:60},
+    {t:'Défi en duo',d:'Lance un défi à un ami. 30 jours, un objectif commun. La compétition saine accélère tout.',xp:70},
+    {t:'Gratitude publique',d:'Remercie quelqu\'un publiquement pour son impact sur toi. Les mots ont du pouvoir.',xp:50},
+    {t:'Mentor moment',d:'Partage une leçon apprise avec quelqu\'un de moins expérimenté. Enseigner, c\'est servir.',xp:60}
+  ]
+};
+
+// ── JARVIS CONTEXTUAL RESPONSES ──
+window.JARVIS_CTX={
+  morningBrief:function(name,streak,todayQuests,topDomain){
+    var msgs=[
+      name+'. Jour '+(streak||1)+'. ',
+      streak>=7?'Ton streak tient. Ne le casse pas aujourd\'hui. ':streak>=3?'3 jours de suite. Le plus dur est derrière toi. ':'',
+      todayQuests?todayQuests+' quêtes t\'attendent. ':'',
+      topDomain?'Ton domaine fort cette semaine : '+topDomain+'. ':'',
+      'Qu\'est-ce qu\'on attaque ?'
+    ];
+    return msgs.join('');
+  },
+  streakDanger:function(streak,hoursLeft){
+    var h=Math.floor(hoursLeft);var m=Math.round((hoursLeft-h)*60);
+    return 'Il reste '+h+'h'+(m>0?pad(m):'')+' avant minuit. Ton streak de '+(streak||1)+' jours est en jeu.\nUne seule action suffit. Tu n\'as pas besoin d\'une heure — tu as besoin de 5 minutes.\nQu\'est-ce que tu peux faire maintenant ?';
+  },
+  levelUp:function(level,levelName,nextGoal){
+    return 'Niveau '+level+' atteint — '+levelName+'.\nCe n\'est pas un chiffre. C\'est '+(level*7)+' jours de décisions.\n'+(nextGoal?'Prochaine étape : '+nextGoal+'.':'Continue.');
+  },
+  stagnation:function(domain,days){
+    return 'Ça fait '+days+' jours que ton activité en '+domain+' n\'a pas bougé.\nCe n\'est pas un jugement — c\'est une observation.\nUne quête de 10 minutes suffit pour relancer. Tu essaies ?';
+  },
+  weeklyReview:function(name,questsDone,strongDomain,weakDomain,weekNum){
+    return 'Semaine '+weekNum+' — voici ce qui s\'est passé.\nTu as complété '+questsDone+' quêtes.'+(strongDomain?' Ton domaine fort : '+strongDomain+'.':'')+(weakDomain?' Ton angle mort : '+weakDomain+'.':'')+'\nLa semaine prochaine, JARVIS va te challenger sur '+(weakDomain||'tous les fronts')+'.';
+  },
+  firstDay:function(name){
+    return 'Je suis JARVIS. Je serai ton observateur, ton analyste, et parfois ta conscience.\nJe ne te dis pas quoi faire — je t\'aide à faire ce que tu as déjà décidé de faire.\nCommence par une chose : choisis le domaine où tu veux progresser le plus.';
+  },
+  comeback:function(name,daysAway){
+    return name+'. '+daysAway+' jours d\'absence.\nJe ne vais pas te demander pourquoi — je vais te demander : qu\'est-ce qu\'on fait maintenant ?\nTon XP t\'attend. Une seule action pour relancer la machine.';
+  },
+  milestone:function(xpLeft,nextLevel){
+    return 'Plus que '+xpLeft+' XP pour le niveau '+nextLevel+'. Tu y es presque.\nUne quête, un défi flash, ou un check-in suffisent.';
+  },
+  perfectDay:function(){
+    return 'Toutes les habitudes cochées. Toutes les quêtes faites. C\'est ce qu\'on appelle une journée parfaite.\nLe secret : refais exactement la même demain.';
+  },
+  bossDefeated:function(bossName,nextBoss){
+    return bossName+' est tombé. Bien joué.\n'+(nextBoss?'Prochain adversaire : '+nextBoss+'. Il sera plus coriace.':'Tu les as tous vaincus. Pour l\'instant.');
+  }
+};
+
+// ── NOTIFICATION PUSH TEMPLATES ──
+window.PUSH_TEMPLATES={
+  morningBrief:['☀️ JARVIS a préparé ton brief. {quests} quêtes. 1 objectif. C\'est parti.','☀️ {name}, nouveau jour. {quests} quêtes t\'attendent. La première prend 5 minutes.'],
+  streakDanger:['🔥 {streak} jours de streak en jeu. Il reste {hours}h. Une action suffit.','🔥 Ton streak va tomber. {hours}h pour agir. 5 minutes suffisent.'],
+  achievementUnlocked:['🏆 Succès débloqué : {name}. Tu l\'as mérité.'],
+  challengeReceived:['⚔️ {user} t\'a lancé un défi {domain} sur 30 jours. Tu acceptes ?'],
+  reengagementD3:['JARVIS a gardé {xp} XP de côté. Tu viens les chercher ?','Ça fait 3 jours. JARVIS t\'attend. Une quête pour relancer.'],
+  reengagementD7:['7 jours sans RISE. Ton streak est parti, mais pas toi. Reviens.'],
+  weeklyReview:['📊 Ta semaine en un coup d\'œil. JARVIS a des insights pour toi.'],
+  milestoneClose:['⚡ Plus que {xp} XP pour le niveau {level}. Tu y es presque.'],
+  habitReminder:['🔗 Ton habitude "{habit}" t\'attend. Ne casse pas ta série de {streak}j.'],
+  bossActive:['⚔️ {boss} a encore {hp} HP. Tes quêtes lui font mal. Continue.'],
+  perfectDay:['💯 Toutes les habitudes cochées hier. Refais exactement la même aujourd\'hui.'],
+  nightOwl:['🌙 Il est tard. Log ton sommeil avant de dormir. Demain commence maintenant.']
+};
+
   window._throttle=function(fn,ms){
     var last=0;
     return function(){
@@ -6924,7 +7154,7 @@ function toggleZenMode(){
         console.error('RISE: Save error',e);
         // LocalStorage might be full
         if(e.name==='QuotaExceededError'){
-          toast('Stockage plein ! Exporte tes données.','⚠️',5000);
+          toast('Stockage plein. Exporte tes données pour libérer de l\'espace.','⚠️',5000);
         }
       }
     },100);
@@ -7630,14 +7860,34 @@ function toggleZenMode(){
   function jarvisGreet(){
     var name = S.name || 'Champion';
     var hour = new Date().getHours();
-    var greet = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
-    var streak = S.streak || 0;
-    var lvl = (S.xp || 0);
+    var greet = hour < 6 ? '🌙 Debout tôt,' : hour < 12 ? '☀️ Bonjour' : hour < 18 ? 'Bon après-midi' : hour < 22 ? 'Bonsoir' : '🌙 Encore debout,';
+    var streak = S.loginS?.streak || 0;
+    var isFirstTime = !S.obCompleted || (S.coachMem?.n||0) < 2;
+    var msg;
 
-    var msg = greet + ' ' + name + '. Je suis JARVIS — ton observateur, ton analyste, et parfois ta conscience.';
-    if(streak > 0) msg += ' Ton streak est à ' + streak + ' jours. Ne le casse pas aujourd\'hui.';
-    msg += ' Qu\'est-ce qu\'on attaque ?';
-
+    if(isFirstTime && typeof JARVIS_CTX !== 'undefined'){
+      msg = greet + ' ' + name + '. ' + JARVIS_CTX.firstDay(name);
+    } else {
+      // Check for comeback
+      var lastLogin = S.loginS?.last;
+      var daysAway = 0;
+      if(lastLogin){var diff = (new Date() - new Date(lastLogin))/(864e5); daysAway = Math.floor(diff);}
+      if(daysAway > 3 && typeof JARVIS_CTX !== 'undefined'){
+        msg = greet + ' ' + name + '. ' + JARVIS_CTX.comeback(name, daysAway);
+      } else {
+        // Morning brief style
+        var questCount = (S.dq?.qs||[]).filter(function(q){return !q.done;}).length;
+        msg = greet + ' ' + name + '.';
+        if(streak >= 7) msg += ' Streak de ' + streak + ' jours. Impressionnant — ne le casse pas.';
+        else if(streak >= 3) msg += ' ' + streak + ' jours de suite. Le rythme est bon.';
+        else if(streak > 0) msg += ' Jour ' + streak + '. Chaque jour compte.';
+        if(questCount > 0) msg += ' ' + questCount + ' quête' + (questCount>1?'s':'') + ' t\'attendent.';
+        // XP milestone check
+        var xp = S.xp||0; var lvl = getLvl(xp); var nxt = LVL_X[Math.min(lvl+1,9)]; var xpLeft = nxt - xp;
+        if(xpLeft > 0 && xpLeft < 100) msg += ' Plus que ' + xpLeft + ' XP pour le niveau ' + (lvl+2) + '.';
+        msg += ' Qu\'est-ce qu\'on attaque ?';
+      }
+    }
     addJarvisMsg('jarvis', msg);
   }
 
