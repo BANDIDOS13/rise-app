@@ -646,7 +646,7 @@ textarea.inp{resize:none}
       </div>
       <button class="btn btn-ac" id="ci-btn" onclick="doCI()" disabled>Générer mon plan du jour 🌅</button>
     </div>
-    <div id="plan-sec" style="display:none;margin-top:4px"><div class="lbl" style="margin-bottom:9px">Plan du jour</div><div id="plan-content"></div></div>
+    <div id="plan-sec" style="display:none;margin-top:4px"><div class="lbl" style="margin-bottom:9px">Plan du jour</div><div id="plan-content"><div style="font-size:13px;color:var(--tx3);padding:12px">Fais ton check-in pour générer ton plan du jour.</div></div></div>
     <div style="margin-top:8px;margin-bottom:4px">
       <div class="lbl" style="margin-bottom:8px">Mes outils</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
@@ -680,7 +680,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setNT('outdoor',this)">🏅 Défis</button>
       <button class="fbtn" onclick="setNT('journal',this)">📓 Journal</button>
     </div>
-    <div id="nat-content"></div>
+    <div id="nat-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🚶</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Marche</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;margin-bottom:16px">Démarre une session de marche et gagne des XP.</div><div class="pbar" style="height:7px;margin-bottom:8px"><div class="pfill pnt" style="width:0%"></div></div><div style="font-size:11px;color:var(--tx3);margin-bottom:12px">0 min aujourd'hui · Objectif: 30min</div><button class="btn btn-nt" style="max-width:200px;margin:0 auto" onclick="togWalk()">🚶 Commencer une marche</button></div></div>
   </div>
 </div>
 <!-- COACH -->
@@ -715,7 +715,7 @@ textarea.inp{resize:none}
       <button class="fbtn on" onclick="setDT('forms',this)">📚 Formations</button>
       <button class="fbtn" onclick="setDT('books',this)">📖 Livres IA</button>
     </div>
-    <div id="disc-content"></div>
+    <div id="disc-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📚</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Apprendre</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Formations, livres, compétences.</div></div></div>
   </div>
 </div>
 <!-- FEATURES -->
@@ -743,7 +743,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setFT('progress',this)">📊 Progrès</button>
       <button class="fbtn" onclick="setFT('aff',this)">💸 Affiliation</button>
     </div>
-    <div id="feat-content"></div>
+    <div id="feat-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🚀</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Features</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Toutes les fonctionnalités FORGE.</div></div></div>
   </div>
 </div>
 <!-- MOI -->
@@ -757,7 +757,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setMoiT('plans',this)">👑 Plans</button>
       <button class="fbtn" onclick="setMoiT('stats',this)">📈 Stats</button>
     </div>
-    <div id="moi-content"></div>
+    <div id="moi-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">⚡</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Mon Profil</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Paramètres, stats, plan.</div></div></div>
   </div>
 </div>
 <!-- NOTIFS -->
@@ -779,7 +779,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setLang('de',this)">🇩🇪 Deutsch</button>
       <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5">🏴 Català <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
     </div>
-    <div id="lang-c"></div>
+    <div id="lang-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🌍</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Langues</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Choisis une langue ci-dessus pour commencer à apprendre.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-nutri">
@@ -791,7 +791,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setNuTab('fast',this)">⏰ Jeûne</button>
       <button class="fbtn" onclick="setNuTab('coach',this)">🤖 Coach</button>
     </div>
-    <div id="nutri-c"></div>
+    <div id="nutri-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🥗</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Nutrition</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Suis tes repas et ton hydratation.</div></div></div>
   </div>
 </div>
 <!-- CRM -->
@@ -803,7 +803,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setCrmT('deals',this)">💼 Deals</button>
       <button class="fbtn" onclick="setCrmT('followup',this)">📅 Follow-up</button>
     </div>
-    <div id="crm-content"></div>
+    <div id="crm-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">👥</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">CRM</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Gère tes contacts et tes deals.</div></div></div>
   </div>
 </div>
 <!-- ORGA -->
@@ -817,21 +817,21 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setOrgaTab('okr',this)">🎯 OKR</button>
       <button class="fbtn" onclick="setOrgaTab('revenus',this)">💰 Revenus</button>
     </div>
-    <div id="orga-content"></div>
+    <div id="orga-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📅</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Organisation</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Agenda, Kanban, Routines, OKR.</div></div></div>
   </div>
 </div>
 <!-- BADGES -->
 <div class="screen" id="screen-badges" style="display:none">
   <div class="pad">
     <div class="sct au">🏅 Badges & Succès</div>
-    <div id="badges-content"></div>
+    <div id="badges-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🏅</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Badges</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Débloque des badges en progressant.</div></div></div>
   </div>
 </div>
 <!-- SHARE -->
 <div class="screen" id="screen-share" style="display:none">
   <div class="pad">
     <div class="sct au">📲 Partager</div>
-    <div id="share-content"></div>
+    <div id="share-content"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📤</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Partager</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Partage tes succès avec le monde.</div></div></div>
   </div>
 </div>
 <!-- NEW SCREENS V19 -->
@@ -839,31 +839,31 @@ textarea.inp{resize:none}
   <div class="pad">
     <div class="sct au">📝 Journal Intime & Gratitude</div>
     <div id="j-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px"></div>
-    <div id="journal-c"></div>
+    <div id="journal-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📓</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Journal</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Écris tes pensées. La clarté vient de l'écriture.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-mood" style="display:none">
   <div class="pad">
     <div class="sct au">🎭 Mood Tracker</div>
-    <div id="mood-c"></div>
+    <div id="mood-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">😊</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Humeur</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Suis ton humeur jour après jour.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-meditate" style="display:none">
   <div class="pad">
     <div class="sct au">🧘 Méditation & Respiration</div>
-    <div id="meditate-c"></div>
+    <div id="meditate-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🧘</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Méditation</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;margin-bottom:16px">Respiration guidée et méditation.</div><button class="btn btn-pu" style="max-width:200px;margin:0 auto" onclick="gs('nature',null)">💨 Aller à Respiration</button></div></div>
   </div>
 </div>
 <div class="screen" id="screen-finance" style="display:none">
   <div class="pad">
     <div class="sct au">💰 Finances Perso</div>
-    <div id="finance-c"></div>
+    <div id="finance-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">💰</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Finances</div><div style="font-size:13px;color:var(--tx3);line-height:1.6;margin-bottom:16px">Gère ton budget et tes dépenses.</div><button class="btn btn-ac" style="max-width:200px;margin:0 auto" onclick="gs('budget',null)">💰 Aller au Budget</button></div></div>
   </div>
 </div>
 <div class="screen" id="screen-ideas" style="display:none">
   <div class="pad">
     <div class="sct au">💡 Boîte à Idées</div>
-    <div id="ideas-c"></div>
+    <div id="ideas-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">💡</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Idées</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Capture et évalue tes idées business.</div></div></div>
   </div>
 </div>
 <!-- V20 NEW SCREENS -->
@@ -871,43 +871,43 @@ textarea.inp{resize:none}
   <div class="pad">
     <div class="sct au">⚡ Habitudes Quotidiennes</div>
     <p style="font-size:12px;color:var(--tx3);margin-bottom:14px">1% meilleur chaque jour. Coche tes habitudes, construis tes streaks.</p>
-    <div id="habits-c"></div>
+    <div id="habits-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🔥</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Habitudes</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Crée et suis tes habitudes quotidiennes.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-dashboard" style="display:none">
   <div class="pad">
     <div class="sct au">📊 Dashboard Synthèse</div>
-    <div id="dashboard-c"></div>
+    <div id="dashboard-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📊</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Dashboard</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Tes statistiques et ta progression.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-wheel" style="display:none">
   <div class="pad">
     <div class="sct au">🎰 Roue de la Fortune</div>
-    <div id="wheel-c"></div>
+    <div id="wheel-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🎡</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Roue de la Vie</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Évalue les 8 dimensions de ta vie.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-shop" style="display:none">
   <div class="pad">
     <div class="sct au">🛒 Boutique FORGE</div>
-    <div id="shop-c"></div>
+    <div id="shop-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🏪</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Boutique</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Dépense tes gemmes 💎 pour des récompenses.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-content" style="display:none">
   <div class="pad">
     <div class="sct au">📱 Content Planner</div>
-    <div id="content-c"></div>
+    <div id="content-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📅</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Contenu</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Planifie et organise ton contenu.</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-games" style="display:none">
   <div class="pad">
     <div class="sct au">🎮 Mini-Jeux</div>
-    <div id="games-c"></div>
+    <div id="games-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🎮</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Mini-Jeux</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Les mini-jeux arrivent bientôt !</div></div></div>
   </div>
 </div>
 <div class="screen" id="screen-pomo" style="display:none">
   <div class="pad">
     <div class="sct au">⏱️ Pomodoro Pro</div>
-    <div id="pomo-c"></div>
+    <div id="pomo-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">⏱️</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Pomodoro</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Sessions de focus 25min.</div></div></div>
   </div>
 </div>
 <div class="more-menu" id="more-menu" style="display:none;position:fixed;bottom:62px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg2);border:1px solid var(--bd);border-radius:16px 16px 0 0;z-index:500;padding:14px">
@@ -989,7 +989,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Classement</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Classement</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Bats les meilleurs joueurs chaque semaine</div>
-    <div id="lb-c"></div>
+    <div id="lb-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🏆</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Classement</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Bats les meilleurs joueurs chaque semaine.</div></div></div>
   </div>
 </div>
 
@@ -999,7 +999,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🤝 Guildes</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🤝 Guildes</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Rejoins une communauté, progresse ensemble</div>
-    <div id="guild-c"></div>
+    <div id="guild-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">⚔️</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Guildes</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Rejoins une guilde et progresse en équipe.</div></div></div>
   </div>
 </div>
 
@@ -1007,7 +1007,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-social">
   <div style="padding:20px 16px">
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📤 Partager</div></div>
-    <div id="share-c"></div>
+    <div id="share-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📤</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Partage</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Montre ta progression au monde.</div></div></div>
   </div>
 </div>
 
@@ -1015,7 +1015,7 @@ textarea.inp{resize:none}
 <div class="screen" id="screen-suggestions">
   <div style="padding:20px 16px">
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💡 Suggestions</div></div>
-    <div id="suggest-c"></div>
+    <div id="suggest-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">💡</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Suggestions</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">JARVIS te recommande des actions.</div></div></div>
   </div>
 </div>
 
@@ -1025,7 +1025,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏅 Défis hebdo</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏅 Défis hebdo</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">3 défis par semaine, récompenses exclusives</div>
-    <div id="wch-c"></div>
+    <div id="wch-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🏅</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Défis Hebdo</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Défis spéciaux renouvelés chaque semaine.</div></div></div>
   </div>
 </div>
 
@@ -1076,7 +1076,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏋️ Workout</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏋️ Workout Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Log tes séances, suis ta progression</div>
-    <div id="workout-c"></div>
+    <div id="workout-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🏋️</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Workout</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Programmes de musculation et cardio.</div></div></div>
   </div>
 </div>
 
@@ -1086,7 +1086,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🍽️ Plan Repas</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🍽️ Meal Planner</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Plan repas hebdomadaire + liste de courses</div>
-    <div id="meal-c"></div>
+    <div id="meal-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🍽️</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Repas</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Planifie et suis tes repas.</div></div></div>
   </div>
 </div>
 
@@ -1096,7 +1096,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">😴 Sommeil</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">😴 Sleep Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Optimise ton sommeil, optimise ta vie</div>
-    <div id="sleep-c"></div>
+    <div id="sleep-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">😴</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Sommeil</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Suis et améliore ton sommeil.</div></div></div>
   </div>
 </div>
 
@@ -1106,7 +1106,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📓 Journal</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📖 Journal Intelligent</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Écris, réfléchis, progresse</div>
-    <div id="smartjournal-c"></div>
+    <div id="smartjournal-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📓</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Journal Intelligent</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Journaling avec prompts IA.</div></div></div>
   </div>
 </div>
 
@@ -1116,7 +1116,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💰 Budget</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">💰 Budget Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Maîtrise tes finances, construis ta richesse</div>
-    <div id="budget-c"></div>
+    <div id="budget-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">💰</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Budget</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Gère tes dépenses et ton épargne.</div></div></div>
   </div>
 </div>
 
@@ -1126,7 +1126,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Succès</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Achievements</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Collectionne-les tous!</div>
-    <div id="achiev-c"></div>
+    <div id="achiev-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🏆</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Achievements</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Débloque des badges en progressant.</div></div></div>
   </div>
 </div>
 
@@ -1136,7 +1136,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📊 Dashboard</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Dashboard</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
-    <div id="dash-c"></div>
+    <div id="dash-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📊</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Admin Dashboard</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">KPIs et métriques.</div></div></div>
   </div>
 
 <!-- FORGE RECAP (Weekly Summary) -->
@@ -1145,7 +1145,7 @@ textarea.inp{resize:none}
     <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)" aria-label="Retour">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📋 FORGE Recap</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📋 Résumé Hebdo</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta semaine en un coup d'oeil</div>
-    <div id="recap-c"></div>
+    <div id="recap-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📋</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Recap Hebdo</div><div style="font-size:13px;color:var(--tx3);line-height:1.6">Bilan de ta semaine.</div></div></div>
   </div>
 </div>
 
@@ -8331,7 +8331,7 @@ function toggleZenMode(){
 var screensContainer = document.querySelector('.screens');
 if(screensContainer){
   var tmp = document.createElement('div');
-  tmp.innerHTML = '<div class="screen" id="screen-bizplan" style="display:none"><div class="pad"><div id="bizplan-c"></div></div></div><div class="screen" id="screen-okr" style="display:none"><div class="pad"><div id="okr-c"></div></div></div><div class="screen" id="screen-network" style="display:none"><div class="pad"><div id="network-c"></div></div></div><div class="screen" id="screen-revenue" style="display:none"><div class="pad"><div id="revenue-c"></div></div></div><div class="screen" id="screen-pitch" style="display:none"><div class="pad"><div id="pitch-c"></div></div></div><div class="screen" id="screen-eisenhower" style="display:none"><div class="pad"><div id="eisenhower-c"></div></div></div><div class="screen" id="screen-routine" style="display:none"><div class="pad"><div id="routine-c"></div></div></div><div class="screen" id="screen-weekreview" style="display:none"><div class="pad"><div id="weekreview-c"></div></div></div>';
+  tmp.innerHTML = '<div class="screen" id="screen-bizplan" style="display:none"><div class="pad"><div id="bizplan-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📋</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Business Plan Canvas</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-okr" style="display:none"><div class="pad"><div id="okr-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🎯</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Objectifs OKR</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-network" style="display:none"><div class="pad"><div id="network-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🤝</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Réseau & Contacts</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-revenue" style="display:none"><div class="pad"><div id="revenue-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">💸</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Revenue Tracker</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-pitch" style="display:none"><div class="pad"><div id="pitch-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🎤</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Pitch Deck</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-eisenhower" style="display:none"><div class="pad"><div id="eisenhower-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📊</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Matrice Eisenhower</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-routine" style="display:none"><div class="pad"><div id="routine-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">🔄</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Routine Builder</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div><div class="screen" id="screen-weekreview" style="display:none"><div class="pad"><div id="weekreview-c"><div style="text-align:center;padding:30px 20px"><div style="font-size:48px;margin-bottom:12px">📋</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">Review Hebdo</div><div style="font-size:13px;color:var(--tx3)">Chargement...</div></div></div></div></div>';
   while(tmp.firstChild) screensContainer.appendChild(tmp.firstChild);
 }
 
