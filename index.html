@@ -13102,6 +13102,168 @@ try { save(); } catch(e){}
   }
 })();
 
+// ═══════════════════════════════════════════════════════════
+// FORGE WEEKLY RECAP — Spotify Wrapped-style animated recap
+// ═══════════════════════════════════════════════════════════
+;(function(){
+  // Collect weekly stats
+  function getWeeklyStats(){
+    const now=Date.now();const weekAgo=now-7*864e5;
+    const cis=S.checkins||{};
+    const weekCIs=Object.keys(cis).filter(function(d){return new Date(d).getTime()>weekAgo;}).length;
+    const streak=S.loginS?.streak||0;
+    const attrs=typeof getForgeAttrs==='function'?getForgeAttrs():{};
+    const dom=typeof getDominantAttr==='function'?getDominantAttr():'MIND';
+    const title=typeof getForgeTitle==='function'?getForgeTitle():'Forgeur';
+    const glvl=typeof getGlobalLevel==='function'?getGlobalLevel():1;
+    const questsDone=(S.dq?.qs||[]).filter(function(q){return q.done;}).length;
+    const totalXP=S.xp||0;
+    const gems=S.gems||0;
+    const habits=S.habits?.list||[];
+    const habDoneToday=habits.filter(function(h){return h.lastDone===new Date().toDateString();}).length;
+    const pomoSessions=(S.pomoStats?.sessions||[]).length;
+    const pomoMin=S.pomoStats?.totalMin||0;
+    const achCount=(S.achievements||[]).length;
+    const forgeAch=(S.forgeAchievements||[]).length;
+    const perfectQ=S._perfectQuests||0;
+    // Attr levels
+    var maxAttr='MIND',maxLvl=0;
+    Object.keys(attrs).forEach(function(k){
+      var lvl=typeof getAttrLevel==='function'?getAttrLevel(k):0;
+      if(lvl>maxLvl){maxLvl=lvl;maxAttr=k;}
+    });
+    return {weekCIs:weekCIs,streak:streak,dom:dom,title:title,glvl:glvl,questsDone:questsDone,totalXP:totalXP,gems:gems,habDoneToday:habDoneToday,habTotal:habits.length,pomoSessions:pomoSessions,pomoMin:pomoMin,achCount:achCount+forgeAch,perfectQ:perfectQ,maxAttr:maxAttr,maxLvl:maxLvl,attrs:attrs};
+  }
+
+  // Slides data generator
+  function buildSlides(st){
+    var attrIcos={MIND:'🧠',HUSTLE:'💼',BODY:'💪',VITALITY:'🌿',WISDOM:'📚',ORDER:'⚙️',FLOW:'🎯',AURA:'✨'};
+    var slides=[];
+    // Slide 1: Intro
+    slides.push({bg:'linear-gradient(135deg,#7C3AED,#2563EB)',title:'Ta semaine FORGE',sub:'Récap personnalisé',ico:'⚔️',big:'',detail:''});
+    // Slide 2: XP & Level
+    slides.push({bg:'linear-gradient(135deg,#d4aa4a,#f0d878)',title:st.totalXP.toLocaleString()+' XP',sub:'Niveau global '+st.glvl,ico:'⭐',big:st.title,detail:'Titre: '+st.title,dark:true});
+    // Slide 3: Streak
+    slides.push({bg:'linear-gradient(135deg,#EF4444,#F97316)',title:st.streak+' jours',sub:'de streak consécutifs',ico:'🔥',big:st.streak>5?'INARRÊTABLE':'EN FEU',detail:st.weekCIs+' check-ins cette semaine'});
+    // Slide 4: Dominant attr
+    slides.push({bg:'linear-gradient(135deg,#059669,#10B981)',title:st.dom,sub:'Attribut dominant · LVL '+st.maxLvl,ico:attrIcos[st.dom]||'🧠',big:attrIcos[st.dom]||'🧠',detail:'Tu excelles en '+st.dom.toLowerCase()});
+    // Slide 5: Quests
+    slides.push({bg:'linear-gradient(135deg,#8B5CF6,#EC4899)',title:st.questsDone+' quêtes',sub:'complétées aujourd\'hui',ico:'⚡',big:st.perfectQ>0?st.perfectQ+' jour(s) parfait(s)':'Continue !',detail:st.perfectQ>0?'🌟 Quêtes parfaites: '+st.perfectQ:'Complète 5/5 pour le bonus'});
+    // Slide 6: Focus
+    if(st.pomoSessions>0){
+      slides.push({bg:'linear-gradient(135deg,#0EA5E9,#6366F1)',title:st.pomoMin+' min',sub:'de deep focus ('+st.pomoSessions+' sessions)',ico:'⏱️',big:'FOCUS',detail:'Équivalent à '+(st.pomoMin/25).toFixed(1)+' pomodoros'});
+    }
+    // Slide 7: Habits
+    if(st.habTotal>0){
+      slides.push({bg:'linear-gradient(135deg,#14B8A6,#06B6D4)',title:st.habDoneToday+'/'+st.habTotal,sub:'habitudes aujourd\'hui',ico:'✅',big:st.habDoneToday>=st.habTotal?'PARFAIT':'PROGRESSE',detail:st.habDoneToday>=st.habTotal?'Toutes les habitudes complétées !':'Chaque habitude compte'});
+    }
+    // Slide 8: Gems & Achievements
+    slides.push({bg:'linear-gradient(135deg,#7C3AED,#2563EB)',title:st.gems+' 💎',sub:st.achCount+' achievements débloqués',ico:'🏆',big:'FORGEUR',detail:'Continue à débloquer des achievements rares !'});
+    return slides;
+  }
+
+  // Render the recap overlay
+  function showForgeRecap(){
+    var st=getWeeklyStats();
+    var slides=buildSlides(st);
+    var idx=0;
+
+    var ov=document.createElement('div');
+    ov.id='forge-recap-overlay';
+    ov.style.cssText='position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .3s';
+
+    function renderSlide(){
+      var s=slides[idx];
+      var darkTxt=s.dark?'color:#07080a':'color:#fff';
+      ov.style.background=s.bg;
+      ov.innerHTML=
+        '<div style="position:absolute;top:16px;right:16px"><button onclick="document.getElementById(\'forge-recap-overlay\').remove()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:20px;width:40px;height:40px;border-radius:50%;cursor:pointer;backdrop-filter:blur(4px)">✕</button></div>'+
+        '<div style="text-align:center;padding:32px;animation:forgeRecapIn .5s ease-out;'+darkTxt+'">'+
+          '<div style="font-size:64px;margin-bottom:16px;filter:drop-shadow(0 4px 24px rgba(0,0,0,0.3))">'+s.ico+'</div>'+
+          '<div style="font-family:var(--fd);font-size:42px;font-weight:800;line-height:1.1;margin-bottom:8px;text-shadow:0 2px 12px rgba(0,0,0,0.3)">'+s.title+'</div>'+
+          '<div style="font-size:16px;opacity:0.85;margin-bottom:24px">'+s.sub+'</div>'+
+          (s.big?'<div style="font-size:22px;font-weight:700;padding:12px 24px;background:rgba(255,255,255,0.15);border-radius:16px;display:inline-block;backdrop-filter:blur(8px);margin-bottom:8px">'+s.big+'</div>':'')+
+          (s.detail?'<div style="font-size:13px;opacity:0.7;margin-top:12px">'+s.detail+'</div>':'')+
+        '</div>'+
+        '<div style="position:absolute;bottom:40px;display:flex;gap:12px;align-items:center">'+
+          (idx>0?'<button onclick="window._forgeRecapPrev()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;padding:10px 20px;border-radius:24px;font-size:14px;cursor:pointer;backdrop-filter:blur(4px)">← Précédent</button>':'')+
+          '<div style="display:flex;gap:6px">'+slides.map(function(_,i){return '<div style="width:'+(i===idx?'24px':'8px')+';height:8px;border-radius:4px;background:rgba(255,255,255,'+(i===idx?'0.9':'0.3')+');transition:all .3s"></div>';}).join('')+'</div>'+
+          (idx<slides.length-1?'<button onclick="window._forgeRecapNext()" style="background:rgba(255,255,255,0.25);border:none;color:#fff;padding:10px 20px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;backdrop-filter:blur(4px)">Suivant →</button>':'<button onclick="window._forgeRecapShare()" style="background:rgba(255,255,255,0.3);border:none;color:#fff;padding:10px 20px;border-radius:24px;font-size:14px;font-weight:600;cursor:pointer;backdrop-filter:blur(4px)">📤 Partager</button>')+
+        '</div>';
+    }
+
+    window._forgeRecapNext=function(){if(idx<slides.length-1){idx++;renderSlide();}};
+    window._forgeRecapPrev=function(){if(idx>0){idx--;renderSlide();}};
+    window._forgeRecapShare=function(){
+      var txt='⚔️ Mon récap FORGE cette semaine:\n⭐ '+st.totalXP+' XP · 🔥 '+st.streak+'j streak\n🧠 '+st.title+' · LVL '+st.glvl+'\n💎 '+st.gems+' gemmes · 🏆 '+st.achCount+' achievements\n\n#FORGE #Growth #Discipline';
+      if(navigator.share){navigator.share({title:'Mon récap FORGE',text:txt}).catch(function(){});}
+      else{navigator.clipboard.writeText(txt).then(function(){toast('Récap copié !','📋',2000);});}
+    };
+
+    document.body.appendChild(ov);
+    renderSlide();
+
+    // Swipe support
+    var sx=0;
+    ov.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+    ov.addEventListener('touchend',function(e){
+      var dx=e.changedTouches[0].clientX-sx;
+      if(Math.abs(dx)>50){
+        if(dx<0&&idx<slides.length-1){idx++;renderSlide();}
+        else if(dx>0&&idx>0){idx--;renderSlide();}
+      }
+    },{passive:true});
+  }
+
+  // Inject CSS animation
+  var recapStyle=document.createElement('style');
+  recapStyle.textContent='@keyframes forgeRecapIn{from{opacity:0;transform:translateY(20px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}';
+  document.head.appendChild(recapStyle);
+
+  // Expose globally
+  window.showForgeRecap=showForgeRecap;
+
+  // Auto-trigger on Sunday or after 7-day streak
+  if(new Date().getDay()===0){
+    var recapKey='forge_recap_'+new Date().toDateString();
+    if(!sessionStorage.getItem(recapKey)){
+      setTimeout(function(){
+        showForgeRecap();
+        sessionStorage.setItem(recapKey,'1');
+      },3000);
+    }
+  }
+})();
+
+// ═══ FORGE: Wire recap into command palette & home ═══
+;(function(){
+  // Add to command palette if it exists
+  var _origCmdPalette=window.QUICK_ACTIONS;
+  if(Array.isArray(_origCmdPalette)){
+    _origCmdPalette.push({ico:'📊',name:'Récap de la semaine',hint:'Voir ton récap FORGE animé',action:function(){showForgeRecap();}});
+  }
+  // Add recap button in home screen (after XP bar)
+  var _origInitHome=window.initHome;
+  if(typeof _origInitHome==='function'){
+    window.initHome=function(){
+      _origInitHome();
+      // Add recap banner on Sundays
+      if(new Date().getDay()===0||( S.loginS?.streak||0)>=7){
+        var home=document.querySelector('.home-content')||document.getElementById('h-content');
+        if(home&&!document.getElementById('forge-recap-btn')){
+          var btn=document.createElement('div');
+          btn.id='forge-recap-btn';
+          btn.className='wg';
+          btn.style.cssText='cursor:pointer;background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(37,99,235,0.15));border:1px solid rgba(124,58,237,0.3);margin-bottom:12px';
+          btn.onclick=function(){showForgeRecap();};
+          btn.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:4px"><div style="font-size:28px">📊</div><div style="flex:1"><div style="font-weight:700;font-size:14px;font-family:var(--fd);background:linear-gradient(135deg,#7C3AED,#2563EB);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Ton Récap FORGE</div><div style="font-size:12px;color:var(--tx3);margin-top:2px">Découvre tes stats de la semaine →</div></div><div style="font-size:18px;opacity:0.5">▸</div></div>';
+          home.insertBefore(btn,home.children[1]||null);
+        }
+      }
+    };
+  }
+})();
+
 </script>
 </body>
 </html>
