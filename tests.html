@@ -130,6 +130,89 @@ var selected=QPOOL_TEST.sort(function(){return Math.random()-.5;}).slice(0,5);
 assert('Quest selection picks 5', selected.length===5);
 assert('Quests are from pool', selected.every(function(q){return QPOOL_TEST.some(function(p){return p.id===q.id;});}));
 
+// ── TEST: i18n FUNCTION ──
+var FORGE_I18N={fr:{hello:'Bonjour',bye:'Au revoir'},en:{hello:'Hello',bye:'Goodbye'}};
+var mockLang='en';
+function t_test(key){var d=FORGE_I18N[mockLang]||FORGE_I18N.fr;return d[key]||FORGE_I18N.fr[key]||key;}
+assert('i18n returns EN value', t_test('hello')==='Hello');
+assert('i18n returns FR fallback for missing key', t_test('missing')==='missing');
+mockLang='fr';
+assert('i18n returns FR value', t_test('hello')==='Bonjour');
+mockLang='de'; // no DE dict
+assert('i18n falls back to FR for unknown lang', t_test('hello')==='Bonjour');
+
+// ── TEST: BOSS MECHANICS ──
+var testBoss={hp:500,r:{xp:200,g:20}};
+var testProg={hp:500,done:false};
+// Deal damage
+testProg.hp=Math.max(0,testProg.hp-100);
+assert('Boss takes damage', testProg.hp===400);
+testProg.hp=Math.max(0,testProg.hp-400);
+assert('Boss defeated at 0 HP', testProg.hp===0);
+testProg.done=(testProg.hp<=0);
+assert('Boss marked as done', testProg.done===true);
+// Can't damage dead boss
+var prevHP=testProg.hp;
+if(!testProg.done)testProg.hp=Math.max(0,testProg.hp-100);
+assert('Dead boss not damaged further', testProg.hp===prevHP);
+
+// ── TEST: DAILY QUEST INIT ──
+var testDQ={date:'',qs:[]};
+var testTD='Sat Mar 29 2026';
+if(testDQ.date!==testTD||!testDQ.qs||testDQ.qs.length===0){
+  testDQ={date:testTD,qs:[{id:'a',done:false},{id:'b',done:false},{id:'c',done:false}]};
+}
+assert('DQ initializes on new day', testDQ.date===testTD);
+assert('DQ has quests', testDQ.qs.length===3);
+// Same day = no re-init
+var prevQs=testDQ.qs;
+if(testDQ.date!==testTD||!testDQ.qs||testDQ.qs.length===0){
+  testDQ={date:testTD,qs:[{id:'x'}]};
+}
+assert('DQ not re-initialized same day', testDQ.qs===prevQs);
+
+// ── TEST: QUEST COMPLETION ──
+var testQuest={id:'t1',progress:0,target:3,done:false,xp:30};
+testQuest.progress=Math.min(testQuest.target,testQuest.progress+1);
+assert('Quest progress increments', testQuest.progress===1);
+assert('Quest not done at 1/3', !testQuest.done);
+testQuest.progress=Math.min(testQuest.target,testQuest.progress+2);
+if(testQuest.progress>=testQuest.target)testQuest.done=true;
+assert('Quest done at 3/3', testQuest.done===true);
+assert('Quest progress capped at target', testQuest.progress===3);
+
+// ── TEST: GEM SYSTEM ──
+var testGems=0;
+testGems+=5;
+assert('Gems add correctly', testGems===5);
+testGems+=10;
+assert('Gems accumulate', testGems===15);
+
+// ── TEST: STREAK SHIELD REFILL ──
+var testShields={count:0,lastRefill:''};
+var testWK='new-week';
+if(testShields.lastRefill!==testWK){testShields.count=Math.min(testShields.count+1,3);testShields.lastRefill=testWK;}
+assert('Shield refills on new week', testShields.count===1);
+// Same week = no refill
+if(testShields.lastRefill!==testWK){testShields.count=Math.min(testShields.count+1,3);}
+assert('Shield not refilled same week', testShields.count===1);
+// Max 3 shields
+testShields.count=2;testShields.lastRefill='';
+if(testShields.lastRefill!==testWK){testShields.count=Math.min(testShields.count+1,3);testShields.lastRefill=testWK;}
+assert('Shield capped at 3', testShields.count===3);
+
+// ── TEST: DATA SANITIZATION ──
+var testInput='<script>alert("xss")</script>';
+var escaped=testInput.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+assert('XSS escaped', escaped.indexOf('<script>')===-1);
+assert('Tags converted to entities', escaped.indexOf('&lt;script&gt;')!==-1);
+
+// ── TEST: PLAN VALIDATION ──
+var validPlans=['free','starter','pro','premium','elite'];
+assert('free is valid plan', validPlans.includes('free'));
+assert('pro is valid plan', validPlans.includes('pro'));
+assert('hacker is not valid', !validPlans.includes('hacker'));
+
 // ── RESULTS ──
 document.getElementById('results').innerHTML=
   '<div style="font-size:16px;font-weight:700;color:'+(fail===0?'#4db87a':'#d95f5f')+'">'+

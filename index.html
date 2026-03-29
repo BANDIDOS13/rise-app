@@ -1623,7 +1623,23 @@ function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();ren
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
-function renderCtxBanner(){const el=document.getElementById('ctx-banner');if(!el)return;const hr=now.getHours();let bg,ico,title,sub;if(hr<12){bg='linear-gradient(135deg,#1a1208,#100e04)';ico='🌅';title='Bon matin, '+S.name+' !';sub='Cerveau au maximum. Attaque le plus dur en premier.';}else if(hr<18){bg='linear-gradient(135deg,#0a1218,#080e14)';ico='⚡';title='Maintiens l élan';sub='Après-midi: focus. Évite les distractions.';}else{bg='linear-gradient(135deg,#0a0818,#080614)';ico='🌙';title='Bilan de soirée';sub='Revois ta journée. Prépare demain. Protège le sommeil.';}el.style.background=bg;el.style.border='1px solid var(--acm)';el.innerHTML='<div style="position:relative;z-index:1"><div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:3px">'+pad(hr)+':'+pad(now.getMinutes())+'</div><div style="font-family:var(--fd);font-weight:700;font-size:16px;margin-bottom:3px">'+title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+sub+'</div></div><div style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:40px;opacity:.2">'+ico+'</div>';}
+function renderCtxBanner(){const el=document.getElementById('ctx-banner');if(!el)return;const hr=now.getHours();let bg,ico,title,sub;
+// JARVIS contextual intelligence
+var streak=S.loginS?.streak||0;var lvl=getLvl(S.xp||0);var checkins=Object.keys(S.checkins||{}).length;
+var daysSinceCheckin=S.lck?Math.floor((Date.now()-new Date(S.lck).getTime())/86400000):999;
+
+// Stagnation detection (no check-in for 2+ days)
+if(daysSinceCheckin>=2&&streak===0){bg='linear-gradient(135deg,#1a0808,#120606)';ico='🔥';title=S.name+', on t\'attend !';sub='Ça fait '+daysSinceCheckin+' jours. Un seul check-in et tu repars. Go.';}
+// Streak celebration milestones
+else if(streak>=30&&S.lck===TD){bg='linear-gradient(135deg,#1a1208,#2a1a08)';ico='👑';title=streak+' jours de suite !';sub='Légendaire. Tu es dans le top 1% des Forgeurs.';}
+else if(streak>=7&&S.lck===TD){bg='linear-gradient(135deg,#1a1208,#180e04)';ico='🔥';title=streak+' jours de streak !';sub='La régularité fait la différence. Continue.';}
+// First day ever
+else if(checkins===0){bg='linear-gradient(135deg,#0a1218,#080e14)';ico='🚀';title='Bienvenue '+S.name+' !';sub='Fais ton premier check-in pour démarrer ta progression.';}
+// Time-based contextual
+else if(hr<12){bg='linear-gradient(135deg,#1a1208,#100e04)';ico='🌅';title='Bon matin, '+S.name+' !';sub=S.lck===TD?'Check-in fait ! Attaque tes quêtes.':'Cerveau au maximum. Commence par ton check-in.';}
+else if(hr<18){bg='linear-gradient(135deg,#0a1218,#080e14)';ico='⚡';title='Maintiens l\'élan';sub=S.lck===TD?'Tu es en piste. Continue les quêtes !':'Pas encore de check-in ? Il n\'est jamais trop tard.';}
+else{bg='linear-gradient(135deg,#0a0818,#080614)';ico='🌙';title='Bilan de soirée';sub=S.lck===TD?'Bien joué. Revois ta journée et prépare demain.':'Dernier moment pour ton check-in ! Préserve ta streak.';}
+el.style.background=bg;el.style.border='1px solid var(--acm)';el.innerHTML='<div style="position:relative;z-index:1"><div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:3px">JARVIS · '+pad(hr)+':'+pad(now.getMinutes())+'</div><div style="font-family:var(--fd);font-weight:700;font-size:16px;margin-bottom:3px">'+title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+sub+'</div></div><div style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:40px;opacity:.2">'+ico+'</div>';}
 function selE(btn,v){document.querySelectorAll('#e-row button').forEach(b=>{b.style.borderColor='transparent';b.style.background='var(--sf2)';});btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';ciE=v;chkCIR();}
 function togF(btn,v){const on=btn.style.borderColor==='var(--ac)';if(on){btn.style.borderColor='var(--bd2)';btn.style.background='var(--sf2)';btn.style.color='var(--tx2)';ciF=ciF.filter(f=>f!==v);}else{btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';btn.style.color='var(--ac)';if(!ciF.includes(v))ciF.push(v);}chkCIR();}
 function chkCIR(){const b=document.getElementById('ci-btn');if(b)b.disabled=!(ciE>0&&ciF.length>0);}
@@ -13962,6 +13978,8 @@ function showAuthModal(){openM('m-auth');}
     toast(t('t_account_created'), '🎉', 3000);
     closeM('m-auth');
     syncToServer();
+    // Send welcome email
+    fetch('/api/email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({template:'welcome',to:email,data:{name:name||S.name}})}).catch(function(){});
     return true;
   };
 
