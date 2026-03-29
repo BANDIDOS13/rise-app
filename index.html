@@ -10958,6 +10958,364 @@ if(typeof save === 'function') {
 
 })();
 
+// ══════════════════════════════════════════════════════════════════════════════
+// SESSION MAINTENANCE — NEW FEATURES & IMPROVEMENTS
+// ══════════════════════════════════════════════════════════════════════════════
+
+(function(){
+
+// ── 1. STREAK PROTECTION (1 free miss per month) ──
+var _origChkLogin=chkLoginStreak;
+chkLoginStreak=function(){
+  var ls=S.loginS||{last:'',streak:0};
+  var y=new Date();y.setDate(y.getDate()-1);
+  // Initialize streak shield
+  if(!S.streakShield) S.streakShield={used:false,month:new Date().getMonth()};
+  // Reset shield each month
+  var curMonth=new Date().getMonth();
+  if(S.streakShield.month!==curMonth){S.streakShield={used:false,month:curMonth};}
+  // Check if streak would break (missed yesterday AND day before)
+  if(ls.last!==TD && ls.last!==y.toDateString()){
+    // Streak would break — check if shield available
+    if(!S.streakShield.used && ls.streak>=3){
+      S.streakShield.used=true;
+      toast('🛡️ Bouclier de streak activé ! Streak sauvé','🛡️',5000);
+      addN('🛡️','Streak sauvé !','Ton bouclier mensuel a protégé ton streak de '+ls.streak+' jours. Tu en as 0 restant ce mois.');
+      // Don't break streak, just log today
+      ls.last=TD;
+      var rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];
+      gainXP(rw,'login');gainGems(Math.floor(rw/10));
+      S.loginS=ls;save();
+      return;
+    }
+  }
+  _origChkLogin();
+};
+
+// ── 2. BURNOUT DETECTOR ──
+var _origGainXP=gainXP;
+gainXP=function(n2,src){
+  _origGainXP(n2,src);
+  // Track daily XP for burnout detection
+  S._dailyXP=S._dailyXP||{};
+  S._dailyXP[TD]=(S._dailyXP[TD]||0)+n2;
+  // Check for burnout pattern: 3+ days >200 XP then sudden drop
+  var days=Object.keys(S._dailyXP).sort().slice(-7);
+  if(days.length>=5){
+    var recent=days.slice(-3).map(function(d){return S._dailyXP[d]||0;});
+    var earlier=days.slice(-6,-3).map(function(d){return S._dailyXP[d]||0;});
+    var avgRecent=recent.reduce(function(a,b){return a+b;},0)/recent.length;
+    var avgEarlier=earlier.reduce(function(a,b){return a+b;},0)/earlier.length;
+    // High activity followed by >60% drop = burnout risk
+    if(avgEarlier>150 && avgRecent<avgEarlier*0.4 && !S._burnoutWarned){
+      S._burnoutWarned=TD;
+      setTimeout(function(){
+        toast('💆 Prends soin de toi — mode récupération suggéré','💆',6000);
+        addN('💆','Détection fatigue','Tu as beaucoup donné ces derniers jours. Pense à te reposer. La récupération fait partie de la performance.');
+      },3000);
+    }
+    // Reset burnout warning after 3 days
+    if(S._burnoutWarned && S._burnoutWarned!==TD){
+      var warnDate=new Date(S._burnoutWarned);
+      if((new Date()-warnDate)/(864e5)>3)S._burnoutWarned=null;
+    }
+  }
+};
+
+// ── 3. DAILY EVENING REFLECTION PROMPT ──
+(function(){
+  var hr=new Date().getHours();
+  // Show reflection prompt between 8pm and 11pm if not done today
+  if(hr>=20 && hr<=23 && S.ob){
+    if(!S._reflections)S._reflections={};
+    if(!S._reflections[TD]){
+      setTimeout(function(){
+        showReflectionPrompt();
+      },15000); // Show after 15s on page
+    }
+  }
+})();
+
+window.showReflectionPrompt=function(){
+  if(S._reflections && S._reflections[TD])return;
+  var ov=document.getElementById('m-reflect');
+  if(ov)ov.classList.add('open');
+};
+
+window.submitReflection=function(){
+  var win=document.getElementById('reflect-win');
+  var block=document.getElementById('reflect-block');
+  var priority=document.getElementById('reflect-priority');
+  if(!win||!block||!priority)return;
+  var w=win.value.trim(),b=block.value.trim(),p=priority.value.trim();
+  if(!w&&!b&&!p){toast('Écris au moins une réponse','⚠️',2000);return;}
+  S._reflections=S._reflections||{};
+  S._reflections[TD]={win:w,block:b,priority:p,ts:Date.now()};
+  // Add to journal too
+  S.journal=S.journal||[];
+  S.journal.push({date:TD,txt:'🌙 Réflexion du soir\n✅ Victoire: '+(w||'—')+'\n🚧 Blocage: '+(b||'—')+'\n🎯 Priorité demain: '+(p||'—'),ts:Date.now()});
+  save();
+  gainXP(25,'reflection');
+  gainGems(3);
+  var m=document.getElementById('m-reflect');
+  if(m)m.classList.remove('open');
+  toast('Réflexion sauvée ! +25 XP','🌙',3000);
+  // Feed insight to coach memory
+  if(b && S.coachMem){
+    S.coachMem.lastBlock=b;
+    save();
+  }
+};
+
+window.skipReflection=function(){
+  var m=document.getElementById('m-reflect');
+  if(m)m.classList.remove('open');
+};
+
+// ── 4. ENHANCED WEEKLY RECAP WITH PATTERN DETECTION ──
+var _origInitRecap=initRecap;
+initRecap=function(){
+  _origInitRecap();
+  // Add pattern detection section
+  var el=document.getElementById('recap-c');
+  if(!el)return;
+  var insights=detectPatterns();
+  if(insights.length>0){
+    var insightHTML='<div class="wg" style="padding:16px;margin-bottom:16px;border-color:var(--pu);background:var(--pud)">'
+      +'<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px;color:var(--pu)">🧠 Insights détectés</div>'
+      +insights.map(function(ins){
+        return '<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)">'
+          +'<div style="font-size:18px">'+ins.ico+'</div>'
+          +'<div style="flex:1"><div style="font-size:13px;font-weight:600">'+ins.title+'</div>'
+          +'<div style="font-size:12px;color:var(--tx3);margin-top:2px">'+ins.desc+'</div></div></div>';
+      }).join('')
+      +'</div>';
+    el.insertAdjacentHTML('beforeend',insightHTML);
+  }
+};
+
+function detectPatterns(){
+  var insights=[];
+  // Pattern 1: Sleep correlation
+  var sleepLogs=S.nat&&S.nat.sleepLogs||[];
+  var checkins=S.checkins||{};
+  if(sleepLogs.length>=3){
+    var goodSleepDays=sleepLogs.filter(function(s){return s.h>=7.5;});
+    var goodSleepEnergy=0,totalGood=0;
+    goodSleepDays.forEach(function(s){
+      var ci=checkins[s.date];
+      if(ci&&ci.e){goodSleepEnergy+=ci.e;totalGood++;}
+    });
+    if(totalGood>=2 && goodSleepEnergy/totalGood>=3){
+      insights.push({ico:'😴',title:'Sommeil = énergie',desc:'Les jours où tu dors +7h30, ton énergie est '+Math.round(goodSleepEnergy/totalGood*25)+'% plus haute.'});
+    }
+  }
+  // Pattern 2: Routine completion correlation
+  if(S.routines){
+    var routineDays=0,routineXPDays=0;
+    var last7=[];for(var i=0;i<7;i++){var d=new Date();d.setDate(d.getDate()-i);last7.push(d.toDateString());}
+    last7.forEach(function(ds){
+      var allDone=true;
+      (S.routines.matin||[]).forEach(function(s){if(!s.doneDates||!s.doneDates.includes(ds))allDone=false;});
+      if(allDone){routineDays++;var dayXP=S._dailyXP&&S._dailyXP[ds]||0;if(dayXP>100)routineXPDays++;}
+    });
+    if(routineDays>=2){
+      insights.push({ico:'🌅',title:'Routine = productivité',desc:'Tu as complété ta routine matin '+routineDays+' jours cette semaine. Ces jours-là, tu gagnes en moyenne plus de XP.'});
+    }
+  }
+  // Pattern 3: Coach usage correlation
+  var coachN=(S.coachMem||{}).n||0;
+  if(coachN>=5){
+    var topTopic=null,topCount=0;
+    var topics=(S.coachMem||{}).topics||{};
+    Object.keys(topics).forEach(function(t){if(topics[t]>topCount){topCount=topics[t];topTopic=t;}});
+    if(topTopic){
+      var labels={fitness:'🏋️ Fitness',business:'💼 Business',wellbeing:'🧘 Bien-être',nutrition:'🥗 Nutrition',productivity:'⚡ Productivité',creative:'🎨 Créativité',finance:'💰 Finance',social:'👥 Relations'};
+      insights.push({ico:'🤖',title:'Sujet favori: '+(labels[topTopic]||topTopic),desc:'Tu as parlé de ce sujet '+topCount+' fois avec le coach. Explore les formations liées.'});
+    }
+  }
+  // Pattern 4: Streak milestone approaching
+  var streak=S.loginS&&S.loginS.streak||0;
+  if(streak>=5 && streak<7){
+    insights.push({ico:'🔥',title:'Semaine parfaite en vue !',desc:'Plus que '+(7-streak)+' jour(s) pour ta première semaine parfaite. Ne lâche pas !'});
+  }else if(streak>=25 && streak<30){
+    insights.push({ico:'💎',title:'30 jours en approche !',desc:'Tu es à '+(30-streak)+' jour(s) du badge Machine. C\'est historique.'});
+  }
+  // Pattern 5: Nature correlation
+  var natWalk=S.nat&&S.nat.walkLogs||[];
+  if(natWalk.length>=3){
+    insights.push({ico:'🌿',title:'Marcheur régulier',desc:'Tu as logué '+natWalk.length+' marches. La marche booste la créativité de 60% (Stanford).'});
+  }
+  return insights;
+}
+
+// ── 5. HABIT DIFFICULTY & XP SCALING ──
+// Patch habit toggle to award more XP for harder habits
+var _origTogHabit=typeof window.togHabit==='function'?window.togHabit:null;
+if(_origTogHabit){
+  window.togHabit=function(id){
+    var h=(S.habits||{}).list||[];
+    var habit=h.find(function(x){return x.id===id;});
+    var wasDone=habit&&habit.todayDone&&habit.todayDone.includes&&habit.todayDone.includes(TD);
+    _origTogHabit(id);
+    // Extra XP for hard habits (after toggle)
+    if(habit && !wasDone){
+      var diff=habit.difficulty||'normal';
+      if(diff==='hard'){gainXP(15,'habit_hard');toast('Habitude difficile ! +15 XP bonus','💪',2000);}
+      else if(diff==='extreme'){gainXP(30,'habit_extreme');gainGems(2);toast('EXTRÊME ! +30 XP bonus','🔥',2500);}
+    }
+  };
+}
+
+// ── 6. COMEBACK SYSTEM FOR LAPSED USERS ──
+(function(){
+  if(!S.ob)return;
+  var ls=S.loginS||{last:'',streak:0};
+  if(!ls.last)return;
+  var lastDate=new Date(ls.last);
+  var daysSince=Math.floor((new Date()-lastDate)/(864e5));
+  // User has been away 3+ days
+  if(daysSince>=3 && !S._comebackShown){
+    S._comebackShown=TD;
+    setTimeout(function(){
+      var comebackXP=Math.min(daysSince*10,100);
+      toast('Content de te revoir ! +'+comebackXP+' XP de retour','🎉',5000);
+      gainXP(comebackXP,'comeback');
+      gainGems(5);
+      addN('🎉','Bon retour '+S.name+' !','Tu étais absent '+daysSince+' jours. Pas de jugement — on repart. Objectifs réduits cette semaine pour reprendre en douceur.');
+      // Reduce daily quest targets temporarily
+      S._comebackMode=true;
+      S._comebackEnd=new Date(Date.now()+3*864e5).toDateString();
+      save();
+    },2000);
+  }
+  // End comeback mode after 3 days
+  if(S._comebackMode && S._comebackEnd){
+    if(new Date()>=new Date(S._comebackEnd)){
+      S._comebackMode=false;
+      S._comebackEnd=null;
+      toast('Mode normal restauré — tu es de retour en force !','⚡',3000);
+      save();
+    }
+  }
+})();
+
+// ── 7. IMPROVED EMPTY STATES ──
+(function(){
+  // Patch screens with better empty states
+  var emptyStates={
+    'ideas':'💡 Ta première idée t\'attend ! Note tout ce qui te passe par la tête — les meilleures idées arrivent quand on les capture vite.',
+    'journal':'📓 Écris ton premier journal. Même 3 lignes suffisent. L\'écriture clarifie la pensée et réduit le stress de 43%.',
+    'finance':'💰 Ajoute ta première entrée financière. Suivre ses dépenses = économiser 15% de plus en moyenne.',
+    'mood':'🎭 Note ton humeur du jour. En 30 jours, tu verras des patterns que tu ne soupçonnes pas.'
+  };
+  Object.keys(emptyStates).forEach(function(screenId){
+    var el=document.getElementById('screen-'+screenId);
+    if(!el)return;
+    var obs=new MutationObserver(function(){
+      var emptyDivs=el.querySelectorAll('[style*="text-align:center"][style*="color:var(--tx3)"]');
+      emptyDivs.forEach(function(div){
+        if(div.textContent.includes('Aucun')||div.textContent.includes('aucun')||div.textContent.includes('encore')){
+          div.innerHTML='<div style="font-size:36px;margin-bottom:12px;animation:float 3s ease-in-out infinite">'+emptyStates[screenId].charAt(0)+emptyStates[screenId].charAt(1)+'</div>'
+            +'<div style="font-size:14px;color:var(--tx2);line-height:1.7;max-width:280px;margin:0 auto">'+emptyStates[screenId].slice(2)+'</div>';
+        }
+      });
+    });
+    obs.observe(el,{childList:true,subtree:true});
+  });
+})();
+
+// ── 8. REFLECTION MODAL (HTML injection) ──
+(function(){
+  var modal=document.createElement('div');
+  modal.id='m-reflect';
+  modal.className='mbk';
+  modal.onclick=function(e){if(e.target===modal)modal.classList.remove('open');};
+  modal.innerHTML='<div class="msh">'
+    +'<div class="mhdl"></div>'
+    +'<div class="mtit">🌙 Réflexion du soir</div>'
+    +'<div style="font-size:12px;color:var(--tx3);margin-bottom:16px">3 questions. 2 minutes. +25 XP.</div>'
+    +'<div style="margin-bottom:14px">'
+    +'<label style="font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:6px">✅ Ta victoire du jour</label>'
+    +'<textarea id="reflect-win" class="inp" rows="2" placeholder="Qu\'est-ce que tu as accompli de bien aujourd\'hui ?"></textarea>'
+    +'</div>'
+    +'<div style="margin-bottom:14px">'
+    +'<label style="font-size:11px;font-weight:700;color:var(--rd);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:6px">🚧 Ton blocage</label>'
+    +'<textarea id="reflect-block" class="inp" rows="2" placeholder="Qu\'est-ce qui t\'a freiné ou frustré ?"></textarea>'
+    +'</div>'
+    +'<div style="margin-bottom:14px">'
+    +'<label style="font-size:11px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:6px">🎯 Priorité n°1 demain</label>'
+    +'<textarea id="reflect-priority" class="inp" rows="2" placeholder="Si tu ne fais qu\'une seule chose demain, ce serait..."></textarea>'
+    +'</div>'
+    +'<div class="mbtns">'
+    +'<button class="m-cancel" onclick="skipReflection()">Plus tard</button>'
+    +'<button class="m-ok" onclick="submitReflection()">Sauvegarder 🌙</button>'
+    +'</div>'
+    +'</div>';
+  document.body.appendChild(modal);
+})();
+
+// ── 9. STREAK SHIELD INDICATOR IN HOME ──
+(function(){
+  var streakW=document.getElementById('w-streak');
+  if(!streakW)return;
+  var shield=S.streakShield||{used:false,month:new Date().getMonth()};
+  var curMonth=new Date().getMonth();
+  if(shield.month!==curMonth)shield={used:false,month:curMonth};
+  var shieldHTML='<div style="margin-left:auto;display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:16px;background:'+(shield.used?'var(--sf2)':'var(--agg)')+';border:1px solid '+(shield.used?'var(--bd2)':'var(--ac)')+';font-size:10px;font-weight:700;color:'+(shield.used?'var(--tx3)':'var(--ac)')+'">'
+    +'🛡️ '+(shield.used?'Utilisé':'1 dispo')+'</div>';
+  streakW.insertAdjacentHTML('beforeend',shieldHTML);
+})();
+
+// ── 10. QUICK NOTES TOOL (Capture ideas fast) ──
+window.quickNote=function(){
+  var note=prompt('💡 Note rapide — capture ton idée maintenant :');
+  if(!note||!note.trim())return;
+  S.ideas=S.ideas||[];
+  S.ideas.push({id:'i_'+Date.now(),txt:note.trim(),date:TD,ts:Date.now(),tags:[]});
+  save();
+  gainXP(5,'quicknote');
+  toast('Idée capturée ! +5 XP','💡',2000);
+};
+
+// Add quick note button to home tools grid
+(function(){
+  var toolsGrid=document.querySelector('#screen-home .pad > div:nth-last-child(3) > div:last-child');
+  if(!toolsGrid)return;
+  var qnBtn=document.createElement('button');
+  qnBtn.style.cssText='display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700';
+  qnBtn.onclick=quickNote;
+  qnBtn.innerHTML='<span style="font-size:20px">💡</span>Note rapide';
+  toolsGrid.appendChild(qnBtn);
+})();
+
+// ── 11. MORNING PRIORITY FROM LAST NIGHT'S REFLECTION ──
+(function(){
+  if(!S.ob)return;
+  var hr=new Date().getHours();
+  if(hr>=5 && hr<=11){
+    // Check if there's a reflection from yesterday with a priority
+    var y=new Date();y.setDate(y.getDate()-1);
+    var yds=y.toDateString();
+    var ref=S._reflections&&S._reflections[yds];
+    if(ref && ref.priority && !S._morningPriorityShown){
+      S._morningPriorityShown=TD;
+      save();
+      setTimeout(function(){
+        toast('🎯 Priorité d\'hier soir : '+ref.priority.slice(0,40)+(ref.priority.length>40?'...':''),'🎯',6000);
+      },5000);
+    }
+  }
+  // Reset morning priority flag daily
+  if(S._morningPriorityShown && S._morningPriorityShown!==TD){
+    S._morningPriorityShown=null;save();
+  }
+})();
+
+if(typeof save === 'function') save();
+
+})();
+
 </script>
 </body>
 </html>
