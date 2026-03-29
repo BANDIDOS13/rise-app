@@ -4,11 +4,11 @@ import Stripe from 'stripe';
 export const config = { runtime: 'edge' };
 
 // Map RISE plan IDs to Stripe Price IDs
-// App uses 'pro', landing uses 'premium' — both map to the same Stripe price
 const PLAN_PRICES = {
-  premium: process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
-  pro:     process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
-  elite:   process.env.STRIPE_PRICE_ELITE   || 'price_1TFsfRJK83rBK9aJNd5bziY2',
+  starter: process.env.STRIPE_PRICE_STARTER  || '',
+  premium: process.env.STRIPE_PRICE_PREMIUM  || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  pro:     process.env.STRIPE_PRICE_PREMIUM  || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  elite:   process.env.STRIPE_PRICE_ELITE    || 'price_1TFsfRJK83rBK9aJNd5bziY2',
 };
 
 export default async function handler(req) {
@@ -24,19 +24,15 @@ export default async function handler(req) {
 
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) {
-    return jsonResp({ error: 'Paiement non configuré. Contacte le support.' }, 500);
+    return jsonResp({ error: 'Payment not configured' }, 500);
   }
 
   try {
     const { plan, email, name } = await req.json();
 
-    if (!plan || !PLAN_PRICES[plan]) {
-      return jsonResp({ error: 'Plan invalide.' }, 400);
-    }
-
-    const priceId = PLAN_PRICES[plan];
+    const priceId = plan && PLAN_PRICES[plan];
     if (!priceId) {
-      return jsonResp({ error: 'Ce plan n\'est pas encore disponible.' }, 400);
+      return jsonResp({ error: 'Invalid plan' }, 400);
     }
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2024-12-18.acacia' });
@@ -60,7 +56,7 @@ export default async function handler(req) {
 
     return jsonResp({ url: session.url });
   } catch (err) {
-    return jsonResp({ error: 'Erreur lors de la création du paiement. Réessaie.' }, 500);
+    return jsonResp({ error: 'Payment error' }, 500);
   }
 }
 
