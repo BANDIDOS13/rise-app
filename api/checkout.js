@@ -4,8 +4,10 @@ import Stripe from 'stripe';
 export const config = { runtime: 'edge' };
 
 // Map RISE plan IDs to Stripe Price IDs
+// App uses 'pro', landing uses 'premium' — both map to the same Stripe price
 const PLAN_PRICES = {
   premium: process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  pro:     process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
   elite:   process.env.STRIPE_PRICE_ELITE   || 'price_1TFsfRJK83rBK9aJNd5bziY2',
 };
 
