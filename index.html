@@ -750,6 +750,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setFT('aff',this)">💸 Affiliation</button>
       <button class="fbtn" onclick="setFT('partner',this)">🤝 Partner</button>
       <button class="fbtn" onclick="setFT('dna',this)">🧬 DNA</button>
+      <button class="fbtn" onclick="setFT('circles',this)">🔄 Circles</button>
     </div>
     <div id="feat-content"></div>
   </div>
@@ -1172,6 +1173,10 @@ textarea.inp{resize:none}
     <div style="display:flex;gap:8px"><button class="btn btn-ac" style="flex:2" onclick="downloadProfileCard()">Telecharger</button><button class="btn btn-sf" style="flex:1" onclick="document.getElementById('ov-profilecard').classList.remove('show')">Fermer</button></div>
   </div>
 </div>
+<!-- ═══ RISE PROPHECY ═══ -->
+<div class="full-ov" id="ov-prophecy" style="z-index:1610;overflow-y:auto">
+  <div style="max-width:380px;width:100%;padding:20px" id="prophecy-content"></div>
+</div>
 <!-- ═══ RISE MIRROR ═══ -->
 <div class="full-ov" id="ov-mirror" style="z-index:1630;overflow-y:auto">
   <div style="max-width:380px;width:100%;padding:20px" id="mirror-content"></div>
@@ -1358,7 +1363,11 @@ function calcRiseScore(){
   var dwToday=(S.deepWork&&S.deepWork.sessions||[]).filter(function(s){return s&&s.date===TD;}).reduce(function(a,s){return a+(s.min||0);},0);
   var focusPct=Math.min(100,Math.round((pomoToday/4+dwToday/60)/1.5*100));
   parts.focus=focusPct;score+=Math.round(focusPct/100*15);
-  return {score:Math.min(100,score),parts:parts};
+  // Energy bonus/malus (up to +5 / -5)
+  var eVal=S.energy&&S.energy[TD];
+  parts.energy=eVal?eVal*20:0;// 0-100 scale for display
+  if(eVal){score+=Math.round((eVal-3)*2.5);}// -5 to +5
+  return {score:Math.max(0,Math.min(100,score)),parts:parts};
 }
 function updRiseScore(){
   var r=calcRiseScore();var el=document.getElementById('rise-score-val');if(!el)return;
@@ -1843,7 +1852,7 @@ function complMod(fid,num){
 function closeFormOv(){document.getElementById('form-ov').classList.remove('show');}
 let fTab='vision';
 function setFT(tab,btn){fTab=tab;document.querySelectorAll('#screen-feat .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderFeat();}
-function renderFeat(){const el=document.getElementById('feat-content');if(!el)return;if(fTab==='vision')rVision(el);else if(fTab==='plan90')rPlan90(el);else if(fTab==='letter')rLetter(el);else if(fTab==='tourn')rTourn(el);else if(fTab==='skills')rSkills(el);else if(fTab==='h21')rH21(el);else if(fTab==='guilds')rGuilds(el);else if(fTab==='wealth')rWealth(el);else if(fTab==='progress')rProgress(el);else if(fTab==='aff')rAff(el);else if(fTab==='avatar')renderAvatar(el);else if(fTab==='rapport')renderRapport(el);else if(fTab==='challenges')renderChallenges(el);else if(fTab==='partner')renderPartner(el);else if(fTab==='dna')renderDNA(el);}
+function renderFeat(){const el=document.getElementById('feat-content');if(!el)return;if(fTab==='vision')rVision(el);else if(fTab==='plan90')rPlan90(el);else if(fTab==='letter')rLetter(el);else if(fTab==='tourn')rTourn(el);else if(fTab==='skills')rSkills(el);else if(fTab==='h21')rH21(el);else if(fTab==='guilds')rGuilds(el);else if(fTab==='wealth')rWealth(el);else if(fTab==='progress')rProgress(el);else if(fTab==='aff')rAff(el);else if(fTab==='avatar')renderAvatar(el);else if(fTab==='rapport')renderRapport(el);else if(fTab==='challenges')renderChallenges(el);else if(fTab==='partner')renderPartner(el);else if(fTab==='dna')renderDNA(el);else if(fTab==='circles')renderCircles(el);}
 async function rVision(el){if(S.vb&&S.vb.t){el.innerHTML='<div class="vis-c"><div class="lbl" style="color:var(--pu);margin-bottom:10px">🌈 Ta Vision dans 1 an</div><div style="font-size:14px;color:var(--tx);line-height:1.8;font-style:italic">'+S.vb.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.vb={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="vis-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">🌈</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Vision Board IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Description cinématographique de ta vie idéale dans 1 an.</div><button class="btn btn-pu" onclick="genVision()">Créer ma vision 🌈</button></div>';}
 function genVision(){const el=document.getElementById('feat-content');el.innerHTML='<div class="shim"></div><div class="shim"></div>';RISE_AI.genVision();save();toast('Vision créée !','🌈',2500);rVision(el);}
 function rPlan90(el){if(S.plan90&&S.plan90.c){el.innerHTML='<div class="plan-c"><div class="lbl" style="color:var(--bl);margin-bottom:12px">📅 Plan 90 jours</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;white-space:pre-wrap">'+S.plan90.c+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.plan90={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="plan-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">📅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Plan 90 jours IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Plan complet, mois par mois, jalons mesurables.</div><button class="btn btn-ac" onclick="go90()">Générer →</button></div>';}
@@ -1880,7 +1889,7 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-pu" style="flex:1" onclick="openRewind()">🎬 Rewind</button><button class="btn btn-sf" style="flex:1" onclick="openStory()">📖 Story</button><button class="btn btn-sf" style="flex:1" onclick="openMirror()">🪞 Mirror</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px"><button class="btn btn-pu" onclick="openRewind()">🎬 Rewind</button><button class="btn btn-sf" onclick="openStory()">📖 Story</button><button class="btn btn-sf" onclick="openMirror()">🪞 Mirror</button><button class="btn btn-sf" onclick="openProphecy()">🔮 Prophecy</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
 function exportData(){
   var data=JSON.stringify(S,null,2);
@@ -6600,6 +6609,99 @@ function partnerCheckIn(){
   renderFeat();
 }
 function abandonPartner(){S.partner={active:false};save();renderFeat();}
+// ── RISE CIRCLES ──
+var CIRCLE_GOALS=['Mediter chaque jour','Sport 4x/semaine','Deep Work 1h/jour','Zero ecrans apres 21h','30 min lecture/jour','Marcher 30 min/jour','Journal quotidien','Pas de sucre ajoute'];
+var CIRCLE_NAMES=[['Emma','Lucas','Lea'],['Hugo','Camille','Nathan'],['Jade','Theo','Louise'],['Noah','Sarah','Adam'],['Chloe','Maxime','Ines']];
+function renderCircles(el){
+  S.circle=S.circle||{active:false};
+  var h='';
+  if(!S.circle.active){
+    h+='<div style="text-align:center;padding:20px">';
+    h+='<div style="font-size:48px;margin-bottom:10px;animation:float 3s ease-in-out infinite">🔄</div>';
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:6px">RISE Circles</div>';
+    h+='<div style="font-size:13px;color:var(--tx2);line-height:1.6;max-width:280px;margin:0 auto 18px">Rejoins un petit groupe de 3-5 personnes. Meme objectif, 30 jours, progres visible par tous.</div>';
+    h+='<div class="lbl" style="text-align:left;margin-bottom:8px">Choisis un objectif</div>';
+    CIRCLE_GOALS.forEach(function(g,i){
+      h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px" onclick="joinCircle('+i+')">';
+      h+='<div style="font-size:18px">🎯</div><div style="flex:1;font-size:13px">'+escHTML(g)+'</div><div style="font-size:11px;color:var(--ac);font-weight:700">Rejoindre →</div></div>';
+    });
+    h+='</div>';
+  }else{
+    var c=S.circle;
+    var daysSince=Math.floor((Date.now()-c.startTs)/864e5);
+    var myDays=c.myDays||[];
+    var doneToday=myDays.includes(TD);
+    h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:2px solid var(--ac);border-radius:var(--r);padding:18px;margin-bottom:14px">';
+    h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">RISE Circle · Jour '+(daysSince+1)+'/30</div>';
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:16px;margin-bottom:12px">'+escHTML(c.goal)+'</div>';
+    // Members progress
+    h+='<div style="margin-bottom:12px">';
+    var allMembers=[{name:S.name||'Toi',days:myDays,isMe:true}];
+    (c.members||[]).forEach(function(m){allMembers.push({name:m.name,days:m.days||[],isMe:false});});
+    allMembers.sort(function(a,b){return b.days.length-a.days.length;});
+    allMembers.forEach(function(m,mi){
+      var pct=Math.round(m.days.length/30*100);
+      h+='<div style="display:flex;align-items:center;gap:10px;padding:6px 0;'+(mi<allMembers.length-1?'border-bottom:1px solid var(--bd)':'')+'">';
+      h+='<div style="width:22px;text-align:center;font-size:12px;font-weight:700;color:'+(mi===0?'var(--ac)':'var(--tx3)')+'">'+( mi+1)+'</div>';
+      h+='<div style="flex:1;font-size:13px;'+(m.isMe?'font-weight:700;color:var(--ac)':'color:var(--tx2)')+'">'+escHTML(m.name)+(m.isMe?' (toi)':'')+'</div>';
+      h+='<div style="width:80px"><div class="pbar" style="height:5px"><div class="pfill pac" style="width:'+pct+'%"></div></div></div>';
+      h+='<div style="font-size:11px;font-weight:700;color:var(--ac);width:35px;text-align:right">'+m.days.length+'/30</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    // Today's action
+    if(!doneToday){
+      h+='<button class="btn btn-gr" onclick="circleCheckIn()">Valider aujourd\'hui ✓</button>';
+    }else{
+      h+='<div style="text-align:center;padding:10px;font-size:13px;font-weight:700;color:var(--gr)">✓ Fait aujourd\'hui ! Le Circle est fier de toi.</div>';
+    }
+    h+='</div>';
+    // Circle chat (simulated motivational messages)
+    h+='<div class="lbl" style="margin-bottom:8px">💬 Messages du Circle</div>';
+    var msgs=generateCircleMessages(c);
+    msgs.forEach(function(msg){
+      h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 12px;margin-bottom:6px"><div style="font-size:11px;font-weight:700;color:var(--ac)">'+escHTML(msg.from)+'</div><div style="font-size:12px;color:var(--tx2);margin-top:2px">'+escHTML(msg.text)+'</div></div>';
+    });
+    h+='<button class="btn btn-sf" style="margin-top:10px" onclick="if(confirm(\'Quitter le Circle ?\'))leaveCircle()">Quitter le Circle</button>';
+  }
+  el.innerHTML=h;
+}
+function joinCircle(goalIdx){
+  var memberGroup=CIRCLE_NAMES[Math.floor(Math.random()*CIRCLE_NAMES.length)];
+  var members=memberGroup.map(function(name){
+    var simDays=[];
+    for(var i=0;i<30;i++){if(Math.random()<0.65){var d=new Date();d.setDate(d.getDate()+i);simDays.push(d.toDateString());}}
+    return {name:name,days:simDays};
+  });
+  S.circle={active:true,goal:CIRCLE_GOALS[goalIdx],startTs:Date.now(),myDays:[],members:members};
+  save();toast('Circle rejoint ! Bienvenue.','🔄',3000);
+  addN('🔄','RISE Circle','Tu as rejoint un Circle : '+CIRCLE_GOALS[goalIdx]);
+  renderFeat();
+}
+function circleCheckIn(){
+  if(!S.circle||!S.circle.active)return;
+  S.circle.myDays=S.circle.myDays||[];
+  if(!S.circle.myDays.includes(TD)){
+    S.circle.myDays.push(TD);
+    gainXP(20,'circle');gainGems(2);
+    toast('Check-in Circle ! +20 XP','🔄',2500);
+    save();
+  }
+  renderFeat();
+}
+function leaveCircle(){S.circle={active:false};save();renderFeat();}
+function generateCircleMessages(c){
+  var msgs=[];var members=c.members||[];
+  var today=new Date();var seed=TD.split('').reduce(function(a,ch){return a+ch.charCodeAt(0);},0);
+  var templates=['Allez on lache rien ! 💪','Jour {d}, on y est !','Qui a fait le sien aujourd\'hui ? 🔥','J\'ai valide ce matin, a vous !','Le Circle tient bon 🙌','On est {n}/4 aujourd\'hui, qui manque ?'];
+  for(var i=0;i<3;i++){
+    var m=members[(seed+i)%members.length];if(!m)continue;
+    var tmpl=templates[(seed+i*3)%templates.length];
+    var daysSince=Math.floor((Date.now()-c.startTs)/864e5);
+    msgs.push({from:m.name,text:tmpl.replace('{d}',String(daysSince+1)).replace('{n}',String(Math.floor(Math.random()*3)+2))});
+  }
+  return msgs;
+}
 // ── RISE DNA ──
 function computeDNA(){
   var traits={discipline:0,focus:0,resilience:0,nature:0,learning:0,social:0,mindfulness:0,consistency:0};
@@ -6825,6 +6927,104 @@ function openTimeMachine(){
   h+='<button class="btn btn-ac" onclick="document.getElementById(\'ov-timemachine\').classList.remove(\'show\')">Revenir au present</button>';
   el.innerHTML=h;
   document.getElementById('ov-timemachine').classList.add('show');
+}
+// ── RISE PROPHECY ──
+function computeProphecy(){
+  var scores=S.riseScores||{};var keys=Object.keys(scores).sort();
+  if(keys.length<7)return null;
+  // Compute trends over available data
+  var allVals=keys.map(function(k){return scores[k];});
+  var recent=allVals.slice(-14);var older=allVals.slice(-28,-14);
+  var avgRecent=recent.reduce(function(a,v){return a+v;},0)/recent.length;
+  var avgOlder=older.length?older.reduce(function(a,v){return a+v;},0)/older.length:avgRecent;
+  var scoreTrend=avgRecent-avgOlder;// positive = improving
+  // XP trajectory
+  var xp=S.xp||0;var daySpan=Math.max(1,keys.length);var xpPerDay=Math.round(xp/daySpan);
+  var proj90xp=xp+xpPerDay*90;var projLvl=getLvl(proj90xp)+1;
+  // Streak projection
+  var streak=S.loginS?S.loginS.streak||0:0;
+  var streakProj=streak+90;
+  // DNA trends
+  var dna=computeDNA();
+  var predictions=[];
+  // Level prediction
+  var daysToNextLvl=0;if(xpPerDay>0){var nextLvlXP=LVL_X[Math.min(getLvl(xp)+1,9)];daysToNextLvl=Math.ceil((nextLvlXP-xp)/xpPerDay);}
+  if(daysToNextLvl>0&&daysToNextLvl<180){
+    var targetDate=new Date();targetDate.setDate(targetDate.getDate()+daysToNextLvl);
+    predictions.push({ico:'⭐',title:'Niveau '+(getLvl(xp)+2)+' le '+targetDate.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}),text:'A ton rythme de '+xpPerDay+' XP/jour, tu atteindras le niveau suivant dans '+daysToNextLvl+' jours.',confidence:Math.min(95,60+streak),type:'level'});
+  }
+  // DNA predictions
+  dna.ranked.forEach(function(t){
+    var labels6={discipline:'Discipline',focus:'Focus',resilience:'Resilience',nature:'Nature',learning:'Apprentissage',social:'Social',mindfulness:'Pleine conscience',consistency:'Regularite'};
+    if(t.val>=70){
+      predictions.push({ico:'📈',title:(labels6[t.id]||t.id)+' atteindra 90+ en ~60 jours',text:'Ton trait '+( labels6[t.id]||'')+' est a '+t.val+'/100 et en progression. Continue.',confidence:55+Math.round(t.val/5),type:'dna_up'});
+    }
+    if(t.val<30&&t.val>0){
+      predictions.push({ico:'⚠️',title:(labels6[t.id]||t.id)+' risque de tomber a 0',text:'A '+t.val+'/100, ce trait s\'affaiblit. Un petit geste par jour suffit a l\'inverser.',confidence:40+Math.round((100-t.val)/5),type:'dna_warn'});
+    }
+  });
+  // Score trend prediction
+  if(scoreTrend>3){
+    var proj90score=Math.min(100,Math.round(avgRecent+scoreTrend*3));
+    predictions.push({ico:'🚀',title:'Score moyen de '+proj90score+' dans 3 mois',text:'Ton score est en hausse de +'+Math.round(scoreTrend)+' points ces 2 dernieres semaines. Si tu maintiens, tu atteindras '+proj90score+'/100.',confidence:Math.min(85,50+Math.round(scoreTrend*3)),type:'score_up'});
+  }else if(scoreTrend<-3){
+    predictions.push({ico:'📉',title:'Attention : tendance en baisse',text:'Ton score a baisse de '+Math.abs(Math.round(scoreTrend))+' points. Ce n\'est pas grave — mais agis maintenant pour inverser la courbe.',confidence:60,type:'score_down'});
+  }
+  // Deep Work projection
+  var dwTotal=(S.deepWork&&S.deepWork.totalMin)||0;
+  if(dwTotal>0){
+    var dwPerDay=Math.round(dwTotal/daySpan);
+    var proj90dw=Math.round((dwTotal+dwPerDay*90)/60);
+    predictions.push({ico:'🎯',title:proj90dw+'h de Deep Work dans 90 jours',text:'Tu accumules '+dwPerDay+' min/jour en moyenne. Dans 3 mois, ca fera '+proj90dw+' heures de focus intense.',confidence:65,type:'dw'});
+  }
+  // Streak milestone
+  var nextMs=[7,14,21,30,60,90,180,365].find(function(m){return m>streak;});
+  if(nextMs){
+    var daysToMs=nextMs-streak;
+    var msDate=new Date();msDate.setDate(msDate.getDate()+daysToMs);
+    predictions.push({ico:'🔥',title:'Streak '+nextMs+'j le '+msDate.toLocaleDateString('fr-FR',{day:'numeric',month:'long'}),text:'Plus que '+daysToMs+' jours pour atteindre le milestone '+nextMs+' jours. Ne casse pas la chaine.',confidence:Math.min(90,40+streak*2),type:'streak'});
+  }
+  predictions.sort(function(a,b){return b.confidence-a.confidence;});
+  return {predictions:predictions,avgRecent:Math.round(avgRecent),scoreTrend:Math.round(scoreTrend),projLvl:projLvl,proj90xp:proj90xp};
+}
+function openProphecy(){
+  var el=document.getElementById('prophecy-content');if(!el)return;
+  var data=computeProphecy();
+  var h='';
+  h+='<div style="text-align:center;margin-bottom:20px;padding:20px 0;background:radial-gradient(ellipse 80% 60% at 50% 35%,rgba(139,109,224,0.1) 0%,transparent 70%)">';
+  h+='<div style="font-size:48px;margin-bottom:8px;animation:float 3s ease-in-out infinite">🔮</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:24px;margin-bottom:4px;color:var(--pu)">RISE Prophecy</div>';
+  h+='<div style="font-size:12px;color:var(--tx3)">Predictions basees sur tes donnees reelles</div>';
+  h+='</div>';
+  if(!data||data.predictions.length===0){
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:24px;text-align:center">';
+    h+='<div style="font-size:13px;color:var(--tx3);line-height:1.6">Continue a utiliser RISE quelques jours de plus. La Prophecy a besoin de donnees pour generer des predictions fiables.</div>';
+    h+='</div>';
+  }else{
+    data.predictions.slice(0,5).forEach(function(pred,i){
+      var isTop=i===0;
+      h+='<div style="background:'+(isTop?'linear-gradient(135deg,var(--pud),transparent)':'var(--sf)')+';border:'+(isTop?'2':'1')+'px solid '+(isTop?'var(--pu)':'var(--bd)')+';border-radius:var(--r);padding:16px;margin-bottom:10px">';
+      h+='<div style="display:flex;align-items:flex-start;gap:12px">';
+      h+='<div style="font-size:24px;flex-shrink:0">'+pred.ico+'</div>';
+      h+='<div style="flex:1">';
+      h+='<div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:4px">'+escHTML(pred.title)+'</div>';
+      h+='<div style="font-size:12px;color:var(--tx2);line-height:1.6;margin-bottom:6px">'+escHTML(pred.text)+'</div>';
+      // Confidence bar
+      h+='<div style="display:flex;align-items:center;gap:6px"><div style="flex:1;height:4px;background:var(--sf3);border-radius:2px"><div style="height:100%;width:'+pred.confidence+'%;background:'+(pred.confidence>=70?'var(--gr)':pred.confidence>=50?'var(--ac)':'var(--or)')+';border-radius:2px"></div></div><div style="font-size:9px;color:var(--tx3);font-weight:700">'+pred.confidence+'% confiance</div></div>';
+      h+='</div></div></div>';
+    });
+  }
+  h+='<div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-pu" style="flex:2" onclick="document.getElementById(\'ov-prophecy\').classList.remove(\'show\')">Compris</button><button class="btn btn-sf" style="flex:1" onclick="shareProphecy()">Partager</button></div>';
+  el.innerHTML=h;
+  document.getElementById('ov-prophecy').classList.add('show');
+  gainXP(25,'prophecy');save();
+}
+function shareProphecy(){
+  var data=computeProphecy();if(!data||!data.predictions.length)return;
+  var top=data.predictions[0];
+  var text='RISE Prophecy : "'+top.title+'" ('+top.confidence+'% confiance). LVL '+(getLvl(S.xp||0)+1)+', '+(S.loginS?S.loginS.streak:0)+'j streak. #RISE #Prophecy';
+  if(navigator.share)navigator.share({title:'RISE Prophecy',text:text}).catch(function(){});
+  else{navigator.clipboard.writeText(text).then(function(){toast('Copie !','📋',2000);}).catch(function(){});}
 }
 // ── RISE STORY ──
 function generateStory(){
@@ -7985,6 +8185,14 @@ function initRecap(){
     '3. '+(pomoMin<60?'Faire 3 sessions Pomodoro':'Dépasser '+(pomoMin+30)+' min de focus')+' <br>'+
     '4. '+(coachN<5?'Demander 3 conseils au coach':'Explorer un nouveau sujet avec le coach')+'<br>'+
     '</div></div>'+
+
+    // Deep insights buttons
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">'+
+    '<button class="btn btn-sf" onclick="openStory()">📖 Story</button>'+
+    '<button class="btn btn-sf" onclick="openMirror()">🪞 Mirror</button>'+
+    '<button class="btn btn-sf" onclick="openProphecy()">🔮 Prophecy</button>'+
+    '<button class="btn btn-sf" onclick="openTimeMachine()">🚀 Time Machine</button>'+
+    '</div>'+
 
     '<button class="btn btn-ac" onclick="gs(\'home\',null)">Retour à l\'accueil 🚀</button>';
 }
