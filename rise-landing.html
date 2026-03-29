@@ -25,10 +25,27 @@ section{padding:60px 20px;max-width:1200px;margin:0 auto}.section-title{font-fam
 .cta-final{background:linear-gradient(135deg,rgba(212,170,74,.1) 0%,rgba(75,216,122,.05) 100%);border:1px solid var(--bd);border-radius:16px;padding:60px 20px;text-align:center;margin:60px auto;max-width:700px}.cta-final h2{font-family:var(--fd);font-size:32px;font-weight:700;margin-bottom:16px;color:var(--tx)}.cta-final p{font-size:15px;color:var(--tx2);margin-bottom:24px}.email-form{display:flex;gap:12px;margin-bottom:0}.email-form input{flex:1;padding:12px 16px;background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;color:var(--tx);font-size:13px}.email-form input::placeholder{color:var(--tx3)}.email-form .btn{width:auto;padding:12px 32px}
 footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;margin-top:80px}.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-bottom:32px}.footer-col h3{font-family:var(--fd);font-size:12px;font-weight:700;text-transform:uppercase;color:var(--ac);margin-bottom:12px;letter-spacing:1px}.footer-col a{display:block;font-size:12px;color:var(--tx2);margin-bottom:8px;transition:color .3s}.footer-col a:hover{color:var(--ac)}.footer-bottom{text-align:center;padding-top:32px;border-top:1px solid var(--bd);font-size:12px;color:var(--tx3)}
 .fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
-@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}}
+/* ── URGENCY BANNER ── */
+.urgency-banner{background:linear-gradient(90deg,#1a0a00,#2a1400,#1a0a00);border-bottom:1px solid var(--acm);padding:10px 20px;text-align:center;font-size:13px;font-weight:600;color:var(--ac);position:relative;overflow:hidden}.urgency-banner::before{content:'';position:absolute;top:0;left:-100%;width:200%;height:100%;background:linear-gradient(90deg,transparent,rgba(212,170,74,.08),transparent);animation:urgencyShine 3s ease infinite}@keyframes urgencyShine{0%{left:-100%}100%{left:100%}}.urgency-banner .countdown{font-family:var(--fd);font-weight:700;color:var(--ac2);margin:0 4px}.urgency-banner .ub-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--tx3);font-size:16px;cursor:pointer;padding:4px}
+/* ── SOCIAL PROOF TICKER ── */
+.social-proof-ticker{position:fixed;bottom:20px;left:20px;z-index:90;background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:13px;box-shadow:0 8px 32px rgba(0,0,0,.4);opacity:0;transform:translateY(20px);transition:all .4s ease;max-width:320px;pointer-events:none}.social-proof-ticker.show{opacity:1;transform:translateY(0);pointer-events:auto}.social-proof-ticker .spt-avatar{width:32px;height:32px;border-radius:50%;background:var(--agg2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}.social-proof-ticker .spt-text{color:var(--tx2);line-height:1.3}.social-proof-ticker .spt-text strong{color:var(--tx)}.social-proof-ticker .spt-time{font-size:10px;color:var(--tx3);margin-top:2px}
+/* ── EXIT INTENT POPUP ── */
+.exit-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}.exit-overlay.show{display:flex}.exit-popup{background:var(--sf);border:2px solid var(--ac);border-radius:16px;padding:40px 32px;max-width:480px;width:100%;text-align:center;position:relative;animation:popIn .4s cubic-bezier(.16,1,.3,1)}.exit-popup .ep-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--tx3);font-size:20px;cursor:pointer}.exit-popup .ep-badge{display:inline-block;background:linear-gradient(135deg,var(--rd),#e87070);color:#fff;font-size:11px;font-weight:700;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:16px;letter-spacing:1px}.exit-popup h2{font-family:var(--fd);font-size:24px;margin-bottom:8px;color:var(--tx)}.exit-popup .ep-sub{color:var(--tx2);font-size:14px;margin-bottom:20px;line-height:1.5}.exit-popup .ep-offer{background:var(--agg);border:1px solid var(--acm);border-radius:10px;padding:16px;margin-bottom:20px}.exit-popup .ep-offer .ep-price{font-family:var(--fd);font-size:28px;font-weight:700;color:var(--ac)}.exit-popup .ep-offer .ep-original{text-decoration:line-through;color:var(--tx3);font-size:14px;margin-right:8px}.exit-popup .ep-offer .ep-save{display:inline-block;background:var(--gr);color:#0a1808;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:8px}.exit-popup .ep-guarantee{font-size:12px;color:var(--tx3);margin-top:12px}.exit-popup .ep-no{background:none;border:none;color:var(--tx3);font-size:12px;cursor:pointer;margin-top:8px;text-decoration:underline}@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+/* ── PRICING TOGGLE ── */
+.pricing-toggle{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:32px}.pricing-toggle .pt-label{font-size:14px;font-weight:600;color:var(--tx3);cursor:pointer;transition:color .3s}.pricing-toggle .pt-label.active{color:var(--tx)}.pt-switch{width:52px;height:28px;background:var(--sf2);border:2px solid var(--bd2);border-radius:14px;cursor:pointer;position:relative;transition:all .3s}.pt-switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;background:var(--ac);border-radius:50%;transition:transform .3s}.pt-switch.annual::after{transform:translateX(24px)}.pt-switch.annual{border-color:var(--ac);background:var(--agg)}.pt-save-badge{background:var(--gr);color:#0a1808;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:4px}
+/* ── RISK REVERSAL ── */
+.risk-reversal{display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap}.risk-reversal .rr-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);font-weight:500}.risk-reversal .rr-item span:first-child{font-size:16px}
+/* ── MID CTA ── */
+.mid-cta{background:linear-gradient(135deg,rgba(212,170,74,.06),rgba(75,216,122,.03));border:1px solid var(--bd);border-radius:12px;padding:32px 20px;text-align:center;margin:40px auto;max-width:600px}.mid-cta h3{font-family:var(--fd);font-size:22px;margin-bottom:8px}.mid-cta p{color:var(--tx2);font-size:14px;margin-bottom:16px}
+@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}.social-proof-ticker{bottom:10px;left:10px;right:10px;max-width:none}.urgency-banner{font-size:11px;padding:8px 30px 8px 12px}.exit-popup{padding:28px 20px;margin:12px}.risk-reversal{gap:12px}}
 </style>
 </head>
 <body>
+<!-- URGENCY BANNER -->
+<div class="urgency-banner" id="urgency-banner" data-i18n-html="urgency_banner">
+🔥 <strong>Offre limitée</strong> — Premium à <span class="countdown">5,99€/mois</span> au lieu de 9,99€ — <span class="countdown" id="ub-timer">23:59:42</span> restantes
+<button class="ub-close" onclick="document.getElementById('urgency-banner').style.display='none'">&times;</button>
+</div>
 <nav>
 <div class="nav-container">
 <div class="logo">RISE</div>
@@ -58,6 +75,12 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <div class="cta-buttons">
 <button class="btn btn-primary" data-i18n="cta_access">Accéder à RISE →</button>
 <button class="btn btn-secondary" data-i18n="cta_demo">Voir la démo ▶</button>
+</div>
+<div class="risk-reversal">
+<div class="rr-item"><span>✅</span> <span data-i18n="rr_free">Gratuit pour toujours</span></div>
+<div class="rr-item"><span>🔒</span> <span data-i18n="rr_nocb">Pas de CB requise</span></div>
+<div class="rr-item"><span>⚡</span> <span data-i18n="rr_instant">Accès instantané</span></div>
+<div class="rr-item"><span>❌</span> <span data-i18n="rr_cancel">Annulation libre</span></div>
 </div>
 </div>
 </section>
@@ -137,13 +160,31 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 </div>
 </section>
 
+<!-- MID-PAGE CTA -->
+<div class="mid-cta fade-in">
+<h3 data-i18n="mid_cta_title">Prêt à transformer ta vie ?</h3>
+<p data-i18n="mid_cta_desc">Rejoins les 50K+ utilisateurs qui progressent chaque jour avec RISE.</p>
+<button class="btn btn-primary" data-i18n="cta_access" style="max-width:300px;margin:0 auto">Accéder à RISE →</button>
+<div class="risk-reversal" style="margin-top:12px">
+<div class="rr-item"><span>✅</span> <span data-i18n="rr_free">Gratuit pour toujours</span></div>
+<div class="rr-item"><span>🔒</span> <span data-i18n="rr_nocb">Pas de CB requise</span></div>
+</div>
+</div>
+
 <section id="pricing">
 <h2 class="section-title" style="text-align:center" data-i18n="pricing_title">Plans Simples et Justes</h2>
 <p class="section-desc" style="text-align:center" data-i18n="pricing_desc">Gratuit pour toujours, Premium ou Elite.</p>
+<!-- PRICING TOGGLE: Annual/Monthly -->
+<div class="pricing-toggle">
+<span class="pt-label" id="pt-monthly" data-i18n="toggle_monthly">Mensuel</span>
+<div class="pt-switch annual" id="pt-switch" onclick="togglePricing()"></div>
+<span class="pt-label active" id="pt-annual" data-i18n="toggle_annual">Annuel</span>
+<span class="pt-save-badge" data-i18n="toggle_save">-40%</span>
+</div>
 <div class="pricing-grid">
 <div class="price-card fade-in"><h3 data-i18n="plan_free">Gratuit</h3><div class="amount">0€</div><div class="period" data-i18n="plan_free_period">Pour toujours</div><div class="features"><div class="feature" data-i18n="pf_1">Check-ins quotidiens</div><div class="feature" data-i18n="pf_2">35+ achievements</div><div class="feature" data-i18n="pf_3">Pomodoro basic</div><div class="feature" data-i18n="pf_4">Budget tracker</div><div class="feature" data-i18n="pf_5">Habitudes (15)</div><div class="feature" data-i18n="pf_6">Journal simple</div><div class="feature" data-i18n="pf_7">JARVIS chat (10 msg/j)</div></div><button class="btn btn-secondary" data-i18n="plan_free_cta">Démarrer</button></div>
-<div class="price-card featured fade-in"><div class="badge" data-i18n="plan_popular">POPULAIRE</div><h3>Premium</h3><div class="amount">9,99€</div><div class="period" data-i18n="plan_prem_period">par mois</div><div class="features"><div class="feature" data-i18n="pp_1">Tout en Gratuit +</div><div class="feature" data-i18n="pp_2">Pomodoro Pro (stats)</div><div class="feature" data-i18n="pp_3">Budget avancé</div><div class="feature" data-i18n="pp_4">Heatmap habitudes</div><div class="feature" data-i18n="pp_5">Journal prompts</div><div class="feature" data-i18n="pp_6">JARVIS illimité</div><div class="feature" data-i18n="pp_7">12 formations</div></div><button class="btn btn-primary" data-i18n="plan_prem_cta">Commencer</button></div>
-<div class="price-card fade-in"><h3>Elite</h3><div class="amount">19,99€</div><div class="period" data-i18n="plan_elite_period">par mois</div><div class="features"><div class="feature" data-i18n="pe_1">Tout Premium +</div><div class="feature" data-i18n="pe_2">12 formations complètes</div><div class="feature" data-i18n="pe_3">Coaching personnalisé</div><div class="feature" data-i18n="pe_4">Community exclusive</div><div class="feature" data-i18n="pe_5">Export & backup auto</div><div class="feature" data-i18n="pe_6">Priorité support 24/7</div><div class="feature" data-i18n="pe_7">Themes custom</div></div><button class="btn btn-secondary" data-i18n="plan_elite_cta">Upgrade Elite</button></div>
+<div class="price-card featured fade-in"><div class="badge" data-i18n="plan_popular">POPULAIRE</div><h3>Premium</h3><div class="amount" id="price-premium">5,99€</div><div class="period" id="period-premium" data-i18n="plan_prem_period_yr">/mois — facturé 71,88€/an</div><div style="font-size:12px;color:var(--gr);font-weight:600;margin-bottom:12px" id="savings-premium" data-i18n="save_premium">Économise 48€/an</div><div class="features"><div class="feature" data-i18n="pp_1">Tout en Gratuit +</div><div class="feature" data-i18n="pp_2">Pomodoro Pro (stats)</div><div class="feature" data-i18n="pp_3">Budget avancé</div><div class="feature" data-i18n="pp_4">Heatmap habitudes</div><div class="feature" data-i18n="pp_5">Journal prompts</div><div class="feature" data-i18n="pp_6">JARVIS illimité</div><div class="feature" data-i18n="pp_7">12 formations</div></div><button class="btn btn-primary" data-i18n="plan_prem_cta">Commencer</button></div>
+<div class="price-card fade-in"><h3>Elite</h3><div class="amount" id="price-elite">11,99€</div><div class="period" id="period-elite" data-i18n="plan_elite_period_yr">/mois — facturé 143,88€/an</div><div style="font-size:12px;color:var(--gr);font-weight:600;margin-bottom:12px" id="savings-elite" data-i18n="save_elite">Économise 96€/an</div><div class="features"><div class="feature" data-i18n="pe_1">Tout Premium +</div><div class="feature" data-i18n="pe_2">12 formations complètes</div><div class="feature" data-i18n="pe_3">Coaching personnalisé</div><div class="feature" data-i18n="pe_4">Community exclusive</div><div class="feature" data-i18n="pe_5">Export & backup auto</div><div class="feature" data-i18n="pe_6">Priorité support 24/7</div><div class="feature" data-i18n="pe_7">Themes custom</div></div><button class="btn btn-secondary" data-i18n="plan_elite_cta">Upgrade Elite</button></div>
 </div>
 </section>
 
@@ -179,10 +220,39 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <div class="footer-col"><h3 data-i18n="foot_legal">Legal</h3><a href="#" data-i18n="foot_terms">Conditions</a><a href="#" data-i18n="foot_privacy">Confidentialité</a><a href="#">Cookies</a><a href="#">RGPD</a></div>
 <div class="footer-col"><h3>Social</h3><a href="#">Twitter</a><a href="#">Discord</a><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
 </div>
-<div class="footer-bottom" data-i18n="foot_copy">
-© 2026 RISE. Tous droits réservés. | Propulsé par l'IA pour votre meilleur avenir.
+<div class="footer-bottom">
+<div style="margin-bottom:16px"><button class="btn btn-primary" style="max-width:280px;margin:0 auto;padding:12px 24px;font-size:12px" data-i18n="cta_access">Accéder à RISE →</button></div>
+<span data-i18n="foot_copy">© 2026 RISE. Tous droits réservés. | Propulsé par l'IA pour votre meilleur avenir.</span>
 </div>
 </footer>
+
+<!-- EXIT INTENT POPUP -->
+<div class="exit-overlay" id="exit-overlay">
+<div class="exit-popup">
+<button class="ep-close" onclick="closeExitPopup()">&times;</button>
+<div class="ep-badge" data-i18n="exit_badge">OFFRE EXCLUSIVE</div>
+<h2 data-i18n="exit_title">Attends ! On a quelque chose pour toi</h2>
+<p class="ep-sub" data-i18n="exit_sub">Obtiens Premium à un prix spécial — seulement pour les nouveaux utilisateurs.</p>
+<div class="ep-offer">
+<span class="ep-original">9,99€</span>
+<span class="ep-price">5,99€<small>/mois</small></span>
+<span class="ep-save" data-i18n="exit_save">-40%</span>
+<div style="font-size:12px;color:var(--tx2);margin-top:8px" data-i18n="exit_detail">Coach IA illimité • 12 formations • Toutes les features</div>
+</div>
+<button class="btn btn-primary" style="margin-bottom:8px" data-i18n="exit_cta">Profiter de l'offre →</button>
+<p class="ep-guarantee" data-i18n="exit_guarantee">✅ 7 jours d'essai gratuit • Annulation en 1 clic • Pas de CB requise</p>
+<button class="ep-no" onclick="closeExitPopup()" data-i18n="exit_no">Non merci, je préfère payer plein tarif</button>
+</div>
+</div>
+
+<!-- SOCIAL PROOF TICKER -->
+<div class="social-proof-ticker" id="social-proof-ticker">
+<div class="spt-avatar" id="spt-avatar">👤</div>
+<div>
+<div class="spt-text" id="spt-text"><strong>Marie L.</strong> vient de rejoindre RISE</div>
+<div class="spt-time" id="spt-time">Il y a 2 minutes</div>
+</div>
+</div>
 
 <script>
 document.addEventListener('scroll',function(){var e=document.querySelectorAll('.fade-in');e.forEach(function(el){var r=el.getBoundingClientRect();r.top<window.innerHeight-100&&el.classList.add('visible')})});
@@ -257,7 +327,17 @@ faq_10q: "Comment puis-je contacter le support ?", faq_10a: "Email: support@rise
 cta_final_title: "Commence maintenant", cta_final_desc: "Joins 50K+ utilisateurs qui transforment leurs vies. Gratuit pour toujours.", cta_email_ph: "Ton email...", cta_final_btn: "Débloquer →",
 foot_product: "Produit", foot_pricing: "Tarifs", foot_company: "Entreprise", foot_about: "À Propos", foot_careers: "Carrières", foot_press: "Presse",
 foot_legal: "Légal", foot_terms: "Conditions", foot_privacy: "Confidentialité",
-foot_copy: "© 2026 RISE. Tous droits réservés. | Propulsé par l'IA pour votre meilleur avenir."
+foot_copy: "© 2026 RISE. Tous droits réservés. | Propulsé par l'IA pour votre meilleur avenir.",
+rr_free: "Gratuit pour toujours", rr_nocb: "Pas de CB requise", rr_instant: "Accès instantané", rr_cancel: "Annulation libre",
+mid_cta_title: "Prêt à transformer ta vie ?", mid_cta_desc: "Rejoins les 50K+ utilisateurs qui progressent chaque jour avec RISE.",
+toggle_monthly: "Mensuel", toggle_annual: "Annuel", toggle_save: "-40%",
+save_premium: "Économise 48€/an", save_elite: "Économise 96€/an",
+plan_prem_period_yr: "/mois — facturé 71,88€/an", plan_elite_period_yr: "/mois — facturé 143,88€/an",
+exit_badge: "OFFRE EXCLUSIVE", exit_title: "Attends ! On a quelque chose pour toi",
+exit_sub: "Obtiens Premium à un prix spécial — seulement pour les nouveaux utilisateurs.",
+exit_save: "-40%", exit_detail: "Coach IA illimité • 12 formations • Toutes les features",
+exit_cta: "Profiter de l'offre →", exit_guarantee: "✅ 7 jours d'essai gratuit • Annulation en 1 clic • Pas de CB requise",
+exit_no: "Non merci, je préfère payer plein tarif"
 },
 en: {
 hero_title: "RISE — AI Life Operating System",
@@ -321,7 +401,17 @@ faq_10q: "How do I contact support?", faq_10a: "Email: support@rise-app.com, In-
 cta_final_title: "Start Now", cta_final_desc: "Join 50K+ users transforming their lives. Free forever.", cta_email_ph: "Your email...", cta_final_btn: "Unlock →",
 foot_product: "Product", foot_pricing: "Pricing", foot_company: "Company", foot_about: "About", foot_careers: "Careers", foot_press: "Press",
 foot_legal: "Legal", foot_terms: "Terms", foot_privacy: "Privacy",
-foot_copy: "© 2026 RISE. All rights reserved. | Powered by AI for your best future."
+foot_copy: "© 2026 RISE. All rights reserved. | Powered by AI for your best future.",
+rr_free: "Free forever", rr_nocb: "No credit card", rr_instant: "Instant access", rr_cancel: "Cancel anytime",
+mid_cta_title: "Ready to transform your life?", mid_cta_desc: "Join 50K+ users progressing every day with RISE.",
+toggle_monthly: "Monthly", toggle_annual: "Annual", toggle_save: "-40%",
+save_premium: "Save €48/year", save_elite: "Save €96/year",
+plan_prem_period_yr: "/mo — billed €71.88/year", plan_elite_period_yr: "/mo — billed €143.88/year",
+exit_badge: "EXCLUSIVE OFFER", exit_title: "Wait! We have something for you",
+exit_sub: "Get Premium at a special price — only for new users.",
+exit_save: "-40%", exit_detail: "Unlimited AI Coach • 12 courses • All features",
+exit_cta: "Claim the offer →", exit_guarantee: "✅ 7-day free trial • Cancel in 1 click • No credit card",
+exit_no: "No thanks, I prefer to pay full price"
 },
 es: {
 hero_title: "RISE — Tu Sistema Operativo de Vida con IA",
@@ -788,6 +878,144 @@ function switchLandingLang(lang) {
   if (sel) sel.value = browserLang;
   if (browserLang !== 'fr') switchLandingLang(browserLang);
 })();
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONVERSION OPTIMIZATION ENGINE
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── PRICING TOGGLE (Annual / Monthly) ── */
+var _isAnnual = true;
+function togglePricing() {
+  _isAnnual = !_isAnnual;
+  var sw = document.getElementById('pt-switch');
+  var lm = document.getElementById('pt-monthly');
+  var la = document.getElementById('pt-annual');
+  sw.classList.toggle('annual', _isAnnual);
+  lm.classList.toggle('active', !_isAnnual);
+  la.classList.toggle('active', _isAnnual);
+  var prem = document.getElementById('price-premium');
+  var elite = document.getElementById('price-elite');
+  var perPrem = document.getElementById('period-premium');
+  var perElite = document.getElementById('period-elite');
+  var savPrem = document.getElementById('savings-premium');
+  var savElite = document.getElementById('savings-elite');
+  if (_isAnnual) {
+    prem.textContent = '5,99€'; perPrem.textContent = '/mois — facturé 71,88€/an';
+    elite.textContent = '11,99€'; perElite.textContent = '/mois — facturé 143,88€/an';
+    savPrem.textContent = 'Économise 48€/an'; savPrem.style.display = '';
+    savElite.textContent = 'Économise 96€/an'; savElite.style.display = '';
+  } else {
+    prem.textContent = '9,99€'; perPrem.textContent = 'par mois';
+    elite.textContent = '19,99€'; perElite.textContent = 'par mois';
+    savPrem.style.display = 'none'; savElite.style.display = 'none';
+  }
+  trackEvent('pricing_toggle', _isAnnual ? 'annual' : 'monthly');
+}
+
+/* ── URGENCY BANNER COUNTDOWN ── */
+(function() {
+  var end = sessionStorage.getItem('rise_ub_end');
+  if (!end) { end = Date.now() + 24*60*60*1000; sessionStorage.setItem('rise_ub_end', end); }
+  function tick() {
+    var diff = Math.max(0, end - Date.now());
+    var h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    var el = document.getElementById('ub-timer');
+    if (el) el.textContent = (h<10?'0':'')+h+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+    if (diff > 0) requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+/* ── EXIT INTENT POPUP ── */
+var _exitShown = false;
+function closeExitPopup() {
+  document.getElementById('exit-overlay').classList.remove('show');
+  sessionStorage.setItem('rise_exit_dismissed', '1');
+}
+document.addEventListener('mouseout', function(e) {
+  if (e.clientY < 5 && !_exitShown && !sessionStorage.getItem('rise_exit_dismissed')) {
+    _exitShown = true;
+    document.getElementById('exit-overlay').classList.add('show');
+    trackEvent('exit_intent', 'shown');
+  }
+});
+// Mobile: show after 45s if scrolled past 60%
+setTimeout(function() {
+  if (_exitShown || sessionStorage.getItem('rise_exit_dismissed')) return;
+  var scrollPct = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  if (scrollPct > 0.6) {
+    _exitShown = true;
+    document.getElementById('exit-overlay').classList.add('show');
+    trackEvent('exit_intent', 'scroll_trigger');
+  }
+}, 45000);
+
+/* ── SOCIAL PROOF TICKER ── */
+(function() {
+  var names = [
+    {n:'Marie L.',c:'Paris',a:'👩'}, {n:'Thomas D.',c:'Lyon',a:'👨'},
+    {n:'Sophie B.',c:'Marseille',a:'👩‍💻'}, {n:'Marc R.',c:'Bordeaux',a:'🧑'},
+    {n:'Julie M.',c:'Toulouse',a:'👩‍🎓'}, {n:'David C.',c:'Singapore',a:'👨‍💼'},
+    {n:'Emma F.',c:'Montréal',a:'👩‍🔬'}, {n:'Lucas P.',c:'Bruxelles',a:'🧑‍💻'},
+    {n:'Léa V.',c:'Genève',a:'👩‍🎨'}, {n:'Hugo T.',c:'Abidjan',a:'👨‍🏫'},
+    {n:'Clara S.',c:'Barcelona',a:'👩‍💻'}, {n:'Alex K.',c:'Berlin',a:'🧑‍🚀'}
+  ];
+  var actions_fr = ['vient de rejoindre RISE','a débloqué Premium','a commencé une formation','a battu son record de streak'];
+  var times_fr = ['Il y a 2 min','Il y a 5 min','Il y a 8 min','Il y a 12 min','Il y a 18 min'];
+  var idx = 0;
+  function showTicker() {
+    var p = names[idx % names.length];
+    var act = actions_fr[Math.floor(Math.random()*actions_fr.length)];
+    var tm = times_fr[Math.floor(Math.random()*times_fr.length)];
+    document.getElementById('spt-avatar').textContent = p.a;
+    document.getElementById('spt-text').innerHTML = '<strong>'+p.n+'</strong> '+act+' <span style="color:var(--tx3);font-size:11px">('+p.c+')</span>';
+    document.getElementById('spt-time').textContent = tm;
+    var ticker = document.getElementById('social-proof-ticker');
+    ticker.classList.add('show');
+    setTimeout(function(){ ticker.classList.remove('show'); }, 5000);
+    idx++;
+  }
+  // First show at 8s, then every 30s
+  setTimeout(showTicker, 8000);
+  setInterval(showTicker, 30000);
+})();
+
+/* ── FUNNEL ANALYTICS (lightweight) ── */
+var _funnelEvents = [];
+function trackEvent(action, label) {
+  _funnelEvents.push({a:action, l:label, t:Date.now()});
+  try { sessionStorage.setItem('rise_funnel', JSON.stringify(_funnelEvents)); } catch(e){}
+}
+// Track CTA clicks
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.btn, .nav-cta');
+  if (!btn) return;
+  var text = (btn.textContent || '').trim().substring(0, 40);
+  var section = 'unknown';
+  var parent = btn.closest('section, .hero, .cta-final, .mid-cta, .exit-popup, footer, nav');
+  if (parent) {
+    section = parent.id || parent.className.split(' ')[0] || 'unknown';
+  }
+  trackEvent('cta_click', section + '::' + text);
+});
+// Track scroll depth
+var _maxScroll = 0;
+window.addEventListener('scroll', function() {
+  var pct = Math.round(100 * window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight));
+  if (pct > _maxScroll) {
+    _maxScroll = pct;
+    if (pct === 25 || pct === 50 || pct === 75 || pct === 90) {
+      trackEvent('scroll_depth', pct + '%');
+    }
+  }
+});
+// Track time on page
+var _pageStart = Date.now();
+window.addEventListener('beforeunload', function() {
+  trackEvent('time_on_page', Math.round((Date.now() - _pageStart)/1000) + 's');
+  try { sessionStorage.setItem('rise_funnel', JSON.stringify(_funnelEvents)); } catch(e){}
+});
+trackEvent('page_view', 'landing');
 
 </script>
 </body>
