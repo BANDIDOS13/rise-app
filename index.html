@@ -162,9 +162,26 @@
 .badge-epic{box-shadow:0 0 12px rgba(168,85,247,.3),0 0 0 2px rgba(168,85,247,.2)}
 .badge-legendary{box-shadow:0 0 16px rgba(245,200,66,.4),0 0 0 2px rgba(245,200,66,.25);animation:glow 2s ease-in-out infinite}
 
+/* Checkmark draw animation */
+@keyframes checkDraw{0%{stroke-dashoffset:20}100%{stroke-dashoffset:0}}
+.check-svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:20;stroke-dashoffset:20}
+.qchk.done .check-svg,.tchk.on .check-svg{animation:checkDraw .25s .1s var(--ease) forwards}
+
+/* Enhanced done/disabled states */
+.tod-it.dn{opacity:.35;text-decoration:line-through;text-decoration-color:var(--tx3)}
+.tod-it.dn .tchk{box-shadow:0 0 6px rgba(34,197,94,.2)}
+
 /* Progress ring animation */
 @keyframes ringDraw{from{stroke-dashoffset:var(--ring-circumference)}to{stroke-dashoffset:var(--ring-offset)}}
 .ring-animated{animation:ringDraw 1.2s var(--ease) forwards}
+
+/* Tab indicator animation */
+.fbtn{position:relative}
+.fbtn.on::after{content:'';position:absolute;bottom:-2px;left:20%;right:20%;height:2px;background:var(--ac);border-radius:1px;animation:tabSlide .2s var(--ease) both}
+@keyframes tabSlide{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* Chat mode pill glow */
+.ch-mode.on{border-color:var(--ac);color:var(--ac);background:var(--agg);box-shadow:0 0 8px rgba(245,200,66,.1)}
 
 /* Boss card upgrade */
 .boss-c{border:1px solid rgba(239,68,68,.25);border-radius:var(--r);padding:16px;margin-bottom:11px;background:linear-gradient(135deg,rgba(239,68,68,.06),rgba(10,10,15,.95));position:relative;overflow:hidden}
@@ -529,8 +546,8 @@ textarea.inp{resize:none}
 .ch-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd);flex-shrink:0}
 .coach-av{width:38px;height:38px;border-radius:50%;background:var(--agg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:17px;position:relative;flex-shrink:0;box-shadow:0 0 12px rgba(245,200,66,.15)}
 .coach-dot{position:absolute;bottom:0;right:0;width:9px;height:9px;background:var(--gr);border-radius:50%;border:2px solid var(--bg)}
-.ch-modes{display:flex;gap:6px;overflow-x:auto;padding:7px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;background:var(--bg2)}
-.ch-mode{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--bd2);font-size:11px;font-weight:700;color:var(--tx3);transition:all .15s}
+.ch-modes{display:flex;gap:8px;overflow-x:auto;padding:8px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;background:var(--bg2)}
+.ch-mode{flex-shrink:0;padding:5px 12px;border-radius:var(--pill);border:1px solid var(--bd);font-size:11px;font-weight:700;color:var(--tx3);transition:all .2s var(--ease)}
 .ch-mode.on{border-color:var(--ac);color:var(--ac);background:var(--agg)}
 .ch-msgs{flex:1;overflow-y:auto;padding:13px 14px;display:flex;flex-direction:column;gap:10px}
 .msg{max-width:86%;animation:fup .3s ease both}
@@ -546,11 +563,11 @@ textarea.inp{resize:none}
 .td:nth-child(1){animation:pls 1s 0s infinite}
 .td:nth-child(2){animation:pls 1s .2s infinite}
 .td:nth-child(3){animation:pls 1s .4s infinite}
-.ch-suggs{display:flex;gap:6px;overflow-x:auto;padding:7px 14px;border-top:1px solid var(--bd);flex-shrink:0}
-.csug{flex-shrink:0;padding:6px 12px;background:var(--sf);border:1px solid var(--bd2);border-radius:22px;font-size:11px;color:var(--tx2);cursor:pointer}
+.ch-suggs{display:flex;gap:8px;overflow-x:auto;padding:8px 14px;border-top:1px solid var(--bd);flex-shrink:0}
+.csug{flex-shrink:0;padding:6px 12px;background:var(--sf);border:1px solid var(--bd2);border-radius:var(--pill);font-size:11px;color:var(--tx2);cursor:pointer}
 .ch-inp{display:flex;align-items:flex-end;gap:8px;padding:10px 14px;border-top:1px solid var(--bd);flex-shrink:0}
-.ch-ta{flex:1;background:var(--sf2);border:1.5px solid var(--bd2);border-radius:22px;padding:10px 14px;color:var(--tx);font-size:14px;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s}
-.ch-ta:focus{border-color:var(--ac)}
+.ch-ta{flex:1;background:var(--sf2);border:1.5px solid var(--bd);border-radius:var(--pill);padding:10px 14px;color:var(--tx);font-size:14px;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s,box-shadow .2s}
+.ch-ta:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--agg)}
 .ch-ta::placeholder{color:var(--tx3)}
 .ch-snd{width:38px;height:38px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .15s;color:var(--bg)}
 .ch-snd:active{transform:scale(.9)}
@@ -574,10 +591,10 @@ textarea.inp{resize:none}
 .book-c{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .15s;overflow:hidden;display:flex}
 .book-c:active{border-color:var(--ac);transform:scale(.98)}
 .book-spine{width:6px;background:linear-gradient(180deg,var(--ac),var(--ac2));flex-shrink:0}
-.stn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .2s}
-.stn.done{border-color:var(--gr);background:var(--grd)}
-.stn.unlocked{border-color:var(--ac);background:var(--agg)}
-.stn.locked{opacity:.3}
+.stn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .25s var(--ease)}
+.stn.done{border-color:var(--gr);background:var(--grd);box-shadow:0 0 8px rgba(34,197,94,.2)}
+.stn.unlocked{border-color:var(--ac);background:var(--agg);box-shadow:0 0 8px rgba(245,200,66,.15);animation:pulse 3s ease-in-out infinite}
+.stn.locked{opacity:.25;filter:grayscale(.5)}
 .st-line{flex:1;height:2px;background:var(--bd2)}
 .st-line.done{background:var(--ac)}
 .h21g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:11px 0}
@@ -589,8 +606,8 @@ textarea.inp{resize:none}
 .tchk.on{background:var(--gr);border-color:var(--gr);color:#000;animation:pop .3s ease}
 .plan-c{background:var(--bld);border:1px solid var(--bl);border-radius:var(--r);padding:15px;margin-bottom:11px}
 .vis-c{background:var(--pud);border:1px solid var(--pu);border-radius:var(--r);padding:16px;margin-bottom:11px}
-.nit{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 13px;margin-bottom:8px;display:flex;gap:10px}
-.nit.unread{border-left:3px solid var(--ac)}
+.nit{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;transition:all .2s var(--ease)}
+.nit.unread{border-left:3px solid var(--ac);background:var(--agg)}
 #form-ov{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column;max-width:430px;left:50%;transform:translateX(-50%)}
 #form-ov.show{display:flex;animation:fin .2s ease}
 .av-body{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;border:3px solid var(--ac);background:var(--agg);animation:float 4s ease-in-out infinite;box-shadow:0 0 32px rgba(245,200,66,.2)}
@@ -1468,8 +1485,8 @@ function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.t
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
 function renderCtxBanner(){const el=document.getElementById('ctx-banner');if(!el)return;const hr=now.getHours();let bg,ico,title,sub;if(hr<12){bg='linear-gradient(135deg,#1a1208,#100e04)';ico='🌅';title='Bon matin, '+S.name+' !';sub='Cerveau au maximum. Attaque le plus dur en premier.';}else if(hr<18){bg='linear-gradient(135deg,#0a1218,#080e14)';ico='⚡';title='Maintiens l élan';sub='Après-midi: focus. Évite les distractions.';}else{bg='linear-gradient(135deg,#0a0818,#080614)';ico='🌙';title='Bilan de soirée';sub='Revois ta journée. Prépare demain. Protège le sommeil.';}el.style.background=bg;el.style.border='1px solid var(--acm)';el.innerHTML='<div style="position:relative;z-index:1"><div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:3px">'+pad(hr)+':'+pad(now.getMinutes())+'</div><div style="font-family:var(--fd);font-weight:700;font-size:16px;margin-bottom:3px">'+title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+sub+'</div></div><div style="position:absolute;right:14px;top:50%;transform:translateY(-50%);font-size:40px;opacity:.2">'+ico+'</div>';}
-function selE(btn,v){document.querySelectorAll('#e-row button').forEach(b=>{b.style.borderColor='transparent';b.style.background='var(--sf2)';});btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';ciE=v;chkCIR();}
-function togF(btn,v){const on=btn.style.borderColor==='var(--ac)';if(on){btn.style.borderColor='var(--bd2)';btn.style.background='var(--sf2)';btn.style.color='var(--tx2)';ciF=ciF.filter(f=>f!==v);}else{btn.style.borderColor='var(--ac)';btn.style.background='var(--agg)';btn.style.color='var(--ac)';if(!ciF.includes(v))ciF.push(v);}chkCIR();}
+function selE(btn,v){document.querySelectorAll('#e-row button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');ciE=v;chkCIR();}
+function togF(btn,v){const on=btn.classList.toggle('on');if(on){if(!ciF.includes(v))ciF.push(v);}else{ciF=ciF.filter(f=>f!==v);}chkCIR();}
 function chkCIR(){const b=document.getElementById('ci-btn');if(b)b.disabled=!(ciE>0&&ciF.length>0);}
 function doCI(){const btn=document.getElementById('ci-btn');btn.disabled=true;btn.textContent='Génération...';document.getElementById('plan-sec').style.display='block';document.getElementById('plan-content').innerHTML='<div class="shim"></div><div class="shim"></div>';const plan=RISE_AI.doCI(ciE,ciF);S.checkins=S.checkins||{};S.checkins[TD]={e:ciE,f:ciF};S.lck=TD;S.todayPlan=plan;const y=new Date(now);y.setDate(now.getDate()-1);if(S.lsd===y.toDateString()||!S.lsd)S.streak=(S.streak||0)+1;else if(S.lsd!==TD)S.streak=1;S.lsd=TD;if(plan.todo_suggestions)plan.todo_suggestions.forEach(tx=>{S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:tx,done:false,priority:false,cat:ciF[0]||'focus',ai:true,date:TD});});gainXP(30+ciE*5,'ci');gainGems(2);complQ('checkin');dmgBoss(50);save();renderPlan(plan);renderStreakDots();const ci=document.getElementById('ci-sec');if(ci)ci.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:14px"><span style="font-size:28px">✅</span><div style="font-family:var(--fd);font-weight:700">Plan activé · Streak '+S.streak+'j 🔥</div></div>';addN('📋','Plan du jour prêt !','Tâches IA générées.');btn.disabled=false;btn.textContent='Générer mon plan du jour 🌅';}
 function renderPlan(p){let h='<div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65;padding:12px 14px;background:var(--agg);border-radius:var(--rs);border-left:3px solid var(--ac);margin-bottom:10px">'+p.intro+'</div>';if(p.coach_push)h+='<div style="background:var(--agg2);border:1px solid var(--acm);border-radius:var(--rs);padding:11px 13px;margin-bottom:8px;font-size:13px;color:var(--ac2);line-height:1.6;font-style:italic">🤖 '+p.coach_push+'</div>';if(p.nature_tip)h+='<div style="background:var(--ntd);border:1px solid var(--nt);border-radius:var(--rs);padding:11px 13px;margin-bottom:8px;font-size:13px;color:var(--nt2);line-height:1.5">🌿 '+p.nature_tip+'</div>';(p.tasks||[]).forEach(t=>{h+='<div style="display:flex;gap:12px;align-items:flex-start;padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px"><div style="text-align:center;flex-shrink:0"><div style="font-size:12px;font-weight:700;color:var(--ac)">'+t.time+'</div><div style="font-size:10px;color:var(--tx3)">'+t.duration+'</div></div><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+t.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5">'+t.desc+'</div></div></div>';});if(p.micro_habit)h+='<div style="padding:11px 13px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:7px;font-size:13px;color:var(--tx2)">⚡ '+p.micro_habit+'</div>';document.getElementById('plan-content').innerHTML=h;document.getElementById('plan-sec').style.display='block';}
@@ -2473,7 +2490,7 @@ function drawParticles() {
       ctx.clearRect(0,0,canvas.width,canvas.height);
       pts.forEach(function(p) {
         ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle='rgba(212,170,74,'+p.a+')'; ctx.fill();
+        ctx.fillStyle='rgba(245,200,66,'+p.a+')'; ctx.fill();
         p.x+=p.dx; p.y+=p.dy;
         if(p.x<0||p.x>canvas.width) p.dx*=-1;
         if(p.y<0||p.y>canvas.height) p.dy*=-1;
@@ -7758,7 +7775,7 @@ function toggleZenMode(){
         var ds = dt.toDateString();
         var completions = list.filter(h => h.lastDone === ds).length;
         var intensity = Math.min(completions / list.length * 100, 100);
-        var color = intensity === 0 ? 'var(--sf3)' : 'rgba(212,170,74,' + (0.2 + intensity / 100 * 0.8) + ')';
+        var color = intensity === 0 ? 'var(--sf3)' : 'rgba(245,200,66,' + (0.2 + intensity / 100 * 0.8) + ')';
         heatmap += '<div style="width:16px;height:16px;background:' + color + ';border-radius:2px;border:1px solid var(--bd);cursor:pointer;transition:all .2s" title="' + dt.toLocaleDateString('fr-FR') + '"></div>';
       }
       heatmap += '</div>';
