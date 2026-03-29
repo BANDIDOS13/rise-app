@@ -967,11 +967,11 @@ textarea.inp{resize:none}
 </div>
 
 <nav class="bnav" id="bnav" style="display:none">
-  <button class="nb on" onclick="gs('home',this)"><span class="ni">🏠</span><span>Accueil</span></button>
-  <button class="nb" onclick="gs('nature',this)"><span class="ni">🌿</span><span>Nature</span></button>
-  <button class="nb" onclick="gs('chat',this)"><span class="ni">🤖</span><span>Coach</span></button>
-  <button class="nb" onclick="gs('disc',this)"><span class="ni">📚</span><span>Apprendre</span></button>
-  <button class="nb" onclick="togglePlus(this)"><span class="ni">⊕</span><span>Plus</span></button>
+  <button class="nb on" onclick="gs('home',this)"><span class="ni">🏠</span><span class="nav-lbl" data-key="home">Accueil</span></button>
+  <button class="nb" onclick="gs('nature',this)"><span class="ni">🌿</span><span class="nav-lbl" data-key="nature">Nature</span></button>
+  <button class="nb" onclick="gs('chat',this)"><span class="ni">🤖</span><span class="nav-lbl" data-key="coach">Coach</span></button>
+  <button class="nb" onclick="gs('disc',this)"><span class="ni">📚</span><span class="nav-lbl" data-key="discover">Apprendre</span></button>
+  <button class="nb" onclick="togglePlus(this)"><span class="ni">⊕</span><span class="nav-lbl" data-key="more">Plus</span></button>
 </nav>
 <!-- FORM OVERLAY -->
 <div id="form-ov">
@@ -11664,6 +11664,10 @@ function applyI18nPlaceholders() {
   // Progress gate
   s('pg-title','pg_title');s('pg-desc','pg_desc');s('pg-features-txt','pg_features');
   s('pg-unlock-btn','pg_unlock');s('pg-trial-txt','pw_trial');s('pg-free-btn','pg_continue_free');
+  // Navigation labels
+  document.querySelectorAll('.nav-lbl').forEach(function(el){var k=el.getAttribute('data-key');if(k)el.textContent=t(k);});
+  // Section titles with data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(k){var v=t(k);if(v!==k)el.textContent=v;}});
 }
 if(document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', applyI18nPlaceholders);
