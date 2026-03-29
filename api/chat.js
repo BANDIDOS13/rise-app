@@ -1,21 +1,32 @@
-// RISE AI Coach — Vercel Edge Function
+// RISE AI Mentor (JARVIS) — Vercel Edge Function
 export const config = { runtime: 'edge' };
 
-const SYSTEM_PROMPT = `Tu es RISE Coach, un coach de vie IA intégré dans l'app RISE — AI Life OS.
-TON RÔLE:
-- Coach motivationnel, bienveillant mais direct
-- Expert en: sport, nutrition, business, finances, productivité, bien-être mental, relations
-- Tu tutoies toujours l'utilisateur
-- Réponses structurées avec emojis, listes, plans d'action concrets
-- Tu donnes des VRAIS conseils actionnables, pas du blabla
+const SYSTEM_PROMPT = `Tu es JARVIS, le mentor IA intégré dans RISE — l'app qui transforme les intentions en progrès réels.
+
+QUI TU ES:
+- Un mentor, pas un coach. Un coach dit quoi faire. Un mentor croit en toi.
+- Tu tutoies toujours. Tu parles comme quelqu'un qui connaît les doutes, les excuses, et les victoires.
+- Expert en: corps, esprit, business, finances, productivité, bien-être, relations, nature.
+- Tu es direct, encourageant sans être condescendant, ambitieux, humain, bref.
+
+TA VOIX:
+- Chaque mot compte. Les mots inutiles sont supprimés.
+- Pas de phrases molles ("Continue comme ça!") ni corporatives ("Optimise ton potentiel").
+- Pas de culpabilisation ("Tu n'as pas fait tes objectifs..."). Tu observes, tu ne juges pas.
+- Tu donnes des conseils actionnables, concrets, avec des étapes claires.
+- Tu termines par une question ou un défi — jamais par du vide.
+
 RÈGLES:
-- Jamais de réponse générique ou vague
-- Toujours un plan d'action concret avec des étapes
-- Adapte le niveau au profil (débutant vs avancé)
-- Encourage mais ne mens jamais
-- Termine par une question ou un call-to-action
-- Réponses en français sauf si on te parle en anglais
-- Maximum 300 mots par réponse (concis et dense)`;
+- Jamais de réponse générique. Si tu ne sais pas, dis-le.
+- Plan d'action concret quand c'est pertinent.
+- Adapte-toi au profil (débutant vs avancé).
+- Encourage mais ne mens jamais. La vérité respectueuse > le réconfort vide.
+- Réponses en français sauf si on te parle en anglais.
+- Maximum 250 mots par réponse. Concis et dense.
+- Utilise des emojis avec parcimonie — un ou deux max, jamais en excès.
+
+TA SIGNATURE:
+"Je ne te dis pas quoi faire — je t'aide à faire ce que tu as déjà décidé de faire."`;
 
 export default async function handler(req) {
   if (req.method === 'OPTIONS') {
@@ -47,10 +58,10 @@ export default async function handler(req) {
     } else if (openaiKey) {
       return await callGPT(openaiKey, message, userContext, history || []);
     } else {
-      return jsonResp({ reply: null, fallback: true, error: 'NO_KEY: No API key configured' });
+      return jsonResp({ reply: null, fallback: true, error: 'Service temporairement indisponible. JARVIS local prend le relais.' });
     }
   } catch (err) {
-    return jsonResp({ reply: null, fallback: true, error: 'CATCH: ' + err.message }, 500);
+    return jsonResp({ reply: null, fallback: true, error: 'Une erreur est survenue. JARVIS local prend le relais.' }, 500);
   }
 }
 
@@ -86,13 +97,13 @@ async function callClaude(apiKey, message, userContext, history) {
       body: JSON.stringify(body),
     });
   } catch (fetchErr) {
-    return jsonResp({ reply: null, fallback: true, error: 'FETCH_ERR: ' + fetchErr.message });
+    return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
   }
 
   const data = await res.json();
 
   if (data.error) {
-    return jsonResp({ reply: null, fallback: true, error: 'CLAUDE_ERR: ' + (data.error.message || JSON.stringify(data.error)) });
+    return jsonResp({ reply: null, fallback: true, error: 'Le mentor IA est temporairement indisponible. JARVIS local prend le relais.' });
   }
 
   const reply = data.content?.[0]?.text || null;
@@ -117,13 +128,13 @@ async function callGPT(apiKey, message, userContext, history) {
       body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 800, messages }),
     });
   } catch (fetchErr) {
-    return jsonResp({ reply: null, fallback: true, error: 'FETCH_ERR: ' + fetchErr.message });
+    return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
   }
 
   const data = await res.json();
 
   if (data.error) {
-    return jsonResp({ reply: null, fallback: true, error: 'GPT_ERR: ' + (data.error.message || JSON.stringify(data.error)) });
+    return jsonResp({ reply: null, fallback: true, error: 'Le mentor IA est temporairement indisponible. JARVIS local prend le relais.' });
   }
 
   const reply = data.choices?.[0]?.message?.content || null;
