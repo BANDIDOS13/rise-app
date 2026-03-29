@@ -542,9 +542,33 @@ textarea.inp{resize:none}
     <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">Chargement...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Citation personnalisée du jour</div></div>
     <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
     <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--or)" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or)">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
+    <!-- 1% BETTER TRACKER -->
+    <div id="w-onepct" class="wg au2" style="cursor:pointer" onclick="gs('dash',null)">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-size:28px">📈</div>
+        <div style="flex:1">
+          <div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--gr)" id="onepct-title">1% Meilleur chaque jour</div>
+          <div style="font-size:11px;color:var(--tx3)" id="onepct-desc">Charge...</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--ac)" id="onepct-val">-</div>
+          <div style="font-size:9px;color:var(--tx3)" id="onepct-unit">jours actifs</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:2px;margin-top:8px;height:20px;align-items:flex-end" id="onepct-mini"></div>
+    </div>
     <div id="w-boss" class="boss-c au2" style="display:none"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚔️ Boss de la semaine</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:4px" id="boss-nm">Boss Procrastination</div><div style="background:var(--rdd);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px"><div style="height:100%;background:linear-gradient(90deg,var(--rd),#ff8080);border-radius:4px;transition:width .8s" id="boss-hp-fill"></div></div><div style="font-size:10px;color:var(--tx3)" id="boss-hp-txt">500/500</div></div>
     <div id="w-quests" class="wg au3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px">⚡ Quêtes du jour</div><div style="font-size:10px;color:var(--tx3)" id="q-count">0/5</div></div><div id="q-list"></div></div>
     <div id="w-nat" class="wg au3" style="cursor:pointer;border-color:var(--nt)" onclick="gs('nature',null)"><div style="display:flex;align-items:center;gap:10px"><div style="font-size:26px;animation:float 3s ease-in-out infinite">🌿</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--nt2)">Nature du jour</div><div style="font-size:11px;color:var(--tx3)" id="nat-mini">Marche · Soleil · Respiration</div></div><div style="font-size:12px;color:var(--nt);font-weight:700">→</div></div></div>
+    <!-- JARVIS SMART SUGGESTION -->
+    <div id="w-jarvis-sug" class="smart-sug au3" style="display:none" onclick="actJarvisSug()">
+      <div class="smart-sug-ico" id="jsug-ico">🤖</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:var(--ac)" id="jsug-title">JARVIS suggere</div>
+        <div style="font-size:12px;color:var(--tx2);line-height:1.5" id="jsug-text"></div>
+      </div>
+      <div style="font-size:12px;color:var(--ac);font-weight:700">→</div>
+    </div>
     <div id="w-flash"></div>
     <div id="w-defi7"></div>
     <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:9px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)" onclick="pomoRst()">↺</button></div></div>
@@ -1250,6 +1274,61 @@ function genMorningBrief(){
   txt.innerHTML=lines.join('<br>');
   el.style.display='block';
 }
+var _jarvisSugAction=null;
+function genJarvisSug(){
+  var el=document.getElementById('w-jarvis-sug');if(!el)return;
+  var hour=new Date().getHours();var r=calcRiseScore();var sug=null;
+  var hasCheckin=S.checkins&&S.checkins[TD];
+  var qs=(S.dq&&S.dq.qs)||[];var qDone=qs.filter(function(q){return q.done;}).length;
+  var hList=(S.habits&&S.habits.list)||[];
+  var hDone=hList.filter(function(h){return h.lastDone===TD;}).length;
+  // Morning: nudge check-in
+  if(hour<12&&!hasCheckin){sug={ico:'🌅',title:'Commence ta journee',text:'Fais ton check-in pour generer ton plan du jour IA',action:function(){var ci=document.getElementById('ci-sec');if(ci)ci.scrollIntoView({behavior:'smooth'});}};}
+  // Midday: nudge habits
+  else if(hour>=12&&hour<15&&hList.length>0&&hDone<hList.length/2){var next=hList.find(function(h){return h.lastDone!==TD;});sug={ico:'⚡',title:'Habitude en attente',text:(next?next.ico+' '+next.name:'Coche tes habitudes')+' — tu es a '+hDone+'/'+hList.length,action:function(){gs('habits',null);}};}
+  // Afternoon: nudge quests
+  else if(hour>=15&&hour<18&&qDone<qs.length){sug={ico:'⚡',title:qDone+'/'+qs.length+' quetes faites',text:'Un Pomodoro de 25 min te rapproche de tes objectifs',action:function(){var pomo=document.getElementById('w-pomo');if(pomo)pomo.scrollIntoView({behavior:'smooth'});}};}
+  // Evening: nudge review
+  else if(hour>=18&&hour<22&&!(S.eveningReviews&&S.eveningReviews[TD])){sug={ico:'🌙',title:'Bilan du soir disponible',text:'Score: '+r.score+'/100 — Ancre tes apprentissages du jour',action:function(){document.getElementById('ov-evening').classList.add('show');}};}
+  // Nature nudge if low nature score
+  else if(r.parts&&r.parts.nature<30&&hour>=9&&hour<17){sug={ico:'🌿',title:'Sors prendre l\'air',text:'20 min dehors = +13% de creativite. Ton score nature est bas.',action:function(){gs('nature',null);}};}
+  // Score is high — celebrate
+  else if(r.score>=80){sug={ico:'🏆',title:'Journee exceptionnelle !',text:'Score: '+r.score+'/100. Partage ta victoire !',action:function(){gs('social',null);}};}
+
+  if(sug){
+    document.getElementById('jsug-ico').textContent=sug.ico;
+    document.getElementById('jsug-title').textContent=sug.title;
+    document.getElementById('jsug-text').textContent=sug.text;
+    _jarvisSugAction=sug.action;
+    el.style.display='flex';
+  }else{el.style.display='none';}
+}
+function actJarvisSug(){if(_jarvisSugAction)_jarvisSugAction();}
+function updOnePct(){
+  var scores=S.riseScores||{};var activeDays=Object.keys(scores).length;
+  var valEl=document.getElementById('onepct-val');if(valEl)valEl.textContent=activeDays;
+  // Calculate compound effect: if you're 1% better each active day
+  var compound=Math.round((Math.pow(1.01,activeDays)-1)*100);
+  var descEl=document.getElementById('onepct-desc');
+  if(descEl){
+    if(activeDays>=30)descEl.textContent='+'+compound+'% depuis le debut. Continue !';
+    else if(activeDays>=7)descEl.textContent='+'+compound+'% en '+activeDays+' jours. Le progres est reel.';
+    else if(activeDays>0)descEl.textContent='1.01^'+activeDays+' = deja '+compound+'% de mieux';
+    else descEl.textContent='Commence pour voir ta progression cumulee';
+  }
+  // Mini 30-day heatmap
+  var miniEl=document.getElementById('onepct-mini');if(!miniEl)return;
+  var bars=[];
+  for(var i=29;i>=0;i--){
+    var d=new Date();d.setDate(d.getDate()-i);var ds=d.toDateString();
+    var sc=scores[ds];
+    var h=sc!==undefined?Math.max(3,Math.round(sc/100*18)):2;
+    var col=sc===undefined?'var(--sf3)':sc>=70?'var(--gr)':sc>=40?'var(--ac)':'var(--or)';
+    var op=sc===undefined?'0.3':'0.8';
+    bars.push('<div style="flex:1;height:'+h+'px;background:'+col+';border-radius:1px;opacity:'+op+'"></div>');
+  }
+  miniEl.innerHTML=bars.join('');
+}
 function chkEveningReview(){
   var hour=new Date().getHours();
   if(hour<18||hour>23)return;
@@ -1279,7 +1358,7 @@ function saveEveningReview(){
   toast('Review sauvegardee ! +50 XP','🌙',3000);
   addN('🌙','Bilan du soir','Review completee. Score: '+calcRiseScore().score+'/100');
 }
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();genMorningBrief();chkEveningReview();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updOnePct();genMorningBrief();genJarvisSug();chkEveningReview();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1440,8 +1519,36 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
+function exportData(){
+  var data=JSON.stringify(S,null,2);
+  var blob=new Blob([data],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='rise-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  toast('Backup telecharge !','💾',2500);
+}
+function importData(){
+  var inp=document.createElement('input');inp.type='file';inp.accept='.json';
+  inp.onchange=function(e){
+    var file=e.target.files[0];if(!file)return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      try{
+        var data=JSON.parse(ev.target.result);
+        if(!data.ob&&!data.name){toast('Fichier invalide','❌',2500);return;}
+        if(!confirm('Remplacer toutes tes donnees par ce backup ? Cette action est irreversible.'))return;
+        localStorage.setItem('rise_v9',JSON.stringify(data));
+        toast('Donnees restaurees !','✅',2000);
+        setTimeout(function(){location.reload();},1500);
+      }catch(err){toast('Erreur de lecture','❌',2500);}
+    };
+    reader.readAsText(file);
+  };
+  inp.click();
+}
 function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
 else if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
 else if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
@@ -1999,8 +2106,8 @@ function rKanban(el) {
         + '<div class="kanban-col-hdr" style="color:'+col.color+'">'+col.label+'<span style="margin-left:6px;background:var(--sf3);padding:1px 7px;border-radius:10px;font-size:10px">'+colCards.length+'</span></div>'
         + '<div style="padding:4px">'
         + colCards.map(c => '<div class="kanban-card" onclick="moveCard(\''+c.id+'\')">'
-          +'<div style="font-size:12px;font-weight:600;margin-bottom:4px">'+c.title+'</div>'
-          +(c.tag?'<span style="font-size:9px;padding:2px 7px;border-radius:10px;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+c.tag+'</span>':'')
+          +'<div style="font-size:12px;font-weight:600;margin-bottom:4px">'+escHTML(c.title)+'</div>'
+          +(c.tag?'<span style="font-size:9px;padding:2px 7px;border-radius:10px;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+escHTML(c.tag)+'</span>':'')
           +'</div>').join('')
         + '<button style="width:100%;padding:7px;margin:4px 0 6px;border-radius:var(--rs);border:1px dashed var(--bd2);color:var(--tx3);font-size:11px;cursor:pointer;background:none" onclick="addKCard(\''+col.id+'\')">+ Ajouter</button>'
         + '</div></div>';
@@ -2101,12 +2208,12 @@ function rOKR(el) {
       const krs = obj.keyResults||[];
       const avg = krs.length ? Math.round(krs.reduce((a,k)=>a+(k.progress||0),0)/krs.length) : 0;
       return '<div class="okr-obj"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">'
-        +'<div><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+obj.title+'</div>'
-        +'<div style="font-size:11px;color:var(--tx3)">'+obj.deadline+'</div></div>'
+        +'<div><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+escHTML(obj.title)+'</div>'
+        +'<div style="font-size:11px;color:var(--tx3)">'+escHTML(obj.deadline||'')+'</div></div>'
         +'<div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+(avg>=70?'var(--gr)':avg>=40?'var(--ac)':'var(--rd)')+'">'+avg+'%</div></div>'
         +'<div class="pbar" style="margin-bottom:10px"><div class="pfill '+(avg>=70?'pgr':'pac')+'" style="width:'+avg+'%"></div></div>'
         +krs.map(kr => '<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:var(--rs);padding:9px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">'
-          +'<div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:4px">'+kr.title+'</div>'
+          +'<div style="flex:1"><div style="font-size:12px;font-weight:600;margin-bottom:4px">'+escHTML(kr.title)+'</div>'
           +'<div class="pbar" style="height:4px"><div class="pfill pac" style="width:'+( kr.progress||0)+'%"></div></div></div>'
           +'<div style="display:flex;gap:4px;flex-shrink:0">'
           +'<button style="width:24px;height:24px;border-radius:50%;background:var(--rdd);border:1px solid var(--rd);color:var(--rd);font-size:12px;cursor:pointer" onclick="updKR(\''+obj.id+'\',\''+kr.id+'\',-10)">-</button>'
@@ -2166,7 +2273,7 @@ function rRevenus(el) {
     + (monthEntries.length
       ? '<div class="lbl" style="margin-bottom:9px">Historique du mois</div>'
         + monthEntries.slice().reverse().map(e =>
-          '<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+e.title+'</div><div style="font-size:10px;color:var(--tx3)">'+e.date+' · '+e.cat+'</div></div>'
+          '<div class="rev-row"><div><div style="font-size:13px;font-weight:600">'+escHTML(e.title)+'</div><div style="font-size:10px;color:var(--tx3)">'+escHTML(e.date+' · '+(e.cat||''))+'</div></div>'
           +'<div class="'+(e.amount>0?'rev-pos':'rev-neg')+'">'+( e.amount>0?'+':'')+e.amount+'€</div></div>'
         ).join('')
       : '<div style="text-align:center;padding:32px;color:var(--tx3)">Aucune entrée ce mois.</div>'
@@ -2488,7 +2595,7 @@ var crmTab='contacts';
 function setCrmT(tab,btn){crmTab=tab;document.querySelectorAll('#crm-tabs .fbtn').forEach(function(b){b.classList.remove('on');});if(btn)btn.classList.add('on');renderCRM();}
 function renderCRM(){var el=document.getElementById('crm-content');if(!el)return;if(crmTab==='contacts')rContacts(el);else if(crmTab==='deals')rDeals(el);else if(crmTab==='followup')rFollowUp(el);}
 function rContacts(el){var contacts=S.crm&&S.crm.contacts||[];el.innerHTML='<div style="display:flex;gap:8px;margin-bottom:11px"><input class="inp" id="crm-q" placeholder="Rechercher..." style="flex:1" oninput="filterC(this.value)"><button style="padding:11px 16px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:13px;font-weight:700;cursor:pointer;flex-shrink:0" onclick="addContact()">+ Contact</button></div><div id="c-list">'+renderCList(contacts)+'</div>';}
-function renderCList(contacts){if(!contacts.length)return'<div style="text-align:center;padding:40px;color:var(--tx3)">Aucun contact.</div>';var now2=Date.now();return contacts.map(function(c){var days2=c.lastContact?Math.floor((now2-new Date(c.lastContact))/864e5):null,needsFU=days2!==null&&days2>(c.followUpDays||7);return'<div class="crm-c" onclick="openContact(\''+c.id+'\')"><div style="display:flex;align-items:center;gap:12px"><div style="width:42px;height:42px;border-radius:50%;background:var(--agg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac);flex-shrink:0">'+(c.name[0]||'?').toUpperCase()+'</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+c.name+'</div><div style="font-size:11px;color:var(--tx3)">'+(c.company||'')+(c.company&&c.role?' · ':'')+( c.role||'')+'</div></div><div style="text-align:right;flex-shrink:0">'+(needsFU?'<div style="padding:2px 7px;border-radius:10px;background:var(--ord);border:1px solid var(--or);font-size:9px;color:var(--or);font-weight:700;margin-bottom:3px">⚠️ Relancer</div>':'')+(days2!==null?'<div style="font-size:10px;color:var(--tx3)">'+(days2===0?'Auj.':days2+'j')+'</div>':'')+'</div></div>'+(c.tags&&c.tags.length?'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">'+c.tags.map(function(t){return'<span style="padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+t+'</span>';}).join('')+'</div>':'')+'</div>';}).join('');}
+function renderCList(contacts){if(!contacts.length)return'<div style="text-align:center;padding:40px;color:var(--tx3)">Aucun contact.</div>';var now2=Date.now();return contacts.map(function(c){var days2=c.lastContact?Math.floor((now2-new Date(c.lastContact))/864e5):null,needsFU=days2!==null&&days2>(c.followUpDays||7);return'<div class="crm-c" onclick="openContact(\''+c.id+'\')"><div style="display:flex;align-items:center;gap:12px"><div style="width:42px;height:42px;border-radius:50%;background:var(--agg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac);flex-shrink:0">'+escHTML((c.name[0]||'?').toUpperCase())+'</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;margin-bottom:2px">'+escHTML(c.name)+'</div><div style="font-size:11px;color:var(--tx3)">'+escHTML((c.company||'')+(c.company&&c.role?' · ':'')+(c.role||''))+'</div></div><div style="text-align:right;flex-shrink:0">'+(needsFU?'<div style="padding:2px 7px;border-radius:10px;background:var(--ord);border:1px solid var(--or);font-size:9px;color:var(--or);font-weight:700;margin-bottom:3px">⚠️ Relancer</div>':'')+(days2!==null?'<div style="font-size:10px;color:var(--tx3)">'+(days2===0?'Auj.':days2+'j')+'</div>':'')+'</div></div>'+(c.tags&&c.tags.length?'<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:8px">'+c.tags.map(function(t){return'<span style="padding:2px 7px;border-radius:10px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+escHTML(t)+'</span>';}).join('')+'</div>':'')+'</div>';}).join('');}
 function filterC(q){var contacts=(S.crm&&S.crm.contacts||[]).filter(function(c){return c.name.toLowerCase().includes(q.toLowerCase())||(c.company||'').toLowerCase().includes(q.toLowerCase());});var el=document.getElementById('c-list');if(el)el.innerHTML=renderCList(contacts);}
 function addContact(){var name=prompt('Nom ?');if(!name)return;var company=prompt('Entreprise (opt.)','') ||'';var role=prompt('Rôle (opt.)','') ||'';S.crm=S.crm||{contacts:[],deals:[]};S.crm.contacts.push({id:'c'+Date.now(),name:name,company:company,role:role,phone:'',tags:[],notes:[],lastContact:null,followUpDays:7,created:TD});save();gainXP(10,'crm');toast(name+' ajouté !','👤',2000);renderCRM();}
 function openContact(id){var c=(S.crm&&S.crm.contacts||[]).find(function(x){return x.id===id;});if(!c)return;var a=prompt('Contact: '+c.name+'\n\n1. Note\n2. Contacté\n3. Follow-up jours\n4. Ajouter tag\n5. Annuler','2');if(a==='1'){var n2=prompt('Note :');if(n2){c.notes=c.notes||[];c.notes.unshift({text:n2,date:TD});c.lastContact=new Date().toISOString();}}else if(a==='2'){c.lastContact=new Date().toISOString();toast(c.name+' — contacté !','✅',2000);}else if(a==='3'){var d3=parseInt(prompt('Dans X jours ?',c.followUpDays||7)||'7');if(!isNaN(d3))c.followUpDays=d3;}else if(a==='4'){var t2=prompt('Tag ?');if(t2){c.tags=c.tags||[];if(!c.tags.includes(t2))c.tags.push(t2);}}save();renderCRM();}
@@ -2518,7 +2625,7 @@ function renderShare() {
   ];
   el.innerHTML = '<div style="background:radial-gradient(ellipse 80% 50% at 50% 30%,var(--agg) 0%,transparent 70%);border:1px solid var(--bd);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:14px">'
     +'<div style="font-size:44px;margin-bottom:8px">'+(av.ico||'⚡')+'</div>'
-    +'<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px">'+S.name+'</div>'
+    +'<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px">'+escHTML(S.name||'Champion')+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px">'
     +'<span style="padding:4px 12px;border-radius:20px;background:var(--agg2);border:1px solid var(--acm);font-size:12px;font-weight:700;color:var(--ac)">⭐ '+xp+' XP</span>'
     +'<span style="padding:4px 12px;border-radius:20px;background:var(--ord);border:1px solid var(--or);font-size:12px;font-weight:700;color:var(--or)">🔥 '+streak+'j streak</span>'
@@ -2615,10 +2722,10 @@ function renderJournal(el) {
   h += '<div style="font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px">Aujourd\'hui</div>';
 
   if (todayEntry) {
-    h += '<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:10px;white-space:pre-wrap">' + todayEntry.text + '</div>';
+    h += '<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:10px;white-space:pre-wrap">' + escHTML(todayEntry.text) + '</div>';
     if (todayEntry.gratitude && todayEntry.gratitude.length) {
       h += '<div style="margin-top:8px">';
-      todayEntry.gratitude.forEach(function(g) { h += '<div style="font-size:12px;color:var(--gr);padding:3px 0">🙏 ' + g + '</div>'; });
+      todayEntry.gratitude.forEach(function(g) { h += '<div style="font-size:12px;color:var(--gr);padding:3px 0">🙏 ' + escHTML(g) + '</div>'; });
       h += '</div>';
     }
     h += '<button class="btn btn-sf" style="margin-top:8px;font-size:11px" onclick="editJournalToday()">Modifier</button>';
@@ -2651,8 +2758,8 @@ function renderJournal(el) {
     past.forEach(function(j) {
       var preview = j.text.substring(0, 80) + (j.text.length > 80 ? '...' : '');
       h += '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:6px">';
-      h += '<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">' + j.date + '</div>';
-      h += '<div style="font-size:12px;color:var(--tx2);line-height:1.5">' + preview + '</div>';
+      h += '<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">' + escHTML(j.date) + '</div>';
+      h += '<div style="font-size:12px;color:var(--tx2);line-height:1.5">' + escHTML(preview) + '</div>';
       if (j.gratitude && j.gratitude.length) h += '<div style="font-size:11px;color:var(--gr);margin-top:4px">🙏 ' + j.gratitude.length + ' gratitudes</div>';
       h += '</div>';
     });
@@ -2941,8 +3048,8 @@ function renderIdeas(el) {
       var catInfo = cats.find(function(c) { return c.id === idea.cat; }) || cats[4];
       h += '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:6px;position:relative">';
       h += '<div style="display:flex;justify-content:space-between;align-items:flex-start">';
-      h += '<div style="flex:1"><div style="font-size:13px;color:var(--tx);line-height:1.5;margin-bottom:4px">' + idea.text + '</div>';
-      h += '<div style="font-size:10px;color:var(--tx3)">' + catInfo.ico + ' ' + catInfo.lbl + ' · ' + idea.date + '</div></div>';
+      h += '<div style="flex:1"><div style="font-size:13px;color:var(--tx);line-height:1.5;margin-bottom:4px">' + escHTML(idea.text) + '</div>';
+      h += '<div style="font-size:10px;color:var(--tx3)">' + escHTML(catInfo.ico + ' ' + catInfo.lbl + ' · ' + idea.date) + '</div></div>';
       h += '<button onclick="delIdea(' + (S.ideas.length - 1 - idx) + ')" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:14px;padding:4px">✕</button>';
       h += '</div></div>';
     });
@@ -4582,12 +4689,12 @@ function renderSmartJournal(){
       ).join('')+
       '</div></div>'
       :
-      '<div class="wg" style="padding:16px;margin-bottom:16px"><div style="font-size:11px;color:var(--tx3)">Aujourd\'hui — '+todayEntry.mood+'</div><div style="font-size:13px;margin-top:8px;white-space:pre-wrap">'+todayEntry.text.slice(0,200)+(todayEntry.text.length>200?'...':'')+'</div></div>'
+      '<div class="wg" style="padding:16px;margin-bottom:16px"><div style="font-size:11px;color:var(--tx3)">Aujourd\'hui — '+escHTML(todayEntry.mood||'')+'</div><div style="font-size:13px;margin-top:8px;white-space:pre-wrap">'+escHTML(todayEntry.text.slice(0,200))+(todayEntry.text.length>200?'...':'')+'</div></div>'
     )+
     '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">📖 Entrées récentes</div>'+
     (entries.length===0?'<div style="color:var(--tx3);font-size:13px;text-align:center;padding:16px">Ton journal est vide. Commence aujourd\'hui!</div>':
     entries.slice(-5).reverse().map(e=>
-      '<div class="wg" style="margin-bottom:8px;padding:12px;cursor:pointer" onclick="viewJournalEntry(\''+e.date+'\')"><div style="display:flex;justify-content:space-between"><div style="font-size:12px;color:var(--tx3)">'+e.date+'</div><div style="font-size:16px">'+(e.mood==='happy'?'😊':e.mood==='sad'?'😢':e.mood==='stressed'?'😰':e.mood==='motivated'?'🔥':'😐')+'</div></div><div style="font-size:13px;margin-top:4px;color:var(--tx2)">'+e.text.slice(0,80)+'...</div></div>'
+      '<div class="wg" style="margin-bottom:8px;padding:12px;cursor:pointer" onclick="viewJournalEntry(\''+e.date+'\')"><div style="display:flex;justify-content:space-between"><div style="font-size:12px;color:var(--tx3)">'+escHTML(e.date)+'</div><div style="font-size:16px">'+(e.mood==='happy'?'😊':e.mood==='sad'?'😢':e.mood==='stressed'?'😰':e.mood==='motivated'?'🔥':'😐')+'</div></div><div style="font-size:13px;margin-top:4px;color:var(--tx2)">'+escHTML(e.text.slice(0,80))+'...</div></div>'
     ).join(''));
 }
 
@@ -6086,8 +6193,8 @@ function toggleZenMode(){
       h+='<div style="background:'+(done?'var(--grd)':'var(--sf)')+';border:1px solid '+(done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:7px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s" onclick="toggleHabit6(\''+hab.id+'\')">';
       h+='<div style="width:28px;height:28px;border-radius:50%;border:2px solid '+(done?'var(--gr)':'var(--bd2)')+';display:flex;align-items:center;justify-content:center;font-size:12px;background:'+(done?'var(--gr)':'transparent')+';color:'+(done?'#000':'transparent')+';transition:all .2s;flex-shrink:0">'+(done?'✓':'')+'</div>';
       h+='<div style="font-size:20px;flex-shrink:0">'+hab.ico+'</div>';
-      h+='<div style="flex:1"><div style="font-size:13px;font-weight:600;'+(done?'text-decoration:line-through;opacity:.6':'')+'">'+hab.name+'</div>';
-      h+='<div style="font-size:10px;color:var(--tx3)">🔥 '+hab.streak+' jours</div></div>';
+      h+='<div style="flex:1"><div style="font-size:13px;font-weight:600;'+(done?'text-decoration:line-through;opacity:.6':'')+'">'+escHTML(hab.name)+'</div>';
+      h+='<div style="font-size:10px;color:var(--tx3)">🔥 '+escHTML(String(hab.streak||0))+' jours</div></div>';
       h+='</div>';
     });
     h+='</div>';
