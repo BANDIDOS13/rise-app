@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FORGE">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%2307080a' width='180' height='180' rx='40'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='100' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Inter:wght@400;500;600;700;800&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--grd:#0e1f16;--rd:#d95f5f;--rdd:#1e0e0e;--bl:#4a9ed4;--bld:#0c1c2a;--pu:#8b6de0;--pud:#140e28;--or:#e0874a;--ord:#1e1008;--tl:#3db8aa;--tld:#0a1e1a;--nt:#5cb87a;--ntd:#0a1c10;--nt2:#8dd4a0;--r:16px;--rs:10px;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
 [data-theme=ocean]{--bg:#040d14;--bg2:#07121c;--sf:#0a1a26;--sf2:#0f2030;--sf3:#142836;--bd:#1a2e3a;--bd2:#223848;--tx:#e8f4f8;--tx2:#7aa8b8;--tx3:#3a6070;--ac:#38b8d4;--ac2:#5cd4f0;--acm:#0a3a48;--agg:rgba(56,184,212,.08);--agg2:rgba(56,184,212,.16)}
@@ -426,29 +426,29 @@ textarea.inp{resize:none}
 /* FORGE — PREMIUM DESIGN SYSTEM              */
 /* ═══════════════════════════════════════════ */
 
-/* Dark palette override */
-:root{--bg:#0A0A0F;--bg2:#0E0E15;--sf:#12121A;--sf2:#1A1A25;--sf3:#22222E;--bd:#1E1E2A;--bd2:#2A2A38}
+/* Dark palette override — FORGE Gold */
+:root{--bg:#0A0A0F;--bg2:#0E0E15;--sf:#12121A;--sf2:#1A1A25;--sf3:#22222E;--bd:#1E1E2A;--bd2:#2A2A38;--ac:#F5C842;--ac2:#FFD866;--acm:#3D2E0A;--agg:rgba(245,200,66,.08);--agg2:rgba(245,200,66,.16);--fb:'Inter',system-ui,-apple-system,sans-serif}
 
 /* Glassmorphism cards */
 .forge-glass{background:rgba(255,255,255,0.03)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06)!important}
 .card,.wg{background:rgba(255,255,255,0.03);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.06)}
 
 /* Glow effects */
-.forge-glow{box-shadow:0 0 20px rgba(124,58,237,0.15)}
+.forge-glow{box-shadow:0 0 20px rgba(245,200,66,0.15)}
 .streak-glow{box-shadow:0 0 16px rgba(224,135,74,0.2)}
 
-/* Premium gradient CTAs */
-.btn-ac{background:linear-gradient(135deg,#7C3AED,#2563EB)!important;color:#fff!important}
-.btn-ac:hover{box-shadow:0 4px 20px rgba(124,58,237,0.4)}
+/* Premium gradient CTAs — Gold */
+.btn-ac{background:linear-gradient(135deg,#F5C842,#FFD866)!important;color:#0A0A0F!important;font-weight:800!important}
+.btn-ac:hover{box-shadow:0 4px 20px rgba(245,200,66,0.4)}
 
 /* Micro-interactions enhanced */
 .card:active,.wg:active{transform:scale(0.97)}
 @media(hover:hover){
-  .card:hover,.wg:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3);border-color:rgba(124,58,237,0.2)}
+  .card:hover,.wg:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3);border-color:rgba(245,200,66,0.2)}
 }
 
 /* Gradient text for titles */
-.forge-gradient-text{background:linear-gradient(135deg,#7C3AED,#2563EB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.forge-gradient-text{background:linear-gradient(135deg,#F5C842,#FFD866);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
 /* Achievement rarity glows */
 .ach-mythic{animation:mythicPulse 2s infinite;border:1px solid rgba(239,68,68,0.5)!important}
@@ -484,17 +484,17 @@ textarea.inp{resize:none}
 .gbar{background:rgba(10,10,15,0.9)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 
 /* ══════════════════════════════════════════════════════
-   RESPONSIVE DESKTOP — Same approach as landing page
-   Default = desktop-friendly. Mobile override via max-width.
+   RESPONSIVE DESKTOP — 3-Column Layout System
+   Mobile-first, then tablet, then full desktop
    ══════════════════════════════════════════════════════ */
 
-/* Tablet & Desktop: wider padding, grid layouts */
+/* Tablet: wider padding, better spacing */
 @media(min-width:768px){
-  .pad{padding:24px 40px 0}
+  .pad{padding:24px 32px 0}
   .screen{padding-bottom:20px}
   .wg{border-radius:14px}
   .card{border-radius:14px}
-  .gbar{padding:12px 40px}
+  .gbar{padding:12px 32px}
   .bnav{max-width:600px;margin:0 auto;border-radius:20px 20px 0 0}
   .ob-step{max-width:520px;margin:0 auto}
   .row2{gap:14px}
@@ -505,19 +505,67 @@ textarea.inp{resize:none}
   .nat-c{border-radius:14px}
 }
 
-/* Desktop: centered content column */
+/* ═══ DESKTOP 3-COLUMN LAYOUT ═══ */
 @media(min-width:1024px){
-  .pad{padding:28px 60px 0;max-width:800px;margin:0 auto}
-  .gbar{max-width:800px;margin:0 auto;padding:14px 60px}
-  .bnav{max-width:500px}
-  .screen{padding-bottom:24px}
-  .wg{padding:20px}
+  #app{max-width:100%;flex-direction:column}
+  .gbar{max-width:100%;padding:12px 32px;position:sticky;top:0;z-index:500;border-bottom:1px solid var(--bd)}
+  .bnav{display:none!important}
+
+  /* Desktop sidebar nav (injected by JS) */
+  .desktop-shell{display:flex;flex:1;overflow:hidden;height:calc(100dvh - 50px)}
+  .desktop-nav{width:240px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow-y:auto;padding:16px 0}
+  .desktop-nav::-webkit-scrollbar{width:3px}
+  .desktop-nav::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+  .desktop-nav .dn-section{padding:0 12px;margin-bottom:16px}
+  .desktop-nav .dn-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--tx3);padding:8px 12px 6px;user-select:none}
+  .desktop-nav .dn-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;color:var(--tx2);cursor:pointer;transition:all .15s;margin-bottom:2px;white-space:nowrap}
+  .desktop-nav .dn-item:hover{background:var(--agg);color:var(--tx)}
+  .desktop-nav .dn-item.active{background:var(--agg2);color:var(--ac);font-weight:700}
+  .desktop-nav .dn-item .dn-ico{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+  .desktop-nav .dn-item .dn-badge{margin-left:auto;font-size:10px;padding:2px 7px;border-radius:10px;background:var(--agg2);color:var(--ac);font-weight:800}
+
+  /* Main content area */
+  .desktop-main{flex:1;overflow:hidden;display:flex;flex-direction:column;position:relative}
+  .desktop-main .screens{flex:1;overflow:hidden;position:relative}
+  .desktop-main .screen{padding-bottom:24px}
+  .desktop-main .pad{padding:28px 40px 0;max-width:100%}
+
+  /* Right contextual sidebar */
+  .desktop-right{width:300px;flex-shrink:0;background:var(--bg2);border-left:1px solid var(--bd);overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+  .desktop-right::-webkit-scrollbar{width:3px}
+  .desktop-right::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+  .desktop-right .dr-section{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:16px}
+  .desktop-right .dr-title{font-family:var(--fd);font-weight:700;font-size:13px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .desktop-right .dr-stat{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd);font-size:12px}
+  .desktop-right .dr-stat:last-child{border:none}
+  .desktop-right .dr-stat-val{font-family:var(--fd);font-weight:700;color:var(--ac)}
+
+  /* Jarvis FAB repositioned on desktop */
+  .jarvis-fab{bottom:24px;right:24px;width:60px;height:60px;font-size:24px}
+  .jarvis-drawer{max-width:420px;right:0;left:auto;border-radius:24px 0 0 0}
+
+  /* Desktop form overlay */
+  #form-ov{max-width:600px;left:50%;transform:translateX(-50%);border-radius:16px;top:5vh;bottom:5vh}
+
+  /* Modal on desktop */
+  .msh{max-width:480px}
+
+  /* Widen tool grids on desktop */
+  .screen .row2{grid-template-columns:1fr 1fr}
+  .screen .row3{grid-template-columns:1fr 1fr 1fr}
 }
 
-/* Large desktop */
+/* Large desktop: wider sidebars */
 @media(min-width:1440px){
-  .pad{padding:32px 80px 0;max-width:900px}
-  .gbar{max-width:900px;padding:16px 80px}
+  .desktop-nav{width:260px}
+  .desktop-right{width:340px}
+  .desktop-main .pad{padding:32px 48px 0}
+}
+
+/* Ultrawide */
+@media(min-width:1920px){
+  .desktop-nav{width:280px}
+  .desktop-right{width:380px}
 }
 
 </style>
@@ -1433,36 +1481,135 @@ function renderAchievements(el){
 // FORGE DAILY QUESTS SYSTEM (Enhanced)
 // ═══════════════════════════════════════════
 const FORGE_QUEST_POOL=[
-  {id:'fq_pomo25',  ico:'⏱️',nm:'25 min de focus (Pomodoro)', target:1,type:'pomo',    xp:40, g:4, attr:'ORDER',   diff:'easy'},
-  {id:'fq_hab3',    ico:'⚡',nm:'Complète 3 habitudes',       target:3,type:'habits',   xp:50, g:5, attr:'ORDER',   diff:'medium'},
-  {id:'fq_journal', ico:'📝',nm:'Écris dans ton journal',     target:1,type:'journal',  xp:30, g:3, attr:'MIND',    diff:'easy'},
-  {id:'fq_lang5',   ico:'🌍',nm:'Apprends 5 mots',           target:5,type:'lang',     xp:45, g:4, attr:'WISDOM',  diff:'medium'},
-  {id:'fq_idea',    ico:'💡',nm:'Ajoute une idée business',   target:1,type:'idea',     xp:35, g:3, attr:'HUSTLE',  diff:'easy'},
-  {id:'fq_checkin', ico:'📋',nm:'Check-in du soir',           target:1,type:'checkin',  xp:30, g:3, attr:'MIND',    diff:'easy'},
-  {id:'fq_eisen',   ico:'🎯',nm:'Matrice Eisenhower',         target:1,type:'matrix',   xp:50, g:5, attr:'ORDER',   diff:'medium'},
-  {id:'fq_walk20',  ico:'🚶',nm:'20 min de marche',           target:20,type:'walk',    xp:40, g:4, attr:'BODY',    diff:'medium'},
-  {id:'fq_sun15',   ico:'☀️',nm:'15 min de soleil',           target:15,type:'sun',     xp:35, g:3, attr:'VITALITY',diff:'easy'},
-  {id:'fq_breath',  ico:'💨',nm:'Session respiration',        target:1,type:'breath',   xp:30, g:3, attr:'VITALITY',diff:'easy'},
-  {id:'fq_read20',  ico:'📖',nm:'Lis 20 pages',              target:1,type:'read',     xp:45, g:4, attr:'WISDOM',  diff:'medium'},
-  {id:'fq_coach',   ico:'🤖',nm:'Parle au coach',            target:1,type:'chat',     xp:25, g:2, attr:'MIND',    diff:'easy'},
-  {id:'fq_workout', ico:'💪',nm:'Session sport',              target:1,type:'workout',  xp:50, g:5, attr:'BODY',    diff:'medium'},
-  {id:'fq_water8',  ico:'💧',nm:'Bois 8 verres d\'eau',     target:8,type:'water',    xp:30, g:3, attr:'VITALITY',diff:'easy'},
-  {id:'fq_form1',   ico:'📚',nm:'1 module de formation',     target:1,type:'form',     xp:60, g:6, attr:'WISDOM',  diff:'medium'},
-  {id:'fq_todo5',   ico:'✅',nm:'5 tâches complétées',       target:5,type:'todos',    xp:55, g:5, attr:'ORDER',   diff:'medium'},
-  {id:'fq_meditate',ico:'🧘',nm:'10 min méditation',         target:1,type:'meditate', xp:40, g:4, attr:'MIND',    diff:'medium'},
-  {id:'fq_cold',    ico:'🧊',nm:'Douche froide 30 sec',      target:1,type:'cold',     xp:45, g:4, attr:'BODY',    diff:'hard'},
-  {id:'fq_social',  ico:'💬',nm:'Partage ta progression',     target:1,type:'share',    xp:30, g:3, attr:'AURA',    diff:'easy'},
-  {id:'fq_gratitude',ico:'🙏',nm:'3 gratitudes',             target:3,type:'gratitude', xp:25, g:2, attr:'MIND',    diff:'easy'},
-  {id:'fq_sleep8',  ico:'😴',nm:'8h de sommeil',             target:1,type:'sleep',    xp:35, g:3, attr:'VITALITY',diff:'easy'},
-  {id:'fq_noscreen',ico:'📵',nm:'1h sans écran',             target:1,type:'noscreen', xp:40, g:4, attr:'FLOW',    diff:'medium'},
-  {id:'fq_creative',ico:'🎨',nm:'Crée quelque chose',        target:1,type:'create',   xp:45, g:4, attr:'FLOW',    diff:'medium'},
-  {id:'fq_connect', ico:'❤️',nm:'Message à un proche',       target:1,type:'connect',  xp:30, g:3, attr:'AURA',    diff:'easy'},
-  {id:'fq_review',  ico:'📊',nm:'Consulte ton dashboard',    target:1,type:'dashboard', xp:20,g:2, attr:'ORDER',   diff:'easy'},
-  {id:'fq_boss',    ico:'⚔️',nm:'Inflige 50 dégâts au boss', target:50,type:'boss',    xp:55, g:5, attr:'MIND',    diff:'hard'},
-  {id:'fq_nature',  ico:'🌿',nm:'Connecte-toi à la nature',  target:1,type:'nature',   xp:35, g:3, attr:'VITALITY',diff:'easy'},
-  {id:'fq_deep90',  ico:'🎯',nm:'90 min de deep work',       target:1,type:'deep',     xp:70, g:7, attr:'ORDER',   diff:'hard'},
-  {id:'fq_jarvis',  ico:'🤖',nm:'Demande conseil à JARVIS',  target:1,type:'jarvis',   xp:25, g:2, attr:'WISDOM',  diff:'easy'},
-  {id:'fq_plan',    ico:'📅',nm:'Planifie ta semaine',       target:1,type:'plan',     xp:50, g:5, attr:'ORDER',   diff:'medium'}
+  // ── MIND: meditation, focus, reading, learning (15 quests) ──
+  {id:'q01',ico:'🧘',nm:'Première méditation',desc:'Médite 1 session',target:1,type:'meditate',xp:20,g:2,attr:'MIND',diff:'easy'},
+  {id:'q02',ico:'🧘',nm:'Esprit calme',desc:'Médite 3 fois',target:3,type:'meditate',xp:40,g:4,attr:'MIND',diff:'medium'},
+  {id:'q03',ico:'🧘',nm:'Moine intérieur',desc:'Médite 10 fois',target:10,type:'meditate',xp:80,g:8,attr:'MIND',diff:'hard'},
+  {id:'q04',ico:'🧠',nm:'Focus laser',desc:'1 session Pomodoro',target:1,type:'pomo',xp:20,g:2,attr:'MIND',diff:'easy'},
+  {id:'q05',ico:'🧠',nm:'Deep focus',desc:'3 sessions Pomodoro',target:3,type:'pomo',xp:40,g:4,attr:'MIND',diff:'medium'},
+  {id:'q06',ico:'🧠',nm:'Machine à focus',desc:'8 Pomodoros',target:8,type:'pomo',xp:70,g:7,attr:'MIND',diff:'hard'},
+  {id:'q07',ico:'📖',nm:'Lecteur curieux',desc:'Lis une session',target:1,type:'read',xp:20,g:2,attr:'MIND',diff:'easy'},
+  {id:'q08',ico:'📖',nm:'Rat de bibliothèque',desc:'Lis 5 sessions',target:5,type:'read',xp:45,g:4,attr:'MIND',diff:'medium'},
+  {id:'q09',ico:'📖',nm:'Dévoreur de pages',desc:'Lis 15 sessions',target:15,type:'read',xp:80,g:8,attr:'MIND',diff:'hard'},
+  {id:'q10',ico:'🤖',nm:'Parle au coach',desc:'1 message au coach IA',target:1,type:'chat',xp:15,g:1,attr:'MIND',diff:'easy'},
+  {id:'q11',ico:'🤖',nm:'Dialogue profond',desc:'5 échanges coach IA',target:5,type:'chat',xp:35,g:3,attr:'MIND',diff:'medium'},
+  {id:'q12',ico:'🤖',nm:'Apprenti stratège',desc:'15 échanges coach',target:15,type:'chat',xp:70,g:7,attr:'MIND',diff:'hard'},
+  {id:'q13',ico:'📋',nm:'Check-in matinal',desc:'Fais ton check-in',target:1,type:'checkin',xp:20,g:2,attr:'MIND',diff:'easy'},
+  {id:'q14',ico:'🛡️',nm:'Bouclier mental',desc:'Méditation + journal',target:2,type:'meditate',xp:30,g:3,attr:'MIND',diff:'easy'},
+  {id:'q15',ico:'🎯',nm:'Focus absolu',desc:'5 Pomodoros concentrés',target:5,type:'pomo',xp:50,g:5,attr:'MIND',diff:'medium'},
+  // ── HUSTLE: tasks, pomodoros, business, networking (15 quests) ──
+  {id:'q16',ico:'✅',nm:'Première tâche',desc:'Complète 1 tâche',target:1,type:'todos',xp:15,g:1,attr:'HUSTLE',diff:'easy'},
+  {id:'q17',ico:'✅',nm:'Productif',desc:'Complète 5 tâches',target:5,type:'todos',xp:40,g:4,attr:'HUSTLE',diff:'medium'},
+  {id:'q18',ico:'✅',nm:'Machine à exécuter',desc:'Complète 15 tâches',target:15,type:'todos',xp:75,g:7,attr:'HUSTLE',diff:'hard'},
+  {id:'q19',ico:'⏱️',nm:'Sprint focus',desc:'2 Pomodoros',target:2,type:'pomo',xp:25,g:2,attr:'HUSTLE',diff:'easy'},
+  {id:'q20',ico:'⏱️',nm:'Marathon focus',desc:'6 Pomodoros',target:6,type:'pomo',xp:55,g:5,attr:'HUSTLE',diff:'medium'},
+  {id:'q21',ico:'⏱️',nm:'Ultra focus',desc:'12 Pomodoros',target:12,type:'pomo',xp:90,g:9,attr:'HUSTLE',diff:'hard'},
+  {id:'q22',ico:'⚔️',nm:'Frappe le boss',desc:'Inflige des dégâts au boss',target:1,type:'boss',xp:25,g:2,attr:'HUSTLE',diff:'easy'},
+  {id:'q23',ico:'⚔️',nm:'Chasseur de boss',desc:'5 attaques boss',target:5,type:'boss',xp:50,g:5,attr:'HUSTLE',diff:'medium'},
+  {id:'q24',ico:'⚔️',nm:'Tueur de boss',desc:'20 attaques boss',target:20,type:'boss',xp:90,g:9,attr:'HUSTLE',diff:'hard'},
+  {id:'q25',ico:'💼',nm:'Boost du matin',desc:'2 tâches tôt',target:2,type:'todos',xp:20,g:2,attr:'HUSTLE',diff:'easy'},
+  {id:'q26',ico:'🚀',nm:'Objectifs clairs',desc:'10 tâches terminées',target:10,type:'todos',xp:60,g:6,attr:'HUSTLE',diff:'hard'},
+  {id:'q27',ico:'💡',nm:'Réseau actif',desc:'3 interactions sociales',target:3,type:'social',xp:35,g:3,attr:'HUSTLE',diff:'medium'},
+  {id:'q28',ico:'🔥',nm:'Combo matin',desc:'Check-in + 3 tâches',target:3,type:'todos',xp:30,g:3,attr:'HUSTLE',diff:'easy'},
+  {id:'q29',ico:'🏆',nm:'Jour parfait',desc:'Check-in + 5 tâches + sport',target:5,type:'todos',xp:60,g:6,attr:'HUSTLE',diff:'hard'},
+  {id:'q30',ico:'🗡️',nm:'Boss destroyer',desc:'15 attaques boss',target:15,type:'boss',xp:75,g:7,attr:'HUSTLE',diff:'hard'},
+  // ── BODY: workouts, walking, cold exposure (15 quests) ──
+  {id:'q31',ico:'💪',nm:'Session sport',desc:'1 entraînement',target:1,type:'workout',xp:25,g:2,attr:'BODY',diff:'easy'},
+  {id:'q32',ico:'💪',nm:'Guerrier du gym',desc:'5 entraînements',target:5,type:'workout',xp:50,g:5,attr:'BODY',diff:'medium'},
+  {id:'q33',ico:'💪',nm:'Bête de sport',desc:'15 entraînements',target:15,type:'workout',xp:90,g:9,attr:'BODY',diff:'hard'},
+  {id:'q34',ico:'🚶',nm:'Petite balade',desc:'Marche 10 min',target:10,type:'walk',xp:15,g:1,attr:'BODY',diff:'easy'},
+  {id:'q35',ico:'🚶',nm:'Marcheur urbain',desc:'Marche 30 min',target:30,type:'walk',xp:35,g:3,attr:'BODY',diff:'medium'},
+  {id:'q36',ico:'🚶',nm:'Randonneur',desc:'Marche 60 min',target:60,type:'walk',xp:65,g:6,attr:'BODY',diff:'hard'},
+  {id:'q37',ico:'🧊',nm:'Douche froide',desc:'1 douche froide',target:1,type:'cold',xp:30,g:3,attr:'BODY',diff:'easy'},
+  {id:'q38',ico:'🧊',nm:'Viking du froid',desc:'3 douches froides',target:3,type:'cold',xp:50,g:5,attr:'BODY',diff:'medium'},
+  {id:'q39',ico:'🧊',nm:'Iceberg vivant',desc:'10 douches froides',target:10,type:'cold',xp:85,g:8,attr:'BODY',diff:'hard'},
+  {id:'q40',ico:'🏃',nm:'Cardio express',desc:'Marche 20 min',target:20,type:'walk',xp:25,g:2,attr:'BODY',diff:'easy'},
+  {id:'q41',ico:'🔥',nm:'Combo brûlant',desc:'2 workouts',target:2,type:'workout',xp:40,g:4,attr:'BODY',diff:'medium'},
+  {id:'q42',ico:'🦾',nm:'Corps d\'acier',desc:'10 workouts',target:10,type:'workout',xp:75,g:7,attr:'BODY',diff:'hard'},
+  {id:'q43',ico:'🚶',nm:'Pas à pas',desc:'Marche 15 min',target:15,type:'walk',xp:20,g:2,attr:'BODY',diff:'easy'},
+  {id:'q44',ico:'🏋️',nm:'Warrior mode',desc:'3 workouts cette semaine',target:3,type:'workout',xp:45,g:4,attr:'BODY',diff:'medium'},
+  {id:'q45',ico:'🧊',nm:'Épreuve du froid',desc:'5 douches froides',target:5,type:'cold',xp:60,g:6,attr:'BODY',diff:'hard'},
+  // ── VITALITY: sleep, meals, breathing, sun (15 quests) ──
+  {id:'q46',ico:'😴',nm:'Bonne nuit',desc:'Log ton sommeil',target:1,type:'sleep',xp:20,g:2,attr:'VITALITY',diff:'easy'},
+  {id:'q47',ico:'😴',nm:'Dormeur régulier',desc:'Log 5 nuits',target:5,type:'sleep',xp:40,g:4,attr:'VITALITY',diff:'medium'},
+  {id:'q48',ico:'😴',nm:'Maître du repos',desc:'Log 14 nuits',target:14,type:'sleep',xp:75,g:7,attr:'VITALITY',diff:'hard'},
+  {id:'q49',ico:'🍽️',nm:'Repas noté',desc:'Log 1 repas',target:1,type:'meal',xp:15,g:1,attr:'VITALITY',diff:'easy'},
+  {id:'q50',ico:'🍽️',nm:'Nutrition stable',desc:'Log 6 repas',target:6,type:'meal',xp:40,g:4,attr:'VITALITY',diff:'medium'},
+  {id:'q51',ico:'🍽️',nm:'Chef fuel',desc:'Log 15 repas',target:15,type:'meal',xp:70,g:7,attr:'VITALITY',diff:'hard'},
+  {id:'q52',ico:'💨',nm:'Respire un coup',desc:'1 session respiration',target:1,type:'breath',xp:15,g:1,attr:'VITALITY',diff:'easy'},
+  {id:'q53',ico:'💨',nm:'Souffle profond',desc:'3 sessions respiration',target:3,type:'breath',xp:35,g:3,attr:'VITALITY',diff:'medium'},
+  {id:'q54',ico:'💨',nm:'Maître du souffle',desc:'10 sessions respiration',target:10,type:'breath',xp:70,g:7,attr:'VITALITY',diff:'hard'},
+  {id:'q55',ico:'☀️',nm:'Rayon de soleil',desc:'5 min de soleil',target:5,type:'sun',xp:15,g:1,attr:'VITALITY',diff:'easy'},
+  {id:'q56',ico:'☀️',nm:'Bain solaire',desc:'15 min de soleil',target:15,type:'sun',xp:30,g:3,attr:'VITALITY',diff:'medium'},
+  {id:'q57',ico:'☀️',nm:'Photosynthèse',desc:'30 min de soleil',target:30,type:'sun',xp:60,g:6,attr:'VITALITY',diff:'hard'},
+  {id:'q58',ico:'🌅',nm:'Réveil solaire',desc:'Soleil + respiration',target:2,type:'breath',xp:25,g:2,attr:'VITALITY',diff:'easy'},
+  {id:'q59',ico:'🫁',nm:'Wim Hof style',desc:'5 sessions respiration',target:5,type:'breath',xp:45,g:4,attr:'VITALITY',diff:'medium'},
+  {id:'q60',ico:'🌙',nm:'Nuit réparatrice',desc:'Log sommeil 3 fois',target:3,type:'sleep',xp:30,g:3,attr:'VITALITY',diff:'medium'},
+  // ── WISDOM: formations, books, languages, journal (14 quests) ──
+  {id:'q61',ico:'📚',nm:'1 module',desc:'Termine 1 module formation',target:1,type:'form',xp:30,g:3,attr:'WISDOM',diff:'easy'},
+  {id:'q62',ico:'📚',nm:'Étudiant assidu',desc:'3 modules formation',target:3,type:'form',xp:50,g:5,attr:'WISDOM',diff:'medium'},
+  {id:'q63',ico:'📚',nm:'Maître formation',desc:'10 modules formation',target:10,type:'form',xp:90,g:9,attr:'WISDOM',diff:'hard'},
+  {id:'q64',ico:'🌍',nm:'Mot du jour',desc:'1 session langue',target:1,type:'lang',xp:20,g:2,attr:'WISDOM',diff:'easy'},
+  {id:'q65',ico:'🌍',nm:'Polyglotte en herbe',desc:'5 sessions langue',target:5,type:'lang',xp:45,g:4,attr:'WISDOM',diff:'medium'},
+  {id:'q66',ico:'🌍',nm:'Polyglotte confirmé',desc:'15 sessions langue',target:15,type:'lang',xp:80,g:8,attr:'WISDOM',diff:'hard'},
+  {id:'q67',ico:'📝',nm:'Journal intime',desc:'1 entrée journal',target:1,type:'journal',xp:20,g:2,attr:'WISDOM',diff:'easy'},
+  {id:'q68',ico:'📝',nm:'Plume active',desc:'5 entrées journal',target:5,type:'journal',xp:45,g:4,attr:'WISDOM',diff:'medium'},
+  {id:'q69',ico:'📝',nm:'Écrivain prolifique',desc:'12 entrées journal',target:12,type:'journal',xp:75,g:7,attr:'WISDOM',diff:'hard'},
+  {id:'q70',ico:'📖',nm:'Lecteur du soir',desc:'2 sessions lecture',target:2,type:'read',xp:25,g:2,attr:'WISDOM',diff:'easy'},
+  {id:'q71',ico:'📖',nm:'Bibliophile',desc:'7 sessions lecture',target:7,type:'read',xp:50,g:5,attr:'WISDOM',diff:'medium'},
+  {id:'q72',ico:'🎓',nm:'Savoir infini',desc:'20 sessions lecture',target:20,type:'read',xp:95,g:10,attr:'WISDOM',diff:'hard'},
+  {id:'q73',ico:'🧪',nm:'Curieux du jour',desc:'1 formation + 1 lecture',target:2,type:'form',xp:30,g:3,attr:'WISDOM',diff:'easy'},
+  {id:'q74',ico:'🌍',nm:'Langue du jour',desc:'3 sessions langue',target:3,type:'lang',xp:35,g:3,attr:'WISDOM',diff:'medium'},
+  // ── ORDER: routines, budget, planning, organization (14 quests) ──
+  {id:'q75',ico:'📋',nm:'Check-in fait',desc:'1 check-in quotidien',target:1,type:'checkin',xp:15,g:1,attr:'ORDER',diff:'easy'},
+  {id:'q76',ico:'📋',nm:'Régularité',desc:'3 check-ins',target:3,type:'checkin',xp:35,g:3,attr:'ORDER',diff:'medium'},
+  {id:'q77',ico:'📋',nm:'Discipline de fer',desc:'14 check-ins',target:14,type:'checkin',xp:80,g:8,attr:'ORDER',diff:'hard'},
+  {id:'q78',ico:'💰',nm:'Budget noté',desc:'1 entrée budget',target:1,type:'budget',xp:20,g:2,attr:'ORDER',diff:'easy'},
+  {id:'q79',ico:'💰',nm:'Contrôle financier',desc:'5 entrées budget',target:5,type:'budget',xp:45,g:4,attr:'ORDER',diff:'medium'},
+  {id:'q80',ico:'💰',nm:'Maître des finances',desc:'15 entrées budget',target:15,type:'budget',xp:80,g:8,attr:'ORDER',diff:'hard'},
+  {id:'q81',ico:'⚡',nm:'Habitude du jour',desc:'1 habitude cochée',target:1,type:'habit',xp:15,g:1,attr:'ORDER',diff:'easy'},
+  {id:'q82',ico:'⚡',nm:'Enchaîneur',desc:'5 habitudes cochées',target:5,type:'habit',xp:40,g:4,attr:'ORDER',diff:'medium'},
+  {id:'q83',ico:'⚡',nm:'Routine parfaite',desc:'15 habitudes cochées',target:15,type:'habit',xp:75,g:7,attr:'ORDER',diff:'hard'},
+  {id:'q84',ico:'🗂️',nm:'Tâche éclair',desc:'2 tâches vite faites',target:2,type:'todos',xp:20,g:2,attr:'ORDER',diff:'easy'},
+  {id:'q85',ico:'🗂️',nm:'Planificateur',desc:'8 tâches terminées',target:8,type:'todos',xp:50,g:5,attr:'ORDER',diff:'medium'},
+  {id:'q86',ico:'🗂️',nm:'Architecte du chaos',desc:'25 tâches terminées',target:25,type:'todos',xp:95,g:10,attr:'ORDER',diff:'hard'},
+  {id:'q87',ico:'📅',nm:'Jour organisé',desc:'Check-in + 3 habitudes',target:3,type:'habit',xp:30,g:3,attr:'ORDER',diff:'easy'},
+  {id:'q88',ico:'🧭',nm:'Cap défini',desc:'Check-in + budget',target:1,type:'checkin',xp:20,g:2,attr:'ORDER',diff:'easy'},
+  // ── FLOW: creative sessions, journal, meditation streaks (12 quests) ──
+  {id:'q89',ico:'🎨',nm:'Élan créatif',desc:'1 entrée journal créatif',target:1,type:'journal',xp:20,g:2,attr:'FLOW',diff:'easy'},
+  {id:'q90',ico:'🎨',nm:'Flow state',desc:'3 Pomodoros créatifs',target:3,type:'pomo',xp:40,g:4,attr:'FLOW',diff:'medium'},
+  {id:'q91',ico:'🎨',nm:'Artiste en feu',desc:'10 sessions créatives',target:10,type:'pomo',xp:75,g:7,attr:'FLOW',diff:'hard'},
+  {id:'q92',ico:'✍️',nm:'Pensée écrite',desc:'2 entrées journal',target:2,type:'journal',xp:25,g:2,attr:'FLOW',diff:'easy'},
+  {id:'q93',ico:'✍️',nm:'Flux d\'idées',desc:'7 entrées journal',target:7,type:'journal',xp:50,g:5,attr:'FLOW',diff:'medium'},
+  {id:'q94',ico:'✍️',nm:'Torrent créatif',desc:'20 entrées journal',target:20,type:'journal',xp:90,g:9,attr:'FLOW',diff:'hard'},
+  {id:'q95',ico:'🧘',nm:'Zen express',desc:'1 méditation rapide',target:1,type:'meditate',xp:15,g:1,attr:'FLOW',diff:'easy'},
+  {id:'q96',ico:'🧘',nm:'Cascade zen',desc:'5 méditations',target:5,type:'meditate',xp:45,g:4,attr:'FLOW',diff:'medium'},
+  {id:'q97',ico:'🧘',nm:'Nirvana streak',desc:'14 méditations',target:14,type:'meditate',xp:85,g:8,attr:'FLOW',diff:'hard'},
+  {id:'q98',ico:'🌊',nm:'Vague créative',desc:'2 sessions Pomodoro',target:2,type:'pomo',xp:25,g:2,attr:'FLOW',diff:'easy'},
+  {id:'q99',ico:'💫',nm:'Immersion totale',desc:'6 Pomodoros sans pause',target:6,type:'pomo',xp:55,g:5,attr:'FLOW',diff:'medium'},
+  {id:'q100',ico:'🔮',nm:'Zone transcendante',desc:'10 méditations + 5 journals',target:15,type:'meditate',xp:100,g:10,attr:'FLOW',diff:'hard'},
+  // ── AURA: social, coaching, community (12 quests) ──
+  {id:'q101',ico:'💬',nm:'Partage ton win',desc:'1 partage social',target:1,type:'social',xp:15,g:1,attr:'AURA',diff:'easy'},
+  {id:'q102',ico:'💬',nm:'Influenceur positif',desc:'5 partages sociaux',target:5,type:'social',xp:40,g:4,attr:'AURA',diff:'medium'},
+  {id:'q103',ico:'💬',nm:'Leader d\'impact',desc:'15 partages sociaux',target:15,type:'social',xp:80,g:8,attr:'AURA',diff:'hard'},
+  {id:'q104',ico:'🤝',nm:'Coaching rapide',desc:'1 session coach IA',target:1,type:'chat',xp:15,g:1,attr:'AURA',diff:'easy'},
+  {id:'q105',ico:'🤝',nm:'Mentorat actif',desc:'5 sessions coach',target:5,type:'chat',xp:40,g:4,attr:'AURA',diff:'medium'},
+  {id:'q106',ico:'🤝',nm:'Guide suprême',desc:'12 sessions coach',target:12,type:'chat',xp:75,g:7,attr:'AURA',diff:'hard'},
+  {id:'q107',ico:'❤️',nm:'Connexion humaine',desc:'1 interaction sociale',target:1,type:'social',xp:20,g:2,attr:'AURA',diff:'easy'},
+  {id:'q108',ico:'❤️',nm:'Réseau vivant',desc:'3 interactions sociales',target:3,type:'social',xp:35,g:3,attr:'AURA',diff:'medium'},
+  {id:'q109',ico:'🌟',nm:'Aura magnétique',desc:'10 interactions sociales',target:10,type:'social',xp:70,g:7,attr:'AURA',diff:'hard'},
+  {id:'q110',ico:'🗣️',nm:'Feedback donné',desc:'2 sessions coach',target:2,type:'chat',xp:25,g:2,attr:'AURA',diff:'easy'},
+  {id:'q111',ico:'🫂',nm:'Cercle de confiance',desc:'7 échanges sociaux',target:7,type:'social',xp:50,g:5,attr:'AURA',diff:'medium'},
+  {id:'q112',ico:'👑',nm:'Présence royale',desc:'20 interactions sociales',target:20,type:'social',xp:95,g:10,attr:'AURA',diff:'hard'},
+  // ── BONUS CROSS-CATEGORY (8 quests) ──
+  {id:'q113',ico:'🌿',nm:'Nature connectée',desc:'Marche + soleil 20 min',target:20,type:'walk',xp:35,g:3,attr:'VITALITY',diff:'medium'},
+  {id:'q114',ico:'⚡',nm:'Triple menace',desc:'3 types d\'actions',target:3,type:'habit',xp:40,g:4,attr:'ORDER',diff:'medium'},
+  {id:'q115',ico:'📊',nm:'Bilan complet',desc:'Budget + journal',target:1,type:'budget',xp:25,g:2,attr:'ORDER',diff:'easy'},
+  {id:'q116',ico:'🌅',nm:'Rituel solaire',desc:'Soleil 10 min',target:10,type:'sun',xp:20,g:2,attr:'VITALITY',diff:'easy'},
+  {id:'q117',ico:'🧬',nm:'Bio-hacker',desc:'Froid + respiration + soleil',target:3,type:'breath',xp:55,g:5,attr:'VITALITY',diff:'medium'},
+  {id:'q118',ico:'📈',nm:'Progression visible',desc:'10 habitudes cochées',target:10,type:'habit',xp:60,g:6,attr:'ORDER',diff:'hard'},
+  {id:'q119',ico:'💎',nm:'Semaine de feu',desc:'7 check-ins d\'affilée',target:7,type:'checkin',xp:55,g:5,attr:'ORDER',diff:'medium'},
+  {id:'q120',ico:'📕',nm:'Savoir express',desc:'3 sessions lecture',target:3,type:'read',xp:30,g:3,attr:'WISDOM',diff:'easy'}
 ];
 function generateDailyQuests(){
   const pool=[...FORGE_QUEST_POOL].sort(()=>Math.random()-0.5);
@@ -1549,7 +1696,157 @@ function finishOb(){try{
   var obEmail=document.getElementById('ob-email');if(obEmail&&obEmail.value.trim())S.email=obEmail.value.trim();
   S.goal=(typeof _goals!=='undefined'&&_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):(_goal||'all'));S.theme=_theme||'default';S.mode=_mode||'full';S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff=S.aff||{};S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=S.activeWg||((_mode||'full')==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all);addN('🚀','Bienvenue '+(S.name||'Champion')+' !','FORGE configuré pour toi. +50 XP de bienvenue !');if(S.zodiac)addN('🔮','Ton signe : '+S.zodiac.ico+' '+S.zodiac.sign,'Horoscope quotidien activé !');save();launchApp();}catch(e){console.log('finishOb error:',e);S.ob=true;S.name=S.name||'Champion';S.xp=S.xp||50;S.gems=S.gems||10;S.season=S.season||1;S.ss=TD;S.aff=S.aff||{};S.aff.code=S.aff.code||genCode('AFF');S.chests=S.chests||{av:0,nx:3};S.activeWg=S.activeWg||GOAL_WG.all;save();launchApp();}}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap','screen-astro','screen-compta','screen-visionboard','screen-books','screen-calc','screen-process','screen-lifescore','screen-bizplan','screen-okr','screen-network','screen-revenue','screen-pitch','screen-eisenhower','screen-routine','screen-weekreview','screen-orga','screen-crm','screen-badges','screen-share','screen-games'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap','screen-astro','screen-compta','screen-visionboard','screen-books','screen-calc','screen-process','screen-lifescore','screen-bizplan','screen-okr','screen-network','screen-revenue','screen-pitch','screen-eisenhower','screen-routine','screen-weekreview','screen-orga','screen-crm','screen-badges','screen-share','screen-games'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}initDesktopShell();initMorningBrief();}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+// ═══════════════════════════════════════════
+// DESKTOP 3-COLUMN SHELL
+// ═══════════════════════════════════════════
+function initDesktopShell(){
+  if(window.innerWidth<1024||document.querySelector('.desktop-shell'))return;
+  var app=document.getElementById('app');
+  var screens=document.getElementById('main-screens');
+  var bnav=document.getElementById('bnav');
+  if(!app||!screens)return;
+
+  // Create desktop shell
+  var shell=document.createElement('div');
+  shell.className='desktop-shell';
+
+  // LEFT NAV
+  var nav=document.createElement('div');
+  nav.className='desktop-nav';
+  nav.id='desktop-nav';
+  var navItems=[
+    {section:'Principal',items:[
+      {id:'home',ico:'🏠',label:'Accueil'},
+      {id:'dash',ico:'📊',label:'Dashboard'},
+      {id:'achievements',ico:'🏆',label:'Succès'},
+      {id:'leaderboard',ico:'🥇',label:'Classement'},
+    ]},
+    {section:'Progression',items:[
+      {id:'nature',ico:'🌿',label:'Nature'},
+      {id:'workout',ico:'🏋️',label:'Workout'},
+      {id:'meal',ico:'🍽️',label:'Repas'},
+      {id:'sleep',ico:'😴',label:'Sommeil'},
+      {id:'habits',ico:'⚡',label:'Habitudes'},
+    ]},
+    {section:'Apprendre',items:[
+      {id:'disc',ico:'📚',label:'Formations'},
+      {id:'lang',ico:'🌍',label:'Langues'},
+      {id:'smartjournal',ico:'📓',label:'Journal'},
+    ]},
+    {section:'Business',items:[
+      {id:'budget',ico:'💰',label:'Budget'},
+      {id:'feat',ico:'🚀',label:'Features'},
+    ]},
+    {section:'Social',items:[
+      {id:'chat',ico:'🤖',label:'Coach IA'},
+      {id:'guilds',ico:'🤝',label:'Guildes'},
+    ]},
+    {section:'Profil',items:[
+      {id:'moi',ico:'⚙️',label:'Paramètres'},
+      {id:'notifs',ico:'🔔',label:'Notifications'},
+    ]}
+  ];
+  navItems.forEach(function(section){
+    var lbl=document.createElement('div');
+    lbl.className='dn-label';
+    lbl.textContent=section.section;
+    nav.appendChild(lbl);
+    var sec=document.createElement('div');
+    sec.className='dn-section';
+    section.items.forEach(function(item){
+      var btn=document.createElement('div');
+      btn.className='dn-item'+(item.id==='home'?' active':'');
+      btn.setAttribute('data-screen',item.id);
+      btn.innerHTML='<span class="dn-ico">'+item.ico+'</span><span>'+item.label+'</span>';
+      btn.onclick=function(){
+        document.querySelectorAll('.dn-item').forEach(function(b){b.classList.remove('active');});
+        btn.classList.add('active');
+        gs(item.id,null);
+        updateDesktopRight(item.id);
+      };
+      sec.appendChild(btn);
+    });
+    nav.appendChild(sec);
+  });
+
+  // MAIN CONTENT
+  var main=document.createElement('div');
+  main.className='desktop-main';
+
+  // RIGHT SIDEBAR
+  var right=document.createElement('div');
+  right.className='desktop-right';
+  right.id='desktop-right';
+
+  // Rearrange DOM
+  screens.parentNode.removeChild(screens);
+  main.appendChild(screens);
+  shell.appendChild(nav);
+  shell.appendChild(main);
+  shell.appendChild(right);
+  // Insert after gbar
+  var gbar=document.getElementById('gbar');
+  if(gbar&&gbar.nextSibling)app.insertBefore(shell,gbar.nextSibling);
+  else app.appendChild(shell);
+  // Remove old bnav from flow on desktop (CSS hides it)
+  updateDesktopRight('home');
+}
+function updateDesktopRight(screenId){
+  var right=document.getElementById('desktop-right');
+  if(!right)return;
+  var h='';
+  // Player card
+  var lvl=getLvl(S.xp||0);
+  h+='<div class="dr-section"><div class="dr-title">👤 '+(S.name||'Champion')+'</div>';
+  h+='<div style="text-align:center;margin-bottom:10px"><div class="lvl-b" style="width:48px;height:48px;font-size:20px;margin:0 auto 6px">'+(lvl+1)+'</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac)">'+LVL_T[lvl]+'</div></div>';
+  h+='<div class="dr-stat"><span>XP</span><span class="dr-stat-val">'+((S.xp||0).toLocaleString())+'</span></div>';
+  h+='<div class="dr-stat"><span>Gemmes</span><span class="dr-stat-val" style="color:var(--bl)">💎 '+(S.gems||0)+'</span></div>';
+  h+='<div class="dr-stat"><span>Streak</span><span class="dr-stat-val" style="color:var(--or)">🔥 '+(S.streak||0)+' jours</span></div>';
+  h+='</div>';
+
+  // Daily quests progress
+  var qs=S.dq&&S.dq.qs||[];
+  var doneQ=qs.filter(function(q){return q.done;}).length;
+  h+='<div class="dr-section"><div class="dr-title">⚡ Quêtes du jour <span style="font-size:11px;color:var(--tx3);font-weight:400">'+doneQ+'/'+qs.length+'</span></div>';
+  qs.forEach(function(q){
+    h+='<div style="display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12px'+(q.done?';opacity:.5':'')+'">';
+    h+='<span>'+(q.done?'✅':q.ico)+'</span><span style="flex:1;'+(q.done?'text-decoration:line-through':'')+'">'+q.nm+'</span>';
+    h+='<span style="color:var(--ac);font-weight:700;font-size:10px">+'+q.xp+'</span></div>';
+  });
+  h+='</div>';
+
+  // Boss
+  if(S.bossProg&&S.bossProg[WK]){
+    var boss=BOSSES[S.curBoss||0];
+    var prog=S.bossProg[WK]||{hp:boss.hp};
+    var dmg=Math.max(0,boss.hp-(prog.hp||boss.hp));
+    var pct=Math.round(dmg/boss.hp*100);
+    h+='<div class="dr-section" style="border-color:rgba(217,95,95,0.3)"><div class="dr-title" style="color:var(--rd)">⚔️ '+boss.name+'</div>';
+    h+='<div class="pbar" style="height:6px;margin-bottom:4px"><div class="pfill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--rd),#ff8080);border-radius:4px"></div></div>';
+    h+='<div style="font-size:11px;color:var(--tx3)">'+dmg+'/'+boss.hp+' dégâts</div></div>';
+  }
+
+  // Quick actions
+  h+='<div class="dr-section"><div class="dr-title">🚀 Actions rapides</div>';
+  h+='<button class="btn btn-ac" style="margin-bottom:6px;padding:10px;font-size:11px" onclick="gs(\'chat\',null);document.querySelectorAll(\'.dn-item\').forEach(function(b){b.classList.remove(\'active\')})">🤖 Parler à JARVIS</button>';
+  h+='<button class="btn btn-sf" style="padding:10px;font-size:11px" onclick="gs(\'nature\',null);document.querySelectorAll(\'.dn-item\').forEach(function(b){b.classList.remove(\'active\')})">🌿 Session Nature</button>';
+  h+='</div>';
+
+  right.innerHTML=h;
+}
+// Also update nav active state when gs is called
+var _origGs=gs;
+gs=function(name,btn){
+  _origGs(name,btn);
+  // Update desktop nav active state
+  document.querySelectorAll('.dn-item').forEach(function(b){
+    b.classList.toggle('active',b.getAttribute('data-screen')===name);
+  });
+  if(window.innerWidth>=1024)updateDesktopRight(name);
+};
+
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');}}
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
