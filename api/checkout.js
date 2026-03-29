@@ -1,7 +1,7 @@
-// RISE Stripe Checkout — Vercel Serverless Function
+h// RISE Stripe Checkout — Vercel Serverless Function
 import Stripe from 'stripe';
 
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'nodejs' };
 
 // Map RISE plan IDs to Stripe Price IDs
 const PLAN_PRICES = {
