@@ -1007,8 +1007,8 @@ textarea.inp{resize:none}
 <div class="mhdl"></div>
 <div style="text-align:center;padding:4px 0 8px">
 <div style="font-size:36px;margin-bottom:8px" id="pw-icon">🔒</div>
-<div class="mtit" id="pw-title" style="font-size:18px;margin-bottom:6px">Débloquer cette feature ?</div>
-<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px" id="pw-desc">Passe en Pro pour profiter de toutes les fonctionnalités.</div>
+<div class="mtit" id="pw-title" style="font-size:18px;margin-bottom:6px"></div>
+<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px" id="pw-desc"></div>
 <div style="background:var(--agg);border:1px solid var(--acm);border-radius:10px;padding:14px;margin-bottom:14px">
 <div style="font-family:var(--fd);font-weight:700;font-size:28px;color:var(--ac)">9,99€<span style="font-size:13px;font-weight:400;color:var(--tx3)">/mois</span></div>
 <div style="font-size:11px;color:var(--tx2);margin-top:4px">ou 5,99€/mois en annuel (−40%)</div>
@@ -1027,22 +1027,22 @@ textarea.inp{resize:none}
 <!-- EXIT SURVEY MODAL -->
 <div class="mbk" id="m-exit-survey"><div class="msh" style="max-width:380px">
 <div class="mhdl"></div>
-<div class="mtit" style="font-size:18px;text-align:center">Avant de partir...</div>
-<div style="font-size:13px;color:var(--tx2);text-align:center;margin-bottom:16px;line-height:1.5">On aimerait comprendre pour s'améliorer.</div>
+<div class="mtit" style="font-size:18px;text-align:center" id="exit-title-txt"></div>
+<div style="font-size:13px;color:var(--tx2);text-align:center;margin-bottom:16px;line-height:1.5" id="exit-desc-txt"></div>
 <div id="es-reasons" style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
-<button class="btn btn-sf" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('too_expensive')">💰 C'est trop cher</button>
-<button class="btn btn-sf" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('not_useful')">🤷 Je n'utilise pas assez</button>
-<button class="btn btn-sf" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('missing_feature')">🔧 Il manque une fonctionnalité</button>
-<button class="btn btn-sf" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('found_alternative')">🔄 J'ai trouvé mieux ailleurs</button>
-<button class="btn btn-sf" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('other')">📝 Autre raison</button>
+<button class="btn btn-sf exit-reason" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('too_expensive')">💰 <span class="i18n-exit-expensive"></span></button>
+<button class="btn btn-sf exit-reason" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('not_useful')">🤷 <span class="i18n-exit-not-useful"></span></button>
+<button class="btn btn-sf exit-reason" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('missing_feature')">🔧 <span class="i18n-exit-missing"></span></button>
+<button class="btn btn-sf exit-reason" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('found_alternative')">🔄 <span class="i18n-exit-alternative"></span></button>
+<button class="btn btn-sf exit-reason" style="text-align:left;font-size:13px;text-transform:none;padding:12px 14px" onclick="submitExitSurvey('other')">📝 <span class="i18n-exit-other"></span></button>
 </div>
 <div style="background:var(--agg);border:1px solid var(--acm);border-radius:10px;padding:14px;margin-bottom:14px;text-align:center;display:none" id="es-pause-offer">
-<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">⏸️ Pas prêt à partir ?</div>
-<div style="font-size:12px;color:var(--tx2);margin-bottom:10px">Mets ton compte en pause 30 jours — gratuit. Tes données restent intactes.</div>
-<button class="btn btn-ac" style="margin-bottom:6px" onclick="pauseAccount()">Mettre en pause 30j</button>
-<button class="btn btn-sf" style="font-size:11px" onclick="confirmReset()">Non, je veux vraiment réinitialiser</button>
+<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px" id="exit-pause-title">⏸️</div>
+<div style="font-size:12px;color:var(--tx2);margin-bottom:10px" id="exit-pause-desc"></div>
+<button class="btn btn-ac" style="margin-bottom:6px" onclick="pauseAccount()" id="exit-pause-btn"></button>
+<button class="btn btn-sf" style="font-size:11px" onclick="confirmReset()" id="exit-reset-btn"></button>
 </div>
-<button style="font-size:12px;color:var(--tx3);margin-top:4px;text-decoration:underline;cursor:pointer;display:block;text-align:center;width:100%" onclick="closeM('m-exit-survey')">Annuler</button>
+<button style="font-size:12px;color:var(--tx3);margin-top:4px;text-decoration:underline;cursor:pointer;display:block;text-align:center;width:100%" onclick="closeM('m-exit-survey')" id="exit-cancel-btn"></button>
 </div></div>
 
 <!-- NPS SURVEY MODAL -->
@@ -1050,18 +1050,18 @@ textarea.inp{resize:none}
 <div class="mhdl"></div>
 <div style="text-align:center;padding:4px 0">
 <div style="font-size:36px;margin-bottom:8px">📊</div>
-<div class="mtit" style="font-size:16px;margin-bottom:4px">Ton avis compte !</div>
-<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px">Sur une échelle de 0 à 10, quelle est la probabilité que tu recommandes RISE à un ami ?</div>
+<div class="mtit" style="font-size:16px;margin-bottom:4px" id="nps-title-txt"></div>
+<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px" id="nps-question-txt"></div>
 <div id="nps-scale" style="display:flex;gap:4px;justify-content:center;margin-bottom:14px;flex-wrap:wrap"></div>
 <div id="nps-followup" style="display:none">
-<textarea class="inp" id="nps-comment" rows="3" placeholder="Qu'est-ce qu'on pourrait améliorer ?" style="margin-bottom:10px"></textarea>
-<button class="btn btn-ac" onclick="submitNPS()">Envoyer 💬</button>
+<textarea class="inp" id="nps-comment" rows="3" placeholder="" style="margin-bottom:10px"></textarea>
+<button class="btn btn-ac" onclick="submitNPS()" id="nps-send-btn"></button>
 </div>
 <div id="nps-thanks" style="display:none;padding:16px 0">
 <div style="font-size:36px;margin-bottom:8px">💜</div>
-<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">Merci pour ton retour !</div>
-<div style="font-size:12px;color:var(--tx2)">Ça nous aide à construire le meilleur RISE possible.</div>
-<button class="btn btn-sf" style="margin-top:12px" onclick="closeM('m-nps')">Fermer</button>
+<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px" id="nps-thanks-title"></div>
+<div style="font-size:12px;color:var(--tx2)" id="nps-thanks-desc"></div>
+<button class="btn btn-sf" style="margin-top:12px" onclick="closeM('m-nps')" id="nps-close-btn"></button>
 </div>
 <button style="font-size:12px;color:var(--tx3);margin-top:6px;text-decoration:underline;cursor:pointer" id="nps-skip" onclick="skipNPS()">Pas maintenant</button>
 </div></div></div>
@@ -1071,15 +1071,15 @@ textarea.inp{resize:none}
 <div class="mhdl"></div>
 <div style="text-align:center;padding:4px 0">
 <div style="font-size:48px;margin-bottom:8px" id="pg-icon">🔒</div>
-<div class="mtit" style="font-size:18px;margin-bottom:4px" id="pg-title">Niveau verrouillé</div>
-<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px" id="pg-desc">Tu as atteint la limite du plan gratuit.</div>
+<div class="mtit" style="font-size:18px;margin-bottom:4px" id="pg-title"></div>
+<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px" id="pg-desc"></div>
 <div style="background:var(--agg);border:1px solid var(--acm);border-radius:10px;padding:14px;margin-bottom:14px">
 <div id="pg-progress" style="margin-bottom:10px"></div>
-<div style="font-size:12px;color:var(--tx2)">Les niveaux 6+ débloquent des features exclusives : Skills avancés, Boss épiques, Formations complètes.</div>
+<div style="font-size:12px;color:var(--tx2)" id="pg-features-txt"></div>
 </div>
-<button class="btn btn-ac" onclick="selPlan('pro');closeM('m-progress-gate')">Débloquer tous les niveaux ⭐</button>
-<div style="font-size:11px;color:var(--tx3);margin-top:8px">7 jours d'essai gratuit • Annulation libre</div>
-<button style="font-size:12px;color:var(--tx3);margin-top:6px;text-decoration:underline;cursor:pointer" onclick="closeM('m-progress-gate')">Continuer en gratuit</button>
+<button class="btn btn-ac" onclick="selPlan('pro');closeM('m-progress-gate')" id="pg-unlock-btn"></button>
+<div style="font-size:11px;color:var(--tx3);margin-top:8px" id="pg-trial-txt"></div>
+<button style="font-size:12px;color:var(--tx3);margin-top:6px;text-decoration:underline;cursor:pointer" onclick="closeM('m-progress-gate')" id="pg-free-btn"></button>
 </div></div></div>
 
 <div class="toast" id="toast"><span id="t-i">🎉</span><span id="t-m">Bravo !</span>
@@ -1449,7 +1449,7 @@ function showNPSScale(){var el=document.getElementById('nps-scale');if(!el)retur
 }
 function submitNPS(){S.nps={score:_npsScore,comment:(document.getElementById('nps-comment').value||'').trim(),date:TD};S.npsSubmitted=true;save();document.getElementById('nps-followup').style.display='none';document.getElementById('nps-scale').style.display='none';document.getElementById('nps-skip').style.display='none';document.getElementById('nps-thanks').style.display='block';gainXP(10,'nps');gainGems(2);}
 function skipNPS(){S.npsSkipped=TD;save();closeM('m-nps');}
-function showPaywall(feature,icon){if(S.plan!=='free')return false;var pw=document.getElementById('pw-icon');var pt=document.getElementById('pw-title');var pd=document.getElementById('pw-desc');var msgs={coach_unlimited:{i:'🤖',t:'Coach IA illimité',d:'Tu as atteint la limite de messages gratuits. Passe en Pro pour un coaching illimité.'},formations:{i:'🎓',t:'Formation Premium',d:'Cette formation est réservée aux membres Pro. Débloque les 12 formations complètes.'},guilds:{i:'⚔️',t:'Guildes & Tournois',d:'Rejoins une guilde et participe aux tournois avec les membres Pro.'},vision:{i:'🎯',t:'Vision Board',d:'Crée ton tableau de vision et visualise tes objectifs avec Pro.'},advanced:{i:icon||'⭐',t:feature||'Feature Pro',d:'Cette fonctionnalité est réservée aux membres Pro.'}};var m=msgs[feature]||msgs.advanced;pw.textContent=m.i;pt.textContent=m.t;pd.textContent=m.d;openM('m-paywall');return true;}
+function showPaywall(feature,icon){if(S.plan!=='free')return false;var pw=document.getElementById('pw-icon');var pt=document.getElementById('pw-title');var pd=document.getElementById('pw-desc');var msgs={coach_unlimited:{i:'🤖',tk:'pw_feat_coach'},formations:{i:'🎓',tk:'pw_feat_formations'},guilds:{i:'⚔️',tk:'pw_feat_guilds'},vision:{i:'🎯',tk:'pw_feat_vision'},advanced:{i:icon||'⭐',tk:'pw_feat_default'}};var m=msgs[feature]||msgs.advanced;pw.textContent=m.i;pt.textContent=t(m.tk);pd.textContent=t(m.tk+'_d');openM('m-paywall');return true;}
 function chkProgressGate(){if(S.plan!=='free')return;var lvl=getLvl(S.xp||0);if(lvl<5)return;if(S.progressGateSeen===lvl)return;S.progressGateSeen=lvl;save();setTimeout(function(){var icon=document.getElementById('pg-icon');var title=document.getElementById('pg-title');var desc=document.getElementById('pg-desc');var prog=document.getElementById('pg-progress');icon.textContent='⚡';title.textContent='Niveau '+(lvl+1)+' atteint !';desc.textContent='Impressionnant ! Tu as atteint le niveau '+(lvl+1)+'. Les niveaux supérieurs sont réservés aux membres Pro.';prog.innerHTML='<div style="display:flex;gap:3px;justify-content:center;margin-bottom:8px">'+LVL_T.map(function(t2,i){var unlocked=i<=lvl;var gated=i>4&&S.plan==='free';return '<div style="width:24px;height:24px;border-radius:4px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;'+(gated?'background:var(--sf3);color:var(--tx3);border:1px solid var(--bd)':'background:'+(unlocked?'var(--agg2)':'var(--sf2)')+';color:'+(unlocked?'var(--ac)':'var(--tx3)')+';border:1px solid '+(unlocked?'var(--acm)':'var(--bd)'))+'">'+(gated?'🔒':(i+1))+'</div>';}).join('')+'</div>';openM('m-progress-gate');},1500);}
 function activateTasteOfPro(){S.tasteOfPro='active';S.plan='pro';S.tasteOfProExpiry=new Date(Date.now()+7*24*60*60*1000).toISOString();save();toast('7 jours Pro activés !','🎁',5000);confetti();addN('🎁','Essai Pro activé','Tu as 7 jours pour explorer toutes les features Pro.');renderMoi();}
 function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
@@ -9790,7 +9790,31 @@ var RISE_I18N = {
     // Book UI
     mark_read: 'Marquer lu', reading_now: 'Je lis ça', ai_reco: 'Recommandations IA personnalisées', ai_reco_d: '3 livres exactement pour toi maintenant',
     key_point: 'Point clé', action_tonight: 'Action ce soir',
-    new_entry: 'Nouvelle entrée', go_out_write: 'Sors et reviens écrire !'
+    new_entry: 'Nouvelle entrée', go_out_write: 'Sors et reviens écrire !',
+    // Paywall
+    pw_unlock: 'Débloquer cette feature ?', pw_desc: 'Passe en Pro pour profiter de toutes les fonctionnalités.',
+    pw_price_monthly: '/mois', pw_price_annual: 'ou 5,99€/mois en annuel (−40%)',
+    pw_coach_unlimited: 'Coach IA illimité', pw_formations: '12 formations complètes', pw_guilds: 'Guildes et tournois', pw_gems_monthly: '50 💎 gratuits chaque mois',
+    pw_go_pro: 'Passer Pro', pw_trial: '7 jours d\'essai gratuit • Annulation libre', pw_later: 'Pas maintenant',
+    pw_feat_coach: 'Coach IA illimité', pw_feat_coach_d: 'Tu as atteint la limite de messages gratuits. Passe en Pro pour un coaching illimité.',
+    pw_feat_formations: 'Formation Premium', pw_feat_formations_d: 'Cette formation est réservée aux membres Pro. Débloque les 12 formations complètes.',
+    pw_feat_guilds: 'Guildes & Tournois', pw_feat_guilds_d: 'Rejoins une guilde et participe aux tournois avec les membres Pro.',
+    pw_feat_vision: 'Vision Board', pw_feat_vision_d: 'Crée ton tableau de vision et visualise tes objectifs avec Pro.',
+    pw_feat_default: 'Feature Pro', pw_feat_default_d: 'Cette fonctionnalité est réservée aux membres Pro.',
+    // NPS
+    nps_title: 'Ton avis compte !', nps_question: 'Sur une échelle de 0 à 10, quelle est la probabilité que tu recommandes RISE à un ami ?',
+    nps_improve: 'Qu\'est-ce qu\'on pourrait améliorer ?', nps_send: 'Envoyer', nps_thanks: 'Merci pour ton retour !',
+    nps_thanks_d: 'Ça nous aide à construire le meilleur RISE possible.', nps_close: 'Fermer',
+    // Exit survey
+    exit_title: 'Avant de partir...', exit_desc: 'On aimerait comprendre pour s\'améliorer.',
+    exit_expensive: 'C\'est trop cher', exit_not_useful: 'Je n\'utilise pas assez', exit_missing: 'Il manque une fonctionnalité',
+    exit_alternative: 'J\'ai trouvé mieux ailleurs', exit_other: 'Autre raison',
+    exit_pause_title: 'Pas prêt à partir ?', exit_pause_desc: 'Mets ton compte en pause 30 jours — gratuit. Tes données restent intactes.',
+    exit_pause_btn: 'Mettre en pause 30j', exit_reset_btn: 'Non, je veux vraiment réinitialiser', exit_cancel: 'Annuler',
+    // Progress gate
+    pg_title: 'Niveau verrouillé', pg_desc: 'Tu as atteint la limite du plan gratuit.',
+    pg_features: 'Les niveaux 6+ débloquent des features exclusives.', pg_unlock: 'Débloquer tous les niveaux', pg_continue_free: 'Continuer en gratuit',
+    pg_reached: 'Niveau {n} atteint !', pg_reached_d: 'Impressionnant ! Les niveaux supérieurs sont réservés aux membres Pro.'
   },
   en: {
     home: 'Home',
@@ -10080,7 +10104,25 @@ var RISE_I18N = {
     od_sunrise: 'Sunrise', od_sunrise_d: 'Outside before sunrise',
     mark_read: 'Mark as read', reading_now: 'Reading this', ai_reco: 'Personalized AI recommendations', ai_reco_d: '3 books exactly for you right now',
     key_point: 'Key point', action_tonight: 'Action tonight',
-    new_entry: 'New entry', go_out_write: 'Go out and come back to write!'
+    new_entry: 'New entry', go_out_write: 'Go out and come back to write!',
+    pw_unlock: 'Unlock this feature?', pw_desc: 'Upgrade to Pro for full access.',
+    pw_go_pro: 'Go Pro', pw_trial: '7-day free trial • Cancel anytime', pw_later: 'Not now',
+    pw_feat_coach: 'Unlimited AI Coach', pw_feat_coach_d: 'You\'ve reached the free message limit. Go Pro for unlimited coaching.',
+    pw_feat_formations: 'Premium Courses', pw_feat_formations_d: 'This course is Pro-only. Unlock all 12 complete courses.',
+    pw_feat_guilds: 'Guilds & Tournaments', pw_feat_guilds_d: 'Join a guild and compete in tournaments with Pro members.',
+    pw_feat_vision: 'Vision Board', pw_feat_vision_d: 'Create your vision board and visualize your goals with Pro.',
+    pw_feat_default: 'Pro Feature', pw_feat_default_d: 'This feature is reserved for Pro members.',
+    nps_title: 'Your opinion matters!', nps_question: 'On a scale of 0-10, how likely are you to recommend RISE to a friend?',
+    nps_improve: 'What could we improve?', nps_send: 'Send', nps_thanks: 'Thanks for your feedback!',
+    nps_thanks_d: 'It helps us build the best RISE possible.', nps_close: 'Close',
+    exit_title: 'Before you go...', exit_desc: 'We\'d love to understand why.',
+    exit_expensive: 'Too expensive', exit_not_useful: 'I don\'t use it enough', exit_missing: 'Missing a feature',
+    exit_alternative: 'Found something better', exit_other: 'Other reason',
+    exit_pause_title: 'Not ready to leave?', exit_pause_desc: 'Pause your account for 30 days — free. Your data stays intact.',
+    exit_pause_btn: 'Pause 30 days', exit_reset_btn: 'No, I really want to reset', exit_cancel: 'Cancel',
+    pg_title: 'Level locked', pg_desc: 'You\'ve reached the free plan limit.',
+    pg_features: 'Levels 6+ unlock exclusive features.', pg_unlock: 'Unlock all levels', pg_continue_free: 'Continue free',
+    pg_reached: 'Level {n} reached!', pg_reached_d: 'Impressive! Higher levels are reserved for Pro members.'
   },
   es: {
     home: 'Inicio',
@@ -10370,7 +10412,15 @@ var RISE_I18N = {
     od_sunrise: 'Amanecer', od_sunrise_d: 'Fuera antes del amanecer',
     mark_read: 'Marcar como leído', reading_now: 'Leyendo esto', ai_reco: 'Recomendaciones IA personalizadas', ai_reco_d: '3 libros exactamente para ti ahora',
     key_point: 'Punto clave', action_tonight: 'Acción esta noche',
-    new_entry: 'Nueva entrada', go_out_write: '¡Sal y vuelve a escribir!'
+    new_entry: 'Nueva entrada', go_out_write: '¡Sal y vuelve a escribir!',
+    pw_unlock: '¿Desbloquear esta función?', pw_desc: 'Pasa a Pro para acceder a todo.',
+    pw_go_pro: 'Hazte Pro', pw_trial: '7 días gratis • Cancela cuando quieras', pw_later: 'Ahora no',
+    nps_title: '¡Tu opinión cuenta!', nps_question: 'Del 0 al 10, ¿recomendarías RISE a un amigo?',
+    nps_send: 'Enviar', nps_thanks: '¡Gracias por tu opinión!', nps_close: 'Cerrar',
+    exit_title: 'Antes de irte...', exit_desc: 'Nos gustaría entender por qué.',
+    exit_expensive: 'Es muy caro', exit_not_useful: 'No lo uso suficiente', exit_missing: 'Falta una función',
+    exit_alternative: 'Encontré algo mejor', exit_other: 'Otra razón', exit_cancel: 'Cancelar',
+    pg_title: 'Nivel bloqueado', pg_unlock: 'Desbloquear todos los niveles', pg_continue_free: 'Continuar gratis'
   },
   pt: {
     home: 'Início',
@@ -10660,7 +10710,13 @@ var RISE_I18N = {
     od_sunrise: 'Nascer do sol', od_sunrise_d: 'Fora antes do amanhecer',
     mark_read: 'Marcar como lido', reading_now: 'Lendo isso', ai_reco: 'Recomendações IA personalizadas', ai_reco_d: '3 livros exatamente para você agora',
     key_point: 'Ponto-chave', action_tonight: 'Ação hoje à noite',
-    new_entry: 'Nova entrada', go_out_write: 'Saia e volte para escrever!'
+    new_entry: 'Nova entrada', go_out_write: 'Saia e volte para escrever!',
+    pw_unlock: 'Desbloquear esta funcionalidade?', pw_desc: 'Mude para Pro para acesso total.',
+    pw_go_pro: 'Seja Pro', pw_trial: '7 dias grátis • Cancele quando quiser', pw_later: 'Agora não',
+    nps_title: 'Sua opinião importa!', nps_send: 'Enviar', nps_thanks: 'Obrigado pelo feedback!', nps_close: 'Fechar',
+    exit_title: 'Antes de ir...', exit_expensive: 'É muito caro', exit_not_useful: 'Não uso o suficiente',
+    exit_missing: 'Falta uma funcionalidade', exit_other: 'Outro motivo', exit_cancel: 'Cancelar',
+    pg_title: 'Nível bloqueado', pg_unlock: 'Desbloquear todos os níveis', pg_continue_free: 'Continuar grátis'
   },
   it: {
     home: 'Casa',
@@ -11036,7 +11092,13 @@ var RISE_I18N = {
     od_sunrise: 'Sonnenaufgang', od_sunrise_d: 'Draußen vor Sonnenaufgang',
     mark_read: 'Als gelesen markieren', reading_now: 'Lese ich', ai_reco: 'Personalisierte KI-Empfehlungen', ai_reco_d: '3 Bücher genau für dich jetzt',
     key_point: 'Kernpunkt', action_tonight: 'Aktion heute Abend',
-    new_entry: 'Neuer Eintrag', go_out_write: 'Geh raus und komm zurück zum Schreiben!'
+    new_entry: 'Neuer Eintrag', go_out_write: 'Geh raus und komm zurück zum Schreiben!',
+    pw_unlock: 'Feature freischalten?', pw_desc: 'Wechsle zu Pro für vollen Zugang.',
+    pw_go_pro: 'Pro werden', pw_trial: '7 Tage kostenlos • Jederzeit kündbar', pw_later: 'Nicht jetzt',
+    nps_title: 'Deine Meinung zählt!', nps_send: 'Senden', nps_thanks: 'Danke für dein Feedback!', nps_close: 'Schließen',
+    exit_title: 'Bevor du gehst...', exit_expensive: 'Zu teuer', exit_not_useful: 'Nutze es nicht genug',
+    exit_missing: 'Feature fehlt', exit_other: 'Anderer Grund', exit_cancel: 'Abbrechen',
+    pg_title: 'Level gesperrt', pg_unlock: 'Alle Level freischalten', pg_continue_free: 'Kostenlos fortfahren'
   },
   ca: {
     home: 'Inici',
@@ -11326,7 +11388,13 @@ var RISE_I18N = {
     od_sunrise: 'Sortida del sol', od_sunrise_d: 'Fora abans de sortir el sol',
     mark_read: 'Marcar com a llegit', reading_now: 'Llegint això', ai_reco: 'Recomanacions IA personalitzades', ai_reco_d: '3 llibres exactament per a tu ara',
     key_point: 'Punt clau', action_tonight: 'Acció aquest vespre',
-    new_entry: 'Nova entrada', go_out_write: 'Surt i torna a escriure!'
+    new_entry: 'Nova entrada', go_out_write: 'Surt i torna a escriure!',
+    pw_unlock: 'Desbloquejar aquesta funció?', pw_desc: 'Passa a Pro per accedir a tot.',
+    pw_go_pro: 'Fes-te Pro', pw_trial: '7 dies gratis • Cancel·la quan vulguis', pw_later: 'Ara no',
+    nps_title: 'La teva opinió compta!', nps_send: 'Enviar', nps_thanks: 'Gràcies pel teu feedback!', nps_close: 'Tancar',
+    exit_title: 'Abans de marxar...', exit_expensive: 'És massa car', exit_not_useful: 'No l\'utilitzo prou',
+    exit_missing: 'Falta una funcionalitat', exit_other: 'Un altre motiu', exit_cancel: 'Cancel·lar',
+    pg_title: 'Nivell bloquejat', pg_unlock: 'Desbloquejar tots els nivells', pg_continue_free: 'Continuar gratis'
   },
   ja: {
     home: 'ホーム',
@@ -11541,6 +11609,26 @@ function applyI18nPlaceholders() {
   if(ta) ta.placeholder = t('placeholder_question');
   var btn = document.getElementById('jarvis-send');
   if(btn) btn.textContent = t('send');
+  // Paywall modal
+  var s=function(id,k){var e=document.getElementById(id);if(e)e.textContent=t(k);};
+  s('pw-title','pw_unlock');s('pw-desc','pw_desc');
+  // NPS modal
+  s('nps-title-txt','nps_title');s('nps-question-txt','nps_question');
+  s('nps-send-btn','nps_send');s('nps-thanks-title','nps_thanks');
+  s('nps-thanks-desc','nps_thanks_d');s('nps-close-btn','nps_close');
+  var nc=document.getElementById('nps-comment');if(nc)nc.placeholder=t('nps_improve');
+  // Exit survey
+  s('exit-title-txt','exit_title');s('exit-desc-txt','exit_desc');
+  document.querySelectorAll('.i18n-exit-expensive').forEach(function(e){e.textContent=t('exit_expensive');});
+  document.querySelectorAll('.i18n-exit-not-useful').forEach(function(e){e.textContent=t('exit_not_useful');});
+  document.querySelectorAll('.i18n-exit-missing').forEach(function(e){e.textContent=t('exit_missing');});
+  document.querySelectorAll('.i18n-exit-alternative').forEach(function(e){e.textContent=t('exit_alternative');});
+  document.querySelectorAll('.i18n-exit-other').forEach(function(e){e.textContent=t('exit_other');});
+  s('exit-pause-title','exit_pause_title');s('exit-pause-desc','exit_pause_desc');
+  s('exit-pause-btn','exit_pause_btn');s('exit-reset-btn','exit_reset_btn');s('exit-cancel-btn','exit_cancel');
+  // Progress gate
+  s('pg-title','pg_title');s('pg-desc','pg_desc');s('pg-features-txt','pg_features');
+  s('pg-unlock-btn','pg_unlock');s('pg-trial-txt','pw_trial');s('pg-free-btn','pg_continue_free');
 }
 if(document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', applyI18nPlaceholders);
