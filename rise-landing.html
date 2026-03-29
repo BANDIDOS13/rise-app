@@ -192,15 +192,24 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener
 // ── CTA BUTTONS: navigate to app ──
 function goToApp(){window.location.href='/index.html';}
 document.querySelector('.nav-cta').addEventListener('click',goToApp);
+function startCheckout(plan){
+  var btn=event.target;btn.disabled=true;btn.textContent='Chargement...';
+  fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plan:plan,email:'',name:''})})
+  .then(function(r){return r.json();})
+  .then(function(data){
+    if(data.url){window.location.href=data.url;}
+    else{alert(data.error||'Erreur');btn.disabled=false;btn.textContent='Réessayer';}
+  })
+  .catch(function(){btn.disabled=false;btn.textContent='Réessayer';alert('Erreur de connexion.');});
+}
 document.querySelectorAll('.price-card').forEach(function(card){
   var btn=card.querySelector('.btn');
   if(!btn)return;
   var h3=card.querySelector('h3');
   var planName=(h3?h3.textContent:'').toLowerCase().trim();
-  if(planName==='premium'||planName==='elite'){
-    btn.addEventListener('click',function(){
-      window.location.href='/index.html?plan='+encodeURIComponent(planName);
-    });
+  var planMap={'premium':'pro','elite':'elite'};
+  if(planMap[planName]){
+    btn.addEventListener('click',function(e){startCheckout(planMap[planName]);});
   } else {
     btn.addEventListener('click',goToApp);
   }

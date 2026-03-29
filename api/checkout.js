@@ -1,0 +1,71 @@
+// RISE Stripe Checkout — Vercel Serverless Function
+import Stripe from 'stripe';
+
+export const config = { runtime: 'edge' };
+
+// Map RISE plan IDs to Stripe Price IDs (set in Vercel env vars)
+const PLAN_PRICES = {
+  starter: process.env.STRIPE_PRICE_STARTER,
+  pro:     process.env.STRIPE_PRICE_PRO,
+  elite:   process.env.STRIPE_PRICE_ELITE,
+};
+
+export default async function handler(req) {
+  if (req.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
+    });
+  }
+
+  if (req.method !== 'POST') {
+    return jsonResp({ error: 'Method not allowed' }, 405);
+  }
+
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey) {
+    return jsonResp({ error: 'Paiement non configuré. Contacte le support.' }, 500);
+  }
+
+  try {
+    const { plan, email, name } = await req.json();
+
+    if (!plan || !PLAN_PRICES[plan]) {
+      return jsonResp({ error: 'Plan invalide.' }, 400);
+    }
+
+    const priceId = PLAN_PRICES[plan];
+    if (!priceId) {
+      return jsonResp({ error: 'Ce plan n\'est pas encore disponible.' }, 400);
+    }
+
+    const stripe = new Stripe(stripeKey, { apiVersion: '2024-12-18.acacia' });
+
+    const origin = req.headers.get('origin') || 'https://rise-app-mu.vercel.app';
+
+    const sessionParams = {
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: origin + '/index.html?payment=success&plan=' + plan,
+      cancel_url: origin + '/index.html?payment=cancel',
+      metadata: { plan, name: name || '' },
+    };
+
+    if (email) {
+      sessionParams.customer_email = email;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
+
+    return jsonResp({ url: session.url });
+  } catch (err) {
+    return jsonResp({ error: 'Erreur lors de la création du paiement. Réessaie.' }, 500);
+  }
+}
+
+function jsonResp(obj, status = 200) {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+  });
+}
