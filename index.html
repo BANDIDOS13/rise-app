@@ -647,6 +647,15 @@ textarea.inp{resize:none}
     <div id="notifs-list"></div>
   </div>
 </div>
+<!-- ADMIN ANALYTICS DASHBOARD (hidden — access via console: gs('admin',null)) -->
+<div class="screen" id="screen-admin" style="display:none">
+  <div style="padding:20px 16px">
+    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📊 Admin Dashboard</div></div>
+    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Revenue & Growth</div>
+    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">KPIs en temps réel</div>
+    <div id="admin-c"></div>
+  </div>
+</div>
 </div>
 <div class="screen" id="screen-lang">
   <div class="pad">
@@ -1180,7 +1189,7 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.email=(document.getElementById('ob-email').value||'').trim();S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();chkMorningBrief();chkWinBack();chkMilestones();chkWeeklyInsight();chkNPS();chkProgressGate();chkFOMO();chkROI();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();chkMorningBrief();chkWinBack();chkMilestones();chkWeeklyInsight();chkNPS();chkProgressGate();chkFOMO();chkROI();chkEmailSequence();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');} scheduleStreakDanger(); chkTasteOfPro();}
 /* ── TASTE OF PRO: 7 days free Pro at J+3 ── */
@@ -1366,6 +1375,107 @@ addN('💎','Ton mois Pro en chiffres',
   ' | 📚 '+booksRead+' livres lus'+
   ' | 🎓 '+formsDone+' modules complétés'+
   ' | Valeur estimée : '+(coachMsgs*2+pomoHrs*15+booksRead*10+formsDone*5)+'€ d\'accompagnement');}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   EMAIL SEQUENCE ENGINE (local trigger system)
+   Fires at J+1, J+3, J+7, J+14, J+30
+   In production: connect to email service API
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+var EMAIL_SEQUENCES=[
+  {day:1,subject:'Bienvenue dans RISE — Ton premier pas',template:'welcome',
+   preview:'Ton compte est prêt. Voici 3 choses à faire dans les 24 prochaines heures pour transformer ta vie.'},
+  {day:3,subject:'JARVIS a analysé tes premiers jours',template:'insights_j3',
+   preview:'Tu as gagné {{xp}} XP. Voici ce que JARVIS recommande pour accélérer ta progression.'},
+  {day:7,subject:'Ta première semaine RISE — Le bilan',template:'weekly_recap',
+   preview:'Semaine 1 terminée ! {{streak}} jours de streak, {{quests}} quêtes complétées. Voici ton plan pour la semaine 2.'},
+  {day:14,subject:'Les membres Pro progressent 3x plus vite',template:'pro_nudge',
+   preview:'Tu es au niveau {{level}}. Les Top 10% sont tous Pro. Essaie 7 jours gratuits.'},
+  {day:30,subject:'30 jours avec RISE — Tu es incroyable',template:'milestone_30',
+   preview:'1 mois ! {{xp}} XP, {{books}} livres, {{forms}} modules. Tu fais partie du top 20% des utilisateurs.'}
+];
+
+function chkEmailSequence(){
+if(!S.email||!S.ss)return;
+S.emailsSent=S.emailsSent||{};
+var daysSince=Math.floor((Date.now()-new Date(S.ss).getTime())/(24*60*60*1000));
+EMAIL_SEQUENCES.forEach(function(seq){
+  if(daysSince>=seq.day&&!S.emailsSent[seq.template]){
+    S.emailsSent[seq.template]=TD;save();
+    var lvl=getLvl(S.xp||0)+1;
+    var preview=seq.preview
+      .replace('{{xp}}',S.xp||0)
+      .replace('{{streak}}',S.loginS?.streak||0)
+      .replace('{{quests}}',Object.keys(S.dq?.qs||{}).length)
+      .replace('{{level}}',lvl)
+      .replace('{{books}}',(S.books?.read||[]).length)
+      .replace('{{forms}}',Object.keys(S.formProg||{}).reduce(function(a,k){return a+(S.formProg[k].m||0);},0));
+    /* In production: call email API. For now: in-app notification */
+    addN('📧','Email: '+seq.subject,preview);
+    /* Email API hook (uncomment in production)
+    if(window.RISE_EMAIL&&RISE_EMAIL.send){
+      RISE_EMAIL.send({to:S.email,subject:seq.subject,template:seq.template,data:{name:S.name,xp:S.xp,level:lvl,streak:S.loginS?.streak||0}});
+    }*/
+  }
+});}
+
+/* Email service config (plug real service to activate) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ADMIN ANALYTICS DASHBOARD
+   Access: gs('admin',null) from console or settings
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function initAdmin(){var el=document.getElementById('admin-c');if(!el)return;
+var daysSince=S.ss?Math.floor((Date.now()-new Date(S.ss).getTime())/(24*60*60*1000)):0;
+var lvl=getLvl(S.xp||0)+1;
+var totalLogins=Object.keys(S.checkins||{}).length;
+var dau_mau=daysSince>0?Math.round(totalLogins/Math.max(daysSince,1)*100):0;
+var streakMax=S.bestStreak||S.loginS?.streak||0;
+var formModules=Object.keys(S.formProg||{}).reduce(function(a,k){return a+(S.formProg[k].m||0);},0);
+var coachMsgs=S.coachMem?.n||0;
+var booksRead=(S.books?.read||[]).length;
+var pomoTotal=S.pomoStats?.totalMin||0;
+var nps=S.nps?S.nps.score:'—';
+var churnReasons=(S.exitSurvey||[]);
+var emails=Object.keys(S.emailsSent||{}).length;
+var affRefs=(S.aff?.refs||[]).length;
+var plan=S.plan||'free';
+var planPrices={free:0,starter:4.99,pro:9.99,elite:19.99};
+var mrr=planPrices[plan]||0;
+var ltv=mrr*12*(daysSince/30>0?daysSince/30:1);
+
+el.innerHTML=
+'<div class="lbl" style="margin-bottom:10px">💰 REVENUE</div>'+
+'<div class="row2" style="margin-bottom:14px">'+
+[{n:plan.toUpperCase(),l:'Plan actuel',c:'var(--ac)'},{n:mrr.toFixed(2)+'€',l:'MRR',c:'var(--gr)'},{n:ltv.toFixed(0)+'€',l:'LTV estimé',c:'var(--bl)'},{n:affRefs,l:'Referrals',c:'var(--or)'}].map(function(s){return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>';}).join('')+'</div>'+
+
+'<div class="lbl" style="margin-bottom:10px">📈 ENGAGEMENT</div>'+
+'<div class="row2" style="margin-bottom:14px">'+
+[{n:dau_mau+'%',l:'DAU/MAU',c:dau_mau>=40?'var(--gr)':dau_mau>=20?'var(--or)':'var(--rd)'},{n:streakMax+'j',l:'Best streak',c:'var(--or)'},{n:coachMsgs,l:'Coach msgs',c:'var(--pu)'},{n:pomoTotal+'min',l:'Deep work',c:'var(--bl)'}].map(function(s){return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>';}).join('')+'</div>'+
+
+'<div class="lbl" style="margin-bottom:10px">🎯 CONVERSION FUNNEL</div>'+
+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:14px">'+
+'<div style="margin-bottom:10px">'+funnelRow('Inscription',100,'var(--gr)')+funnelRow('Jour 3 (engaged)',daysSince>=3?100:0,'var(--bl)')+funnelRow('Jour 7 (retained)',daysSince>=7?100:0,'var(--pu)')+funnelRow('Payant',plan!=='free'?100:0,'var(--ac)')+funnelRow('Jour 30 (loyal)',daysSince>=30?100:0,'var(--or)')+'</div></div>'+
+
+'<div class="lbl" style="margin-bottom:10px">📊 FEATURE ADOPTION</div>'+
+'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:14px">'+
+[{f:'Coach IA',v:coachMsgs>0,n:coachMsgs},{f:'Formations',v:formModules>0,n:formModules+' modules'},{f:'Livres',v:booksRead>0,n:booksRead},{f:'Pomodoro',v:pomoTotal>0,n:pomoTotal+'min'},{f:'Habitudes',v:(S.habitsD||[]).length>0,n:(S.habitsD||[]).length},{f:'Budget',v:Object.keys(S.budget||{}).length>0,n:Object.keys(S.budget||{}).length},{f:'Journal',v:(S.journal||[]).length>0,n:(S.journal||[]).length}].map(function(f){return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12px"><div style="width:8px;height:8px;border-radius:50%;background:'+(f.v?'var(--gr)':'var(--rd)')+'"></div><div style="flex:1;color:var(--tx2)">'+f.f+'</div><div style="font-weight:700;color:'+(f.v?'var(--gr)':'var(--tx3)')+'">'+f.n+'</div></div>';}).join('')+'</div>'+
+
+'<div class="lbl" style="margin-bottom:10px">📝 NPS & CHURN</div>'+
+'<div class="row2" style="margin-bottom:14px">'+
+[{n:nps,l:'NPS Score',c:typeof nps==='number'?(nps>=9?'var(--gr)':nps>=7?'var(--or)':'var(--rd)'):'var(--tx3)'},{n:churnReasons.length,l:'Exit surveys',c:'var(--tx2)'},{n:emails,l:'Emails envoyés',c:'var(--bl)'},{n:daysSince+'j',l:'Âge compte',c:'var(--ac)'}].map(function(s){return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>';}).join('')+'</div>'+
+
+(churnReasons.length>0?'<div class="lbl" style="margin-bottom:8px">🚨 Raisons de churn</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:12px;margin-bottom:14px;font-size:12px;color:var(--tx2)">'+churnReasons.map(function(r){return '<div style="padding:4px 0;border-bottom:1px solid var(--bd)">'+r.reason+' — '+r.date+'</div>';}).join('')+'</div>':'');
+}
+
+function funnelRow(label,pct,color){return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="width:80px;font-size:11px;color:var(--tx2)">'+label+'</div><div style="flex:1;height:6px;background:var(--sf2);border-radius:3px;overflow:hidden"><div style="width:'+pct+'%;height:100%;background:'+color+';border-radius:3px;transition:width .5s"></div></div><div style="width:30px;text-align:right;font-size:10px;font-weight:700;color:'+color+'">'+pct+'%</div></div>';}
+
+window.RISE_EMAIL={
+  enabled:false,
+  apiEndpoint:'/api/send-email',
+  send:function(data){
+    if(!RISE_EMAIL.enabled)return;
+    fetch(RISE_EMAIL.apiEndpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});
+  }
+};
 
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
@@ -1553,8 +1663,58 @@ function qAdd(){const i=document.getElementById('td-q');if(!i||!i.value.trim())r
 function addTdM(){const txt=document.getElementById('td-txt')?.value.trim();if(!txt){closeM('m-todo');return;}S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:txt,done:false,priority:document.getElementById('td-pr')?.checked||false,cat:document.getElementById('td-cat')?.value||'focus',ai:false,date:TD});save();closeM('m-todo');if(moiTab==='todo')renderMoi();}
 function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);const td=S.todos.find(t=>t.id===id);if(td?.done){gainXP(5,'todo');gainGems(1);complQ('todos');dmgBoss(10);}save();if(moiTab==='todo')renderMoi();}
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
-function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
-function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
+function rPlans(el){
+/* Billing cycle toggle */
+S.billingCycle=S.billingCycle||'annual';
+var isAnn=S.billingCycle==='annual';
+var annualPrices={free:0,starter:2.99,pro:5.99,elite:11.99};
+var monthlyPrices={free:0,starter:4.99,pro:9.99,elite:19.99};
+el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px"><span style="font-size:12px;font-weight:600;color:'+(isAnn?'var(--tx3)':'var(--tx)')+';cursor:pointer" onclick="S.billingCycle=\'monthly\';save();renderMoi()">Mensuel</span><div style="width:44px;height:24px;background:'+(isAnn?'var(--agg2)':'var(--sf2)')+';border:1.5px solid '+(isAnn?'var(--ac)':'var(--bd2)')+';border-radius:12px;cursor:pointer;position:relative" onclick="S.billingCycle=S.billingCycle===\'annual\'?\'monthly\':\'annual\';save();renderMoi()"><div style="position:absolute;top:2px;'+(isAnn?'right:2px':'left:2px')+';width:16px;height:16px;background:var(--ac);border-radius:50%;transition:all .3s"></div></div><span style="font-size:12px;font-weight:600;color:'+(isAnn?'var(--tx)':'var(--tx3)')+';cursor:pointer" onclick="S.billingCycle=\'annual\';save();renderMoi()">Annuel</span>'+(isAnn?'<span style="font-size:9px;font-weight:700;background:var(--gr);color:#0a1808;padding:2px 7px;border-radius:10px">-40%</span>':'')+'</div>'+
+PLANS_D.map(p=>{var price=isAnn?annualPrices[p.id]:monthlyPrices[p.id];var priceLabel=price>0?(price.toFixed(2).replace('.',',')+'€'):'Gratuit';var periodLabel=price>0?(isAnn?'/mois — facturé '+(price*12).toFixed(2).replace('.',',')+'€/an':'/mois'):'';return '<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+priceLabel+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+periodLabel+'</span></div>'+(isAnn&&price>0?'<div style="font-size:11px;color:var(--gr);font-weight:600;margin-top:4px">Économise '+(((monthlyPrices[p.id]-price)*12).toFixed(0))+'€/an</div>':'')+'</div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>';}).join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
+function selPlan(id){
+/* ── STRIPE CHECKOUT INTEGRATION ── */
+if(id!=='free'&&S.plan!==id){
+  /* Check if Stripe is configured */
+  if(window.RISE_STRIPE&&RISE_STRIPE.enabled){
+    RISE_STRIPE.checkout(id);return;
+  }
+  /* Mock mode: activate directly (for dev/demo) */
+}
+S.plan=id;S.planDate=TD;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
+
+/* ── STRIPE CONFIG (plug real keys to activate) ── */
+window.RISE_STRIPE={
+  enabled:false, /* Set to true + add real keys to enable */
+  publishableKey:'pk_test_XXXXXXXX',
+  prices:{
+    starter_monthly:'price_starter_monthly',
+    starter_annual:'price_starter_annual',
+    pro_monthly:'price_pro_monthly',
+    pro_annual:'price_pro_annual',
+    elite_monthly:'price_elite_monthly',
+    elite_annual:'price_elite_annual'
+  },
+  checkout:function(planId){
+    /* When Stripe.js is loaded, this creates a real checkout session */
+    if(!window.Stripe){toast('Chargement du paiement...','💳');
+      var s=document.createElement('script');s.src='https://js.stripe.com/v3/';s.onload=function(){RISE_STRIPE.checkout(planId);};document.head.appendChild(s);return;}
+    var billing=S.billingCycle||'annual';
+    var priceKey=planId+'_'+billing;
+    var priceId=RISE_STRIPE.prices[priceKey];
+    if(!priceId){toast('Plan non disponible','❌');return;}
+    var stripe=Stripe(RISE_STRIPE.publishableKey);
+    /* Redirect to Stripe Checkout */
+    fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({priceId:priceId,email:S.email||'',userId:S.aff?.code||'',planId:planId})
+    }).then(function(r){return r.json();}).then(function(data){
+      if(data.sessionId)stripe.redirectToCheckout({sessionId:data.sessionId});
+      else toast('Erreur paiement','❌');
+    }).catch(function(){
+      /* Fallback: mock activation for demo */
+      S.plan=planId;S.planDate=TD;save();renderMoi();toast('Plan '+planId+' activé !','👑');confetti();
+    });
+  }
+};
 /* ── CONTEXTUAL PAYWALL ── */
 function showPaywall(feature,icon){
 if(S.plan!=='free')return false;
@@ -1572,12 +1732,14 @@ function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'
 +'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🏆 Achievements</div><div style="font-size:11px;color:var(--tx3)">Notifier les badges débloqués</div></div><div class="tog-sw '+(S.notifPrefs?.achievements!==false?'on':'')+'" onclick="S.notifPrefs=S.notifPrefs||{};S.notifPrefs.achievements=!this.classList.contains(\'on\');this.classList.toggle(\'on\');save()"><div class="tog-knob"></div></div></div>'
 +'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">⚔️ Activité Guilde</div><div style="font-size:11px;color:var(--tx3)">Messages et défis de ta guilde</div></div><div class="tog-sw '+(S.notifPrefs?.guild!==false?'on':'')+'" onclick="S.notifPrefs=S.notifPrefs||{};S.notifPrefs.guild=!this.classList.contains(\'on\');this.classList.toggle(\'on\');save()"><div class="tog-knob"></div></div></div>'
 +'<div style="font-size:11px;color:var(--tx3);margin:8px 0 16px;line-height:1.5">Max 3 notifications/jour • Heures de silence : 22h-8h</div>'
++'<div class="lbl" style="margin:16px 0 10px">📊 Analytics</div>'
++'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'admin\',null)">📊 Dashboard Admin</button></div>'
 +'<button class="btn btn-sf" onclick="resetAll()" style="border-color:var(--rd);color:var(--rd)">⚙️ Réinitialiser</button>';}
 function resetAll(){openM('m-exit-survey');}
 function submitExitSurvey(reason){S.exitSurvey=S.exitSurvey||[];S.exitSurvey.push({reason:reason,date:TD,plan:S.plan});save();document.getElementById('es-reasons').style.display='none';document.getElementById('es-pause-offer').style.display='block';}
 function pauseAccount(){S.paused=true;S.pauseDate=TD;S.pauseUntil=new Date(Date.now()+30*24*60*60*1000).toISOString().slice(0,10);save();closeM('m-exit-survey');toast('Compte en pause 30 jours. Tes données sont préservées.','⏸️',5000);addN('⏸️','Compte en pause','Ton compte est en pause jusqu\'au '+S.pauseUntil+'. Reconnecte-toi quand tu veux !');}
 function confirmReset(){closeM('m-exit-survey');if(confirm('Dernière chance ! Toutes tes données seront perdues définitivement.')){localStorage.removeItem('rise_v9');location.reload();}}
-function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
+function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='admin')try{initAdmin();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
 else if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
 else if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
 else if(name==='wheel'){renderWheel(document.getElementById('wheel-c'));}
@@ -1585,7 +1747,12 @@ else if(name==='shop'){renderShop(document.getElementById('shop-c'));}
 else if(name==='content'){renderContentPlanner(document.getElementById('content-c'));}
 else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
-document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
+document.addEventListener('DOMContentLoaded',function(){
+/* ── Handle Stripe payment success redirect ── */
+var urlParams=new URLSearchParams(window.location.search);
+if(urlParams.get('payment')==='success'){var plan=urlParams.get('plan');if(plan&&['starter','pro','elite'].includes(plan)){S.plan=plan;S.planDate=TD;S.tasteOfPro='purchased';save();setTimeout(function(){toast('Paiement confirmé ! Plan '+plan+' activé !','💳',5000);confetti();addN('💳','Bienvenue en '+plan+' !','Ton abonnement est actif. Profite de toutes les features !');},500);}window.history.replaceState({},'',window.location.pathname);}
+if(urlParams.get('payment')==='cancelled'){setTimeout(function(){toast('Paiement annulé — tu peux réessayer à tout moment.','💡',4000);},500);window.history.replaceState({},'',window.location.pathname);}
+if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
 // ══ V10 FEATURES ══
 // Plus panel
 function togglePlus(btn){

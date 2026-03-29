@@ -37,7 +37,9 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 .risk-reversal{display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap}.risk-reversal .rr-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--tx2);font-weight:500}.risk-reversal .rr-item span:first-child{font-size:16px}
 /* ── MID CTA ── */
 .mid-cta{background:linear-gradient(135deg,rgba(212,170,74,.06),rgba(75,216,122,.03));border:1px solid var(--bd);border-radius:12px;padding:32px 20px;text-align:center;margin:40px auto;max-width:600px}.mid-cta h3{font-family:var(--fd);font-size:22px;margin-bottom:8px}.mid-cta p{color:var(--tx2);font-size:14px;margin-bottom:16px}
-@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}.social-proof-ticker{bottom:10px;left:10px;right:10px;max-width:none}.urgency-banner{font-size:11px;padding:8px 30px 8px 12px}.exit-popup{padding:28px 20px;margin:12px}.risk-reversal{gap:12px}}
+/* ── COOKIE CONSENT BANNER ── */
+.cookie-banner{position:fixed;bottom:0;left:0;right:0;z-index:999;background:var(--sf);border-top:1px solid var(--bd);padding:16px 20px;display:none;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;box-shadow:0 -4px 24px rgba(0,0,0,.4)}.cookie-banner.show{display:flex}.cookie-banner p{font-size:12px;color:var(--tx2);line-height:1.5;flex:1;min-width:240px;max-width:600px}.cookie-banner a{color:var(--ac);text-decoration:underline}.cookie-btns{display:flex;gap:8px;flex-shrink:0}.cookie-btns button{padding:8px 18px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:none;text-transform:uppercase;letter-spacing:.5px}.cb-accept{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)}.cb-reject{background:var(--sf2);color:var(--tx3);border:1px solid var(--bd2)!important}.cb-settings{background:none;color:var(--tx3);text-decoration:underline;font-size:10px!important;padding:4px 8px!important}
+@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}.social-proof-ticker{bottom:10px;left:10px;right:10px;max-width:none}.urgency-banner{font-size:11px;padding:8px 30px 8px 12px}.exit-popup{padding:28px 20px;margin:12px}.risk-reversal{gap:12px}.cookie-banner{flex-direction:column;text-align:center;padding:14px 16px}.cookie-banner p{min-width:auto}}
 </style>
 </head>
 <body>
@@ -251,6 +253,15 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <div>
 <div class="spt-text" id="spt-text"><strong>Marie L.</strong> vient de rejoindre RISE</div>
 <div class="spt-time" id="spt-time">Il y a 2 minutes</div>
+</div>
+</div>
+
+<!-- RGPD COOKIE CONSENT BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+<p data-i18n="cookie_text">Nous utilisons des cookies pour analyser le trafic et améliorer votre expérience. <a href="#" data-i18n="cookie_link">En savoir plus</a></p>
+<div class="cookie-btns">
+<button class="cb-accept" onclick="acceptCookies()">Accepter</button>
+<button class="cb-reject" onclick="rejectCookies()">Refuser</button>
 </div>
 </div>
 
@@ -1072,6 +1083,47 @@ function runABTests() {
 
 // Run A/B tests after i18n (so they override default text)
 setTimeout(runABTests, 100);
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RGPD COOKIE CONSENT
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function acceptCookies() {
+  localStorage.setItem('rise_cookies', 'accepted');
+  document.getElementById('cookie-banner').classList.remove('show');
+  loadAnalytics();
+  trackEvent('cookies', 'accepted');
+}
+function rejectCookies() {
+  localStorage.setItem('rise_cookies', 'rejected');
+  document.getElementById('cookie-banner').classList.remove('show');
+  trackEvent('cookies', 'rejected');
+}
+(function() {
+  var consent = localStorage.getItem('rise_cookies');
+  if (!consent) {
+    setTimeout(function() {
+      document.getElementById('cookie-banner').classList.add('show');
+    }, 2000);
+  } else if (consent === 'accepted') {
+    loadAnalytics();
+  }
+})();
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MICROSOFT CLARITY (Free Heatmaps)
+   Replace XXXXXXXXXX with your Clarity project ID
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function loadAnalytics() {
+  // Microsoft Clarity — heatmaps, session recordings, scroll maps
+  if (window._clarityLoaded) return;
+  window._clarityLoaded = true;
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window,document,"clarity","script","XXXXXXXXXX");
+  /* To activate: replace XXXXXXXXXX with your Clarity project ID from clarity.microsoft.com */
+}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    A/B TEST RESULTS DASHBOARD (console)
