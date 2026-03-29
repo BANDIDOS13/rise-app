@@ -1,4 +1,4 @@
-// RISE AI Coach — Vercel Edge Function
+// RISE AI Mentor (JARVIS) — Vercel Edge Function
 export const config = { runtime: 'edge' };
 
 const SYSTEM_PROMPT = `Tu es JARVIS, le mentor IA intégré dans RISE — l'app qui transforme les intentions en progrès réels.
