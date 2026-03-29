@@ -3,11 +3,10 @@ import Stripe from 'stripe';
 
 export const config = { runtime: 'edge' };
 
-// Map RISE plan IDs to Stripe Price IDs (set in Vercel env vars)
+// Map RISE plan IDs to Stripe Price IDs
 const PLAN_PRICES = {
-  starter: process.env.STRIPE_PRICE_STARTER,
-  pro:     process.env.STRIPE_PRICE_PRO,
-  elite:   process.env.STRIPE_PRICE_ELITE,
+  premium: process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  elite:   process.env.STRIPE_PRICE_ELITE   || 'price_1TFsfRJK83rBK9aJNd5bziY2',
 };
 
 export default async function handler(req) {

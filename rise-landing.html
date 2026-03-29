@@ -207,7 +207,7 @@ document.querySelectorAll('.price-card').forEach(function(card){
   if(!btn)return;
   var h3=card.querySelector('h3');
   var planName=(h3?h3.textContent:'').toLowerCase().trim();
-  var planMap={'premium':'pro','elite':'elite'};
+  var planMap={'premium':'premium','elite':'elite'};
   if(planMap[planName]){
     btn.addEventListener('click',function(e){startCheckout(planMap[planName]);});
   } else {
