@@ -1,5 +1,5 @@
 // FORGE Service Worker — Offline-First PWA + Push Notifications
-const CACHE_NAME = 'forge-v9-cache-v2';
+const CACHE_NAME = 'forge-v10-cache-1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -170,6 +170,22 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
+  // HTML pages: NETWORK-FIRST (always get fresh version, cache as fallback)
+  if (event.request.mode === 'navigate' || event.request.destination === 'document' || url.pathname.endsWith('.html') || url.pathname === '/') {
+    event.respondWith(
+      fetch(event.request).then(function(r) {
+        if (r.ok) { var c=r.clone(); caches.open(CACHE_NAME).then(function(ch){ch.put(event.request,c);}); }
+        return r;
+      }).catch(function() {
+        return caches.match(event.request).then(function(cached) {
+          return cached || caches.match('/index.html');
+        });
+      })
+    );
+    return;
+  }
+
+  // Static assets: cache-first (CSS, JS, images)
   event.respondWith(
     caches.match(event.request).then(function(cached) {
       if (cached) return cached;
@@ -177,7 +193,6 @@ self.addEventListener('fetch', function(event) {
         if (r.ok && event.request.method==='GET') { var c=r.clone(); caches.open(CACHE_NAME).then(function(ch){ch.put(event.request,c);}); }
         return r;
       }).catch(function() {
-        if (event.request.mode==='navigate') return caches.match('/index.html');
         return new Response('',{status:408});
       });
     })
