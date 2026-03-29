@@ -37,7 +37,7 @@ export default async function handler(req) {
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2024-12-18.acacia' });
 
-    const origin = req.headers.get('origin') || 'https://rise-app-mu.vercel.app';
+    const origin = req.headers.get('origin') || 'https://forge-app.com';
 
     const sessionParams = {
       mode: 'subscription',
