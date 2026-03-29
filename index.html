@@ -715,7 +715,7 @@ textarea.inp{resize:none}
       <button class="fbtn on" onclick="setLang('en',this)">🇬🇧 English</button>
       <button class="fbtn" onclick="setLang('es',this)">🇪🇸 Español</button>
       <button class="fbtn" onclick="setLang('pt',this)">🇧🇷 Português</button>
-      <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5">🇮🇹 Italiano <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
+      <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5;display:none;">🇮🇹 Italiano <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
       <button class="fbtn" onclick="setLang('de',this)">🇩🇪 Deutsch</button>
       <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5">🏴 Català <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
     </div>
@@ -887,17 +887,21 @@ textarea.inp{resize:none}
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('meal',null);closePlus()"><span style="font-size:18px">🍽️</span>Repas</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('sleep',null);closePlus()"><span style="font-size:18px">😴</span>Sommeil</button>
     <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('smartjournal',null);closePlus()"><span style="font-size:18px">📓</span>Journal</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('budget',null);closePlus()"><span style="font-size:18px">💰</span>Budget</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('nutri',null);closePlus()"><span style="font-size:18px">🥗</span>Nutrition</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('lang',null);closePlus()"><span style="font-size:18px">🌍</span>Langues</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('home',null);closePlus()"><span style="font-size:18px">🎯</span>Pomodoro</button>
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Social & Défis</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('leaderboard',null);closePlus()"><span style="font-size:18px">🏆</span>Classement</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('guilds',null);closePlus()"><span style="font-size:18px">🤝</span>Guildes</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('social',null);closePlus()"><span style="font-size:18px">📤</span>Partager</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('weeklych',null);closePlus()"><span style="font-size:18px">🏅</span>Défis Hebdo</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('suggestions',null);closePlus()"><span style="font-size:18px">💡</span>Suggestions</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('disc',null);closePlus()"><span style="font-size:18px">📚</span>Apprendre</button>
+    <div id="more-modules" style="display:none;grid-column:1/-1">
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer;width:100%;grid-column:1/-1" onclick="toggleMoreModules()" style="grid-column:1/-1;margin-bottom:8px"><span style="font-size:12px">Afficher moins</span></button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('budget',null);closePlus()"><span style="font-size:18px">💰</span>Budget</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('nutri',null);closePlus()"><span style="font-size:18px">🥗</span>Nutrition</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('lang',null);closePlus()"><span style="font-size:18px">🌍</span>Langues</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('home',null);closePlus()"><span style="font-size:18px">🎯</span>Pomodoro</button>
+      <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Social & Défis</div>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('leaderboard',null);closePlus()"><span style="font-size:18px">🏆</span>Classement</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('guilds',null);closePlus()"><span style="font-size:18px">🤝</span>Guildes</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('social',null);closePlus()"><span style="font-size:18px">📤</span>Partager</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('weeklych',null);closePlus()"><span style="font-size:18px">🏅</span>Défis Hebdo</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('suggestions',null);closePlus()"><span style="font-size:18px">💡</span>Suggestions</button>
+      <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('disc',null);closePlus()"><span style="font-size:18px">📚</span>Apprendre</button>
+    </div>
+    <button id="see-more-btn" style="grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 4px;background:linear-gradient(135deg,var(--ac),var(--ac2));border:none;border-radius:var(--rs);font-size:10px;color:var(--bg);font-weight:700;cursor:pointer;margin-top:4px" onclick="toggleMoreModules()"><span>Voir tout +</span><span style="font-size:12px">▼</span></button>
   </div>
 </div>
 
@@ -1387,7 +1391,16 @@ function generateDailyQuests(){
       picked.push({...q,progress:0,done:false});
     }
   });
-  return picked.slice(0,5);
+  const result=picked.slice(0,5);
+  // Fallback: if pool was empty, return starter quests
+  if(result.length===0){
+    return [
+      {id:'fq_checkin_default',ico:'📋',nm:'Faire ton check-in',type:'checkin',target:1,progress:0,done:false,xp:30,g:2,attr:'ORDER'},
+      {id:'fq_walk_default',ico:'🚶',nm:'Marcher 10 minutes',type:'walk',target:10,progress:0,done:false,xp:20,g:1,attr:'BODY'},
+      {id:'fq_pomo_default',ico:'⏱️',nm:'1 session Pomodoro',type:'pomo',target:1,progress:0,done:false,xp:30,g:1,attr:'MIND'}
+    ];
+  }
+  return result;
 }
 function checkPerfectQuests(){
   const qs=S.dq?.qs||[];
@@ -1409,8 +1422,8 @@ function checkPerfectQuests(){
 const _origComplQ = typeof complQ === 'function' ? complQ : null;
 
 function toast(m,i='🎉',ms=3000){document.getElementById('t-m').textContent=m;document.getElementById('t-i').textContent=i;const el=document.getElementById('toast');el.classList.add('show');setTimeout(()=>el.classList.remove('show'),ms);}
-function openM(id){document.getElementById(id).classList.add('open');}
-function closeM(id){document.getElementById(id).classList.remove('open');}
+function openM(id){var el=document.getElementById(id);if(el)el.classList.add('open');else console.warn('[FORGE] Modal not found:',id);}
+function closeM(id){var el=document.getElementById(id);if(el)el.classList.remove('open');}
 document.querySelectorAll('.mbk').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
 function getLvl(x){let l=0;for(let i=0;i<LVL_X.length;i++)if(x>=LVL_X[i])l=i;return l;}
 function fmtT(s){return pad(Math.floor(s/60))+':'+pad(s%60);}
@@ -1448,7 +1461,7 @@ function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=ge
 function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
 function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',LVL_T[lvl]);set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP pour '+LVL_T[Math.min(lvl+1,9)]);}
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
-function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
+function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const dmgDone=Math.max(0,boss.hp-(prog.hp||boss.hp));const pctDone=Math.round(dmgDone/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',dmgDone+'/'+boss.hp+' dégâts');const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pctDone+'%';}
 function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('BOSS VAINCU ! +'+boss.r.xp+' XP','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
 function initDQ(){if(S.dq.date!==TD){const picked=generateDailyQuests();S.dq={date:TD,qs:picked};save();}renderDQ();}
 function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+q.nm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
@@ -1603,12 +1616,12 @@ const wV={wI:0,wS:5,wR:7,wY:10};
 function updW(inp,id){wV[id]=parseFloat(inp.value);const sv=document.getElementById('sv-'+id);if(sv)sv.textContent=inp.value+(id==='wI'?'€':id==='wY'?'ans':'%');const m=wV.wI*(wV.wS/100);const r=wV.wR/100;const n=wV.wY;const f=m*((Math.pow(1+r/12,n*12)-1)/(r/12));const fmt=v=>v>=1000000?Math.round(v/100000)/10+'M€':v>=1000?Math.round(v/100)/10+'k€':Math.round(v)+'€';const wr=document.getElementById('w-res');if(wr)wr.textContent=fmt(f);const wt=document.getElementById('w-tl');if(wt)wt.textContent='En '+n+' ans · Épargne: '+fmt(m*12)+'/an';}
 function rProgress(el){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="margin-bottom:12px">📈 Activité 7 jours</div><div style="display:flex;align-items:flex-end;gap:4px;height:70px;margin-bottom:8px">'+Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-6+i);const ci=(S.checkins||{})[d.toDateString()];const h=ci?Math.floor(Math.random()*60+25):8;return '<div style="flex:1;background:'+(ci?'var(--ac)':'var(--sf3)')+';border-radius:3px 3px 0 0;height:'+h+'%;opacity:'+(i===6?'1':'.6')+';transition:height .6s"></div>';}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)">'+['L','M','M','J','V','S','D'].map(d=>'<span>'+d+'</span>').join('')+'</div></div><div class="row3" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'💎 Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.nat.walkLogs||[]).length,l:'Marches',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-ac" onclick="toast(\'Carte générée ! Partage ton succès 🔥\',\'🎴\',3000)">🎴 Générer carte de victoire</button>';}
 function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+curT.nm+' — '+curT.pct+'%</span></div>'+AFF_T.map(t=>'<div style="background:var(--sf);border:1px solid '+(t===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+t.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t.nm+' — '+t.refs+'+ filleuls</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+t.col+'">'+t.pct+'%</div></div>').join('');}
-function cpAff(){navigator.clipboard.writeText('https://rise.app/?ref='+S.aff.code).then(()=>toast('Lien copié !','📋',2000));}
-function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec FORGE ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
+function cpAff(){navigator.clipboard.writeText('https://rise-app-mu.vercel.app/?ref='+S.aff.code).then(()=>toast('Lien copié !','📋',2000));}
+function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec FORGE ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise-app-mu.vercel.app/?ref='+S.aff.code).then(()=>toast('Message copié !','📤',2000));}
 let moiTab='perso';
 function setMoiT(tab,btn){moiTab=tab;document.querySelectorAll('#screen-moi .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMoi();}
 function renderMoi(){const el=document.getElementById('moi-content');if(!el)return;if(moiTab==='perso')rPerso(el);else if(moiTab==='widgets')rWidgets(el);else if(moiTab==='todo')rTodo(el);else if(moiTab==='plans')rPlans(el);else if(moiTab==='stats')rStats(el);}
-function rPerso(el){const themes=[{id:'default',bg:'linear-gradient(135deg,#07080a,#d4aa4a)',l:'Dark Gold'},{id:'ocean',bg:'linear-gradient(135deg,#040d14,#38b8d4)',l:'Océan'},{id:'forest',bg:'linear-gradient(135deg,#040a06,#5cb87a)',l:'Forêt'},{id:'flame',bg:'linear-gradient(135deg,#0e0604,#e0874a)',l:'Flamme'},{id:'cosmos',bg:'linear-gradient(135deg,#06040e,#8b6de0)',l:'Cosmos'},{id:'sand',bg:'linear-gradient(135deg,#0e0c08,#c8a060)',l:'Sable'},{id:'neon',bg:'linear-gradient(135deg,#040608,#00e4c8)',l:'Neon'},{id:'light',bg:'linear-gradient(135deg,#f8f6f0,#2a6a4a)',l:'Clair'}];el.innerHTML='<div class="lbl" style="margin-bottom:10px">🎨 Thème</div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px">'+themes.map(t=>'<div style="text-align:center;cursor:pointer" onclick="applyTheme(\''+t.id+'\')"><div style="width:44px;height:44px;border-radius:50%;background:'+t.bg+';border:3px solid '+(S.theme===t.id||(!S.theme&&t.id==='default')?'var(--tx)':'transparent')+';transform:'+(S.theme===t.id||(!S.theme&&t.id==='default')?'scale(1.1)':'scale(1)')+';transition:all .2s"></div><div style="font-size:9px;color:var(--tx3);margin-top:4px">'+t.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:10px">⚡ Mode</div><div style="display:flex;gap:9px;margin-bottom:18px"><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='zen'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='zen'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='zen'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'zen\')">🧘 Zen<br><span style="font-size:10px;font-weight:400">Essentiel</span></button><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='full'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='full'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='full'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'full\')">⚡ Complet<br><span style="font-size:10px;font-weight:400">Tout activé</span></button></div><div class="lbl" style="margin-bottom:10px">🌍 Langue</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">'+[{id:'fr',f:'🇫🇷'},{id:'en',f:'🇬🇧'},{id:'es',f:'🇪🇸'},{id:'pt',f:'🇧🇷'},{id:'it',f:'🇮🇹'}].map(l=>'<button style="padding:8px 14px;border-radius:20px;border:1px solid '+(S.lang===l.id?'var(--ac)':'var(--bd2)')+';background:'+(S.lang===l.id?'var(--agg)':'var(--sf2)')+';font-size:14px;cursor:pointer" onclick="S.lang=\''+l.id+'\';save();toast(\'Langue changée\',\'🌍\',1500)">'+l.f+'</button>').join('')+'</div><button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rPerso(el){const themes=[{id:'default',bg:'linear-gradient(135deg,#07080a,#d4aa4a)',l:'Dark Gold'},{id:'ocean',bg:'linear-gradient(135deg,#040d14,#38b8d4)',l:'Océan'},{id:'forest',bg:'linear-gradient(135deg,#040a06,#5cb87a)',l:'Forêt'},{id:'flame',bg:'linear-gradient(135deg,#0e0604,#e0874a)',l:'Flamme'},{id:'cosmos',bg:'linear-gradient(135deg,#06040e,#8b6de0)',l:'Cosmos'},{id:'sand',bg:'linear-gradient(135deg,#0e0c08,#c8a060)',l:'Sable'},{id:'neon',bg:'linear-gradient(135deg,#040608,#00e4c8)',l:'Neon'},{id:'light',bg:'linear-gradient(135deg,#f8f6f0,#2a6a4a)',l:'Clair'}];el.innerHTML='<div class="lbl" style="margin-bottom:10px">🎨 Thème</div><div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px">'+themes.map(t=>'<div style="text-align:center;cursor:pointer" onclick="applyTheme(\''+t.id+'\')"><div style="width:44px;height:44px;border-radius:50%;background:'+t.bg+';border:3px solid '+(S.theme===t.id||(!S.theme&&t.id==='default')?'var(--tx)':'transparent')+';transform:'+(S.theme===t.id||(!S.theme&&t.id==='default')?'scale(1.1)':'scale(1)')+';transition:all .2s"></div><div style="font-size:9px;color:var(--tx3);margin-top:4px">'+t.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:10px">⚡ Mode</div><div style="display:flex;gap:9px;margin-bottom:18px"><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='zen'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='zen'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='zen'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'zen\')">🧘 Zen<br><span style="font-size:10px;font-weight:400">Essentiel</span></button><button style="flex:1;padding:13px;border-radius:var(--r);border:2px solid '+(S.mode==='full'?'var(--ac)':'var(--bd2)')+';background:'+(S.mode==='full'?'var(--agg)':'var(--sf)')+';color:'+(S.mode==='full'?'var(--ac)':'var(--tx2)')+';font-weight:700;font-size:13px;cursor:pointer" onclick="setMode(\'full\')">⚡ Complet<br><span style="font-size:10px;font-weight:400">Tout activé</span></button></div><div class="lbl" style="margin-bottom:10px">🌍 Langue</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">'+[{id:'fr',f:'🇫🇷'},{id:'en',f:'🇬🇧'},{id:'es',f:'🇪🇸'},{id:'pt',f:'🇧🇷'}].map(l=>'<button style="padding:8px 14px;border-radius:20px;border:1px solid '+(S.lang===l.id?'var(--ac)':'var(--bd2)')+';background:'+(S.lang===l.id?'var(--agg)':'var(--sf2)')+';font-size:14px;cursor:pointer" onclick="S.lang=\''+l.id+'\';save();toast(\'Langue changée\',\'🌍\',1500)">'+l.f+'</button>').join('')+'</div><button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function setMode(m){S.mode=m;S.activeWg=m==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;save();renderWgVisibility();renderMoi();toast(m==='zen'?'Mode Zen 🧘':'Mode Complet ⚡','✨',2000);}
 function rWidgets(el){const allW=[{id:'w-streak',l:'🔥 Streak',d:'Jours consécutifs'},{id:'w-boss',l:'⚔️ Boss',d:'Boss de la semaine'},{id:'w-quests',l:'⚡ Quêtes',d:'Quêtes quotidiennes'},{id:'w-nat',l:'🌿 Nature',d:'Accès rapide nature'},{id:'w-pomo',l:'⏱️ Pomodoro',d:'Timer focus'},{id:'w-flash',l:'⚡ Flash',d:'Défi flash du jour'}];el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6">Widgets affichés sur l\'accueil.</div>'+allW.map(w=>{const on=(S.activeWg||[]).includes(w.id);return '<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">'+w.l+'</div><div style="font-size:11px;color:var(--tx3)">'+w.d+'</div></div><div class="tog-sw '+(on?'on':'')+'" onclick="togWg(\''+w.id+'\',this)"><div class="tog-knob"></div></div></div>';}).join('')+'<button class="btn btn-ac" style="margin-top:14px" onclick="gs(\'home\',null)">Voir mon accueil →</button>';}
 function togWg(id,sw){const aw=S.activeWg||[];const on=aw.includes(id);S.activeWg=on?aw.filter(w=>w!==id):[...aw,id];sw.classList.toggle('on',!on);save();renderWgVisibility();}
@@ -1621,13 +1634,19 @@ function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(-
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
 function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
-function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
-else if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
-else if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
-else if(name==='wheel'){renderWheel(document.getElementById('wheel-c'));}
-else if(name==='shop'){renderShop(document.getElementById('shop-c'));}
-else if(name==='content'){renderContentPlanner(document.getElementById('content-c'));}
-else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
+function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}
+if(name==='nature'){if(!nTab)nTab='walk';renderNat();}
+if(name==='chat')initChat();
+if(name==='disc')initDisc();
+if(name==='feat')renderFeat();
+if(name==='moi')renderMoi();
+if(name==='notifs'){markRead();renderNotifs();}
+if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
+if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
+if(name==='wheel'){renderWheel(document.getElementById('wheel-c'));}
+if(name==='shop'){renderShop(document.getElementById('shop-c'));}
+if(name==='content'){renderContentPlanner(document.getElementById('content-c'));}
+if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
 document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
 // ══ V10 FEATURES ══
@@ -1641,6 +1660,7 @@ function togglePlus(btn){
   else document.querySelectorAll('.nb').forEach(b=>{if(b.textContent.trim().startsWith('🏠'))b.classList.add('on');});
 }
 function closePlus(){document.getElementById('plus-panel').style.display='none';}
+function toggleMoreModules(){const mm=document.getElementById('more-modules');const btn=document.getElementById('see-more-btn');if(mm){const isHidden=mm.style.display==='none';mm.style.display=isHidden?'grid':'none';if(btn){btn.innerHTML=isHidden?'<span>Afficher moins</span><span style="font-size:12px">▲</span>':'<span>Voir tout +</span><span style="font-size:12px">▼</span>';}}}
 document.addEventListener('click',function(e){
   const pp=document.getElementById('plus-panel');
   if(pp&&pp.style.display==='block'&&!pp.contains(e.target)&&!e.target.closest('.nb'))closePlus();
@@ -1771,7 +1791,7 @@ function startCh(type){
   S.friendChs=S.friendChs||[];
   S.friendChs.push({id,type,status:'active',prog:0,opp:'Ami',xp:fc.xp});
   save();
-  const lnk='https://rise.app/c/'+id;
+  const lnk='https://rise-app-mu.vercel.app/c/'+id;
   navigator.clipboard.writeText('⚔️ Défi FORGE: '+fc.t+'\n'+S.name+' te defie ! Qui complete en premier?\n'+lnk).then(()=>{toast('Defi lance ! Lien copie','⚔️',4000);renderFeat();});
 }
 function progressCh(id){
@@ -1781,7 +1801,7 @@ function progressCh(id){
   if(c.prog>=fc.dur){c.status='won';gainXP(fc.xp,'ch');gainGems(15);confetti();toast('DEFI GAGNE ! +'+fc.xp+' XP','⚔️',5000);}
   save();renderFeat();
 }
-function shareCh(id){navigator.clipboard.writeText('Suis mon avancement FORGE ! https://rise.app/c/'+id).then(()=>toast('Lien copie !','📤',2000));}
+function shareCh(id){navigator.clipboard.writeText('Suis mon avancement FORGE ! https://rise-app-mu.vercel.app/c/'+id).then(()=>toast('Lien copie !','📤',2000));}
 // ══ LANGUES ══
 const LANG_DB={
   en:{name:'English',flag:'🇬🇧',words:[
@@ -2717,7 +2737,7 @@ function shareOn(network, msg) {
   var encoded = encodeURIComponent(msg);
   var urls = {
     twitter: 'https://twitter.com/intent/tweet?text=' + encoded,
-    linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=https://rise.app&summary=' + encoded,
+    linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=https://rise-app-mu.vercel.app&summary=' + encoded,
     whatsapp: 'https://wa.me/?text=' + encoded,
   };
   if (urls[network]) window.open(urls[network], '_blank');
@@ -2755,10 +2775,10 @@ function genShareImg() {
   // Date
   ctx.fillStyle = '#424b57';
   ctx.font = '14px sans-serif';
-  ctx.fillText('rise.app · ' + new Date().toLocaleDateString('fr'), 40, 370);
+  ctx.fillText('forge-app.vercel.app · ' + new Date().toLocaleDateString('fr'), 40, 370);
   // Download
   var link = document.createElement('a');
-  link.download = 'rise-card-'+S.name+'.png';
+  link.download = 'forge-card-'+S.name+'.png';
   link.href = canvas.toDataURL();
   link.click();
   toast('Carte téléchargée !','🎴',3000);
@@ -3148,7 +3168,7 @@ function delIdea(idx) {
 }
 
 /**
- * RISE AI Engine - Local JavaScript AI without API dependency
+ * FORGE AI Engine - Local JavaScript AI without API dependency
  * Provides all AI features: quotes, daily plans, coaching, training, vision board, weekly reports, nutrition
  * Designed for French-speaking users, personalized by time of day, user data, and context
  */
@@ -5165,7 +5185,7 @@ const AI_RIVALS=[
   {nm:'IronWolf',avi:'🐺',style:'Street Workout Beast',base:130},
   {nm:'MindHacker',avi:'🧠',style:'Productivité x10',base:100},
   {nm:'NightOwl',avi:'🦉',style:'Code + Musique',base:85},
-  {nm:'PhoenixRise',avi:'🔥',style:'Comeback King',base:110},
+  {nm:'PhoenixForge',avi:'🔥',style:'Comeback King',base:110},
   {nm:'CalmStorm',avi:'⚡',style:'Calme mais mortel',base:95},
   {nm:'BookWorm',avi:'📚',style:'1 livre par semaine',base:75},
   {nm:'AlphaGrind',avi:'💎',style:'Mindset + Money',base:140},
@@ -5484,7 +5504,7 @@ function exportData(){
   var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   var a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='rise-backup-'+TD.replace(/\s/g,'-')+'.json';
+  a.download='forge-backup-'+TD.replace(/\s/g,'-')+'.json';
   a.click();
   URL.revokeObjectURL(a.href);
   toast('Backup sauvegarde !','💾',2000);
@@ -6004,7 +6024,7 @@ function initRecap(){
 }
 
 // ── SONS (Web Audio API) ──
-var RiseSounds=(function(){
+var ForgeSounds=(function(){
   var ctx=null;
   function getCtx(){if(!ctx)try{ctx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}return ctx;}
   function play(freq,dur,type,vol){
@@ -6035,8 +6055,8 @@ var RiseSounds=(function(){
     var prevLvl=getLvl(S.xp||0);
     _origGainXP(n,src);
     var newLvl=getLvl(S.xp||0);
-    if(newLvl>prevLvl){try{RiseSounds.levelUp();}catch(e){}}
-    else{try{RiseSounds.xp();}catch(e){}}
+    if(newLvl>prevLvl){try{ForgeSounds.levelUp();}catch(e){}}
+    else{try{ForgeSounds.xp();}catch(e){}}
   };
 })();
 
@@ -6045,7 +6065,7 @@ var RiseSounds=(function(){
   var _origComplQ=complQ;
   complQ=function(type,amt){
     _origComplQ(type,amt);
-    try{RiseSounds.complete();}catch(e){}
+    try{ForgeSounds.complete();}catch(e){}
   };
 })();
 
@@ -6467,7 +6487,7 @@ function toggleZenMode(){
     
     // Download
     var link=document.createElement('a');
-    link.download='rise-7days-'+S.name+'.png';
+    link.download='forge-7days-'+S.name+'.png';
     link.href=canvas.toDataURL('image/png');
     link.click();
     toast('Carte "Mon FORGE en 7 jours" téléchargée !','🎴',4000);
@@ -6974,14 +6994,14 @@ function toggleZenMode(){
 
 // ── 3. DATA EXPORT / BACKUP / IMPORT ──
 (function(){
-  window.exportRiseData=function(){
+  window.exportForgeData=function(){
     try{
       var data=localStorage.getItem('rise_v9')||'{}';
       var blob=new Blob([data],{type:'application/json'});
       var url=URL.createObjectURL(blob);
       var a=document.createElement('a');
       a.href=url;
-      a.download='rise-backup-'+(S.name||'user')+'-'+new Date().toISOString().split('T')[0]+'.json';
+      a.download='forge-backup-'+(S.name||'user')+'-'+new Date().toISOString().split('T')[0]+'.json';
       a.click();
       URL.revokeObjectURL(url);
       toast('Backup téléchargé !','💾',3000);
@@ -6990,7 +7010,7 @@ function toggleZenMode(){
     }
   };
   
-  window.importRiseData=function(){
+  window.importForgeData=function(){
     var input=document.createElement('input');
     input.type='file';
     input.accept='.json';
@@ -7017,11 +7037,11 @@ function toggleZenMode(){
   };
   
   // Auto-backup every 24h
-  var lastBackup=parseInt(localStorage.getItem('rise_last_backup')||'0');
+  var lastBackup=parseInt(localStorage.getItem('forge_last_backup')||'0');
   if(Date.now()-lastBackup>86400000){
     try{
       localStorage.setItem('rise_v9_autobackup',localStorage.getItem('rise_v9')||'{}');
-      localStorage.setItem('rise_last_backup',String(Date.now()));
+      localStorage.setItem('forge_last_backup',String(Date.now()));
     }catch(e){}
   }
 })();
@@ -7093,7 +7113,7 @@ function toggleZenMode(){
     e.preventDefault();
     deferredPrompt=e;
     // Show install banner after 30 seconds if not dismissed
-    var dismissed=localStorage.getItem('rise_install_dismissed');
+    var dismissed=localStorage.getItem('forge_install_dismissed');
     if(!dismissed){
       setTimeout(function(){ib.classList.add('show');},30000);
     }
@@ -7116,7 +7136,7 @@ function toggleZenMode(){
   
   window.dismissInstall=function(){
     ib.classList.remove('show');
-    localStorage.setItem('rise_install_dismissed','1');
+    localStorage.setItem('forge_install_dismissed','1');
   };
   
   // Detect if running as PWA
@@ -7163,8 +7183,8 @@ function toggleZenMode(){
     {property:'og:title',content:'FORGE — AI Life OS'},
     {property:'og:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec FORGE.'},
     {property:'og:type',content:'website'},
-    {property:'og:image',content:'https://rise.app/og-image.png'},
-    {property:'og:url',content:'https://rise.app'},
+    {property:'og:image',content:'https://rise-app-mu.vercel.app/og-image.png'},
+    {property:'og:url',content:'https://rise-app-mu.vercel.app'},
     {name:'twitter:card',content:'summary_large_image'},
     {name:'twitter:title',content:'FORGE — AI Life OS'},
     {name:'twitter:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec FORGE.'},
@@ -7287,8 +7307,8 @@ function toggleZenMode(){
     var extra='';
     extra+='<div style="margin-top:20px">';
     extra+='<div class="lbl" style="margin-bottom:10px">Données & Sécurité</div>';
-    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="exportRiseData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">💾</div><div><div style="font-size:13px;font-weight:700">Exporter mes données</div><div style="font-size:11px;color:var(--tx3)">Télécharger un backup JSON</div></div></div></div>';
-    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="importRiseData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">📥</div><div><div style="font-size:13px;font-weight:700">Importer des données</div><div style="font-size:11px;color:var(--tx3)">Restaurer depuis un backup</div></div></div></div>';
+    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="exportForgeData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">💾</div><div><div style="font-size:13px;font-weight:700">Exporter mes données</div><div style="font-size:11px;color:var(--tx3)">Télécharger un backup JSON</div></div></div></div>';
+    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="importForgeData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">📥</div><div><div style="font-size:13px;font-weight:700">Importer des données</div><div style="font-size:11px;color:var(--tx3)">Restaurer depuis un backup</div></div></div></div>';
     extra+='<div class="wg" style="padding:14px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">📊</div><div><div style="font-size:13px;font-weight:700">Utilisation stockage</div><div style="font-size:11px;color:var(--tx3)">'+(localStorage.getItem('rise_v9')||'').length+' octets / ~5 MB</div></div></div></div>';
     extra+='</div>';
     
@@ -7318,7 +7338,7 @@ function toggleZenMode(){
   
   window.sendLocalNotif=function(title,body,ico){
     if('Notification' in window && Notification.permission==='granted'){
-      try{new Notification(title,{body:body,icon:ico||'🚀',badge:'🚀',tag:'rise-'+Date.now()});}catch(e){}
+      try{new Notification(title,{body:body,icon:ico||'🚀',badge:'🚀',tag:'forge-'+Date.now()});}catch(e){}
     }
   };
 })();
@@ -7326,14 +7346,14 @@ function toggleZenMode(){
 // ── 14. INTERVAL CLEANUP ON SCREEN CHANGE ──
 (function(){
   // Track active intervals
-  window._riseIntervals=[];
+  window._forgeIntervals=[];
   var _origSetInterval=window.setInterval;
   window.setInterval=function(fn,ms){
     var id=_origSetInterval(fn,ms);
-    window._riseIntervals.push(id);
+    window._forgeIntervals.push(id);
     // Limit max intervals
-    if(window._riseIntervals.length>20){
-      var old=window._riseIntervals.shift();
+    if(window._forgeIntervals.length>20){
+      var old=window._forgeIntervals.shift();
       clearInterval(old);
     }
     return id;
@@ -7423,10 +7443,10 @@ function toggleZenMode(){
   // Enhanced share with Web Share API
   window.nativeShare=function(title,text,url){
     if(navigator.share){
-      navigator.share({title:title,text:text,url:url||'https://rise.app'}).catch(function(){});
+      navigator.share({title:title,text:text,url:url||'https://rise-app-mu.vercel.app'}).catch(function(){});
     }else{
       // Fallback to clipboard
-      navigator.clipboard.writeText(text+' '+( url||'https://rise.app')).then(function(){
+      navigator.clipboard.writeText(text+' '+( url||'https://rise-app-mu.vercel.app')).then(function(){
         toast('Copié dans le presse-papier !','📋',2000);
       });
     }
@@ -13262,6 +13282,291 @@ try { save(); } catch(e){}
       }
     };
   }
+})();
+
+// ══════════════════════════════════════════
+// 🔔 FORGE PUSH NOTIFICATIONS SYSTEM
+// ══════════════════════════════════════════
+(function(){
+  'use strict';
+
+  // --- Config ---
+  var NOTIF_KEY='forge_notif_prefs';
+  var DEFAULT_PREFS={enabled:false,checkin:'09:00',evening:'20:00',streak:true,quest:true};
+
+  function getNotifPrefs(){
+    try{return JSON.parse(localStorage.getItem(NOTIF_KEY))||DEFAULT_PREFS;}catch(e){return DEFAULT_PREFS;}
+  }
+  function saveNotifPrefs(p){localStorage.setItem(NOTIF_KEY,JSON.stringify(p));}
+
+  // --- Service Worker Registration ---
+  function registerForgeWorker(){
+    if(!('serviceWorker' in navigator))return Promise.reject('No SW support');
+    return navigator.serviceWorker.register('/sw.js').then(function(reg){
+      console.log('[FORGE] Service Worker registered, scope:',reg.scope);
+      return reg;
+    });
+  }
+
+  // --- Request Notification Permission ---
+  function requestNotifPermission(){
+    if(!('Notification' in window))return Promise.reject('No Notification API');
+    if(Notification.permission==='granted')return Promise.resolve('granted');
+    if(Notification.permission==='denied')return Promise.resolve('denied');
+    return Notification.requestPermission();
+  }
+
+  // --- Schedule Local Notifications via SW ---
+  function scheduleForgeNotifications(){
+    var prefs=getNotifPrefs();
+    if(!prefs.enabled)return;
+    if(!navigator.serviceWorker||!navigator.serviceWorker.controller)return;
+    navigator.serviceWorker.controller.postMessage({
+      type:'FORGE_SCHEDULE_NOTIFS',
+      prefs:prefs,
+      streak:S.loginS?.streak||0,
+      level:S.lvl||1,
+      questsDone:(S.dq?.qs||[]).filter(function(q){return q.done;}).length,
+      questsTotal:(S.dq?.qs||[]).length
+    });
+  }
+
+  // --- Notification Settings UI ---
+  function showNotifSettings(){
+    var prefs=getNotifPrefs();
+    var perm=('Notification' in window)?Notification.permission:'unsupported';
+    var html='<div style="padding:20px;max-width:500px;margin:0 auto">';
+    html+='<div style="text-align:center;margin-bottom:20px"><div style="font-size:40px;margin-bottom:8px">🔔</div>';
+    html+='<div style="font-family:var(--fd);font-size:20px;font-weight:800">Notifications FORGE</div>';
+    html+='<div style="color:var(--tx3);font-size:13px;margin-top:4px">Ne rate jamais ton check-in quotidien</div></div>';
+
+    // Permission status
+    if(perm==='denied'){
+      html+='<div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px;color:#ef4444">';
+      html+='⚠️ Les notifications sont bloquées dans ton navigateur. Va dans les paramètres du site pour les autoriser.</div>';
+    }else if(perm==='unsupported'){
+      html+='<div style="background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3);border-radius:12px;padding:14px;margin-bottom:16px;font-size:13px;color:#eab308">';
+      html+='⚠️ Ton navigateur ne supporte pas les notifications push.</div>';
+    }
+
+    // Master toggle
+    html+='<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:14px;padding:16px;margin-bottom:12px">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div><div style="font-weight:700;font-size:14px">Activer les notifications</div>';
+    html+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">Rappels quotidiens pour rester constant</div></div>';
+    html+='<label style="position:relative;width:48px;height:26px;display:inline-block;cursor:pointer">';
+    html+='<input type="checkbox" id="notif-master" '+(prefs.enabled?'checked':'')+' onchange="toggleForgeNotifs(this.checked)" ';
+    html+='style="opacity:0;width:0;height:0">';
+    html+='<span style="position:absolute;inset:0;background:'+(prefs.enabled?'var(--ac)':'var(--bd2)')+';border-radius:26px;transition:.3s"></span>';
+    html+='<span style="position:absolute;top:3px;left:'+(prefs.enabled?'25px':'3px')+';width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,0.3)"></span>';
+    html+='</label></div></div>';
+
+    // Time settings
+    html+='<div id="notif-details" style="'+(prefs.enabled?'':'opacity:0.4;pointer-events:none')+'">';
+
+    // Morning check-in
+    html+='<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:14px;padding:16px;margin-bottom:12px">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div><div style="font-weight:700;font-size:14px">☀️ Rappel du matin</div>';
+    html+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">Check-in quotidien</div></div>';
+    html+='<input type="time" id="notif-morning" value="'+prefs.checkin+'" onchange="updateNotifTime(\'checkin\',this.value)" ';
+    html+='style="background:var(--bg2);color:var(--tx);border:1px solid var(--bd2);border-radius:8px;padding:6px 10px;font-size:14px;font-family:var(--fb)"></div></div>';
+
+    // Evening recap
+    html+='<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:14px;padding:16px;margin-bottom:12px">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div><div style="font-weight:700;font-size:14px">🌙 Rappel du soir</div>';
+    html+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">Bilan & journal du jour</div></div>';
+    html+='<input type="time" id="notif-evening" value="'+prefs.evening+'" onchange="updateNotifTime(\'evening\',this.value)" ';
+    html+='style="background:var(--bg2);color:var(--tx);border:1px solid var(--bd2);border-radius:8px;padding:6px 10px;font-size:14px;font-family:var(--fb)"></div></div>';
+
+    // Streak alerts
+    html+='<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:14px;padding:16px;margin-bottom:12px">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div><div style="font-weight:700;font-size:14px">🔥 Alerte Streak</div>';
+    html+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">Si tu risques de perdre ta série</div></div>';
+    html+='<label style="position:relative;width:48px;height:26px;display:inline-block;cursor:pointer">';
+    html+='<input type="checkbox" '+(prefs.streak?'checked':'')+' onchange="updateNotifToggle(\'streak\',this.checked)" ';
+    html+='style="opacity:0;width:0;height:0">';
+    html+='<span style="position:absolute;inset:0;background:'+(prefs.streak?'var(--ac)':'var(--bd2)')+';border-radius:26px;transition:.3s"></span>';
+    html+='<span style="position:absolute;top:3px;left:'+(prefs.streak?'25px':'3px')+';width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,0.3)"></span>';
+    html+='</label></div></div>';
+
+    // Quest reminders
+    html+='<div style="background:var(--sf2);border:1px solid var(--bd2);border-radius:14px;padding:16px;margin-bottom:12px">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center">';
+    html+='<div><div style="font-weight:700;font-size:14px">⚔️ Rappel Quêtes</div>';
+    html+='<div style="font-size:12px;color:var(--tx3);margin-top:2px">Quêtes du jour non complétées</div></div>';
+    html+='<label style="position:relative;width:48px;height:26px;display:inline-block;cursor:pointer">';
+    html+='<input type="checkbox" '+(prefs.quest?'checked':'')+' onchange="updateNotifToggle(\'quest\',this.checked)" ';
+    html+='style="opacity:0;width:0;height:0">';
+    html+='<span style="position:absolute;inset:0;background:'+(prefs.quest?'var(--ac)':'var(--bd2)')+';border-radius:26px;transition:.3s"></span>';
+    html+='<span style="position:absolute;top:3px;left:'+(prefs.quest?'25px':'3px')+';width:20px;height:20px;background:#fff;border-radius:50%;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,0.3)"></span>';
+    html+='</label></div></div>';
+
+    html+='</div>'; // notif-details
+
+    // Test notification button
+    html+='<button onclick="testForgeNotif()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--ac),var(--ac2,#f59e0b));color:#000;font-weight:800;border:none;border-radius:14px;font-size:15px;cursor:pointer;margin-top:8px;font-family:var(--fd)">🔔 Tester une notification</button>';
+    html+='</div>';
+
+    // Remove existing overlay if present
+    var existing=document.getElementById('ov-notif');
+    if(existing)existing.remove();
+    // Create dynamic overlay (same pattern as workout/sleep overlays)
+    var ov=document.createElement('div');
+    ov.className='ov show';
+    ov.id='ov-notif';
+    ov.style.zIndex='999';
+    ov.innerHTML='<div class="ov-c" style="padding:0;max-height:85vh;overflow-y:auto">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px 0">'+
+      '<div style="font-family:var(--fd);font-weight:700;font-size:16px">Notifications</div>'+
+      '<button onclick="document.getElementById(\'ov-notif\').classList.remove(\'show\');setTimeout(function(){var e=document.getElementById(\'ov-notif\');if(e)e.remove();},300)" style="font-size:20px;color:var(--tx3);cursor:pointer;padding:4px 8px;background:none;border:none">✕</button>'+
+      '</div>'+html+'</div>';
+    document.body.appendChild(ov);
+  }
+
+  // --- Global functions ---
+  window.toggleForgeNotifs=function(on){
+    var prefs=getNotifPrefs();
+    if(on){
+      requestNotifPermission().then(function(perm){
+        if(perm==='granted'){
+          prefs.enabled=true;
+          saveNotifPrefs(prefs);
+          registerForgeWorker().then(function(){
+            setTimeout(scheduleForgeNotifications,500);
+          });
+          toast('Notifications activées !','🔔',2500);
+          // Refresh UI
+          var det=document.getElementById('notif-details');
+          if(det){det.style.opacity='1';det.style.pointerEvents='auto';}
+          // Update bell icon
+          var bell=document.getElementById('forge-notif-bell');
+          if(bell)bell.innerHTML='🔔';
+        }else{
+          prefs.enabled=false;
+          saveNotifPrefs(prefs);
+          var cb=document.getElementById('notif-master');
+          if(cb)cb.checked=false;
+          toast('Notifications refusées par le navigateur','⚠️',3000);
+        }
+      });
+    }else{
+      prefs.enabled=false;
+      saveNotifPrefs(prefs);
+      var det=document.getElementById('notif-details');
+      if(det){det.style.opacity='0.4';det.style.pointerEvents='none';}
+      // Update bell icon
+      var bell=document.getElementById('forge-notif-bell');
+      if(bell)bell.innerHTML='🔕';
+      toast('Notifications désactivées','🔕',2000);
+    }
+  };
+
+  window.updateNotifTime=function(key,val){
+    var prefs=getNotifPrefs();
+    prefs[key]=val;
+    saveNotifPrefs(prefs);
+    scheduleForgeNotifications();
+  };
+
+  window.updateNotifToggle=function(key,val){
+    var prefs=getNotifPrefs();
+    prefs[key]=val;
+    saveNotifPrefs(prefs);
+    scheduleForgeNotifications();
+  };
+
+  window.testForgeNotif=function(){
+    if(!('Notification' in window)){toast('Notifications non supportées','⚠️',2500);return;}
+    if(Notification.permission!=='granted'){
+      requestNotifPermission().then(function(p){
+        if(p==='granted')sendTestNotif();
+        else toast('Permission refusée','⚠️',2500);
+      });
+      return;
+    }
+    sendTestNotif();
+  };
+
+  function sendTestNotif(){
+    var streak=S.loginS?.streak||0;
+    var notif=new Notification('FORGE — Rappel Check-in 🔥',{
+      body:'Hey Forgeur ! Ta série de '+streak+' jours t\'attend. Ne la laisse pas filer !',
+      icon:'/manifest-icon-192.png',
+      badge:'/manifest-icon-192.png',
+      tag:'forge-test',
+      vibrate:[200,100,200],
+      data:{url:'/'}
+    });
+    notif.onclick=function(){window.focus();notif.close();};
+    toast('Notification envoyée ! Vérifie tes notifs','✅',2500);
+  }
+
+  window.showNotifSettings=showNotifSettings;
+
+  // --- Notification bell in home ---
+  var _origHomeNotif=initHome;
+  initHome=function(){
+    if(typeof _origHomeNotif==='function'){try{_origHomeNotif();}catch(e){console.warn('[FORGE] initHome chain error:',e);}}
+    // Add bell icon if not present
+    try{
+    var gbar=document.getElementById('gbar');
+    if(gbar&&!document.getElementById('forge-notif-bell')){
+      var bellBtn=document.createElement('div');
+      bellBtn.id='forge-notif-bell';
+      bellBtn.style.cssText='cursor:pointer;font-size:18px;padding:4px;position:relative';
+      bellBtn.onclick=showNotifSettings;
+      var prefs=getNotifPrefs();
+      bellBtn.innerHTML=prefs.enabled?'🔔':'🔕';
+      // Insert near the top-right area
+      var rightIcons=gbar.querySelector('[style*="gap"]')||gbar.lastElementChild;
+      if(rightIcons&&rightIcons.children.length>0){
+        rightIcons.insertBefore(bellBtn,rightIcons.firstChild);
+      }
+    }
+
+    // Smart notification prompt — show once if user hasn't decided yet
+    if(!localStorage.getItem('forge_notif_asked')&&('Notification' in window)&&Notification.permission==='default'){
+      var home=document.querySelector('.home-content')||document.getElementById('h-content');
+      if(home&&!document.getElementById('forge-notif-prompt')){
+        var prompt=document.createElement('div');
+        prompt.id='forge-notif-prompt';
+        prompt.className='wg';
+        prompt.style.cssText='background:linear-gradient(135deg,rgba(234,179,8,0.1),rgba(245,158,11,0.1));border:1px solid rgba(234,179,8,0.25);margin-bottom:12px;cursor:pointer';
+        prompt.innerHTML='<div style="display:flex;align-items:center;gap:12px;padding:4px">'+
+          '<div style="font-size:28px">🔔</div>'+
+          '<div style="flex:1"><div style="font-weight:700;font-size:14px;font-family:var(--fd);color:var(--ac)">Active les notifications</div>'+
+          '<div style="font-size:12px;color:var(--tx3);margin-top:2px">Ne rate jamais ton check-in et protège ta streak 🔥</div></div>'+
+          '<button onclick="event.stopPropagation();this.parentElement.parentElement.remove();localStorage.setItem(\'forge_notif_asked\',\'1\')" style="font-size:16px;background:none;border:none;color:var(--tx3);cursor:pointer;padding:8px">✕</button></div>';
+        prompt.addEventListener('click',function(){
+          this.remove();
+          localStorage.setItem('forge_notif_asked','1');
+          showNotifSettings();
+        });
+        home.insertBefore(prompt,home.children[1]||null);
+      }
+    }
+    }catch(e){console.warn('[FORGE] Notif bell init error:',e);}
+  };
+
+  // --- Auto-register SW on load ---
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',function(){
+      registerForgeWorker().then(function(){
+        var prefs=getNotifPrefs();
+        if(prefs.enabled)setTimeout(scheduleForgeNotifications,1000);
+      }).catch(function(e){console.warn('[FORGE] SW registration failed:',e);});
+    });
+  }
+
+  // --- Wire into Settings/Plus panel ---
+  var _origPlus=typeof renderPlusContent==='function'?renderPlusContent:null;
+  if(typeof window.PLUS_ITEMS!=='undefined'&&Array.isArray(window.PLUS_ITEMS)){
+    window.PLUS_ITEMS.push({ico:'🔔',label:'Notifications',fn:showNotifSettings});
+  }
+
 })();
 
 </script>
