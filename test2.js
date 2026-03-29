@@ -1,1097 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>FORGE — Forge ta meilleure version</title>
-<meta name="description" content="FORGE — Forge ta meilleure version. 1% chaque jour. Coach IA, habitudes, nature, business, gamification.">
-<meta name="theme-color" content="#07080a">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22FORGE%20%E2%80%94%20Forge%20ta%20meilleure%20version%22%2C%22short_name%22%3A%22FORGE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="FORGE">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%2307080a' width='180' height='180' rx='40'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='100' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E">
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--grd:#0e1f16;--rd:#d95f5f;--rdd:#1e0e0e;--bl:#4a9ed4;--bld:#0c1c2a;--pu:#8b6de0;--pud:#140e28;--or:#e0874a;--ord:#1e1008;--tl:#3db8aa;--tld:#0a1e1a;--nt:#5cb87a;--ntd:#0a1c10;--nt2:#8dd4a0;--r:16px;--rs:10px;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
-[data-theme=ocean]{--bg:#040d14;--bg2:#07121c;--sf:#0a1a26;--sf2:#0f2030;--sf3:#142836;--bd:#1a2e3a;--bd2:#223848;--tx:#e8f4f8;--tx2:#7aa8b8;--tx3:#3a6070;--ac:#38b8d4;--ac2:#5cd4f0;--acm:#0a3a48;--agg:rgba(56,184,212,.08);--agg2:rgba(56,184,212,.16)}
-[data-theme=forest]{--bg:#040a06;--bg2:#071008;--sf:#0a1a0c;--sf2:#0e2010;--sf3:#122614;--bd:#1a3020;--bd2:#223a28;--tx:#e8f4e8;--tx2:#7ab87a;--tx3:#3a6040;--ac:#5cb87a;--ac2:#8dd4a0;--acm:#1a4028;--agg:rgba(92,184,122,.08);--agg2:rgba(92,184,122,.16)}
-[data-theme=flame]{--bg:#0e0604;--bg2:#150a06;--sf:#1e0e08;--sf2:#261208;--sf3:#2e1608;--bd:#3a2010;--bd2:#4a2a14;--tx:#f8f0e8;--tx2:#c09060;--tx3:#7a5030;--ac:#e0874a;--ac2:#f0a870;--acm:#5a2810;--agg:rgba(224,135,74,.08);--agg2:rgba(224,135,74,.16)}
-[data-theme=cosmos]{--bg:#06040e;--bg2:#0a0814;--sf:#100c1e;--sf2:#161028;--sf3:#1c1430;--bd:#28203a;--bd2:#342a4a;--tx:#f0eaff;--tx2:#9a88c0;--tx3:#504870;--ac:#8b6de0;--ac2:#b09ae8;--acm:#2a1850;--agg:rgba(139,109,224,.08);--agg2:rgba(139,109,224,.16)}
-[data-theme=sand]{--bg:#0e0c08;--bg2:#141008;--sf:#1e1a10;--sf2:#262014;--sf3:#2e2818;--bd:#3a3020;--bd2:#4a3c28;--tx:#f8f4e8;--tx2:#c0a870;--tx3:#8a7050;--ac:#c8a060;--ac2:#dcc080;--acm:#5a4020;--agg:rgba(200,160,96,.08);--agg2:rgba(200,160,96,.16)}
-[data-theme=neon]{--bg:#040608;--bg2:#060a0c;--sf:#080e10;--sf2:#0c1418;--sf3:#101a1e;--bd:#182028;--bd2:#202a34;--tx:#e0f8f4;--tx2:#60d4c0;--tx3:#30808a;--ac:#00e4c8;--ac2:#40f8e0;--acm:#004840;--agg:rgba(0,228,200,.08);--agg2:rgba(0,228,200,.16)}
-[data-theme=light]{--bg:#f8f6f0;--bg2:#f2efe8;--sf:#fff;--sf2:#f0ede6;--sf3:#e8e4dc;--bd:#d8d4c8;--bd2:#c8c2b4;--tx:#1a1808;--tx2:#5a5248;--tx3:#9a9488;--ac:#2a6a4a;--ac2:#3a8a5a;--acm:#d8ece0;--agg:rgba(42,106,74,.08);--agg2:rgba(42,106,74,.16)}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-/* ── MICRO-INTERACTIONS ── */
-.btn{transition:all .15s cubic-bezier(.16,1,.3,1)}
-.btn:active{transform:scale(.95);filter:brightness(1.1)}
-.btn-ac:active{box-shadow:0 0 20px rgba(212,170,74,.4)}
-.card,.wg{transition:transform .15s,box-shadow .15s,border-color .2s}
-.card:active,.wg:active{transform:scale(.98)}
-@media(hover:hover){.card:hover,.wg:hover{border-color:var(--ac);box-shadow:0 4px 20px rgba(0,0,0,.3)}}
-.nb{transition:color .2s,transform .15s}
-.nb:active{transform:scale(.9)}
-.fbtn{transition:all .2s cubic-bezier(.16,1,.3,1)}
-.fbtn:active{transform:scale(.92)}
-@keyframes countUp{from{opacity:0;transform:translateY(8px) scale(.8)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
-@keyframes scaleIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-.count-anim{animation:countUp .4s cubic-bezier(.16,1,.3,1) both}
-.slide-anim{animation:slideIn .3s ease both}
-.qchk{transition:all .2s cubic-bezier(.16,1,.3,1)}
-.qchk.done{transform:scale(1.2)}
-.ob-ch{transition:all .2s cubic-bezier(.16,1,.3,1)}
-.ob-ch:active{transform:scale(.97)}
-.csug{transition:all .15s}
-.csug:active{transform:scale(.93);background:var(--agg)}
-.book-c{transition:transform .15s,box-shadow .15s}
-.book-c:active{transform:scale(.98)}
-@media(hover:hover){.book-c:hover{box-shadow:0 6px 24px rgba(0,0,0,.4);transform:translateY(-2px)}}
-.nit{transition:background .2s}
-@media(hover:hover){.nit:hover{background:var(--sf2)}}
-.tog-sw{transition:background .2s,transform .15s}
-.tog-sw:active{transform:scale(.9)}
-/* Animated number counters */
-@keyframes numPop{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
-.num-pop{animation:numPop .3s ease}
-
-/* ── ACCESSIBILITY ── */
-*:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
-.btn:focus-visible{outline:2px solid var(--ac2);outline-offset:2px;box-shadow:0 0 0 4px var(--agg)}
-.inp:focus-visible{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--agg)}
-.nb:focus-visible{outline:2px solid var(--ac);outline-offset:4px}
-.skip-link{position:absolute;top:-100px;left:0;background:var(--ac);color:var(--bg);padding:8px 16px;z-index:9999;font-weight:700;transition:top .2s}
-.skip-link:focus{top:0}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
-/* High contrast improvements */
-.lbl{color:var(--tx2);font-weight:800}
-.mtime{font-weight:500}
-
-html,body{height:100%;overflow:hidden;height:100dvh}
-body{background:var(--bg);color:var(--tx);font-family:var(--fb);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
-button{font-family:inherit;cursor:pointer;border:none;background:none}
-input,textarea,select{font-family:inherit}
-::-webkit-scrollbar{display:none}
-#app{max-width:430px;margin:0 auto;height:100vh;height:100dvh;display:flex;flex-direction:column}
-.screens{flex:1;overflow:hidden;position:relative}
-.screen{position:absolute;inset:0;overflow-y:auto;display:none;padding-bottom:88px}
-.screen.active{display:block}
-.pad{padding:16px 16px 0}
-.bnav{height:62px;background:var(--bg);border-top:1px solid var(--bd);display:flex;flex-shrink:0}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--tx3);font-size:8px;letter-spacing:.8px;text-transform:uppercase;font-weight:700;transition:color .2s;position:relative}
-.nb .ni{font-size:19px;line-height:1}
-.nb.on{color:var(--ac)}
-.nb.on::before{content:'';position:absolute;top:0;left:20%;right:20%;height:2px;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:0 0 3px 3px}
-.sct{font-family:var(--fd);font-weight:700;font-size:26px;letter-spacing:-.02em;margin-bottom:4px}
-.lbl{font-weight:700;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--tx3)}
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px}
-.btn{width:100%;border-radius:var(--rs);padding:14px;font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s}
-.btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.3;pointer-events:none}
-.btn-ac{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)}
-.btn-sf{background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)}
-.btn-gr{background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808}
-.btn-nt{background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05}
-.btn-pu{background:linear-gradient(135deg,var(--pu),#b09ae8);color:#fff}
-.inp{width:100%;background:var(--sf2);border:1.5px solid var(--bd2);border-radius:var(--rs);padding:12px 14px;color:var(--tx);font-size:14px;outline:none;transition:border-color .2s}
-.inp:focus{border-color:var(--ac)}
-.inp::placeholder{color:var(--tx3)}
-select.inp option{background:var(--sf2)}
-textarea.inp{resize:none}
-.pbar{background:var(--sf3);border-radius:4px;height:5px;overflow:hidden}
-.pfill{height:100%;border-radius:4px;transition:width .9s cubic-bezier(.16,1,.3,1)}
-.pac{background:linear-gradient(90deg,var(--ac),var(--ac2))}
-.pgr{background:linear-gradient(90deg,var(--gr),#7de8a0)}
-.pnt{background:linear-gradient(90deg,var(--nt),var(--nt2))}
-.frow{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px}
-.fbtn{flex-shrink:0;padding:7px 13px;border-radius:22px;border:1px solid var(--bd2);background:var(--sf);color:var(--tx3);font-size:11px;font-weight:700;white-space:nowrap;transition:all .15s}
-.fbtn.on{background:var(--agg2);border-color:var(--ac);color:var(--ac)}
-.shim{background:linear-gradient(90deg,var(--sf) 25%,var(--sf2) 50%,var(--sf) 75%);background-size:200% 100%;animation:shim 1.6s infinite;border-radius:var(--rs);height:60px;margin-bottom:10px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-@keyframes fup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fin{from{opacity:0}to{opacity:1}}
-@keyframes slup{from{transform:translateY(100%)}to{transform:translateY(0)}}
-@keyframes pls{0%,100%{opacity:.35}50%{opacity:.85}}
-@keyframes shim{0%{background-position:-200% 0}100%{background-position:200% 0}}
-@keyframes pop{0%{transform:scale(.7);opacity:0}65%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
-@keyframes cfall{0%{opacity:1;transform:translateY(-10px) rotate(0)}100%{opacity:0;transform:translateY(600px) rotate(720deg)}}
-@keyframes xpf{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
-@keyframes boss-p{0%,100%{box-shadow:0 0 0 0 rgba(217,95,95,.4)}50%{box-shadow:0 0 0 12px rgba(217,95,95,0)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes lvlup{0%{transform:scale(1)}30%{transform:scale(1.3)}60%{transform:scale(.95)}100%{transform:scale(1)}}
-@keyframes bounce-in{0%{transform:scale(.3);opacity:0}50%{transform:scale(1.05)}70%{transform:scale(.9)}100%{transform:scale(1);opacity:1}}
-@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 20px var(--agg)}50%{transform:scale(1.08);box-shadow:0 0 50px var(--agg)}}
-@keyframes glow{0%,100%{box-shadow:0 0 5px var(--ac)}50%{box-shadow:0 0 20px var(--ac)}}
-@keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-@keyframes sun-p{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
-.au{animation:fup .4s cubic-bezier(.16,1,.3,1) both}
-.au1{animation:fup .4s .06s cubic-bezier(.16,1,.3,1) both}
-.au2{animation:fup .4s .12s cubic-bezier(.16,1,.3,1) both}
-.au3{animation:fup .4s .18s cubic-bezier(.16,1,.3,1) both}
-.gbar{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--bd);background:var(--bg);flex-shrink:0}
-.gbar-logo{font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);letter-spacing:-1px}
-.cur-w{display:flex;align-items:center;gap:4px;padding:5px 9px;background:var(--sf);border:1px solid var(--bd);border-radius:20px}
-.cur-v{font-family:var(--fd);font-weight:700;font-size:12px}
-.lvl-b{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:700;font-size:13px;color:var(--bg);flex-shrink:0}
-#screen-ob{padding:0}
-.ob-step{display:none;flex-direction:column;min-height:100%;overflow-y:auto}
-.ob-step.on{display:flex}
-.ob-splash{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 24px;background:radial-gradient(ellipse 80% 60% at 50% 35%,var(--agg) 0%,transparent 70%)}
-.ob-logo{font-family:var(--fd);font-weight:700;font-size:80px;letter-spacing:-4px;color:var(--ac);line-height:1}
-.ob-form{flex:1;display:flex;flex-direction:column;padding:22px 18px 20px}
-.ob-prog{display:flex;gap:5px;margin-bottom:28px}
-.ob-pd{flex:1;height:3px;background:var(--sf3);border-radius:2px;transition:all .4s}
-.ob-pd.done{background:var(--ac)}
-.ob-pd.cur{background:linear-gradient(90deg,var(--ac),transparent)}
-.ob-foot{margin-top:auto;display:flex;flex-direction:column;gap:10px}
-.ob-ch{background:var(--sf);border:1.5px solid var(--bd2);border-radius:var(--r);padding:13px 14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .15s;margin-bottom:8px}
-.ob-ch.on{background:var(--agg2);border-color:var(--ac)}
-.ob-chk{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:all .15s}
-.ob-ch.on .ob-chk{background:var(--ac);border-color:var(--ac);color:var(--bg)}
-.th-sw{width:44px;height:44px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;flex-shrink:0}
-.th-sw.on{border-color:var(--tx);transform:scale(1.1)}
-.ctx-b{border-radius:var(--r);padding:14px 16px;margin-bottom:11px;position:relative;overflow:hidden}
-.xp-b{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px 15px;margin-bottom:11px}
-.xp-bar{height:10px;background:var(--sf3);border-radius:5px;overflow:hidden;margin:8px 0 4px}
-.xp-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--acm),var(--ac),var(--ac2));transition:width 1.2s cubic-bezier(.16,1,.3,1)}
-.boss-c{border:1px solid #4a1414;border-radius:var(--r);padding:15px;margin-bottom:11px;background:linear-gradient(135deg,#1a0808,#120606);animation:boss-p 3s infinite}
-.q-card{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:var(--r);padding:13px;margin-bottom:11px}
-.wg{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px}
-.qit{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
-.qit:last-child{border:none;padding-bottom:0}
-.qchk{width:22px;height:22px;border-radius:50%;border:2px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .2s;flex-shrink:0}
-.qchk.done{background:var(--gr);border-color:var(--gr);color:#000;animation:pop .3s ease}
-.tog-sw{width:44px;height:24px;background:var(--sf3);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
-.tog-sw.on{background:var(--ac)}
-.tog-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:white;transition:left .2s}
-.tog-sw.on .tog-knob{left:23px}
-.nat-c{border:1px solid var(--nt);border-radius:var(--r);padding:16px;margin-bottom:11px;position:relative;overflow:hidden;background:linear-gradient(135deg,#081408,#060a06)}
-.big-timer{font-family:var(--fd);font-weight:700;font-size:48px;text-align:center;line-height:1;margin:12px 0}
-#screen-chat{padding-bottom:0}
-.chat-wrap{display:flex;flex-direction:column;height:100%}
-.ch-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd);flex-shrink:0}
-.coach-av{width:38px;height:38px;border-radius:50%;background:var(--agg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:17px;position:relative;flex-shrink:0}
-.coach-dot{position:absolute;bottom:0;right:0;width:9px;height:9px;background:var(--gr);border-radius:50%;border:2px solid var(--bg)}
-.ch-modes{display:flex;gap:6px;overflow-x:auto;padding:7px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;background:var(--bg2)}
-.ch-mode{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--bd2);font-size:11px;font-weight:700;color:var(--tx3);transition:all .15s}
-.ch-mode.on{border-color:var(--ac);color:var(--ac);background:var(--agg)}
-.ch-msgs{flex:1;overflow-y:auto;padding:13px 14px;display:flex;flex-direction:column;gap:10px}
-.msg{max-width:86%;animation:fup .3s ease both}
-.msg.co{align-self:flex-start}
-.msg.us{align-self:flex-end}
-.mbub{padding:11px 14px;border-radius:18px;font-size:13px;line-height:1.65}
-.msg.co .mbub{background:var(--sf);border:1px solid var(--bd);border-bottom-left-radius:4px}
-.msg.us .mbub{background:var(--agg2);border:1px solid var(--acm);border-bottom-right-radius:4px}
-.mtime{font-size:9px;color:var(--tx3);margin-top:4px;padding:0 4px}
-.msg.us .mtime{text-align:right}
-.typing{display:flex;gap:5px;padding:11px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:18px;border-bottom-left-radius:4px;align-self:flex-start;max-width:70px}
-.td{width:6px;height:6px;border-radius:50%;background:var(--tx3)}
-.td:nth-child(1){animation:pls 1s 0s infinite}
-.td:nth-child(2){animation:pls 1s .2s infinite}
-.td:nth-child(3){animation:pls 1s .4s infinite}
-.ch-suggs{display:flex;gap:6px;overflow-x:auto;padding:7px 14px;border-top:1px solid var(--bd);flex-shrink:0}
-.csug{flex-shrink:0;padding:6px 12px;background:var(--sf);border:1px solid var(--bd2);border-radius:22px;font-size:11px;color:var(--tx2);cursor:pointer}
-.ch-inp{display:flex;align-items:flex-end;gap:8px;padding:10px 14px;border-top:1px solid var(--bd);flex-shrink:0}
-.ch-ta{flex:1;background:var(--sf2);border:1.5px solid var(--bd2);border-radius:22px;padding:10px 14px;color:var(--tx);font-size:14px;outline:none;resize:none;max-height:100px;line-height:1.5;transition:border-color .2s}
-.ch-ta:focus{border-color:var(--ac)}
-.ch-ta::placeholder{color:var(--tx3)}
-.ch-snd{width:38px;height:38px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .15s;color:var(--bg)}
-.ch-snd:active{transform:scale(.9)}
-.ch-snd:disabled{opacity:.3}
-.mbk{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:800;display:none;align-items:flex-end;justify-content:center}
-.mbk.open{display:flex;animation:fin .15s ease}
-.msh{width:100%;max-width:430px;background:var(--bg2);border-radius:22px 22px 0 0;padding:20px 16px 30px;animation:slup .32s cubic-bezier(.16,1,.3,1);max-height:90vh;overflow-y:auto}
-.mhdl{width:36px;height:4px;background:var(--bd2);border-radius:2px;margin:0 auto 20px}
-.mtit{font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:18px}
-.mbtns{display:flex;gap:9px;margin-top:18px}
-.m-cancel{flex:1;padding:13px;border-radius:var(--rs);background:var(--sf2);color:var(--tx3);font-weight:600;font-size:13px}
-.m-ok{flex:2;padding:13px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-weight:700;font-size:13px}
-.full-ov{position:fixed;inset:0;background:rgba(0,0,0,.93);z-index:1500;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
-.full-ov.show{display:flex;animation:fin .3s ease}
-.toast{position:fixed;bottom:74px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--sf);border:1px solid var(--ac);border-radius:var(--r);padding:11px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;box-shadow:0 8px 32px rgba(0,0,0,.6);z-index:1100;opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.16,1,.3,1);max-width:360px}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.xpf{position:fixed;font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac);pointer-events:none;z-index:2000;animation:xpf 1.2s ease-out forwards}
-.cfp{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:1200;animation:cfall 2s ease-in forwards}
-.book-c{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .15s;overflow:hidden;display:flex}
-.book-c:active{border-color:var(--ac);transform:scale(.98)}
-.book-spine{width:6px;background:linear-gradient(180deg,var(--ac),var(--ac2));flex-shrink:0}
-.stn{width:44px;height:44px;border-radius:50%;border:2px solid var(--bd2);background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .2s}
-.stn.done{border-color:var(--gr);background:var(--grd)}
-.stn.unlocked{border-color:var(--ac);background:var(--agg)}
-.stn.locked{opacity:.3}
-.st-line{flex:1;height:2px;background:var(--bd2)}
-.st-line.done{background:var(--ac)}
-.h21g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:11px 0}
-.h21d{height:28px;border-radius:5px;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .3s}
-.h21d.done{background:var(--grd);border-color:var(--gr)}
-.h21d.today{background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:var(--ac);color:var(--bg);font-weight:700}
-.tod-it{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px}
-.tod-it.dn{opacity:.38}
-.tod-it.pr{border-left:3px solid var(--ac)}
-.tchk{width:22px;height:22px;border-radius:50%;border:2px solid var(--bd2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;transition:all .15s;margin-top:1px}
-.tchk.on{background:var(--gr);border-color:var(--gr);color:#000;animation:pop .3s ease}
-.plan-c{background:var(--bld);border:1px solid var(--bl);border-radius:var(--r);padding:15px;margin-bottom:11px}
-.vis-c{background:var(--pud);border:1px solid var(--pu);border-radius:var(--r);padding:16px;margin-bottom:11px}
-.nit{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 13px;margin-bottom:8px;display:flex;gap:10px}
-.nit.unread{border-left:3px solid var(--ac)}
-#form-ov{position:fixed;inset:0;background:var(--bg);z-index:500;display:none;flex-direction:column;max-width:430px;left:50%;transform:translateX(-50%)}
-#form-ov.show{display:flex;animation:fin .2s ease}
-.av-body{width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:42px;border:3px solid var(--ac);background:var(--agg);animation:float 4s ease-in-out infinite}
-.av-aura{position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--ac);opacity:.3}
-.lang-wrd{font-family:var(--fd);font-weight:700;font-size:34px;text-align:center;color:var(--ac);margin:14px 0 4px;letter-spacing:-1px}
-.lang-pn{font-size:13px;color:var(--tx3);text-align:center;margin-bottom:7px;font-style:italic}
-.lang-tr{font-size:20px;font-weight:700;text-align:center;color:var(--tx2);margin-bottom:14px}
-.qopt{background:var(--sf);border:2px solid var(--bd2);border-radius:var(--rs);padding:12px;margin-bottom:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;text-align:center}
-.qopt.ok{border-color:var(--gr);background:var(--grd);color:var(--gr)}
-.qopt.no{border-color:var(--rd);background:var(--rdd);color:var(--rd)}
-.wdrop{width:38px;height:38px;border-radius:50%;background:var(--bld);border:2px solid var(--bl);display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:all .2s;flex-shrink:0}
-.wdrop.on{background:var(--bl);border-color:var(--bl)}
-.chc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px;margin-bottom:9px}
-.chc.active{border-color:var(--ac);background:var(--agg)}
-.chc.won{border-color:var(--gr);background:var(--grd)}
-.rpt-c{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px}
-.meal-b{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center;cursor:pointer;transition:all .15s}
-.meal-b.ok{border-color:var(--gr);background:var(--grd)}
-
-.dot-pulse{display:flex;gap:4px;padding:8px 0}.dot-pulse span{width:8px;height:8px;border-radius:50%;background:var(--tx3);animation:dotPulse .6s infinite alternate}.dot-pulse span:nth-child(2){animation-delay:.2s}.dot-pulse span:nth-child(3){animation-delay:.4s}@keyframes dotPulse{to{opacity:.3;transform:scale(.8)}}
-.ch-b.typing{background:var(--c2);padding:12px 16px;border-radius:16px;align-self:flex-start;max-width:80px}
-
-/* ══════════════════════════════════════════ */
-/* SESSION 6 — MEGA IMPROVEMENTS            */
-/* ══════════════════════════════════════════ */
-
-/* ── ENHANCED ONBOARDING ── */
-.ob-slide{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 24px;min-height:100%}
-.ob-feat-ico{font-size:56px;margin-bottom:14px;animation:float 3s ease-in-out infinite}
-.ob-feat-title{font-family:var(--fd);font-weight:700;font-size:24px;margin-bottom:8px}
-.ob-feat-desc{font-size:14px;color:var(--tx2);line-height:1.7;max-width:300px}
-.ob-dots{display:flex;gap:8px;margin:20px 0}
-.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--sf3);transition:all .3s}
-.ob-dot.active{background:var(--ac);width:24px;border-radius:4px}
-
-/* ── COMMAND PALETTE ── */
-.cmd-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9000;display:none;align-items:flex-start;justify-content:center;padding-top:15vh}
-.cmd-overlay.open{display:flex;animation:fin .15s ease}
-.cmd-box{width:90%;max-width:400px;background:var(--bg2);border:1px solid var(--bd);border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.cmd-input{width:100%;padding:16px 18px;background:transparent;border:none;border-bottom:1px solid var(--bd);color:var(--tx);font-size:15px;font-family:var(--fb);outline:none}
-.cmd-input::placeholder{color:var(--tx3)}
-.cmd-results{max-height:50vh;overflow-y:auto;padding:6px}
-.cmd-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;cursor:pointer;transition:background .1s}
-.cmd-item:hover,.cmd-item.selected{background:var(--agg2)}
-.cmd-item-ico{font-size:20px;width:30px;text-align:center;flex-shrink:0}
-.cmd-item-text{font-size:13px;font-weight:600}
-.cmd-item-hint{font-size:11px;color:var(--tx3)}
-.cmd-empty{padding:20px;text-align:center;color:var(--tx3);font-size:13px}
-
-/* ── MINI-GAMES ── */
-.mg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.mg-card{aspect-ratio:1;background:var(--sf);border:2px solid var(--bd);border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;transition:all .3s;user-select:none}
-.mg-card.flipped{background:var(--agg2);border-color:var(--ac)}
-.mg-card.matched{background:var(--grd);border-color:var(--gr);pointer-events:none}
-.mg-card.hidden-face{font-size:0}
-.quiz-opt{background:var(--sf);border:2px solid var(--bd2);border-radius:var(--rs);padding:14px;margin-bottom:8px;cursor:pointer;transition:all .2s;font-size:14px;text-align:center;font-weight:600}
-.quiz-opt:active{transform:scale(.97)}
-.quiz-opt.correct{border-color:var(--gr);background:var(--grd);color:var(--gr)}
-.quiz-opt.wrong{border-color:var(--rd);background:var(--rdd);color:var(--rd)}
-
-/* ── PREMIUM ANIMATIONS ── */
-@keyframes confettiBurst{0%{transform:scale(0) rotate(0);opacity:1}50%{transform:scale(1.2) rotate(180deg);opacity:.8}100%{transform:scale(.3) rotate(360deg);opacity:0}}
-@keyframes particleFloat{0%{transform:translateY(0) scale(1);opacity:1}100%{transform:translateY(-80px) scale(0);opacity:0}}
-@keyframes ringPulse{0%{stroke-dashoffset:var(--ring-off);opacity:.6}50%{opacity:1}100%{stroke-dashoffset:0;opacity:.6}}
-@keyframes badgeUnlock{0%{transform:scale(0) rotate(-180deg);opacity:0}60%{transform:scale(1.3) rotate(10deg)}80%{transform:scale(.9) rotate(-5deg)}100%{transform:scale(1) rotate(0);opacity:1}}
-@keyframes shimmerGold{0%{background-position:-200% center}100%{background-position:200% center}}
-.badge-unlock{animation:badgeUnlock .6s cubic-bezier(.16,1,.3,1) both}
-.gold-shimmer{background:linear-gradient(90deg,var(--ac),var(--ac2),#fff,var(--ac2),var(--ac));background-size:200% 100%;animation:shimmerGold 2s linear infinite}
-
-/* ── SHARE CARD ── */
-.share-card-preview{background:linear-gradient(135deg,var(--bg),var(--sf));border:2px solid var(--ac);border-radius:20px;padding:24px;text-align:center;position:relative;overflow:hidden}
-.share-card-preview::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
-.share-card-stat{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;margin:4px}
-
-/* ── SMART SUGGESTIONS BANNER ── */
-.smart-sug{background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:14px;margin-bottom:11px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s}
-.smart-sug:active{transform:scale(.98)}
-.smart-sug:hover{border-color:var(--ac)}
-.smart-sug-ico{font-size:28px;flex-shrink:0;animation:float 3s ease-in-out infinite}
-
-/* ══════════════════════════════════════════ */
-/* SESSION 7 — PRODUCTION READY POLISH      */
-/* ══════════════════════════════════════════ */
-
-/* ── INSTALL PROMPT ── */
-.install-banner{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:calc(100% - 32px);max-width:400px;background:linear-gradient(135deg,var(--sf),var(--sf2));border:1px solid var(--ac);border-radius:16px;padding:16px;z-index:600;box-shadow:0 12px 40px rgba(0,0,0,.6);display:none;animation:slup .3s ease}
-.install-banner.show{display:flex;align-items:center;gap:14px}
-
-/* ── LOADING / EMPTY STATES ── */
-.empty-state{text-align:center;padding:40px 20px;color:var(--tx3)}
-.empty-state-ico{font-size:48px;margin-bottom:12px;opacity:.5}
-.empty-state-title{font-family:var(--fd);font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px}
-.empty-state-desc{font-size:13px;line-height:1.6}
-.skeleton{background:linear-gradient(90deg,var(--sf) 25%,var(--sf2) 50%,var(--sf) 75%);background-size:200% 100%;animation:shim 1.6s infinite;border-radius:var(--rs);margin-bottom:8px}
-
-/* ── ERROR BANNER ── */
-.error-banner{background:var(--rdd);border:1px solid var(--rd);border-radius:var(--rs);padding:12px 16px;margin:8px 16px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--rd);font-weight:600;animation:fup .3s ease}
-
-/* ── EXPORT MODAL ── */
-.export-area{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;font-size:10px;color:var(--tx3);max-height:120px;overflow-y:auto;word-break:break-all;font-family:monospace;user-select:all;margin:10px 0}
-
-/* ── SMOOTH PAGE TRANSITIONS ── */
-.screen{opacity:0;transition:opacity .2s ease}
-.screen.active{opacity:1}
-
-/* ── ORIENTATION WARNING ── */
-@media(orientation:landscape) and (max-height:500px){
-  .landscape-warn{display:flex!important;position:fixed;inset:0;background:var(--bg);z-index:99999;align-items:center;justify-content:center;flex-direction:column;text-align:center;gap:12px}
-}
-
-/* ── BETTER TOUCH TARGETS ── */
-@media(pointer:coarse){
-  .nb{min-height:48px}
-  .fbtn{min-height:40px;min-width:40px}
-  .qchk,.tchk{min-width:44px;min-height:44px}
-}
-
-/* ── PRINT STYLES ── */
-@media print{
-  .bnav,.gbar,.mbk,.full-ov,.toast,.cmd-overlay,.install-banner{display:none!important}
-  .screen{position:static!important;display:block!important;opacity:1!important;overflow:visible!important;padding-bottom:0!important}
-  body{overflow:visible!important}
-}
-
-/* ── KEYBOARD HINT ── */
-.kbd-hint{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;background:var(--sf2);border:1px solid var(--bd);border-radius:4px;font-size:10px;color:var(--tx3);font-family:monospace}
-
-/* ── CONNECTIVITY INDICATOR ── */
-.offline-banner{position:fixed;top:0;left:0;right:0;background:var(--rdd);border-bottom:1px solid var(--rd);padding:6px;text-align:center;font-size:12px;color:var(--rd);font-weight:700;z-index:10000;transform:translateY(-100%);transition:transform .3s}
-.offline-banner.show{transform:translateY(0)}
-
-/* ── BACK-TO-TOP ── */
-.btt{position:fixed;bottom:72px;right:12px;width:36px;height:36px;border-radius:50%;background:var(--ac);color:var(--bg);display:none;align-items:center;justify-content:center;font-size:16px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.4);cursor:pointer;transition:opacity .2s}
-
-/* ── JARVIS AI ASSISTANT ── */
-.jarvis-fab{position:fixed;bottom:74px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#ffd700 0%,#ffed4e 100%);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s;animation:jarvisPulse 2s infinite;font-size:24px;color:#333;gap:2px}
-.jarvis-fab:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(0,0,0,.4)}
-.jarvis-fab .jarvis-label{font-size:9px;font-weight:700;color:#333}
-.jarvis-fab .jarvis-dot{position:absolute;top:4px;right:4px;width:10px;height:10px;border-radius:50%;background:#e74c3c;animation:ping .9s infinite}
-@keyframes jarvisPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-@keyframes ping{0%{box-shadow:0 0 0 0 rgba(231,76,60,.7)}75%{box-shadow:0 0 0 8px rgba(231,76,60,0)}}
-
-.jarvis-backdrop{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0);z-index:790;opacity:0;pointer-events:none;transition:opacity .3s;display:none}
-.jarvis-backdrop.open{opacity:.5;pointer-events:auto;display:block}
-
-.jarvis-drawer{position:fixed;bottom:0;left:0;right:0;max-height:70vh;background:var(--bg);border-radius:24px 24px 0 0;z-index:800;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s ease-out;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
-.jarvis-drawer.open{transform:translateY(0)}
-
-.jarvis-header{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-.jarvis-header-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
-.jarvis-header-title .jarvis-icon{font-size:20px}
-.jarvis-close{width:32px;height:32px;border-radius:50%;background:var(--bd);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx);transition:background .2s}
-.jarvis-close:hover{background:var(--rd)}
-
-.jarvis-msgs{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-height:120px}
-.jarvis-msg{display:flex;justify-content:flex-start;animation:msgSlide .3s ease-out}
-.jarvis-msg.jm-user{justify-content:flex-end}
-@keyframes msgSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-.jm-bubble{display:inline-block;max-width:85%;padding:8px 12px;border-radius:14px;background:var(--bd);color:var(--tx);word-wrap:break-word;font-size:14px;line-height:1.4}
-.jm-user .jm-bubble{background:var(--ac);color:var(--bg)}
-.jm-name{display:block;font-size:11px;font-weight:700;color:var(--ac);margin-bottom:2px}
-
-.dot-pulse{display:inline-flex;gap:2px}
-.dot-pulse span{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:pulse .6s infinite}
-.dot-pulse span:nth-child(2){animation-delay:.2s}
-.dot-pulse span:nth-child(3){animation-delay:.4s}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-
-.jarvis-suggs{padding:8px 12px;display:flex;gap:8px;overflow-x:auto;border-top:1px solid var(--bd);flex-shrink:0;scroll-behavior:smooth}
-.jarvis-suggs::-webkit-scrollbar{height:3px}
-.jarvis-suggs::-webkit-scrollbar-track{background:transparent}
-.jarvis-suggs::-webkit-scrollbar-thumb{background:var(--ac);border-radius:2px}
-
-.jarvis-chip{padding:6px 12px;border:1px solid var(--ac);border-radius:20px;background:transparent;color:var(--ac);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
-.jarvis-chip:hover{background:var(--ac);color:var(--bg)}
-
-.jarvis-input{padding:8px 12px;border-top:1px solid var(--bd);display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
-#jarvis-ta{flex:1;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;background:var(--bg);color:var(--tx);font-family:inherit;font-size:14px;resize:none;max-height:100px;min-height:36px}
-#jarvis-ta:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(255,179,71,.1)}
-#jarvis-send{padding:8px 12px;border:none;border-radius:8px;background:var(--ac);color:var(--bg);cursor:pointer;font-weight:700;font-size:12px;transition:opacity .2s;white-space:nowrap}
-#jarvis-send:hover{opacity:.9}
-
-/* ═══════════════════════════════════════════ */
-/* FORGE — PREMIUM DESIGN SYSTEM              */
-/* ═══════════════════════════════════════════ */
-
-/* Dark palette override */
-:root{--bg:#0A0A0F;--bg2:#0E0E15;--sf:#12121A;--sf2:#1A1A25;--sf3:#22222E;--bd:#1E1E2A;--bd2:#2A2A38}
-
-/* Glassmorphism cards */
-.forge-glass{background:rgba(255,255,255,0.03)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06)!important}
-.card,.wg{background:rgba(255,255,255,0.03);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.06)}
-
-/* Glow effects */
-.forge-glow{box-shadow:0 0 20px rgba(124,58,237,0.15)}
-.streak-glow{box-shadow:0 0 16px rgba(224,135,74,0.2)}
-
-/* Premium gradient CTAs */
-.btn-ac{background:linear-gradient(135deg,#7C3AED,#2563EB)!important;color:#fff!important}
-.btn-ac:hover{box-shadow:0 4px 20px rgba(124,58,237,0.4)}
-
-/* Micro-interactions enhanced */
-.card:active,.wg:active{transform:scale(0.97)}
-@media(hover:hover){
-  .card:hover,.wg:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3);border-color:rgba(124,58,237,0.2)}
-}
-
-/* Gradient text for titles */
-.forge-gradient-text{background:linear-gradient(135deg,#7C3AED,#2563EB);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-/* Achievement rarity glows */
-.ach-mythic{animation:mythicPulse 2s infinite;border:1px solid rgba(239,68,68,0.5)!important}
-.ach-legendary{animation:legendGlow 3s infinite;border:1px solid rgba(245,158,11,0.4)!important}
-@keyframes mythicPulse{0%,100%{box-shadow:0 0 10px rgba(239,68,68,0.2)}50%{box-shadow:0 0 30px rgba(239,68,68,0.5)}}
-@keyframes legendGlow{0%,100%{box-shadow:0 0 8px rgba(245,158,11,0.15)}50%{box-shadow:0 0 24px rgba(245,158,11,0.35)}}
-
-/* Confetti animation for level up */
-@keyframes forgeConfetti{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-100vh) rotate(720deg);opacity:0}}
-
-/* Level up overlay enhancement */
-.full-ov{backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
-
-/* RPG attribute colors */
-.attr-mind{color:#8b6de0}.attr-hustle{color:#d4aa4a}.attr-body{color:#d95f5f}
-.attr-vitality{color:#4db87a}.attr-wisdom{color:#4a9ed4}.attr-order{color:#e0874a}
-.attr-flow{color:#3db8aa}.attr-aura{color:#d46a9e}
-
-/* Smooth scrollbar for quest list */
-.q-list::-webkit-scrollbar{width:3px}
-.q-list::-webkit-scrollbar-thumb{background:var(--ac);border-radius:2px}
-
-/* Boss card enhanced */
-.boss-c{background:linear-gradient(135deg,rgba(26,8,8,0.9),rgba(18,6,6,0.9))!important;backdrop-filter:blur(8px);border:1px solid rgba(217,95,95,0.2)!important}
-
-/* XP bar shimmer */
-.xp-fill{position:relative;overflow:hidden}
-.xp-fill::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);animation:xpShimmer 2s infinite}
-@keyframes xpShimmer{0%{left:-100%}100%{left:100%}}
-
-/* Navbar glass */
-.bnav{background:rgba(10,10,15,0.85)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.gbar{background:rgba(10,10,15,0.9)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-
-</style>
-</head>
-<body>
-<a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
-<div id="app" role="application" aria-label="FORGE — Forge ta meilleure version">
-<div class="gbar" id="gbar" style="display:none">
-  <div><div class="gbar-logo">FORGE</div><div style="font-size:9px;color:var(--ac);letter-spacing:1.5px;font-weight:700" id="gbar-s">S1</div></div>
-  <div style="flex:1"></div>
-  <div class="cur-w">⭐<span class="cur-v" id="gb-xp" style="color:var(--ac)">0</span></div>
-  <div class="cur-w">💎<span class="cur-v" id="gb-gem" style="color:var(--bl)">0</span></div>
-  <div class="lvl-b" id="gb-lvl">1</div>
-  <button style="width:30px;height:30px;background:var(--sf);border:1px solid var(--bd);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;position:relative;flex-shrink:0" onclick="gs('notifs',null)">🔔<span id="ndot" style="display:none;position:absolute;top:4px;right:4px;width:7px;height:7px;background:var(--rd);border-radius:50%;border:1.5px solid var(--bg)"></span></button>
-</div>
-<div class="screens" id="main-screens">
-<!-- ONBOARDING -->
-<div class="screen active" id="screen-ob" style="padding-bottom:0">
-  <div class="ob-step on" id="ob-0">
-    <div class="ob-splash" style="position:relative">
-      <canvas id="ob-canvas" style="position:absolute;inset:0;opacity:0.3;pointer-events:none" width="400" height="700"></canvas>
-      <div class="ob-logo au">FORGE</div>
-      <div style="font-size:10px;color:var(--tx3);letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:10px" class="au1">Forge ta meilleure version. 1% chaque jour.</div>
-      <p style="font-size:14px;color:var(--tx2);line-height:1.7;margin-bottom:44px;max-width:290px" class="au2">Coach IA · RPG · Nature · Business · 100% personnalisable. Forge ta légende.</p>
-      <div style="width:100%;display:flex;flex-direction:column;gap:10px" class="au3">
-        <button class="btn btn-ac" onclick="obNext(1)">3 questions → C'est parti</button>
-        <button class="btn btn-sf" onclick="loadEx()">J'ai déjà un compte</button>
-      </div>
-    </div>
-  </div>
-  <div class="ob-step" id="ob-1">
-    <div class="ob-form">
-      <div class="ob-prog"><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Comment tu t'appelles ?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">C'est tout ce dont FORGE a besoin pour commencer.</div>
-      <input class="inp" id="ob-name" placeholder="Ton prénom" maxlength="30" style="margin-bottom:10px">
-      <input class="inp" id="ob-age" type="number" min="13" max="99" placeholder="Ton âge (optionnel)">
-      <div class="ob-foot"><button class="btn btn-ac" id="ob1n" onclick="obNext(2)" disabled>Continuer →</button></div>
-    </div>
-  </div>
-  <div class="ob-step" id="ob-2">
-    <div class="ob-form">
-      <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd cur"></div><div class="ob-pd"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Qu'est-ce que tu veux améliorer ?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">Choisis tout ce qui t'intéresse. FORGE active les modules correspondants.</div>
-      <div id="ob-goals">
-        <div class="ob-ch ms-ch" data-g="focus" onclick="togG(this,'focus')"><span style="font-size:22px">🎯</span><div><div style="font-size:14px;font-weight:600">Focus & Productivité</div><div style="font-size:11px;color:var(--tx3)">Tâches, Pomodoro, Deep Work, Kanban</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="wellbeing" onclick="togG(this,'wellbeing')"><span style="font-size:22px">🌿</span><div><div style="font-size:14px;font-weight:600">Bien-être & Nature</div><div style="font-size:11px;color:var(--tx3)">Marche, soleil, sommeil, respiration</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="health" onclick="togG(this,'health')"><span style="font-size:22px">💪</span><div><div style="font-size:14px;font-weight:600">Corps & Santé</div><div style="font-size:11px;color:var(--tx3)">Sport, nutrition, jeûne, énergie</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="grow" onclick="togG(this,'grow')"><span style="font-size:22px">🧠</span><div><div style="font-size:14px;font-weight:600">Apprendre & Grandir</div><div style="font-size:11px;color:var(--tx3)">Formations, livres, langues, compétences</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="money" onclick="togG(this,'money')"><span style="font-size:22px">💰</span><div><div style="font-size:14px;font-weight:600">Business & Argent</div><div style="font-size:11px;color:var(--tx3)">Revenus, OKR, CRM, projets, finances</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="social" onclick="togG(this,'social')"><span style="font-size:22px">❤️</span><div><div style="font-size:14px;font-weight:600">Relations & Social</div><div style="font-size:11px;color:var(--tx3)">Connexions, gratitude, communication</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="orga" onclick="togG(this,'orga')"><span style="font-size:22px">📅</span><div><div style="font-size:14px;font-weight:600">Organisation & Calendrier</div><div style="font-size:11px;color:var(--tx3)">Agenda, routines, projets, planning</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="all" onclick="togG(this,'all')"><span style="font-size:22px">⚡</span><div><div style="font-size:14px;font-weight:600">Tout — Mode Complet</div><div style="font-size:11px;color:var(--tx3)">Toutes les features actives dès le départ</div></div><div class="ob-chk"></div></div>
-      </div>
-      <div id="ob2-count" style="font-size:11px;color:var(--tx3);text-align:center;margin-bottom:10px">Sélectionne au moins 1 domaine</div>
-      <div class="ob-foot"><button class="btn btn-ac" id="ob2n" onclick="obNext(3)" disabled>Continuer →</button><button class="btn btn-sf" onclick="obBack(1)">← Retour</button></div>
-    </div>
-  </div>
-  <div class="ob-step" id="ob-3">
-    <div class="ob-form">
-      <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd done"></div><div class="ob-pd cur"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Choisis ton style</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Modifiable à tout moment dans Paramètres.</div>
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--tx3);font-weight:700;margin-bottom:10px">Thème</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px" id="ob-themes">
-        <div class="th-sw on" style="background:linear-gradient(135deg,#07080a,#d4aa4a)" onclick="selTh('default',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#040d14,#38b8d4)" onclick="selTh('ocean',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#040a06,#5cb87a)" onclick="selTh('forest',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#0e0604,#e0874a)" onclick="selTh('flame',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#06040e,#8b6de0)" onclick="selTh('cosmos',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#0e0c08,#c8a060)" onclick="selTh('sand',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#040608,#00e4c8)" onclick="selTh('neon',this)"></div>
-        <div class="th-sw" style="background:linear-gradient(135deg,#f8f6f0,#2a6a4a)" onclick="selTh('light',this)"></div>
-      </div>
-      <div style="font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--tx3);font-weight:700;margin-bottom:10px">Mode</div>
-      <div style="display:flex;gap:9px;margin-bottom:20px">
-        <button id="mb-zen" style="flex:1;padding:13px;border-radius:var(--r);border:2px solid var(--ac);background:var(--agg);color:var(--ac);font-weight:700;font-size:13px" onclick="selMd('zen')">🧘 Zen<br><span style="font-size:10px;font-weight:400;color:var(--tx3)">Essentiel only</span></button>
-        <button id="mb-full" style="flex:1;padding:13px;border-radius:var(--r);border:2px solid var(--bd2);background:var(--sf);color:var(--tx2);font-weight:700;font-size:13px" onclick="selMd('full')">⚡ Complet<br><span style="font-size:10px;font-weight:400;color:var(--tx3)">Tout activé</span></button>
-      </div>
-      <div class="ob-foot"><button class="btn btn-ac" onclick="finishOb()">C'est parti 🚀</button><button class="btn btn-sf" onclick="obBack(2)">Retour</button></div>
-    </div>
-  </div>
-</div>
-<!-- HOME -->
-<div class="screen" id="screen-home">
-  <div class="pad">
-    <div id="ctx-banner" class="ctx-b au"></div>
-    <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">Chargement...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Citation personnalisée du jour</div></div>
-    <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
-    <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--or)" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or)">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
-    <div id="w-boss" class="boss-c au2" style="display:none"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚔️ Boss de la semaine</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:4px" id="boss-nm">Boss Procrastination</div><div style="background:var(--rdd);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px"><div style="height:100%;background:linear-gradient(90deg,var(--rd),#ff8080);border-radius:4px;transition:width .8s" id="boss-hp-fill"></div></div><div style="font-size:10px;color:var(--tx3)" id="boss-hp-txt">500/500</div></div>
-    <div id="w-quests" class="wg au3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px">⚡ Quêtes du jour</div><div style="font-size:10px;color:var(--tx3)" id="q-count">0/5</div></div><div id="q-list"></div></div>
-    <div id="w-nat" class="wg au3" style="cursor:pointer;border-color:var(--nt)" onclick="gs('nature',null)"><div style="display:flex;align-items:center;gap:10px"><div style="font-size:26px;animation:float 3s ease-in-out infinite">🌿</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--nt2)">Nature du jour</div><div style="font-size:11px;color:var(--tx3)" id="nat-mini">Marche · Soleil · Respiration</div></div><div style="font-size:12px;color:var(--nt);font-weight:700">→</div></div></div>
-    <div id="w-flash"></div>
-    <div id="w-defi7"></div>
-    <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:9px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)" onclick="pomoRst()">↺</button></div></div>
-    <div class="lbl" style="margin-bottom:8px;margin-top:4px">Check-in du jour</div>
-    <div class="card" id="ci-sec">
-      <div style="display:flex;gap:6px;margin-bottom:11px" id="e-row">
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,1)">😴</button>
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,2)">😐</button>
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,3)">💪</button>
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,4)">🔥</button>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'focus')">🎯 Focus</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'nature')">🌿 Nature</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'sport')">💪 Sport</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'mental')">🧠 Mental</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'money')">💰 Business</button>
-      </div>
-      <button class="btn btn-ac" id="ci-btn" onclick="doCI()" disabled>Générer mon plan du jour 🌅</button>
-    </div>
-    <div id="plan-sec" style="display:none;margin-top:4px"><div class="lbl" style="margin-bottom:9px">Plan du jour</div><div id="plan-content"></div></div>
-    <div style="margin-top:8px;margin-bottom:4px">
-      <div class="lbl" style="margin-bottom:8px">Mes outils</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('workout',null)"><span style="font-size:20px">🏋️</span>Workout</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('meal',null)"><span style="font-size:20px">🍽️</span>Repas</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('budget',null)"><span style="font-size:20px">💰</span>Budget</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('smartjournal',null)"><span style="font-size:20px">📓</span>Journal</button>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('sleep',null)"><span style="font-size:20px">😴</span>Sommeil</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('leaderboard',null)"><span style="font-size:20px">🏆</span>Classement</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('dash',null)" aria-label="Dashboard"><span style="font-size:20px">📊</span>Dashboard</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('guilds',null)"><span style="font-size:20px">🤝</span>Guildes</button>
-      </div>
-    </div>
-    <button style="width:100%;background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r);padding:13px;display:flex;align-items:center;gap:12px;text-align:left;margin-top:11px;margin-bottom:11px" onclick="openSOS()"><div style="font-size:22px">🆘</div><div><div style="font-size:13px;font-weight:700;color:var(--rd)">Mode Urgence Mentale</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">Tu te sens dépassé ? Appuie ici.</div></div></button>
-    <div style="height:18px"></div>
-  </div>
-</div>
-<!-- NATURE -->
-<div class="screen" id="screen-nature">
-  <div class="pad">
-    <div class="sct au">🌿 Nature</div>
-    <div class="frow au1" id="nat-tabs">
-      <button class="fbtn on" onclick="setNT('walk',this)">🚶 Marche</button>
-      <button class="fbtn" onclick="setNT('sun',this)">☀️ Soleil</button>
-      <button class="fbtn" onclick="setNT('breath',this)">💨 Respiration</button>
-      <button class="fbtn" onclick="setNT('sleep',this)">😴 Sommeil</button>
-      <button class="fbtn" onclick="setNT('cold',this)">🧊 Froid</button>
-      <button class="fbtn" onclick="setNT('mindful',this)">🧘 Conscience</button>
-      <button class="fbtn" onclick="setNT('outdoor',this)">🏅 Défis</button>
-      <button class="fbtn" onclick="setNT('journal',this)">📓 Journal</button>
-    </div>
-    <div id="nat-content"></div>
-  </div>
-</div>
-<!-- COACH -->
-<div class="screen" id="screen-chat" style="padding-bottom:0">
-  <div class="chat-wrap">
-    <div class="ch-hdr">
-      <div class="coach-av">🤖<div class="coach-dot"></div></div>
-      <div><div style="font-family:var(--fd);font-weight:600;font-size:14px">Coach FORGE</div><div style="font-size:11px;color:var(--gr)">En ligne · Apprend en continu</div></div>
-      <div style="margin-left:auto;padding:4px 11px;background:var(--agg);border:1px solid var(--acm);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)" id="coach-lvl">LVL 1</div>
-    </div>
-    <div class="ch-modes">
-      <button class="ch-mode on" onclick="setM('coach',this)">🤖 Coach</button>
-      <button class="ch-mode" onclick="setM('roleplay',this)">🎭 Roleplay</button>
-      <button class="ch-mode" onclick="setM('debate',this)">⚡ Débat</button>
-      <button class="ch-mode" onclick="setM('plan90',this)">📅 Plan 90j</button>
-      <button class="ch-mode" onclick="setM('books',this)">📚 Livres</button>
-      <button class="ch-mode" onclick="setM('nature_c',this)">🌿 Nature</button>
-    </div>
-    <div class="ch-msgs" id="ch-msgs"></div>
-    <div class="ch-suggs" id="ch-suggs"></div>
-    <div class="ch-inp">
-      <textarea class="ch-ta" id="ch-ta" rows="1" onkeydown="ck(event)" oninput="ar(this)" placeholder="Parle à ton coach..."></textarea>
-      <button class="ch-snd" id="ch-snd" onclick="sendMsg()">➤</button>
-    </div>
-  </div>
-</div>
-<!-- DISCOVER -->
-<div class="screen" id="screen-disc">
-  <div class="pad">
-    <div class="sct au">Apprendre</div>
-    <div class="frow au1">
-      <button class="fbtn on" onclick="setDT('forms',this)">📚 Formations</button>
-      <button class="fbtn" onclick="setDT('books',this)">📖 Livres IA</button>
-    </div>
-    <div id="disc-content"></div>
-  </div>
-</div>
-<!-- FEATURES -->
-<div class="screen" id="screen-feat">
-  <div class="pad">
-    <div class="sct au">Features</div>
-    <div class="frow au1">
-      <button class="fbtn" onclick="setFT('avatar',this)">👤 Avatar</button>
-      <button class="fbtn" onclick="setFT('rapport',this)">📊 Rapport</button>
-      <button class="fbtn" onclick="setFT('challenges',this)">🤼 Défis</button>
-      <button class="fbtn on" onclick="setFT('vision',this)">🌈 Vision</button>
-      <button class="fbtn" onclick="setFT('plan90',this)">📅 Plan 90j</button>
-      <button class="fbtn" onclick="setFT('letter',this)">💌 Lettre</button>
-      <button class="fbtn" onclick="setFT('tourn',this)">🏆 Tournoi</button>
-      <button class="fbtn" onclick="setFT('skills',this)">🌳 Skills</button>
-      <button class="fbtn" onclick="setFT('h21',this)">⚡ 21 jours</button>
-      <button class="fbtn" onclick="setFT('guilds',this)">🤝 Guildes</button>
-      <button class="fbtn" onclick="setFT('wealth',this)">💰 Richesse</button>
-      <button class="fbtn" onclick="setFT('progress',this)">📊 Progrès</button>
-      <button class="fbtn" onclick="setFT('aff',this)">💸 Affiliation</button>
-    </div>
-    <div id="feat-content"></div>
-  </div>
-</div>
-<!-- MOI -->
-<div class="screen" id="screen-moi">
-  <div class="pad">
-    <div class="sct au">Mon Espace</div>
-    <div class="frow au1">
-      <button class="fbtn on" onclick="setMoiT('perso',this)">🎨 Style</button>
-      <button class="fbtn" onclick="setMoiT('widgets',this)">🧩 Widgets</button>
-      <button class="fbtn" onclick="setMoiT('todo',this)">✅ Tâches</button>
-      <button class="fbtn" onclick="setMoiT('plans',this)">👑 Plans</button>
-      <button class="fbtn" onclick="setMoiT('stats',this)">📈 Stats</button>
-    </div>
-    <div id="moi-content"></div>
-  </div>
-</div>
-<!-- NOTIFS -->
-<div class="screen" id="screen-notifs">
-  <div class="pad">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div class="sct">Notifications</div><button style="font-size:11px;color:var(--tx3);padding:6px 12px;border:1px solid var(--bd2);border-radius:20px;font-weight:700" onclick="markRead()">Tout lu</button></div>
-    <div id="notifs-list"></div>
-  </div>
-</div>
-</div>
-<div class="screen" id="screen-lang">
-  <div class="pad">
-    <div class="sct au">🌍 Langues</div>
-    <div class="frow au1" id="lt">
-      <button class="fbtn on" onclick="setLang('en',this)">🇬🇧 English</button>
-      <button class="fbtn" onclick="setLang('es',this)">🇪🇸 Español</button>
-      <button class="fbtn" onclick="setLang('pt',this)">🇧🇷 Português</button>
-      <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5">🇮🇹 Italiano <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
-      <button class="fbtn" onclick="setLang('de',this)">🇩🇪 Deutsch</button>
-      <button class="fbtn" onclick="toast('Bientôt disponible !','🔜',2000)" style="opacity:0.5">🏴 Català <span style="font-size:8px;color:var(--or)">Bientôt</span></button>
-    </div>
-    <div id="lang-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-nutri">
-  <div class="pad">
-    <div class="sct au">🥗 Nutrition</div>
-    <div class="frow au1">
-      <button class="fbtn on" onclick="setNuTab('today',this)">📋 Aujourd'hui</button>
-      <button class="fbtn" onclick="setNuTab('water',this)">💧 Eau</button>
-      <button class="fbtn" onclick="setNuTab('fast',this)">⏰ Jeûne</button>
-      <button class="fbtn" onclick="setNuTab('coach',this)">🤖 Coach</button>
-    </div>
-    <div id="nutri-c"></div>
-  </div>
-</div>
-<!-- CRM -->
-<div class="screen" id="screen-crm" style="display:none">
-  <div class="pad">
-    <div class="sct au">👥 CRM</div>
-    <div class="frow au1" id="crm-tabs">
-      <button class="fbtn on" onclick="setCrmT('contacts',this)">👤 Contacts</button>
-      <button class="fbtn" onclick="setCrmT('deals',this)">💼 Deals</button>
-      <button class="fbtn" onclick="setCrmT('followup',this)">📅 Follow-up</button>
-    </div>
-    <div id="crm-content"></div>
-  </div>
-</div>
-<!-- ORGA -->
-<div class="screen" id="screen-orga" style="display:none">
-  <div class="pad">
-    <div class="sct au">📅 Organisation</div>
-    <div class="frow au1" id="orga-tabs">
-      <button class="fbtn on" onclick="setOrgaTab('agenda',this)">📅 Agenda</button>
-      <button class="fbtn" onclick="setOrgaTab('kanban',this)">📋 Kanban</button>
-      <button class="fbtn" onclick="setOrgaTab('routines',this)">🔄 Routines</button>
-      <button class="fbtn" onclick="setOrgaTab('okr',this)">🎯 OKR</button>
-      <button class="fbtn" onclick="setOrgaTab('revenus',this)">💰 Revenus</button>
-    </div>
-    <div id="orga-content"></div>
-  </div>
-</div>
-<!-- BADGES -->
-<div class="screen" id="screen-badges" style="display:none">
-  <div class="pad">
-    <div class="sct au">🏅 Badges & Succès</div>
-    <div id="badges-content"></div>
-  </div>
-</div>
-<!-- SHARE -->
-<div class="screen" id="screen-share" style="display:none">
-  <div class="pad">
-    <div class="sct au">📲 Partager</div>
-    <div id="share-content"></div>
-  </div>
-</div>
-<!-- NEW SCREENS V19 -->
-<div class="screen" id="screen-journal" style="display:none">
-  <div class="pad">
-    <div class="sct au">📝 Journal Intime & Gratitude</div>
-    <div id="j-tags" style="display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px"></div>
-    <div id="journal-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-mood" style="display:none">
-  <div class="pad">
-    <div class="sct au">🎭 Mood Tracker</div>
-    <div id="mood-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-meditate" style="display:none">
-  <div class="pad">
-    <div class="sct au">🧘 Méditation & Respiration</div>
-    <div id="meditate-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-finance" style="display:none">
-  <div class="pad">
-    <div class="sct au">💰 Finances Perso</div>
-    <div id="finance-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-ideas" style="display:none">
-  <div class="pad">
-    <div class="sct au">💡 Boîte à Idées</div>
-    <div id="ideas-c"></div>
-  </div>
-</div>
-<!-- V20 NEW SCREENS -->
-<div class="screen" id="screen-habits" style="display:none">
-  <div class="pad">
-    <div class="sct au">⚡ Habitudes Quotidiennes</div>
-    <p style="font-size:12px;color:var(--tx3);margin-bottom:14px">1% meilleur chaque jour. Coche tes habitudes, construis tes streaks.</p>
-    <div id="habits-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-dashboard" style="display:none">
-  <div class="pad">
-    <div class="sct au">📊 Dashboard Synthèse</div>
-    <div id="dashboard-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-wheel" style="display:none">
-  <div class="pad">
-    <div class="sct au">🎰 Roue de la Fortune</div>
-    <div id="wheel-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-shop" style="display:none">
-  <div class="pad">
-    <div class="sct au">🛒 Boutique FORGE</div>
-    <div id="shop-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-content" style="display:none">
-  <div class="pad">
-    <div class="sct au">📱 Content Planner</div>
-    <div id="content-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-games" style="display:none">
-  <div class="pad">
-    <div class="sct au">🎮 Mini-Jeux</div>
-    <div id="games-c"></div>
-  </div>
-</div>
-<div class="screen" id="screen-pomo" style="display:none">
-  <div class="pad">
-    <div class="sct au">⏱️ Pomodoro Pro</div>
-    <div id="pomo-c"></div>
-  </div>
-</div>
-<div class="more-menu" id="more-menu" style="display:none;position:fixed;bottom:62px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg2);border:1px solid var(--bd);border-radius:16px 16px 0 0;z-index:500;padding:14px">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('moi',null);hideMore()"><span style="font-size:18px">⚡</span>Moi</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('orga',null);hideMore()"><span style="font-size:18px">📅</span>Orga</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('crm',null);hideMore()"><span style="font-size:18px">👥</span>CRM</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('feat',null);hideMore()"><span style="font-size:18px">🚀</span>Features</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('lang',null);hideMore()"><span style="font-size:18px">🌍</span>Langues</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('nutri',null);hideMore()"><span style="font-size:18px">🥗</span>Nutrition</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('badges',null);hideMore()"><span style="font-size:18px">🏅</span>Badges</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:linear-gradient(135deg,var(--ac),var(--ac2));border:1px solid var(--acm);border-radius:var(--rs);font-size:11px;color:var(--bg);font-weight:700;cursor:pointer" onclick="window.gs('share',null);hideMore()"><span style="font-size:18px">📲</span>Partager</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('journal',null);hideMore()"><span style="font-size:18px">📝</span>Journal</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('mood',null);hideMore()"><span style="font-size:18px">🎭</span>Mood</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('meditate',null);hideMore()"><span style="font-size:18px">🧘</span>Méditer</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('finance',null);hideMore()"><span style="font-size:18px">💰</span>Finances</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('ideas',null);hideMore()"><span style="font-size:18px">💡</span>Idées</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('habits',null);hideMore()"><span style="font-size:18px">⚡</span>Habitudes</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('dashboard',null);hideMore()"><span style="font-size:18px">📊</span>Dashboard</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:linear-gradient(135deg,#e8c86a,#d4aa4a);border:none;border-radius:var(--rs);font-size:11px;color:var(--bg);font-weight:700;cursor:pointer" onclick="window.gs('wheel',null);hideMore()"><span style="font-size:18px">🎰</span>Fortune</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('shop',null);hideMore()"><span style="font-size:18px">🛒</span>Boutique</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('content',null);hideMore()"><span style="font-size:18px">📱</span>Contenu</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('pomo',null);hideMore()"><span style="font-size:18px">⏱️</span>Pomodoro</button>
-  </div>
-</div>
-<!-- BOTTOM NAV -->
-<div id="plus-panel" style="display:none;position:fixed;bottom:62px;left:0;right:0;margin:0 auto;width:100%;max-width:430px;background:var(--bg2);border-top:1px solid var(--bd);border-radius:16px 16px 0 0;z-index:400;padding:12px 14px 16px;max-height:70vh;overflow-y:auto">
-  <div style="width:36px;height:4px;background:var(--bd2);border-radius:4px;margin:0 auto 10px"></div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px">
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Mon espace</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('moi',null);closePlus()"><span style="font-size:18px">⚡</span>Moi</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('dash',null);closePlus()"><span style="font-size:18px">📊</span>Dashboard</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('achievements',null);closePlus()"><span style="font-size:18px">🏆</span>Succès</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('feat',null);closePlus()"><span style="font-size:18px">🚀</span>Features</button>
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Outils quotidiens</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('workout',null);closePlus()"><span style="font-size:18px">🏋️</span>Workout</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('meal',null);closePlus()"><span style="font-size:18px">🍽️</span>Repas</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('sleep',null);closePlus()"><span style="font-size:18px">😴</span>Sommeil</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('smartjournal',null);closePlus()"><span style="font-size:18px">📓</span>Journal</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('budget',null);closePlus()"><span style="font-size:18px">💰</span>Budget</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('nutri',null);closePlus()"><span style="font-size:18px">🥗</span>Nutrition</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('lang',null);closePlus()"><span style="font-size:18px">🌍</span>Langues</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('home',null);closePlus()"><span style="font-size:18px">🎯</span>Pomodoro</button>
-    <div style="grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px">Social & Défis</div>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('leaderboard',null);closePlus()"><span style="font-size:18px">🏆</span>Classement</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('guilds',null);closePlus()"><span style="font-size:18px">🤝</span>Guildes</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('social',null);closePlus()"><span style="font-size:18px">📤</span>Partager</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('weeklych',null);closePlus()"><span style="font-size:18px">🏅</span>Défis Hebdo</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('suggestions',null);closePlus()"><span style="font-size:18px">💡</span>Suggestions</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="gs('disc',null);closePlus()"><span style="font-size:18px">📚</span>Apprendre</button>
-  </div>
-</div>
-
-<!-- LEADERBOARD SCREEN -->
-<div class="screen" id="screen-leaderboard">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Classement</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Classement</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Bats les meilleurs joueurs chaque semaine</div>
-    <div id="lb-c"></div>
-  </div>
-</div>
-
-<!-- GUILD SCREEN -->
-<div class="screen" id="screen-guilds">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🤝 Guildes</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🤝 Guildes</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Rejoins une communauté, progresse ensemble</div>
-    <div id="guild-c"></div>
-  </div>
-</div>
-
-<!-- SOCIAL SHARING SCREEN -->
-<div class="screen" id="screen-social">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📤 Partager</div></div>
-    <div id="share-c"></div>
-  </div>
-</div>
-
-<!-- SUGGESTIONS SCREEN -->
-<div class="screen" id="screen-suggestions">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💡 Suggestions</div></div>
-    <div id="suggest-c"></div>
-  </div>
-</div>
-
-<!-- WEEKLY CHALLENGES SCREEN -->
-<div class="screen" id="screen-weeklych">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏅 Défis hebdo</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏅 Défis hebdo</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">3 défis par semaine, récompenses exclusives</div>
-    <div id="wch-c"></div>
-  </div>
-</div>
-
-<nav class="bnav" id="bnav" style="display:none">
-  <button class="nb on" onclick="gs('home',this)"><span class="ni">🏠</span><span>Accueil</span></button>
-  <button class="nb" onclick="gs('nature',this)"><span class="ni">🌿</span><span>Nature</span></button>
-  <button class="nb" onclick="gs('chat',this)"><span class="ni">🤖</span><span>Coach</span></button>
-  <button class="nb" onclick="gs('disc',this)"><span class="ni">📚</span><span>Apprendre</span></button>
-  <button class="nb" onclick="togglePlus(this)"><span class="ni">⊕</span><span>Plus</span></button>
-</nav>
-<!-- FORM OVERLAY -->
-<div id="form-ov">
-  <div style="padding:13px 16px;display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--bd);background:var(--bg);flex-shrink:0"><button style="font-size:22px;color:var(--tx2)" onclick="closeFormOv()">←</button><div><div style="font-family:var(--fd);font-weight:700;font-size:16px" id="fov-tit"></div><div style="font-size:11px;color:var(--tx3)" id="fov-sub"></div></div></div>
-  <div style="flex:1;overflow-y:auto;padding:15px" id="fov-body"></div>
-</div>
-<!-- OVERLAYS -->
-<div class="full-ov" id="ov-lvlup" onclick="this.classList.remove('show')">
-  <div style="font-size:80px;animation:bounce-in .5s ease both">⭐</div>
-  <div style="font-size:13px;color:var(--tx3);text-transform:uppercase;letter-spacing:3px;margin:12px 0 5px">Niveau !</div>
-  <div style="font-family:var(--fd);font-weight:700;font-size:60px;color:var(--ac);line-height:1;animation:lvlup .6s .4s ease both" id="lup-n">2</div>
-  <div style="font-family:var(--fd);font-weight:600;font-size:20px;color:var(--ac2);margin-bottom:20px" id="lup-nm">Apprenti</div>
-  <button class="btn btn-ac" style="max-width:220px" onclick="document.getElementById('ov-lvlup').classList.remove('show')">Continuer →</button>
-</div>
-<div class="full-ov" id="ov-sos" style="z-index:2000">
-  <div style="font-size:10px;color:var(--pu);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:8px">Mode Urgence</div>
-  <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:6px">Tu n'es pas seul.</div>
-  <div style="width:120px;height:120px;border-radius:50%;border:3px solid var(--pu);display:flex;align-items:center;justify-content:center;margin:20px auto;transition:transform 4s ease" id="sos-ring"><div style="text-align:center"><div style="font-size:28px">😮‍💨</div><div style="font-size:14px;color:var(--pu);font-weight:700;margin-top:5px" id="sos-lbl">INSPIRE</div></div></div>
-  <div style="font-size:12px;color:var(--tx3);margin-bottom:16px" id="sos-tip">Pose une main sur ton ventre.</div>
-  <div style="display:flex;gap:8px"><button style="padding:10px 20px;background:var(--pud);border:1px solid var(--pu);border-radius:20px;color:var(--pu);font-size:12px;font-weight:700" onclick="closeSOS()">Je vais mieux ✓</button><button style="padding:10px 20px;background:var(--sf);border:1px solid var(--bd);border-radius:20px;color:var(--tx2);font-size:12px;font-weight:700" onclick="gs('chat',null);closeSOS()">Parler au coach</button></div>
-</div>
-<div class="full-ov" id="ov-flash" style="z-index:1800">
-  <div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:8px">⚡ DÉFI FLASH</div>
-  <div style="font-size:48px;margin-bottom:10px" id="fl-ico">💪</div>
-  <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:8px" id="fl-title">30 Pompes</div>
-  <div style="font-size:13px;color:var(--tx2);max-width:280px;line-height:1.65;margin-bottom:14px" id="fl-desc">Stop. 30 pompes. Reviens.</div>
-  <div style="display:flex;gap:9px"><button style="padding:13px 24px;background:linear-gradient(135deg,var(--rd),#ff8080);border-radius:var(--rs);color:#fff;font-size:13px;font-weight:700" onclick="complFlash()">C'est fait ! +<span id="fl-xp">80</span>XP</button><button style="padding:13px 24px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx3);font-size:13px;font-weight:700" onclick="document.getElementById('ov-flash').classList.remove('show')">Plus tard</button></div>
-</div>
-<!-- MODALS -->
-<div class="mbk" id="m-todo"><div class="msh"><div class="mhdl"></div><div class="mtit">Nouvelle tâche</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="td-txt" placeholder="Description"><select class="inp" id="td-cat"><option value="focus">🎯 Focus</option><option value="sport">💪 Sport</option><option value="nature">🌿 Nature</option><option value="mental">🧠 Mental</option><option value="money">💰 Business</option><option value="habit">⚡ Habitude</option></select><label style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--tx2);cursor:pointer"><input type="checkbox" id="td-pr" style="accent-color:var(--ac);width:16px;height:16px"> Prioritaire ⭐</label></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-todo')">Annuler</button><button class="m-ok" onclick="addTdM()">Ajouter</button></div></div></div>
-<div class="mbk" id="m-sleep"><div class="msh"><div class="mhdl"></div><div class="mtit">😴 Log Sommeil</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="slp-h" type="number" min="2" max="14" step=".5" placeholder="Heures de sommeil (ex: 7.5)"><div style="display:flex;gap:6px" id="sq-row"><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,1)">😫</button><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,2)">😕</button><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,3)">😊</button><button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:20px;transition:all .15s" onclick="selSQ(this,4)">✨</button></div></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-sleep')">Annuler</button><button class="m-ok" onclick="logSlp()">Sauvegarder</button></div></div></div>
-<div class="mbk" id="m-h21"><div class="msh"><div class="mhdl"></div><div class="mtit">⚡ Habitude 21 jours</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="h21-name" placeholder="Ex: Méditer 10 min le matin"><input class="inp" id="h21-time" placeholder="À quelle heure ? (ex: 7h30)"><select class="inp" id="h21-cat"><option value="mental">🧠 Mental</option><option value="sport">💪 Sport</option><option value="nature">🌿 Nature</option><option value="focus">🎯 Focus</option><option value="habit">⚡ Habitude</option></select></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-h21')">Annuler</button><button class="m-ok" onclick="addH21()">Lancer ⚡</button></div></div></div>
-<div class="mbk" id="m-letter"><div class="msh"><div class="mhdl"></div><div class="mtit">💌 Lettre au futur toi</div><p style="font-size:13px;color:var(--tx3);margin-bottom:14px;line-height:1.6">Scellée 90 jours. Reçue au bon moment.</p><textarea class="inp" id="ltr-txt" rows="8" placeholder="Cher moi dans 90 jours..."></textarea><div class="mbtns"><button class="m-cancel" onclick="closeM('m-letter')">Annuler</button><button class="m-ok" onclick="saveLtr()">Sceller 💌</button></div></div></div>
-<div class="mbk" id="m-nj"><div class="msh"><div class="mhdl"></div><div class="mtit">📓 Journal de Nature</div><textarea class="inp" id="nj-txt" rows="5" placeholder="Le vent, les oiseaux, le soleil..."></textarea><input class="inp" id="nj-dur" type="number" min="5" max="300" placeholder="Minutes dehors" style="margin-top:9px"><div class="mbtns"><button class="m-cancel" onclick="closeM('m-nj')">Annuler</button><button class="m-ok" onclick="saveNJ()">Sauvegarder 🌿</button></div></div></div>
-<div class="toast" id="toast"><span id="t-i">🎉</span><span id="t-m">Bravo !</span>
-<!-- WORKOUT TRACKER SCREEN -->
-<div class="screen" id="screen-workout">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏋️ Workout</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏋️ Workout Tracker</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Log tes séances, suis ta progression</div>
-    <div id="workout-c"></div>
-  </div>
-</div>
-
-<!-- MEAL PLANNER SCREEN -->
-<div class="screen" id="screen-meal">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🍽️ Plan Repas</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🍽️ Meal Planner</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Plan repas hebdomadaire + liste de courses</div>
-    <div id="meal-c"></div>
-  </div>
-</div>
-
-<!-- SLEEP TRACKER SCREEN -->
-<div class="screen" id="screen-sleep">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">😴 Sommeil</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">😴 Sleep Tracker</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Optimise ton sommeil, optimise ta vie</div>
-    <div id="sleep-c"></div>
-  </div>
-</div>
-
-<!-- JOURNAL SCREEN -->
-<div class="screen" id="screen-smartjournal">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📓 Journal</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📖 Journal Intelligent</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Écris, réfléchis, progresse</div>
-    <div id="smartjournal-c"></div>
-  </div>
-</div>
-
-<!-- BUDGET TRACKER SCREEN -->
-<div class="screen" id="screen-budget">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💰 Budget</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">💰 Budget Tracker</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Maîtrise tes finances, construis ta richesse</div>
-    <div id="budget-c"></div>
-  </div>
-</div>
-
-<!-- ACHIEVEMENTS SCREEN -->
-<div class="screen" id="screen-achievements">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Succès</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Achievements</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Collectionne-les tous!</div>
-    <div id="achiev-c"></div>
-  </div>
-</div>
-
-<!-- DASHBOARD SCREEN -->
-<div class="screen" id="screen-dash">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📊 Dashboard</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Dashboard</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
-    <div id="dash-c"></div>
-  </div>
-
-<!-- FORGE RECAP (Weekly Summary) -->
-<div class="screen" id="screen-recap" style="display:none">
-  <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)" aria-label="Retour">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📋 FORGE Recap</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📋 Résumé Hebdo</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta semaine en un coup d'oeil</div>
-    <div id="recap-c"></div>
-  </div>
-</div>
-
-</div>
-
-<!-- ═══ JARVIS AI ASSISTANT ═══ -->
-<div id="jarvis-fab" class="jarvis-fab">
-  <span>🤖</span>
-  <span class="jarvis-label">JARVIS</span>
-</div>
-<div id="jarvis-backdrop" class="jarvis-backdrop"></div>
-<div id="jarvis-drawer" class="jarvis-drawer">
-  <div class="jarvis-header">
-    <div class="jarvis-header-title">
-      <span class="jarvis-icon">🤖</span>
-      <span>JARVIS</span>
-    </div>
-    <button id="jarvis-close" class="jarvis-close">✕</button>
-  </div>
-  <div id="jarvis-msgs" class="jarvis-msgs"></div>
-  <div id="jarvis-suggs" class="jarvis-suggs"></div>
-  <div class="jarvis-input">
-    <textarea id="jarvis-ta" placeholder="Pose-moi une question..."></textarea>
-    <button id="jarvis-send">Envoyer</button>
-  </div>
-</div>
-
-<script>
 const LVL_T=['Débutant','Apprenti','Engagé','Déterminé','Ambitieux','Courageux','Warrior','Champion','Légende','Invincible'];
 const LVL_X=[0,100,250,450,700,1000,1400,1900,2500,3200];
 const LVL_G=[0,10,15,20,25,35,50,75,100,150];
@@ -1450,7 +357,7 @@ function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
 function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
 function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('BOSS VAINCU ! +'+boss.r.xp+' XP','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
-function initDQ(){if(S.dq.date!==TD){const picked=generateDailyQuests();S.dq={date:TD,qs:picked};save();}renderDQ();}
+function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);const picked=sh.slice(0,5);if(picked.length<5){const defaults=[{id:'prof',ico:'👤',nm:'Complète ton profil',target:1,type:'profile',xp:50,g:5},{id:'fci',ico:'📋',nm:'Premier check-in',target:1,type:'checkin',xp:30,g:3},{id:'exp3',ico:'🔍',nm:'Explore 3 outils',target:3,type:'explore',xp:40,g:4},{id:'fnote',ico:'📝',nm:'Première note',target:1,type:'note',xp:30,g:3},{id:'jrv',ico:'🤖',nm:'Parle à JARVIS',target:1,type:'jarvis',xp:30,g:3}];while(picked.length<5&&defaults.length>0)picked.push(defaults.shift());}S.dq={date:TD,qs:picked.map(q=>({...q,progress:0,done:false}))};save();}renderDQ();}
 function renderDQ(){const el=document.getElementById('q-list');if(!el)return;const qs=S.dq.qs||[];const done=qs.filter(q=>q.done).length;const qc=document.getElementById('q-count');if(qc)qc.textContent=done+'/'+qs.length;el.innerHTML=qs.map(q=>{const pct=Math.min(1,(q.progress||0)/q.target);return '<div class="qit"><div class="qchk '+(q.done?'done':'')+'">'+( q.done?'✓':'')+'</div><div style="font-size:18px">'+q.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+q.nm+'</div>'+(pct>0&&pct<1?'<div class="pbar" style="margin-top:3px;height:3px"><div class="pfill pac" style="width:'+(pct*100)+'%"></div></div>':'')+'</div><div style="text-align:right;font-size:11px;font-weight:700;color:var(--ac)">+'+q.xp+'XP</div></div>';}).join('');}
 function complQ(type,amt){const qs=S.dq.qs||[];qs.forEach(q=>{if(q.type===type&&!q.done){q.progress=Math.min(q.target,(q.progress||0)+(amt||1));if(q.progress>=q.target){q.done=true;gainXP(q.xp,'quest');gainGems(q.g);dmgBoss(q.xp);toast(q.nm+' accomplie !','⚡',2000);}}});save();renderDQ();}
 function initFlash(){if(S.flash.date!==TD){S.flash={date:TD,idx:Math.floor(Math.random()*FLASH.length),done:false};save();}renderFlash();}
@@ -1535,7 +442,48 @@ function sendMsg(){const ta=document.getElementById('ch-ta');const txt=ta.value.
 let dTab='forms';
 function setDT(t,btn){dTab=t;document.querySelectorAll('#screen-disc .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');initDisc();}
 function initDisc(){const el=document.getElementById('disc-content');if(!el)return;if(dTab==='forms')renderForms(el);else renderBooks(el);}
-function renderForms(el){el.innerHTML=FORMS_D.map(f=>{const p=(S.formProg||{})[f.id]||{m:0};const pct=Math.round((p.m||0)/8*100);return '<div class="book-c" onclick="openForm(\''+f.id+'\')"><div class="book-spine"></div><div style="min-width:60px;background:'+f.bg+';display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+f.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+f.tc+';margin-bottom:2px">'+f.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px">'+f.desc+'</div>'+(p.m>0?'<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.m+'/8 modules</div>':'<div style="font-size:10px;color:var(--ac)">8 modules · +1600 XP</div>')+'</div></div>';}).join('');}
+function renderForms(el){
+  const cats={
+    '💼 Business':['ep','rch','sa','ai'],
+    '🧠 Mindset':['ps'],
+    '💪 Corps':['ca','nu'],
+    '💻 Tech':['cd','sm'],
+    '🌿 Bien-être':['nw']
+  };
+  const formProg=S.formProg||{};
+  // In-progress formations first
+  const inProgress=FORMS_D.filter(f=>(formProg[f.id]||{}).m>0);
+  let h='';
+  if(inProgress.length>0){
+    h+='<div style="font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">📖 En cours</div>';
+    h+=inProgress.map(f=>renderFormCard(f,formProg)).join('');
+  }
+  // Categories with collapse
+  Object.keys(cats).forEach(catName=>{
+    const catForms=FORMS_D.filter(f=>cats[catName].includes(f.id)&&!((formProg[f.id]||{}).m>0));
+    if(catForms.length===0)return;
+    const catId='fcat-'+catName.replace(/[^a-z]/gi,'');
+    h+='<div style="margin-top:14px"><button style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);cursor:pointer;font-size:13px;font-weight:700;color:var(--tx)" onclick="var el=document.getElementById(\''+catId+'\');el.style.display=el.style.display===\'none\'?\'block\':\'none\';this.querySelector(\'span\').textContent=el.style.display===\'none\'?\'▸\':\'▾\'">'+catName+' <span style="font-size:10px;color:var(--tx3)">'+catForms.length+'</span><span style="color:var(--tx3)">▸</span></button>';
+    h+='<div id="'+catId+'" style="display:none;margin-top:6px">';
+    h+=catForms.map(f=>renderFormCard(f,formProg)).join('');
+    h+='</div></div>';
+  });
+  // Suggested (first non-started, max 3)
+  const notStarted=FORMS_D.filter(f=>!((formProg[f.id]||{}).m>0));
+  if(notStarted.length>0&&inProgress.length===0){
+    h+='<div style="font-size:11px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;margin-top:6px">✨ Recommandées pour toi</div>';
+    h+=notStarted.slice(0,3).map(f=>renderFormCard(f,formProg)).join('');
+    if(notStarted.length>3){
+      h+='<button style="width:100%;padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx2);font-size:12px;font-weight:700;cursor:pointer;margin-top:4px" onclick="this.style.display=\'none\';document.getElementById(\'all-forms\').style.display=\'block\'">Voir toutes les formations ('+notStarted.length+')</button>';
+      h+='<div id="all-forms" style="display:none;margin-top:6px">'+notStarted.slice(3).map(f=>renderFormCard(f,formProg)).join('')+'</div>';
+    }
+  }
+  el.innerHTML=h;
+}
+function renderFormCard(f,formProg){
+  const p=formProg[f.id]||{m:0};const pct=Math.round((p.m||0)/8*100);
+  return '<div class="book-c" onclick="openForm(\''+f.id+'\')"><div class="book-spine"></div><div style="min-width:60px;background:'+f.bg+';display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+f.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+f.tc+';margin-bottom:2px">'+f.title+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px">'+f.desc+'</div>'+(p.m>0?'<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.m+'/8 modules · WISDOM +'+((p.m||0)*15)+' XP</div>':'<div style="font-size:10px;color:var(--ac)">8 modules · +1600 XP · WISDOM</div>')+'</div></div>';
+}
 function renderBooks(el){el.innerHTML='<button style="width:100%;background:linear-gradient(135deg,var(--pud),var(--bld));border:1px solid var(--pu);border-radius:var(--r);padding:13px;margin-bottom:11px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="askBookReco()"><div style="font-size:24px">✨</div><div style="text-align:left"><div style="font-size:13px;font-weight:700;color:var(--pu)">Recommandations IA personnalisées</div><div style="font-size:11px;color:var(--tx3)">3 livres exactement pour toi maintenant</div></div></button>'+BOOKS.map(b=>{const read=S.books.read.includes(b.t);const reading=S.books.reading===b.t;return '<div class="book-c" onclick="openBook(\''+encodeURIComponent(b.t)+'\')"><div class="book-spine" style="background:linear-gradient(180deg,var(--pu),var(--bl))"></div><div style="min-width:60px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+b.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:1px">'+b.t+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+b.a+' · '+b.p+'p · '+b.lvl+'</div><div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:5px">'+b.sum.slice(0,70)+'...</div><div style="display:flex;gap:4px">'+(read?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">✅ Lu</span>':reading?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--bld);color:var(--bl);border:1px solid var(--bl)">📖 En cours</span>':'')+'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+b.cat+'</span></div></div></div>';}).join('');}
 function openBook(enc){const title=decodeURIComponent(enc);const b=BOOKS.find(x=>x.t===title);if(!b)return;document.getElementById('fov-tit').textContent=b.ico+' '+b.t;document.getElementById('fov-sub').textContent=b.a+' · '+b.p+'p · '+b.lvl;document.getElementById('fov-body').innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px">'+b.sum+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">💡 Point clé</div><div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65">'+b.key+'</div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">✏️ Action ce soir</div><div style="font-size:13px;color:var(--tx2);line-height:1.65">'+b.act+'</div></div><div style="display:flex;gap:8px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'read\')">✅ Marquer lu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--bld);border:1px solid var(--bl);color:var(--bl);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'reading\')">📖 Je lis ça</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--agg);border:1px solid var(--acm);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer" onclick="askAboutBk(\''+enc+'\')">🤖 Coach</button></div>';document.getElementById('form-ov').classList.add('show');}
 function markBk(enc,status){const title=decodeURIComponent(enc);if(status==='read'){if(!S.books.read.includes(title)){S.books.read.push(title);gainXP(50,'book');gainGems(5);toast('Livre lu ! +50 XP','📚',2500);}}else{S.books.reading=title;toast('Bonne lecture !','📖',2000);}save();}
@@ -1617,7 +565,7 @@ function qAdd(){const i=document.getElementById('td-q');if(!i||!i.value.trim())r
 function addTdM(){const txt=document.getElementById('td-txt')?.value.trim();if(!txt){closeM('m-todo');return;}S.todos=S.todos||[];S.todos.unshift({id:Date.now()+Math.random(),text:txt,done:false,priority:document.getElementById('td-pr')?.checked||false,cat:document.getElementById('td-cat')?.value||'focus',ai:false,date:TD});save();closeM('m-todo');if(moiTab==='todo')renderMoi();}
 function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);const td=S.todos.find(t=>t.id===id);if(td?.done){gainXP(5,'todo');gainGems(1);complQ('todos');dmgBoss(10);}save();if(moiTab==='todo')renderMoi();}
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
-function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
+function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+(p.trial?'<div style="display:inline-flex;padding:3px 10px;border-radius:12px;background:linear-gradient(135deg,rgba(77,184,122,0.2),rgba(77,184,122,0.05));border:1px solid rgba(77,184,122,0.3);color:var(--gr);font-size:10px;font-weight:700;margin-bottom:8px">🎁 '+p.trial+'</div><br>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:10px;color:var(--tx3)"><span>🔒 SSL</span><span>·</span><span>🛡️ Chiffré</span><span>·</span><span>✅ Remboursable 30j</span></div><button style="width:100%;margin-top:4px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'linear-gradient(135deg,#7C3AED,#2563EB)')+';color:#fff;font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':p.trial?'Essayer gratuitement 7 jours':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
 function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
@@ -3148,7 +2096,7 @@ function delIdea(idx) {
 }
 
 /**
- * RISE AI Engine - Local JavaScript AI without API dependency
+ * FORGE AI Engine - Local JavaScript AI without API dependency
  * Provides all AI features: quotes, daily plans, coaching, training, vision board, weekly reports, nutrition
  * Designed for French-speaking users, personalized by time of day, user data, and context
  */
@@ -5299,7 +4247,7 @@ function renderShareScreen(){
 
     '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\''+achievements+' achievements\',\'J\\\'ai débloqué '+achievements+' achievements sur FORGE! 🏅\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🏅</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Mes achievements</div><div style="font-size:12px;color:var(--tx3)">'+achievements+' badges débloqués</div></div><div style="font-size:18px">➤</div></div></div>'+
 
-    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'FORGE App\',\'Je progresse chaque jour avec FORGE — AI Life OS! Sport, mental, business, nutrition... tout en une app. 🚀\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">💬</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Recommander FORGE</div><div style="font-size:12px;color:var(--tx3)">Partage l\'app avec tes amis</div></div><div style="font-size:18px">➤</div></div></div>';
+    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'RISE App\',\'Je progresse chaque jour avec FORGE — AI Life OS! Sport, mental, business, nutrition... tout en une app. 🚀\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">💬</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Recommander FORGE</div><div style="font-size:12px;color:var(--tx3)">Partage l\'app avec tes amis</div></div><div style="font-size:18px">➤</div></div></div>';
 }
 
 // ── SUGGESTION BOX ──
@@ -6461,7 +5409,7 @@ function toggleZenMode(){
     
     // Footer
     ctx.fillStyle='#424b57';ctx.font='12px sans-serif';
-    ctx.fillText('forge.app · '+new Date().toLocaleDateString('fr-FR')+' · Généré avec FORGE AI Life OS',50,440);
+    ctx.fillText('rise.app · '+new Date().toLocaleDateString('fr-FR')+' · Généré avec RISE AI Life OS',50,440);
     ctx.fillStyle='#d4aa4a';ctx.font='bold 14px sans-serif';
     ctx.fillText('#FORGE #Growth #Discipline',50,465);
     
@@ -6933,7 +5881,7 @@ function toggleZenMode(){
   var gamesEl=document.getElementById('screen-games');
   if(gamesEl)gamesEl.style.display='';
   save();
-  console.log('✅ FORGE Session 7 loaded — 12 improvements active');
+  console.log('✅ FORGE loaded — 12 improvements active');
 })();
 
 // ══ END SESSION 6 ══
@@ -7130,7 +6078,7 @@ function toggleZenMode(){
 (function(){
   // Update manifest with full app store metadata
   var manifest={
-    name:"FORGE — AI Life OS",
+    name:"FORGE — Forge ta meilleure version",
     short_name:"FORGE",
     description:"Coach IA, habitudes, nature, fitness, business, langues. Ton système d'exploitation de vie.",
     start_url:"/",
@@ -7160,14 +6108,14 @@ function toggleZenMode(){
 // ── 9. SEO & OPEN GRAPH META TAGS ──
 (function(){
   var metas=[
-    {property:'og:title',content:'FORGE — AI Life OS'},
-    {property:'og:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec FORGE.'},
+    {property:'og:title',content:'FORGE — Forge ta meilleure version'},
+    {property:'og:description',content:'Coach IA, RPG, habitudes, nature, business. Forge ta meilleure version. 1% chaque jour.'},
     {property:'og:type',content:'website'},
     {property:'og:image',content:'https://rise.app/og-image.png'},
     {property:'og:url',content:'https://rise.app'},
     {name:'twitter:card',content:'summary_large_image'},
-    {name:'twitter:title',content:'FORGE — AI Life OS'},
-    {name:'twitter:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec FORGE.'},
+    {name:'twitter:title',content:'FORGE — Forge ta meilleure version'},
+    {name:'twitter:description',content:'Coach IA, RPG, habitudes, nature, business. Forge ta meilleure version. 1% chaque jour.'},
     {name:'robots',content:'index, follow'},
     {name:'author',content:'FORGE App'},
     {name:'application-name',content:'FORGE'},
@@ -7185,7 +6133,7 @@ function toggleZenMode(){
   var ld={
     "@context":"https://schema.org",
     "@type":"WebApplication",
-    "name":"FORGE — AI Life OS",
+    "name":"FORGE — Forge ta meilleure version",
     "description":"Plateforme tout-en-un propulsée par l'IA pour transformer ta vie.",
     "applicationCategory":"LifestyleApplication",
     "operatingSystem":"Web",
@@ -7294,7 +6242,7 @@ function toggleZenMode(){
     
     extra+='<div style="margin-top:14px">';
     extra+='<div class="lbl" style="margin-bottom:10px">À propos</div>';
-    extra+='<div class="wg" style="padding:14px"><div style="font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac);margin-bottom:4px">FORGE v9.6</div><div style="font-size:12px;color:var(--tx3);line-height:1.6">AI Life OS · Session 7 Production<br>35+ achievements · 8 thèmes · 30+ écrans<br>Mini-jeux · Command Palette · Smart Suggestions<br>PWA ready · Offline support</div></div>';
+    extra+='<div class="wg" style="padding:14px"><div style="font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac);margin-bottom:4px">FORGE v1.0</div><div style="font-size:12px;color:var(--tx3);line-height:1.6">Forge ta meilleure version · 1% chaque jour<br>RPG 8 attributs · 22+ achievements · 8 thèmes<br>Quêtes quotidiennes · Mini-jeux · Smart Suggestions<br>PWA ready · Offline support</div></div>';
     extra+='</div>';
     
     extra+='<div style="margin-top:14px;padding-bottom:20px">';
@@ -7491,7 +6439,7 @@ function toggleZenMode(){
     try{chkAchievements('periodic');}catch(e){}
   },120000); // Every 2 minutes
   
-  console.log('%c FORGE v9.7 — Production Ready ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:14px;padding:8px 16px;border-radius:4px');
+  console.log('%c FORGE v1.0 — Production Ready ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:14px;padding:8px 16px;border-radius:4px');
   console.log('%c 35+ achievements · 30+ screens · PWA · Offline · Accessible ','background:#111418;color:#8a9099;font-size:11px;padding:4px 8px');
 })();
 
@@ -8126,7 +7074,7 @@ function toggleZenMode(){
 
   function tryJarvisAPI(text, ctx){
     return new Promise(function(resolve, reject){
-      var jarvisSystem = 'Tu es JARVIS, l\'assistant IA personnel intégré dans FORGE APP. Tu es bienveillant, motivant, direct et concret. Tu tutoies. Tu utilises des emojis avec parcimonie. Tu donnes des conseils actionnables. Tu connais tout le contexte de l\'utilisateur. Maximum 200 mots par réponse.';
+      var jarvisSystem = 'Tu es JARVIS, l\'assistant IA personnel intégré dans FORGE. Tu es bienveillant, motivant, direct et concret. Tu tutoies. Tu utilises des emojis avec parcimonie. Tu donnes des conseils actionnables. Tu connais tout le contexte de l\'utilisateur. Maximum 200 mots par réponse.';
 
       fetch('/api/chat.js', {
         method: 'POST',
@@ -11592,8 +10540,8 @@ if(typeof save === 'function') {
 })();
 
 
-</script>
-<script>
+
+
 // ════════════════════════════════════════════════════════════════════════
 // FORGE APP — SESSION 11 MEGA UPDATE
 // Stoïcisme · Business Tools · Notes · Mémoire JARVIS · Sécurité · UX
@@ -13102,6 +12050,3 @@ try { save(); } catch(e){}
   }
 })();
 
-</script>
-</body>
-</html>
