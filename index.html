@@ -511,9 +511,9 @@ textarea.inp{resize:none}
   <div class="ob-step" id="ob-1">
     <div class="ob-form">
       <div class="ob-prog"><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Parle-nous de toi</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">FORGE personnalise ton expérience grâce à ces infos.</div>
-      <input class="inp" id="ob-name" placeholder="Ton prénom" maxlength="30" style="margin-bottom:10px">
+      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px" data-i18n="ob_step1_title">Parle-nous de toi</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px" data-i18n="ob_step1_desc">FORGE personnalise ton expérience grâce à ces infos.</div>
+      <input class="inp" id="ob-name" placeholder="Ton prénom" data-i18n-ph="ob_name_ph" maxlength="30" style="margin-bottom:10px">
       <div style="display:flex;gap:8px;margin-bottom:10px">
         <select class="inp" id="ob-sex" style="flex:1;color:var(--tx2)"><option value="" disabled selected>Genre</option><option value="male">👨 Homme</option><option value="female">👩 Femme</option><option value="other">🌟 Autre</option></select>
         <input class="inp" id="ob-age" type="number" min="13" max="99" placeholder="Âge" style="flex:0.6">
@@ -528,17 +528,17 @@ textarea.inp{resize:none}
   <div class="ob-step" id="ob-2">
     <div class="ob-form">
       <div class="ob-prog"><div class="ob-pd done"></div><div class="ob-pd cur"></div><div class="ob-pd"></div><div class="ob-pd"></div></div>
-      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px">Qu'est-ce que tu veux améliorer ?</div>
-      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px">Choisis tout ce qui t'intéresse. FORGE active les modules correspondants.</div>
+      <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:7px" data-i18n="ob_step2_title">Qu'est-ce que tu veux améliorer ?</div>
+      <div style="font-size:13px;color:var(--tx3);margin-bottom:20px" data-i18n="ob_step2_desc">Choisis tout ce qui t'intéresse. FORGE active les modules correspondants.</div>
       <div id="ob-goals">
-        <div class="ob-ch ms-ch" data-g="focus" onclick="togG(this,'focus')"><span style="font-size:22px">🎯</span><div><div style="font-size:14px;font-weight:600">Focus & Productivité</div><div style="font-size:11px;color:var(--tx3)">Tâches, Pomodoro, Deep Work, Kanban</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="wellbeing" onclick="togG(this,'wellbeing')"><span style="font-size:22px">🌿</span><div><div style="font-size:14px;font-weight:600">Bien-être & Nature</div><div style="font-size:11px;color:var(--tx3)">Marche, soleil, sommeil, respiration</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="health" onclick="togG(this,'health')"><span style="font-size:22px">💪</span><div><div style="font-size:14px;font-weight:600">Corps & Santé</div><div style="font-size:11px;color:var(--tx3)">Sport, nutrition, jeûne, énergie</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="grow" onclick="togG(this,'grow')"><span style="font-size:22px">🧠</span><div><div style="font-size:14px;font-weight:600">Apprendre & Grandir</div><div style="font-size:11px;color:var(--tx3)">Formations, livres, langues, compétences</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="money" onclick="togG(this,'money')"><span style="font-size:22px">💰</span><div><div style="font-size:14px;font-weight:600">Business & Argent</div><div style="font-size:11px;color:var(--tx3)">Revenus, OKR, CRM, projets, finances</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="social" onclick="togG(this,'social')"><span style="font-size:22px">❤️</span><div><div style="font-size:14px;font-weight:600">Relations & Social</div><div style="font-size:11px;color:var(--tx3)">Connexions, gratitude, communication</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="orga" onclick="togG(this,'orga')"><span style="font-size:22px">📅</span><div><div style="font-size:14px;font-weight:600">Organisation & Calendrier</div><div style="font-size:11px;color:var(--tx3)">Agenda, routines, projets, planning</div></div><div class="ob-chk"></div></div>
-        <div class="ob-ch ms-ch" data-g="all" onclick="togG(this,'all')"><span style="font-size:22px">⚡</span><div><div style="font-size:14px;font-weight:600">Tout — Mode Complet</div><div style="font-size:11px;color:var(--tx3)">Toutes les features actives dès le départ</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="focus" onclick="togG(this,'focus')"><span style="font-size:22px">🎯</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_focus">Focus & Productivité</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_focus_d">Tâches, Pomodoro, Deep Work, Kanban</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="wellbeing" onclick="togG(this,'wellbeing')"><span style="font-size:22px">🌿</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_wellbeing">Bien-être & Nature</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_wellbeing_d">Marche, soleil, sommeil, respiration</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="health" onclick="togG(this,'health')"><span style="font-size:22px">💪</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_health">Corps & Santé</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_health_d">Sport, nutrition, jeûne, énergie</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="grow" onclick="togG(this,'grow')"><span style="font-size:22px">🧠</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_grow">Apprendre & Grandir</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_grow_d">Formations, livres, langues, compétences</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="money" onclick="togG(this,'money')"><span style="font-size:22px">💰</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_money">Business & Argent</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_money_d">Revenus, OKR, CRM, projets, finances</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="social" onclick="togG(this,'social')"><span style="font-size:22px">❤️</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_social">Relations & Social</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_social_d">Connexions, gratitude, communication</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="orga" onclick="togG(this,'orga')"><span style="font-size:22px">📅</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_orga">Organisation & Calendrier</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_orga_d">Agenda, routines, projets, planning</div></div><div class="ob-chk"></div></div>
+        <div class="ob-ch ms-ch" data-g="all" onclick="togG(this,'all')"><span style="font-size:22px">⚡</span><div><div style="font-size:14px;font-weight:600" data-i18n="ob_goal_all">Tout — Mode Complet</div><div style="font-size:11px;color:var(--tx3)" data-i18n="ob_goal_all_d">Toutes les features actives dès le départ</div></div><div class="ob-chk"></div></div>
       </div>
       <div id="ob2-count" style="font-size:11px;color:var(--tx3);text-align:center;margin-bottom:10px">Sélectionne au moins 1 domaine</div>
       <div class="ob-foot"><button class="btn btn-ac" id="ob2n" onclick="obNext(3)" disabled>Continuer →</button><button class="btn btn-sf" onclick="obBack(1)">← Retour</button></div>
@@ -1164,7 +1164,41 @@ function getWK(){const d=new Date();d.setDate(d.getDate()-d.getDay());return d.t
 const WK=getWK();
 const SEASONS=[{n:1,name:'Fondations',col:'#d4aa4a'},{n:2,name:'Momentum',col:'#4db87a'},{n:3,name:'Maîtrise',col:'#4a9ed4'},{n:4,name:'Ascension',col:'#8b6de0'}];
 const BOSSES=[{name:'Boss Procrastination',hp:100,r:{xp:200,g:20}},{name:'Tyran du Sommeil',hp:400,r:{xp:180,g:18}},{name:'Démon Inactivité',hp:600,r:{xp:250,g:25}},{name:'Virus Distraction',hp:700,r:{xp:300,g:30}}];
-const QPOOL=[{id:'ci',ico:'📋',nm:'Check-in',target:1,type:'checkin',xp:40,g:3},{id:'t3',ico:'✅',nm:'3 tâches faites',target:3,type:'todos',xp:30,g:2},{id:'ch',ico:'🤖',nm:'Parler au coach',target:1,type:'chat',xp:20,g:2},{id:'po',ico:'⏱️',nm:'2 Pomodoros',target:2,type:'pomo',xp:35,g:3},{id:'wk',ico:'🚶',nm:'10min de marche',target:10,type:'walk',xp:30,g:3},{id:'su',ico:'☀️',nm:'15min de soleil',target:15,type:'sun',xp:25,g:2},{id:'br',ico:'💨',nm:'Session respiration',target:1,type:'breath',xp:20,g:2},{id:'fo',ico:'📚',nm:'Module formation',target:1,type:'form',xp:50,g:5}];
+const QPOOL=[
+// Core daily
+{id:'ci',ico:'📋',nm:'Check-in',target:1,type:'checkin',xp:40,g:3},
+{id:'t3',ico:'✅',nm:'3 tâches faites',target:3,type:'todos',xp:30,g:2},
+{id:'ch',ico:'🤖',nm:'Parler au coach',target:1,type:'chat',xp:20,g:2},
+{id:'po',ico:'⏱️',nm:'2 Pomodoros',target:2,type:'pomo',xp:35,g:3},
+// Nature
+{id:'wk',ico:'🚶',nm:'10min de marche',target:10,type:'walk',xp:30,g:3},
+{id:'su',ico:'☀️',nm:'15min de soleil',target:15,type:'sun',xp:25,g:2},
+{id:'br',ico:'💨',nm:'Session respiration',target:1,type:'breath',xp:20,g:2},
+// Learn
+{id:'fo',ico:'📚',nm:'Module formation',target:1,type:'form',xp:50,g:5},
+{id:'bk',ico:'📖',nm:'Lire 15 minutes',target:1,type:'read',xp:25,g:2},
+// Mind
+{id:'md',ico:'🧘',nm:'5min de méditation',target:1,type:'breath',xp:25,g:2},
+{id:'jr',ico:'📓',nm:'Écrire dans ton journal',target:1,type:'journal',xp:20,g:2},
+{id:'gr',ico:'🙏',nm:'3 gratitudes',target:1,type:'journal',xp:15,g:1},
+// Body
+{id:'wk2',ico:'💪',nm:'30 pompes',target:1,type:'workout',xp:30,g:3},
+{id:'sq',ico:'🦵',nm:'50 squats',target:1,type:'workout',xp:30,g:3},
+{id:'co',ico:'🧊',nm:'Douche froide 30s',target:1,type:'cold',xp:35,g:3},
+// Productivity
+{id:'t5',ico:'🎯',nm:'5 tâches faites',target:5,type:'todos',xp:50,g:4},
+{id:'po3',ico:'⏱️',nm:'3 Pomodoros',target:3,type:'pomo',xp:50,g:4},
+{id:'dw',ico:'🔇',nm:'1h Deep Work',target:1,type:'pomo',xp:40,g:3},
+// Social
+{id:'sh',ico:'📤',nm:'Partager un succès',target:1,type:'share',xp:20,g:2},
+// Business
+{id:'rv',ico:'💰',nm:'Ajouter un revenu',target:1,type:'revenue',xp:25,g:2},
+{id:'kn',ico:'📋',nm:'Avancer 1 carte Kanban',target:1,type:'kanban',xp:20,g:2},
+{id:'ok',ico:'🎯',nm:'Mettre à jour un OKR',target:1,type:'okr',xp:20,g:2},
+// Wellness
+{id:'sl',ico:'😴',nm:'8h de sommeil',target:1,type:'sleep',xp:25,g:2},
+{id:'wt',ico:'💧',nm:'8 verres d\'eau',target:8,type:'water',xp:20,g:2},
+];
 const FLASH=[{ico:'💪',title:'30 Pompes maintenant',desc:'Stop. 30 pompes. Reviens.',xp:80,g:8},{ico:'🚶',title:'20min dehors sans téléphone',desc:'Sors maintenant. 20 min.',xp:70,g:7},{ico:'💨',title:'5min cohérence cardiaque',desc:'5-5 maintenant.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'3 choses positives dans ta vie.',xp:40,g:4},{ico:'☀️',title:'5min de soleil',desc:'Sors. Lève la tête. 5 min.',xp:40,g:4},{ico:'🧊',title:'30sec eau froide',desc:'Finir la prochaine douche en froid.',xp:60,g:6},{ico:'🧘',title:'10min méditation',desc:'Silence. Yeux fermés. Respire.',xp:60,g:6}];
 const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'}];
 const BOOKS=[{ico:'🔥',t:'The 5 AM Club',a:'Robin Sharma',cat:'Mental',lvl:'Facile',p:450,sum:'Lever à 5h, routine 20-20-20. Transforme les matins, transforme ta vie.',key:'Le matin appartient à ceux qui se lèvent tôt. 66j pour ancrer une habitude.',act:'Demain: réveil 15 min plus tôt. Une seule fois.'},{ico:'🌊',t:'Atomic Habits',a:'James Clear',cat:'Mental',lvl:'Facile',p:320,sum:'1% par jour = +37x en 1 an. Systèmes, pas objectifs.',key:'Tu tombes au niveau de tes systèmes, pas au niveau de tes objectifs.',act:'Identifie 1 habitude. Ancre-la: après [X], je fais [Y].'},{ico:'🧠',t:'Deep Work',a:'Cal Newport',cat:'Mental',lvl:'Intermédiaire',p:296,sum:'Le focus intense est la super-puissance du 21e siècle. 4h deep work > 8h ordinaires.',key:'La distraction est le défaut, pas la règle. Reprends le contrôle.',act:'Planifie 1 bloc 90min deep work demain. Téléphone en mode avion.'},{ico:'💰',t:'Rich Dad Poor Dad',a:'Robert Kiyosaki',cat:'Finance',lvl:'Facile',p:207,sum:'Actifs vs passifs. Fais travailler l argent pour toi.',key:'Ta maison n est pas un actif. Un actif met de l argent dans ta poche.',act:'Liste tes actifs et passifs. Quel premier actif crées-tu ce mois-ci?'},{ico:'🚀',t:'Zero to One',a:'Peter Thiel',cat:'Business',lvl:'Intermédiaire',p:224,sum:'Créer quelque chose de nouveau > copier. Monopoles > compétition.',key:'La compétition détruit les profits. Vise un monopole sur un marché que tu crées.',act:'Quel problème résous-tu mieux que quiconque? C est là ton business.'},{ico:'🌿',t:'The Nature Fix',a:'Florence Williams',cat:'Nature',lvl:'Facile',p:280,sum:'60min nature/semaine réduit cortisol de 13%. La science du vert.',key:'20 min en nature baisse la tension. 90 min désactive la rumination.',act:'Sors 20 minutes aujourd hui. Pas de téléphone. 3 choses jamais remarquées.'},{ico:'😴',t:'Why We Sleep',a:'Matthew Walker',cat:'Santé',lvl:'Facile',p:368,sum:'Le sommeil est la fondation de tout: mémoire, immunité, créativité.',key:'Après 16h sans sommeil, tu es aussi altéré qu un conducteur ivre.',act:'Écrans off 1h avant dormir. Chambre 18 degrés. Blackout total.'},{ico:'💪',t:'Can t Hurt Me',a:'David Goggins',cat:'Mental',lvl:'Intense',p:364,sum:'L esprit abandonne à 40% des capacités réelles. Callusing the mind.',key:'Quand ton esprit dit stop, tu n as utilisé que 40% de tes capacités.',act:'Ta chose la plus difficile de la semaine. Fais-la en premier demain matin.'},{ico:'⚡',t:'The 4-Hour Work Week',a:'Tim Ferriss',cat:'Business',lvl:'Intermédiaire',p:308,sum:'80/20, délégation, automatisation. Ne remet pas les rêves à plus tard.',key:'Rien de vertueux à bosser 80h/semaine si le même résultat en 4h.',act:'Identifie 20% des activités = 80% des résultats. Coupe le reste.'},{ico:'🧘',t:'The Power of Now',a:'Eckhart Tolle',cat:'Spiritualité',lvl:'Profond',p:236,sum:'Le moment présent est tout ce qui existe vraiment. Conscience pure.',key:'Le moment présent est tout ce que tu auras jamais. Vis-y.',act:'5 min: observe ta respiration sans essayer de la changer.'},{ico:'❤️',t:'The 5 Love Languages',a:'Gary Chapman',cat:'Relations',lvl:'Facile',p:208,sum:'5 langages: mots, temps, cadeaux, services, toucher.',key:'Parler le mauvais langage, c est parler à quelqu un dans une langue incomprise.',act:'Identifie ton langage primaire. Puis celui des 3 personnes proches.'},{ico:'🌅',t:'Ikigai',a:'Garcia & Miralles',cat:'Spiritualité',lvl:'Facile',p:208,sum:'Raison d être japonaise: passion + mission + vocation + profession.',key:'L ikigai se révèle en s oubliant dans l action.',act:'Dessine tes 4 cercles. Qu est-ce qui est au centre aujourd hui?'}];
@@ -10274,6 +10308,20 @@ var FORGE_I18N = {
     day_of: 'Jour',
     milestone: 'Étape',
     // Toasts
+    // Onboarding
+    ob_step1_title: 'Parle-nous de toi', ob_step1_desc: 'FORGE personnalise ton expérience grâce à ces infos.',
+    ob_name_ph: 'Ton prénom',
+    ob_step2_title: 'Qu\'est-ce que tu veux améliorer ?', ob_step2_desc: 'Choisis tout ce qui t\'intéresse. FORGE active les modules correspondants.',
+    ob_goal_focus: 'Focus & Productivité', ob_goal_focus_d: 'Tâches, Pomodoro, Deep Work, Kanban',
+    ob_goal_wellbeing: 'Bien-être & Nature', ob_goal_wellbeing_d: 'Marche, soleil, sommeil, respiration',
+    ob_goal_health: 'Corps & Santé', ob_goal_health_d: 'Sport, nutrition, jeûne, énergie',
+    ob_goal_grow: 'Apprendre & Grandir', ob_goal_grow_d: 'Formations, livres, langues, compétences',
+    ob_goal_money: 'Business & Argent', ob_goal_money_d: 'Revenus, OKR, CRM, projets, finances',
+    ob_goal_social: 'Relations & Social', ob_goal_social_d: 'Connexions, gratitude, communication',
+    ob_goal_orga: 'Organisation & Calendrier', ob_goal_orga_d: 'Agenda, routines, projets, planning',
+    ob_goal_all: 'Tout — Mode Complet', ob_goal_all_d: 'Toutes les features actives dès le départ',
+    ob_continue: 'Continuer →', ob_back: '← Retour', ob_start: 'C\'est parti !',
+    // Toasts
     t_boss_defeated: 'BOSS VAINCU !',
     t_quest_done: 'Quête accomplie !',
     t_form_complete: 'FORMATION COMPLÈTE !',
@@ -10380,6 +10428,18 @@ var FORGE_I18N = {
     pace_check_too_little: 'It\'s quiet, add some ambition',
     day_of: 'Day',
     milestone: 'Milestone',
+    ob_step1_title: 'Tell us about yourself', ob_step1_desc: 'FORGE personalizes your experience with this info.',
+    ob_name_ph: 'Your first name',
+    ob_step2_title: 'What do you want to improve?', ob_step2_desc: 'Pick what interests you. FORGE activates the matching modules.',
+    ob_goal_focus: 'Focus & Productivity', ob_goal_focus_d: 'Tasks, Pomodoro, Deep Work, Kanban',
+    ob_goal_wellbeing: 'Well-being & Nature', ob_goal_wellbeing_d: 'Walking, sun, sleep, breathing',
+    ob_goal_health: 'Body & Health', ob_goal_health_d: 'Workout, nutrition, fasting, energy',
+    ob_goal_grow: 'Learn & Grow', ob_goal_grow_d: 'Courses, books, languages, skills',
+    ob_goal_money: 'Business & Money', ob_goal_money_d: 'Revenue, OKR, CRM, projects, finances',
+    ob_goal_social: 'Relationships & Social', ob_goal_social_d: 'Connections, gratitude, communication',
+    ob_goal_orga: 'Organization & Calendar', ob_goal_orga_d: 'Agenda, routines, projects, planning',
+    ob_goal_all: 'Everything — Full Mode', ob_goal_all_d: 'All features active from the start',
+    ob_continue: 'Continue →', ob_back: '← Back', ob_start: 'Let\'s go!',
     t_boss_defeated: 'BOSS DEFEATED!',
     t_quest_done: 'Quest complete!',
     t_form_complete: 'COURSE COMPLETE!',
@@ -11013,6 +11073,21 @@ function t(key) {
 
 // Initialize language in state
 if(!S.lang) { S.lang = userLang; }
+
+// Universal i18n applicator — translates all data-i18n and data-i18n-ph elements
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k=el.getAttribute('data-i18n');if(k){var v=t(k);if(v!==k)el.textContent=v;}
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
+    var k=el.getAttribute('data-i18n-ph');if(k){var v=t(k);if(v!==k)el.placeholder=v;}
+  });
+  document.querySelectorAll('.nav-lbl').forEach(function(el){
+    var k=el.getAttribute('data-key');if(k)el.textContent=t(k);
+  });
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyI18n);}
+else{applyI18n();}
 
 // ============================================================================
 // 3. PERSONALIZATION ENGINE
