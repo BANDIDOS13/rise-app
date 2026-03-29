@@ -176,6 +176,159 @@
 .sos-btn:active{transform:scale(.98)}
 @media(hover:hover){.sos-btn:hover{border-color:rgba(239,68,68,.4);background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(239,68,68,.06))}}
 
+/* ══════════════════════════════════════════ */
+/* LEADERBOARD — PODIUM & RANK ROWS         */
+/* ══════════════════════════════════════════ */
+
+.lb-rank-card{padding:20px;text-align:center;margin-bottom:16px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:var(--rl);position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(245,200,66,.25)}
+.lb-rank-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.15) 0%,transparent 60%);pointer-events:none}
+.lb-rank-card .lb-label{font-size:11px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:2px;font-weight:700}
+.lb-rank-card .lb-num{font-size:40px;font-weight:800;color:#fff;font-family:var(--fm);line-height:1.2}
+.lb-rank-card .lb-meta{font-size:12px;color:rgba(255,255,255,0.8)}
+
+.lb-row{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:var(--r);margin-bottom:4px;transition:all .2s var(--ease);border:1px solid transparent}
+.lb-row:hover{background:rgba(255,255,255,.02)}
+.lb-row.top3{background:rgba(245,200,66,.04)}
+.lb-row.me{background:var(--agg);border-color:var(--ac)}
+.lb-medal{font-size:14px;font-weight:700;width:28px;text-align:center;flex-shrink:0}
+.lb-medal.gold{color:var(--ac)}
+.lb-medal.muted{color:var(--tx3)}
+.lb-avi{font-size:22px;flex-shrink:0}
+.lb-info{flex:1;min-width:0}
+.lb-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-name.me{color:var(--ac)}
+.lb-style{font-size:10px;color:var(--tx3)}
+.lb-xp{text-align:right;flex-shrink:0}
+.lb-xp-val{font-size:14px;font-weight:700;font-family:var(--fm)}
+.lb-xp-label{font-size:9px;color:var(--tx3)}
+
+/* ══════════════════════════════════════════ */
+/* ACHIEVEMENTS — GRID WITH RARITY           */
+/* ══════════════════════════════════════════ */
+
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ach-card{padding:16px 12px;text-align:center;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);transition:all .3s var(--ease);position:relative;overflow:hidden}
+.ach-card.locked{opacity:.35;filter:grayscale(.6)}
+.ach-card.unlocked{opacity:1}
+.ach-card.unlocked::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--ac2))}
+@media(hover:hover){.ach-card.unlocked:hover{border-color:var(--bd2);transform:translateY(-2px);box-shadow:var(--shadow-m)}}
+.ach-card .ach-ico{font-size:32px;margin-bottom:6px;display:block}
+.ach-card .ach-nm{font-size:12px;font-weight:700;margin-top:4px}
+.ach-card .ach-desc{font-size:10px;color:var(--tx3);margin-top:2px;line-height:1.4}
+.ach-card .ach-xp{font-size:10px;color:var(--ac);margin-top:4px;font-family:var(--fm);font-weight:700}
+
+/* Achievement counter */
+.ach-counter{text-align:center;margin-bottom:20px;position:relative}
+.ach-counter .ach-count{font-size:32px;font-weight:800;font-family:var(--fm);background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.ach-counter .ach-total{font-size:13px;color:var(--tx3);margin-top:2px}
+
+/* ══════════════════════════════════════════ */
+/* DASHBOARD — STAT CARDS & CHARTS           */
+/* ══════════════════════════════════════════ */
+
+.dash-ring{padding:24px;text-align:center;margin-bottom:14px;position:relative}
+.dash-ring svg circle:last-of-type{filter:drop-shadow(0 0 6px rgba(245,200,66,.3))}
+
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
+.kpi-card{padding:14px 8px;text-align:center;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);transition:all .2s var(--ease)}
+.kpi-card:hover{border-color:var(--bd2)}
+.kpi-card .kpi-ico{font-size:22px;margin-bottom:4px}
+.kpi-card .kpi-val{font-family:var(--fm);font-weight:700;font-size:22px;line-height:1.2}
+.kpi-card .kpi-label{font-size:9px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+/* Chart containers */
+.chart-box{padding:16px;margin-bottom:16px;overflow-x:auto;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)}
+.chart-title{font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* Pie chart legend */
+.pie-legend{flex:1;display:flex;flex-direction:column;gap:8px}
+.pie-legend-item{display:flex;align-items:center;gap:8px}
+.pie-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.pie-legend-nm{font-size:12px;color:var(--tx2)}
+.pie-legend-val{margin-left:auto;font-size:12px;font-weight:700;font-family:var(--fm)}
+
+/* ══════════════════════════════════════════ */
+/* GUILDS — PREMIUM CARDS                    */
+/* ══════════════════════════════════════════ */
+
+.guild-card{padding:18px;margin-bottom:10px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);cursor:pointer;transition:all .25s var(--ease);position:relative;overflow:hidden}
+.guild-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--guild-color)}
+.guild-card:hover{border-color:var(--bd2);transform:translateX(4px);box-shadow:var(--shadow-s)}
+.guild-card .guild-row{display:flex;align-items:center;gap:14px}
+.guild-card .guild-ico{font-size:30px;flex-shrink:0}
+.guild-card .guild-nm{font-weight:700;font-size:14px}
+.guild-card .guild-focus{font-size:11px;color:var(--tx3);margin-top:2px}
+.guild-card .guild-desc{font-size:11px;color:var(--tx2);margin-top:4px;line-height:1.5}
+
+/* Active guild header */
+.guild-hero{padding:24px;text-align:center;margin-bottom:16px;background:var(--sf);border-radius:var(--rl);position:relative;overflow:hidden}
+.guild-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(var(--guild-rgb),0.1) 0%,transparent 60%);pointer-events:none}
+.guild-hero .guild-ico-lg{font-size:44px;margin-bottom:8px}
+.guild-hero .guild-nm-lg{font-family:var(--fd);font-weight:800;font-size:22px}
+.guild-hero .guild-stats{margin-top:14px;display:flex;justify-content:center;gap:24px}
+.guild-hero .guild-stat-val{font-size:20px;font-weight:700;font-family:var(--fm)}
+.guild-hero .guild-stat-label{font-size:10px;color:var(--tx3);margin-top:2px}
+
+/* Guild member row */
+.guild-member{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r);margin-bottom:4px;transition:background .15s}
+.guild-member:hover{background:rgba(255,255,255,.02)}
+.guild-member.me{background:var(--agg);border:1px solid var(--ac);border-radius:var(--r)}
+.guild-member .gm-avi{font-size:18px;flex-shrink:0}
+.guild-member .gm-name{font-size:13px;font-weight:600;flex:1}
+.guild-member .gm-xp{font-size:12px;font-weight:700;font-family:var(--fm);color:var(--tx3)}
+.guild-member.me .gm-xp{color:var(--ac)}
+
+/* ══════════════════════════════════════════ */
+/* SHOP — ITEM CARDS                         */
+/* ══════════════════════════════════════════ */
+
+.shop-item{padding:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);display:flex;align-items:center;gap:14px;transition:all .2s var(--ease);margin-bottom:8px}
+.shop-item:hover{border-color:var(--bd2)}
+.shop-item .shop-info{flex:1;min-width:0}
+.shop-item .shop-name{font-weight:700;font-size:14px}
+.shop-item .shop-desc{font-size:11px;color:var(--tx3);margin-top:2px}
+.shop-item .shop-owned{font-size:11px;color:var(--gr);font-weight:700}
+.shop-buy{padding:8px 16px;background:var(--agg);border:1px solid var(--ac);border-radius:var(--pill);font-size:12px;font-weight:700;color:var(--ac);transition:all .15s var(--ease);white-space:nowrap}
+.shop-buy:active{transform:scale(.95)}
+@media(hover:hover){.shop-buy:hover{background:var(--agg2);box-shadow:0 0 12px rgba(245,200,66,.15)}}
+
+/* ══════════════════════════════════════════ */
+/* PROFILE STATS — PREMIUM GRID              */
+/* ══════════════════════════════════════════ */
+
+.stat-card{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;text-align:center;transition:all .2s var(--ease)}
+.stat-card:hover{border-color:var(--bd2)}
+.stat-card .stat-val{font-family:var(--fm);font-weight:700;font-size:24px}
+.stat-card .stat-label{font-size:10px;color:var(--tx3);margin-top:4px;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+
+/* ══════════════════════════════════════════ */
+/* SHARE — SOCIAL CARDS                      */
+/* ══════════════════════════════════════════ */
+
+.share-item{padding:16px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;cursor:pointer;transition:all .2s var(--ease);display:flex;align-items:center;gap:14px}
+.share-item:active{transform:scale(.98)}
+@media(hover:hover){.share-item:hover{border-color:var(--bd2);transform:translateX(4px)}}
+.share-item .share-ico{font-size:28px;flex-shrink:0}
+.share-item .share-info{flex:1}
+.share-item .share-title{font-weight:600;font-size:13px}
+.share-item .share-meta{font-size:12px;color:var(--tx3);margin-top:2px}
+.share-item .share-arrow{font-size:16px;color:var(--tx3);flex-shrink:0}
+
+/* ══════════════════════════════════════════ */
+/* SCREEN HEADERS — CONSISTENT BACK NAV      */
+/* ══════════════════════════════════════════ */
+
+.screen-hdr{display:flex;align-items:center;margin-bottom:14px}
+.screen-hdr .back-btn{font-size:20px;color:var(--tx2);margin-right:10px;padding:4px;transition:all .15s var(--ease);border-radius:8px}
+.screen-hdr .back-btn:active{transform:scale(.85)}
+@media(hover:hover){.screen-hdr .back-btn:hover{color:var(--tx);background:var(--sf2)}}
+.screen-hdr .screen-title{font-family:var(--fd);font-weight:700;font-size:16px}
+
+/* Screen hero text */
+.screen-hero{margin-bottom:16px}
+.screen-hero .hero-title{font-family:var(--fd);font-weight:800;font-size:22px;letter-spacing:-.02em}
+.screen-hero .hero-desc{font-size:13px;color:var(--tx3);margin-top:4px;line-height:1.6}
+
 /* ── ACCESSIBILITY ── */
 *:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
 .btn:focus-visible{outline:2px solid var(--ac2);outline-offset:2px;box-shadow:0 0 0 4px var(--agg)}
@@ -961,9 +1114,8 @@ textarea.inp{resize:none}
 <!-- LEADERBOARD SCREEN -->
 <div class="screen" id="screen-leaderboard">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Classement</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Classement</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Bats les meilleurs joueurs chaque semaine</div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏆 Classement</div></div>
+    <div class="screen-hero"><div class="hero-title">🏆 Classement</div><div class="hero-desc">Bats les meilleurs joueurs chaque semaine</div></div>
     <div id="lb-c"></div>
   </div>
 </div>
@@ -971,9 +1123,8 @@ textarea.inp{resize:none}
 <!-- GUILD SCREEN -->
 <div class="screen" id="screen-guilds">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🤝 Guildes</div></div>
-    <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🤝 Guildes</div>
-    <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Rejoins une communauté, progresse ensemble</div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🤝 Guildes</div></div>
+    <div class="screen-hero"><div class="hero-title">🤝 Guildes</div><div class="hero-desc">Rejoins une communauté, progresse ensemble</div></div>
     <div id="guild-c"></div>
   </div>
 </div>
@@ -981,7 +1132,7 @@ textarea.inp{resize:none}
 <!-- SOCIAL SHARING SCREEN -->
 <div class="screen" id="screen-social">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📤 Partager</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">📤 Partager</div></div>
     <div id="share-c"></div>
   </div>
 </div>
@@ -989,7 +1140,7 @@ textarea.inp{resize:none}
 <!-- SUGGESTIONS SCREEN -->
 <div class="screen" id="screen-suggestions">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💡 Suggestions</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">💡 Suggestions</div></div>
     <div id="suggest-c"></div>
   </div>
 </div>
@@ -997,7 +1148,7 @@ textarea.inp{resize:none}
 <!-- WEEKLY CHALLENGES SCREEN -->
 <div class="screen" id="screen-weeklych">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏅 Défis hebdo</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏅 Défis hebdo</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏅 Défis hebdo</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">3 défis par semaine, récompenses exclusives</div>
     <div id="wch-c"></div>
@@ -1050,7 +1201,7 @@ textarea.inp{resize:none}
 <!-- WORKOUT TRACKER SCREEN -->
 <div class="screen" id="screen-workout">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏋️ Workout</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏋️ Workout</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏋️ Workout Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Log tes séances, suis ta progression</div>
     <div id="workout-c"></div>
@@ -1060,7 +1211,7 @@ textarea.inp{resize:none}
 <!-- MEAL PLANNER SCREEN -->
 <div class="screen" id="screen-meal">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🍽️ Plan Repas</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🍽️ Plan Repas</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🍽️ Meal Planner</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Plan repas hebdomadaire + liste de courses</div>
     <div id="meal-c"></div>
@@ -1070,7 +1221,7 @@ textarea.inp{resize:none}
 <!-- SLEEP TRACKER SCREEN -->
 <div class="screen" id="screen-sleep">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">😴 Sommeil</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">😴 Sommeil</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">😴 Sleep Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Optimise ton sommeil, optimise ta vie</div>
     <div id="sleep-c"></div>
@@ -1080,7 +1231,7 @@ textarea.inp{resize:none}
 <!-- JOURNAL SCREEN -->
 <div class="screen" id="screen-smartjournal">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📓 Journal</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">📓 Journal</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📖 Journal Intelligent</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Écris, réfléchis, progresse</div>
     <div id="smartjournal-c"></div>
@@ -1090,7 +1241,7 @@ textarea.inp{resize:none}
 <!-- BUDGET TRACKER SCREEN -->
 <div class="screen" id="screen-budget">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">💰 Budget</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">💰 Budget</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">💰 Budget Tracker</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Maîtrise tes finances, construis ta richesse</div>
     <div id="budget-c"></div>
@@ -1100,7 +1251,7 @@ textarea.inp{resize:none}
 <!-- ACHIEVEMENTS SCREEN -->
 <div class="screen" id="screen-achievements">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">🏆 Succès</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">🏆 Succès</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">🏆 Achievements</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Collectionne-les tous!</div>
     <div id="achiev-c"></div>
@@ -1110,7 +1261,7 @@ textarea.inp{resize:none}
 <!-- DASHBOARD SCREEN -->
 <div class="screen" id="screen-dash">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📊 Dashboard</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)">←</button><div class="screen-title">📊 Dashboard</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📊 Dashboard</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta progression en un coup d'oeil</div>
     <div id="dash-c"></div>
@@ -1119,7 +1270,7 @@ textarea.inp{resize:none}
 <!-- RISE RECAP (Weekly Summary) -->
 <div class="screen" id="screen-recap" style="display:none">
   <div style="padding:20px 16px">
-    <div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs('home',null)" aria-label="Retour">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">📋 RISE Recap</div></div>
+    <div class="screen-hdr"><button class="back-btn" onclick="gs('home',null)" aria-label="Retour">←</button><div class="screen-title">📋 RISE Recap</div></div>
     <div style="font-family:var(--fd);font-weight:800;font-size:22px;margin-bottom:4px">📋 Résumé Hebdo</div>
     <div style="font-size:13px;color:var(--tx3);margin-bottom:16px">Ta semaine en un coup d'oeil</div>
     <div id="recap-c"></div>
@@ -4747,11 +4898,11 @@ function renderAchievements(){
   if(!el)return;
   const unlocked=S.achievements||[];
   el.innerHTML=
-    '<div style="text-align:center;margin-bottom:16px"><div style="font-size:28px;font-weight:700;font-family:var(--fd)">'+unlocked.length+'/'+ACHIEVEMENTS.length+'</div><div style="font-size:12px;color:var(--tx3)">Achievements débloqués</div></div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
+    '<div class="ach-counter"><div class="ach-count">'+unlocked.length+'/'+ACHIEVEMENTS.length+'</div><div class="ach-total">Achievements débloqués</div></div>'+
+    '<div class="ach-grid">'+
     ACHIEVEMENTS.map(a=>{
       const done=unlocked.includes(a.id);
-      return '<div class="wg" style="padding:12px;text-align:center;opacity:'+(done?1:0.4)+';position:relative"><div style="font-size:28px">'+(done?a.ico:'🔒')+'</div><div style="font-size:12px;font-weight:700;margin-top:4px">'+(done?a.nm:'???')+'</div><div style="font-size:10px;color:var(--tx3)">'+a.desc+'</div>'+(done?'<div style="font-size:9px;color:var(--ac);margin-top:2px">+'+a.xp+' XP</div>':'')+'</div>';
+      return '<div class="ach-card '+(done?'unlocked':'locked')+'"><span class="ach-ico">'+(done?a.ico:'🔒')+'</span><div class="ach-nm">'+(done?a.nm:'???')+'</div><div class="ach-desc">'+a.desc+'</div>'+(done?'<div class="ach-xp">+'+a.xp+' XP</div>':'')+'</div>';
     }).join('')+
     '</div>';
 }
@@ -4830,38 +4981,38 @@ function renderDashboard(){
 
   el.innerHTML=
     // Level progress ring
-    '<div class="wg" style="padding:20px;text-align:center;margin-bottom:12px">'+
+    '<div class="wg dash-ring">'+
     '<div style="position:relative;display:inline-block;margin-bottom:8px">'+
-    '<svg width="100" height="100" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+ringR+'" fill="none" stroke="var(--sf3)" stroke-width="6"/><circle cx="50" cy="50" r="'+ringR+'" fill="none" stroke="var(--ac)" stroke-width="6" stroke-linecap="round" stroke-dasharray="'+ringC+'" stroke-dashoffset="'+ringOff+'" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.5s cubic-bezier(.16,1,.3,1)"><animate attributeName="stroke-dashoffset" from="'+ringC+'" to="'+ringOff+'" dur="1.2s" fill="freeze"/></circle><text x="50" y="46" text-anchor="middle" fill="var(--ac)" font-family="var(--fd)" font-weight="700" font-size="24">'+lvl+'</text><text x="50" y="62" text-anchor="middle" fill="var(--tx3)" font-size="9" font-weight="600">NIVEAU</text></svg>'+
+    '<svg width="110" height="110" viewBox="0 0 100 100"><circle cx="50" cy="50" r="'+ringR+'" fill="none" stroke="var(--sf3)" stroke-width="5"/><circle cx="50" cy="50" r="'+ringR+'" fill="none" stroke="var(--ac)" stroke-width="5" stroke-linecap="round" stroke-dasharray="'+ringC+'" stroke-dashoffset="'+ringOff+'" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.5s var(--ease)"><animate attributeName="stroke-dashoffset" from="'+ringC+'" to="'+ringOff+'" dur="1.2s" fill="freeze"/></circle><text x="50" y="44" text-anchor="middle" fill="var(--ac)" font-family="var(--fm)" font-weight="700" font-size="26">'+lvl+'</text><text x="50" y="62" text-anchor="middle" fill="var(--tx3)" font-size="9" font-weight="700" letter-spacing="2">NIVEAU</text></svg>'+
     '</div>'+
-    '<div style="font-size:13px;color:var(--tx2)">'+xp+' / '+nxtV+' XP · <span style="color:var(--ac)">'+pct+'%</span></div>'+
+    '<div style="font-size:13px;color:var(--tx2);font-family:var(--fm)">'+xp+' / '+nxtV+' XP · <span style="color:var(--ac)">'+pct+'%</span></div>'+
     '</div>'+
 
     // KPI cards
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">'+
-    '<div class="wg" style="padding:12px;text-align:center"><div style="font-size:22px">🔥</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--or)">'+streak+'</div><div style="font-size:9px;color:var(--tx3);font-weight:600">STREAK</div></div>'+
-    '<div class="wg" style="padding:12px;text-align:center"><div style="font-size:22px">⏱️</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--bl)">'+pomoMin+'</div><div style="font-size:9px;color:var(--tx3);font-weight:600">MIN POMO</div></div>'+
-    '<div class="wg" style="padding:12px;text-align:center"><div style="font-size:22px">🏆</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--pu)">'+achievements+'</div><div style="font-size:9px;color:var(--tx3);font-weight:600">SUCCÈS</div></div>'+
+    '<div class="kpi-grid">'+
+    '<div class="kpi-card"><div class="kpi-ico">🔥</div><div class="kpi-val" style="color:var(--or)">'+streak+'</div><div class="kpi-label">Streak</div></div>'+
+    '<div class="kpi-card"><div class="kpi-ico">⏱️</div><div class="kpi-val" style="color:var(--bl)">'+pomoMin+'</div><div class="kpi-label">Min Pomo</div></div>'+
+    '<div class="kpi-card"><div class="kpi-ico">🏆</div><div class="kpi-val" style="color:var(--pu)">'+achievements+'</div><div class="kpi-label">Succès</div></div>'+
     '</div>'+
 
     // XP per day chart
-    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📈 XP par jour (7 derniers jours)</div>'+
-    '<div class="wg" style="padding:16px;margin-bottom:16px;overflow-x:auto">'+
+    '<div class="chart-title">📈 XP par jour (7 derniers jours)</div>'+
+    '<div class="chart-box">'+
     '<svg width="'+chartW+'" height="'+(chartH+20)+'" viewBox="0 0 '+chartW+' '+(chartH+20)+'"><defs><linearGradient id="xpGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--ac2)"/><stop offset="100%" stop-color="var(--ac)"/></linearGradient></defs>'+bars+'</svg>'+
     '</div>'+
 
     // Activity distribution
-    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🎯 Répartition des activités</div>'+
-    '<div class="wg" style="padding:16px;margin-bottom:16px;display:flex;gap:16px;align-items:center">'+
+    '<div class="chart-title">🎯 Répartition des activités</div>'+
+    '<div class="chart-box" style="display:flex;gap:16px;align-items:center">'+
     '<svg width="130" height="130" viewBox="0 0 130 130">'+(totalAct>1?pieSlices:'<circle cx="65" cy="65" r="55" fill="var(--sf3)"/><text x="65" y="70" text-anchor="middle" fill="var(--tx3)" font-size="11">Pas de données</text>')+'</svg>'+
-    '<div style="flex:1">'+activities.map(a=>'<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><div style="width:10px;height:10px;border-radius:2px;background:'+a.color+';flex-shrink:0"></div><div style="font-size:11px;color:var(--tx2)">'+a.nm+'</div><div style="margin-left:auto;font-size:11px;font-weight:700">'+a.val+'</div></div>').join('')+'</div>'+
+    '<div class="pie-legend">'+activities.map(a=>'<div class="pie-legend-item"><div class="pie-legend-dot" style="background:'+a.color+'"></div><div class="pie-legend-nm">'+a.nm+'</div><div class="pie-legend-val">'+a.val+'</div></div>').join('')+'</div>'+
     '</div>'+
 
     // Achievements preview
-    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">🏆 Achievements ('+achievements+'/'+ACHIEVEMENTS.length+')</div>'+
-    '<div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px">'+
+    '<div class="chart-title">🏆 Achievements ('+achievements+'/'+ACHIEVEMENTS.length+')</div>'+
+    '<div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:8px">'+
     ACHIEVEMENTS.filter(a=>(S.achievements||[]).includes(a.id)).slice(-6).map(a=>
-      '<div style="min-width:60px;text-align:center;padding:8px;background:var(--sf2);border-radius:12px"><div style="font-size:24px">'+a.ico+'</div><div style="font-size:9px;font-weight:600;margin-top:2px">'+a.nm+'</div></div>'
+      '<div style="min-width:64px;text-align:center;padding:10px 8px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);flex-shrink:0"><div style="font-size:24px">'+a.ico+'</div><div style="font-size:9px;font-weight:700;margin-top:4px">'+a.nm+'</div></div>'
     ).join('')+
     (achievements===0?'<div style="color:var(--tx3);font-size:12px;padding:16px">Aucun achievement débloqué</div>':'')+
     '</div>'+
@@ -4981,11 +5132,11 @@ function renderLeaderboard(){
   const myRank=all.findIndex(a=>a.isMe)+1;
 
   el.innerHTML=
-    '<div class="wg" style="padding:16px;text-align:center;margin-bottom:16px;background:linear-gradient(135deg,var(--ac),var(--ac2))"><div style="font-size:11px;color:rgba(255,255,255,0.7)">TON CLASSEMENT</div><div style="font-size:36px;font-weight:800;color:#fff;font-family:var(--fd)">#'+myRank+'</div><div style="font-size:12px;color:rgba(255,255,255,0.8)">sur '+all.length+' joueurs · '+myWeekXP+' XP cette semaine</div></div>'+
-    '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:12px">🏆 Classement hebdomadaire</div>'+
+    '<div class="lb-rank-card"><div class="lb-label">TON CLASSEMENT</div><div class="lb-num">#'+myRank+'</div><div class="lb-meta">sur '+all.length+' joueurs · '+myWeekXP+' XP cette semaine</div></div>'+
+    '<div class="chart-title">🏆 Classement hebdomadaire</div>'+
     all.slice(0,10).map((p,i)=>{
       const medal=i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-      return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;margin-bottom:4px;background:'+(p.isMe?'var(--agg)':i<3?'rgba(255,215,0,0.05)':'transparent')+';border:'+(p.isMe?'1px solid var(--ac)':'1px solid transparent')+'"><div style="font-size:14px;font-weight:700;color:'+(i<3?'var(--ac)':'var(--tx3)')+';width:28px;text-align:center">'+(medal||(i+1))+'</div><div style="font-size:22px">'+p.avi+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700;color:'+(p.isMe?'var(--ac)':'var(--tx)')+'">'+p.nm+(p.isMe?' (toi)':'')+'</div><div style="font-size:10px;color:var(--tx3)">'+p.style+'</div></div><div style="text-align:right"><div style="font-size:14px;font-weight:700;font-family:var(--fd)">'+p.xp+'</div><div style="font-size:9px;color:var(--tx3)">XP/sem</div></div></div>';
+      return '<div class="lb-row'+(p.isMe?' me':i<3?' top3':'')+'"><div class="lb-medal'+(i<3?' gold':' muted')+'">'+(medal||(i+1))+'</div><div class="lb-avi">'+p.avi+'</div><div class="lb-info"><div class="lb-name'+(p.isMe?' me':'')+'">'+p.nm+(p.isMe?' (toi)':'')+'</div><div class="lb-style">'+p.style+'</div></div><div class="lb-xp"><div class="lb-xp-val">'+p.xp+'</div><div class="lb-xp-label">XP/sem</div></div></div>';
     }).join('');
 }
 
@@ -5014,16 +5165,16 @@ function renderGuildScreen(){
     const guildXP=members.reduce((a,m)=>a+m.base,0)+(S.xp||0);
 
     el.innerHTML=
-      '<div class="wg" style="padding:20px;text-align:center;margin-bottom:16px;border:2px solid '+g.color+'"><div style="font-size:40px">'+g.ico+'</div><div style="font-family:var(--fd);font-weight:800;font-size:20px;margin-top:8px;color:'+g.color+'">'+g.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-top:4px">'+g.desc+'</div><div style="margin-top:12px;display:flex;justify-content:center;gap:16px"><div><div style="font-size:18px;font-weight:700;font-family:var(--fd)">'+(members.length+1)+'</div><div style="font-size:10px;color:var(--tx3)">Membres</div></div><div><div style="font-size:18px;font-weight:700;font-family:var(--fd)">'+guildXP+'</div><div style="font-size:10px;color:var(--tx3)">XP total</div></div></div></div>'+
-      '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:8px">👥 Membres</div>'+
-      '<div style="margin-bottom:16px"><div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;background:var(--agg);border:1px solid var(--ac);margin-bottom:4px"><span style="font-size:18px">⭐</span><span style="font-weight:600;font-size:13px">'+(S.name||'Toi')+' (Toi)</span><span style="margin-left:auto;font-size:12px;font-weight:700">'+(S.xp||0)+' XP</span></div>'+
-      members.map(m=>'<div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;margin-bottom:4px"><span style="font-size:18px">'+m.avi+'</span><span style="font-size:13px">'+m.nm+'</span><span style="margin-left:auto;font-size:12px;color:var(--tx3)">'+m.base*4+' XP</span></div>').join('')+'</div>'+
-      '<button onclick="S.guild=null;save();renderGuildScreen()" style="width:100%;padding:12px;border-radius:12px;background:var(--c2);border:none;color:var(--tx3);font-size:13px;cursor:pointer">Quitter la guilde</button>';
+      '<div class="guild-hero" style="border:2px solid '+g.color+'"><div class="guild-ico-lg">'+g.ico+'</div><div class="guild-nm-lg" style="color:'+g.color+'">'+g.nm+'</div><div style="font-size:12px;color:var(--tx3);margin-top:4px">'+g.desc+'</div><div class="guild-stats"><div><div class="guild-stat-val">'+(members.length+1)+'</div><div class="guild-stat-label">Membres</div></div><div><div class="guild-stat-val">'+guildXP+'</div><div class="guild-stat-label">XP total</div></div></div></div>'+
+      '<div class="chart-title">👥 Membres</div>'+
+      '<div style="margin-bottom:16px"><div class="guild-member me"><span class="gm-avi">⭐</span><span class="gm-name">'+(S.name||'Toi')+' (Toi)</span><span class="gm-xp">'+(S.xp||0)+' XP</span></div>'+
+      members.map(m=>'<div class="guild-member"><span class="gm-avi">'+m.avi+'</span><span class="gm-name">'+m.nm+'</span><span class="gm-xp">'+m.base*4+' XP</span></div>').join('')+'</div>'+
+      '<button class="btn btn-sf" onclick="S.guild=null;save();renderGuildScreen()">Quitter la guilde</button>';
   }else{
     el.innerHTML=
-      '<div style="text-align:center;padding:16px 0;margin-bottom:16px"><div style="font-size:40px;margin-bottom:8px">🤝</div><div style="font-family:var(--fd);font-weight:700;font-size:18px">Rejoins une guilde</div><div style="font-size:13px;color:var(--tx3);margin-top:4px">Progresse avec une communauté qui te ressemble</div></div>'+
+      '<div style="text-align:center;padding:20px 0;margin-bottom:20px"><div style="font-size:44px;margin-bottom:10px">🤝</div><div style="font-family:var(--fd);font-weight:800;font-size:20px">Rejoins une guilde</div><div style="font-size:13px;color:var(--tx3);margin-top:6px;line-height:1.6">Progresse avec une communauté qui te ressemble</div></div>'+
       GUILDS.map(g=>
-        '<div class="wg" style="padding:16px;margin-bottom:10px;border-left:4px solid '+g.color+';cursor:pointer" onclick="joinGuild(\''+g.id+'\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">'+g.ico+'</div><div style="flex:1"><div style="font-weight:700;font-size:14px">'+g.nm+'</div><div style="font-size:11px;color:var(--tx3);margin-top:2px">'+g.focus+'</div><div style="font-size:11px;color:var(--tx2);margin-top:4px">'+g.desc+'</div></div></div></div>'
+        '<div class="guild-card" style="--guild-color:'+g.color+'" onclick="joinGuild(\''+g.id+'\')"><div class="guild-row"><div class="guild-ico">'+g.ico+'</div><div style="flex:1"><div class="guild-nm">'+g.nm+'</div><div class="guild-focus">'+g.focus+'</div><div class="guild-desc">'+g.desc+'</div></div></div></div>'
       ).join('');
   }
 }
@@ -12507,7 +12658,7 @@ function createScreen(id, title, ico, contentId){
   div.className = 'screen';
   div.id = 'screen-'+id;
   div.innerHTML = '<div style="padding:20px 16px">'
-    +'<div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs(\'home\',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">'+ico+' '+title+'</div></div>'
+    +'<div class="screen-hdr"><button class="back-btn" onclick="gs(\'home\',null)">←</button><div class="screen-title">'+ico+' '+title+'</div></div>'
     +'<div id="'+contentId+'"></div></div>';
   var screens = document.getElementById('main-screens');
   if(screens) screens.appendChild(div);
