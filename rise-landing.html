@@ -192,7 +192,21 @@ document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener
 // ── CTA BUTTONS: navigate to app ──
 function goToApp(){window.location.href='/index.html';}
 document.querySelector('.nav-cta').addEventListener('click',goToApp);
+document.querySelectorAll('.price-card').forEach(function(card){
+  var btn=card.querySelector('.btn');
+  if(!btn)return;
+  var h3=card.querySelector('h3');
+  var planName=(h3?h3.textContent:'').toLowerCase().trim();
+  if(planName==='premium'||planName==='elite'){
+    btn.addEventListener('click',function(){
+      window.location.href='/index.html?plan='+encodeURIComponent(planName);
+    });
+  } else {
+    btn.addEventListener('click',goToApp);
+  }
+});
 document.querySelectorAll('.btn-primary, .btn-secondary').forEach(function(btn){
+  if(btn.closest('.price-card'))return;
   var txt=(btn.textContent||'').toLowerCase();
   if(txt.indexOf('demo')!==-1||txt.indexOf('démo')!==-1){
     btn.addEventListener('click',function(){document.getElementById('jarvis').scrollIntoView({behavior:'smooth'});});

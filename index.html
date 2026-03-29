@@ -11197,10 +11197,18 @@ function enhanceOnboarding() {
     ob3.parentNode.insertBefore(astroDiv.firstChild, ob3);
   }
 
-  // Renumber ob-3 to ob-5 (theme)
+  // Renumber ob-3 to ob-5 (theme) — also fix navigation
   var ob3Renamed = document.getElementById('ob-3');
   if(ob3Renamed) {
     ob3Renamed.id = 'ob-5';
+    // Fix: update the "Continuer" button on ob-2 to go to ob-5 (was ob-3)
+    var ob2btn = document.getElementById('ob2n');
+    if(ob2btn) ob2btn.setAttribute('onclick', "obNext(5)");
+    // Fix: update the "Retour" button on ob-5 to go back to ob-2
+    var ob5Btns = ob3Renamed.querySelectorAll('button');
+    ob5Btns.forEach(function(b){
+      if(b.textContent.indexOf('Retour')!==-1) b.setAttribute('onclick', "obBack(2)");
+    });
   }
 
   // Update progress dots if they exist
