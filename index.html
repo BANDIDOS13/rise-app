@@ -572,11 +572,11 @@ textarea.inp{resize:none}
   <div class="chat-wrap">
     <div class="ch-hdr">
       <div class="coach-av">🤖<div class="coach-dot"></div></div>
-      <div><div style="font-family:var(--fd);font-weight:600;font-size:14px">Coach RISE</div><div style="font-size:11px;color:var(--gr)">En ligne · Apprend en continu</div></div>
+      <div><div style="font-family:var(--fd);font-weight:600;font-size:14px">JARVIS</div><div style="font-size:11px;color:var(--gr)">En ligne · T'observe et t'analyse</div></div>
       <div style="margin-left:auto;padding:4px 11px;background:var(--agg);border:1px solid var(--acm);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)" id="coach-lvl">LVL 1</div>
     </div>
     <div class="ch-modes">
-      <button class="ch-mode on" onclick="setM('coach',this)">🤖 Coach</button>
+      <button class="ch-mode on" onclick="setM('coach',this)">🤖 Mentor</button>
       <button class="ch-mode" onclick="setM('roleplay',this)">🎭 Roleplay</button>
       <button class="ch-mode" onclick="setM('debate',this)">⚡ Débat</button>
       <button class="ch-mode" onclick="setM('plan90',this)">📅 Plan 90j</button>
@@ -586,7 +586,7 @@ textarea.inp{resize:none}
     <div class="ch-msgs" id="ch-msgs"></div>
     <div class="ch-suggs" id="ch-suggs"></div>
     <div class="ch-inp">
-      <textarea class="ch-ta" id="ch-ta" rows="1" onkeydown="ck(event)" oninput="ar(this)" placeholder="Parle à ton coach..."></textarea>
+      <textarea class="ch-ta" id="ch-ta" rows="1" onkeydown="ck(event)" oninput="ar(this)" placeholder="Demande-moi n'importe quoi..."></textarea>
       <button class="ch-snd" id="ch-snd" onclick="sendMsg()">➤</button>
     </div>
   </div>
@@ -667,7 +667,7 @@ textarea.inp{resize:none}
       <button class="fbtn on" onclick="setNuTab('today',this)">📋 Aujourd'hui</button>
       <button class="fbtn" onclick="setNuTab('water',this)">💧 Eau</button>
       <button class="fbtn" onclick="setNuTab('fast',this)">⏰ Jeûne</button>
-      <button class="fbtn" onclick="setNuTab('coach',this)">🤖 Coach</button>
+      <button class="fbtn" onclick="setNuTab('coach',this)">🤖 JARVIS</button>
     </div>
     <div id="nutri-c"></div>
   </div>
@@ -888,7 +888,7 @@ textarea.inp{resize:none}
 <nav class="bnav" id="bnav" style="display:none">
   <button class="nb on" onclick="gs('home',this)"><span class="ni">🏠</span><span>Accueil</span></button>
   <button class="nb" onclick="gs('nature',this)"><span class="ni">🌿</span><span>Nature</span></button>
-  <button class="nb" onclick="gs('chat',this)"><span class="ni">🤖</span><span>Coach</span></button>
+  <button class="nb" onclick="gs('chat',this)"><span class="ni">🤖</span><span>JARVIS</span></button>
   <button class="nb" onclick="gs('disc',this)"><span class="ni">📚</span><span>Apprendre</span></button>
   <button class="nb" onclick="togglePlus(this)"><span class="ni">⊕</span><span>Plus</span></button>
 </nav>
@@ -910,7 +910,7 @@ textarea.inp{resize:none}
   <div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:6px">Tu n'es pas seul.</div>
   <div style="width:120px;height:120px;border-radius:50%;border:3px solid var(--pu);display:flex;align-items:center;justify-content:center;margin:20px auto;transition:transform 4s ease" id="sos-ring"><div style="text-align:center"><div style="font-size:28px">😮‍💨</div><div style="font-size:14px;color:var(--pu);font-weight:700;margin-top:5px" id="sos-lbl">INSPIRE</div></div></div>
   <div style="font-size:12px;color:var(--tx3);margin-bottom:16px" id="sos-tip">Pose une main sur ton ventre.</div>
-  <div style="display:flex;gap:8px"><button style="padding:10px 20px;background:var(--pud);border:1px solid var(--pu);border-radius:20px;color:var(--pu);font-size:12px;font-weight:700" onclick="closeSOS()">Je vais mieux ✓</button><button style="padding:10px 20px;background:var(--sf);border:1px solid var(--bd);border-radius:20px;color:var(--tx2);font-size:12px;font-weight:700" onclick="gs('chat',null);closeSOS()">Parler au coach</button></div>
+  <div style="display:flex;gap:8px"><button style="padding:10px 20px;background:var(--pud);border:1px solid var(--pu);border-radius:20px;color:var(--pu);font-size:12px;font-weight:700" onclick="closeSOS()">Je vais mieux ✓</button><button style="padding:10px 20px;background:var(--sf);border:1px solid var(--bd);border-radius:20px;color:var(--tx2);font-size:12px;font-weight:700" onclick="gs('chat',null);closeSOS()">Parler à JARVIS</button></div>
 </div>
 <div class="full-ov" id="ov-flash" style="z-index:1800">
   <div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:8px">⚡ DÉFI FLASH</div>
@@ -1176,10 +1176,10 @@ const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de sui
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
 function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée','📓',2000);save();if(nTab==='journal')renderNat();}
-function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
+function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es JARVIS, le mentor IA de RISE. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+(S.loginS?.streak||0)+'j. XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Bref. Action concrète.\n';}
 const CH_M={coach:{sys:'',ph:'Demande-moi n\'importe quoi...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision. Tu es l\'opposant — réaliste, pas complaisant.',ph:'Simule un entretien, un pitch, une négo...'},debate:{sys:'MODE DÉBAT: avocat du diable. Challenge chaque argument. Sois respectueux mais implacable.',ph:'Défends une idée. Je vais la tester.'},plan90:{sys:'MODE PLAN 90J: plan de transformation complet, mois par mois, avec jalons concrets.',ph:'Mon objectif à 90 jours : ...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre, 3 points clés, une action ce soir.',ph:'Trouve-moi le bon livre pour...'},nature_c:{sys:'MODE NATURE: expert bien-être par la nature. Marche, lumière, respiration, froid, sommeil.',ph:'Nature, sommeil, soleil, respiration...'}};
 let chatH=[],chatBusy=false;
-function setM(m,btn){S.chatMode=m;save();document.querySelectorAll('.ch-mode').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const ta=document.getElementById('ch-ta');if(ta)ta.placeholder=CH_M[m]?.ph||'Parle à ton coach...';}
+function setM(m,btn){S.chatMode=m;save();document.querySelectorAll('.ch-mode').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const ta=document.getElementById('ch-ta');if(ta)ta.placeholder=CH_M[m]?.ph||'Demande-moi n\'importe quoi...';}
 function initChat(){chatH=S.chatH||[];updCLvl();const msgs=document.getElementById('ch-msgs');msgs.innerHTML='';if(!chatH.length){const fm='Salut '+S.name+' ! 👋\n\nJe suis ton Coach RISE v9 — je m\'adapte à toi. Objectif: '+S.goal+'.\n\nModes dispo: Coach, Roleplay, Débat, Plan 90j, Livres IA, Coach nature.\n\nDe quoi as-tu besoin maintenant ?';addCMsg(fm,false);S.chatH=[{role:'assistant',content:fm}];save();}else chatH.forEach(m=>m.role==='assistant'?addCMsg(m.content,false):addUMsg(m.content,false));scrollChat();renderSuggs();}
 function updCLvl(){const n2=S.coachMem?.n||0;const lvl=n2<10?1:n2<25?2:n2<50?3:n2<100?4:5;const b=document.getElementById('coach-lvl');if(b)b.textContent='LVL '+lvl;}
 function addCMsg(txt,anim){const el=document.createElement('div');el.className='msg co'+(anim?' au':'');el.innerHTML='<div class="mbub">'+txt.replace(/\n/g,'<br>')+'</div><div class="mtime">'+pad(now.getHours())+':'+pad(now.getMinutes())+'</div>';document.getElementById('ch-msgs').appendChild(el);if(anim)scrollChat();}
@@ -2049,8 +2049,8 @@ const ALL_BADGES = [
   {id:'pomo5',ico:'⏱️',name:'Focus',cat:'Focus',desc:'5 pomodoros',check:()=>(S.pomoTot||0)>=5},
   {id:'pomo20',ico:'🎯',name:'Deep Work',cat:'Focus',desc:'20 pomodoros',check:()=>(S.pomoTot||0)>=20},
   // Coach
-  {id:'chat10',ico:'🤖',name:'Coaché',cat:'Coach',desc:'10 messages au coach',check:()=>(S.coachMem?.n||0)>=10},
-  {id:'chat50',ico:'🧠',name:'Mentor',cat:'Coach',desc:'50 messages',check:()=>(S.coachMem?.n||0)>=50},
+  {id:'chat10',ico:'🤖',name:'Dialogue',cat:'JARVIS',desc:'10 échanges avec JARVIS',check:()=>(S.coachMem?.n||0)>=10},
+  {id:'chat50',ico:'🧠',name:'Mentor',cat:'JARVIS',desc:'50 échanges avec JARVIS',check:()=>(S.coachMem?.n||0)>=50},
   // Langues
   {id:'lang1',ico:'🌍',name:'Polyglotte',cat:'Langues',desc:'10 mots appris',check:()=>Object.values(S.langProg||{}).some(p=>(p.done?.length||0)>=10)},
   // Nutrition
@@ -2344,11 +2344,11 @@ function renderShare() {
   var streak = S.streak||0;
   var xp = S.xp||0;
   var msgs = [
-    {id:'streak', ico:'🔥', title:'Mon streak', msg:'Je suis à '+streak+' jours de suite sur RISE ! Mon coach IA me pousse chaque jour. #RISE #Growth #Discipline', preview:'🔥 Streak '+streak+'j · LVL '+lvl+' · '+xp+' XP'},
+    {id:'streak', ico:'🔥', title:'Mon streak', msg:'Je suis à '+streak+' jours de suite sur RISE ! JARVIS me pousse chaque jour. #RISE #Growth #Discipline', preview:'🔥 Streak '+streak+'j · LVL '+lvl+' · '+xp+' XP'},
     {id:'level', ico:'⭐', title:'Mon niveau', msg:'Je viens de passer LVL '+lvl+' '+LVL_T[lvl-1]+' sur RISE ! '+xp+' XP accumulés. L\'app IA qui transforme ma vie. #RISE #PersonalDevelopment', preview:'⭐ LVL '+lvl+' '+LVL_T[lvl-1]+' · '+xp+' XP · Streak '+streak+'j'},
     {id:'boss', ico:'⚔️', title:'Boss vaincu', msg:'Je viens de vaincre un boss sur RISE ! L\'app gamifie le développement personnel. Incroyable. #RISE #Gamification', preview:'⚔️ Boss vaincu · LVL '+lvl+' · '+streak+'j de streak'},
     {id:'nature', ico:'🌿', title:'Nature du jour', msg:''+( S.nat&&S.nat.wMin>0?S.nat.wMin+' min de marche':'Dehors aujourd\'hui')+' grâce à RISE ! Mon coach nature IA me motive chaque jour. #RISE #Nature #Wellbeing', preview:'🌿 '+(S.nat&&S.nat.wMin>0?S.nat.wMin+'min marche':'Nature')+' · '+streak+'j streak'},
-    {id:'custom', ico:'✍️', title:'Message perso', msg:'Je transforme ma vie avec RISE — la plateforme IA tout-en-un. Coaching, nature, business, langues. 100% perso. #RISE', preview:'✍️ Mon message personnalisé'},
+    {id:'custom', ico:'✍️', title:'Message perso', msg:'Je transforme ma vie avec RISE — la plateforme IA tout-en-un. Mentor IA, nature, business, habitudes. 1% meilleur chaque jour. #RISE', preview:'✍️ Mon message personnalisé'},
   ];
   el.innerHTML = '<div style="background:radial-gradient(ellipse 80% 50% at 50% 30%,var(--agg) 0%,transparent 70%);border:1px solid var(--bd);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:14px">'
     +'<div style="font-size:44px;margin-bottom:8px">'+(av.ico||'⚡')+'</div>'
@@ -3233,7 +3233,7 @@ const RISE_AI = {
   // ============================================================================
   coachModes: {
     coach: {
-      systemPrompt: "Tu es Coach RISE v9, un mentor personnel bienveillant mais direct. Tu parles à {name}. Objectif: {goal}. Streak: {streak}j. XP: {xp}. Tutoiement toujours. Réponses courtes, actionables. Pas de blabla. Termine par une action concrète."
+      systemPrompt: "Tu es JARVIS, le mentor IA de RISE. Tu parles à {name}. Objectif: {goal}. Streak: {streak}j. XP: {xp}. Tu tutoies toujours. Tu es direct, bref, encourageant sans être condescendant. Chaque mot compte. Termine par une action concrète ou une question."
     },
     roleplay: {
       systemPrompt: "MODE ROLEPLAY: Simule la situation avec précision. Sois réaliste, un peu difficile, pédagogue. Dialogue naturel. Aide {name} à pratiquer et à apprendre."
@@ -4929,7 +4929,7 @@ function renderDashboard(){
   // Activity distribution pie chart (SVG)
   const activities=[
     {nm:'Check-ins',val:Object.keys(S.checkins||{}).length,color:'var(--ac)'},
-    {nm:'Coach',val:coachChats,color:'var(--pu)'},
+    {nm:'JARVIS',val:coachChats,color:'var(--pu)'},
     {nm:'Pomodoro',val:Math.floor(pomoMin/25),color:'var(--bl)'},
     {nm:'Nature',val:(S.nat?.walkLogs||[]).length+(S.nat?.sunLogs||[]).length,color:'var(--nt)'},
     {nm:'Sport',val:workouts,color:'var(--or)'}
@@ -5249,14 +5249,30 @@ function submitSuggestion(){
 
 // ── WEEKLY CHALLENGES ──
 const WEEKLY_CHALLENGES=[
-  {id:'wc-sport7',nm:'7 jours de sport',desc:'Fais au moins 1 séance de sport chaque jour cette semaine',ico:'💪',xp:200,type:'workout',target:7},
-  {id:'wc-journal5',nm:'Journal 5/7',desc:'Écris dans ton journal 5 jours cette semaine',ico:'📖',xp:150,type:'journal',target:5},
-  {id:'wc-sleep7',nm:'Sommeil parfait',desc:'Log ton sommeil 7 jours de suite',ico:'😴',xp:150,type:'sleep',target:7},
-  {id:'wc-coach10',nm:'Chatbot addict',desc:'Parle au coach 10 fois cette semaine',ico:'🧠',xp:100,type:'coach',target:10},
-  {id:'wc-nature5',nm:'Nature lover',desc:'5 sorties nature cette semaine',ico:'🌿',xp:150,type:'nature',target:5},
-  {id:'wc-budget10',nm:'Budget master',desc:'Track 10 dépenses cette semaine',ico:'💰',xp:120,type:'budget',target:10},
-  {id:'wc-xp500',nm:'XP Hunter',desc:'Gagne 500 XP cette semaine',ico:'⭐',xp:250,type:'xp',target:500},
-  {id:'wc-allrounder',nm:'All-rounder',desc:'Utilise 5 outils différents cette semaine',ico:'🏅',xp:200,type:'tools',target:5}
+  // ── CORPS ──
+  {id:'wc-sport7',nm:'7 Jours de Mouvement',desc:'Une séance par jour pendant 7 jours. Le corps ne négocie pas.',ico:'💪',xp:200,type:'workout',target:7},
+  {id:'wc-walk5',nm:'5 Marches',desc:'5 marches cette semaine. La créativité augmente de 60% après une marche.',ico:'🚶',xp:150,type:'walk',target:5},
+  {id:'wc-cold5',nm:'5 Douches Froides',desc:'5 jours d\'eau froide. L\'inconfort crée la résilience.',ico:'🧊',xp:180,type:'cold',target:5},
+  // ── ESPRIT ──
+  {id:'wc-journal5',nm:'5 Pages',desc:'Écris dans ton journal 5 jours cette semaine. Écrire, c\'est penser deux fois.',ico:'📖',xp:150,type:'journal',target:5},
+  {id:'wc-read50',nm:'50 Pages',desc:'Lis 50 pages cette semaine. 50 pages = 1 livre par mois au minimum.',ico:'📚',xp:150,type:'read',target:50},
+  {id:'wc-meditate5',nm:'5 Silences',desc:'5 sessions de méditation ou respiration. Le calme est un super-pouvoir.',ico:'🧘',xp:130,type:'breath',target:5},
+  // ── PRODUCTIVITÉ ──
+  {id:'wc-pomo10',nm:'10 Sprints',desc:'10 sessions Pomodoro cette semaine. Le deep work change les résultats.',ico:'⏱️',xp:200,type:'pomo',target:10},
+  {id:'wc-xp500',nm:'500 XP',desc:'Accumule 500 XP cette semaine. Chaque action compte.',ico:'⭐',xp:250,type:'xp',target:500},
+  {id:'wc-allhabits3',nm:'3 Jours Parfaits',desc:'Complète toutes tes habitudes 3 jours cette semaine.',ico:'💯',xp:250,type:'allhabits',target:3},
+  // ── JARVIS ──
+  {id:'wc-coach10',nm:'10 Échanges',desc:'Parle à JARVIS 10 fois cette semaine. Plus tu demandes, plus il t\'aide.',ico:'🧠',xp:100,type:'coach',target:10},
+  // ── NATURE ──
+  {id:'wc-nature5',nm:'5 Sorties',desc:'5 contacts avec la nature cette semaine. 60 min/semaine réduit le cortisol de 13%.',ico:'🌿',xp:150,type:'nature',target:5},
+  {id:'wc-sun5',nm:'5 Doses de Lumière',desc:'15 min de soleil 5 jours. Ton horloge biologique te remerciera.',ico:'☀️',xp:120,type:'sun',target:5},
+  // ── FINANCES ──
+  {id:'wc-budget10',nm:'10 Écritures',desc:'Track 10 dépenses cette semaine. Ce qui est mesuré s\'améliore.',ico:'💰',xp:120,type:'budget',target:10},
+  // ── SOMMEIL ──
+  {id:'wc-sleep7',nm:'7 Nuits Trackées',desc:'Log ton sommeil chaque soir. La performance commence sur l\'oreiller.',ico:'😴',xp:150,type:'sleep',target:7},
+  // ── GLOBAL ──
+  {id:'wc-allrounder',nm:'Polymathes',desc:'Utilise 5 outils RISE différents cette semaine. Tu ne choisis pas un domaine — tu évolues partout.',ico:'🏅',xp:200,type:'tools',target:5},
+  {id:'wc-streak7',nm:'Semaine Complète',desc:'Connecte-toi 7 jours d\'affilée. La régularité bat le talent.',ico:'🔥',xp:180,type:'streak',target:7}
 ];
 
 function initWeeklyChallenges(){
@@ -5842,21 +5858,21 @@ function initRecap(){
   // Week XP estimate
   const weekXP=Math.min(xp,streak*35+checkinCount*30+coachN*3+pomoMin);
 
-  // Encouragement based on activity
+  // JARVIS narrative + chapter title
   const msgs=[
-    {min:0,msg:'Chaque grand voyage commence par un premier pas. Cette semaine, fais ce premier pas. 🚶'},
-    {min:50,msg:'Tu es en mouvement ! Continue sur cette lancée. La constance bat tout. 💪'},
-    {min:150,msg:'Impressionnant ' +name+ ' ! Tu es dans le top 20% des utilisateurs RISE cette semaine. 🔥'},
-    {min:300,msg:'WARRIOR ! Tu écrases tout. Ta discipline inspire. Tu es en route vers la légende. ⚡'},
-    {min:500,msg:'LÉGENDAIRE. '+name+', tu es l\'élite. Continue, le monde n\'est pas prêt pour toi. 👑'}
+    {min:0,msg:name+', la semaine a été calme. Ce n\'est pas un jugement — c\'est une observation. Une seule action demain suffit pour relancer.',chapter:'Le Calme Avant'},
+    {min:50,msg:'Tu as bougé cette semaine. Pas autant que tu pourrais, mais plus qu\'avant. Le mouvement est là.',chapter:'Les Premiers Signes'},
+    {min:150,msg:name+', semaine solide. Ton domaine fort se dessine. JARVIS ajuste les challenges pour la suite.',chapter:'Le Rythme Se Trouve'},
+    {min:300,msg:'Semaine impressionnante, '+name+'. La discipline que tu montres n\'est pas normale. C\'est exactement ce qu\'il faut.',chapter:'L\'Accélération'},
+    {min:500,msg:name+'. Cette semaine restera dans les données. Tu es dans le top 1% de tes propres performances. Continue.',chapter:'La Semaine Référence'}
   ];
-  let encouragement=msgs[0].msg;
-  for(const m of msgs){if(weekXP>=m.min)encouragement=m.msg;}
+  let encouragement=msgs[0].msg;let chapterTitle=msgs[0].chapter;
+  for(const m of msgs){if(weekXP>=m.min){encouragement=m.msg;chapterTitle=m.chapter;}}
 
   // Tools used
   const tools=[];
   if(checkinCount>0)tools.push({ico:'📋',nm:'Check-in',count:checkinCount});
-  if(coachN>0)tools.push({ico:'🤖',nm:'Coach IA',count:coachN});
+  if(coachN>0)tools.push({ico:'🤖',nm:'JARVIS',count:coachN});
   if(pomoMin>0)tools.push({ico:'⏱️',nm:'Pomodoro',count:Math.floor(pomoMin/25)+' sessions'});
   if((S.nat?.walkLogs||[]).length>0)tools.push({ico:'🚶',nm:'Marche',count:(S.nat.walkLogs||[]).length});
   if(formDone>0)tools.push({ico:'📚',nm:'Formations',count:formDone+' complètes'});
@@ -5867,7 +5883,8 @@ function initRecap(){
     '<div class="wg" style="padding:24px;text-align:center;background:linear-gradient(135deg,var(--acm),var(--sf));border-color:var(--ac);margin-bottom:16px">'+
     '<div style="font-size:48px;margin-bottom:8px">📋</div>'+
     '<div style="font-family:var(--fd);font-weight:800;font-size:22px;color:var(--ac);margin-bottom:4px">RISE RECAP</div>'+
-    '<div style="font-size:13px;color:var(--tx2)">Semaine du '+new Date(new Date().setDate(new Date().getDate()-new Date().getDay())).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+'</div>'+
+    '<div style="font-size:14px;color:var(--tx);font-style:italic;margin-bottom:4px">"'+chapterTitle+'"</div>'+
+    '<div style="font-size:12px;color:var(--tx3)">Semaine du '+new Date(new Date().setDate(new Date().getDate()-new Date().getDay())).toLocaleDateString('fr-FR',{day:'numeric',month:'long'})+'</div>'+
     '</div>'+
 
     // XP this week
@@ -5881,7 +5898,7 @@ function initRecap(){
     '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'+
     '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">🔥</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+streak+'</div><div style="font-size:10px;color:var(--tx3)">jours de streak</div></div>'+
     '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">📋</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+checkinCount+'</div><div style="font-size:10px;color:var(--tx3)">check-ins total</div></div>'+
-    '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">🤖</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+coachN+'</div><div style="font-size:10px;color:var(--tx3)">messages coach</div></div>'+
+    '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">🤖</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+coachN+'</div><div style="font-size:10px;color:var(--tx3)">échanges JARVIS</div></div>'+
     '<div class="wg" style="padding:14px;text-align:center"><div style="font-size:24px">⏱️</div><div style="font-family:var(--fd);font-weight:700;font-size:22px">'+pomoMin+'</div><div style="font-size:10px;color:var(--tx3)">min pomodoro</div></div>'+
     '</div>'+
 
@@ -5894,7 +5911,7 @@ function initRecap(){
 
     // Encouragement
     '<div class="wg" style="padding:20px;border-color:var(--ac);background:var(--agg);margin-bottom:16px">'+
-    '<div style="font-size:11px;color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">💬 Message pour toi</div>'+
+    '<div style="font-size:11px;color:var(--ac);font-weight:700;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">🤖 JARVIS dit</div>'+
     '<div style="font-size:14px;color:var(--tx);line-height:1.6;font-style:italic">'+encouragement+'</div>'+
     '</div>'+
 
@@ -5905,7 +5922,7 @@ function initRecap(){
     '1. Maintenir le streak à '+(streak+7)+' jours<br>'+
     '2. Compléter au moins 3 check-ins<br>'+
     '3. '+(pomoMin<60?'Faire 3 sessions Pomodoro':'Dépasser '+(pomoMin+30)+' min de focus')+' <br>'+
-    '4. '+(coachN<5?'Demander 3 conseils au coach':'Explorer un nouveau sujet avec le coach')+'<br>'+
+    '4. '+(coachN<5?'Demander 3 conseils à JARVIS':'Explorer un nouveau sujet avec JARVIS')+'<br>'+
     '</div></div>'+
 
     '<button class="btn btn-ac" onclick="gs(\'home\',null)">Retour à l\'accueil 🚀</button>';
@@ -6246,7 +6263,7 @@ function toggleZenMode(){
     // Most used feature
     var features=[
       {nm:'Check-in',val:totalCheckins},
-      {nm:'Coach IA',val:coachMsgs},
+      {nm:'JARVIS',val:coachMsgs},
       {nm:'Pomodoro',val:pomoSessions},
       {nm:'Journal',val:journalEntries},
       {nm:'Habitudes',val:habitsCompleted}
@@ -6660,7 +6677,7 @@ function toggleZenMode(){
   var CMD_ITEMS=[
     {ico:'🏠',name:'Accueil',hint:'Dashboard principal',action:function(){gs('home',null);}},
     {ico:'🌿',name:'Nature',hint:'Marche, soleil, respiration',action:function(){gs('nature',null);}},
-    {ico:'🤖',name:'Coach IA',hint:'Parler au coach',action:function(){gs('chat',null);}},
+    {ico:'🤖',name:'JARVIS',hint:'Parler à JARVIS',action:function(){gs('chat',null);}},
     {ico:'📚',name:'Apprendre',hint:'Formations & livres',action:function(){gs('disc',null);}},
     {ico:'⚡',name:'Habitudes',hint:'Tracker quotidien',action:function(){gs('habits',null);}},
     {ico:'📝',name:'Journal',hint:'Journal intime & gratitude',action:function(){gs('journal',null);}},
@@ -7040,7 +7057,7 @@ function toggleZenMode(){
   var manifest={
     name:"RISE — AI Life OS",
     short_name:"RISE",
-    description:"Coach IA, habitudes, nature, fitness, business, langues. Ton système d'exploitation de vie.",
+    description:"Mentor IA, habitudes, nature, fitness, business. Deviens 1% meilleur chaque jour.",
     start_url:"/",
     display:"standalone",
     background_color:"#07080a",
@@ -7069,13 +7086,13 @@ function toggleZenMode(){
 (function(){
   var metas=[
     {property:'og:title',content:'RISE — AI Life OS'},
-    {property:'og:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec RISE.'},
+    {property:'og:description',content:'JARVIS, ton mentor IA. Habitudes, nature, fitness, business. Deviens 1% meilleur chaque jour.'},
     {property:'og:type',content:'website'},
     {property:'og:image',content:'https://rise.app/og-image.png'},
     {property:'og:url',content:'https://rise.app'},
     {name:'twitter:card',content:'summary_large_image'},
     {name:'twitter:title',content:'RISE — AI Life OS'},
-    {name:'twitter:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec RISE.'},
+    {name:'twitter:description',content:'JARVIS, ton mentor IA. Habitudes, nature, fitness, business. Deviens 1% meilleur chaque jour.'},
     {name:'robots',content:'index, follow'},
     {name:'author',content:'RISE App'},
     {name:'application-name',content:'RISE'},
@@ -7547,7 +7564,7 @@ window.EMAIL_SEQUENCE=[
   gs=function(name,btn){
     _origGs5(name,btn);
     var screenNames={
-      home:'Accueil',nature:'Nature',chat:'Coach IA',disc:'Apprendre',
+      home:'Accueil',nature:'Nature',chat:'JARVIS',disc:'Apprendre',
       habits:'Habitudes',journal:'Journal',mood:'Humeur',dash:'Dashboard',
       achievements:'Succès',games:'Mini-Jeux',workout:'Workout',
       meal:'Repas',sleep:'Sommeil',budget:'Budget',pomo:'Pomodoro',
@@ -8207,7 +8224,7 @@ window.EMAIL_SEQUENCE=[
       if(typ) typ.remove();
       // Local fallback
       var reply = '';
-      try { reply = RISE_AI.processCoachInput(text, 'coach'); } catch(e){ reply = 'Je suis là pour toi! Reformule ta question et je ferai de mon mieux.'; }
+      try { reply = RISE_AI.processCoachInput(text, 'coach'); } catch(e){ reply = 'Quelque chose s\'est mal passé. Reformule ta question — je réessaie.'; }
       addJarvisMsg('jarvis', reply);
       jarvisBusy = false;
       updateJarvisSuggestions();
