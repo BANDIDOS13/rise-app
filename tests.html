@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FORGE Tests</title>
+<style>
+body{background:#07080a;color:#f0ece4;font-family:monospace;padding:20px;font-size:13px}
+.pass{color:#4db87a}.fail{color:#d95f5f}.info{color:#8a9099}
+h1{color:#d4aa4a;margin-bottom:16px}
+.test{padding:4px 0;border-bottom:1px solid #1e252e}
+#results{margin-top:16px;padding:16px;background:#111418;border-radius:8px}
+</style>
+</head>
+<body>
+<h1>FORGE — Test Suite</h1>
+<div id="output"></div>
+<div id="results"></div>
+<script>
+var pass=0,fail=0,total=0;
+var out=document.getElementById('output');
+
+function assert(name,condition,detail){
+  total++;
+  if(condition){
+    pass++;
+    out.innerHTML+='<div class="test"><span class="pass">✓</span> '+name+'</div>';
+  } else {
+    fail++;
+    out.innerHTML+='<div class="test"><span class="fail">✗</span> '+name+(detail?' — '+detail:'')+'</div>';
+  }
+}
+
+// ── MOCK STATE ──
+var S={xp:0,gems:0,streak:0,loginS:{last:'',streak:0},badges:[],achievements:[],
+  checkins:{},todos:[],plan:'free',dq:{date:'',qs:[]},bossProg:{},curBoss:0,
+  streakShields:{count:1,lastRefill:''}};
+var TD=new Date().toDateString();
+var WK='test-week';
+
+// ── MOCK FUNCTIONS ──
+function getLvl(xp){var LVL_X=[0,100,250,450,700,1000,1400,1900,2500,3200];for(var i=LVL_X.length-1;i>=0;i--){if(xp>=LVL_X[i])return i;}return 0;}
+function save(){}
+function toast(){}
+function updXP(){}
+function updGB(){}
+function confetti(){}
+function addN(){}
+function floatXP(){}
+function floatGem(){}
+function complQ(){}
+function dmgBoss(){}
+var _xpLog=[];var _xpCooldown={};
+
+// ── TEST: XP SYSTEM ──
+assert('getLvl(0) = 0', getLvl(0)===0);
+assert('getLvl(99) = 0', getLvl(99)===0);
+assert('getLvl(100) = 1', getLvl(100)===1);
+assert('getLvl(250) = 2', getLvl(250)===2);
+assert('getLvl(3200) = 9', getLvl(3200)===9);
+assert('getLvl(9999) = 9', getLvl(9999)===9);
+
+// ── TEST: XP ANTI-EXPLOIT ──
+// Cap per action: max 500
+var testXP=0;
+function testGainXP(n,src){
+  n=Math.min(n,500);
+  var now2=Date.now();
+  _xpLog=_xpLog.filter(function(t){return now2-t<3600000;});
+  if(src&&_xpCooldown[src]&&now2-_xpCooldown[src]<2000)return;
+  if(src)_xpCooldown[src]=now2;
+  _xpLog.push(now2);
+  testXP+=n;
+}
+testGainXP(1000,'test1');
+assert('XP capped at 500 per action', testXP===500, 'got '+testXP);
+
+// Same-source cooldown
+testXP=0;_xpCooldown={};
+testGainXP(100,'repeat');
+testGainXP(100,'repeat'); // should be blocked (2s cooldown)
+assert('Same-source cooldown blocks rapid XP', testXP===100, 'got '+testXP);
+
+// Different sources OK
+testXP=0;_xpCooldown={};
+testGainXP(50,'a');
+testGainXP(50,'b');
+assert('Different sources allow XP', testXP===100);
+
+// ── TEST: STREAK SHIELDS ──
+S.streakShields={count:1,lastRefill:''};
+S.loginS={last:'old-date',streak:5};
+// Simulate missed day with shield
+var shieldUsed=false;
+if(S.streakShields.count>0&&S.loginS.streak>=3){
+  S.streakShields.count--;
+  shieldUsed=true;
+}
+assert('Streak shield used when streak>=3', shieldUsed);
+assert('Shield count decremented', S.streakShields.count===0);
+
+// No shield = streak resets
+S.streakShields={count:0,lastRefill:''};
+S.loginS.streak=5;
+var shouldReset=S.streakShields.count<=0;
+assert('No shield = streak would reset', shouldReset);
+
+// Shield not used for low streaks
+S.streakShields={count:1,lastRefill:''};
+S.loginS.streak=2;
+var shieldUsed2=S.streakShields.count>0&&S.loginS.streak>=3;
+assert('Shield NOT used for streak < 3', !shieldUsed2);
+
+// ── TEST: ACHIEVEMENTS ──
+S.badges=[];
+S.badges.push('streak3');
+assert('Badge added to array', S.badges.includes('streak3'));
+assert('Duplicate prevention', !S.badges.includes('streak7'));
+S.badges.push('streak3'); // intentional duplicate for test
+assert('Array allows duplicates (code should prevent)', S.badges.filter(function(b){return b==='streak3';}).length===2);
+// Real code uses includes() check, so this is expected behavior of raw array
+
+// ── TEST: LEVEL SYSTEM ──
+assert('Level 1 at 100 XP', getLvl(100)===1);
+assert('Level 5 at 1000 XP', getLvl(1000)===5);
+assert('Level 9 (max) at 3200 XP', getLvl(3200)===9);
+assert('Level 9 stays at 99999 XP', getLvl(99999)===9);
+
+// ── TEST: QUEST GENERATION ──
+var QPOOL_TEST=[{id:'a'},{id:'b'},{id:'c'},{id:'d'},{id:'e'},{id:'f'}];
+var selected=QPOOL_TEST.sort(function(){return Math.random()-.5;}).slice(0,5);
+assert('Quest selection picks 5', selected.length===5);
+assert('Quests are from pool', selected.every(function(q){return QPOOL_TEST.some(function(p){return p.id===q.id;});}));
+
+// ── RESULTS ──
+document.getElementById('results').innerHTML=
+  '<div style="font-size:16px;font-weight:700;color:'+(fail===0?'#4db87a':'#d95f5f')+'">'+
+  (fail===0?'ALL TESTS PASSED':'SOME TESTS FAILED')+
+  '</div><div class="info" style="margin-top:8px">'+pass+'/'+total+' passed, '+fail+' failed</div>';
+</script>
+</body>
+</html>

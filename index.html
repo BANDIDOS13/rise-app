@@ -6,12 +6,16 @@
 <title>FORGE — Forge ta meilleure version</title>
 <meta name="description" content="FORGE — Forge ta meilleure version. 1% chaque jour. Coach IA, habitudes, nature, business, gamification.">
 <meta name="theme-color" content="#07080a">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22FORGE%20%E2%80%94%20Forge%20ta%20meilleure%20version%22%2C%22short_name%22%3A%22FORGE%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307080a%22%2C%22theme_color%22%3A%22%2307080a%22%2C%22orientation%22%3A%22portrait%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520512%2520512%27%253E%253Crect%2520fill%3D%27%252307080a%27%2520width%3D%27512%27%2520height%3D%27512%27%2520rx%3D%2796%27%2F%253E%253Ctext%2520x%3D%2750%2525%27%2520y%3D%2754%2525%27%2520text-anchor%3D%27middle%27%2520font-size%3D%27280%27%2520fill%3D%27%2523d4aa4a%27%253E%25F0%259F%259A%2580%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+<link rel="manifest" href="/manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FORGE">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%2307080a' width='180' height='180' rx='40'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='100' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+<link rel="apple-touch-icon" href="/icons/icon.svg">
 <style>
 :root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--grd:#0e1f16;--rd:#d95f5f;--rdd:#1e0e0e;--bl:#4a9ed4;--bld:#0c1c2a;--pu:#8b6de0;--pud:#140e28;--or:#e0874a;--ord:#1e1008;--tl:#3db8aa;--tld:#0a1e1a;--nt:#5cb87a;--ntd:#0a1c10;--nt2:#8dd4a0;--r:16px;--rs:10px;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
 [data-theme=ocean]{--bg:#040d14;--bg2:#07121c;--sf:#0a1a26;--sf2:#0f2030;--sf3:#142836;--bd:#1a2e3a;--bd2:#223848;--tx:#e8f4f8;--tx2:#7aa8b8;--tx3:#3a6070;--ac:#38b8d4;--ac2:#5cd4f0;--acm:#0a3a48;--agg:rgba(56,184,212,.08);--agg2:rgba(56,184,212,.16)}
@@ -343,8 +347,8 @@ textarea.inp{resize:none}
 .export-area{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;font-size:10px;color:var(--tx3);max-height:120px;overflow-y:auto;word-break:break-all;font-family:monospace;user-select:all;margin:10px 0}
 
 /* ── SMOOTH PAGE TRANSITIONS ── */
-.screen{opacity:0;transition:opacity .2s ease}
-.screen.active{opacity:1}
+.screen{opacity:0;transform:translateY(6px);transition:opacity .2s ease,transform .2s ease}
+.screen.active{opacity:1;transform:translateY(0)}
 
 /* ── ORIENTATION WARNING ── */
 @media(orientation:landscape) and (max-height:500px){
