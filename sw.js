@@ -1,8 +1,10 @@
 // RISE Service Worker — Offline-First PWA
-const CACHE_NAME = 'rise-v9-cache-v1';
+const CACHE_NAME = 'rise-v10-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
+  '/manifest.json',
+  '/404.html',
 ];
 
 // Install: cache core assets
@@ -37,7 +39,10 @@ self.addEventListener('activate', function(event) {
 self.addEventListener('fetch', function(event) {
   var url = new URL(event.request.url);
 
-  // API calls: network only (with timeout fallback)
+  // Skip non-GET requests
+  if (event.request.method !== 'GET') return;
+
+  // API calls: network only (with offline fallback)
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(event.request).catch(function() {
@@ -54,7 +59,7 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // Google Fonts: cache-first (stale while revalidate)
+  // Google Fonts: stale-while-revalidate
   if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
     event.respondWith(
       caches.match(event.request).then(function(cached) {
@@ -75,12 +80,14 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // App shell: cache-first, network fallback
+  // Stripe JS: network-only (must not be cached for PCI compliance)
+  if (url.hostname === 'js.stripe.com') return;
+
+  // App shell: stale-while-revalidate for HTML, cache-first for static
   event.respondWith(
     caches.match(event.request).then(function(cached) {
-      if (cached) return cached;
-      return fetch(event.request).then(function(response) {
-        if (response.ok && event.request.method === 'GET') {
+      var fetchPromise = fetch(event.request).then(function(response) {
+        if (response.ok) {
           var clone = response.clone();
           caches.open(CACHE_NAME).then(function(cache) {
             cache.put(event.request, clone);
@@ -88,12 +95,15 @@ self.addEventListener('fetch', function(event) {
         }
         return response;
       }).catch(function() {
+        if (cached) return cached;
         // Offline fallback for navigation
         if (event.request.mode === 'navigate') {
           return caches.match('/index.html');
         }
         return new Response('', { status: 408 });
       });
+      // Return cached immediately, update in background
+      return cached || fetchPromise;
     })
   );
 });

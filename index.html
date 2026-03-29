@@ -1259,7 +1259,7 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀',t('welcome')+' '+S.name+' !','RISE v9 · +50 XP');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){}}catch(ex){}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const ssn=getSeason(ss);const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ssn.n+' '+ssn.name;el.style.color=ssn.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁',t('login_bonus')+' '+ls.streak,t('daily_bonus')+' +'+rw+' XP!');}}
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=[t('quote_1'),t('quote_2'),t('quote_3'),t('quote_4'),t('quote_5')];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
@@ -3806,7 +3806,6 @@ const RISE_AI = {
     };
   }
 };
-console.log("RISE_AI Engine loaded. All features available locally.");
 
 
 // ── WORKOUT TRACKER ──
@@ -5542,7 +5541,7 @@ var RiseSounds=(function(){
       if(new Date().getDay()===0 && h===18 && m<5){
         addN('📋','RISE Recap disponible','C\'est dimanche ! Consulte ton récap hebdomadaire pour voir tes progrès.');
       }
-    }catch(e){console.log('Reminder check error:',e);}
+    }catch(e){}
   }
 
   // Run every 5 minutes
@@ -5627,7 +5626,7 @@ function toggleZenMode(){
         ACHIEVEMENTS.push(a);
       }
     });
-  }catch(e){console.log('Achievement merge:',e);}
+  }catch(e){}
   
   // Track screen visits for Explorer badge
   var _origGs2=gs;
@@ -6386,7 +6385,6 @@ function toggleZenMode(){
   var gamesEl=document.getElementById('screen-games');
   if(gamesEl)gamesEl.style.display='';
   save();
-  console.log('✅ RISE Session 6 loaded — 12 improvements active');
 })();
 
 // ══ END SESSION 6 ══
@@ -6575,7 +6573,6 @@ function toggleZenMode(){
   // Detect if running as PWA
   if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){
     document.body.classList.add('pwa-mode');
-    console.log('RISE: Running as installed PWA');
   }
 })();
 
@@ -6855,9 +6852,7 @@ function toggleZenMode(){
   var loadTime=Date.now();
   window.addEventListener('load',function(){
     var elapsed=Date.now()-loadTime;
-    console.log('RISE: Loaded in '+elapsed+'ms');
     if(elapsed>3000){
-      console.warn('RISE: Slow load detected ('+elapsed+'ms)');
     }
   });
   // Track session time
@@ -6944,8 +6939,6 @@ function toggleZenMode(){
     try{chkAchievements('periodic');}catch(e){}
   },120000); // Every 2 minutes
   
-  console.log('%c RISE v9.7 — Production Ready ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:14px;padding:8px 16px;border-radius:4px');
-  console.log('%c 35+ achievements · 30+ screens · PWA · Offline · Accessible ','background:#111418;color:#8a9099;font-size:11px;padding:4px 8px');
 })();
 
 // ══ END SESSION 7 — PRODUCTION READY ══
@@ -7051,9 +7044,7 @@ function toggleZenMode(){
       }
     };
   } catch(e) {
-    console.log('trainingModules override deferred');
   }
-  console.log('%c SESSION 8a — FORMATIONS OVERRIDE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 })();
 
 // ══════════════════════════════════════════
@@ -7380,7 +7371,6 @@ function toggleZenMode(){
     };
   }
 
-  console.log('%c SESSION 8 — ENHANCED TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 })();
 
 // ══════════════════════════════════════════
@@ -8120,7 +8110,6 @@ try {
 ;
   Object.assign(RISE_AI.trainingModules, newFormations79, newFormations1012);
 } catch(e) {
-  console.log('Session 9: formations deferred', e);
 }
 
 // ── 3. UPDATE FORMS_D (formation cards list) ──
@@ -8135,7 +8124,6 @@ try {
   ];
   if(window.FORMS_D) window.FORMS_D = FORMS_D = FORMS_D.concat(newFormCards);
 } catch(e) {
-  console.log('Session 9: FORMS_D update deferred', e);
 }
 
 // ── 4. ENHANCED LANGUAGES ──
@@ -8768,7 +8756,6 @@ try {
     });
   }
 } catch(e) {
-  console.log('Session 9: LANG_DB update deferred', e);
 }
 
 // ── 5. UPDATE gs() FOR NEW SCREENS ──
@@ -8780,7 +8767,7 @@ window.gs = function(name, btn){
     try {
       var renderFn = window['render_' + name];
       if(renderFn) renderFn();
-    } catch(e) { console.log('render error:', name, e); }
+    } catch(e) { }
   }
 };
 
@@ -9274,7 +9261,6 @@ try {
     }
   }
 } catch(e) {
-  console.log('Session 9: plus panel update deferred', e);
 }
 
 // ── 9. OVERRIDE ideas screen to use business ideas ──
@@ -9334,11 +9320,8 @@ try {
     return suggs.slice(0, 6);
   };
 } catch(e) {
-  console.log('Session 9: JARVIS suggestions update deferred', e);
 }
 
-console.log('%c SESSION 9 — MEGA BUSINESS & PRODUCTIVITY UPDATE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
-console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans business/productivité');
 })();
 
 
@@ -9346,7 +9329,6 @@ console.log('6 nouvelles formations, 8 langues enrichies, 9 nouveaux écrans bus
 (function(){
 'use strict';
 
-console.log('%c SESSION 10 — PERSONALIZATION & TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 
 // ============================================================================
 // INIT: Load state, define TD
@@ -12276,7 +12258,6 @@ function initSession10() {
     }
   }
 
-  console.log('%c ✅ SESSION 10 LOADED ','background:#4ade80;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
 }
 
 // Check if DOM is ready
@@ -12310,7 +12291,7 @@ var S, save, gs, toast, addN, gainXP, complQ, dmgBoss, TD, now, closePlus;
 try { S = window.S || JSON.parse(localStorage.getItem('rise_v9')||'{}'); } catch(e){ S = {}; }
 try { save = window.save || function(){ localStorage.setItem('rise_v9', JSON.stringify(S)); }; } catch(e){ save = function(){}; }
 try { gs = window.gs; } catch(e){}
-try { toast = window.toast || function(t,i,d){ console.log('TOAST:',t); }; } catch(e){ toast = function(){}; }
+try { toast = window.toast || function(t,i,d){ }; } catch(e){ toast = function(){}; }
 try { addN = window.addN || function(){}; } catch(e){ addN = function(){}; }
 try { gainXP = window.gainXP || function(){}; } catch(e){ gainXP = function(){}; }
 try { complQ = window.complQ || function(){}; } catch(e){ complQ = function(){}; }
@@ -13662,7 +13643,7 @@ try {
       return _origProcess.call(this, txt, mode);
     };
   }
-} catch(e){ console.log('JARVIS enhance error:', e); }
+} catch(e){ }
 
 
 // ════════════════════════════════════════════════════════════════
@@ -13670,8 +13651,8 @@ try {
 // ════════════════════════════════════════════════════════════════
 
 function initSession11(){
-  try { updatePlusPanel(); } catch(e){ console.log('Plus panel update:', e); }
-  try { addHomeWidgets(); } catch(e){ console.log('Home widgets:', e); }
+  try { updatePlusPanel(); } catch(e){ }
+  try { addHomeWidgets(); } catch(e){ }
 
   // Make screens visible on launchApp
   var newScreenIds = ['screen-stoic','screen-notes','screen-bizideas','screen-smm','screen-analyticsv','screen-financeadv','screen-security'];
@@ -13693,8 +13674,6 @@ function initSession11(){
     }
   } catch(e){}
 
-  console.log('%c ✅ SESSION 11 MEGA UPDATE LOADED ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
-  console.log('New features: Stoïcisme, Notes, Business Ideas, Social Media Manager, Analytics, Finance Hub, Sécurité, Mémoire JARVIS');
 }
 
 // Run initialization
