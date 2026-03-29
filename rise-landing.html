@@ -1017,6 +1017,79 @@ window.addEventListener('beforeunload', function() {
 });
 trackEvent('page_view', 'landing');
 
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   A/B TESTING FRAMEWORK
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+var _abTests = {
+  hero_headline: {
+    variants: [
+      { id: 'A', title: 'RISE — AI Life Operating System', subtitle: 'Ton assistant personnel IA pour transformer ta vie, tes habitudes, tes finances et ton avenir. Tout en un. Gratuit et premium.' },
+      { id: 'B', title: 'Transforme ta vie en 90 jours avec l\'IA', subtitle: 'Coach personnel, habitudes, finances, formations — tout en une seule app. Rejoins 50K+ utilisateurs. Gratuit.' },
+      { id: 'C', title: 'Ton coach IA personnel. Gratuit.', subtitle: 'JARVIS t\'écoute, t\'analyse et te guide vers tes objectifs. Habitudes, business, bien-être — RISE fait tout.' }
+    ]
+  },
+  cta_text: {
+    variants: [
+      { id: 'A', text: 'Accéder à RISE →' },
+      { id: 'B', text: 'Commencer gratuitement →' },
+      { id: 'C', text: 'Essayer RISE (gratuit) →' }
+    ]
+  }
+};
+
+function getABVariant(testName) {
+  var key = 'rise_ab_' + testName;
+  var saved = localStorage.getItem(key);
+  if (saved) return saved;
+  var variants = _abTests[testName].variants;
+  var pick = variants[Math.floor(Math.random() * variants.length)].id;
+  localStorage.setItem(key, pick);
+  return pick;
+}
+
+function runABTests() {
+  // Hero headline test
+  var heroVar = getABVariant('hero_headline');
+  var heroData = _abTests.hero_headline.variants.find(function(v) { return v.id === heroVar; });
+  if (heroData) {
+    var h1 = document.querySelector('.hero h1');
+    var sub = document.querySelector('.hero .subtitle');
+    if (h1) h1.textContent = heroData.title;
+    if (sub) sub.textContent = heroData.subtitle;
+  }
+  trackEvent('ab_hero', heroVar);
+
+  // CTA text test
+  var ctaVar = getABVariant('cta_text');
+  var ctaData = _abTests.cta_text.variants.find(function(v) { return v.id === ctaVar; });
+  if (ctaData) {
+    document.querySelectorAll('[data-i18n="cta_access"]').forEach(function(btn) {
+      btn.textContent = ctaData.text;
+    });
+  }
+  trackEvent('ab_cta', ctaVar);
+}
+
+// Run A/B tests after i18n (so they override default text)
+setTimeout(runABTests, 100);
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   A/B TEST RESULTS DASHBOARD (console)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function abReport() {
+  var events = JSON.parse(sessionStorage.getItem('rise_funnel') || '[]');
+  var hero = localStorage.getItem('rise_ab_hero_headline') || '?';
+  var cta = localStorage.getItem('rise_ab_cta_text') || '?';
+  var clicks = events.filter(function(e) { return e.a === 'cta_click'; }).length;
+  var scroll90 = events.some(function(e) { return e.a === 'scroll_depth' && e.l === '90%'; });
+  var timeOnPage = events.find(function(e) { return e.a === 'time_on_page'; });
+  console.log('━━━ RISE A/B Report ━━━');
+  console.log('Hero variant:', hero, '| CTA variant:', cta);
+  console.log('CTA clicks:', clicks, '| Scroll 90%:', scroll90, '| Time:', timeOnPage ? timeOnPage.l : 'active');
+  console.log('All events:', events);
+  return { hero: hero, cta: cta, clicks: clicks, scroll90: scroll90, events: events };
+}
+
 </script>
 </body>
 </html>

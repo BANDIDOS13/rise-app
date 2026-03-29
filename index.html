@@ -970,6 +970,45 @@ textarea.inp{resize:none}
 <button style="font-size:12px;color:var(--tx3);margin-top:4px;text-decoration:underline;cursor:pointer;display:block;text-align:center;width:100%" onclick="closeM('m-exit-survey')">Annuler</button>
 </div></div>
 
+<!-- NPS SURVEY MODAL -->
+<div class="mbk" id="m-nps"><div class="msh" style="max-width:380px">
+<div class="mhdl"></div>
+<div style="text-align:center;padding:4px 0">
+<div style="font-size:36px;margin-bottom:8px">📊</div>
+<div class="mtit" style="font-size:16px;margin-bottom:4px">Ton avis compte !</div>
+<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px">Sur une échelle de 0 à 10, quelle est la probabilité que tu recommandes RISE à un ami ?</div>
+<div id="nps-scale" style="display:flex;gap:4px;justify-content:center;margin-bottom:14px;flex-wrap:wrap"></div>
+<div id="nps-followup" style="display:none">
+<textarea class="inp" id="nps-comment" rows="3" placeholder="Qu'est-ce qu'on pourrait améliorer ?" style="margin-bottom:10px"></textarea>
+<button class="btn btn-ac" onclick="submitNPS()">Envoyer 💬</button>
+</div>
+<div id="nps-thanks" style="display:none;padding:16px 0">
+<div style="font-size:36px;margin-bottom:8px">💜</div>
+<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">Merci pour ton retour !</div>
+<div style="font-size:12px;color:var(--tx2)">Ça nous aide à construire le meilleur RISE possible.</div>
+<button class="btn btn-sf" style="margin-top:12px" onclick="closeM('m-nps')">Fermer</button>
+</div>
+<button style="font-size:12px;color:var(--tx3);margin-top:6px;text-decoration:underline;cursor:pointer" id="nps-skip" onclick="skipNPS()">Pas maintenant</button>
+</div></div></div>
+
+<!-- PROGRESS GATE OVERLAY -->
+<div class="mbk" id="m-progress-gate"><div class="msh" style="max-width:380px">
+<div class="mhdl"></div>
+<div style="text-align:center;padding:4px 0">
+<div style="font-size:48px;margin-bottom:8px" id="pg-icon">🔒</div>
+<div class="mtit" style="font-size:18px;margin-bottom:4px" id="pg-title">Niveau verrouillé</div>
+<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px" id="pg-desc">Tu as atteint la limite du plan gratuit.</div>
+<div style="background:var(--agg);border:1px solid var(--acm);border-radius:10px;padding:14px;margin-bottom:14px">
+<div id="pg-progress" style="margin-bottom:10px"></div>
+<div style="font-size:12px;color:var(--tx2)">Les niveaux 6+ débloquent des features exclusives : Skills avancés, Boss épiques, Formations complètes.</div>
+</div>
+<button class="btn btn-ac" onclick="selPlan('pro');closeM('m-progress-gate')">Débloquer tous les niveaux ⭐</button>
+<div style="font-size:11px;color:var(--tx3);margin-top:8px">7 jours d'essai gratuit • Annulation libre</div>
+<button style="font-size:12px;color:var(--tx3);margin-top:6px;text-decoration:underline;cursor:pointer" onclick="closeM('m-progress-gate')">Continuer en gratuit</button>
+</div></div></div>
+
+<!-- ROI PRO BANNER (shown in-app for Pro users) -->
+
 <div class="toast" id="toast"><span id="t-i">🎉</span><span id="t-m">Bravo !</span>
 <!-- WORKOUT TRACKER SCREEN -->
 <div class="screen" id="screen-workout">
@@ -1141,7 +1180,7 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.email=(document.getElementById('ob-email').value||'').trim();S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();chkMorningBrief();chkWinBack();chkMilestones();chkWeeklyInsight();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();chkMorningBrief();chkWinBack();chkMilestones();chkWeeklyInsight();chkNPS();chkProgressGate();chkFOMO();chkROI();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?Math.min((ls.streak||0)+1,7):1;ls.last=TD;const rw=[5,10,15,20,25,35,50][Math.min(ls.streak,7)-1];gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');} scheduleStreakDanger(); chkTasteOfPro();}
 /* ── TASTE OF PRO: 7 days free Pro at J+3 ── */
@@ -1209,9 +1248,128 @@ else insight+=' ⚡ Tu peux faire mieux ! Objectif : 1 check-in/jour.';
 addN('🤖','Bilan JARVIS de la semaine',insight);
 /* Also create a JARVIS notification about the weekly report being ready */
 addSmartN('📋','Ton analyse de semaine est prête','JARVIS a préparé ton bilan hebdomadaire. Va voir l\'onglet Recap pour les détails.');}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   NPS SURVEY (Net Promoter Score)
+   Triggered at J+7, one-time
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+var _npsScore = -1;
+function chkNPS(){
+if(S.npsSubmitted||S.npsSkipped)return;
+var signupDate=S.ss;if(!signupDate)return;
+var daysSince=Math.floor((Date.now()-new Date(signupDate).getTime())/(24*60*60*1000));
+if(daysSince<7)return;
+setTimeout(function(){
+  var scale=document.getElementById('nps-scale');if(!scale)return;
+  scale.innerHTML='';
+  for(var i=0;i<=10;i++){
+    var btn=document.createElement('button');
+    btn.textContent=i;
+    btn.style.cssText='width:30px;height:30px;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid var(--bd2);background:var(--sf2);color:var(--tx2);transition:all .2s';
+    btn.setAttribute('data-score',i);
+    btn.onclick=function(){selectNPS(parseInt(this.getAttribute('data-score')));};
+    scale.appendChild(btn);
+  }
+  openM('m-nps');
+},3000);}
+
+function selectNPS(score){
+_npsScore=score;
+var btns=document.querySelectorAll('#nps-scale button');
+btns.forEach(function(b){
+  var s=parseInt(b.getAttribute('data-score'));
+  if(s===score){b.style.background='linear-gradient(135deg,var(--ac),var(--ac2))';b.style.color='var(--bg)';b.style.borderColor='var(--ac)';}
+  else if(s<=6){b.style.background=s===score?'':'var(--rdd)';b.style.borderColor=s===score?'':'var(--rd)';}
+  else if(s<=8){b.style.background='var(--sf2)';b.style.borderColor='var(--bd2)';}
+  else{b.style.background='var(--grd)';b.style.borderColor='var(--gr)';}
+});
+document.getElementById('nps-followup').style.display='block';
+var placeholder=score<=6?'Qu\'est-ce qui ne va pas ? On veut corriger ça.':score<=8?'Qu\'est-ce qu\'on pourrait améliorer ?':'Super ! Qu\'est-ce que tu aimes le plus ?';
+document.getElementById('nps-comment').placeholder=placeholder;}
+
+function submitNPS(){
+S.nps={score:_npsScore,comment:(document.getElementById('nps-comment').value||'').trim(),date:TD};
+S.npsSubmitted=true;save();
+document.getElementById('nps-followup').style.display='none';
+document.getElementById('nps-scale').style.display='none';
+document.getElementById('nps-skip').style.display='none';
+document.getElementById('nps-thanks').style.display='block';
+gainXP(10,'nps');gainGems(2);
+if(_npsScore>=9)addN('💜','Merci ambassadeur !','Tu as donné '+_npsScore+'/10 — tu fais partie des meilleurs fans de RISE ! +10 XP +2💎');
+}
+function skipNPS(){S.npsSkipped=TD;save();closeM('m-nps');}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PROGRESS GATE (Level cap for free users)
+   Free: max level 5 (700 XP) — soft gate
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function chkProgressGate(){
+if(S.plan!=='free')return;
+var lvl=getLvl(S.xp||0);
+if(lvl<5)return; /* Level 6+ = gate */
+if(S.progressGateSeen===lvl)return; /* Don't show twice for same level */
+S.progressGateSeen=lvl;save();
+setTimeout(function(){
+  var icon=document.getElementById('pg-icon');
+  var title=document.getElementById('pg-title');
+  var desc=document.getElementById('pg-desc');
+  var prog=document.getElementById('pg-progress');
+  icon.textContent='⚡';
+  title.textContent='Niveau '+(lvl+1)+' atteint — tu es bloqué !';
+  desc.textContent='Impressionnant ! Tu as atteint le niveau '+(lvl+1)+' ('+LVL_T[lvl]+'). Les niveaux supérieurs sont réservés aux membres Pro.';
+  prog.innerHTML='<div style="display:flex;gap:3px;justify-content:center;margin-bottom:8px">'+
+    LVL_T.map(function(t,i){
+      var unlocked=i<=lvl;var gated=i>4&&S.plan==='free';
+      return '<div style="width:24px;height:24px;border-radius:4px;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:700;'+
+        (gated?'background:var(--sf3);color:var(--tx3);border:1px solid var(--bd)':'background:'+(unlocked?'var(--agg2)':'var(--sf2)')+';color:'+(unlocked?'var(--ac)':'var(--tx3)')+';border:1px solid '+(unlocked?'var(--acm)':'var(--bd)'))+
+        '">'+(gated?'🔒':(i+1))+'</div>';
+    }).join('')+'</div>';
+  openM('m-progress-gate');
+},1500);}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FOMO SOCIAL (Guild peer pressure)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function chkFOMO(){
+if(S.plan!=='free'||S.fomoShown===TD)return;
+var streak=S.loginS?.streak||0;
+if(streak<2)return; /* Wait until they're engaged */
+var daysSince=S.ss?Math.floor((Date.now()-new Date(S.ss).getTime())/(24*60*60*1000)):0;
+if(daysSince<5)return;
+S.fomoShown=TD;save();
+var fomoMsgs=[
+  {i:'👥',t:'Tes amis avancent',d:'3 utilisateurs de ta tranche ont passé Pro cette semaine. Ils ont accès à 12 formations de plus que toi.'},
+  {i:'🏆',t:'Tu es dans le Top 30%',d:'Avec '+S.xp+' XP, tu bats 70% des utilisateurs. Les Top 10% sont tous Pro. Tu veux les rejoindre ?'},
+  {i:'📈',t:'Les Pro progressent 3x plus vite',d:'En moyenne, les membres Pro gagnent 150 XP/jour contre 50 en gratuit. Coach illimité = progression illimitée.'},
+  {i:'⚡',t:'Feature que tu rates',d:'Le Vision Board IA a aidé 12K+ utilisateurs à clarifier leurs objectifs. Disponible en Pro.'}
+];
+var msg=fomoMsgs[Math.floor(Math.random()*fomoMsgs.length)];
+addSmartN(msg.i,msg.t,msg.d);}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ROI VISIBLE (Show Pro users their value)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function chkROI(){
+if(S.plan==='free')return;
+if(S.roiShown===TD)return;
+var daysSince=S.ss?Math.floor((Date.now()-new Date(S.ss).getTime())/(24*60*60*1000)):0;
+if(daysSince<14||now.getDate()!==1)return; /* Show on 1st of month after 14 days */
+S.roiShown=TD;save();
+var formsDone=0;Object.keys(S.formProg||{}).forEach(function(k){formsDone+=(S.formProg[k].m||0);});
+var coachMsgs=S.coachMem?.n||0;
+var pomoMin=(S.pomoStats?.totalMin||0);
+var pomoHrs=Math.round(pomoMin/60*10)/10;
+var booksRead=(S.books?.read||[]).length;
+addN('💎','Ton mois Pro en chiffres',
+  '🤖 '+coachMsgs+' conversations coaching'+
+  ' | ⏱️ '+pomoHrs+'h de deep work'+
+  ' | 📚 '+booksRead+' livres lus'+
+  ' | 🎓 '+formsDone+' modules complétés'+
+  ' | Valeur estimée : '+(coachMsgs*2+pomoHrs*15+booksRead*10+formsDone*5)+'€ d\'accompagnement');}
+
 function genQuote(){if(S.quote&&S.quote.date===TD&&typeof S.quote.t==='string'){renderQuote();return;}try{var result=RISE_AI.genQuote();if(result&&typeof result.t==='string'){S.quote=result;}else if(typeof result==='string'){S.quote={t:result,date:TD};}save();renderQuote();}catch(e){var fallbacks=['Chaque jour est une nouvelle chance de devenir meilleur.','Le succès est la somme de petits efforts répétés jour après jour.','La discipline est le pont entre tes objectifs et tes résultats.','Tu es plus fort que tu ne le penses.','Un petit pas chaque jour mène très loin.'];S.quote={t:fallbacks[Math.floor(Math.random()*fallbacks.length)],date:TD};save();renderQuote();}}
 function renderQuote(){const el=document.getElementById('quote-card');if(!el)return;el.style.display='block';document.getElementById('quote-txt').textContent='"'+(S.quote.t||'')+'"';}
-function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
+function gainXP(n2,src){const prev=getLvl(S.xp||0);S.xp=(S.xp||0)+n2;const nl=getLvl(S.xp||0);if(nl>prev){document.getElementById('lup-n').textContent=nl+1;document.getElementById('lup-nm').textContent=LVL_T[nl];const g=LVL_G[nl]||20;S.gems=(S.gems||0)+g;document.getElementById('ov-lvlup').classList.add('show');confetti();addN('🌟','Niveau '+(nl+1)+' !',LVL_T[nl]+' · +'+g+'💎');S.chests=S.chests||{av:0,nx:3};if(nl+1>=S.chests.nx){S.chests.av=(S.chests.av||0)+1;S.chests.nx+=3;addN('🎁','Coffre mystère !','Tu as gagné un coffre !');}chkProgressGate();}floatXP(n2);save();updXP();updGB();S.tourn=S.tourn||{wk:WK,sc:{}};if(S.tourn.wk!==WK){S.tourn.wk=WK;S.tourn.sc={};}S.tourn.sc['Toi']=(S.tourn.sc['Toi']||0)+n2;}
 function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
 function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',LVL_T[lvl]);set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP pour '+LVL_T[Math.min(lvl+1,9)]);}
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
