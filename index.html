@@ -372,7 +372,7 @@ textarea.inp{resize:none}
 .btt{position:fixed;bottom:72px;right:12px;width:36px;height:36px;border-radius:50%;background:var(--ac);color:var(--bg);display:none;align-items:center;justify-content:center;font-size:16px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.4);cursor:pointer;transition:opacity .2s}
 
 /* ── JARVIS AI ASSISTANT ── */
-.jarvis-fab{position:fixed;bottom:74px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,170,74,.4);transition:transform .3s,box-shadow .3s;animation:jarvisPulse 2s infinite;font-size:22px;color:var(--bg);gap:1px}
+.jarvis-fab{position:fixed;bottom:74px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex!important;align-items:center;justify-content:center;flex-direction:column;z-index:700;cursor:pointer;box-shadow:0 4px 20px rgba(212,170,74,.4);transition:transform .3s,box-shadow .3s;animation:jarvisPulse 2s infinite;font-size:22px;color:var(--bg);gap:1px}
 @media(max-width:767px){.jarvis-fab{bottom:74px}}
 @media(min-width:768px){.jarvis-fab{bottom:24px;right:24px}}
 .jarvis-fab:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(0,0,0,.4)}
@@ -1591,7 +1591,7 @@ function sosCyc(){clearInterval(sosInt);let ph='inhale',cnt=4;const ring=documen
 function closeSOS(){clearInterval(sosInt);document.getElementById('ov-sos').classList.remove('show');}
 let nTab='walk';
 function setNT(tab,btn){nTab=tab;document.querySelectorAll('#nat-tabs .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderNat();}
-function renderNat(){const el=document.getElementById('nat-content');if(!el)return;if(nTab==='walk')rWalk(el);else if(nTab==='sun')rSun(el);else if(nTab==='breath')rBreath(el);else if(nTab==='sleep')rSleep(el);else if(nTab==='cold')rCold(el);else if(nTab==='mindful')rMindful(el);else if(nTab==='outdoor')rOutdoor(el);else if(nTab==='journal')rJournal(el);}
+function renderNat(){var el=document.getElementById('nat-content');if(!el)return;try{if(nTab==='walk')rWalk(el);else if(nTab==='sun')rSun(el);else if(nTab==='breath')rBreath(el);else if(nTab==='sleep')rSleep(el);else if(nTab==='cold')rCold(el);else if(nTab==='mindful')rMindful(el);else if(nTab==='outdoor')rOutdoor(el);else if(nTab==='journal')rJournal(el);}catch(e){/* Keep existing default content — don't clear */}}
 let walkR=false,walkSec=0,walkInt=null;
 function rWalk(el){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;el.innerHTML='<div class="nat-c"><div style="position:relative;z-index:1"><div style="font-size:32px;text-align:center;animation:float 2s ease-in-out infinite;margin-bottom:6px">🚶</div><div class="big-timer" id="wt-d" style="color:var(--nt)">'+fmtT(walkSec||0)+'</div><div style="font-size:12px;color:var(--nt2);text-align:center;margin-bottom:10px">Aujourd hui: '+tw+'min · Objectif: 30min · Streak: '+(nm.wStreak||0)+'j</div><div class="pbar" style="height:7px;margin-bottom:14px"><div class="pfill pnt" style="width:'+Math.min(100,tw/30*100)+'%"></div></div><div style="display:flex;gap:8px;justify-content:center;margin-bottom:10px"><button id="walk-btn" style="padding:12px 24px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--nt),var(--nt2));color:#030a05" onclick="togWalk()">▶ Marcher</button><button style="padding:12px 20px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx2)" onclick="rstWalk()">↺</button></div><div style="display:flex;gap:6px;justify-content:center"><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(10)">+10min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(20)">+20min</button><button style="padding:6px 14px;background:var(--sf2);border:1px solid var(--bd2);border-radius:20px;font-size:11px;font-weight:700;color:var(--nt2)" onclick="addWalk(30)">+30min</button></div></div></div><div style="background:var(--ntd);border:1px solid var(--nt);border-radius:var(--rs);padding:12px 13px;margin-top:11px;font-size:12px;color:var(--nt2);line-height:1.7"><strong>Bienfaits:</strong> Cortisol↓ · Créativité↑ · Sérotonine↑ · Vitamin D outdoor</div>';}
 function togWalk(){if(walkR){clearInterval(walkInt);walkR=false;finWalk(Math.floor(walkSec/60));walkSec=0;}else{walkR=true;const b=document.getElementById('walk-btn');if(b){b.textContent='⏹ Terminer';b.style.background='linear-gradient(135deg,var(--rd),#ff8080)';b.style.color='#fff';}walkInt=setInterval(()=>{walkSec++;const t=document.getElementById('wt-d');if(t)t.textContent=fmtT(walkSec);},1000);}}
@@ -1751,12 +1751,12 @@ if(name==='astro')try{renderAstroScreen();}catch(e){console.log('astro error:',e
 if(name==='feat')renderFeat();
 if(name==='moi')renderMoi();
 if(name==='notifs'){markRead();renderNotifs();}
-if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
-if(name==='dashboard'){renderDashboard(document.getElementById('dashboard-c'));}
-if(name==='wheel'){renderWheel(document.getElementById('wheel-c'));}
-if(name==='shop'){renderShop(document.getElementById('shop-c'));}
-if(name==='content'){renderContentPlanner(document.getElementById('content-c'));}
-if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
+if(name==='habits'){try{renderHabits(document.getElementById('habits-c'));}catch(e){};}
+if(name==='dashboard'){try{renderDashboard(document.getElementById('dashboard-c'));}catch(e){};}
+if(name==='wheel'){try{renderWheel(document.getElementById('wheel-c'));}catch(e){};}
+if(name==='shop'){try{renderShop(document.getElementById('shop-c'));}catch(e){};}
+if(name==='content'){try{renderContentPlanner(document.getElementById('content-c'));}catch(e){};}
+if(name==='pomo'){try{renderPomoPro(document.getElementById('pomo-c'));}catch(e){};}
 // Fix missing screen inits — render content or show empty state
 var _es=typeof emptyState==='function'?emptyState:function(i,t,d){return '<div style="text-align:center;padding:40px 20px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:12px;opacity:.5">'+i+'</div><div style="font-weight:700;font-size:16px;color:var(--tx2);margin-bottom:6px">'+t+'</div><div style="font-size:13px;line-height:1.6">'+d+'</div></div>';};
 if(typeof emptyState==='undefined')var emptyState=_es;
@@ -6438,7 +6438,7 @@ function toggleZenMode(){
       complQ('health');
     }
     save();
-    renderHabits(document.getElementById('habits-c'));
+    try{renderHabits(document.getElementById('habits-c'));}catch(e){};
   };
   
   window.addCustomHabit=function(){
@@ -6448,7 +6448,7 @@ function toggleZenMode(){
     S.habits.list.push({id:'h'+Date.now(),name:nameEl.value.trim(),ico:'✨',streak:0,lastDone:'',cat:'custom'});
     save();
     toast('Habitude ajoutée !','✨',2000);
-    renderHabits(document.getElementById('habits-c'));
+    try{renderHabits(document.getElementById('habits-c'));}catch(e){};
   };
 })();
 
@@ -7926,7 +7926,7 @@ function toggleZenMode(){
       }
     });
     save();
-    renderHabits(document.getElementById('habits-c'));
+    try{renderHabits(document.getElementById('habits-c'));}catch(e){};
     toast(templateName+' ajouté !','✨',2000);
   };
 
@@ -13844,7 +13844,8 @@ try { save(); } catch(e){}
     jarvisOpen = true;
     drawer.style.transform = 'translateY(0)';
     backdrop.classList.add('open');
-    if(fab) fab.style.display = 'none';
+    var jfab = document.getElementById('jarvis-fab');
+    if(jfab) jfab.style.cssText += 'display:none!important';
     if(ta) ta.focus();
     // Show welcome if empty
     if(msgs && !msgs.children.length){
@@ -13870,7 +13871,10 @@ try { save(); } catch(e){}
     jarvisOpen = false;
     if(drawer) drawer.style.transform = 'translateY(100%)';
     if(backdrop) backdrop.classList.remove('open');
-    setTimeout(function(){ if(fab) fab.style.display = 'flex'; }, 300);
+    setTimeout(function(){
+      var jfab = document.getElementById('jarvis-fab');
+      if(jfab) jfab.style.cssText = jfab.style.cssText.replace('display:none!important','') ;
+    }, 300);
   };
 
   if(closeBtn) closeBtn.onclick = closeJarvis;
@@ -13978,8 +13982,8 @@ try { save(); } catch(e){}
     if(ta){ ta.value = text; sendJarvisMsg(); }
   };
 
-  // Show JARVIS FAB after onboarding
-  if(S.ob && fab) fab.style.display = 'flex';
+  // JARVIS FAB is always visible via CSS display:flex!important
+  // No JS needed to show it
 })();
 
 </script>
