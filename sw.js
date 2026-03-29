@@ -1,10 +1,12 @@
 // FORGE Service Worker — Offline-First PWA
-const CACHE_NAME = 'rise-v10-cache-v1';
+const CACHE_NAME = 'forge-v1-cache-v1';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
   '/404.html',
+  '/icons/icon.svg',
+  '/og-image.svg',
 ];
 
 // Install: cache core assets
