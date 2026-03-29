@@ -1,621 +1,177 @@
 <!DOCTYPE html>
-<html lang="fr" id="html-root">
+<html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RISE — AI Life Operating System | Coach IA, Habitudes, Finances</title>
-<meta name="description" content="RISE est l'app tout-en-un propulsée par l'IA pour transformer ta vie, tes revenus et tes habitudes. Coach IA, 35+ achievements, mini-jeux, tracker d'habitudes, finances — tout en un. Disponible sur Web, Android & iOS.">
-<meta name="keywords" content="RISE, AI coach, life operating system, habitudes, productivité, finances, développement personnel, gamification, streak, achievements">
-<meta name="author" content="RISE">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://rise-app-mu.vercel.app">
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="RISE — Deviens la meilleure version de toi">
-<meta property="og:description" content="L'app tout-en-un propulsée par l'IA. Coach IA, 35+ achievements, mini-jeux, tracker d'habitudes, finances. Gratuit pour toujours.">
-<meta property="og:url" content="https://rise-app-mu.vercel.app">
-<meta property="og:site_name" content="RISE">
-<meta property="og:locale" content="fr_FR">
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RISE — AI Life Operating System">
-<meta name="twitter:description" content="Une seule app pour gérer ta vie, tes revenus, ta santé et ton développement personnel — propulsée par l'IA.">
-<!-- Favicon & Theme -->
+<title>RISE — AI Life Operating System | Deviens la meilleure version de toi</title>
+<meta name="description" content="RISE est l'app tout-en-un propulsée par l'IA pour transformer ta vie. Coach personnel, habitudes, finances, formations. Gratuit et Premium.">
 <meta name="theme-color" content="#d4aa4a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@500;600;700&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#06070a;--sf:#0e1217;--bd:#1a2028;--ac:#d4aa4a;--ac2:#f0cc6e;--gr:#3ecf8e;--tx:#eeeae0;--tx2:#a8a49a;--tx3:#4a5268;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--tx);font-family:var(--fb);line-height:1.6;overflow-x:hidden}
-.container{max-width:1100px;margin:0 auto;padding:0 20px}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,7,10,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-logo{font-family:var(--fd);font-size:18px;font-weight:900;letter-spacing:6px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.nav-links{display:flex;align-items:center;gap:24px}
-.nav-links a{font-size:13px;color:var(--tx3);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--ac)}
-.nav-cta{padding:8px 18px;border-radius:100px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000;font-size:13px;font-weight:700;text-decoration:none;transition:filter .2s}
-.nav-cta:hover{filter:brightness(1.1)}
-#lang-switcher{display:flex;gap:5px;align-items:center}
-.lang-btn{background:none;border:1px solid var(--bd);border-radius:5px;padding:3px 7px;font-size:11px;cursor:pointer;color:var(--tx3);transition:all .2s}
-.lang-btn.active,.lang-btn:hover{border-color:var(--ac);color:var(--ac)}
-@media(max-width:768px){.nav-links{display:none}}
-
-/* HERO */
-.hero{padding:120px 20px 80px;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(212,170,74,.06) 0%,transparent 70%);pointer-events:none}
-.hero-tag{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border-radius:100px;background:rgba(212,170,74,.08);border:1px solid rgba(212,170,74,.2);font-size:12px;color:var(--ac);font-weight:600;letter-spacing:.5px;margin-bottom:22px}
-.hero-title{font-family:var(--fd);font-size:clamp(38px,7vw,84px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:22px}
-.hero-title .grad{background:linear-gradient(135deg,#d4aa4a,#f5d478,#c49a30);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.hero-sub{font-size:clamp(15px,2vw,20px);color:var(--tx2);max-width:580px;margin:0 auto 32px;font-weight:300;line-height:1.7}
-.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
-.btn-primary{padding:14px 32px;border-radius:100px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{filter:brightness(1.1);transform:translateY(-1px)}
-.btn-secondary{padding:14px 32px;border-radius:100px;background:transparent;border:1.5px solid var(--bd);color:var(--tx2);font-size:15px;font-weight:600;text-decoration:none;transition:all .2s}
-.btn-secondary:hover{border-color:var(--ac);color:var(--ac)}
-.hero-stats{display:flex;gap:32px;justify-content:center;flex-wrap:wrap;font-size:13px;color:var(--tx3)}
-.hero-stat strong{color:var(--ac);font-weight:700}
-
-/* TICKER */
-.ticker-wrap{overflow:hidden;border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:14px 0;background:rgba(0,0,0,.3);margin-bottom:80px}
-.ticker{display:flex;animation:ticker 30s linear infinite;white-space:nowrap}
-.ticker:hover{animation-play-state:paused}
-.ticker-item{display:inline-flex;align-items:center;gap:8px;padding:0 24px;font-size:13px;color:var(--tx3)}
-.ticker-item span{color:var(--ac)}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* FEATURES BENTO */
-.section{padding:80px 20px}
-.section-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ac);margin-bottom:10px}
-.section-title{font-family:var(--fd);font-size:clamp(26px,4vw,44px);font-weight:800;margin-bottom:14px;line-height:1.15}
-.section-sub{font-size:15px;color:var(--tx2);max-width:540px;margin-bottom:48px;line-height:1.7}
-.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1060px;margin:0 auto}
-.bento-card{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:22px;transition:all .25s;cursor:default}
-.bento-card:hover{border-color:rgba(212,170,74,.3);transform:translateY(-2px)}
-.bento-card.featured{grid-column:span 2;background:linear-gradient(135deg,rgba(212,170,74,.06),var(--sf))}
-.bento-card.tall{grid-row:span 2}
-.bento-card.gr{background:linear-gradient(135deg,rgba(62,207,142,.04),var(--sf))}
-.bento-ico{font-size:28px;margin-bottom:10px}
-.bento-title{font-family:var(--fd);font-size:16px;font-weight:800;margin-bottom:6px}
-.bento-desc{font-size:12px;color:var(--tx3);line-height:1.6}
-.bento-badge{display:inline-flex;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-top:6px}
-.bento-badge.pro{background:rgba(212,170,74,.1);color:var(--ac)}
-.bento-badge.free{background:rgba(62,207,142,.1);color:var(--gr)}
-@media(max-width:768px){.bento{grid-template-columns:1fr 1fr}.bento-card.featured{grid-column:span 2}.bento-card.tall{grid-row:span 1}}
-@media(max-width:480px){.bento{grid-template-columns:1fr}.bento-card.featured{grid-column:span 1}}
-
-/* APP PREVIEW */
-.preview-section{padding:80px 20px;text-align:center}
-.phone-mockup{width:260px;height:520px;border-radius:36px;background:var(--sf);border:6px solid #1a2028;margin:0 auto;overflow:hidden;position:relative;box-shadow:0 40px 120px rgba(0,0,0,.5)}
-.phone-screen{height:100%;background:var(--bg);padding:0;overflow:hidden}
-.phone-statusbar{height:30px;background:var(--sf);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:10px;font-weight:700;letter-spacing:4px;color:var(--ac)}
-.phone-content{padding:12px;font-size:10px}
-.phone-score-ring{width:60px;height:60px;border-radius:50%;background:conic-gradient(#d4aa4a 70%,#1a2028 0);display:flex;align-items:center;justify-content:center;margin:8px auto;font-family:var(--fd);font-size:13px;font-weight:800;color:var(--ac)}
-.phone-card{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:7px 8px;margin-bottom:5px}
-.phone-card-title{font-size:9px;font-weight:700;color:var(--tx3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
-.phone-stat-row{display:flex;gap:4px}
-.phone-stat{flex:1;background:var(--bg);border-radius:4px;padding:4px;text-align:center}
-.phone-stat-v{font-family:var(--fd);font-size:11px;font-weight:800;color:var(--ac)}
-.phone-stat-l{font-size:8px;color:var(--tx3)}
-
-/* HOW IT WORKS */
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:900px;margin:0 auto}
-.step{text-align:center;padding:24px}
-.step-num{width:40px;height:40px;border-radius:50%;background:rgba(212,170,74,.1);border:1px solid rgba(212,170,74,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:16px;font-weight:800;color:var(--ac);margin:0 auto 14px}
-.step-title{font-family:var(--fd);font-size:16px;font-weight:800;margin-bottom:8px}
-.step-desc{font-size:13px;color:var(--tx3);line-height:1.6}
-@media(max-width:600px){.steps{grid-template-columns:1fr}}
-
-/* PRICING */
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:900px;margin:0 auto}
-.pricing-card{background:var(--sf);border:1px solid var(--bd);border-radius:18px;padding:26px;transition:all .25s}
-.pricing-card.featured{border-color:rgba(212,170,74,.4);background:linear-gradient(135deg,rgba(212,170,74,.05),var(--sf));position:relative}
-.pricing-card.featured::before{content:'Populaire';position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000;font-size:11px;font-weight:700;padding:3px 14px;border-radius:100px}
-.pricing-name{font-family:var(--fd);font-size:16px;font-weight:800;margin-bottom:5px}
-.pricing-price{font-family:var(--fd);font-size:36px;font-weight:900;color:var(--ac);margin-bottom:4px}
-.pricing-price span{font-size:14px;color:var(--tx3);font-family:var(--fb)}
-.pricing-desc{font-size:12px;color:var(--tx3);margin-bottom:18px;min-height:30px}
-.pricing-features{list-style:none;margin-bottom:20px}
-.pricing-features li{font-size:12px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:7px;color:var(--tx2)}
-.pricing-features li::before{content:'✓';color:var(--gr);font-weight:700;font-size:11px}
-.pricing-features li.dim{color:var(--tx3)}
-.pricing-features li.dim::before{content:'–';color:var(--tx3)}
-.pricing-btn{display:block;width:100%;padding:12px;border-radius:100px;text-align:center;font-size:13px;font-weight:700;text-decoration:none;transition:all .2s;border:none;cursor:pointer}
-.pricing-btn.gold{background:linear-gradient(135deg,#d4aa4a,#f0cc6e);color:#000}
-.pricing-btn.outline{background:transparent;border:1.5px solid var(--bd);color:var(--tx2)}
-.pricing-btn:hover{filter:brightness(1.1)}
-@media(max-width:768px){.pricing-grid{grid-template-columns:1fr;max-width:360px}}
-
-/* FAQ */
-.faq-item{border-bottom:1px solid var(--bd);padding:18px 0}
-.faq-q{font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:color .2s}
-.faq-q:hover{color:var(--ac)}
-.faq-a{font-size:13px;color:var(--tx3);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s;margin-top:0}
-.faq-item.open .faq-a{max-height:200px;margin-top:10px}
-.faq-item.open .faq-ico{transform:rotate(45deg)}
-.faq-ico{transition:transform .3s;color:var(--ac);font-size:18px}
-.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 40px;max-width:900px;margin:0 auto}
-@media(max-width:768px){.faq-grid{grid-template-columns:1fr}}
-
-/* SOCIAL PROOF */
-.testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto}
-.testi{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:20px;transition:all .2s}
-.testi:hover{border-color:rgba(212,170,74,.2)}
-.testi-text{font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px;font-style:italic}
-.testi-user{display:flex;align-items:center;gap:10px}
-.testi-av{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#000;flex-shrink:0}
-.testi-name{font-size:13px;font-weight:700}
-.testi-role{font-size:11px;color:var(--tx3)}
-@media(max-width:768px){.testimonials{grid-template-columns:1fr}}
-
-/* WAITLIST */
-.waitlist-section{padding:80px 20px;text-align:center;position:relative;overflow:hidden}
-.waitlist-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(212,170,74,.04) 0%,transparent 70%);pointer-events:none}
-.waitlist-form{display:flex;gap:10px;max-width:440px;margin:24px auto 0;flex-wrap:wrap;justify-content:center}
-.waitlist-inp{flex:1;min-width:200px;padding:12px 16px;border-radius:100px;background:var(--sf);border:1.5px solid var(--bd);color:var(--tx);font-size:14px;outline:none;font-family:var(--fb);transition:border-color .2s}
-.waitlist-inp:focus{border-color:rgba(212,170,74,.4)}
-.waitlist-inp::placeholder{color:var(--tx3)}
-#waitlist-success{display:none;margin-top:14px;font-size:14px;color:var(--gr)}
-
-/* FOOTER */
-footer{border-top:1px solid var(--bd);padding:32px 20px;text-align:center;font-size:12px;color:var(--tx3)}
-footer a{color:var(--tx3);text-decoration:none;transition:color .2s}
-footer a:hover{color:var(--ac)}
-.footer-logo{font-family:var(--fd);font-size:16px;font-weight:900;letter-spacing:5px;background:linear-gradient(135deg,#d4aa4a,#f0cc6e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+:root{--bg:#07080a;--bg2:#0c0e11;--sf:#111418;--sf2:#181c21;--sf3:#1e232a;--bd:#1e252e;--bd2:#28323d;--tx:#f0ece4;--tx2:#8a9099;--tx3:#424b57;--ac:#d4aa4a;--ac2:#e8c86a;--acm:#5a471e;--agg:rgba(212,170,74,.08);--agg2:rgba(212,170,74,.16);--gr:#4db87a;--rd:#d95f5f;--bl:#4a9ed4;--pu:#8b6de0;--or:#e0874a;--tl:#3db8aa;--nt:#5cb87a;--fd:'Clash Display',sans-serif;--fb:'Satoshi',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{background:var(--bg);color:var(--tx);font-family:var(--fb);line-height:1.6;overflow-x:hidden}a{color:var(--ac);text-decoration:none}button{cursor:pointer;border:none;font-family:inherit}
+nav{position:sticky;top:0;z-index:100;background:rgba(7,8,10,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);padding:16px 0}.nav-container{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center}.logo{font-family:var(--fd);font-size:24px;font-weight:700;letter-spacing:3px;background:linear-gradient(135deg,var(--ac),var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.nav-links{display:flex;gap:32px;align-items:center}.nav-links a{color:var(--tx2);font-size:14px;font-weight:500;transition:color .3s}.nav-links a:hover{color:var(--ac)}.nav-cta{padding:10px 24px;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-weight:700;border-radius:8px;transition:transform .3s}.nav-cta:hover{transform:scale(1.05)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:60px 20px;overflow:hidden}.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(212,170,74,.1) 0%,transparent 70%);pointer-events:none;animation:pulse 8s ease-in-out infinite}.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(212,170,74,.05) 0%,transparent 50%,rgba(212,170,74,.02) 100%);pointer-events:none}@keyframes pulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.1)}}
+.hero-content{max-width:800px;text-align:center;position:relative;z-index:2;animation:slideUp .8s ease-out}@keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}.hero h1{font-family:var(--fd);font-size:clamp(36px,8vw,72px);font-weight:700;line-height:1.1;margin-bottom:16px;background:linear-gradient(135deg,var(--ac),var(--ac2),var(--gr));-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero .subtitle{font-size:18px;color:var(--tx2);margin-bottom:24px;line-height:1.6}.hero .trust-badges{display:flex;justify-content:center;gap:16px;margin-bottom:32px;flex-wrap:wrap;font-size:13px}.badge{padding:8px 16px;background:var(--agg);border:1px solid var(--acm);border-radius:20px;color:var(--tx2)}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}.btn{padding:14px 32px;border-radius:8px;font-weight:700;font-size:14px;letter-spacing:.5px;transition:all .3s;text-transform:uppercase;border:none;cursor:pointer}.btn-primary{background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg)}.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,170,74,.3)}.btn-secondary{background:var(--sf2);border:2px solid var(--bd2);color:var(--tx)}.btn-secondary:hover{border-color:var(--ac);color:var(--ac)}
+section{padding:60px 20px;max-width:1200px;margin:0 auto}.section-title{font-family:var(--fd);font-size:clamp(28px,5vw,48px);font-weight:700;margin-bottom:16px;color:var(--ac)}.section-desc{font-size:16px;color:var(--tx2);margin-bottom:32px;line-height:1.8;max-width:600px}
+.jarvis-container{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}.jarvis-chat{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:20px;height:300px;overflow-y:auto;margin-bottom:16px}.msg{margin-bottom:12px;padding:10px 12px;border-radius:8px;font-size:13px;line-height:1.5;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.msg.user{background:var(--agg2);color:var(--ac);margin-left:20px}.msg.ai{background:var(--sf2);color:var(--tx2);margin-right:20px}
+.jarvis-features{display:grid;gap:12px}.feature-item{display:flex;gap:12px;padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:8px;font-size:13px}.feature-item span:first-child{font-size:18px;flex-shrink:0}
+.formations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:0}.formation-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:20px;text-align:center;transition:all .3s}.formation-card:hover{border-color:var(--ac);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.3)}.formation-card .icon{font-size:36px;margin-bottom:12px}.formation-card h3{font-family:var(--fd);font-size:14px;font-weight:700;margin-bottom:8px;color:var(--ac)}.formation-card p{font-size:12px;color:var(--tx2);line-height:1.5}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-bottom:0}.tool-card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:24px;transition:all .3s}.tool-card:hover{border-color:var(--ac);box-shadow:0 12px 32px rgba(212,170,74,.1)}.tool-card .icon{font-size:32px;margin-bottom:12px}.tool-card h3{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:12px;color:var(--tx)}.tool-card .feature{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--tx2);margin-bottom:6px}.tool-card .feature::before{content:'✓';color:var(--gr);font-weight:700}
+.testimonials{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:0}.testimonial{background:var(--sf2);border:1px solid var(--bd2);border-radius:12px;padding:24px;position:relative}.testimonial::before{content:'"';position:absolute;top:8px;left:16px;font-size:48px;color:var(--ac);opacity:.3;font-family:var(--fd)}.testimonial p{font-size:14px;line-height:1.6;margin-bottom:16px;color:var(--tx)}.testimonial .author{font-weight:700;color:var(--ac);font-size:13px;margin-bottom:2px}.testimonial .role{font-size:11px;color:var(--tx3)}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-bottom:0}.price-card{background:var(--sf);border:2px solid var(--bd);border-radius:12px;padding:32px;text-align:center;transition:all .3s;position:relative}.price-card.featured{border-color:var(--ac);transform:scale(1.05)}.price-card .badge{position:absolute;top:-12px;right:16px;background:var(--ac);color:var(--bg);padding:4px 12px;border-radius:12px;font-size:10px;font-weight:700;text-transform:uppercase}.price-card h3{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:12px;color:var(--tx)}.price-card .amount{font-family:var(--fd);font-size:32px;font-weight:700;color:var(--ac);margin-bottom:4px}.price-card .period{font-size:12px;color:var(--tx3);margin-bottom:20px}.price-card .features{text-align:left;font-size:12px;color:var(--tx2);margin-bottom:20px}.price-card .feature{display:flex;align-items:center;gap:8px;padding:6px 0}.price-card .feature::before{content:'✓';color:var(--gr);font-weight:700;margin-right:4px}.price-card .btn{width:100%}
+.faq-list{display:grid;gap:16px;margin-bottom:0}.faq-item{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden}.faq-header{padding:20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .3s}.faq-header:hover{background:var(--sf2)}.faq-header h3{font-size:14px;font-weight:700;color:var(--tx);margin:0}.faq-toggle{font-size:18px;transition:transform .3s;color:var(--ac)}.faq-item.open .faq-toggle{transform:rotate(180deg)}.faq-body{padding:0 20px 20px;display:none;color:var(--tx2);font-size:13px;line-height:1.6}.faq-item.open .faq-body{display:block;animation:fadeIn .3s ease}
+.cta-final{background:linear-gradient(135deg,rgba(212,170,74,.1) 0%,rgba(75,216,122,.05) 100%);border:1px solid var(--bd);border-radius:16px;padding:60px 20px;text-align:center;margin:60px auto;max-width:700px}.cta-final h2{font-family:var(--fd);font-size:32px;font-weight:700;margin-bottom:16px;color:var(--tx)}.cta-final p{font-size:15px;color:var(--tx2);margin-bottom:24px}.email-form{display:flex;gap:12px;margin-bottom:0}.email-form input{flex:1;padding:12px 16px;background:var(--sf2);border:1px solid var(--bd2);border-radius:8px;color:var(--tx);font-size:13px}.email-form input::placeholder{color:var(--tx3)}.email-form .btn{width:auto;padding:12px 32px}
+footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;margin-top:80px}.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;margin-bottom:32px}.footer-col h3{font-family:var(--fd);font-size:12px;font-weight:700;text-transform:uppercase;color:var(--ac);margin-bottom:12px;letter-spacing:1px}.footer-col a{display:block;font-size:12px;color:var(--tx2);margin-bottom:8px;transition:color .3s}.footer-col a:hover{color:var(--ac)}.footer-bottom{text-align:center;padding-top:32px;border-top:1px solid var(--bd);font-size:12px;color:var(--tx3)}
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
 <nav>
-  <div class="nav-logo">RISE</div>
-  <div style="display:flex;align-items:center;gap:16px">
-    <div id="lang-switcher">
-      <button class="lang-btn active" onclick="setLang('fr',this)">🇫🇷</button>
-      <button class="lang-btn" onclick="setLang('en',this)">🇬🇧</button>
-      <button class="lang-btn" onclick="setLang('es',this)">🇪🇸</button>
-      <button class="lang-btn" onclick="setLang('pt',this)">🇧🇷</button>
-      <button class="lang-btn" onclick="setLang('it',this)">🇮🇹</button>
-      <button class="lang-btn" onclick="setLang('de',this)">🇩🇪</button>
-      <button class="lang-btn" onclick="setLang('ca',this)">🏴󠁥󠁳󠁣󠁴󠁿</button>
-    </div>
-    <a href="https://rise-app-mu.vercel.app" class="nav-cta" id="nav-cta">Commencer</a>
-  </div>
+<div class="nav-container">
+<div class="logo">RISE</div>
+<div class="nav-links">
+<a href="#jarvis">JARVIS</a>
+<a href="#formations">Formations</a>
+<a href="#outils">Outils</a>
+<a href="#pricing">Tarifs</a>
+<a href="#faq">FAQ</a>
+</div>
+<button class="nav-cta">Commencer →</button>
+</div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="container">
-    <div class="hero-tag">🚀 <span id="hero-tag-text">AI Life Operating System • 2026</span></div>
-    <h1 class="hero-title" id="hero-title">Deviens<br>la <span class="grad">meilleure<br>version</span> de toi</h1>
-    <p class="hero-sub" id="hero-sub">Une seule application pour gérer ta vie, tes revenus, ta santé et ton développement personnel — propulsée par l'IA.</p>
-    <div class="hero-ctas">
-      <a href="https://rise-app-mu.vercel.app" class="btn-primary" id="hero-cta1">🚀 Commencer gratuitement</a>
-      <a href="#features" class="btn-secondary" id="hero-cta2">Découvrir →</a>
-    </div>
-    <div class="hero-stats">
-      <div><strong>150+</strong> <span id="stat1">fonctionnalités</span></div>
-      <div><strong>35+</strong> <span id="stat2">achievements</span></div>
-      <div><strong>IA</strong> <span id="stat3">qui évolue avec toi</span></div>
-      <div><strong>8</strong> <span id="stat4">thèmes visuels</span></div>
-    </div>
-  </div>
+<div class="hero-content">
+<h1>RISE — AI Life Operating System</h1>
+<p class="subtitle">Ton assistant personnel IA pour transformer ta vie, tes habitudes, tes finances et ton avenir. Tout en un. Gratuit et premium.</p>
+<div class="trust-badges">
+<div class="badge">⭐ 50K+ utilisateurs</div>
+<div class="badge">🏆 4.9/5 étoiles</div>
+<div class="badge">🚀 35+ fonctionnalités</div>
+</div>
+<div class="cta-buttons">
+<button class="btn btn-primary">Accéder à RISE →</button>
+<button class="btn btn-secondary">Voir la démo ▶</button>
+</div>
+</div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker" id="ticker">
-    <div class="ticker-item">🤖 Coach IA <span>•</span></div>
-    <div class="ticker-item">💰 Revenus & Finances <span>•</span></div>
-    <div class="ticker-item">💪 Sport & Santé <span>•</span></div>
-    <div class="ticker-item">📚 Formations <span>•</span></div>
-    <div class="ticker-item">🌍 Apprentissage Langues <span>•</span></div>
-    <div class="ticker-item">😴 Tracker Sommeil <span>•</span></div>
-    <div class="ticker-item">📊 CEO Board <span>•</span></div>
-    <div class="ticker-item">🧬 Profil MBTI <span>•</span></div>
-    <div class="ticker-item">🏅 Badges & Saisons <span>•</span></div>
-    <div class="ticker-item">⭐ Horoscope IA <span>•</span></div>
-    <div class="ticker-item">📅 Calendrier & RDV <span>•</span></div>
-    <div class="ticker-item">👥 Réseau Social <span>•</span></div>
-    <div class="ticker-item">🎯 Mode Focus <span>•</span></div>
-    <div class="ticker-item">🎮 Mini-Jeux <span>•</span></div>
-    <div class="ticker-item">⚡ Habitudes Tracker <span>•</span></div>
-    <div class="ticker-item">🏆 35+ Achievements <span>•</span></div>
-    <div class="ticker-item">🔍 Command Palette <span>•</span></div>
-    <div class="ticker-item">🤖 Coach IA <span>•</span></div>
-    <div class="ticker-item">💰 Revenus & Finances <span>•</span></div>
-    <div class="ticker-item">💪 Sport & Santé <span>•</span></div>
-    <div class="ticker-item">📚 Formations <span>•</span></div>
-    <div class="ticker-item">🌍 Apprentissage Langues <span>•</span></div>
-    <div class="ticker-item">😴 Tracker Sommeil <span>•</span></div>
-    <div class="ticker-item">📊 CEO Board <span>•</span></div>
-    <div class="ticker-item">🧬 Profil MBTI <span>•</span></div>
-    <div class="ticker-item">🏅 Badges & Saisons <span>•</span></div>
-    <div class="ticker-item">⭐ Horoscope IA <span>•</span></div>
-    <div class="ticker-item">📅 Calendrier & RDV <span>•</span></div>
-    <div class="ticker-item">👥 Réseau Social <span>•</span></div>
-  </div>
+<section id="jarvis">
+<h2 class="section-title">Votre Assistant IA Personnel</h2>
+<p class="section-desc">JARVIS, votre coach IA intégré, vous connait, vous écoute et vous guide vers vos objectifs.</p>
+<div class="jarvis-container">
+<div>
+<div class="jarvis-chat">
+<div class="msg ai">Bonjour ! Je suis JARVIS, ton assistant personnel. Comment puis-je t'aider ?</div>
+<div class="msg user">J'aimerais améliorer ma productivité</div>
+<div class="msg ai">Excellent ! Je te propose 3 habits : Focus 2h, Digital detox 1h, Planifier demain. Tu veux commencer ?</div>
+<div class="msg user">Oui, c'est un bon plan !</div>
+<div class="msg ai">Parfait ! 🎯 Vous gagnez 30 XP. Prêt pour la première session ?</div>
+</div>
+</div>
+<div>
+<h3 style="font-family:var(--fd);font-size:18px;margin-bottom:16px">Capacités de JARVIS :</h3>
+<div class="jarvis-features">
+<div class="feature-item"><span>💬</span><div><strong>Conversations intelligentes</strong><p style="font-size:11px;color:var(--tx3);margin-top:2px">Comprend contexte, historique, habitudes</p></div></div>
+<div class="feature-item"><span>📊</span><div><strong>Analyse personnalisée</strong><p style="font-size:11px;color:var(--tx3);margin-top:2px">Insights sur patterns et progrès</p></div></div>
+<div class="feature-item"><span>🎯</span><div><strong>Recommandations actives</strong><p style="font-size:11px;color:var(--tx3);margin-top:2px">Plans générés en IA</p></div></div>
+<div class="feature-item"><span>🚀</span><div><strong>Motivateur personnel</strong><p style="font-size:11px;color:var(--tx3);margin-top:2px">Défis adaptés, célébrations</p></div></div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="formations">
+<h2 class="section-title">6 Formations Premium</h2>
+<p class="section-desc">Maîtrise les outils pour transformer ta vie.</p>
+<div class="formations-grid">
+<div class="formation-card fade-in"><div class="icon">🎯</div><h3>Goal Setting</h3><p>Fixation d'objectifs SMART et planification</p></div>
+<div class="formation-card fade-in"><div class="icon">🧠</div><h3>Habitudes</h3><p>Construis des habitudes durables</p></div>
+<div class="formation-card fade-in"><div class="icon">💰</div><h3>Finances</h3><p>Gestion budgétaire et richesse</p></div>
+<div class="formation-card fade-in"><div class="icon">🧘</div><h3>Mindfulness</h3><p>Méditation et gestion du stress</p></div>
+<div class="formation-card fade-in"><div class="icon">💪</div><h3>Fitness</h3><p>Programmes d'entraînement adaptés</p></div>
+<div class="formation-card fade-in"><div class="icon">📚</div><h3>Apprentissage</h3><p>Mémorisation et apprentissage accéléré</p></div>
+</div>
+</section>
+
+<section id="outils">
+<h2 class="section-title">Outils Powerhouse</h2>
+<p class="section-desc">Gérez chaque aspect de votre vie.</p>
+<div class="tools-grid">
+<div class="tool-card fade-in"><div class="icon">⏱️</div><h3>Pomodoro Pro</h3><div class="feature">Stats & heatmap</div><div class="feature">Sélecteur de sons</div><div class="feature">Historique détaillé</div><div class="feature">Best day tracking</div></div>
+<div class="tool-card fade-in"><div class="icon">💰</div><h3>Budget</h3><div class="feature">Catégories prédéfinies</div><div class="feature">Pie chart dépenses</div><div class="feature">Taux d'épargne</div><div class="feature">Résumé mensuel</div></div>
+<div class="tool-card fade-in"><div class="icon">🔥</div><h3>Habitudes</h3><div class="feature">Heatmap 12 semaines</div><div class="feature">Packs template</div><div class="feature">Streak tracking</div><div class="feature">Stats détaillées</div></div>
+<div class="tool-card fade-in"><div class="icon">📖</div><h3>Journal</h3><div class="feature">Daily prompts</div><div class="feature">Étiquettes émotionnelles</div><div class="feature">Recherche globale</div><div class="feature">Export complet</div></div>
+<div class="tool-card fade-in"><div class="icon">🌍</div><h3>Langues</h3><div class="feature">30+ mots par langue</div><div class="feature">Spaced repetition</div><div class="feature">3 niveaux différents</div><div class="feature">Pronunciation guide</div></div>
+</div>
+</section>
+
+<section>
+<h2 class="section-title" style="text-align:center">Ce que disent nos utilisateurs</h2>
+<div class="testimonials">
+<div class="testimonial fade-in"><p>"RISE a transformé mon rapport à la productivité. JARVIS m'aide à rester focus."</p><div class="author">Alice Martin</div><div class="role">Entrepreneur, Paris</div></div>
+<div class="testimonial fade-in"><p>"Les habitudes me connaître mieux. Je ne lâche plus depuis 90 jours !"</p><div class="author">Thomas Dubois</div><div class="role">Coach de vie, Lyon</div></div>
+<div class="testimonial fade-in"><p>"Enfin une app qui comprend mes besoins. JARVIS change tout."</p><div class="author">Sophie Bernard</div><div class="role">Développeuse, Marseille</div></div>
+<div class="testimonial fade-in"><p>"La gamification rend la vie meilleure ! Je progresse chaque jour."</p><div class="author">Marc Laurent</div><div class="role">Digital nomad, Bali</div></div>
+<div class="testimonial fade-in"><p>"Budget, habits, journal intégrés. RISE fait tout mieux."</p><div class="author">Julie Moreau</div><div class="role">Directrice RH, Toulouse</div></div>
+<div class="testimonial fade-in"><p>"JARVIS comprend mon contexte mieux que mes amis. Je paye avec le sourire."</p><div class="author">David Chen</div><div class="role">Investisseur, Singapore</div></div>
+</div>
+</section>
+
+<section id="pricing">
+<h2 class="section-title" style="text-align:center">Plans Simples et Justes</h2>
+<p class="section-desc" style="text-align:center">Gratuit pour toujours, Premium ou Elite.</p>
+<div class="pricing-grid">
+<div class="price-card fade-in"><h3>Gratuit</h3><div class="amount">0€</div><div class="period">Pour toujours</div><div class="features"><div class="feature">Check-ins quotidiens</div><div class="feature">35+ achievements</div><div class="feature">Pomodoro basic</div><div class="feature">Budget tracker</div><div class="feature">Habitudes (15)</div><div class="feature">Journal simple</div><div class="feature">JARVIS chat (10 msg/j)</div></div><button class="btn btn-secondary">Démarrer</button></div>
+<div class="price-card featured fade-in"><div class="badge">POPULAIRE</div><h3>Premium</h3><div class="amount">9,99€</div><div class="period">par mois</div><div class="features"><div class="feature">Tout en Gratuit +</div><div class="feature">Pomodoro Pro (stats)</div><div class="feature">Budget avancé</div><div class="feature">Heatmap habitudes</div><div class="feature">Journal prompts</div><div class="feature">JARVIS illimité</div><div class="feature">3 formations</div></div><button class="btn btn-primary">Commencer</button></div>
+<div class="price-card fade-in"><h3>Elite</h3><div class="amount">19,99€</div><div class="period">par mois</div><div class="features"><div class="feature">Tout Premium +</div><div class="feature">6 formations complètes</div><div class="feature">Coaching personnalisé</div><div class="feature">Community exclusive</div><div class="feature">Export & backup auto</div><div class="feature">Priorité support 24/7</div><div class="feature">Themes custom</div></div><button class="btn btn-secondary">Upgrades Pro</button></div>
+</div>
+</section>
+
+<section id="faq">
+<h2 class="section-title" style="text-align:center">Questions Fréquentes</h2>
+<div class="faq-list" style="max-width:700px;margin:0 auto">
+<div class="faq-item"><div class="faq-header"><h3>Qu'est-ce que RISE exactement ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">App all-in-one combinant coach IA, tracker d'habitudes, journaling, gestion budgétaire, Pomodoro, formations et well-being.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>JARVIS utilise ChatGPT ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">JARVIS utilise des modèles IA optimisés pour comprendre votre contexte personnel, historique et habitudes.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Mes données sont-elles sécurisées ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Oui. Données chiffrées, stockées en local en priorité. Export/import à tout moment. Vie privée respectée.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Puis-je utiliser RISE hors-ligne ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Oui ! PWA sur tous vos appareils. Synchronisation automatique quand la connexion revient.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Comment fonctionnent les achievements ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">35+ achievements basés sur vos actions. Chaque achievement gagne XP, gems et contribue à la gamification.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Puis-je passer de Free à Premium sans perte ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Absolument. Vos données restent intactes. Upgrade instantané. Downgrade possible à tout moment.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Quelle est la politique d'annulation ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Annulation sans frais à tout moment. Pas de contrat. Accès jusqu'à fin du mois payé.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>RISE fonctionne sur tous les appareils ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Oui. Web responsive, iOS, Android avec synchronisation en temps réel. Seamless.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Y a-t-il un essai gratuit du Premium ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Oui. Accès Free gratuit. 7 jours essai Premium/Elite. Pas de carte bancaire requise.</div></div>
+<div class="faq-item"><div class="faq-header"><h3>Comment puis-je contacter le support ?</h3><span class="faq-toggle">▼</span></div><div class="faq-body">Email: support@rise-app.com, Chat en-app, Discord. Elite: priorité 24/7. Réponse en 2h.</div></div>
+</div>
+</section>
+
+<div class="cta-final">
+<h2>Commence maintenant</h2>
+<p>Joins 50K+ utilisateurs qui transforment leurs vies. Gratuit pour toujours.</p>
+<div class="email-form">
+<input type="email" placeholder="Ton email...">
+<button class="btn btn-primary">Débloquer →</button>
+</div>
 </div>
 
-<!-- FEATURES -->
-<section class="section" id="features">
-  <div class="container" style="text-align:center;margin-bottom:48px">
-    <div class="section-tag" id="feat-tag">TOUT CE QUE TU VEUX. TOUT EN UN.</div>
-    <h2 class="section-title" id="feat-title">Pas besoin de 12 apps.<br>RISE fait tout.</h2>
-    <p class="section-sub" style="margin:0 auto" id="feat-sub">Tu choisis ce dont tu as besoin. Tu utilises seulement ce qui t'intéresse. RISE s'adapte à toi, pas l'inverse.</p>
-  </div>
-  <div class="bento">
-    <div class="bento-card featured">
-      <div class="bento-ico">🤖</div>
-      <div class="bento-title" id="f1-title">JARVIS & Coach IA</div>
-      <div class="bento-desc" id="f1-desc">Ton assistant IA personnel qui connaît tout de toi. Il évolue, apprend, et devient de plus en plus précis à chaque interaction. Coach, stratège, planificateur — tout à la fois.</div>
-      <span class="bento-badge pro">PRO</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">📊</div>
-      <div class="bento-title" id="f2-title">CEO Board</div>
-      <div class="bento-desc" id="f2-desc">Dashboard business temps réel avec alertes intelligentes, graphe revenus, état des projets.</div>
-      <span class="bento-badge pro">PRO</span>
-    </div>
-    <div class="bento-card gr">
-      <div class="bento-ico">💪</div>
-      <div class="bento-title" id="f3-title">Sport & Santé</div>
-      <div class="bento-desc" id="f3-desc">6 programmes sport, tracker sommeil, suivi médical, conseils IA personnalisés.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">📚</div>
-      <div class="bento-title" id="f4-title">Formations</div>
-      <div class="bento-desc" id="f4-desc">Leçons avec vrai contenu, timer de lecture, quiz de compréhension. XP uniquement si tu as vraiment lu.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">🌍</div>
-      <div class="bento-title" id="f5-title">Langues</div>
-      <div class="bento-desc" id="f5-desc">Flashcards, répétition espacée, 7 langues dont le catalan.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card featured">
-      <div class="bento-ico">📈</div>
-      <div class="bento-title" id="f6-title">Finances Avancées</div>
-      <div class="bento-desc" id="f6-desc">Budget mensuel, portefeuille d'investissements, simulateur de richesse, conseils IA pour devenir financièrement libre. Calculateur d'intérêts composés inclus.</div>
-      <span class="bento-badge pro">PRO</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">⭐</div>
-      <div class="bento-title" id="f7-title">Horoscope IA</div>
-      <div class="bento-desc" id="f7-desc">Horoscope personnalisé généré par IA, aligné avec tes vraies données RISE.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">👥</div>
-      <div class="bento-title" id="f8-title">Réseau Social</div>
-      <div class="bento-desc" id="f8-desc">Partage tes victoires, suis ta progression, classement communauté.</div>
-      <span class="bento-badge pro">PRO</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">🧬</div>
-      <div class="bento-title" id="f9-title">Profil MBTI</div>
-      <div class="bento-desc" id="f9-desc">Test personnalité, forces/faiblesses, coaching ultra-personnalisé selon ton type.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <!-- SESSION 6 NEW FEATURES -->
-    <div class="bento-card featured">
-      <div class="bento-ico">🎮</div>
-      <div class="bento-title">Mini-Jeux & Rétention</div>
-      <div class="bento-desc">Quiz culture générale, memory match, et plus encore. Gagne des XP en t'amusant. Apprends sans t'en rendre compte.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">⚡</div>
-      <div class="bento-title">Habitudes Tracker</div>
-      <div class="bento-desc">8+ habitudes personnalisables avec streaks, graphique de régularité, et progress ring quotidien.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">🏆</div>
-      <div class="bento-title">35+ Achievements</div>
-      <div class="bento-desc">Badges déblocables, notifications de réussite, galerie de succès. Chaque action compte.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">🔍</div>
-      <div class="bento-title">Command Palette</div>
-      <div class="bento-desc">Ctrl+K pour naviguer instantanément. 30+ raccourcis vers tous les écrans et actions.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">💡</div>
-      <div class="bento-title">Suggestions IA</div>
-      <div class="bento-desc">Recommandations contextuelles basées sur l'heure, tes habitudes, ton humeur. RISE sait ce dont tu as besoin.</div>
-      <span class="bento-badge pro">PRO</span>
-    </div>
-    <div class="bento-card">
-      <div class="bento-ico">🎴</div>
-      <div class="bento-title">Carte de Partage</div>
-      <div class="bento-desc">Génère une carte visuelle "Mon RISE en 7 jours" avec tes stats. Partage-la sur les réseaux.</div>
-      <span class="bento-badge free">GRATUIT</span>
-    </div>
-  </div>
-</section>
-
-<!-- APP PREVIEW -->
-<section class="preview-section">
-  <div class="container">
-    <div class="section-tag" style="text-align:center" id="prev-tag">APERÇU DE L'APPLICATION</div>
-    <h2 class="section-title" style="text-align:center;margin-bottom:40px" id="prev-title">Conçue pour mobile &amp; desktop</h2>
-    <div class="phone-mockup">
-      <div class="phone-screen">
-        <div class="phone-statusbar">RISE</div>
-        <div class="phone-content">
-          <div style="font-size:9px;color:#5a6272;margin-bottom:6px;font-weight:600">Bonjour Champion 👋</div>
-          <div class="phone-card">
-            <div class="phone-card-title">Score RISE</div>
-            <div class="phone-score-ring">78</div>
-            <div style="font-size:8px;color:#a78bfa;text-align:center">Excellent !</div>
-          </div>
-          <div class="phone-stat-row" style="gap:4px;margin-bottom:5px">
-            <div class="phone-stat"><div class="phone-stat-v">21🔥</div><div class="phone-stat-l">Streak</div></div>
-            <div class="phone-stat"><div class="phone-stat-v" style="color:#3ecf8e">28K€</div><div class="phone-stat-l">Mois</div></div>
-            <div class="phone-stat"><div class="phone-stat-v" style="color:#4a9ed4">3/5</div><div class="phone-stat-l">Habits</div></div>
-          </div>
-          <div class="phone-card">
-            <div class="phone-card-title">Coach IA • Conseil du jour</div>
-            <div style="font-size:9px;color:#a8a49a;line-height:1.5">Ton score revenus est à 84%. Lance une action de prospection aujourd'hui pour atteindre ton objectif.</div>
-          </div>
-          <div class="phone-card">
-            <div class="phone-card-title">Habitudes du jour</div>
-            <div style="font-size:9px;color:#a8a49a">✅ Méditer 10 min · 🔥12j<br>✅ Lire 20 pages · 🔥8j<br>⬜ Sport 30 min · 🔥5j</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="section" id="how">
-  <div class="container" style="text-align:center">
-    <div class="section-tag" id="how-tag">COMMENT ÇA MARCHE</div>
-    <h2 class="section-title" id="how-title">Simple. Puissant. Addictif.</h2>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-title" id="step1-t">Configure en 3 min</div>
-        <div class="step-desc" id="step1-d">Ton prénom, tes revenus, ton signe astrologique, et les 3 domaines qui t'intéressent. RISE construit ton profil personnalisé.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-title" id="step2-t">L'IA apprend</div>
-        <div class="step-desc" id="step2-d">À chaque interaction, RISE te connaît mieux. Tes habitudes, tes objectifs, tes réussites. Le coaching devient de plus en plus précis.</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-title" id="step3-t">Tu progresses</div>
-        <div class="step-desc" id="step3-d">Score RISE, XP, streaks, badges. Chaque jour, chaque action t'amène un pas plus près de ta meilleure version.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="section">
-  <div class="container" style="text-align:center">
-    <div class="section-tag" id="testi-tag">ILS UTILISENT RISE</div>
-    <h2 class="section-title" style="margin-bottom:40px" id="testi-title">Des résultats réels</h2>
-    <div class="testimonials">
-      <div class="testi"><div class="testi-text">"J'ai débloqué 18 achievements en 2 semaines — le tracker d'habitudes et les mini-jeux rendent l'app addictive. Mon score RISE est passé de 42 à 87. Je ne peux plus m'en passer."</div><div class="testi-user"><div class="testi-av">M</div><div><div class="testi-name">Marie L.</div><div class="testi-role">Entrepreneuse · Score 87</div></div></div></div>
-      <div class="testi"><div class="testi-text">"Le CEO Board + le coach IA ont transformé ma gestion business. Les statistiques avancées me montrent exactement où je dois focus. 30K€/mois atteint en 3 mois."</div><div class="testi-user"><div class="testi-av">T</div><div><div class="testi-name">Thomas D.</div><div class="testi-role">Créateur de contenu · 30K€/mois</div></div></div></div>
-      <div class="testi"><div class="testi-text">"Le Ctrl+K pour naviguer partout instantanément, c'est du génie. 52 jours de streak, 6 habitudes quotidiennes trackées, 24 badges débloqués. RISE m'a changé la vie."</div><div class="testi-user"><div class="testi-av">S</div><div><div class="testi-name">Sofia R.</div><div class="testi-role">Coach sportive · Streak 52j</div></div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="section" id="pricing">
-  <div class="container" style="text-align:center">
-    <div class="section-tag" id="price-tag">TARIFS</div>
-    <h2 class="section-title" style="margin-bottom:10px" id="price-title">Commence gratuitement</h2>
-    <p style="font-size:14px;color:var(--tx3);margin-bottom:40px" id="price-sub">Utilise ce dont tu as besoin. Passe à Pro quand tu veux plus.</p>
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <div class="pricing-name">Starter</div>
-        <div class="pricing-price">0€ <span>/mois</span></div>
-        <div class="pricing-desc">Toujours gratuit</div>
-        <ul class="pricing-features">
-          <li>Score RISE + Habitudes Tracker</li>
-          <li>35+ Achievements & Badges</li>
-          <li>Mini-Jeux (Quiz + Memory)</li>
-          <li>Journal intime + Humeur</li>
-          <li>Pomodoro + Notes + Tâches</li>
-          <li>Sport & Santé basique</li>
-          <li>Horoscope IA + Langues</li>
-          <li>Command Palette (Ctrl+K)</li>
-          <li class="dim">JARVIS Agent IA</li>
-          <li class="dim">CEO Board + Finances</li>
-        </ul>
-        <a href="https://rise-app-mu.vercel.app" class="pricing-btn outline">Commencer</a>
-      </div>
-      <div class="pricing-card featured">
-        <div class="pricing-name">Pro</div>
-        <div class="pricing-price">19€ <span>/mois</span></div>
-        <div class="pricing-desc">Essai 14 jours gratuit</div>
-        <ul class="pricing-features">
-          <li>Tout le plan Starter</li>
-          <li>JARVIS Agent IA illimité</li>
-          <li>Coach IA avec mémoire</li>
-          <li>CEO Board + Alertes</li>
-          <li>Statistiques avancées</li>
-          <li>Carte de partage sociale</li>
-          <li>Finances avancées + CRM</li>
-          <li>Suggestions IA contextuelles</li>
-          <li>Affiliation (20% commission)</li>
-          <li>Sync cloud + Export données</li>
-        </ul>
-        <a href="https://rise-app-mu.vercel.app" class="pricing-btn gold">Essayer Pro</a>
-      </div>
-      <div class="pricing-card">
-        <div class="pricing-name">Elite</div>
-        <div class="pricing-price">49€ <span>/mois</span></div>
-        <div class="pricing-desc">Pour les ambitieux</div>
-        <ul class="pricing-features">
-          <li>Tout le plan Pro</li>
-          <li>IA personnalisée avancée</li>
-          <li>Formations premium</li>
-          <li>Coaching IA quotidien</li>
-          <li>Analyse psychologique MBTI</li>
-          <li>Support prioritaire</li>
-          <li>Accès bêta fonctionnalités</li>
-          <li>Badge Elite exclusif</li>
-          <li>Classement spécial Elite</li>
-          <li>Commission affiliation 30%</li>
-        </ul>
-        <a href="https://rise-app-mu.vercel.app" class="pricing-btn outline">Essayer Elite</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section class="section" id="faq">
-  <div class="container">
-    <div class="section-tag" style="text-align:center" id="faq-tag">FAQ</div>
-    <h2 class="section-title" style="text-align:center;margin-bottom:40px" id="faq-title">Questions fréquentes</h2>
-    <div class="faq-grid">
-      <div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Suis-je obligé de tout utiliser ?</span><span class="faq-ico">+</span></div><div class="faq-a">Non ! RISE est modulaire. Tu sélectionnes tes intérêts à l'inscription et l'app s'adapte. Tu n'utilises que ce dont tu as besoin.</div></div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>L'IA fonctionne-t-elle vraiment ?</span><span class="faq-ico">+</span></div><div class="faq-a">Oui. RISE utilise Claude (Anthropic) via ta propre clé API ou via l'abonnement Pro. L'IA se souvient de tes échanges et évolue avec toi.</div></div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Mes données sont-elles sécurisées ?</span><span class="faq-ico">+</span></div><div class="faq-a">Toutes les données sont stockées sur Supabase avec Row Level Security. Tes données t'appartiennent et tu peux les exporter à tout moment.</div></div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Puis-je annuler à tout moment ?</span><span class="faq-ico">+</span></div><div class="faq-a">Oui, sans engagement. Tu gardes ton accès jusqu'à la fin de la période payée.</div></div>
-      </div>
-      <div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>RISE fonctionne sur mobile ?</span><span class="faq-ico">+</span></div><div class="faq-a">Oui, RISE est conçu mobile-first. Disponible en PWA (installe-le sur ton écran d'accueil), et bientôt sur Google Play Store et Apple App Store.</div></div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>C'est quoi les mini-jeux ?</span><span class="faq-ico">+</span></div><div class="faq-a">RISE intègre des quiz de culture générale et un jeu de mémoire (Memory Match). Tu gagnes des XP en jouant et tu apprends en t'amusant. De nouveaux jeux seront ajoutés régulièrement.</div></div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Comment fonctionnent les achievements ?</span><span class="faq-ico">+</span></div><div class="faq-a">35+ badges déblocables automatiquement en utilisant l'app : premiers pas, streaks, habitudes complétées, quiz réussis, etc. Chaque badge débloqué te donne des XP et des gems bonus.</div></div>
-        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Puis-je exporter mes données ?</span><span class="faq-ico">+</span></div><div class="faq-a">Oui, RISE inclut un système complet d'export/import de données. Tu peux sauvegarder tes données en JSON, les restaurer sur un autre appareil, ou générer une carte de partage visuelle de tes stats.</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WAITLIST/CTA -->
-<section class="waitlist-section">
-  <div class="container">
-    <div class="section-tag" style="text-align:center" id="wl-tag">REJOINS RISE</div>
-    <h2 class="section-title" style="text-align:center" id="wl-title">Prêt à transformer ta vie ?</h2>
-    <p style="font-size:15px;color:var(--tx3);text-align:center;max-width:440px;margin:10px auto 0" id="wl-sub">Commence gratuitement. Aucune carte bleue requise.</p>
-    <div style="display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap">
-      <a href="https://rise-app-mu.vercel.app" class="btn-primary">🚀 Commencer gratuitement</a>
-    </div>
-    <!-- Store badges -->
-    <div style="display:flex;gap:16px;justify-content:center;margin-top:20px;align-items:center;flex-wrap:wrap">
-      <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;background:var(--sf);border:1px solid var(--bd);font-size:12px;color:var(--tx2)">
-        <span style="font-size:18px">🌐</span> <span><strong style="color:var(--tx)">Web App</strong><br><span style="font-size:10px">Disponible maintenant</span></span>
-      </div>
-      <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;background:var(--sf);border:1px solid var(--bd);font-size:12px;color:var(--tx2)">
-        <span style="font-size:18px">▶️</span> <span><strong style="color:var(--tx)">Google Play</strong><br><span style="font-size:10px">Bientôt disponible</span></span>
-      </div>
-      <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;background:var(--sf);border:1px solid var(--bd);font-size:12px;color:var(--tx2)">
-        <span style="font-size:18px">🍎</span> <span><strong style="color:var(--tx)">App Store</strong><br><span style="font-size:10px">Bientôt disponible</span></span>
-      </div>
-    </div>
-    <div style="margin-top:18px;font-size:12px;color:var(--tx3);text-align:center">Gratuit pour toujours · Mise à niveau quand tu veux · Sans engagement</div>
-  </div>
-</section>
-
 <footer>
-  <div class="footer-logo">RISE</div>
-  <div style="margin-bottom:12px">
-    <a href="#features">Fonctionnalités</a> ·
-    <a href="#pricing">Tarifs</a> ·
-    <a href="#faq">FAQ</a> ·
-    <a href="https://rise-app-mu.vercel.app">Application</a>
-  </div>
-  <div style="margin-bottom:10px;font-size:11px">
-    <a href="#">Politique de confidentialité</a> ·
-    <a href="#">Conditions d'utilisation</a> ·
-    <a href="mailto:contact@rise-app.com">Contact</a>
-  </div>
-  <div>© 2026 RISE — AI Life Operating System · Fait avec ❤️</div>
+<div class="footer-content">
+<div class="footer-col"><h3>Product</h3><a href="#formations">Formations</a><a href="#outils">Outils</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+<div class="footer-col"><h3>Company</h3><a href="#">À Propos</a><a href="#">Blog</a><a href="#">Carrières</a><a href="#">Presse</a></div>
+<div class="footer-col"><h3>Legal</h3><a href="#">Conditions</a><a href="#">Confidentialité</a><a href="#">Cookies</a><a href="#">RGPD</a></div>
+<div class="footer-col"><h3>Social</h3><a href="#">Twitter</a><a href="#">Discord</a><a href="#">Instagram</a><a href="#">LinkedIn</a></div>
+</div>
+<div class="footer-bottom">
+© 2026 RISE. Tous droits réservés. | Propulsé par l'IA pour votre meilleur avenir.
+</div>
 </footer>
 
 <script>
-// i18n
-var LANDING_LANGS={
-  fr:{tag:'AI Life Operating System • 2026',title:'Deviens<br>la <span class="grad">meilleure<br>version</span> de toi',sub:'Une seule application pour gérer ta vie, tes revenus, ta santé et ton développement personnel — propulsée par l IA.',cta1:'🚀 Commencer gratuitement',cta2:'Découvrir →',stat1:'fonctionnalités',stat2:'langues',stat3:'IA qui évolue avec toi',stat4:'friction, tout en un',featTag:'TOUT CE QUE TU VEUX. TOUT EN UN.',featTitle:'Pas besoin de 12 apps.<br>RISE fait tout.',featSub:'Tu choisis ce dont tu as besoin. RISE s adapte à toi.',how:'COMMENT ÇA MARCHE',howTitle:'Simple. Puissant. Addictif.',step1t:'Configure en 3 min',step1d:'Ton prénom, tes revenus, ton signe. RISE construit ton profil.',step2t:'L IA apprend',step2d:'À chaque interaction, RISE te connaît mieux.',step3t:'Tu progresses',step3d:'Score RISE, XP, streaks, badges. Chaque jour.',priceTag:'TARIFS',priceTitle:'Commence gratuitement',priceSub:'Utilise ce dont tu as besoin.',wlTag:'REJOINS RISE',wlTitle:'Prêt à transformer ta vie ?',wlSub:'Commence gratuitement. Aucune carte bleue.'},
-  en:{tag:'AI Life Operating System • 2026',title:'Become<br>the <span class="grad">best version</span><br>of yourself',sub:'One app for life, revenue, health and personal growth — powered by AI.',cta1:'🚀 Start for free',cta2:'Discover →',stat1:'features',stat2:'languages',stat3:'AI that grows with you',stat4:'friction, all in one',featTag:'EVERYTHING YOU NEED. ALL IN ONE.',featTitle:'No need for 12 apps.<br>RISE does it all.',featSub:'You choose what you need. RISE adapts to you.',how:'HOW IT WORKS',howTitle:'Simple. Powerful. Addictive.',step1t:'Set up in 3 min',step1d:'Your name, revenue, star sign. RISE builds your profile.',step2t:'AI learns',step2d:'With every interaction, RISE knows you better.',step3t:'You progress',step3d:'RISE Score, XP, streaks, badges. Every day.',priceTag:'PRICING',priceTitle:'Start for free',priceSub:'Use what you need. Upgrade when you want.',wlTag:'JOIN RISE',wlTitle:'Ready to transform your life?',wlSub:'Start free. No credit card required.'},
-  es:{tag:'AI Life Operating System • 2026',title:'Conviértete<br>en la <span class="grad">mejor versión</span><br>de ti mismo',sub:'Una sola app para tu vida, ingresos, salud y crecimiento personal — impulsada por IA.',cta1:'🚀 Empezar gratis',cta2:'Descubrir →',stat1:'funciones',stat2:'idiomas',stat3:'IA que evoluciona contigo',stat4:'sin fricción, todo en uno',featTag:'TODO LO QUE QUIERES. EN UN SOLO LUGAR.',featTitle:'No necesitas 12 apps.<br>RISE lo hace todo.',featSub:'Eliges lo que necesitas. RISE se adapta a ti.',how:'CÓMO FUNCIONA',howTitle:'Simple. Potente. Adictivo.',step1t:'Configura en 3 min',step1d:'Tu nombre, ingresos, signo. RISE construye tu perfil.',step2t:'La IA aprende',step2d:'Con cada interacción, RISE te conoce mejor.',step3t:'Progresas',step3d:'Score RISE, XP, rachas, insignias. Cada día.',priceTag:'PRECIOS',priceTitle:'Empieza gratis',priceSub:'Usa lo que necesitas.',wlTag:'ÚNETE A RISE',wlTitle:'¿Listo para transformar tu vida?',wlSub:'Empieza gratis. Sin tarjeta.'},
-  pt:{tag:'AI Life Operating System • 2026',title:'Torna-te<br>a <span class="grad">melhor versão</span><br>de ti mesmo',sub:'Um app para sua vida, receitas, saúde e crescimento pessoal — impulsionado por IA.',cta1:'🚀 Começar grátis',cta2:'Descobrir →',stat1:'funcionalidades',stat2:'idiomas',stat3:'IA que evolui contigo',stat4:'sem fricção, tudo num só',featTag:'TUDO O QUE QUERES. TUDO EM UM.',featTitle:'Sem precisar de 12 apps.<br>RISE faz tudo.',featSub:'Escolhes o que precisas. RISE adapta-se a ti.',how:'COMO FUNCIONA',howTitle:'Simples. Poderoso. Viciante.',step1t:'Configura em 3 min',step1d:'Teu nome, receitas, signo. RISE constrói teu perfil.',step2t:'A IA aprende',step2d:'Com cada interação, RISE te conhece melhor.',step3t:'Tu progredes',step3d:'Score RISE, XP, streaks, badges. Cada dia.',priceTag:'PREÇOS',priceTitle:'Começa grátis',priceSub:'Usa o que precisas.',wlTag:'JUNTA-TE AO RISE',wlTitle:'Pronto para transformar a tua vida?',wlSub:'Começa grátis. Sem cartão.'},
-  it:{tag:'AI Life Operating System • 2026',title:'Diventa<br>la <span class="grad">miglior versione</span><br>di te stesso',sub:'Un solo app per la tua vita, entrate, salute e crescita personale — alimentato dall IA.',cta1:'🚀 Inizia gratis',cta2:'Scopri →',stat1:'funzionalità',stat2:'lingue',stat3:'IA che evolve con te',stat4:'zero attrito, tutto insieme',featTag:'TUTTO CIÒ CHE VUOI. TUTTO IN UNO.',featTitle:'Non servono 12 app.<br>RISE fa tutto.',featSub:'Scegli quello che ti serve. RISE si adatta a te.',how:'COME FUNZIONA',howTitle:'Semplice. Potente. Coinvolgente.',step1t:'Configura in 3 min',step1d:'Il tuo nome, entrate, segno. RISE costruisce il tuo profilo.',step2t:'L IA impara',step2d:'Ad ogni interazione, RISE ti conosce meglio.',step3t:'Progredisci',step3d:'Score RISE, XP, streak, badge. Ogni giorno.',priceTag:'PREZZI',priceTitle:'Inizia gratis',priceSub:'Usa quello che ti serve.',wlTag:'UNISCITI A RISE',wlTitle:'Pronto a trasformare la tua vita?',wlSub:'Inizia gratis. Nessuna carta.'},
-  de:{tag:'KI Lebens-Betriebssystem • 2026',title:'Werde<br>zur <span class="grad">besten Version</span><br>deiner selbst',sub:'Eine App für dein Leben, Einnahmen, Gesundheit und persönliches Wachstum — KI-gesteuert.',cta1:'🚀 Kostenlos starten',cta2:'Entdecken →',stat1:'Funktionen',stat2:'Sprachen',stat3:'KI die mit dir wächst',stat4:'Kein Aufwand, alles in einem',featTag:'ALLES WAS DU BRAUCHST. ALLES IN EINEM.',featTitle:'Keine 12 Apps mehr.<br>RISE macht alles.',featSub:'Du wählst was du brauchst. RISE passt sich an.',how:'WIE ES FUNKTIONIERT',howTitle:'Einfach. Mächtig. Süchtig.',step1t:'In 3 Min einrichten',step1d:'Dein Name, Einnahmen, Sternzeichen. RISE baut dein Profil.',step2t:'KI lernt',step2d:'Mit jeder Interaktion kennt RISE dich besser.',step3t:'Du wächst',step3d:'RISE Score, XP, Streaks, Badges. Jeden Tag.',priceTag:'PREISE',priceTitle:'Kostenlos starten',priceSub:'Nutze was du brauchst.',wlTag:'TRITT RISE BEI',wlTitle:'Bereit dein Leben zu transformieren?',wlSub:'Kostenlos starten. Keine Karte.'},
-  ca:{tag:'AI Life Operating System • 2026',title:'Converteix-te<br>en la <span class="grad">millor versió</span><br>de tu mateix',sub:'Una sola app per a la teva vida, ingressos, salut i creixement personal — impulsada per IA.',cta1:'🚀 Comença gratis',cta2:'Descobrir →',stat1:'funcionalitats',stat2:'idiomes',stat3:'IA que evoluciona amb tu',stat4:'sense friccions, tot en un',featTag:'TOT EL QUE VOLS. TOT EN UN.',featTitle:'No cal tenir 12 apps.<br>RISE ho fa tot.',featSub:'Tries el que necessites. RISE s adapta a tu.',how:'COM FUNCIONA',howTitle:'Simple. Potent. Addictiu.',step1t:'Configura en 3 min',step1d:'El teu nom, ingressos, signe. RISE construeix el teu perfil.',step2t:'La IA aprèn',step2d:'Amb cada interacció, RISE et coneix millor.',step3t:'Progresses',step3d:'Score RISE, XP, ratxes, insígnies. Cada dia.',priceTag:'PREUS',priceTitle:'Comença gratis',priceSub:'Usa el que necessites.',wlTag:'UNEIX-TE A RISE',wlTitle:'Preparat per transformar la teva vida?',wlSub:'Comença gratis. Sense targeta.'}
-};
-
-var _curLang='fr';
-function setLang(lang,btn){
-  _curLang=lang;
-  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});
-  if(btn)btn.classList.add('active');
-  var L=LANDING_LANGS[lang]||LANDING_LANGS.fr;
-  // Update document lang
-  document.getElementById('html-root').setAttribute('lang',lang);
-  // Hero
-  var ht=document.getElementById('hero-tag-text');if(ht)ht.textContent=L.tag;
-  var htitle=document.getElementById('hero-title');if(htitle)htitle.innerHTML=L.title;
-  var hs=document.getElementById('hero-sub');if(hs)hs.textContent=L.sub;
-  var hc1=document.getElementById('hero-cta1');if(hc1)hc1.textContent=L.cta1;
-  var hc2=document.getElementById('hero-cta2');if(hc2)hc2.textContent=L.cta2;
-  var s1=document.getElementById('stat1');if(s1)s1.textContent=L.stat1;
-  var s2=document.getElementById('stat2');if(s2)s2.textContent=L.stat2;
-  var s3=document.getElementById('stat3');if(s3)s3.textContent=L.stat3;
-  var s4=document.getElementById('stat4');if(s4)s4.textContent=L.stat4;
-  // Features
-  var ft=document.getElementById('feat-tag');if(ft)ft.textContent=L.featTag;
-  var fti=document.getElementById('feat-title');if(fti)fti.innerHTML=L.featTitle;
-  var fts=document.getElementById('feat-sub');if(fts)fts.textContent=L.featSub;
-  // How
-  var hw=document.getElementById('how-tag');if(hw)hw.textContent=L.how;
-  var hwt=document.getElementById('how-title');if(hwt)hwt.textContent=L.howTitle;
-  var s1t=document.getElementById('step1-t');if(s1t)s1t.textContent=L.step1t;
-  var s1d=document.getElementById('step1-d');if(s1d)s1d.textContent=L.step1d;
-  var s2t=document.getElementById('step2-t');if(s2t)s2t.textContent=L.step2t;
-  var s2d=document.getElementById('step2-d');if(s2d)s2d.textContent=L.step2d;
-  var s3t=document.getElementById('step3-t');if(s3t)s3t.textContent=L.step3t;
-  var s3d=document.getElementById('step3-d');if(s3d)s3d.textContent=L.step3d;
-  // Pricing
-  var pt=document.getElementById('price-tag');if(pt)pt.textContent=L.priceTag;
-  var pti=document.getElementById('price-title');if(pti)pti.textContent=L.priceTitle;
-  var ps=document.getElementById('price-sub');if(ps)ps.textContent=L.priceSub;
-  // Waitlist
-  var wt=document.getElementById('wl-tag');if(wt)wt.textContent=L.wlTag;
-  var wti=document.getElementById('wl-title');if(wti)wti.textContent=L.wlTitle;
-  var ws=document.getElementById('wl-sub');if(ws)ws.textContent=L.wlSub;
-  // Nav CTA
-  var nc=document.getElementById('nav-cta');if(nc)nc.textContent=L.cta1.replace('🚀 ','');
-}
-
-function toggleFaq(el){
-  var item=el.closest('.faq-item');
-  item.classList.toggle('open');
-}
-
-// Auto-detect language
-(function(){
-  var bl=(navigator.languages||[navigator.language||'fr'])[0].toLowerCase().slice(0,2);
-  var langs=['fr','en','es','pt','it','de','ca'];
-  if(langs.includes(bl)&&bl!=='fr'){
-    var btn=document.querySelector('.lang-btn[onclick*="\''+bl+'\'"]');
-    setLang(bl,btn);
-  }
-})();
-
-// Animate on scroll
-var observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});},{threshold:.1});
-document.querySelectorAll('.bento-card,.step,.testi,.pricing-card').forEach(function(el){el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .5s ease, transform .5s ease';observer.observe(el);});
+document.addEventListener('scroll',function(){var e=document.querySelectorAll('.fade-in');e.forEach(function(el){var r=el.getBoundingClientRect();r.top<window.innerHeight-100&&el.classList.add('visible')})});
+document.querySelectorAll('.faq-item').forEach(function(i){i.querySelector('.faq-header').addEventListener('click',function(){i.classList.toggle('open')})});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));t&&t.scrollIntoView({behavior:'smooth'})})});
 </script>
 </body>
 </html>

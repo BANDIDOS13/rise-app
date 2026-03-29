@@ -369,6 +369,55 @@ textarea.inp{resize:none}
 
 /* ── BACK-TO-TOP ── */
 .btt{position:fixed;bottom:72px;right:12px;width:36px;height:36px;border-radius:50%;background:var(--ac);color:var(--bg);display:none;align-items:center;justify-content:center;font-size:16px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.4);cursor:pointer;transition:opacity .2s}
+
+/* ── JARVIS AI ASSISTANT ── */
+.jarvis-fab{position:fixed;bottom:74px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#ffd700 0%,#ffed4e 100%);display:none;align-items:center;justify-content:center;flex-direction:column;z-index:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.3);transition:transform .3s,box-shadow .3s;animation:jarvisPulse 2s infinite;font-size:24px;color:#333;gap:2px}
+.jarvis-fab:hover{transform:scale(1.1);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.jarvis-fab .jarvis-label{font-size:9px;font-weight:700;color:#333}
+.jarvis-fab .jarvis-dot{position:absolute;top:4px;right:4px;width:10px;height:10px;border-radius:50%;background:#e74c3c;animation:ping .9s infinite}
+@keyframes jarvisPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(231,76,60,.7)}75%{box-shadow:0 0 0 8px rgba(231,76,60,0)}}
+
+.jarvis-backdrop{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0);z-index:790;opacity:0;pointer-events:none;transition:opacity .3s;display:none}
+.jarvis-backdrop.open{opacity:.5;pointer-events:auto;display:block}
+
+.jarvis-drawer{position:fixed;bottom:0;left:0;right:0;max-height:70vh;background:var(--bg);border-radius:24px 24px 0 0;z-index:800;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .3s ease-out;box-shadow:0 -4px 20px rgba(0,0,0,.3)}
+.jarvis-drawer.open{transform:translateY(0)}
+
+.jarvis-header{padding:16px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.jarvis-header-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.jarvis-header-title .jarvis-icon{font-size:20px}
+.jarvis-close{width:32px;height:32px;border-radius:50%;background:var(--bd);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--tx);transition:background .2s}
+.jarvis-close:hover{background:var(--rd)}
+
+.jarvis-msgs{flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.jarvis-msg{display:flex;justify-content:flex-start;animation:msgSlide .3s ease-out}
+.jarvis-msg.jm-user{justify-content:flex-end}
+@keyframes msgSlide{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.jm-bubble{display:inline-block;max-width:85%;padding:8px 12px;border-radius:14px;background:var(--bd);color:var(--tx);word-wrap:break-word;font-size:14px;line-height:1.4}
+.jm-user .jm-bubble{background:var(--ac);color:var(--bg)}
+.jm-name{display:block;font-size:11px;font-weight:700;color:var(--ac);margin-bottom:2px}
+
+.dot-pulse{display:inline-flex;gap:2px}
+.dot-pulse span{width:6px;height:6px;border-radius:50%;background:var(--ac);animation:pulse .6s infinite}
+.dot-pulse span:nth-child(2){animation-delay:.2s}
+.dot-pulse span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+.jarvis-suggs{padding:8px 12px;display:flex;gap:8px;overflow-x:auto;border-top:1px solid var(--bd);flex-shrink:0;scroll-behavior:smooth}
+.jarvis-suggs::-webkit-scrollbar{height:3px}
+.jarvis-suggs::-webkit-scrollbar-track{background:transparent}
+.jarvis-suggs::-webkit-scrollbar-thumb{background:var(--ac);border-radius:2px}
+
+.jarvis-chip{padding:6px 12px;border:1px solid var(--ac);border-radius:20px;background:transparent;color:var(--ac);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.jarvis-chip:hover{background:var(--ac);color:var(--bg)}
+
+.jarvis-input{padding:8px 12px;border-top:1px solid var(--bd);display:flex;gap:8px;align-items:flex-end;flex-shrink:0}
+#jarvis-ta{flex:1;border:1px solid var(--bd);border-radius:8px;padding:8px 12px;background:var(--bg);color:var(--tx);font-family:inherit;font-size:14px;resize:none;max-height:100px;min-height:36px}
+#jarvis-ta:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 2px rgba(255,179,71,.1)}
+#jarvis-send{padding:8px 12px;border:none;border-radius:8px;background:var(--ac);color:var(--bg);cursor:pointer;font-weight:700;font-size:12px;transition:opacity .2s;white-space:nowrap}
+#jarvis-send:hover{opacity:.9}
 </style>
 </head>
 <body>
@@ -957,6 +1006,29 @@ textarea.inp{resize:none}
 </div>
 
 </div>
+
+<!-- ═══ JARVIS AI ASSISTANT ═══ -->
+<div id="jarvis-fab" class="jarvis-fab">
+  <span>🤖</span>
+  <span class="jarvis-label">JARVIS</span>
+</div>
+<div id="jarvis-backdrop" class="jarvis-backdrop"></div>
+<div id="jarvis-drawer" class="jarvis-drawer">
+  <div class="jarvis-header">
+    <div class="jarvis-header-title">
+      <span class="jarvis-icon">🤖</span>
+      <span>JARVIS</span>
+    </div>
+    <button id="jarvis-close" class="jarvis-close">✕</button>
+  </div>
+  <div id="jarvis-msgs" class="jarvis-msgs"></div>
+  <div id="jarvis-suggs" class="jarvis-suggs"></div>
+  <div class="jarvis-input">
+    <textarea id="jarvis-ta" placeholder="Pose-moi une question..."></textarea>
+    <button id="jarvis-send">Envoyer</button>
+  </div>
+</div>
+
 <script>
 const LVL_T=['Débutant','Apprenti','Engagé','Déterminé','Ambitieux','Courageux','Warrior','Champion','Légende','Invincible'];
 const LVL_X=[0,100,250,450,700,1000,1400,1900,2500,3200];
@@ -7082,6 +7154,721 @@ function toggleZenMode(){
 
 // ══ END SESSION 7 — PRODUCTION READY ══
 
+// ══ SESSION 8a — ENHANCED FORMATIONS (6 NEW) ══
+(function(){
+  // Override FORMS_D with 6 new formations
+  window.FORMS_D = FORMS_D = [
+    {id:'mindset',title:'Mindset Entrepreneur',ico:'🧠',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, mentalité, croissance progressive.'},
+    {id:'finance',title:'Intelligence Financière',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Budget, épargne, revenus passifs.'},
+    {id:'productivite',title:'Productivité Extrême',ico:'⚡',bg:'#0a0818',tc:'var(--pu)',desc:'Focus, systèmes, énergie.'},
+    {id:'communication',title:'Communication & Influence',ico:'🤝',bg:'#14080a',tc:'#d46a9e',desc:'Écoute, storytelling, persuasion.'},
+    {id:'bienetre',title:'Bien-être & Santé Mentale',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Sommeil, stress, équilibre.'},
+    {id:'digital',title:'Digital & IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'IA, automation, création digitale.'}
+  ];
+
+  // Override trainingModules in RISE_AI
+  try {
+    RISE_AI.trainingModules = {
+      mindset: {
+        title: "Mindset Entrepreneur",
+        desc: "8 modules pour transformer ta mentalité et agir comme un entrepreneur.",
+        modules: [
+          {num:1,title:"La mentalité de croissance",duration:"12min",desc:"Carol Dweck a découvert que ton cerveau est comme un muscle: il grandit avec l'utilisation. Les esprits fixes croient que l'intelligence est immuable ('Je ne suis pas bon en maths'). Les esprits de croissance savent que ça s'apprend ('Je ne suis pas bon EN MATHS ENCORE'). La science du cerveau prouve la neuroplasticité: tu peux reprogrammer ton esprit en 66 jours de pratique consciente. Ceux qui réussissent ne sont pas plus talentueux — ils croient simplement qu'ils peuvent apprendre.",key:"Esprits fixes → Esprits de croissance. Tu peux changer.",exercise:"Identifie 1 domaine où tu dis 'je ne suis pas doué'. Ajoute 'ENCORE' à la fin. Sens la différence.",quiz:{question:"Combien de jours pour reprogrammer ton cerveau?",hint:"Ça commence par 6",answer:"66"}},
+          {num:2,title:"Identifier ses croyances limitantes",duration:"11min",desc:"Une croyance limitante est une histoire que tu te racontes depuis l'enfance. 'L\'argent est rare', 'Les gens comme moi ne réussissent pas', 'Je ne suis pas assez intelligent'. Ces croyances sont des prisons mentales. La technique du reframe: transformer la croyance en question. 'Je ne peux pas' → 'Comment pourrais-je?' change tout. Les études en psychologie cognitive montrent que simplement énoncer une croyance réduit son pouvoir de 40%. Une fois nommée, tu la contrôles.",key:"Nomme ta croyance, elle perd son pouvoir.",exercise:"Écris tes 3 plus grandes croyances limitantes. Pour chacune, réécris-la en version de croissance."},
+          {num:3,title:"La règle des 5 secondes",duration:"10min",desc:"Mel Robbins découvert un hack neurologique simple: quand une impulsion vient (l'envie de faire quelque chose de difficile), tu as 5 secondes avant que ton cerveau génère une excuse. 5, 4, 3, 2, 1 — puis BOUGE. Les neurosciences expliquent que l'hésitation active ta région de peur. L'action rapide court-circuite ça. Ce n'est pas motivational — c'est biomécanique. Les athlètes de haut niveau utilisent ça inconsciemment.",key:"5 secondes avant l'excuse. 5,4,3,2,1 — va.",exercise:"Cette semaine, chaque fois que tu hésites, compte à rebours. Agis avant 0."},
+          {num:4,title:"Objectifs SMART + 90 jours",duration:"12min",desc:"SMART = Spécifique, Mesurable, Atteignable, Réaliste, Temporel. 'Je veux être riche' n'est pas un objectif. 'Gagner 50K€ nets en 18 mois' l'est. Les données montrent que 92% de ceux qui fixent des buts ne les atteignent pas — mais 42% des personnes qui les écrivent les atteignent. Ajoute une timeline: 90 jours = l'horizon temporel optimal du cerveau humain. Trop court = pas de temps pour la résistance. Trop long = tu oublies.",key:"Écrit + Mesurable + 90 jours = 10x de chances.",exercise:"Écris 1 objectif SMART pour les 90 prochains jours avec 3 jalons."},
+          {num:5,title:"Matrice Eisenhower",duration:"10min",desc:"Le Président Eisenhower n'avait que 24h comme toi. Il utilisait une matrice 2×2: Urgent/Important. Urgence n'existe que dans ton esprit — c'est souvent juste bruyant. Important = impact réel sur tes buts. 80% de ton temps devrait être en Important-Pas-Urgent (prévention, création, apprentissage). 15% en Urgent-Important. 5% en bruit. La majorité vit dans l'urgence constant: emails, notifications, chats. Ce n'est pas important, juste bruyant.",key:"Urgent ≠ Important. 80% dans Important-Pas-Urgent.",exercise:"Catégorise tes 20 prochaines tâches dans la matrice. Élimine le bruit."},
+          {num:6,title:"Résilience et apprentissage de l'échec",duration:"13min",desc:"Edison a échoué 1000 fois avant l'ampoule. Dyson 15 ans et 5000 prototypes. J.K. Rowling 12 rejets avant Harry Potter. La science: chaque échec crée une nouvelle connexion neuronale si tu en extrais une leçon. L'échec = données brutes. La question n'est pas 'pourquoi j'ai échoué' mais 'qu'est-ce que j'apprends'? Les résilients voient l'échec comme temporaire ('ce projet a échoué'), pas permanent ('je suis un échec').",key:"L'échec est un maître plus puissant que le succès.",exercise:"Raconte 1 échec important. Extrais 3 leçons. Comment ça t'a avancé?"},
+          {num:7,title:"Networking et relations stratégiques",duration:"11min",desc:"60% des jobs viennent du réseau. 90% des opportunités aussi. Le networking n'est pas vendre — c'est donner d'abord. Règle: donne 3 fois avant de demander 1 fois. Un message utile. Une introduction. Un conseil. Soudain tu es quelqu'un. LinkedIn: 10 messages personnalisés/jour aux gens intéressants. Événements: pose 5 vraies questions à 5 personnes. Suivi: message en 48h. C'est systématique, pas magique.",key:"Donne 3x avant de demander 1x. C'est la réciprocité.",exercise:"Envoie 5 messages LinkedIn personalisés cette semaine."},
+          {num:8,title:"Plan d'action personnel 90 jours",duration:"14min",desc:"La synthèse de tout. Tu as identifié tes croyances, fixé tes objectifs, bâti ta résilience. Maintenant le plan: Mois 1 - Fondation (habitudes). Mois 2 - Accélération (systèmes). Mois 3 - Optimisation (scaling). Chaque semaine: 1 priorité majeure. Chaque jour: 2 petits pas. Mesure tout. Ce qui n'est pas mesuré stagne. À jour 90, regarde en arrière: tu seras 10x.",key:"Jour 1-30 fondations. 31-60 accélération. 61-90 scaling.",exercise:"Écris ton plan 90 jours avec 3 jalons clairs."}
+        ]
+      },
+      finance: {
+        title: "Intelligence Financière",
+        desc: "8 modules pour construire la liberté financière progressivement.",
+        modules: [
+          {num:1,title:"La psychologie de l'argent",duration:"12min",desc:"Morgan Housel a étudié 100 ans de finances: ce qui détermine ton rapport à l'argent n'est pas IQ ou formation, c'est tes expériences entre 0 et 18 ans. Crises familiaux, sécurité, générosité — ça se grave en toi. Les gens riches en famille moyenne gaspillent. Les pauvres devenu riches construisent une forteresse mentale. Le secret? Comprendre TA psychologie. Pas celle des autres. Housel: 'Le pire portefeuille est celui que tu n'as pas.' L'inaction par peur coûte plus que toute erreur.",key:"Richesse = 1% revenu + 99% psychologie.",exercise:"Écris 3 croyances sur l'argent de tes parents. Laquelle t'affecte?"},
+          {num:2,title:"Budget 50/30/20 – Mise en place simple",duration:"11min",desc:"50% Besoins (loyer, bouffe, transport). 30% Envies (sorties, shopping, loisirs). 20% Épargne & Investissement. C'est simple, efficace, et scientifiquement validé par les experts financiers. L'erreur commune? Classer mal. Netflix c'est une envie, pas un besoin. Le vrai test: 'Meurs-je sans ça cette semaine?' L'avantage: psychologiquement, tu ne te sens pas privé. Tu vis dans 80% de ton revenu. Après 1 an, les 20% composent et tu es en avance.",key:"50/30/20 = simple + efficace. Applique-le demain.",exercise:"Calcule ton budget 50/30/20. Met en place un virement auto pour les 20%."},
+          {num:3,title:"Épargne & fonds d'urgence (3-6 mois)",duration:"10min",desc:"Un fonds d'urgence est ta sécurité mentale: 3-6 mois de dépenses. Sans ça, tu fais de mauvaises décisions (dette rapide, jobs pourris). Avec ça, tu fais le bon mouvement au bon moment. La psychologie: chaque euro en épargne = 1 décision mieux prise. Automatisation: non négociable. Un virement auto du salaire va direct en épargne. 'Payer-toi d'abord' n'est pas égoïste — c'est intelligent. Statistically, sans fonds d'urgence, une crise → dette → 5-10 ans de récupération.",key:"Fonds d'urgence = liberté de choisir.",exercise:"Calcule 3-6 mois de dépenses. Crée un objectif d'épargne automatisé."},
+          {num:4,title:"Bonne dette vs mauvaise dette",duration:"11min",desc:"Dette = outil. Bon outil ou mauvais? Bonne: immobilier locatif (actif qui génère), business (qui généère revenu), éducation (ROI clair). Mauvaise: carte de crédit pour vacances, voiture payée à 8 ans, accumulation de petits crédits. Règle simple: demande-toi 'Cet argent emprunté va-t-il me rapporter plus?'. Oui = bonne. Non = mauvaise. Les millionnaires utilisent la bonne. Les pauvres vivent dans la mauvaise.",key:"Bonne dette: génère. Mauvaise: coûte. Choisis-la.",exercise:"Listes tes dettes. Classe-les: bonne ou mauvaise? Plan de remboursement pour mauvaise."},
+          {num:5,title:"Investissement débutant: ETF, DCA, PEA",duration:"13min",desc:"ETF (Exchange Traded Funds) = panier d'actions diversifié. MSCI World = les 1500+ meilleures entreprises. DCA (Dollar-Cost Averaging) = investir 200€/mois systématiquement, peu importe le cours. Sur 20 ans, 200€ × 12 mois × 20 ans = 48K€ versés. Avec 7% de rendement annuel = ~150K€. C'est pas magique, c'est composé. PEA = fiscalité avantageuse en France. Débutant: Vanguard World + 200€/mois = millionnaire en 20 ans. Pas de risque extrême, juste ennuyeux.",key:"Ennuyeux + consistent = richesse. ETF MSCI World.",exercise:"Ouvre un PEA ou compte bourse. Mets en place 200€/mois en ETF MSCI World."},
+          {num:6,title:"Les 7 sources de revenus passifs",duration:"12min",desc:"Millionnaires = 7 sources en moyenne. Tu en as 1 (salaire). Ajoutes-en 3: Revenus passifs les plus accessibles: (1) Dividendes (actions, ETF). (2) Intérêts (placements). (3) Revenu immobilier (location). (4) Contenu monétisé (YT, blog). (5) Produits digitaux (cours, ebook). (6) Affiliation. (7) Royalties. Commences par une: cours en ligne + affiliation combiné = possible 2K€/mois en 6 mois. Puis ajoutes la suivante.",key:"1 source = salaire. 3 sources = sécurité. 7 = liberté.",exercise:"Identifie 2 sources passibles pour toi. Lis un tuto. Commences une."},
+          {num:7,title:"Mindset argent: abondance vs rareté",duration:"10min",desc:"Mentalité de rareté: 'Pas assez pour tout le monde.' Génère peur, accumulation, malhonnêteté. Mentalité d'abondance: 'Tout le monde peut en avoir.' Génère créativité, partage, générosité. Les neurosciences: cerveau en rareté = 13 points de QI perdus (distrait par manque). Cerveau en abondance = créatif. Comment basculer? Gratitude + générosité. Donne 1% de tes revenus à une cause. Lis sur la richesse. Soudain: 'Le monde a assez. Moi aussi.'",key:"Abondance: tout le monde peut en avoir. Pas une compétition.",exercise:"Donne 1% de tes revenus cette semaine. Note ce que tu ressens."},
+          {num:8,title:"Ton plan financier personnel",duration:"14min",desc:"Synthèse totale. Objectif: liberté financière = revenus passifs > dépenses. Pour 3K€ dépenses/mois: 2% de 1.5M€. Avec 7% de rendement: 105K€/an = 8750€/mois. En 20 ans, tu y es avec 300€/mois investi. Mais commence AUJOURD'HUI. Plan: Mois 1 - Fonds d'urgence. Mois 2-3 - PEA/ETF. Mois 4+ - Revenus passifs. À chaque étape: mesure, ajuste.",key:"Liberté financière = 20-30 ans de patience + actions simples.",exercise:"Définis ton nombre magique (dépenses mensuelles). Crée une feuille de route 20 ans."}
+        ]
+      },
+      productivite: {
+        title: "Productivité Extrême",
+        desc: "8 modules pour dominer ton temps et énergie.",
+        modules: [
+          {num:1,title:"Deep Work (Cal Newport)",duration:"12min",desc:"Cal Newport définit Deep Work comme 'travail professionnel qui pousse tes capacités au maximum.' Les neurosciences: 4 heures de focus profond = 8 heures de travail fragmented. Pourquoi? Parce que reprendre le focus coûte 23 minutes en moyenne (attention residue). Les meilleurs: 4h de deep work le matin avant 11h, puis shallow work l'après-midi. Gmail/Slack destroys focus. Solution: blocage de temps sacré. Lundi-jeudi 6am-10am = deep work. Rien d'autre. Résultats: 2x en productivité.",key:"4h deep work > 8h distrait. Le matin est sacré.",exercise:"Bloque Lun-Jeu 06:00-10:00 Deep Work. Zéro notifications. Rapporte tes résultats.",quiz:{question:"Combien de temps pour regagner focus après distraction?",hint:"Entre 20 et 30",answer:"23"}},
+          {num:2,title:"Batching – Regrouper les tâches similaires",duration:"11min",desc:"Ton cerveau change de mode toutes les 5 min de contexte différent. Coût: 40% de ta productivité. Solution: batching. Tous les emails 11am-11:30am. Tous les appels 2pm-3pm. Toutes les réunions le mardi. Pourquoi? Ton cerveau rentre en mode 'email' une fois, puis l'utilise efficacement. Pas d'alternance. Les créateurs pros: 1 jour de création = 1 semaine de contenu (batching vidéo). Tesla: toutes les décisions le mercredi. Psychological research confirms 40% productivity gain.",key:"Batching = 40% gains. Même tâche, même mode.",exercise:"Catégorise tes tâches récurrentes. Groupe-les en blocs."},
+          {num:3,title:"Systèmes vs Objectifs (James Clear)",duration:"10min",desc:"'Je veux perdre 10 kg' = objectif. 'Je vais m'entraîner 3x/semaine + manger protéiné' = système. Objectifs donnent direction. Systèmes donnent résultats. Clear: 'Oublie l\'objectif. Focalise-toi sur le système.' Pourquoi? Parce que tu contrôles l'action quotidienne (système), pas le résultat final (objectif). Paradoxe: tu atteins l'objectif en ignorant l'objectif et en construisant le système. Athlètes olympiques: 4 ans de système strict = 1 résultat.",key:"Systèmes > Objectifs. Construis l'habitude, pas le but.",exercise:"Pour 1 objectif, crée le système quotidien de 10 min."},
+          {num:4,title:"Les 4 lois du changement (Habitudes Atomiques)",duration:"13min",desc:"James Clear: 1% mieux chaque jour = 37x mieux en 1 an. Mais comment créer 1% mieux? 4 lois: (1) Rendre visible (mettre ton kit d'entraînement sur le lit). (2) Rendre attrayant (groupe d'entraînement = social + fun). (3) Rendre facile (commencer petit: 2 pompes, pas 50). (4) Rendre satisfaisant (cocher une case, tracker). Neurosciences: ton cerveau crée des habitudes après 66 jours de répétition. Pas 21 jours (mythe). 66 jours = toi, nouveau et automatique.",key:"Visible + Attrayant + Facile + Satisfaisant = habitude.",exercise:"Choisis 1 habitude. Applique les 4 lois. Travers-la 66 jours."},
+          {num:5,title:"Énergie vs Temps – Chronotypes et pics",duration:"11min",desc:"Tu as 2-3h de vraie productivité cognitive par jour. Le reste = survival mode. Identifier TON pic: tu l'as probablement 2-4h après réveil (cortisol peak). Certains (10%) sont naturellement tard (vrais owls). Chronotypes = génétique. Ignorer = disaster. Solution: schedule deep work au pic. Si tu es énergé à 6am, ne fais pas réunion. Si ton pic est 9am, attends pour les décisions. Les données: productivité varie 300% selon l'heure.",key:"Ton pic ≠ pic standard. Identifie-le, planifie par là.",exercise:"Track ton énergie 1 semaine, heures par heures. Identifie ton pic."},
+          {num:6,title:"Outils de productivité – Notion, Todoist, workflows",duration:"12min",desc:"Notion = organisation totale (bases de données, wikis, CRM). Todoist = gestion de tâches (priorités, récurrence, dates). Même outil mal utilisé = zéro valeur. Clé: ne pas 'organiser' — utiliser pour penser. Un système simple > un complexe jamais utilisé. Best workflow: Todoist pour tâches quotidiennes, Notion pour projets long-terme, Google Sheets pour suivi financier. La règle: if it requires tool switching, you won't do it. Minimalisme d'outils = maximal d'efficacité.",key:"Simple + used > complex + abandoned. Minimalisme d'outils.",exercise:"Nettoie tes outils. Garde 3 max. Setup une routine journalière."},
+          {num:7,title:"Routines matin/soir – Construction et ancrage",duration:"10min",desc:"Steve Jobs même outfit chaque jour (décision fatigue). Routine = automatisation mentale. Matin (non-negotiable): Réveil 06:00. Hydratation + soleil + mouvement 10 min. Intention du jour. Même chose tout le temps = cerveau lisse, prêt pour deep work. Soir (ancrage de jour): Revoir les victoires du jour. Placer demain. Réflexion 5 min. Neuroscience: routines réduisent decision fatigue de 40%, libérant de l'énergie mentale pour réal work. Athlètes de haut niveau = routines insane.",key:"Routine = mental autopilot. Énergie pour ce qui compte.",exercise:"Crée ta routine matin (15 min). Soir (10 min). Tiens-la 30 jours."},
+          {num:8,title:"Audit personnel – Bilan et optimisation",duration:"14min",desc:"Chaque trimestre: audite tout. Où perd-tu du temps? Energy? Avec qui? Pourquoi? Pareto: 20% de tes activités = 80% de résultats. Coupe le reste. Questions: Que fais-tu par inertie? Qui te draine? Quelles habitudes ne te servent plus? Supprime 3 choses. Ajoute 1. Mesure 2 semaines après. Données > intuition. Best case: tu trouves 10h/semaine cachées. Worst case: tu lis et tu repenses.",key:"Mesure + reoptimise chaque 90 jours. Pas d'amélioration infinie sans data.",exercise:"Fais l'audit de cette semaine. 10 activités, qui génère résultats? Coupe le reste."}
+        ]
+      },
+      communication: {
+        title: "Communication & Influence",
+        desc: "8 modules pour communiquer avec puissance.",
+        modules: [
+          {num:1,title:"Écoute active – Reformulation, silence, empathie",duration:"12min",desc:"La plupart parlent pour se faire entendre. Les leaders écoutent pour comprendre. Règle 80/20: écoute 80%, parle 20%. Reformulation: 'Si je comprends bien, tu dis que...' = validation + clarté. Le silence: 3 secondes après une question laisse place à la vraie réponse (pas l'automatique). Empathie: 'Je comprends que ça a dû être frustrant.' Neurosciences: empathie active l'amygdale de l'autre, créant de la confiance. Les négociateurs pro: 90% écoute.",key:"Écoute > parle. Reformulation + silence = compréhension.",exercise:"Une conversation: 80% écoute. Reformule 2x. Note ce que tu apprends.",quiz:{question:"Quel ratio est efficace: 80/20 parler ou écouter?",hint:"Écouter c'est plus",answer:"écouter"}},
+          {num:2,title:"Storytelling – Structure, émotions, pitchs",duration:"11min",desc:"Humains retiennent histoires 22x mieux que faits. Structure: Situation (contexte). Conflit (problème). Transformation (solution). Émotion fait mémoriser: si tu racontes un chiffre, ça oublie. Si tu racontes une histoire avec emotion, ça reste 10 ans. Pitchs: Start avec histoire, pas features. Netflix pitch original: 'On a une histoire d\'amour qui devient thriller.' Pas 'Platform vidéo streaming avec recommandation IA.' Politique: meilleur communicant gagne (pas meilleure idée).",key:"Histoire + Émotion = mémorisation. Pas faits seuls.",exercise:"Raconte 1 succès comme histoire: Situation → Conflit → Transformation."},
+          {num:3,title:"Langage corporel – 93% non-verbal, postures",duration:"10min",desc:"Mehrabian study: 7% paroles, 38% ton, 55% langage corporel. (C'est une sur-simplification mais vraie intuitivement.) Posture dominante: tête haute, épaules en arrière. Crée confiance. Bras croisés: fermeture. Face ouverte: ouverture. Sourire sincère (Duchenne smile): yeux + bouche = confiance. Pouvoir pose (2 min pied écart): change cortisol/testostérone. Amy Cuddy: 'Fake it till you become it.' Ton corps affecte ton cerveau directement.",key:"Corps confiant = cerveau confiant. Posture = présence.",exercise:"Power pose 2 min avant important. Note la différence de sensation."},
+          {num:4,title:"Négociation – BATNA, technique du miroir",duration:"13min",desc:"Négociation = pas du combat, c'est création de valeur. BATNA (Best Alternative To Negotiated Agreement) = ta meilleure option si ça échoue. Si tu l'oublies, tu négocies en panique. Technique du miroir: répète le dernier numéro qu'il dit. 'Vous dites 50K.' Silence. Psychologiquement, il croit qu'il a demandé trop. Préparation: alternatives claires, données chiffrées, jamais en mode urgent. Meilleur négociateur: celui qui peut se lever et partir.",key:"BATNA clair = négociation confidente. Toujours une alternative.",exercise:"Prépare 1 négociation: identifie ton BATNA. Négocie confiant."},
+          {num:5,title:"Prise de parole – Gestion du stress, structure",duration:"11min",desc:"97% ont peur de parler en public (plus que la mort). Raison: évaluation sociale (peur du jugement). Psychologiquement: plus tu parles, moins tu as peur (exposure therapy). Structure: Accroche (3s). Point 1. Point 2. Point 3. Conclusion. C'est tout. Respiration: 4s inspire, 6s expire calme l'amygdale. Marche sur la scène = confiance. Parle lentement (nerveux = parle vite). Eye contact: pas intense, doux. Pratique = 80% du succès.",key:"Structure simple = confiance. Pratique > talent.",exercise:"Parle 5 min sur un sujet. Enregistre-toi. Reregarde. Améliore."},
+          {num:6,title:"Feedback – Méthode SBI, donner et recevoir",duration:"12min",desc:"SBI = Situation, Behaviour, Impact. 'Quand tu [situation précise], tu as [behaviour], ça a [impact émotionnel/résultat].' Évite: 'Tu es nul.' Utilise: 'Hier réunion, tu as coupé la parole 3x, ça a frustré l\'équipe.' Recevoir feedback: thanx sincère, pas défense. Quand tu défends, tu dis 'ton feedback ne compte pas.' Quand tu dis merci, tu dis 'je grandit.' Neurosciences: feedback constructif + positif = growth. Négatif seul = régression.",key:"SBI: Situation + Behaviour + Impact. Merci vs défense.",exercise:"Donne feedback à quelqu'un (SBI). Écoute sans défendre. Grandit."},
+          {num:7,title:"Réseau professionnel – LinkedIn, événements, suivi",duration:"10min",desc:"LinkedIn: plateforme de professionnel. 10 messages personnalisés/semaine à people intéressant (pas du spam). Partage contenu = visibilité. Événements: pose 5 vraies questions à 5 personnes. Pas 'Qu'est-ce que tu fais?' mais 'Que cherches-tu en ce moment?'. Suivi 48h: message personnel référencant conversation. Réseau = 1000 connections, mais 100 vrais relationships. Qualité > quantité. Les 100: qui t'aide, qui tu aides.",key:"Réseau = donne 3x avant de demander 1x. Quality > quantity.",exercise:"5 messages LinkedIn cette semaine. Un événement ce mois."},
+          {num:8,title:"Personal branding – Positionnement, cohérence",duration:"14min",desc:"Ta marque perso = ce qu'on dit de toi quand tu n'es pas là. Positionnement: 1 phrase unique. 'Je aide entrepreneurs à doubler leurs revenus en 90 jours.' Pas 'Je fais du business.' Cohérence: même ton partout (LinkedIn, Instagram, IRL). Visuels cohérents (couleurs, style). Expertise claire (t'es expert en quoi exactement?). Consistency crée confiance. Mark Zuckerberg: gray shirt every day = brand. Steve Jobs: turtleneck = brand. Toi: what's your signature?",key:"Cohérence + Unique = marque forte.",exercise:"Définis ton positionnement 1 phrase. Audit cohérence partout."}
+        ]
+      },
+      bienetre: {
+        title: "Bien-être & Santé Mentale",
+        desc: "8 modules pour optimiser ton bien-être physique et mental.",
+        modules: [
+          {num:1,title:"Comprendre le stress – Cortisol, système nerveux",duration:"12min",desc:"Stress aigu = utile (te sauve d'un lion). Stress chronique = poison (tue lentement). Cortisol est ton hormone de stress. Petit niveau = bon. Haut niveau 24/7 = immune down, mental down, sleep destroyed. Ton système nerveux = sympathique (fight/flight) vs parasympathique (rest/digest). Modern life = sympathique constant. Solution: parasympathique activation. Respiration profonde, nature, sommeil. Neuroscience: 20 min en nature = cortisol -16%. 10 min respiration = système calmé.",key:"Cortisol chronique = poison. Nature + respiration = antidote.",exercise:"Respiration 4-7-8 chaque soir. Nature 20 min chaque jour. Mesure sommeil.",quiz:{question:"Combien de minutes en nature réduisent cortisol de 16%?",hint:"2 dizaines",answer:"20"}},
+          {num:2,title:"Sommeil optimal – Cycles, hygiène, protocole",duration:"11min",desc:"Sommeil est plus important que l'exercice. Pourquoi? Pendant le sommeil: mémoire consolidate, muscles rebuild, immune renew. Cycles de 90 min (leger → profond → REM). 5 cycles = 7h30 idéal. Hygiène: chambre 18-19°C, noir total, pas d'écrans 1h avant. Douche chaude 1h avant (refroidissement aide). Magnésium 30 min avant. Cohérence horaire (même heure même weekend). Athlètes: 1 heure sommeil supplémentaire = 9-10% performance gain.",key:"Sommeil optimisé = performance x2. Protocole rigide.",exercise:"Applique hygiène sommeil: temp, noir, pas écran, même heure."},
+          {num:3,title:"Alimentation consciente – Nutrition simplifiée",duration:"10min",desc:"85% de la nutrition est simple: protéines + légumes + pas de sucre. 1.6-2g protéines par kg de body weight. Légumes = fibre + micro. Sucre = addictif (comme drogue). Pas besoin de compte calories si tu manger 'vrai nourriture' (poule, riz, brocoli vs donuts, juice). Meal prep 1h dimanche = victoire semaine. Hydratation: 3L eau/jour minimum. Les gens pensent faim = soif (85% cas).",key:"Vrai nourriture + protéines + eau = santé simple.",exercise:"Meal prep 5 repas dimanche. Hydratation tracker 3L/jour."},
+          {num:4,title:"Méditation – Techniques, 5-10-20 min",duration:"13min",desc:"Méditation = gym du cerveau. 10 min/jour = structures cérébrales changent en 8 semaines. Fokus + calm + clarity. Technique simple: assis, yeux fermes, respire lent, observe les pensées sans juger. Ça c'est tout. 5 min débutant. 10 min intermédiaire. 20 min avancé. Apps: Insight Timer (gratuit). Neuroscience: méditation = pareil qu'exercice pour le cerveau (myelination des neurones).",key:"10 min méditation = cerveau changé en 8 semaines.",exercise:"5 min méditation chaque matin. Utilisé Insight Timer. Jour 8, mesure clarity."},
+          {num:5,title:"Exercice physique – Mouvement quotidien",duration:"11min",desc:"Exercice pas besoin salle. Marche 30 min > gym 1h intense (long-term). Pourquoi? Durabilité. Tu fais marche 40 ans. Gym brutal = brûle 6 mois, puis abandon. Exercice génère dopamine (mood), BDNF (neuroplasticité), endorphine. Science: 30 min mouvement = dépression -26%. Calisthenic 3x/semaine + marche quotidienne = physique optimisé.",key:"Marche régulier > intense sporadic. Consistency > intensity.",exercise:"Marche 30 min chaque jour. 3x calisthenic cette semaine."},
+          {num:6,title:"Relations toxiques – Identifier, limites, distance",duration:"12min",desc:"Énergie = ressource finie. Relations toxiques = drainent sans retour. Comment identifier: après temps ensemble, tu te sens énergisé ou vidé? Toujours vidé = toxique. Limites saines: 'Je peux/ne peux pas.' No guilt. Distance: pas besoin couper, juste réduit. Répondre emails moins souvent. Pas dispo chaque weekend. Self-compassion: pas égoïste, c'est préservation. T'as que 24h. Spend avec people que t'aimes vraiment.",key:"Énergie finie. Investis dans relations positives.",exercise:"Audit tes 5 closest relationships. Qui te draîne? Crée distance."},
+          {num:7,title:"Gratitude – Science, pratique, journal",duration:"10min",desc:"Gratitude scientifiquement = antidépresseur naturel. 3 min/jour journal gratitude = happiness +10% en 30 jours. Pourquoi marche? Parce que ton cerveau peut pas simultanément être en gratitude et en défaut-finding. Gratitude reprogramme. Technique: Soir, écris 3 gratitudes (petites suffisent: bon café, good conversation). Lit tes anciennes. Soudain: perspective shift. Abondance vs rareté mindset.",key:"Gratitude = programmation cerveau. 3 min journal = mood +10%.",exercise:"Journal gratitude chaque soir (3 items). 30 jours, mesure mood."},
+          {num:8,title:"Plan bien-être personnel – Programme intégré",duration:"14min",desc:"Synthèse: sommeil + mouvement + alimentation + méditation + relations + gratitude. Un plan intégré 90 jours. Semaine 1-2: Sommeil optimisé (highest ROI). Semaine 3-4: Ajoute marche quotidienne. Semaine 5-6: Méditation + gratitude. Semaine 7-8: Relations audit + alimentation. Semaine 9-12: Refinement. Mesure: énergie, mood, clarté. À jour 90, tu seras 5x mieux. Pas compliqué, juste consistent.",key:"Bien-être = sommeil + mouvement + méditation + relations.",exercise:"Crée ton plan bien-être 90 jours. Weekly check-ins."}
+        ]
+      },
+      digital: {
+        title: "Digital & IA",
+        desc: "8 modules pour maîtriser l'IA et le digital moderne.",
+        modules: [
+          {num:1,title:"Comprendre l'IA – LLMs, fonctionnement, applications",duration:"12min",desc:"LLM (Large Language Models) = réseaux de neurones avec miliards de paramètres entraînés sur Internet. Ils prédisent le prochain mot probabilistiquement. ChatGPT c'est pas conscience, c'est pattern matching avancé. Comment marche: tokens (mots) → embeddings (représentation mathématique) → prédiction. Applications: écriture, code, analyse, recherche, brainstorm. La clé: LLMs expriment pas la vérité, expriment la probabilité. 80% vrai, 10% plausible-faux, 10% hallucinations.",key:"LLMs = pattern matching probabiliste. Vérifies toujours.",exercise:"Utilise Claude pour écrire un plan business. Vérifie faits. Note différences.",quiz:{question:"LLMs prédisent quoi?",hint:"Le mot qui vient après",answer:"prochain mot"}},
+          {num:2,title:"Prompt engineering – Contexte, rôle, tâche, exemples",duration:"11min",desc:"Prompt = instruction à une IA. Mauvais: 'Écris un post.' Bon: 'Tu es copywriter senior. Écris post LinkedIn 150 mots, tone professionnel, pour audience entrepreneurs, sujet: productivité. Structure: hook, 3 tips, CTA. Exemple: [sample].' La différence? Input quality = output quality. Framework: CONTEXTE (qui c'est?) + RÔLE (que tu fais?) + TÂCHE (quoi tu fais?) + FORMAT (comment tu fais?). Exemples = bonus +40% qualité.",key:"Bon prompt = contexte + rôle + tâche + format + exemples.",exercise:"Écris 5 prompts structurés. Compare vs vague prompts."},
+          {num:3,title:"Automatisation – Make.com, Zapier, n8n",duration:"10min",desc:"Make (anciennement Integromat) et Zapier connectent apps. Webhooks + IA. Exemple: Email arrive → résumé automatique avec IA → Slack notification. Temps sauvé: 10h/semaine possible. Pas besoin coder: interface visuelle. Workflows: trigger (event) → action (response). 100s d'apps supportées. Free tier suffit pour débuter. No-code automation × AI = productivité exponentielle.",key:"Automatisation IA = 10h/semaine sauvées.",exercise:"Crée 1 workflow Make/Zapier: email → résumé IA → destination."},
+          {num:4,title:"Création de contenu assistée par IA",duration:"13min",desc:"IA crée brouillon, tu ajoutes âme. Blog: IA pose questions → tu réponds → IA synthétise → tu édites. 80/20 rule: 80% IA, 20% touche humaine. Résultat: 10x plus rapide, même qualité (si bien guidé). Outils: Claude pour expertise, ChatGPT pour rapidité, Midjourney pour images. Limitation: IA ne connaît pas TON audience mieux que toi. Toi: feedback loop qui fait contenu mieux que 99%.",key:"IA draft + ton expertise = content optimal.",exercise:"Crée 1 article: IA brouillon, tu éditorialise. Note le temps sauvé."},
+          {num:5,title:"Produits IA à vendre – Cours, templates, consulting",duration:"11min",desc:"Marché IA explose. Que vendre? Formations sur IA (cours 'Mastering Prompt'), templates (boîtes à outils IA), services de consulting (aide businesses implémenter IA), outils no-code. Prix: formations 500-2K€, templates 50-200€, consulting 5K+. MVPs: lancer en 2 semaines. Publicité: LinkedIn + communities. Pricing psychology: 'AI Mastery' > 'AI Training' (percevance de valeur).",key:"Marché IA = milliers de customers en attente.",exercise:"Identifie 1 produit IA possible. Crée landing page. Pre-sell."},
+          {num:6,title:"No-code applications – Bubble, Webflow, Cursor",duration:"12min",desc:"Bubble = backend sans code (logic, database, APIs). Webflow = frontend beaucoup, design freedom. Cursor = IDE avec IA intégrée (complète code). Combo: Webflow (frontend) + Bubble (backend) + Cursor (helper IA) = app complète en 1 mois sans developer. Exemples lancés: SaaS complet (pricing: 500-5K€/mois). ROI clair. Limitation: scaling difficile sans coder, mais 80% startups pas à ce stade.",key:"No-code + IA = entreprise one-person possible.",exercise:"Crée prototype simple: Bubble ou Webflow. Push live."},
+          {num:7,title:"IA et éthique – Biais, deepfakes, transparence",duration:"10min",desc:"IA amplifie. Bon et mauvais. Deepfakes = danger. Biais = réplique training data bias (IA racist si données racistes). Éthique utilisation: (1) Transparence: 'Ceci est IA généré' (sauf obvie). (2) Attribution: source de training data si possible. (3) Vérification: LLMs hallucinate. Check facts. (4) Utilisation: pas catégories protégées (race, genre) en décisions. Futur: régulation arrivera. Mieux penser éthique now.",key:"IA amplifie. Utilises-la éthiquement ou subirá backlash.",exercise:"Audite ton usage IA. Transparent? Vérifiés? Éthique?"},
+          {num:8,title:"Lancer ton business IA en 30 jours",duration:"14min",desc:"Jour 1-7: Research niche + validé avec 5 customers (pas build without validation). Jour 8-14: Crée MVP (landing page + mini-product). Jour 15-21: Lancer et marketing (viral + friends). Jour 22-30: Itération basée sur feedback. Formule: Trouvé ennui + IA résout + customers payent. Exemples: AI tutors (500€/mois), writing assistants (200€/mois), resume builders (50€ one-time). Go.",key:"30 jours: Research → Build → Launch → Iterate.",exercise:"Choisis ta niche. Jour 1 aujourd'hui. Find 5 customers demain."}
+        ]
+      }
+    };
+  } catch(e) {
+    console.log('trainingModules override deferred');
+  }
+  console.log('%c SESSION 8a — FORMATIONS OVERRIDE ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+})();
+
+// ══════════════════════════════════════════
+// SESSION 8 — ENHANCED TOOLS
+// ══════════════════════════════════════════
+(function(){
+  'use strict';
+
+  // ── 1. POMODORO ENHANCEMENT ──
+  var _origRenderPomo = renderPomoPro;
+  window.renderPomoPro = function(el){
+    if(!el) return;
+    S.pomoStats = S.pomoStats || {sessions:[], totalMin:0, best:0, date:'', sound:'bell'};
+    if(S.pomoStats.date !== TD) { S.pomoStats.date = TD; }
+
+    var sessions = S.pomoStats.sessions || [];
+    var totalMin = S.pomoStats.totalMin || 0;
+    var best = S.pomoStats.best || 0;
+    var bestDay = Math.max(...sessions.map(s => s.sessions || 1), 0);
+    var avgLen = sessions.length > 0 ? Math.round(totalMin / sessions.length) : 0;
+
+    // Weekly chart (7 days)
+    var weekBars = '';
+    for(var d = 6; d >= 0; d--){
+      var dt = new Date();
+      dt.setDate(dt.getDate() - d);
+      var ds = dt.toDateString();
+      var dayLbl = ['D','L','M','M','J','V','S'][dt.getDay()];
+      var cnt = sessions.filter(s => s.date === ds).length || 0;
+      var h = Math.max(4, cnt * 8);
+      weekBars += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;height:60px;display:flex;align-items:flex-end;justify-content:center"><div style="width:60%;height:' + h + 'px;background:linear-gradient(180deg,var(--pu),#b09ae8);border-radius:2px;transition:height .5s"></div></div><span style="font-size:9px;color:var(--tx3);font-weight:700">' + dayLbl + '</span></div>';
+    }
+
+    var h = '<div style="text-align:center;padding:16px 0">';
+    h += '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px">';
+    h += '<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--ac)">' + sessions.length + '</div><div style="font-size:9px;color:var(--tx3);margin-top:2px">Sessions</div></div>';
+    h += '<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--pu)">' + totalMin + '</div><div style="font-size:9px;color:var(--tx3);margin-top:2px">Minutes</div></div>';
+    h += '<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--gr)">' + bestDay + '</div><div style="font-size:9px;color:var(--tx3);margin-top:2px">Meilleur jour</div></div>';
+    h += '<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs)"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--bl)">' + avgLen + '</div><div style="font-size:9px;color:var(--tx3);margin-top:2px">Moy. (min)</div></div>';
+    h += '</div>';
+    h += '<div class="wg" style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Sessions cette semaine</div><div style="display:flex;gap:2px;align-items:flex-end;height:80px">' + weekBars + '</div></div>';
+    h += '<div class="wg" style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">📢 Son de fin</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px">';
+    h += '<button onclick="S.pomoSound=\'bell\';save();renderPomoPro(document.getElementById(\'pomo-c\'))" style="padding:10px;background:' + (S.pomoSound === 'bell' ? 'var(--ac)' : 'var(--sf2)') + ';border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);cursor:pointer;font-size:12px;font-weight:600">🔔 Cloche</button>';
+    h += '<button onclick="S.pomoSound=\'ding\';save();renderPomoPro(document.getElementById(\'pomo-c\'))" style="padding:10px;background:' + (S.pomoSound === 'ding' ? 'var(--ac)' : 'var(--sf2)') + ';border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);cursor:pointer;font-size:12px;font-weight:600">✨ Ding</button>';
+    h += '<button onclick="S.pomoSound=\'chime\';save();renderPomoPro(document.getElementById(\'pomo-c\'))" style="padding:10px;background:' + (S.pomoSound === 'chime' ? 'var(--ac)' : 'var(--sf2)') + ';border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);cursor:pointer;font-size:12px;font-weight:600">🎶 Carillon</button>';
+    h += '<button onclick="S.pomoSound=\'silent\';save();renderPomoPro(document.getElementById(\'pomo-c\'))" style="padding:10px;background:' + (S.pomoSound === 'silent' ? 'var(--ac)' : 'var(--sf2)') + ';border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);cursor:pointer;font-size:12px;font-weight:600">🔇 Silence</button>';
+    h += '</div></div>';
+    h += '<button class="btn btn-ac" style="max-width:220px;margin:0 auto" onclick="gs(\'home\',null)">⏱️ Aller au Pomodoro</button>';
+    h += '</div>';
+    el.innerHTML = h;
+  };
+
+  // ── 2. BUDGET ENHANCEMENT ──
+  var _origRenderBudget = renderBudget;
+  window.renderBudget = function(){
+    var el = document.getElementById('budget-c');
+    if(!el) return;
+
+    S.budget = S.budget || {month:'', income:0, expenses:[], savingsGoal:0};
+    var b = S.budget;
+    var totalExp = b.expenses.reduce((a,e) => a + e.amount, 0);
+    var remaining = b.income - totalExp;
+    var savingRate = b.income > 0 ? Math.round(remaining / b.income * 100) : 0;
+
+    var catList = [
+      {id:'logement',nm:'Logement',ico:'🏠',color:'#4db87a'},
+      {id:'alimentation',nm:'Alimentation',ico:'🍽️',color:'#e0874a'},
+      {id:'transport',nm:'Transport',ico:'🚗',color:'#4a9ed4'},
+      {id:'loisirs',nm:'Loisirs',ico:'🎯',color:'#8b6de0'},
+      {id:'sante',nm:'Santé',ico:'💊',color:'#d95f5f'},
+      {id:'education',nm:'Education',ico:'📚',color:'#3db8aa'},
+      {id:'vetements',nm:'Vêtements',ico:'👔',color:'#c8a060'},
+      {id:'tech',nm:'Tech',ico:'📱',color:'#38b8d4'},
+      {id:'other',nm:'Autres',ico:'🎁',color:'var(--tx3)'}
+    ];
+
+    var byCat = {};
+    b.expenses.forEach(e => { byCat[e.cat] = (byCat[e.cat] || 0) + e.amount; });
+
+    // Pie chart (conic gradient)
+    var conicGradient = '';
+    var totalForPie = Object.values(byCat).reduce((a,b) => a + b, 0) || 1;
+    var offset = 0;
+    Object.keys(byCat).forEach(cat => {
+      var cat_obj = catList.find(c => c.id === cat) || catList[8];
+      var pct = (byCat[cat] / totalForPie) * 100;
+      conicGradient += cat_obj.color + ' ' + offset + '% ' + (offset + pct) + '%, ';
+      offset += pct;
+    });
+    conicGradient = conicGradient.slice(0, -2);
+
+    var h = '<div class="wg" style="padding:16px;margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px">💰 Budget du mois</div>';
+    h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">';
+    h += '<div><div style="font-size:11px;color:var(--tx3)">Revenus</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--gr)">' + b.income.toFixed(0) + '€</div></div>';
+    h += '<div><div style="font-size:11px;color:var(--tx3)">Dépenses</div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--rd)">' + totalExp.toFixed(0) + '€</div></div>';
+    h += '</div>';
+    h += '<div style="display:flex;gap:12px;align-items:center;margin-bottom:16px"><div style="flex:1"><div style="font-size:10px;color:var(--tx3);margin-bottom:4px">Économies restantes</div><div class="pbar" style="height:8px"><div class="pfill" style="width:' + Math.min(Math.max(savingRate, 0), 100) + '%;background:linear-gradient(90deg,var(--ac),var(--ac2))"></div></div></div><div style="font-family:var(--fd);font-weight:700;color:' + (remaining >= 0 ? 'var(--gr)' : 'var(--rd)') + '">' + remaining.toFixed(0) + '€</div></div>';
+
+    if(Object.keys(byCat).length > 0){
+      h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;align-items:center">';
+      h += '<div style="display:flex;justify-content:center;align-items:center;height:140px"><div style="width:120px;height:120px;border-radius:50%;background:conic-gradient(' + conicGradient + ')"></div></div>';
+      h += '<div style="font-size:11px;color:var(--tx3)">';
+      catList.filter(c => byCat[c.id]).forEach(c => {
+        h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span>' + c.ico + '</span><span style="flex:1">' + c.nm + '</span><span style="font-weight:700;color:' + c.color + '">' + byCat[c.id].toFixed(0) + '€</span></div>';
+      });
+      h += '</div>';
+      h += '</div>';
+    }
+
+    h += '</div>';
+    h += '<button onclick="addExpense()" class="btn btn-ac" style="margin-bottom:12px">+ Ajouter une dépense</button>';
+    el.innerHTML = h;
+  };
+
+  // ── 3. HABITUDES ENHANCEMENT ──
+  var _origRenderHabits2 = window.renderHabits;
+  window.renderHabits = function(el){
+    if(!el) return;
+
+    S.habits = S.habits || {list:[
+      {id:'h1',name:'Méditer 10min',ico:'🧘',streak:0,lastDone:'',cat:'mental'},
+      {id:'h2',name:'Journaling',ico:'📝',streak:0,lastDone:'',cat:'mental'},
+      {id:'h3',name:'Exercice 20min',ico:'💪',streak:0,lastDone:'',cat:'sport'},
+      {id:'h4',name:'Lecture 15min',ico:'📚',streak:0,lastDone:'',cat:'grow'},
+      {id:'h5',name:'Workout 30min',ico:'🏋️',streak:0,lastDone:'',cat:'sport'},
+      {id:'h6',name:'3L eau',ico:'💧',streak:0,lastDone:'',cat:'health'},
+      {id:'h7',name:'Stretching',ico:'🧘‍♀️',streak:0,lastDone:'',cat:'health'},
+      {id:'h8',name:'Marche 30min',ico:'🚶',streak:0,lastDone:'',cat:'nature'},
+      {id:'h9',name:'Deep Work 2h',ico:'🎯',streak:0,lastDone:'',cat:'focus'},
+      {id:'h10',name:'Méditation',ico:'🕉️',streak:0,lastDone:'',cat:'mental'},
+      {id:'h11',name:'Gratitudes',ico:'🙏',streak:0,lastDone:'',cat:'mental'},
+      {id:'h12',name:'Respiration',ico:'💨',streak:0,lastDone:'',cat:'mental'},
+      {id:'h13',name:'Digital detox 1h',ico:'📵',streak:0,lastDone:'',cat:'focus'},
+      {id:'h14',name:'Pas de réseaux 1h',ico:'🔇',streak:0,lastDone:'',cat:'focus'},
+      {id:'h15',name:'Planifier demain',ico:'📅',streak:0,lastDone:'',cat:'focus'}
+    ],todayDone:[]};
+
+    var today = new Date().toDateString();
+    var list = S.habits.list;
+    var doneToday = list.filter(h => h.lastDone === today).length;
+    var pct = list.length ? Math.round(doneToday / list.length * 100) : 0;
+
+    // Heatmap (12 weeks x 7 days)
+    var heatmap = '';
+    for(var w = 11; w >= 0; w--){
+      heatmap += '<div style="display:flex;gap:1px">';
+      for(var d = 0; d < 7; d++){
+        var dt = new Date();
+        dt.setDate(dt.getDate() - (w * 7 + d));
+        var ds = dt.toDateString();
+        var completions = list.filter(h => h.lastDone === ds).length;
+        var intensity = Math.min(completions / list.length * 100, 100);
+        var color = intensity === 0 ? 'var(--sf3)' : 'rgba(212,170,74,' + (0.2 + intensity / 100 * 0.8) + ')';
+        heatmap += '<div style="width:16px;height:16px;background:' + color + ';border-radius:2px;border:1px solid var(--bd);cursor:pointer;transition:all .2s" title="' + dt.toLocaleDateString('fr-FR') + '"></div>';
+      }
+      heatmap += '</div>';
+    }
+
+    // Template packs
+    var templates = [
+      {name:'Morning Routine',habits:['Méditer 10min','Journaling','Exercice 20min','Lecture 15min']},
+      {name:'Fitness',habits:['Workout 30min','3L eau','Stretching','Marche 30min']},
+      {name:'Mindfulness',habits:['Méditation','Gratitudes','Respiration','Digital detox 1h']},
+      {name:'Productivité',habits:['Deep Work 2h','Pas de réseaux 1h','Planifier demain','Exercice 20min']}
+    ];
+
+    var h = '';
+    h += '<div style="text-align:center;margin-bottom:16px"><div style="position:relative;display:inline-block"><svg width="90" height="90" viewBox="0 0 90 90"><circle cx="45" cy="45" r="38" fill="none" stroke="var(--sf3)" stroke-width="5"/><circle cx="45" cy="45" r="38" fill="none" stroke="var(--ac)" stroke-width="5" stroke-linecap="round" stroke-dasharray="' + (Math.PI*2*38) + '" stroke-dashoffset="' + (Math.PI*2*38*(1-pct/100)) + '" transform="rotate(-90 45 45)" style="transition:all .8s"></circle><text x="45" y="42" text-anchor="middle" fill="var(--ac)" font-family="var(--fd)" font-weight="700" font-size="20">' + pct + '%</text><text x="45" y="56" text-anchor="middle" fill="var(--tx3)" font-size="8" font-weight="600">COMPLÉTÉ</text></svg></div></div>';
+    h += '<div class="wg" style="margin-bottom:16px;padding:12px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🔥 Heatmap 12 semaines</div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;padding:8px;background:var(--sf2);border-radius:4px">' + heatmap + '</div></div>';
+    h += '<div class="wg" style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📦 Packs de templates</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    templates.forEach(t => {
+      h += '<button onclick="addTemplateHabits(\'' + t.name.replace(/'/g, "\\'") + '\')" style="padding:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);color:var(--tx);cursor:pointer;font-size:11px;font-weight:600;transition:all .2s" onmouseover="this.style.borderColor=\'var(--ac)\'" onmouseout="this.style.borderColor=\'var(--bd)\'">' + t.name + '</button>';
+    });
+    h += '</div></div>';
+    h += '<div style="margin-bottom:12px">';
+    list.forEach(hab => {
+      var done = hab.lastDone === today;
+      h += '<div style="background:' + (done ? 'var(--grd)' : 'var(--sf)') + ';border:1px solid ' + (done ? 'var(--gr)' : 'var(--bd)') + ';border-radius:var(--rs);padding:13px;margin-bottom:7px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s" onclick="toggleHabit6(\'' + hab.id + '\')">';
+      h += '<div style="width:28px;height:28px;border-radius:50%;border:2px solid ' + (done ? 'var(--gr)' : 'var(--bd2)') + ';display:flex;align-items:center;justify-content:center;font-size:12px;background:' + (done ? 'var(--gr)' : 'transparent') + ';color:' + (done ? '#000' : 'transparent') + ';transition:all .2s;flex-shrink:0">' + (done ? '✓' : '') + '</div>';
+      h += '<div style="font-size:20px;flex-shrink:0">' + hab.ico + '</div>';
+      h += '<div style="flex:1"><div style="font-size:13px;font-weight:600;' + (done ? 'text-decoration:line-through;opacity:.6' : '') + '">' + hab.name + '</div><div style="font-size:10px;color:var(--tx3)">🔥 ' + hab.streak + ' jours</div></div>';
+      h += '</div>';
+    });
+    h += '</div>';
+    h += '<div style="display:flex;gap:8px;margin-bottom:14px"><input id="new-habit-name" class="inp" placeholder="Nouvelle habitude..." style="flex:1;font-size:12px;padding:10px"><button class="btn btn-ac" style="width:auto;padding:10px 18px;font-size:12px" onclick="addCustomHabit()">+</button></div>';
+    el.innerHTML = h;
+  };
+
+  window.addTemplateHabits = function(templateName){
+    var templates = {
+      'Morning Routine': [{name:'Méditer 10min',ico:'🧘'},{name:'Journaling',ico:'📝'},{name:'Exercice 20min',ico:'💪'},{name:'Lecture 15min',ico:'📚'}],
+      'Fitness': [{name:'Workout 30min',ico:'🏋️'},{name:'3L eau',ico:'💧'},{name:'Stretching',ico:'🧘‍♀️'},{name:'Marche 30min',ico:'🚶'}],
+      'Mindfulness': [{name:'Méditation',ico:'🕉️'},{name:'Gratitudes',ico:'🙏'},{name:'Respiration',ico:'💨'},{name:'Digital detox 1h',ico:'📵'}],
+      'Productivité': [{name:'Deep Work 2h',ico:'🎯'},{name:'Pas de réseaux 1h',ico:'🔇'},{name:'Planifier demain',ico:'📅'},{name:'Exercice 20min',ico:'💪'}]
+    };
+    var pack = templates[templateName];
+    if(!pack) return;
+    S.habits = S.habits || {list:[],todayDone:[]};
+    pack.forEach(h => {
+      if(!S.habits.list.find(x => x.name === h.name)){
+        S.habits.list.push({id:'h'+Date.now()+Math.random(),name:h.name,ico:h.ico,streak:0,lastDone:'',cat:'custom'});
+      }
+    });
+    save();
+    renderHabits(document.getElementById('habits-c'));
+    toast(templateName+' ajouté !','✨',2000);
+  };
+
+  // ── 4. JOURNAL ENHANCEMENT ──
+  var _origRenderSmartJournal = window.initSmartJournal;
+  if(typeof initSmartJournal === 'function'){
+    window.initSmartJournal = function(){
+      _origRenderSmartJournal();
+      var el = document.getElementById('journal-c');
+      if(!el) return;
+
+      var prompts = [
+        'Qu\'est-ce qui t\'a rendu heureux aujourd\'hui ?',
+        'Quelle a été ta plus grande victoire cette semaine ?',
+        'Comment as-tu grandi aujourd\'hui ?',
+        'Qu\'est-ce qui t\'a déçu et comment l\'acceptes-tu ?',
+        'Quelles sont tes 3 gratitudes du jour ?',
+        'Quel défi as-tu relevé ?',
+        'Comment te sens-tu mentalement et physiquement ?',
+        'Qu\'est-ce que tu apprendrais à ton moi du passé ?',
+        'Quel est ton objectif pour demain ?',
+        'Qu\'est-ce qui t\'a inspiré aujourd\'hui ?',
+        'Comment as-tu aidé quelqu\'un ?',
+        'Qu\'est-ce que tu voudrais améliorer ?',
+        'Quel moment t\'a marqué ?',
+        'Comment as-tu pris soin de toi ?',
+        'Qu\'est-ce que tu apprendrais à quelqu\'un d\'autre ?',
+        'Quel obstacle as-tu surmonté ?',
+        'Comment as-tu progressé vers tes rêves ?',
+        'Qu\'est-ce qui te rend fier ?',
+        'Quel moment de beauté as-tu remarqué ?',
+        'Comment as-tu montré ta force ?',
+        'Qu\'est-ce qui t\'a fait rire ?',
+        'Comment as-tu été authentique aujourd\'hui ?',
+        'Quel conseil te donnerais-tu ?',
+        'Qu\'est-ce que tu maîtrises de plus en plus ?',
+        'Comment as-tu créé de la valeur ?',
+        'Quel est ton sentiment général du jour ?',
+        'Comment as-tu géré les émotions difficiles ?',
+        'Qu\'est-ce qui te motiverait demain ?',
+        'Comment as-tu été courageux ?',
+        'Quel apprentissage gardes-tu de ce jour ?'
+      ];
+
+      var dailyPrompt = prompts[new Date().getDate() % prompts.length];
+      var moodTags = ['😊 Heureux','😢 Triste','😰 Anxieux','🎉 Motivé','😌 Calme','⚡ Énergique','😴 Fatigué','🙏 Reconnaissant'];
+
+      var h = '<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💡 Prompt du jour</div><div style="padding:12px;background:var(--agg2);border:1px solid var(--ac);border-radius:var(--rs);font-size:14px;font-weight:600;color:var(--ac)">' + dailyPrompt + '</div></div>';
+
+      h += '<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🏷️ Étiquettes émotionnelles</div><div style="display:flex;flex-wrap:wrap;gap:6px">';
+      moodTags.forEach(tag => {
+        h += '<button onclick="toggleMoodTag(this)" style="padding:6px 12px;background:var(--sf2);border:1px solid var(--bd);border-radius:12px;color:var(--tx);cursor:pointer;font-size:11px;font-weight:600;transition:all .2s">' + tag + '</button>';
+      });
+      h += '</div></div>';
+
+      h += '<div style="margin-bottom:16px"><div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">🔍 Rechercher</div><input id="journal-search" class="inp" placeholder="Filtrer tes entrées..." style="margin-bottom:8px"></div>';
+      h += '<button class="btn btn-ac" onclick="exportJournal()">📋 Exporter tout</button>';
+      el.innerHTML = h + (el.innerHTML || '');
+    };
+  }
+
+  // ── 5. LANGUES ENHANCEMENT ──
+  var _origRenderLang = window.renderLang;
+  if(typeof renderLang === 'function'){
+    window.renderLang = function(el){
+      if(!el) return;
+
+      S.langDb = S.langDb || {
+        fr:[
+          {w:'Bonjour',pr:'bon-JOUR',t:'Hello',diff:'débutant',stat:'new'},
+          {w:'Merci',pr:'mer-SEE',t:'Thank you',diff:'débutant',stat:'new'},
+          {w:'Au revoir',pr:'oh ruh-VWAH',t:'Goodbye',diff:'débutant',stat:'new'},
+          {w:'S\'il vous plaît',pr:'see voo PLEH',t:'Please',diff:'débutant',stat:'new'},
+          {w:'Excusez-moi',pr:'ex-kew-zay-MWAH',t:'Excuse me',diff:'débutant',stat:'new'},
+          {w:'Je ne comprends pas',pr:'zhuh nuh kom-prahn pah',t:'I don\'t understand',diff:'débutant',stat:'new'},
+          {w:'Parlez plus lentement',pr:'par-lay plew lahn-tuh-mahn',t:'Speak more slowly',diff:'débutant',stat:'new'},
+          {w:'Quel est votre nom',pr:'kel eh voh-truh nohm',t:'What is your name',diff:'débutant',stat:'new'},
+          {w:'Enchantée',pr:'ahn-shan-tay',t:'Pleased to meet you',diff:'débutant',stat:'new'},
+          {w:'Comment allez-vous',pr:'kom-ahn tah-lay voo',t:'How are you',diff:'débutant',stat:'new'},
+          {w:'Je vais bien',pr:'zhuh veh bee-ehn',t:'I\'m doing well',diff:'débutant',stat:'new'},
+          {w:'Où sont les toilettes',pr:'oo sohn lay twah-let',t:'Where is the bathroom',diff:'débutant',stat:'new'},
+          {w:'L\'amour',pr:'lah-MOOR',t:'Love',diff:'intermédiaire',stat:'learning'},
+          {w:'La passion',pr:'lah pah-SYON',t:'Passion',diff:'intermédiaire',stat:'learning'},
+          {w:'Rêver',pr:'reh-VAY',t:'To dream',diff:'intermédiaire',stat:'learning'},
+          {w:'Créer',pr:'kreh-AY',t:'To create',diff:'intermédiaire',stat:'learning'},
+          {w:'Débattre',pr:'deh-BAHT',t:'To debate',diff:'intermédiaire',stat:'learning'},
+          {w:'Persévérer',pr:'per-seh-veh-RAY',t:'To persevere',diff:'intermédiaire',stat:'learning'},
+          {w:'Prospérité',pr:'pros-peh-ri-TAY',t:'Prosperity',diff:'intermédiaire',stat:'learning'},
+          {w:'Transformation',pr:'trans-for-mah-SYON',t:'Transformation',diff:'avancé',stat:'review'},
+          {w:'Transcendance',pr:'trahn-sahn-DAHNS',t:'Transcendence',diff:'avancé',stat:'review'},
+          {w:'Philosophie',pr:'fee-loh-soh-FEE',t:'Philosophy',diff:'avancé',stat:'review'},
+          {w:'Contemplation',pr:'kohn-tahm-plah-SYON',t:'Contemplation',diff:'avancé',stat:'review'},
+          {w:'Authentique',pr:'oh-thahn-TEEK',t:'Authentic',diff:'avancé',stat:'review'},
+          {w:'Perspicacité',pr:'per-spi-kah-see-TAY',t:'Insight',diff:'avancé',stat:'review'},
+          {w:'Époustouflant',pr:'ay-poos-too-FLAHN',t:'Astounding',diff:'avancé',stat:'review'},
+          {w:'Quintessence',pr:'kahn-teh-SAHNS',t:'Quintessence',diff:'avancé',stat:'mastered'},
+          {w:'Profondeur',pr:'proh-fohn-DUR',t:'Profundity',diff:'avancé',stat:'mastered'},
+          {w:'Sérénité',pr:'seh-reh-ni-TAY',t:'Serenity',diff:'avancé',stat:'mastered'},
+          {w:'Bienveillance',pr:'bee-ehn-veh-YAHNS',t:'Benevolence',diff:'avancé',stat:'mastered'}
+        ]
+      };
+
+      var h = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">';
+      ['débutant','intermédiaire','avancé'].forEach(diff => {
+        var count = S.langDb.fr.filter(w => w.diff === diff).length;
+        h += '<div style="padding:10px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);text-align:center"><div style="font-size:11px;color:var(--tx3);text-transform:uppercase;margin-bottom:4px">' + diff + '</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)">' + count + '</div></div>';
+      });
+      h += '</div>';
+
+      h += '<div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Spaced Repetition</div>';
+      ['new','learning','review','mastered'].forEach(stat => {
+        var icon = stat === 'new' ? '✨' : stat === 'learning' ? '📚' : stat === 'review' ? '🔄' : '🎯';
+        var label = stat === 'new' ? 'Nouveau' : stat === 'learning' ? 'Apprentissage' : stat === 'review' ? 'Révision' : 'Maîtrisé';
+        h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0"><span style="font-size:18px">' + icon + '</span><span style="flex:1;font-size:13px;font-weight:600">' + label + '</span></div>';
+      });
+
+      h += '<button class="btn btn-ac" style="margin-top:16px" onclick="gs(\'home\',null)">← Retour</button>';
+      el.innerHTML = h;
+    };
+  }
+
+  console.log('%c SESSION 8 — ENHANCED TOOLS ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+})();
+
+// ══════════════════════════════════════════
+// SESSION 9 — JARVIS AI ASSISTANT
+// ══════════════════════════════════════════
+(function(){
+  'use strict';
+
+  // State
+  var jarvisOpen = false;
+  var jarvisHistory = [];
+  var jarvisBusy = false;
+
+  // DOM refs (lazy)
+  function $j(id){ return document.getElementById(id); }
+
+  // Toggle drawer
+  function toggleJarvis(){
+    jarvisOpen = !jarvisOpen;
+    var drawer = $j('jarvis-drawer');
+    var backdrop = $j('jarvis-backdrop');
+    if(jarvisOpen){
+      drawer.classList.add('open');
+      backdrop.classList.add('open');
+      updateJarvisSuggestions();
+      if(jarvisHistory.length === 0) jarvisGreet();
+    } else {
+      drawer.classList.remove('open');
+      backdrop.classList.remove('open');
+    }
+  }
+
+  // Greet user
+  function jarvisGreet(){
+    var name = S.name || 'Champion';
+    var hour = new Date().getHours();
+    var greet = hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
+    var streak = S.streak || 0;
+    var lvl = (S.xp || 0);
+
+    var msg = greet + ' ' + name + ' ! Je suis JARVIS, ton assistant personnel RISE.';
+    if(streak > 0) msg += ' Tu es à ' + streak + ' jours de streak, continue comme ça !';
+    msg += ' Comment puis-je t\'aider ?';
+
+    addJarvisMsg('jarvis', msg);
+  }
+
+  // Add message to chat
+  function addJarvisMsg(role, text){
+    var el = $j('jarvis-msgs');
+    if(!el) return;
+    var div = document.createElement('div');
+    div.className = 'jarvis-msg ' + (role === 'jarvis' ? 'jm-bot' : 'jm-user');
+    div.innerHTML = '<div class="jm-bubble">' + (role === 'jarvis' ? '<span class="jm-name">JARVIS</span>' : '') + '<div class="jm-text">' + text.replace(/\n/g,'<br>') + '</div></div>';
+    el.appendChild(div);
+    el.scrollTop = el.scrollHeight;
+    jarvisHistory.push({role: role === 'jarvis' ? 'assistant' : 'user', content: text});
+  }
+
+  // Contextual suggestions based on current screen
+  function getContextSuggestions(){
+    var screen = document.querySelector('.screen.active');
+    var sid = screen ? screen.id : '';
+    var suggestions = [];
+    var now = new Date();
+    var hour = now.getHours();
+
+    // Always available
+    suggestions.push({text:'Résume ma semaine', action: function(){ sendJarvis('Fais un résumé complet de ma semaine: habitudes, XP, streak, humeur. Donne-moi un score global et des recommandations.'); }});
+
+    // Time-based
+    if(hour < 10){
+      suggestions.push({text:'Plan du matin', action: function(){ sendJarvis('Crée-moi un plan pour ce matin basé sur mes habitudes et objectifs.'); }});
+    } else if(hour >= 22){
+      suggestions.push({text:'Bilan de la journée', action: function(){ sendJarvis('Fais le bilan de ma journée: qu\'est-ce que j\'ai accompli? Que dois-je améliorer demain?'); }});
+    }
+
+    // Screen-based
+    if(sid === 'screen-home'){
+      var undoneHabits = (S.habits && S.habits.list || []).filter(function(h){ return h.lastDone !== new Date().toDateString(); });
+      if(undoneHabits.length > 0){
+        suggestions.push({text: undoneHabits[0].ico + ' ' + undoneHabits[0].name + ' pas encore fait!', action: function(){ sendJarvis('Motive-moi pour faire "' + undoneHabits[0].name + '" maintenant!'); }});
+      }
+      suggestions.push({text:'Lance un Pomodoro', action: function(){ toggleJarvis(); var b = document.getElementById('pomo-btn'); if(b && b.textContent.includes('Start')) b.click(); toast('Pomodoro lancé!','⏱️',2000); }});
+    }
+
+    if(sid === 'screen-habits' || sid === 'screen-home'){
+      suggestions.push({text:'Crée une habitude', action: function(){ sendJarvis('Suggère-moi une nouvelle habitude adaptée à mes objectifs (' + (S.goal||'all') + '). Donne-moi le nom, la fréquence et pourquoi c\'est important.'); }});
+    }
+
+    if(sid === 'screen-disc'){
+      var inProgress = Object.keys(S.formProg || {}).filter(function(k){ return (S.formProg[k].m || 0) < 8; });
+      if(inProgress.length > 0){
+        suggestions.push({text:'Continue ta formation', action: function(){ sendJarvis('Je suis en train de suivre des formations. Motive-moi à continuer et rappelle-moi pourquoi c\'est important pour mes objectifs.'); }});
+      }
+      suggestions.push({text:'Quelle formation choisir?', action: function(){ sendJarvis('Analyse mes objectifs (' + (S.goal||'all') + ') et recommande-moi la meilleure formation à commencer maintenant.'); }});
+    }
+
+    if(sid === 'screen-dashboard' || sid === 'screen-dash'){
+      suggestions.push({text:'Analyse mes progrès', action: function(){ sendJarvis('Analyse mes statistiques en détail: XP, streak, habitudes, formations. Qu\'est-ce qui va bien? Où dois-je m\'améliorer?'); }});
+    }
+
+    if(sid === 'screen-journal' || sid === 'screen-smartjournal'){
+      suggestions.push({text:'Aide-moi à écrire', action: function(){ sendJarvis('Donne-moi un prompt d\'écriture profond pour mon journal du jour, adapté à mon humeur et mes objectifs.'); }});
+    }
+
+    // Affirmation
+    suggestions.push({text:'Affirmation du jour', action: function(){ sendJarvis('Génère une affirmation personnalisée et puissante pour moi, basée sur mon objectif (' + (S.goal||'all') + ') et mon niveau actuel.'); }});
+
+    // Plan d'action
+    suggestions.push({text:'Plan d\'action', action: function(){ sendJarvis('Crée-moi un plan d\'action concret pour les 7 prochains jours, avec des objectifs mesurables et des étapes claires.'); }});
+
+    return suggestions.slice(0, 5);
+  }
+
+  function updateJarvisSuggestions(){
+    var el = $j('jarvis-suggs');
+    if(!el) return;
+    var suggs = getContextSuggestions();
+    el.innerHTML = suggs.map(function(s, i){
+      return '<button class="jarvis-chip" data-idx="' + i + '">' + s.text + '</button>';
+    }).join('');
+    // Bind events
+    el.querySelectorAll('.jarvis-chip').forEach(function(btn, i){
+      btn.onclick = function(){ if(suggs[i]) suggs[i].action(); };
+    });
+  }
+
+  // Send message to JARVIS
+  function sendJarvis(text){
+    if(!text || jarvisBusy) return;
+    addJarvisMsg('user', text);
+    jarvisBusy = true;
+
+    // Show typing
+    var el = $j('jarvis-msgs');
+    var typDiv = document.createElement('div');
+    typDiv.className = 'jarvis-msg jm-bot';
+    typDiv.id = 'jarvis-typing';
+    typDiv.innerHTML = '<div class="jm-bubble"><span class="jm-name">JARVIS</span><div class="dot-pulse"><span></span><span></span><span></span></div></div>';
+    el.appendChild(typDiv);
+    el.scrollTop = el.scrollHeight;
+
+    // Build rich context for JARVIS
+    var ctx = buildJarvisContext();
+
+    // Try API first, fallback to local
+    tryJarvisAPI(text, ctx).then(function(reply){
+      var typ = $j('jarvis-typing');
+      if(typ) typ.remove();
+      addJarvisMsg('jarvis', reply);
+      jarvisBusy = false;
+      updateJarvisSuggestions();
+    }).catch(function(){
+      var typ = $j('jarvis-typing');
+      if(typ) typ.remove();
+      // Local fallback
+      var reply = '';
+      try { reply = RISE_AI.processCoachInput(text, 'coach'); } catch(e){ reply = 'Je suis là pour toi! Reformule ta question et je ferai de mon mieux.'; }
+      addJarvisMsg('jarvis', reply);
+      jarvisBusy = false;
+      updateJarvisSuggestions();
+    });
+  }
+
+  function buildJarvisContext(){
+    var habits = S.habits && S.habits.list || [];
+    var doneToday = habits.filter(function(h){ return h.lastDone === new Date().toDateString(); }).length;
+    var totalHabits = habits.length;
+    var formsDone = Object.keys(S.formProg || {}).filter(function(k){ return S.formProg[k].done; }).length;
+    var formsInProg = Object.keys(S.formProg || {}).filter(function(k){ return (S.formProg[k].m || 0) > 0 && !S.formProg[k].done; }).length;
+    var recentMoods = [];
+    if(S.checkins && typeof S.checkins === 'object'){
+      var keys = Object.keys(S.checkins).sort().slice(-7);
+      keys.forEach(function(k){ if(S.checkins[k] && S.checkins[k].energy) recentMoods.push(S.checkins[k].energy); });
+    }
+
+    return {
+      name: S.name || 'Champion',
+      age: S.age || 0,
+      goal: S.goal || 'all',
+      goals: S.goals || [S.goal || 'all'],
+      level: (function(){ var l=0; var lvls=[0,100,250,500,850,1300,1850,2500,3300,4200,5200,6400,7800,9500,11500,14000,17000,20500,24500,29000,34000,40000,47000,55000,65000]; for(var i=0;i<lvls.length;i++) if((S.xp||0)>=lvls[i]) l=i; return l+1; })(),
+      xp: S.xp || 0,
+      streak: S.streak || 0,
+      gems: S.gems || 0,
+      habitsToday: doneToday + '/' + totalHabits,
+      habitsList: habits.map(function(h){ return h.name + (h.lastDone === new Date().toDateString() ? ' ✅' : ' ❌'); }).join(', '),
+      formationsDone: formsDone,
+      formationsInProgress: formsInProg,
+      recentMoods: recentMoods.join(','),
+      pomoSessions: (S.pomoStats && S.pomoStats.sessions || []).length,
+      pomoTotalMin: S.pomoStats && S.pomoStats.totalMin || 0
+    };
+  }
+
+  function tryJarvisAPI(text, ctx){
+    return new Promise(function(resolve, reject){
+      var jarvisSystem = 'Tu es JARVIS, l\'assistant IA personnel intégré dans RISE APP. Tu es bienveillant, motivant, direct et concret. Tu tutoies. Tu utilises des emojis avec parcimonie. Tu donnes des conseils actionnables. Tu connais tout le contexte de l\'utilisateur. Maximum 200 mots par réponse.';
+
+      fetch('/api/chat.js', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({
+          message: text,
+          context: ctx,
+          history: jarvisHistory.slice(-6).map(function(h){ return {role: h.role, content: h.content}; }),
+          systemOverride: jarvisSystem
+        })
+      }).then(function(r){ return r.json(); }).then(function(data){
+        if(data.reply) resolve(data.reply);
+        else reject();
+      }).catch(function(){ reject(); });
+    });
+  }
+
+  // Send from input
+  function jarvisSend(){
+    var ta = $j('jarvis-ta');
+    if(!ta) return;
+    var text = ta.value.trim();
+    if(!text) return;
+    ta.value = '';
+    sendJarvis(text);
+  }
+
+  // Proactive notifications (show on fab)
+  function jarvisProactiveCheck(){
+    var fab = $j('jarvis-fab');
+    if(!fab || jarvisOpen) return;
+
+    var hour = new Date().getHours();
+    var habits = S.habits && S.habits.list || [];
+    var undone = habits.filter(function(h){ return h.lastDone !== new Date().toDateString(); });
+
+    // Show notification dot if there are proactive suggestions
+    var dot = fab.querySelector('.jarvis-dot');
+    if(undone.length > 0 && hour >= 8 && hour <= 22){
+      if(!dot){
+        dot = document.createElement('span');
+        dot.className = 'jarvis-dot';
+        fab.appendChild(dot);
+      }
+    } else {
+      if(dot) dot.remove();
+    }
+  }
+
+  // Bind events
+  window.addEventListener('DOMContentLoaded', function(){
+    var fab = $j('jarvis-fab');
+    if(fab) fab.onclick = toggleJarvis;
+
+    var backdrop = $j('jarvis-backdrop');
+    if(backdrop) backdrop.onclick = toggleJarvis;
+
+    var closeBtn = $j('jarvis-close');
+    if(closeBtn) closeBtn.onclick = toggleJarvis;
+
+    var sendBtn = $j('jarvis-send');
+    if(sendBtn) sendBtn.onclick = jarvisSend;
+
+    var ta = $j('jarvis-ta');
+    if(ta) ta.onkeydown = function(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); jarvisSend(); } };
+
+    // Proactive check every 60s
+    setInterval(jarvisProactiveCheck, 60000);
+    jarvisProactiveCheck();
+  });
+
+  // Show JARVIS only after onboarding
+  var checkFab = setInterval(function(){
+    if(S && S.ob){
+      var fab = $j('jarvis-fab');
+      if(fab) fab.style.display = 'flex';
+      clearInterval(checkFab);
+    }
+  }, 1000);
+
+  // Expose for inline onclick
+  window.toggleJarvis = toggleJarvis;
+  window.sendJarvis = sendJarvis;
+  window.jarvisSend = jarvisSend;
+})();
 </script>
 </body>
 </html>
