@@ -63,6 +63,119 @@
 /* Monospace numbers */
 .mono{font-family:var(--fm);font-variant-numeric:tabular-nums}
 
+/* ══════════════════════════════════════════ */
+/* DOMAIN COLOR SYSTEM                       */
+/* ══════════════════════════════════════════ */
+
+/* Domain-specific context banners */
+.ctx-mind{background:linear-gradient(135deg,rgba(168,85,247,.12),rgba(168,85,247,.04));border:1px solid rgba(168,85,247,.2)}
+.ctx-hustle{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(245,158,11,.04));border:1px solid rgba(245,158,11,.2)}
+.ctx-body{background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(239,68,68,.04));border:1px solid rgba(239,68,68,.2)}
+.ctx-vitality{background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(34,197,94,.04));border:1px solid rgba(34,197,94,.2)}
+.ctx-wisdom{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(59,130,246,.04));border:1px solid rgba(59,130,246,.2)}
+.ctx-order{background:linear-gradient(135deg,rgba(6,182,212,.12),rgba(6,182,212,.04));border:1px solid rgba(6,182,212,.2)}
+.ctx-flow{background:linear-gradient(135deg,rgba(249,115,22,.12),rgba(249,115,22,.04));border:1px solid rgba(249,115,22,.2)}
+
+/* Screen-specific accent overrides */
+#screen-nature .nat-c{background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(10,15,10,.9));border-color:rgba(34,197,94,.25);box-shadow:0 0 20px rgba(34,197,94,.08)}
+#screen-meditate .wg{border-color:rgba(168,85,247,.15)}
+#screen-meditate .big-timer{color:var(--c-mind)}
+#screen-workout .wg{border-color:rgba(239,68,68,.15)}
+#screen-finance .wg,#screen-budget .wg{border-color:rgba(245,158,11,.15)}
+#screen-lang .wg{border-color:rgba(59,130,246,.15)}
+#screen-pomo .wg{border-color:rgba(6,182,212,.15)}
+#screen-pomo .big-timer{color:var(--c-order)}
+
+/* ══════════════════════════════════════════ */
+/* PREMIUM WIDGET STYLES                     */
+/* ══════════════════════════════════════════ */
+
+/* Streak widget glow */
+.streak-fire{text-shadow:0 0 16px rgba(249,115,22,.4);animation:streakPulse 2s ease-in-out infinite}
+@keyframes streakPulse{0%,100%{opacity:.85;text-shadow:0 0 16px rgba(249,115,22,.3)}50%{opacity:1;text-shadow:0 0 24px rgba(249,115,22,.5)}}
+
+/* Streak dot styles */
+.stk-dot{width:8px;height:8px;border-radius:50%;background:var(--sf3);transition:all .3s var(--ease)}
+.stk-dot.done{background:var(--or);box-shadow:0 0 6px rgba(249,115,22,.4)}
+.stk-dot.today{background:var(--ac);box-shadow:0 0 8px rgba(245,200,66,.5);animation:pulse 2s infinite}
+
+/* Quest item enhancements */
+.qit{transition:background .15s,padding-left .15s}
+.qit:hover{background:rgba(255,255,255,.02);padding-left:4px}
+
+/* Check-in energy selector */
+.e-btn{flex:1;background:var(--sf2);border:2px solid transparent;border-radius:var(--r);padding:10px 0;font-size:22px;transition:all .2s var(--ease)}
+.e-btn:active{transform:scale(.92)}
+.e-btn.on{border-color:var(--ac);background:var(--agg);transform:scale(1.05)}
+
+/* Tool grid buttons */
+.tool-btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700;transition:all .2s var(--ease)}
+.tool-btn:active{transform:scale(.95)}
+@media(hover:hover){.tool-btn:hover{border-color:var(--bd2);background:var(--sf2);transform:translateY(-2px);box-shadow:var(--shadow-s)}}
+.tool-btn .tool-ico{font-size:22px;line-height:1}
+
+/* ══════════════════════════════════════════ */
+/* LEVEL-UP OVERLAY UPGRADE                  */
+/* ══════════════════════════════════════════ */
+
+/* Radial glow behind level number */
+.lvlup-glow{position:relative}
+.lvlup-glow::before{content:'';position:absolute;inset:-40px;border-radius:50%;background:radial-gradient(circle,rgba(245,200,66,.25) 0%,rgba(245,200,66,.08) 40%,transparent 70%);animation:lvlGlowPulse 2s ease-in-out infinite;pointer-events:none}
+@keyframes lvlGlowPulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.15);opacity:1}}
+
+/* Level number with gradient text */
+.lvl-num{font-family:var(--fm);font-weight:700;font-size:72px;line-height:1;background:linear-gradient(135deg,var(--ac),#fff,var(--ac2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 20px rgba(245,200,66,.4));animation:lvlup .6s .3s var(--ease) both}
+
+/* Level name tag */
+.lvl-name{font-family:var(--fd);font-weight:600;font-size:20px;padding:6px 20px;border-radius:var(--pill);background:var(--agg2);border:1px solid rgba(245,200,66,.2);color:var(--ac2);margin-bottom:24px}
+
+/* ══════════════════════════════════════════ */
+/* GOLD PARTICLE SYSTEM                      */
+/* ══════════════════════════════════════════ */
+
+@keyframes goldParticle{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--px),var(--py)) scale(0)}}
+.gp{position:fixed;width:4px;height:4px;border-radius:50%;background:var(--ac);pointer-events:none;z-index:2001;animation:goldParticle .8s var(--ease) forwards;box-shadow:0 0 6px rgba(245,200,66,.6)}
+
+/* XP counter animation */
+@keyframes xpCount{0%{opacity:0;transform:translateY(10px) scale(.8)}20%{opacity:1;transform:translateY(-5px) scale(1.1)}100%{opacity:0;transform:translateY(-50px) scale(.9)}}
+.xp-pop{position:fixed;font-family:var(--fm);font-weight:700;font-size:20px;color:var(--ac);pointer-events:none;z-index:2001;animation:xpCount 1.4s var(--ease) forwards;text-shadow:0 0 16px rgba(245,200,66,.6);letter-spacing:1px}
+
+/* Achievement card slide-in */
+@keyframes achieveSlide{0%{transform:translateY(100%) scale(.9);opacity:0}60%{transform:translateY(-8px) scale(1.02)}100%{transform:translateY(0) scale(1);opacity:1}}
+.ach-toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--ac);border-radius:var(--r);padding:14px 20px;display:flex;align-items:center;gap:12px;z-index:1200;animation:achieveSlide .5s var(--ease) both;box-shadow:var(--shadow-glow);max-width:360px}
+.ach-toast .ach-ico{font-size:28px;flex-shrink:0}
+.ach-toast .ach-label{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+.ach-toast .ach-name{font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac)}
+
+/* ══════════════════════════════════════════ */
+/* HEATMAP & BADGE POLISH                    */
+/* ══════════════════════════════════════════ */
+
+/* Heatmap cells */
+.h21d{height:28px;border-radius:6px;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .3s var(--ease)}
+.h21d.done{background:rgba(34,197,94,.15);border-color:rgba(34,197,94,.3);color:var(--gr)}
+.h21d.today{background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:var(--ac);color:var(--bg);font-weight:700;box-shadow:0 0 8px rgba(245,200,66,.3)}
+
+/* Badge rarity glow */
+.badge-common{box-shadow:0 0 0 2px var(--sf3)}
+.badge-rare{box-shadow:0 0 8px rgba(59,130,246,.3),0 0 0 2px rgba(59,130,246,.2)}
+.badge-epic{box-shadow:0 0 12px rgba(168,85,247,.3),0 0 0 2px rgba(168,85,247,.2)}
+.badge-legendary{box-shadow:0 0 16px rgba(245,200,66,.4),0 0 0 2px rgba(245,200,66,.25);animation:glow 2s ease-in-out infinite}
+
+/* Progress ring animation */
+@keyframes ringDraw{from{stroke-dashoffset:var(--ring-circumference)}to{stroke-dashoffset:var(--ring-offset)}}
+.ring-animated{animation:ringDraw 1.2s var(--ease) forwards}
+
+/* Boss card upgrade */
+.boss-c{border:1px solid rgba(239,68,68,.25);border-radius:var(--r);padding:16px;margin-bottom:11px;background:linear-gradient(135deg,rgba(239,68,68,.06),rgba(10,10,15,.95));position:relative;overflow:hidden}
+.boss-c::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(239,68,68,.08) 0%,transparent 60%);pointer-events:none}
+.boss-c-pulse{animation:boss-p 3s infinite}
+
+/* SOS button upgrade */
+.sos-btn{width:100%;background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(239,68,68,.04));border:1px solid rgba(239,68,68,.2);border-radius:var(--r);padding:14px 16px;display:flex;align-items:center;gap:12px;text-align:left;margin-top:11px;margin-bottom:11px;transition:all .2s var(--ease)}
+.sos-btn:active{transform:scale(.98)}
+@media(hover:hover){.sos-btn:hover{border-color:rgba(239,68,68,.4);background:linear-gradient(135deg,rgba(239,68,68,.12),rgba(239,68,68,.06))}}
+
 /* ── ACCESSIBILITY ── */
 *:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
 .btn:focus-visible{outline:2px solid var(--ac2);outline-offset:2px;box-shadow:0 0 0 4px var(--agg)}
@@ -163,8 +276,7 @@ textarea.inp{resize:none}
 .xp-b{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:13px 15px;margin-bottom:11px;box-shadow:var(--shadow-s)}
 .xp-bar{height:10px;background:var(--sf3);border-radius:6px;overflow:hidden;margin:8px 0 4px}
 .xp-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--acm),var(--ac),var(--ac2));transition:width 1.2s var(--ease);box-shadow:0 0 12px rgba(245,200,66,.3)}
-.boss-c{border:1px solid #4a1414;border-radius:var(--r);padding:15px;margin-bottom:11px;background:linear-gradient(135deg,#1a0808,#120606);animation:boss-p 3s infinite}
-.q-card{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:var(--r);padding:13px;margin-bottom:11px}
+.q-card{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:var(--r);padding:13px;margin-bottom:11px;box-shadow:var(--shadow-s)}
 .wg{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px}
 .qit{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)}
 .qit:last-child{border:none;padding-bottom:0}
@@ -172,14 +284,14 @@ textarea.inp{resize:none}
 .qchk.done{background:var(--gr);border-color:var(--gr);color:#000;animation:pop .3s ease}
 .tog-sw{width:44px;height:24px;background:var(--sf3);border-radius:12px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
 .tog-sw.on{background:var(--ac)}
-.tog-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:white;transition:left .2s}
+.tog-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:white;transition:left .25s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .tog-sw.on .tog-knob{left:23px}
-.nat-c{border:1px solid var(--nt);border-radius:var(--r);padding:16px;margin-bottom:11px;position:relative;overflow:hidden;background:linear-gradient(135deg,#081408,#060a06)}
-.big-timer{font-family:var(--fd);font-weight:700;font-size:48px;text-align:center;line-height:1;margin:12px 0}
+.nat-c{border:1px solid rgba(34,197,94,.25);border-radius:var(--r);padding:16px;margin-bottom:11px;position:relative;overflow:hidden;background:linear-gradient(135deg,rgba(34,197,94,.06),rgba(10,15,10,.95));box-shadow:0 0 16px rgba(34,197,94,.06)}
+.big-timer{font-family:var(--fm);font-weight:700;font-size:48px;text-align:center;line-height:1;margin:12px 0;letter-spacing:2px}
 #screen-chat{padding-bottom:0}
 .chat-wrap{display:flex;flex-direction:column;height:100%}
 .ch-hdr{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bd);flex-shrink:0}
-.coach-av{width:38px;height:38px;border-radius:50%;background:var(--agg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:17px;position:relative;flex-shrink:0}
+.coach-av{width:38px;height:38px;border-radius:50%;background:var(--agg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:17px;position:relative;flex-shrink:0;box-shadow:0 0 12px rgba(245,200,66,.15)}
 .coach-dot{position:absolute;bottom:0;right:0;width:9px;height:9px;background:var(--gr);border-radius:50%;border:2px solid var(--bg)}
 .ch-modes{display:flex;gap:6px;overflow-x:auto;padding:7px 14px;border-bottom:1px solid var(--bd);flex-shrink:0;background:var(--bg2)}
 .ch-mode{flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid var(--bd2);font-size:11px;font-weight:700;color:var(--tx3);transition:all .15s}
@@ -213,8 +325,10 @@ textarea.inp{resize:none}
 .mhdl{width:36px;height:4px;background:var(--bd2);border-radius:2px;margin:0 auto 20px}
 .mtit{font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:18px}
 .mbtns{display:flex;gap:9px;margin-top:18px}
-.m-cancel{flex:1;padding:13px;border-radius:var(--rs);background:var(--sf2);color:var(--tx3);font-weight:600;font-size:13px}
-.m-ok{flex:2;padding:13px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-weight:700;font-size:13px}
+.m-cancel{flex:1;padding:13px;border-radius:var(--pill);background:var(--sf2);color:var(--tx3);font-weight:600;font-size:13px;transition:all .15s var(--ease)}
+.m-cancel:active{transform:scale(.97)}
+.m-ok{flex:2;padding:13px;border-radius:var(--pill);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-weight:700;font-size:13px;box-shadow:0 2px 12px rgba(245,200,66,.2);transition:all .15s var(--ease)}
+.m-ok:active{transform:scale(.97)}
 .full-ov{position:fixed;inset:0;background:rgba(10,10,15,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:1500;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:20px}
 .full-ov.show{display:flex;animation:fin .3s ease}
 .toast{position:fixed;bottom:74px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--ac);border-radius:var(--r);padding:11px 18px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;box-shadow:var(--shadow-l);z-index:1100;opacity:0;pointer-events:none;transition:all .35s var(--ease);max-width:360px}
@@ -231,9 +345,7 @@ textarea.inp{resize:none}
 .st-line{flex:1;height:2px;background:var(--bd2)}
 .st-line.done{background:var(--ac)}
 .h21g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:11px 0}
-.h21d{height:28px;border-radius:5px;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:10px;transition:all .3s}
-.h21d.done{background:var(--grd);border-color:var(--gr)}
-.h21d.today{background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:var(--ac);color:var(--bg);font-weight:700}
+.h21d-old{display:none}/* overridden by new .h21d in design system block */
 .tod-it{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px}
 .tod-it.dn{opacity:.38}
 .tod-it.pr{border-left:3px solid var(--ac)}
@@ -512,14 +624,14 @@ textarea.inp{resize:none}
   <div class="pad">
     <div id="ctx-banner" class="ctx-b au"></div>
     <div id="quote-card" class="q-card au1" style="display:none"><div style="font-size:13px;color:var(--tx2);line-height:1.75;font-style:italic" id="quote-txt">Chargement...</div><div style="font-size:10px;color:var(--tx3);margin-top:5px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Citation personnalisée du jour</div></div>
-    <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fd);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
-    <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fd);font-weight:700;font-size:36px;color:var(--or)" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or)">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
-    <div id="w-boss" class="boss-c au2" style="display:none"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:5px">⚔️ Boss de la semaine</div><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:4px" id="boss-nm">Boss Procrastination</div><div style="background:var(--rdd);border-radius:4px;height:6px;overflow:hidden;margin-bottom:4px"><div style="height:100%;background:linear-gradient(90deg,var(--rd),#ff8080);border-radius:4px;transition:width .8s" id="boss-hp-fill"></div></div><div style="font-size:10px;color:var(--tx3)" id="boss-hp-txt">500/500</div></div>
+    <div class="xp-b au1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div><span style="font-family:var(--fm);font-weight:700;font-size:18px;color:var(--ac)" id="xp-lvl">LVL 1</span> <span style="font-size:12px;color:var(--tx2)" id="xp-name">Débutant</span></div><div style="font-family:var(--fm);font-size:11px;color:var(--ac)"><span id="xp-cur">0</span>/<span id="xp-nxt">100</span> XP</div></div><div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:4px" id="xp-next-lbl"></div></div>
+    <div id="w-streak" class="wg au2" style="display:flex;align-items:center;gap:12px"><div style="font-family:var(--fm);font-weight:700;font-size:36px;color:var(--or)" class="streak-fire" id="stk-n">0</div><div><div style="font-size:11px;font-weight:700;color:var(--or);letter-spacing:1.5px">JOURS DE SUITE 🔥</div><div style="display:flex;gap:4px;margin-top:6px" id="stk-dots"></div></div></div>
+    <div id="w-boss" class="boss-c boss-c-pulse au2" style="display:none"><div style="font-size:10px;color:var(--rd);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">⚔️ Boss de la semaine</div><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:6px" id="boss-nm">Boss Procrastination</div><div style="background:rgba(239,68,68,.12);border-radius:6px;height:8px;overflow:hidden;margin-bottom:4px"><div style="height:100%;background:linear-gradient(90deg,var(--rd),#f87171);border-radius:6px;transition:width .8s var(--ease);box-shadow:0 0 8px rgba(239,68,68,.3)" id="boss-hp-fill"></div></div><div style="font-family:var(--fm);font-size:10px;color:var(--tx3)" id="boss-hp-txt">500/500</div></div>
     <div id="w-quests" class="wg au3"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-family:var(--fd);font-weight:700;font-size:14px">⚡ Quêtes du jour</div><div style="font-size:10px;color:var(--tx3)" id="q-count">0/5</div></div><div id="q-list"></div></div>
     <div id="w-nat" class="wg au3" style="cursor:pointer;border-color:var(--nt)" onclick="gs('nature',null)"><div style="display:flex;align-items:center;gap:10px"><div style="font-size:26px;animation:float 3s ease-in-out infinite">🌿</div><div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--nt2)">Nature du jour</div><div style="font-size:11px;color:var(--tx3)" id="nat-mini">Marche · Soleil · Respiration</div></div><div style="font-size:12px;color:var(--nt);font-weight:700">→</div></div></div>
     <div id="w-flash"></div>
     <div id="w-defi7"></div>
-    <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:9px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)" onclick="pomoRst()">↺</button></div></div>
+    <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fm);font-weight:700;font-size:36px;color:var(--c-order);letter-spacing:2px" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:10px 24px;border-radius:var(--pill);font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#4ade80);color:#0a1808;box-shadow:0 2px 12px rgba(34,197,94,.2)" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:10px 20px;border-radius:var(--pill);font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd)" onclick="pomoRst()">↺</button></div></div>
     <div class="lbl" style="margin-bottom:8px;margin-top:4px">Check-in du jour</div>
     <div class="card" id="ci-sec">
       <div style="display:flex;gap:6px;margin-bottom:11px" id="e-row">
@@ -541,19 +653,19 @@ textarea.inp{resize:none}
     <div style="margin-top:8px;margin-bottom:4px">
       <div class="lbl" style="margin-bottom:8px">Mes outils</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('workout',null)"><span style="font-size:20px">🏋️</span>Workout</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('meal',null)"><span style="font-size:20px">🍽️</span>Repas</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('budget',null)"><span style="font-size:20px">💰</span>Budget</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('smartjournal',null)"><span style="font-size:20px">📓</span>Journal</button>
+        <button class="tool-btn" onclick="gs('workout',null)"><span class="tool-ico">🏋️</span>Workout</button>
+        <button class="tool-btn" onclick="gs('meal',null)"><span class="tool-ico">🍽️</span>Repas</button>
+        <button class="tool-btn" onclick="gs('budget',null)"><span class="tool-ico">💰</span>Budget</button>
+        <button class="tool-btn" onclick="gs('smartjournal',null)"><span class="tool-ico">📓</span>Journal</button>
       </div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('sleep',null)"><span style="font-size:20px">😴</span>Sommeil</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('leaderboard',null)"><span style="font-size:20px">🏆</span>Classement</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('dash',null)" aria-label="Dashboard"><span style="font-size:20px">📊</span>Dashboard</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('guilds',null)"><span style="font-size:20px">🤝</span>Guildes</button>
+        <button class="tool-btn" onclick="gs('sleep',null)"><span class="tool-ico">😴</span>Sommeil</button>
+        <button class="tool-btn" onclick="gs('leaderboard',null)"><span class="tool-ico">🏆</span>Classement</button>
+        <button class="tool-btn" onclick="gs('dash',null)" aria-label="Dashboard"><span class="tool-ico">📊</span>Dashboard</button>
+        <button class="tool-btn" onclick="gs('guilds',null)"><span class="tool-ico">🤝</span>Guildes</button>
       </div>
     </div>
-    <button style="width:100%;background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r);padding:13px;display:flex;align-items:center;gap:12px;text-align:left;margin-top:11px;margin-bottom:11px" onclick="openSOS()"><div style="font-size:22px">🆘</div><div><div style="font-size:13px;font-weight:700;color:var(--rd)">Mode Urgence Mentale</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">Tu te sens dépassé ? Appuie ici.</div></div></button>
+    <button class="sos-btn" onclick="openSOS()"><div style="font-size:22px">🆘</div><div><div style="font-size:13px;font-weight:700;color:var(--rd)">Mode Urgence Mentale</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">Tu te sens dépassé ? Appuie ici.</div></div></button>
     <div style="height:18px"></div>
   </div>
 </div>
@@ -906,11 +1018,13 @@ textarea.inp{resize:none}
 </div>
 <!-- OVERLAYS -->
 <div class="full-ov" id="ov-lvlup" onclick="this.classList.remove('show')">
-  <div style="font-size:80px;animation:bounce-in .5s ease both">⭐</div>
-  <div style="font-size:13px;color:var(--tx3);text-transform:uppercase;letter-spacing:3px;margin:12px 0 5px">Niveau !</div>
-  <div style="font-family:var(--fd);font-weight:700;font-size:60px;color:var(--ac);line-height:1;animation:lvlup .6s .4s ease both" id="lup-n">2</div>
-  <div style="font-family:var(--fd);font-weight:600;font-size:20px;color:var(--ac2);margin-bottom:20px" id="lup-nm">Apprenti</div>
-  <button class="btn btn-ac" style="max-width:220px" onclick="document.getElementById('ov-lvlup').classList.remove('show')">Continuer →</button>
+  <div style="font-size:80px;animation:bounce-in .5s ease both;filter:drop-shadow(0 0 20px rgba(245,200,66,.4))">⭐</div>
+  <div style="font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:4px;font-weight:700;margin:16px 0 8px;animation:fup .4s .2s var(--ease) both">NIVEAU ATTEINT</div>
+  <div class="lvlup-glow" style="position:relative;display:inline-block">
+    <div class="lvl-num" id="lup-n">2</div>
+  </div>
+  <div class="lvl-name" id="lup-nm" style="animation:fup .4s .5s var(--ease) both">Apprenti</div>
+  <button class="btn btn-ac" style="max-width:240px;animation:fup .4s .7s var(--ease) both" onclick="document.getElementById('ov-lvlup').classList.remove('show')">Continuer →</button>
 </div>
 <div class="full-ov" id="ov-sos" style="z-index:2000">
   <div style="font-size:10px;color:var(--pu);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:8px">Mode Urgence</div>
@@ -1079,8 +1193,9 @@ document.querySelectorAll('.mbk').forEach(m=>m.addEventListener('click',e=>{if(e
 function getLvl(x){let l=0;for(let i=0;i<LVL_X.length;i++)if(x>=LVL_X[i])l=i;return l;}
 function fmtT(s){return pad(Math.floor(s/60))+':'+pad(s%60);}
 function genCode(p){return p+'-'+Math.random().toString(36).substr(2,5).toUpperCase();}
-function confetti(){const c=['var(--ac)','var(--ac2)','var(--gr)','var(--bl)','var(--pu)'];for(let i=0;i<28;i++){const el=document.createElement('div');el.className='cfp';el.style.cssText='left:'+Math.random()*100+'%;top:-10px;background:'+c[Math.floor(Math.random()*c.length)]+';animation-delay:'+Math.random()*.5+'s;animation-duration:'+(1.5+Math.random())+'s;width:'+(5+Math.random()*8)+'px;height:'+(5+Math.random()*8)+'px;border-radius:'+(Math.random()>.5?'50%':'2px');document.body.appendChild(el);setTimeout(()=>el.remove(),2700);}}
-function floatXP(n){const el=document.createElement('div');el.className='xpf';el.textContent='+'+n+' XP';el.style.cssText='top:'+(80+Math.random()*100)+'px;left:'+(Math.random()*60+20)+'%';document.body.appendChild(el);setTimeout(()=>el.remove(),1300);}
+function confetti(){const c=['#F5C842','#FFD96A','#22C55E','#3B82F6','#A855F7','#F97316'];for(let i=0;i<36;i++){const el=document.createElement('div');el.className='cfp';const clr=c[Math.floor(Math.random()*c.length)];el.style.cssText='left:'+Math.random()*100+'%;top:-10px;background:'+clr+';box-shadow:0 0 4px '+clr+';animation-delay:'+Math.random()*.5+'s;animation-duration:'+(1.5+Math.random())+'s;width:'+(4+Math.random()*8)+'px;height:'+(4+Math.random()*8)+'px;border-radius:'+(Math.random()>.5?'50%':'2px');document.body.appendChild(el);setTimeout(()=>el.remove(),2700);}}
+function goldParticles(x,y){for(let i=0;i<12;i++){const el=document.createElement('div');el.className='gp';const a=Math.random()*Math.PI*2,d=30+Math.random()*60;el.style.cssText='left:'+x+'px;top:'+y+'px;--px:'+(Math.cos(a)*d)+'px;--py:'+(Math.sin(a)*d)+'px;animation-delay:'+(Math.random()*.15)+'s;width:'+(3+Math.random()*4)+'px;height:'+(3+Math.random()*4)+'px';document.body.appendChild(el);setTimeout(()=>el.remove(),1200);}}
+function floatXP(n){const el=document.createElement('div');el.className='xp-pop';el.textContent='+'+n+' XP';const cx=window.innerWidth/2;el.style.cssText='top:'+(100+Math.random()*80)+'px;left:'+cx+'px;transform:translateX(-50%)';document.body.appendChild(el);goldParticles(cx,120);setTimeout(()=>el.remove(),1500);}
 function addN(ico,title,text){S.notifs=S.notifs||[];S.notifs.unshift({id:Date.now(),ico,title,text,read:false,time:pad(now.getHours())+':'+pad(now.getMinutes()),date:TD});save();updNDot();}
 function updNDot(){const c=(S.notifs||[]).filter(x=>!x.read).length;const d=document.getElementById('ndot');if(d)d.style.display=c>0?'block':'none';}
 function markRead(){(S.notifs||[]).forEach(n=>n.read=true);save();updNDot();renderNotifs();}
