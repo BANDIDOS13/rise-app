@@ -42,6 +42,7 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 .fade-in{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}.fade-in.visible{opacity:1;transform:translateY(0)}
 @media(max-width:768px){section{padding:40px 20px}.hero-content{padding:20px}.cta-buttons{flex-direction:column}.btn{width:100%}.jarvis-container{gap:20px;grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:scale(1)}.tools-grid{grid-template-columns:1fr}.email-form{flex-direction:column}.email-form .btn{width:100%}.nav-links{display:none}}
 </style>
+<script defer data-domain="rise-app.com" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 <nav>
@@ -54,7 +55,7 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <a href="#pricing">Tarifs</a>
 <a href="#faq">FAQ</a>
 </div>
-<button class="nav-cta" data-i18n="cta_start">Commencer →</button>
+<a href="/index.html" class="nav-cta" data-i18n="cta_start">Commencer →</a>
 <select id="lang-switch" style="background:var(--sf2);border:1px solid var(--bd2);border-radius:6px;padding:6px 10px;color:var(--tx);font-size:12px;font-weight:600;cursor:pointer;outline:none" onchange="switchLandingLang(this.value)">
 <option value="fr">🇫🇷 FR</option><option value="en">🇬🇧 EN</option><option value="es">🇪🇸 ES</option><option value="pt">🇧🇷 PT</option><option value="it">🇮🇹 IT</option><option value="de">🇩🇪 DE</option><option value="ca">🏴 CA</option><option value="ja">🇯🇵 JA</option><option value="ar">🇸🇦 AR</option>
 </select>
@@ -71,8 +72,19 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <div class="badge">🚀 50+ <span data-i18n="features">fonctionnalités</span></div>
 </div>
 <div class="cta-buttons">
-<button class="btn btn-primary" data-i18n="cta_access">Accéder à RISE →</button>
-<button class="btn btn-secondary" data-i18n="cta_demo">Voir la démo ▶</button>
+<a href="/index.html" class="btn btn-primary" data-i18n="cta_access">Accéder à RISE →</a>
+<a href="#jarvis" class="btn btn-secondary" data-i18n="cta_demo">Voir la démo ▶</a>
+</div>
+</div>
+<div class="app-mockup" style="margin-top:48px;position:relative;z-index:2">
+<div style="max-width:300px;margin:0 auto;background:#111418;border:2px solid #1e252e;border-radius:24px;padding:12px;box-shadow:0 20px 60px rgba(0,0,0,.5)">
+<div style="background:#07080a;border-radius:16px;padding:16px;min-height:400px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span style="font-family:'Clash Display',sans-serif;font-size:18px;font-weight:700;background:linear-gradient(135deg,#d4aa4a,#e8c86a);-webkit-background-clip:text;-webkit-text-fill-color:transparent">RISE</span><div style="display:flex;gap:6px"><span style="font-size:11px;background:rgba(212,170,74,.1);padding:2px 8px;border-radius:10px;color:#d4aa4a">⭐ 450 XP</span><span style="font-size:11px;background:rgba(74,158,212,.1);padding:2px 8px;border-radius:10px;color:#4a9ed4">💎 120</span></div></div>
+<div style="background:#111418;border:1px solid #1e252e;border-radius:12px;padding:14px;margin-bottom:10px"><div style="font-size:11px;color:#8a9099;margin-bottom:6px">Bienvenue, Champion 👋</div><div style="font-family:'Clash Display',sans-serif;font-size:16px;font-weight:700;color:#f0ece4;margin-bottom:10px">Tes quêtes du jour</div><div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#8a9099"><span style="color:#4db87a">✓</span> 30 min de sport</div><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#f0ece4"><span style="color:#d4aa4a">○</span> Méditer 10 minutes</div><div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#f0ece4"><span style="color:#d4aa4a">○</span> Lire 20 pages</div></div></div>
+<div style="background:#111418;border:1px solid #1e252e;border-radius:12px;padding:14px;margin-bottom:10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:12px;font-weight:700;color:#d4aa4a">🔥 Streak</span><span style="font-size:18px;font-weight:700;color:#f0ece4">12 jours</span></div><div style="height:4px;background:#1e252e;border-radius:2px"><div style="height:100%;width:65%;background:linear-gradient(90deg,#d4aa4a,#e8c86a);border-radius:2px"></div></div></div>
+<div style="background:#111418;border:1px solid #1e252e;border-radius:12px;padding:14px"><div style="font-size:12px;font-weight:700;color:#8b6de0;margin-bottom:8px">🤖 JARVIS</div><div style="font-size:12px;color:#8a9099;line-height:1.5">Bonne journée ! Tu as 3 quêtes actives. Commence par le sport — ton énergie est à son max le matin. 💪</div></div>
+<div style="display:flex;justify-content:space-around;margin-top:14px;padding-top:10px;border-top:1px solid #1e252e"><span style="font-size:18px">🏠</span><span style="font-size:18px">🌿</span><span style="font-size:18px;filter:grayscale(0)">🤖</span><span style="font-size:18px">📚</span><span style="font-size:18px">⊕</span></div>
+</div>
 </div>
 </div>
 </section>
@@ -156,9 +168,9 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 <h2 class="section-title" style="text-align:center" data-i18n="pricing_title">Plans Simples et Justes</h2>
 <p class="section-desc" style="text-align:center" data-i18n="pricing_desc">Gratuit pour toujours, Premium ou Elite.</p>
 <div class="pricing-grid">
-<div class="price-card fade-in"><h3 data-i18n="plan_free">Gratuit</h3><div class="amount">0€</div><div class="period" data-i18n="plan_free_period">Pour toujours</div><div class="features"><div class="feature" data-i18n="pf_1">Check-ins quotidiens</div><div class="feature" data-i18n="pf_2">35+ achievements</div><div class="feature" data-i18n="pf_3">Pomodoro basic</div><div class="feature" data-i18n="pf_4">Budget tracker</div><div class="feature" data-i18n="pf_5">Habitudes (15)</div><div class="feature" data-i18n="pf_6">Journal simple</div><div class="feature" data-i18n="pf_7">JARVIS chat (10 msg/j)</div></div><button class="btn btn-secondary" data-i18n="plan_free_cta">Démarrer</button></div>
-<div class="price-card featured fade-in"><div class="badge" data-i18n="plan_popular">POPULAIRE</div><h3>Premium</h3><div class="amount">9,99€</div><div class="period" data-i18n="plan_prem_period">par mois</div><div class="features"><div class="feature" data-i18n="pp_1">Tout en Gratuit +</div><div class="feature" data-i18n="pp_2">Pomodoro Pro (stats)</div><div class="feature" data-i18n="pp_3">Budget avancé</div><div class="feature" data-i18n="pp_4">Heatmap habitudes</div><div class="feature" data-i18n="pp_5">Journal prompts</div><div class="feature" data-i18n="pp_6">JARVIS illimité</div><div class="feature" data-i18n="pp_7">12 formations</div></div><button class="btn btn-primary" data-i18n="plan_prem_cta">Commencer</button></div>
-<div class="price-card fade-in"><h3>Elite</h3><div class="amount">19,99€</div><div class="period" data-i18n="plan_elite_period">par mois</div><div class="features"><div class="feature" data-i18n="pe_1">Tout Premium +</div><div class="feature" data-i18n="pe_2">12 formations complètes</div><div class="feature" data-i18n="pe_3">Coaching personnalisé</div><div class="feature" data-i18n="pe_4">Community exclusive</div><div class="feature" data-i18n="pe_5">Export & backup auto</div><div class="feature" data-i18n="pe_6">Priorité support 24/7</div><div class="feature" data-i18n="pe_7">Themes custom</div></div><button class="btn btn-secondary" data-i18n="plan_elite_cta">Upgrade Elite</button></div>
+<div class="price-card fade-in"><h3 data-i18n="plan_free">Gratuit</h3><div class="amount">0€</div><div class="period" data-i18n="plan_free_period">Pour toujours</div><div class="features"><div class="feature" data-i18n="pf_1">Check-ins quotidiens</div><div class="feature" data-i18n="pf_2">35+ achievements</div><div class="feature" data-i18n="pf_3">Pomodoro basic</div><div class="feature" data-i18n="pf_4">Budget tracker</div><div class="feature" data-i18n="pf_5">Habitudes (15)</div><div class="feature" data-i18n="pf_6">Journal simple</div><div class="feature" data-i18n="pf_7">JARVIS chat (10 msg/j)</div></div><a href="/index.html" class="btn btn-secondary" data-i18n="plan_free_cta">Démarrer</a></div>
+<div class="price-card featured fade-in"><div class="badge" data-i18n="plan_popular">POPULAIRE</div><h3>Premium</h3><div class="amount">9,99€</div><div class="period" data-i18n="plan_prem_period">par mois</div><div class="features"><div class="feature" data-i18n="pp_1">Tout en Gratuit +</div><div class="feature" data-i18n="pp_2">Pomodoro Pro (stats)</div><div class="feature" data-i18n="pp_3">Budget avancé</div><div class="feature" data-i18n="pp_4">Heatmap habitudes</div><div class="feature" data-i18n="pp_5">Journal prompts</div><div class="feature" data-i18n="pp_6">JARVIS illimité</div><div class="feature" data-i18n="pp_7">12 formations</div></div><a href="/index.html" class="btn btn-primary" data-i18n="plan_prem_cta">Commencer</a></div>
+<div class="price-card fade-in"><h3>Elite</h3><div class="amount">19,99€</div><div class="period" data-i18n="plan_elite_period">par mois</div><div class="features"><div class="feature" data-i18n="pe_1">Tout Premium +</div><div class="feature" data-i18n="pe_2">12 formations complètes</div><div class="feature" data-i18n="pe_3">Coaching personnalisé</div><div class="feature" data-i18n="pe_4">Community exclusive</div><div class="feature" data-i18n="pe_5">Export & backup auto</div><div class="feature" data-i18n="pe_6">Priorité support 24/7</div><div class="feature" data-i18n="pe_7">Themes custom</div></div><a href="/index.html" class="btn btn-secondary" data-i18n="plan_elite_cta">Upgrade Elite</a></div>
 </div>
 </section>
 
