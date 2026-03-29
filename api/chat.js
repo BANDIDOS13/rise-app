@@ -1,4 +1,4 @@
-// RISE AI Coach — Vercel Edge Function
+// RISE AI Mentor (JARVIS) — Vercel Edge Function
 export const config = { runtime: 'edge' };
 
 const SYSTEM_PROMPT = `Tu es JARVIS, le mentor IA intégré dans RISE — l'app qui transforme les intentions en progrès réels.
@@ -97,13 +97,13 @@ async function callClaude(apiKey, message, userContext, history) {
       body: JSON.stringify(body),
     });
   } catch (fetchErr) {
-    return jsonResp({ reply: null, fallback: true, error: 'Connexion au coach IA impossible. JARVIS local prend le relais.' });
+    return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
   }
 
   const data = await res.json();
 
   if (data.error) {
-    return jsonResp({ reply: null, fallback: true, error: 'Le coach IA est temporairement indisponible. JARVIS local prend le relais.' });
+    return jsonResp({ reply: null, fallback: true, error: 'Le mentor IA est temporairement indisponible. JARVIS local prend le relais.' });
   }
 
   const reply = data.content?.[0]?.text || null;
@@ -128,13 +128,13 @@ async function callGPT(apiKey, message, userContext, history) {
       body: JSON.stringify({ model: 'gpt-4o-mini', max_tokens: 800, messages }),
     });
   } catch (fetchErr) {
-    return jsonResp({ reply: null, fallback: true, error: 'Connexion au coach IA impossible. JARVIS local prend le relais.' });
+    return jsonResp({ reply: null, fallback: true, error: 'Connexion au mentor IA impossible. JARVIS local prend le relais.' });
   }
 
   const data = await res.json();
 
   if (data.error) {
-    return jsonResp({ reply: null, fallback: true, error: 'Le coach IA est temporairement indisponible. JARVIS local prend le relais.' });
+    return jsonResp({ reply: null, fallback: true, error: 'Le mentor IA est temporairement indisponible. JARVIS local prend le relais.' });
   }
 
   const reply = data.choices?.[0]?.message?.content || null;
