@@ -569,6 +569,21 @@ textarea.inp{resize:none}
       </div>
       <div style="font-size:12px;color:var(--ac);font-weight:700">→</div>
     </div>
+    <!-- NEXT OBJECTIVE -->
+    <div id="w-nextobjective" class="wg au3" style="display:none;border-left:3px solid var(--ac)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-size:22px" id="nobj-ico">🎯</div>
+        <div style="flex:1">
+          <div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;font-weight:700">Prochain objectif</div>
+          <div style="font-size:13px;font-weight:600" id="nobj-title"></div>
+          <div style="font-size:11px;color:var(--tx3)" id="nobj-desc"></div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac)" id="nobj-pct">0%</div>
+        </div>
+      </div>
+      <div class="pbar" style="margin-top:8px;height:5px"><div class="pfill pac" id="nobj-bar" style="width:0%"></div></div>
+    </div>
     <div id="w-flash"></div>
     <div id="w-defi7"></div>
     <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:9px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)" onclick="pomoRst()">↺</button></div></div>
@@ -1312,6 +1327,41 @@ function genMorningBrief(){
   txt.innerHTML=lines.join('<br>');
   el.style.display='block';
 }
+function updNextObjective(){
+  var el=document.getElementById('w-nextobjective');if(!el)return;
+  var objectives=[];
+  // XP-based: next level
+  var xp=S.xp||0;var lvl=getLvl(xp);var nextLvl=LVL_X[Math.min(lvl+1,9)];
+  var xpNeeded=nextLvl-xp;var xpPct=lvl>=9?100:Math.round((xp-LVL_X[lvl])/(nextLvl-LVL_X[lvl])*100);
+  if(lvl<9)objectives.push({ico:'⭐',title:'Niveau '+(lvl+2)+' — '+LVL_T[Math.min(lvl+1,9)],desc:xpNeeded+' XP restants',pct:xpPct,priority:1});
+  // Streak milestones
+  var streak=S.loginS?S.loginS.streak||0:0;
+  var nextMs=[7,14,21,30,60,90,180,365].find(function(m){return m>streak;});
+  if(nextMs){var sPct=Math.round(streak/nextMs*100);objectives.push({ico:'🔥',title:'Streak '+nextMs+' jours',desc:''+(nextMs-streak)+' jours restants',pct:sPct,priority:streak>nextMs*0.5?2:1});}
+  // Mega challenge in progress
+  try{
+    var mc=(S.megaChallenges||[]).find(function(c){return !c.completed;});
+    if(mc){var tmpl=MEGA_CHALLENGES.find(function(m){return m.id===mc.id;});
+      if(tmpl){var mPct=Math.round((mc.doneDays||[]).length/tmpl.dur*100);objectives.push({ico:tmpl.ico,title:tmpl.t,desc:(mc.doneDays||[]).length+'/'+tmpl.dur+' jours',pct:mPct,priority:2});}}
+  }catch(e){}
+  // Partner challenge
+  try{
+    if(S.partner&&S.partner.active&&!S.partner.completed){
+      var myD=(S.partner.myDays||[]).length;
+      objectives.push({ico:'🤝',title:'Defi vs '+escHTML(S.partner.partnerName||''),desc:myD+'/7 jours — '+escHTML(S.partner.goal||''),pct:Math.round(myD/7*100),priority:3});
+    }
+  }catch(e){}
+  // Pick the most relevant (closest to completion or highest priority)
+  if(!objectives.length){el.style.display='none';return;}
+  objectives.sort(function(a,b){return b.pct-a.pct||a.priority-b.priority;});
+  var best=objectives[0];
+  document.getElementById('nobj-ico').textContent=best.ico;
+  document.getElementById('nobj-title').textContent=best.title;
+  document.getElementById('nobj-desc').textContent=best.desc;
+  document.getElementById('nobj-pct').textContent=best.pct+'%';
+  document.getElementById('nobj-bar').style.width=best.pct+'%';
+  el.style.display='block';
+}
 var _jarvisSugAction=null;
 function genJarvisSug(){
   var el=document.getElementById('w-jarvis-sug');if(!el)return;
@@ -1413,7 +1463,7 @@ function saveEveningReview(){
   toast('Review sauvegardee ! +50 XP','🌙',3000);
   addN('🌙','Bilan du soir','Review completee. Score: '+calcRiseScore().score+'/100');
 }
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updOnePct();genMorningBrief();genJarvisSug();chkEveningReview();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updOnePct();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1490,7 +1540,37 @@ const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de sui
 function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
 function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+escHTML(e.date)+'</div><div style="font-size:10px;color:var(--tx3)">'+escHTML(String(e.dur))+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+escHTML(e.txt)+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
 function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast('Entrée sauvegardée !','📓',2000);save();if(nTab==='journal')renderNat();}
-function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
+function buildSys(){
+  var nm=S.nat;var tw=nm.wDate===TD?nm.wMin||0:0;var ts=nm.sDate===TD?nm.sMin||0:0;
+  var ctx='Tu es JARVIS, le coach IA de RISE v9. Tu parles a '+S.name+'. ';
+  ctx+='Niveau: LVL '+(getLvl(S.xp||0)+1)+'. XP: '+(S.xp||0)+'. Streak: '+(S.loginS?S.loginS.streak:S.streak||0)+'j. ';
+  ctx+='Objectif: '+S.goal+'. ';
+  // Score du jour
+  try{var r=calcRiseScore();ctx+='Score RISE auj: '+r.score+'/100 (checkin:'+(r.parts.checkin>0?'oui':'non')+', quetes:'+r.parts.quests+'%, habits:'+r.parts.habits+'%, nature:'+r.parts.nature+'%, focus:'+r.parts.focus+'%). ';}catch(e){}
+  // Nature
+  ctx+='Nature auj: marche '+tw+'min, soleil '+ts+'min. ';
+  // Deep Work
+  try{var dwToday=(S.deepWork&&S.deepWork.sessions||[]).filter(function(s){return s.date===TD;}).reduce(function(a,s){return a+(s.min||0);},0);if(dwToday>0)ctx+='Deep Work auj: '+dwToday+'min. ';}catch(e){}
+  // Mood patterns
+  try{
+    var patterns=analyzeJournalPatterns();
+    if(patterns){
+      ctx+='Humeur: tendance '+(patterns.trend==='up'?'en hausse':patterns.trend==='down'?'en baisse':'stable');
+      ctx+=', dominante: '+patterns.dominant+', avg 7j: '+patterns.avg7+'/5. ';
+      if(patterns.themes.length)ctx+='Themes recents: '+patterns.themes.join(', ')+'. ';
+      if(patterns.worstDay)ctx+='Jour difficile: '+patterns.worstDay+'. ';
+    }
+  }catch(e){}
+  // Partner
+  try{if(S.partner&&S.partner.active&&!S.partner.completed)ctx+='Defi partner actif: "'+S.partner.goal+'" vs '+S.partner.partnerName+', '+(S.partner.myDays||[]).length+'/7 jours. ';}catch(e){}
+  // Habits
+  try{
+    var hList=(S.habits&&S.habits.list)||[];var hDone=hList.filter(function(h){return h.lastDone===TD;}).length;
+    if(hList.length>0)ctx+='Habitudes: '+hDone+'/'+hList.length+' faites auj. ';
+  }catch(e){}
+  ctx+='Regles: tutoiement, direct, actionnable, max 200 mots. Termine par une question ou un call-to-action.\n';
+  return ctx;
+}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
 let chatH=[],chatBusy=false;
 function setM(m,btn){S.chatMode=m;save();document.querySelectorAll('.ch-mode').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const ta=document.getElementById('ch-ta');if(ta)ta.placeholder=CH_M[m]?.ph||'Parle à ton coach...';}
@@ -1775,6 +1855,16 @@ const CHALL_T=[
   {id:'read7',ico:'📚',t:'7j de Lecture',desc:'20min de lecture par jour',dur:7,xp:220,badge:'📖'},
   {id:'noscreen',ico:'📵',t:'Soiree sans ecran',desc:'0 ecran apres 21h pendant 3j',dur:3,xp:180,badge:'🌙'},
 ];
+var MEGA_CHALLENGES=[
+  {id:'mc_meditate30',ico:'🧘',t:'30 jours de meditation',desc:'10 min par jour pendant 30 jours',dur:30,xp:1500,g:100,badge:'🧘‍♂️',cat:'mental'},
+  {id:'mc_nosugar',ico:'🍬',t:'30 jours sans sucre',desc:'Zero sucre ajoute pendant 30 jours',dur:30,xp:2000,g:150,badge:'💎',cat:'health'},
+  {id:'mc_run',ico:'🏃',t:'30 jours de course',desc:'Au moins 15 min de jogging par jour',dur:30,xp:1800,g:120,badge:'🏅',cat:'sport'},
+  {id:'mc_gratitude',ico:'🙏',t:'30 jours de gratitude',desc:'3 gratitudes ecrites chaque jour',dur:30,xp:1200,g:80,badge:'❤️',cat:'mental'},
+  {id:'mc_deepwork',ico:'🎯',t:'30 jours de Deep Work',desc:'90 min de focus intense par jour',dur:30,xp:2500,g:200,badge:'⚡',cat:'focus'},
+  {id:'mc_coldshower',ico:'🧊',t:'30 jours de douche froide',desc:'Finir chaque douche par 30s de froid',dur:30,xp:1500,g:100,badge:'❄️',cat:'health'},
+  {id:'mc_read',ico:'📚',t:'30 jours de lecture',desc:'30 min de lecture par jour — pas d\'ecrans',dur:30,xp:1200,g:80,badge:'📖',cat:'grow'},
+  {id:'mc_journal',ico:'📝',t:'30 jours de journal',desc:'Ecrire dans ton journal chaque soir',dur:30,xp:1200,g:80,badge:'✍️',cat:'mental'}
+];
 function renderChallenges(el){
   const chs=S.friendChs||[];
   el.innerHTML=`
@@ -1797,8 +1887,80 @@ function renderChallenges(el){
     <div style="font-size:26px">${fc.ico}</div>
     <div style="flex:1"><div style="font-size:13px;font-weight:700">${fc.t}</div><div style="font-size:11px;color:var(--tx3)">${fc.desc}</div></div>
     <div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ac)">+${fc.xp}XP</div><div style="font-size:12px">${fc.badge}</div></div>
-  </div>`).join('')}`;
+  </div>`).join('')}
+  <div class="lbl" style="margin-bottom:10px;margin-top:18px">🏆 Mega Challenges — 30 jours</div>
+  <div style="font-size:12px;color:var(--tx3);margin-bottom:10px;line-height:1.5">Defis de transformation sur 30 jours. Completement different. Recompenses massives.</div>
+  ${renderMegaChallenges()}`;
 }
+function renderMegaChallenges(){
+  S.megaChallenges=S.megaChallenges||[];
+  var active=S.megaChallenges.filter(function(c){return !c.completed;});
+  var h='';
+  // Active mega challenges
+  active.forEach(function(mc){
+    var tmpl=MEGA_CHALLENGES.find(function(m){return m.id===mc.id;});if(!tmpl)return;
+    var daysSince=Math.floor((Date.now()-mc.startTs)/864e5);
+    var daysCompleted=(mc.doneDays||[]).length;
+    var pct=Math.round(daysCompleted/tmpl.dur*100);
+    var doneToday=(mc.doneDays||[]).includes(TD);
+    h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:2px solid var(--ac);border-radius:var(--r);padding:16px;margin-bottom:10px">';
+    h+='<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px"><div style="font-size:28px">'+tmpl.ico+'</div><div style="flex:1"><div style="font-size:14px;font-weight:700">'+escHTML(tmpl.t)+'</div><div style="font-size:11px;color:var(--tx3)">Jour '+(daysSince+1)+'/'+tmpl.dur+' · '+daysCompleted+' completes</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--ac)">'+pct+'%</div></div>';
+    h+='<div class="pbar" style="height:8px;margin-bottom:10px"><div class="pfill pac" style="width:'+pct+'%"></div></div>';
+    // 30-day grid
+    h+='<div style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px;margin-bottom:10px">';
+    for(var i=0;i<tmpl.dur;i++){
+      var d=new Date(mc.startTs);d.setDate(d.getDate()+i);var ds=d.toDateString();
+      var done=(mc.doneDays||[]).includes(ds);var future=i>daysSince;
+      h+='<div style="aspect-ratio:1;border-radius:3px;background:'+(done?'var(--gr)':future?'var(--sf3)':'var(--rdd)')+';display:flex;align-items:center;justify-content:center;font-size:7px;color:'+(done?'#000':'var(--tx3)')+'">'+( done?'✓':(i+1))+'</div>';
+    }
+    h+='</div>';
+    if(!doneToday&&daysSince<tmpl.dur){
+      h+='<button class="btn btn-gr" onclick="megaCheckIn(\''+mc.id+'\')">Valider jour '+(daysSince+1)+' ✓</button>';
+    }else if(doneToday){
+      h+='<div style="text-align:center;padding:10px;font-size:13px;font-weight:700;color:var(--gr)">✓ Fait aujourd\'hui !</div>';
+    }
+    h+='</div>';
+  });
+  // Available challenges
+  MEGA_CHALLENGES.forEach(function(mc){
+    var isActive=S.megaChallenges.some(function(c){return c.id===mc.id&&!c.completed;});
+    if(isActive)return;
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="startMegaChallenge(\''+mc.id+'\')">';
+    h+='<div style="font-size:26px">'+mc.ico+'</div>';
+    h+='<div style="flex:1"><div style="font-size:13px;font-weight:700">'+escHTML(mc.t)+'</div><div style="font-size:11px;color:var(--tx3)">'+escHTML(mc.desc)+'</div></div>';
+    h+='<div style="text-align:right"><div style="font-size:12px;font-weight:700;color:var(--ac)">+'+mc.xp+'XP</div><div style="font-size:14px">'+mc.badge+'</div></div>';
+    h+='</div>';
+  });
+  return h;
+}
+function startMegaChallenge(id){
+  var tmpl=MEGA_CHALLENGES.find(function(m){return m.id===id;});if(!tmpl)return;
+  S.megaChallenges=S.megaChallenges||[];
+  S.megaChallenges.push({id:id,startTs:Date.now(),doneDays:[],completed:false});
+  save();toast('Mega Challenge lance !','🏆',3000);
+  addN(tmpl.ico,'Mega Challenge',tmpl.t+' — 30 jours. C\'est parti !');
+  renderFeat();
+}
+function megaCheckIn(id){
+  var mc=S.megaChallenges.find(function(c){return c.id===id;});if(!mc)return;
+  var tmpl=MEGA_CHALLENGES.find(function(m){return m.id===id;});if(!tmpl)return;
+  mc.doneDays=mc.doneDays||[];
+  if(!mc.doneDays.includes(TD)){
+    mc.doneDays.push(TD);
+    gainXP(Math.round(tmpl.xp/tmpl.dur),'mega');gainGems(Math.round(tmpl.g/tmpl.dur));
+    dmgBoss(20);
+    // Check if completed
+    if(mc.doneDays.length>=tmpl.dur){
+      mc.completed=true;
+      gainXP(tmpl.xp,'mega_done');gainGems(tmpl.g);confetti();
+      toast(tmpl.badge+' Mega Challenge COMPLETE ! +'+tmpl.xp+' XP','🏆',5000);
+      addN('🏆','Mega Challenge Complete',tmpl.t+' — 30 jours accomplis ! '+tmpl.badge);
+    }else{
+      toast('Jour '+(mc.doneDays.length)+'/'+tmpl.dur+' valide !','✓',2000);
+    }
+    save();
+  }
+  renderFeat();
 function startCh(type){
   const fc=CHALL_T.find(f=>f.id===type);if(!fc)return;
   const id='CH'+Date.now();
@@ -3238,7 +3400,7 @@ async function sendCoach(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         message:msg,
-        context:{name:S.name,age:S.age,goal:S.goal,level:getLvl(S.xp||0)+1,streak:S.loginS?.streak||0,xp:S.xp||0},
+        context:{name:S.name,age:S.age,goal:S.goal,level:getLvl(S.xp||0)+1,streak:S.loginS?.streak||0,xp:S.xp||0,riseScore:(function(){try{return calcRiseScore().score;}catch(e){return 0;}})(),moodTrend:(function(){try{var p=analyzeJournalPatterns();return p?p.trend:'unknown';}catch(e){return 'unknown';}})(),deepWorkMin:(function(){try{return(S.deepWork&&S.deepWork.sessions||[]).filter(function(s){return s.date===TD;}).reduce(function(a,s){return a+(s.min||0);},0);}catch(e){return 0;}})()},
         history:S.chatHist.slice(-6)
       })
     });
@@ -7519,8 +7681,10 @@ function toggleZenMode(){
     deferredPrompt=e;
     // Show install banner after 30 seconds if not dismissed
     var dismissed=localStorage.getItem('rise_install_dismissed');
-    if(!dismissed){
-      setTimeout(function(){ib.classList.add('show');},30000);
+    var visits=parseInt(localStorage.getItem('rise_visits')||'0')+1;
+    localStorage.setItem('rise_visits',String(visits));
+    if(!dismissed&&visits>=2){
+      setTimeout(function(){ib.classList.add('show');},15000);
     }
   });
   
@@ -7547,7 +7711,18 @@ function toggleZenMode(){
   // Detect if running as PWA
   if(window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone){
     document.body.classList.add('pwa-mode');
-    console.log('RISE: Running as installed PWA');
+    // Show welcome-back splash for PWA
+    if(S&&S.ob&&S.name){
+      var lastPWA=localStorage.getItem('rise_pwa_last');
+      if(lastPWA!==TD){
+        localStorage.setItem('rise_pwa_last',TD);
+        setTimeout(function(){
+          var name=S.name||'Champion';var streak=S.loginS?S.loginS.streak||0:0;
+          var score=0;try{score=calcRiseScore().score;}catch(e){}
+          toast('Bienvenue '+name+' ! '+(streak>1?'Streak: '+streak+'j ':'')+(score>0?'Score: '+score+'/100':''),'🚀',3000);
+        },1000);
+      }
+    }
   }
 })();
 
