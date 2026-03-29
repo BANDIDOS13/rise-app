@@ -1325,9 +1325,83 @@ const QPOOL=[
 // Wellness
 {id:'sl',ico:'😴',nm:'8h de sommeil',target:1,type:'sleep',xp:25,g:2},
 {id:'wt',ico:'💧',nm:'8 verres d\'eau',target:8,type:'water',xp:20,g:2},
+// ── Extended quests (80+) ──
+// Nature+
+{id:'wk3',ico:'🚶',nm:'20min de marche',target:20,type:'walk',xp:45,g:4},
+{id:'wk4',ico:'🏃',nm:'30min de marche rapide',target:30,type:'walk',xp:60,g:5},
+{id:'su2',ico:'☀️',nm:'30min de soleil',target:30,type:'sun',xp:45,g:3},
+{id:'br2',ico:'💨',nm:'3 sessions respiration',target:3,type:'breath',xp:40,g:3},
+{id:'co2',ico:'🧊',nm:'1min douche froide',target:1,type:'cold',xp:50,g:4},
+{id:'co3',ico:'❄️',nm:'3min douche froide',target:1,type:'cold',xp:80,g:7},
+{id:'mw',ico:'🌿',nm:'Marche consciente 15min',target:1,type:'walk',xp:45,g:4},
+{id:'gr2',ico:'🌳',nm:'1h en pleine nature',target:60,type:'walk',xp:80,g:6},
+// Mind+
+{id:'md2',ico:'🧘',nm:'15min méditation',target:1,type:'breath',xp:40,g:3},
+{id:'md3',ico:'🧘',nm:'30min méditation',target:1,type:'breath',xp:70,g:5},
+{id:'jr2',ico:'📓',nm:'Journal 500 mots',target:1,type:'journal',xp:35,g:3},
+{id:'vz',ico:'🎯',nm:'Visualisation 5min',target:1,type:'breath',xp:20,g:2},
+{id:'af',ico:'💪',nm:'10 affirmations à voix haute',target:1,type:'journal',xp:15,g:1},
+{id:'stc',ico:'🏛️',nm:'Exercice stoïcien du jour',target:1,type:'journal',xp:30,g:3},
+{id:'rfl',ico:'🪞',nm:'Réflexion du soir (3min)',target:1,type:'journal',xp:20,g:2},
+// Body+
+{id:'plk',ico:'💪',nm:'Planche 2 minutes',target:1,type:'workout',xp:35,g:3},
+{id:'str',ico:'🧘',nm:'10min stretching',target:1,type:'workout',xp:20,g:2},
+{id:'run',ico:'🏃',nm:'Course 20min',target:1,type:'workout',xp:60,g:5},
+{id:'abs',ico:'💪',nm:'100 abdos',target:1,type:'workout',xp:40,g:3},
+{id:'yog',ico:'🧘',nm:'20min yoga',target:1,type:'workout',xp:45,g:4},
+{id:'sw',ico:'🏊',nm:'Session natation',target:1,type:'workout',xp:70,g:5},
+{id:'wk5',ico:'🚴',nm:'30min vélo',target:1,type:'workout',xp:55,g:4},
+// Productivity+
+{id:'in',ico:'📥',nm:'Inbox zéro',target:1,type:'todos',xp:25,g:2},
+{id:'t10',ico:'✅',nm:'10 tâches faites',target:10,type:'todos',xp:80,g:6},
+{id:'po4',ico:'⏱️',nm:'4 Pomodoros',target:4,type:'pomo',xp:70,g:5},
+{id:'po6',ico:'⏱️',nm:'6 Pomodoros (marathon)',target:6,type:'pomo',xp:120,g:8},
+{id:'dw2',ico:'🔇',nm:'2h Deep Work',target:1,type:'pomo',xp:80,g:6},
+{id:'noph',ico:'📵',nm:'2h sans téléphone',target:1,type:'pomo',xp:40,g:3},
+{id:'eis',ico:'📊',nm:'Matrice Eisenhower à jour',target:1,type:'todos',xp:25,g:2},
+{id:'rtn',ico:'🔄',nm:'Routine matinale complète',target:1,type:'checkin',xp:35,g:3},
+{id:'rtn2',ico:'🌙',nm:'Routine du soir complète',target:1,type:'checkin',xp:30,g:2},
+// Business+
+{id:'ct',ico:'👥',nm:'Contacter 1 prospect',target:1,type:'revenue',xp:30,g:3},
+{id:'ct3',ico:'📞',nm:'Contacter 3 prospects',target:3,type:'revenue',xp:60,g:5},
+{id:'dl',ico:'🤝',nm:'Conclure un deal',target:1,type:'revenue',xp:100,g:8},
+{id:'bp',ico:'📋',nm:'Mettre à jour Business Plan',target:1,type:'kanban',xp:30,g:3},
+{id:'sm2',ico:'📱',nm:'Publier sur les réseaux',target:1,type:'share',xp:20,g:2},
+{id:'sm3',ico:'📱',nm:'3 posts cette semaine',target:3,type:'share',xp:50,g:4},
+{id:'nw2',ico:'🤝',nm:'Networking: 1 nouvelle connexion',target:1,type:'share',xp:25,g:2},
+{id:'idb',ico:'💡',nm:'Capturer 3 idées business',target:3,type:'journal',xp:30,g:3},
+// Learning+
+{id:'fo2',ico:'📚',nm:'2 modules de formation',target:2,type:'form',xp:90,g:8},
+{id:'bk2',ico:'📖',nm:'Lire 30 minutes',target:1,type:'read',xp:40,g:3},
+{id:'bk3',ico:'📖',nm:'Finir un livre',target:1,type:'read',xp:100,g:10},
+{id:'ln',ico:'🌍',nm:'10 mots de vocabulaire',target:10,type:'lang',xp:30,g:3},
+{id:'ln2',ico:'🌍',nm:'20min d\'apprentissage langue',target:1,type:'lang',xp:40,g:3},
+{id:'qz',ico:'❓',nm:'Quiz formation réussi',target:1,type:'form',xp:30,g:3},
+{id:'pod',ico:'🎧',nm:'Écouter un podcast éducatif',target:1,type:'read',xp:20,g:2},
+{id:'nt',ico:'📝',nm:'Prendre des notes (formation)',target:1,type:'form',xp:25,g:2},
+// Social+
+{id:'sh2',ico:'📤',nm:'Partager 3 succès',target:3,type:'share',xp:40,g:3},
+{id:'hlp',ico:'🤝',nm:'Aider quelqu\'un aujourd\'hui',target:1,type:'share',xp:25,g:2},
+{id:'gld',ico:'⚔️',nm:'Contribuer à la guilde',target:1,type:'share',xp:30,g:3},
+{id:'msg',ico:'💬',nm:'Envoyer un message motivant',target:1,type:'share',xp:15,g:1},
+// Challenge
+{id:'fl',ico:'⚡',nm:'Compléter le Défi Flash',target:1,type:'flash',xp:60,g:5},
+{id:'pf',ico:'🌟',nm:'Quête Parfaite (5/5)',target:5,type:'quest_all',xp:100,g:8},
+{id:'nb',ico:'🏆',nm:'Débloquer un badge',target:1,type:'badge',xp:30,g:3},
+{id:'bss',ico:'⚔️',nm:'Infliger 100 dégâts au boss',target:100,type:'boss_dmg',xp:50,g:4},
+{id:'bssk',ico:'⚔️',nm:'Vaincre le boss',target:1,type:'boss_kill',xp:150,g:12},
+// Wellness+
+{id:'sl2',ico:'😴',nm:'Se coucher avant 23h',target:1,type:'sleep',xp:30,g:2},
+{id:'wt2',ico:'💧',nm:'12 verres d\'eau',target:12,type:'water',xp:30,g:3},
+{id:'nt2',ico:'🥗',nm:'Repas sain et équilibré',target:1,type:'nutrition',xp:20,g:2},
+{id:'nt3',ico:'🥗',nm:'3 repas sains aujourd\'hui',target:3,type:'nutrition',xp:50,g:4},
+{id:'noc',ico:'☕',nm:'Pas de caféine après 14h',target:1,type:'sleep',xp:20,g:2},
+{id:'scr',ico:'📵',nm:'Pas d\'écran 1h avant dormir',target:1,type:'sleep',xp:25,g:2},
 ];
 const FLASH=[{ico:'💪',title:'30 Pompes maintenant',desc:'Stop. 30 pompes. Reviens.',xp:80,g:8},{ico:'🚶',title:'20min dehors sans téléphone',desc:'Sors maintenant. 20 min.',xp:70,g:7},{ico:'💨',title:'5min cohérence cardiaque',desc:'5-5 maintenant.',xp:50,g:5},{ico:'📝',title:'3 gratitudes',desc:'3 choses positives dans ta vie.',xp:40,g:4},{ico:'☀️',title:'5min de soleil',desc:'Sors. Lève la tête. 5 min.',xp:40,g:4},{ico:'🧊',title:'30sec eau froide',desc:'Finir la prochaine douche en froid.',xp:60,g:6},{ico:'🧘',title:'10min méditation',desc:'Silence. Yeux fermés. Respire.',xp:60,g:6}];
-const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'}];
+const FORMS_D=[{id:'ep',title:'Mindset Entrepreneur',ico:'🚀',bg:'#1a1208',tc:'var(--ac)',desc:'Vision, risque, résilience.'},{id:'rch',title:'Devenir Riche',ico:'💰',bg:'#081208',tc:'var(--gr)',desc:'Revenus passifs, liberté financière.'},{id:'sm',title:'Social Media Pro',ico:'📱',bg:'#0a0818',tc:'var(--pu)',desc:'TikTok, YouTube, viral.'},{id:'ps',title:'Psychologie du Succès',ico:'🧠',bg:'#14080a',tc:'#d46a9e',desc:'Confiance, reprogrammation.'},{id:'cd',title:'Code pour Tous',ico:'💻',bg:'#0a1218',tc:'var(--bl)',desc:'HTML, CSS, JS, Python.'},{id:'ca',title:'Calisténie Progressive',ico:'🏋️',bg:'#0a1808',tc:'var(--gr)',desc:'Muscle-up, handstand.'},{id:'nw',title:'Bien-être Nature',ico:'🌿',bg:'#081408',tc:'var(--nt)',desc:'Marche, soleil, sommeil.'},{id:'ai',title:'Business avec IA',ico:'🤖',bg:'#080a18',tc:'var(--bl)',desc:'Claude, ChatGPT, business IA.'},{id:'nu',title:'Nutrition Scientifique',ico:'🥗',bg:'#0a1808',tc:'var(--tl)',desc:'Macros, timing, vrais effets.'},{id:'sa',title:'Vente et Persuasion',ico:'🤝',bg:'#1a1008',tc:'var(--or)',desc:'Copywriting, closing.'},
+// New formations
+{id:'cr',title:'Crypto & Web3',ico:'₿',bg:'#0a0a18',tc:'#f7931a',desc:'Bitcoin, Ethereum, DeFi, NFT. Investir sans se faire piéger.'},{id:'pb',title:'Personal Brand 90j',ico:'🎤',bg:'#180a14',tc:'#d46a9e',desc:'Construis ton image en 90 jours. LinkedIn, X, YouTube.'},{id:'gpt',title:'Maîtriser ChatGPT & Claude',ico:'🤖',bg:'#0a1018',tc:'var(--pu)',desc:'Prompts avancés, automatisations, business IA.'},{id:'ecom',title:'Vendre en Ligne',ico:'🛒',bg:'#14100a',tc:'var(--or)',desc:'E-commerce, dropshipping, produits digitaux.'},{id:'spk',title:'Prise de Parole',ico:'🎙️',bg:'#100a14',tc:'#b09ae8',desc:'Storytelling, pitch, confiance sur scène.'},{id:'rel',title:'Relations & Confiance',ico:'❤️',bg:'#140a0a',tc:'var(--rd)',desc:'Communication, empathie, leadership relationnel.'},{id:'nom',title:'Voyage & Vie Nomade',ico:'✈️',bg:'#0a1414',tc:'var(--tl)',desc:'Remote work, visas, budget voyage, freelance nomade.'},{id:'phi',title:'Philosophie Pratique',ico:'🏛️',bg:'#0e0a14',tc:'#a088d0',desc:'Stoïcisme, bouddhisme, sagesse antique appliquée.'},{id:'inv',title:'Investissement & Patrimoine',ico:'📈',bg:'#0a140a',tc:'var(--gr)',desc:'Bourse, ETF, immobilier, diversification.'},{id:'free',title:'Freelance & Indépendant',ico:'💼',bg:'#141008',tc:'var(--ac)',desc:'Trouver des clients, fixer ses prix, scaler.'}];
 const BOOKS=[{ico:'🔥',t:'The 5 AM Club',a:'Robin Sharma',cat:'Mental',lvl:'Facile',p:450,sum:'Lever à 5h, routine 20-20-20. Transforme les matins, transforme ta vie.',key:'Le matin appartient à ceux qui se lèvent tôt. 66j pour ancrer une habitude.',act:'Demain: réveil 15 min plus tôt. Une seule fois.'},{ico:'🌊',t:'Atomic Habits',a:'James Clear',cat:'Mental',lvl:'Facile',p:320,sum:'1% par jour = +37x en 1 an. Systèmes, pas objectifs.',key:'Tu tombes au niveau de tes systèmes, pas au niveau de tes objectifs.',act:'Identifie 1 habitude. Ancre-la: après [X], je fais [Y].'},{ico:'🧠',t:'Deep Work',a:'Cal Newport',cat:'Mental',lvl:'Intermédiaire',p:296,sum:'Le focus intense est la super-puissance du 21e siècle. 4h deep work > 8h ordinaires.',key:'La distraction est le défaut, pas la règle. Reprends le contrôle.',act:'Planifie 1 bloc 90min deep work demain. Téléphone en mode avion.'},{ico:'💰',t:'Rich Dad Poor Dad',a:'Robert Kiyosaki',cat:'Finance',lvl:'Facile',p:207,sum:'Actifs vs passifs. Fais travailler l argent pour toi.',key:'Ta maison n est pas un actif. Un actif met de l argent dans ta poche.',act:'Liste tes actifs et passifs. Quel premier actif crées-tu ce mois-ci?'},{ico:'🚀',t:'Zero to One',a:'Peter Thiel',cat:'Business',lvl:'Intermédiaire',p:224,sum:'Créer quelque chose de nouveau > copier. Monopoles > compétition.',key:'La compétition détruit les profits. Vise un monopole sur un marché que tu crées.',act:'Quel problème résous-tu mieux que quiconque? C est là ton business.'},{ico:'🌿',t:'The Nature Fix',a:'Florence Williams',cat:'Nature',lvl:'Facile',p:280,sum:'60min nature/semaine réduit cortisol de 13%. La science du vert.',key:'20 min en nature baisse la tension. 90 min désactive la rumination.',act:'Sors 20 minutes aujourd hui. Pas de téléphone. 3 choses jamais remarquées.'},{ico:'😴',t:'Why We Sleep',a:'Matthew Walker',cat:'Santé',lvl:'Facile',p:368,sum:'Le sommeil est la fondation de tout: mémoire, immunité, créativité.',key:'Après 16h sans sommeil, tu es aussi altéré qu un conducteur ivre.',act:'Écrans off 1h avant dormir. Chambre 18 degrés. Blackout total.'},{ico:'💪',t:'Can t Hurt Me',a:'David Goggins',cat:'Mental',lvl:'Intense',p:364,sum:'L esprit abandonne à 40% des capacités réelles. Callusing the mind.',key:'Quand ton esprit dit stop, tu n as utilisé que 40% de tes capacités.',act:'Ta chose la plus difficile de la semaine. Fais-la en premier demain matin.'},{ico:'⚡',t:'The 4-Hour Work Week',a:'Tim Ferriss',cat:'Business',lvl:'Intermédiaire',p:308,sum:'80/20, délégation, automatisation. Ne remet pas les rêves à plus tard.',key:'Rien de vertueux à bosser 80h/semaine si le même résultat en 4h.',act:'Identifie 20% des activités = 80% des résultats. Coupe le reste.'},{ico:'🧘',t:'The Power of Now',a:'Eckhart Tolle',cat:'Spiritualité',lvl:'Profond',p:236,sum:'Le moment présent est tout ce qui existe vraiment. Conscience pure.',key:'Le moment présent est tout ce que tu auras jamais. Vis-y.',act:'5 min: observe ta respiration sans essayer de la changer.'},{ico:'❤️',t:'The 5 Love Languages',a:'Gary Chapman',cat:'Relations',lvl:'Facile',p:208,sum:'5 langages: mots, temps, cadeaux, services, toucher.',key:'Parler le mauvais langage, c est parler à quelqu un dans une langue incomprise.',act:'Identifie ton langage primaire. Puis celui des 3 personnes proches.'},{ico:'🌅',t:'Ikigai',a:'Garcia & Miralles',cat:'Spiritualité',lvl:'Facile',p:208,sum:'Raison d être japonaise: passion + mission + vocation + profession.',key:'L ikigai se révèle en s oubliant dans l action.',act:'Dessine tes 4 cercles. Qu est-ce qui est au centre aujourd hui?'}];
 const SKILL_TREES={focus:{lbl:'🎯 Focus',col:'var(--ac)',n:[{i:'📋',nm:'To-do'},{i:'⏱️',nm:'Pomodoro'},{i:'🔇',nm:'Deep Work'},{i:'🧠',nm:'Mental clair'},{i:'🚀',nm:'Peak State'},{i:'⚡',nm:'Flow maître'}]},nature:{lbl:'🌿 Nature',col:'var(--nt)',n:[{i:'🚶',nm:'Marche'},{i:'☀️',nm:'Soleil'},{i:'💨',nm:'Respiration'},{i:'🧊',nm:'Froid'},{i:'🌊',nm:'Plein air'},{i:'🌍',nm:'Nomade'}]},mind:{lbl:'🧠 Mental',col:'var(--pu)',n:[{i:'🧘',nm:'Méditation'},{i:'📓',nm:'Journal'},{i:'💡',nm:'Clarté'},{i:'🔮',nm:'Vision'},{i:'⚡',nm:'Stoïcisme'},{i:'🌟',nm:'Maître'}]},biz:{lbl:'💰 Business',col:'var(--ac)',n:[{i:'📱',nm:'Personal Brand'},{i:'💼',nm:'Freelance'},{i:'🚀',nm:'Startup'},{i:'📈',nm:'Scaling'},{i:'🤖',nm:'IA Business'},{i:'👑',nm:'Empire'}]}};
 const AFF_T=[{ico:'🌱',nm:'Débutant',refs:0,pct:15,col:'var(--gr)'},{ico:'🔥',nm:'Actif',refs:5,pct:20,col:'var(--or)'},{ico:'💎',nm:'Pro',refs:15,pct:25,col:'var(--bl)'},{ico:'👑',nm:'Elite',refs:30,pct:30,col:'var(--ac)'}];
@@ -1501,6 +1575,52 @@ const FORGE_ACHIEVEMENTS=[
   {id:'a_streak100',   ico:'👑',name:'Centurion',         desc:'100 jours de streak',                flavor:'100 jours. Légende vivante.',        rarity:'LEGENDARY',xp:1000,cond:()=>((S.streak||0)>=100)},
   {id:'a_xp50k',       ico:'🏆',name:'Cinquante Mille',   desc:'Accumule 50000 XP',                  flavor:'La forge brûle éternellement.',      rarity:'LEGENDARY',xp:500, cond:()=>((S.xp||0)>=50000)},
   {id:'a_allforms',    ico:'🎓',name:'Diplômé FORGE',     desc:'Toutes les formations complétées',   flavor:'Maître de tous les savoirs.',        rarity:'LEGENDARY',xp:800, cond:()=>{const fp=S.formProg||{};return Object.values(fp).filter(f=>(f.m||0)>=8).length>=10;}},
+  // ── EXTRA COMMON ──
+  {id:'a_walk1',ico:'🚶',name:'Premier Pas Dehors',desc:'Première marche enregistrée',flavor:'Le voyage commence.',rarity:'COMMON',xp:15,cond:()=>((S.nat?.walkLogs||[]).length>=1)},
+  {id:'a_sun1',ico:'☀️',name:'Chasseur de Soleil',desc:'Première session soleil',flavor:'La vitamine D est un super-pouvoir.',rarity:'COMMON',xp:15,cond:()=>((S.nat?.sunLogs||[]).length>=1)},
+  {id:'a_cold1',ico:'🧊',name:'Guerrier du Froid',desc:'Première douche froide',flavor:'L\'inconfort forge le caractère.',rarity:'COMMON',xp:20,cond:()=>((S.nat?.coldLogs||[]).length>=1)},
+  {id:'a_form1',ico:'📚',name:'Étudiant',desc:'Commence ta première formation',flavor:'Celui qui apprend ne vieillit jamais.',rarity:'COMMON',xp:20,cond:()=>(Object.keys(S.formProg||{}).length>=1)},
+  {id:'a_book1',ico:'📖',name:'Lecteur',desc:'Marque 1 livre comme lu',flavor:'Un livre change une vie.',rarity:'COMMON',xp:20,cond:()=>((S.books?.read||[]).length>=1)},
+  {id:'a_budget1',ico:'💰',name:'Premier Compte',desc:'Ajoute ta première dépense',flavor:'Surveiller c\'est maîtriser.',rarity:'COMMON',xp:15,cond:()=>((S.financeAdv?.expenses||[]).length>=1)},
+  {id:'a_habit1',ico:'🔥',name:'Bâtisseur',desc:'Crée ta première habitude',flavor:'Les habitudes sculptent le destin.',rarity:'COMMON',xp:15,cond:()=>((S.habits?.list||[]).length>=1)},
+  {id:'a_sos1',ico:'🆘',name:'Résilience',desc:'Utilise le Mode Urgence',flavor:'Demander de l\'aide est une force.',rarity:'COMMON',xp:20,cond:()=>(S.sosUsed||false)},
+  // ── EXTRA UNCOMMON ──
+  {id:'a_ci7',ico:'📋',name:'Semaine Parfaite',desc:'7 check-ins en 7 jours',flavor:'La constance bat le talent.',rarity:'UNCOMMON',xp:50,cond:()=>((S.loginS?.streak||0)>=7)},
+  {id:'a_pomo10',ico:'⏱️',name:'Machine à Focus',desc:'10 Pomodoros complétés',flavor:'Le deep work est ta super-puissance.',rarity:'UNCOMMON',xp:50,cond:()=>((S.pomoTot||0)>=10)},
+  {id:'a_walk10',ico:'🚶',name:'Marcheur',desc:'10 sessions de marche',flavor:'Marcher c\'est penser.',rarity:'UNCOMMON',xp:40,cond:()=>((S.nat?.walkLogs||[]).length>=10)},
+  {id:'a_breath10',ico:'💨',name:'Maître du Souffle',desc:'10 sessions respiration',flavor:'Le souffle calme l\'esprit.',rarity:'UNCOMMON',xp:40,cond:()=>((S.nat?.breathLogs||[]).length>=10)},
+  {id:'a_book3',ico:'📖',name:'Bibliophile',desc:'3 livres lus',flavor:'3 mondes explorés.',rarity:'UNCOMMON',xp:60,cond:()=>((S.books?.read||[]).length>=3)},
+  {id:'a_form2',ico:'📚',name:'Diplômé',desc:'Complète 2 formations',flavor:'La connaissance est le vrai pouvoir.',rarity:'UNCOMMON',xp:80,cond:()=>{var d=0;for(var k in (S.formProg||{})){if(S.formProg[k].done)d++;}return d>=2;}},
+  {id:'a_gems50',ico:'💎',name:'Collectionneur',desc:'50 gemmes accumulées',flavor:'Chaque gemme raconte un effort.',rarity:'UNCOMMON',xp:30,cond:()=>((S.gems||0)>=50)},
+  {id:'a_todo20',ico:'✅',name:'Productif',desc:'20 tâches complétées',flavor:'Fais les choses. Les résultats suivent.',rarity:'UNCOMMON',xp:40,cond:()=>((S.todos||[]).filter(t=>t.done).length>=20)},
+  {id:'a_journal5',ico:'📓',name:'Chroniqueur',desc:'5 entrées journal',flavor:'Écrire c\'est se comprendre.',rarity:'UNCOMMON',xp:40,cond:()=>((S.nat?.jEntries||[]).length>=5)},
+  {id:'a_langs1',ico:'🌍',name:'Polyglotte Débutant',desc:'Apprends 10 mots',flavor:'Chaque mot est une porte.',rarity:'UNCOMMON',xp:30,cond:()=>{for(var k in (S.langProg||{})){if((S.langProg[k].done||[]).length>=10)return true;}return false;}},
+  // ── EXTRA RARE ──
+  {id:'a_streak30',ico:'🔥',name:'Flamme Éternelle',desc:'30 jours de streak',flavor:'La discipline est la liberté.',rarity:'RARE',xp:200,cond:()=>((S.streak||0)>=30)},
+  {id:'a_pomo50',ico:'⏱️',name:'Deep Worker',desc:'50 Pomodoros',flavor:'50 heures de focus pur. Respect.',rarity:'RARE',xp:150,cond:()=>((S.pomoTot||0)>=50)},
+  {id:'a_xp2k',ico:'⭐',name:'2000 XP',desc:'Accumule 2000 XP',flavor:'Le progrès composé en action.',rarity:'RARE',xp:100,cond:()=>((S.xp||0)>=2000)},
+  {id:'a_book6',ico:'📖',name:'Bibliothécaire',desc:'6 livres lus',flavor:'Un livre par mois change tout.',rarity:'RARE',xp:120,cond:()=>((S.books?.read||[]).length>=6)},
+  {id:'a_form5',ico:'🎓',name:'Académicien',desc:'5 formations complètes',flavor:'Tu construis un arsenal.',rarity:'RARE',xp:250,cond:()=>{var d=0;for(var k in (S.formProg||{})){if(S.formProg[k].done)d++;}return d>=5;}},
+  {id:'a_boss3',ico:'⚔️',name:'Chasseur de Boss',desc:'Vaincs 3 boss',flavor:'Procrastination, Distraction, Inactivité. Tous vaincus.',rarity:'RARE',xp:180,cond:()=>{var d=0;for(var k in (S.bossProg||{})){if(S.bossProg[k]?.done)d++;}return d>=3;}},
+  {id:'a_walk50',ico:'🚶',name:'Randonneur',desc:'50 sessions marche',flavor:'Tes pieds connaissent le chemin.',rarity:'RARE',xp:150,cond:()=>((S.nat?.walkLogs||[]).length>=50)},
+  {id:'a_cold10',ico:'🧊',name:'Iceman',desc:'10 douches froides',flavor:'Le froid ne te fait plus peur.',rarity:'RARE',xp:120,cond:()=>((S.nat?.coldLogs||[]).length>=10)},
+  {id:'a_gems200',ico:'💎',name:'Riche',desc:'200 gemmes',flavor:'L\'abondance suit la discipline.',rarity:'RARE',xp:80,cond:()=>((S.gems||0)>=200)},
+  {id:'a_todo100',ico:'✅',name:'Machine à Tâches',desc:'100 tâches faites',flavor:'100 promesses tenues.',rarity:'RARE',xp:150,cond:()=>((S.todos||[]).filter(t=>t.done).length>=100)},
+  // ── EXTRA EPIC ──
+  {id:'a_streak90',ico:'🔥',name:'Phénix',desc:'90 jours de streak',flavor:'3 mois. Plus rien ne t\'arrête.',rarity:'EPIC',xp:500,cond:()=>((S.streak||0)>=90)},
+  {id:'a_xp5k',ico:'⭐',name:'5000 XP',desc:'5000 XP accumulés',flavor:'Tu forges ton destin.',rarity:'EPIC',xp:300,cond:()=>((S.xp||0)>=5000)},
+  {id:'a_pomo100',ico:'⏱️',name:'Centurion du Focus',desc:'100 Pomodoros',flavor:'100 sessions. Un esprit d\'acier.',rarity:'EPIC',xp:400,cond:()=>((S.pomoTot||0)>=100)},
+  {id:'a_form8',ico:'🎓',name:'Érudit',desc:'8 formations complètes',flavor:'Tu maîtrises tout.',rarity:'EPIC',xp:600,cond:()=>{var d=0;for(var k in (S.formProg||{})){if(S.formProg[k].done)d++;}return d>=8;}},
+  {id:'a_book12',ico:'📖',name:'Sage',desc:'12 livres lus',flavor:'Un livre par mois pendant un an.',rarity:'EPIC',xp:400,cond:()=>((S.books?.read||[]).length>=12)},
+  {id:'a_boss10',ico:'⚔️',name:'Destructeur de Boss',desc:'10 boss vaincus',flavor:'Légende du champ de bataille.',rarity:'EPIC',xp:500,cond:()=>{var d=0;for(var k in (S.bossProg||{})){if(S.bossProg[k]?.done)d++;}return d>=10;}},
+  {id:'a_allnature',ico:'🌿',name:'Enfant de la Terre',desc:'100 sessions nature (tous types)',flavor:'La nature est ton temple.',rarity:'EPIC',xp:500,cond:()=>(((S.nat?.walkLogs||[]).length+(S.nat?.sunLogs||[]).length+(S.nat?.breathLogs||[]).length+(S.nat?.coldLogs||[]).length)>=100)},
+  {id:'a_langs50',ico:'🌍',name:'Polyglotte',desc:'50 mots appris en langues',flavor:'Les frontières n\'existent plus.',rarity:'EPIC',xp:300,cond:()=>{var t=0;for(var k in (S.langProg||{})){t+=(S.langProg[k].done||[]).length;}return t>=50;}},
+  // ── EXTRA LEGENDARY ──
+  {id:'a_streak180',ico:'👑',name:'Légende Vivante',desc:'180 jours de streak',flavor:'6 mois sans faillir. Tu es rare.',rarity:'LEGENDARY',xp:2000,cond:()=>((S.streak||0)>=180)},
+  {id:'a_xp10k',ico:'🌟',name:'10K XP',desc:'10000 XP accumulés',flavor:'Dix mille preuves de progrès.',rarity:'LEGENDARY',xp:1000,cond:()=>((S.xp||0)>=10000)},
+  {id:'a_pomo200',ico:'⏱️',name:'Maître Absolu du Focus',desc:'200 Pomodoros',flavor:'200 batailles contre la distraction. Toutes gagnées.',rarity:'LEGENDARY',xp:1500,cond:()=>((S.pomoTot||0)>=200)},
+  {id:'a_gems500',ico:'💎',name:'Magnat',desc:'500 gemmes',flavor:'La patience est la mère de la fortune.',rarity:'LEGENDARY',xp:500,cond:()=>((S.gems||0)>=500)},
+  {id:'a_form_all',ico:'🎓',name:'Omniscient',desc:'Toutes les formations complètes',flavor:'Tu as bu tout le savoir.',rarity:'LEGENDARY',xp:3000,cond:()=>{var d=0;for(var k in (S.formProg||{})){if(S.formProg[k].done)d++;}return d>=10;}},
   // MYTHIC (rouge brillant) — Transcendance
   {id:'a_streak365',   ico:'🌟',name:'L\'Immortel',      desc:'365 jours de streak',                flavor:'Un an. Chaque. Jour. Tu es FORGE.',  rarity:'MYTHIC',  xp:5000,cond:()=>((S.streak||0)>=365)},
   {id:'a_transcend',   ico:'♾️',name:'Transcendance',     desc:'Tous les achievements précédents',   flavor:'Tu as tout forgé. Tu ES la forge.', rarity:'MYTHIC',  xp:10000,cond:()=>{const u=S.forgeAchievements||[];return FORGE_ACHIEVEMENTS.filter(a=>a.rarity!=='MYTHIC').every(a=>u.includes(a.id));}}
