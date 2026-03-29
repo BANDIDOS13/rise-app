@@ -1170,7 +1170,7 @@ shopUnlocked:[],
 contentPlan:{posts:[],ideas:[]},
 pomoStats:{sessions:[],totalMin:0,bestDay:0},
 soundOff:false,zenMode:false,aiProfile:{interactions:0,topGoals:[],moodAvg:0,strengths:[],weaknesses:[],lastAdvice:'',level:1,persona:'coach'}};
-const save=()=>localStorage.setItem('rise_v9',JSON.stringify(S));
+var _supaSyncTimer=null;const save=()=>{localStorage.setItem('rise_v9',JSON.stringify(S));if(_supaSyncTimer)clearTimeout(_supaSyncTimer);_supaSyncTimer=setTimeout(_supaSync,5000);};function _supaSync(){if(!S.aff||!S.aff.code)return;fetch('/api/supabase-sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',userId:S.aff.code,data:S})}).catch(function(){});}
 
 // ═══════════════════════════════════════════
 // FORGE RPG ATTRIBUTE SYSTEM
@@ -7203,36 +7203,7 @@ function toggleZenMode(){
   }
 })();
 
-// ── 8. ENHANCED PWA MANIFEST ──
-(function(){
-  // Update manifest with full app store metadata
-  var manifest={
-    name:"FORGE — AI Life OS",
-    short_name:"FORGE",
-    description:"Coach IA, habitudes, nature, fitness, business, langues. Ton système d'exploitation de vie.",
-    start_url:"/",
-    display:"standalone",
-    background_color:"#07080a",
-    theme_color:"#07080a",
-    orientation:"portrait",
-    categories:["productivity","health","education","lifestyle"],
-    lang:"fr",
-    dir:"ltr",
-    icons:[{
-      src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%2307080a' width='512' height='512' rx='96'/%3E%3Ctext x='50%25' y='54%25' text-anchor='middle' font-size='280' fill='%23d4aa4a'%3E🚀%3C/text%3E%3C/svg%3E",
-      sizes:"512x512",
-      type:"image/svg+xml",
-      purpose:"any maskable"
-    }],
-    screenshots:[],
-    prefer_related_applications:false
-  };
-  // Update the existing manifest link
-  var manifestLink=document.querySelector('link[rel="manifest"]');
-  if(manifestLink){
-    manifestLink.href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(manifest));
-  }
-})();
+// ── 8. ENHANCED PWA MANIFEST ── (moved to PNG ICON GENERATION section at bottom)
 
 // ── 9. SEO & OPEN GRAPH META TAGS ──
 (function(){
@@ -13497,6 +13468,286 @@ try { save(); } catch(e){}
     window.PLUS_ITEMS.push({ico:'🔔',label:'Notifications',fn:showNotifSettings});
   }
 
+})();
+
+// ── PNG ICON GENERATION (Canvas-based for PWA install) ──
+(function(){
+  function generatePNG(size){
+    var c=document.createElement('canvas');c.width=size;c.height=size;
+    var ctx=c.getContext('2d');
+    // Background
+    var g=ctx.createLinearGradient(0,0,size,size);
+    g.addColorStop(0,'#0c0e11');g.addColorStop(1,'#07080a');
+    ctx.fillStyle=g;
+    // Rounded rect
+    var r=size*0.18;
+    ctx.beginPath();ctx.moveTo(r,0);ctx.lineTo(size-r,0);ctx.quadraticCurveTo(size,0,size,r);
+    ctx.lineTo(size,size-r);ctx.quadraticCurveTo(size,size,size-r,size);
+    ctx.lineTo(r,size);ctx.quadraticCurveTo(0,size,0,size-r);
+    ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);ctx.closePath();ctx.fill();
+    // Anvil/Forge icon
+    var cx=size/2,cy=size*0.42;
+    // Hammer head
+    ctx.fillStyle='#d4aa4a';
+    ctx.fillRect(cx-size*0.18,cy-size*0.12,size*0.36,size*0.1);
+    // Hammer handle
+    ctx.fillStyle='#e8c86a';
+    ctx.fillRect(cx-size*0.025,cy-size*0.02,size*0.05,size*0.28);
+    // Anvil base
+    ctx.fillStyle='#d4aa4a';
+    ctx.beginPath();
+    ctx.moveTo(cx-size*0.22,cy+size*0.26);
+    ctx.lineTo(cx+size*0.22,cy+size*0.26);
+    ctx.lineTo(cx+size*0.28,cy+size*0.36);
+    ctx.lineTo(cx-size*0.28,cy+size*0.36);
+    ctx.closePath();ctx.fill();
+    // Anvil top
+    ctx.fillRect(cx-size*0.25,cy+size*0.2,size*0.5,size*0.07);
+    // Spark effects
+    ctx.fillStyle='#e8c86a';
+    [[cx-size*0.15,cy-size*0.18,size*0.025],[cx+size*0.12,cy-size*0.2,size*0.02],[cx-size*0.08,cy-size*0.22,size*0.015],[cx+size*0.18,cy-size*0.15,size*0.018]].forEach(function(s){
+      ctx.beginPath();ctx.arc(s[0],s[1],s[2],0,Math.PI*2);ctx.fill();
+    });
+    // "FORGE" text
+    ctx.fillStyle='#d4aa4a';
+    ctx.font='bold '+Math.floor(size*0.1)+'px "Clash Display",system-ui,sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('FORGE',cx,cy+size*0.46);
+    return c.toDataURL('image/png');
+  }
+  try{
+    var icon192=generatePNG(192);
+    var icon512=generatePNG(512);
+    // Update manifest
+    var manifest={
+      name:"FORGE — AI Life OS",
+      short_name:"FORGE",
+      description:"Coach IA, habitudes, nature, fitness, business, langues. Ton système d'exploitation de vie.",
+      start_url:"/",
+      display:"standalone",
+      background_color:"#07080a",
+      theme_color:"#07080a",
+      orientation:"portrait",
+      categories:["productivity","health","education","lifestyle"],
+      lang:"fr",
+      dir:"ltr",
+      icons:[
+        {src:icon192,sizes:"192x192",type:"image/png",purpose:"any maskable"},
+        {src:icon512,sizes:"512x512",type:"image/png",purpose:"any maskable"}
+      ],
+      screenshots:[],
+      prefer_related_applications:false
+    };
+    var manifestLink=document.querySelector('link[rel="manifest"]');
+    if(manifestLink){
+      manifestLink.href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(manifest));
+    }
+    // Also update apple-touch-icon
+    var appleIcon=document.querySelector('link[rel="apple-touch-icon"]');
+    if(appleIcon)appleIcon.href=icon192;
+  }catch(e){console.warn('[FORGE] PNG icon generation failed:',e);}
+})();
+
+// ── JARVIS WEEKLY REVIEW — Game Master Narrative ──
+(function(){
+  var _origRecap=initRecap;
+  initRecap=function(){
+    _origRecap();
+    var el=document.getElementById('recap-c');
+    if(!el)return;
+    try{
+      // Gather data for narrative
+      var name=S.name||'Champion';
+      var xp=S.xp||0;
+      var lvl=getLvl(xp)+1;
+      var streak=S.loginS?.streak||0;
+      var pomoMin=(S.pomoStats||{}).totalMin||0;
+      var coachN=(S.coachMem||{}).n||0;
+      var checkinCount=Object.keys(S.checkins||{}).length;
+      var formDone=Object.values(S.formProg||{}).filter(function(f){return f.done;}).length;
+      var walkLogs=(S.nat?.walkLogs||[]).length;
+      var sunLogs=(S.nat?.sunLogs||[]).length;
+      var breathLogs=(S.nat?.breathLogs||[]).length;
+      var tasksDone=(S.todos||[]).filter(function(t){return t.done;}).length;
+
+      // Determine strongest domain
+      var domains=[
+        {name:'MIND',ico:'🧠',score:coachN*3+formDone*10},
+        {name:'BODY',ico:'💪',score:walkLogs*5+(S.nat?.coldLogs||[]).length*8},
+        {name:'HUSTLE',ico:'🔥',score:pomoMin*0.5+tasksDone*4},
+        {name:'VITALITY',ico:'🌿',score:sunLogs*4+breathLogs*5+(S.nat?.sleepLogs||[]).length*3},
+        {name:'ORDER',ico:'📐',score:checkinCount*5+streak*2},
+        {name:'WISDOM',ico:'📚',score:formDone*8+coachN*2},
+        {name:'FLOW',ico:'🎯',score:pomoMin*0.8},
+        {name:'AURA',ico:'✨',score:streak*3+lvl*2}
+      ];
+      domains.sort(function(a,b){return b.score-a.score;});
+      var strongest=domains[0];
+      var weakest=domains[domains.length-1];
+
+      // Weekly chapter number (weeks since epoch)
+      var weekNum=Math.floor(Date.now()/(7*24*60*60*1000));
+
+      // Narrative templates — Game Master style
+      var weekXP=Math.min(xp,streak*35+checkinCount*30+coachN*3+pomoMin);
+      var intensity=weekXP<50?0:weekXP<150?1:weekXP<300?2:3;
+
+      var openings=[
+        ['📜 <b>Chapitre '+weekNum+' — L\'Éveil du Forgeur</b>','<i>Cette semaine, '+name+' a posé son marteau pour la première fois sur l\'enclume du destin. Le métal est encore froid, mais la flamme intérieure commence à brûler. Le chemin de mille lieues commence... maintenant.</i>'],
+        ['📜 <b>Chapitre '+weekNum+' — La Forge s\'Embrase</b>','<i>Les étincelles jaillissent ! '+name+' a frappé l\'enclume avec détermination cette semaine. '+streak+' jours sans fléchir — les murs de la forge résonnent de ta discipline. Le métal commence à prendre forme.</i>'],
+        ['📜 <b>Chapitre '+weekNum+' — L\'Acier se Durcit</b>','<i>La légende de '+name+' prend de l\'ampleur. '+streak+' jours de flamme continue, '+checkinCount+' check-ins qui marquent la pierre. Les autres forgeurs murmurent ton nom. Tu n\'es plus un apprenti — tu es un artisan.</i>'],
+        ['📜 <b>Chapitre '+weekNum+' — La Légende s\'Écrit</b>','<i>TONNERRE ET FEU ! 🔥 '+name+' frappe comme un dieu de la forge ! '+streak+' jours de streak ininterrompue, '+weekXP+' XP récoltés par la sueur et la volonté. Les chroniques de FORGE retiendront cette semaine comme un tournant.</i>']
+      ];
+
+      var op=openings[intensity];
+
+      // Strongest domain narrative
+      var strongMsg='<b>'+strongest.ico+' Domaine dominant : '+strongest.name+'</b> — ';
+      var strongNarratives={
+        'MIND':'Ton esprit est ton arme la plus affûtée cette semaine. Les sessions avec le coach et les formations ont nourri une intelligence de combat redoutable.',
+        'BODY':'Ton corps est devenu ta forteresse. Les marches, le froid, l\'effort — tout converge vers une machine de guerre physique.',
+        'HUSTLE':'L\'ambition brûle ! Focus Pomodoro, tâches écrasées — tu as le rythme d\'un entrepreneur en mode lancement.',
+        'VITALITY':'La nature est ton alliée. Soleil, respiration, sommeil — tu as rechargé tes batteries comme un sage qui sait que l\'énergie est la vraie monnaie.',
+        'ORDER':'La discipline est ton superpouvoir. Check-ins réguliers, streak protégée — tu es le pilier sur lequel tout repose.',
+        'WISDOM':'La connaissance est ton armure. Formations suivies, conseils du coach absorbés — tu investis dans la seule chose qu\'on ne peut te prendre : ton savoir.',
+        'FLOW':'L\'état de flow est ton domaine secret. Concentration profonde, sessions marathon — quand tu es dans la zone, rien ne t\'arrête.',
+        'AURA':'Ta présence rayonne. Ta constance et ton niveau inspirent. On ne forge pas seulement de l\'acier — on forge du charisme.'
+      };
+      strongMsg+=strongNarratives[strongest.name]||'Tu excelles dans ce domaine.';
+
+      // Blind spot
+      var blindMsg='<b>⚠️ Angle mort : '+weakest.name+'</b> — ';
+      var blindNarratives={
+        'MIND':'L\'esprit a besoin d\'exercice comme le corps. Une session coach ou une formation cette semaine ferait toute la différence.',
+        'BODY':'Le corps est le véhicule de l\'âme. Une marche, une douche froide, un mouvement — rappelle à ton corps qu\'il est vivant.',
+        'HUSTLE':'La productivité attend ton signal. Un Pomodoro de 25 min, une tâche clé — relance la machine.',
+        'VITALITY':'Attention au burnout silencieux. Soleil, air frais, respiration — ta vitalité est le fuel de tout le reste.',
+        'ORDER':'Sans structure, le talent se disperse. Un check-in quotidien, une revue hebdo — ancre ta progression.',
+        'WISDOM':'La formation est un investissement, pas une dépense. 15 minutes de lecture valent mieux que 2h de scroll.',
+        'FLOW':'Le deep work est un muscle. Commence petit — un Pomodoro — et laisse le flow venir à toi.',
+        'AURA':'L\'aura se forge avec la constance. Chaque jour où tu te présentes, tu construis ta légende.'
+      };
+      blindMsg+=blindNarratives[weakest.name]||'Ce domaine mérite ton attention.';
+
+      // Challenge for next week
+      var challenges=[
+        '🗡️ <b>Défi de la semaine :</b> Active '+weakest.name+' — fais au moins 3 actions dans ce domaine. Prouve que tu n\'as pas de faiblesse.',
+        '🗡️ <b>Défi de la semaine :</b> Maintiens ta streak ET améliore ton '+weakest.name+'. Les grands ne négligent aucun attribut.',
+        '🗡️ <b>Défi de la semaine :</b> Atteins '+Math.ceil(weekXP*1.2)+' XP la semaine prochaine. Dépasse-toi de 20%. Le métal ne se forge que sous la chaleur.',
+        '🗡️ <b>Défi de la semaine :</b> Fais un score parfait sur 3 check-ins ET 3 sessions Pomodoro. La polyvalence est la marque des légendes.'
+      ];
+      var challengeIdx=(weekNum+streak)%challenges.length;
+
+      // Build JARVIS card
+      var jarvisHTML=
+        '<div class="wg" style="padding:20px;margin-bottom:16px;border:1px solid rgba(212,170,74,0.4);background:linear-gradient(135deg,rgba(212,170,74,0.06),rgba(139,109,224,0.06))">'+
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">'+
+        '<div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--pu));display:flex;align-items:center;justify-content:center;font-size:18px">⚔️</div>'+
+        '<div><div style="font-family:var(--fd);font-weight:800;font-size:15px;color:var(--ac)">JARVIS — Chroniques de la Forge</div>'+
+        '<div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px">Game Master • Analyse Hebdo</div></div></div>'+
+        // Chapter opening
+        '<div style="font-size:14px;color:var(--tx);margin-bottom:14px;line-height:1.7">'+op[0]+'<br>'+op[1]+'</div>'+
+        // Strongest domain
+        '<div style="font-size:13px;color:var(--tx);margin-bottom:10px;line-height:1.6;padding:10px;background:rgba(77,184,122,0.08);border-radius:var(--rs);border-left:3px solid var(--gr)">'+strongMsg+'</div>'+
+        // Blind spot
+        '<div style="font-size:13px;color:var(--tx);margin-bottom:10px;line-height:1.6;padding:10px;background:rgba(217,95,95,0.08);border-radius:var(--rs);border-left:3px solid var(--rd)">'+blindMsg+'</div>'+
+        // Challenge
+        '<div style="font-size:13px;color:var(--ac);margin-bottom:4px;line-height:1.6;padding:10px;background:var(--agg);border-radius:var(--rs);border-left:3px solid var(--ac)">'+challenges[challengeIdx]+'</div>'+
+        '</div>';
+
+      // Insert JARVIS card after the encouragement card (before objectives)
+      var existingCards=el.querySelectorAll('.wg');
+      if(existingCards.length>=5){
+        // Insert before the objectives card (second to last .wg)
+        var objCard=existingCards[existingCards.length-1];
+        var wrapper=document.createElement('div');
+        wrapper.innerHTML=jarvisHTML;
+        objCard.parentNode.insertBefore(wrapper.firstChild,objCard);
+      } else {
+        // Fallback: append before the return button
+        var btn=el.querySelector('.btn-ac');
+        if(btn){
+          var wrapper=document.createElement('div');
+          wrapper.innerHTML=jarvisHTML;
+          btn.parentNode.insertBefore(wrapper.firstChild,btn);
+        }
+      }
+    }catch(e){console.warn('[FORGE] JARVIS recap error:',e);}
+  };
+})();
+
+// ── RESPONSIVE CSS — 5 Breakpoints ──
+(function(){
+  var style=document.createElement('style');
+  style.textContent=
+    /* 320px — Very small phones (iPhone SE 1st gen, Galaxy S3) */
+    '@media(max-width:320px){'+
+    '.screens{padding:8px !important;}'+
+    '.wg{padding:10px !important;margin-bottom:8px !important;}'+
+    '.home-grid{grid-template-columns:repeat(4,1fr) !important;gap:4px !important;}'+
+    '.home-grid>div{font-size:9px !important;}'+
+    '.home-grid>div span:first-child{font-size:18px !important;}'+
+    '#plus-panel .wg{padding:8px !important;}'+
+    'h2,h3{font-size:16px !important;}'+
+    '.btn{font-size:12px !important;padding:10px !important;}'+
+    '.inp{font-size:13px !important;padding:8px !important;}'+
+    '.nav-bar{padding:4px 2px !important;}'+
+    '.nav-bar button{font-size:8px !important;gap:1px !important;}'+
+    '.nav-bar button span:first-child{font-size:16px !important;}'+
+    '#w-astro,#w-boss,.wg.au1{padding:10px !important;}'+
+    '[style*="font-size:48px"]{font-size:32px !important;}'+
+    '[style*="font-size:42px"]{font-size:28px !important;}'+
+    '[style*="font-size:22px"]{font-size:16px !important;}'+
+    '}'+
+
+    /* 375px — Standard phones (iPhone SE 2/3, iPhone 8) */
+    '@media(min-width:321px) and (max-width:375px){'+
+    '.screens{padding:10px !important;}'+
+    '.home-grid{gap:6px !important;}'+
+    '.home-grid>div{font-size:10px !important;}'+
+    '.btn{font-size:13px !important;}'+
+    '.inp{font-size:14px !important;}'+
+    '}'+
+
+    /* 768px — Tablets */
+    '@media(min-width:768px){'+
+    '.screens{max-width:680px;margin:0 auto;padding:20px !important;}'+
+    '.home-grid{grid-template-columns:repeat(4,1fr) !important;gap:12px !important;}'+
+    '.home-grid>div{padding:16px 8px !important;}'+
+    '.wg{padding:18px !important;}'+
+    '#coach-messages{max-height:500px !important;}'+
+    '.nav-bar{max-width:680px;margin:0 auto;border-radius:20px 20px 0 0;}'+
+    '.ob-step{max-width:500px;margin:0 auto;}'+
+    '}'+
+
+    /* 1024px — Small desktops / landscape tablets */
+    '@media(min-width:1024px){'+
+    '.screens{max-width:760px;padding:24px 32px !important;}'+
+    '.home-grid{grid-template-columns:repeat(4,1fr) !important;gap:14px !important;}'+
+    '.home-grid>div{padding:18px 10px !important;font-size:13px !important;}'+
+    '.wg{padding:20px !important;border-radius:16px !important;}'+
+    '.nav-bar{max-width:760px;border-radius:24px 24px 0 0;padding:8px 16px !important;}'+
+    'body{background:var(--bg);}'+
+    '.ob-step{max-width:560px;margin:0 auto;}'+
+    '}'+
+
+    /* 1440px — Large desktops */
+    '@media(min-width:1440px){'+
+    '.screens{max-width:840px;padding:28px 40px !important;}'+
+    '.home-grid{gap:16px !important;}'+
+    '.home-grid>div{padding:20px 12px !important;font-size:14px !important;}'+
+    '.wg{padding:22px !important;border-radius:18px !important;}'+
+    '.nav-bar{max-width:840px;border-radius:28px 28px 0 0;}'+
+    '}'+
+
+    /* Universal overflow protection */
+    '*{max-width:100vw;box-sizing:border-box;}'+
+    'img,video,canvas,svg{max-width:100%;height:auto;}'+
+    '.screens{overflow-x:hidden;}'+
+    'textarea,input,select{max-width:100%;box-sizing:border-box;}'+
+    'pre,code{overflow-x:auto;word-break:break-word;}';
+
+  document.head.appendChild(style);
 })();
 
 </script>
