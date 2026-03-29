@@ -329,6 +329,89 @@
 .screen-hero .hero-title{font-family:var(--fd);font-weight:800;font-size:22px;letter-spacing:-.02em}
 .screen-hero .hero-desc{font-size:13px;color:var(--tx3);margin-top:4px;line-height:1.6}
 
+/* ══════════════════════════════════════════ */
+/* MORE MENU & PLUS PANEL — GLASS UPGRADE    */
+/* ══════════════════════════════════════════ */
+
+.more-menu{position:fixed;bottom:62px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:rgba(14,14,20,.92);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--bd);border-radius:var(--rl) var(--rl) 0 0;z-index:500;padding:16px;box-shadow:var(--shadow-l)}
+.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.more-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer;transition:all .15s var(--ease)}
+.more-btn:active{transform:scale(.93)}
+@media(hover:hover){.more-btn:hover{border-color:var(--bd2);background:var(--sf2);transform:translateY(-2px)}}
+.more-btn .more-ico{font-size:20px;line-height:1}
+.more-btn.accent{background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:var(--acm);color:var(--bg)}
+.more-btn.share{background:linear-gradient(135deg,var(--ac),var(--ac2));border-color:var(--acm);color:var(--bg)}
+
+/* Plus panel */
+.plus-panel{position:fixed;bottom:62px;left:0;right:0;margin:0 auto;width:100%;max-width:430px;background:rgba(14,14,20,.95);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border-top:1px solid var(--bd);border-radius:var(--rl) var(--rl) 0 0;z-index:400;padding:12px 14px 16px;max-height:70vh;overflow-y:auto;box-shadow:var(--shadow-l)}
+.plus-section{font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;padding:8px 0 4px;grid-column:1/-1}
+
+/* ══════════════════════════════════════════ */
+/* CHECK-IN — ENERGY & FOCUS TAGS            */
+/* ══════════════════════════════════════════ */
+
+.energy-row{display:flex;gap:8px;margin-bottom:12px}
+.energy-btn{flex:1;background:var(--sf2);border:2px solid transparent;border-radius:var(--r);padding:12px 0;font-size:22px;transition:all .2s var(--ease);cursor:pointer}
+.energy-btn:active{transform:scale(.9)}
+.energy-btn.on{border-color:var(--ac);background:var(--agg);transform:scale(1.08);box-shadow:0 0 12px rgba(245,200,66,.15)}
+
+.focus-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.focus-tag{background:var(--sf2);border:1.5px solid var(--bd);border-radius:var(--pill);padding:7px 14px;font-size:12px;color:var(--tx2);transition:all .15s var(--ease);cursor:pointer}
+.focus-tag:active{transform:scale(.93)}
+.focus-tag.on{border-color:var(--ac);color:var(--ac);background:var(--agg)}
+
+/* ══════════════════════════════════════════ */
+/* PROFILE STATS — UPGRADED GRID             */
+/* ══════════════════════════════════════════ */
+
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+
+/* ══════════════════════════════════════════ */
+/* DESKTOP RESPONSIVE — LARGE SCREENS        */
+/* ══════════════════════════════════════════ */
+
+@media(min-width:768px){
+  #app{max-width:520px;box-shadow:var(--shadow-l);border-left:1px solid var(--bd);border-right:1px solid var(--bd)}
+  body{background:#060608}
+  .sct{font-size:28px}
+  .screen-hero .hero-title{font-size:24px}
+  .screen-hero .hero-desc{font-size:14px}
+  .card,.wg{padding:18px}
+  .btn{padding:16px;font-size:14px}
+  .inp{padding:14px 16px;font-size:15px}
+  .tool-btn{padding:16px 8px;font-size:11px}
+  .tool-btn .tool-ico{font-size:24px}
+  .kpi-card .kpi-val{font-size:24px}
+  .lb-row{padding:12px 16px}
+  .ach-card{padding:18px 14px}
+  .ach-card .ach-ico{font-size:36px}
+  .guild-card{padding:20px}
+}
+
+@media(min-width:1024px){
+  #app{max-width:480px;margin-right:auto;margin-left:calc(50% - 80px)}
+
+  /* Desktop sidebar */
+  .desk-sidebar{position:fixed;left:calc(50% - 400px);top:0;bottom:0;width:240px;background:var(--sf);border-right:1px solid var(--bd);padding:24px 16px;display:flex;flex-direction:column;z-index:100}
+  .desk-sidebar .desk-logo{font-family:var(--fd);font-weight:800;font-size:20px;background:linear-gradient(135deg,var(--ac),#fff,var(--ac));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px;letter-spacing:2px}
+
+  /* Larger text on desktop */
+  .sct{font-size:30px}
+  .big-timer{font-size:56px}
+  .xp-b{padding:16px 18px}
+  .xp-bar{height:12px}
+  .ob-logo{font-size:96px}
+
+  /* Wider cards */
+  .chat-wrap{max-width:480px}
+  .mbub{max-width:88%;font-size:14px;line-height:1.7}
+}
+
+@media(min-width:1280px){
+  #app{margin-left:calc(50% - 40px)}
+  body::before{content:'';position:fixed;left:0;top:0;bottom:0;width:calc(50% - 280px);background:var(--sf);border-right:1px solid var(--bd);z-index:-1}
+}
+
 /* ── ACCESSIBILITY ── */
 *:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:4px}
 .btn:focus-visible{outline:2px solid var(--ac2);outline-offset:2px;box-shadow:0 0 0 4px var(--agg)}
@@ -381,7 +464,7 @@ textarea.inp{resize:none}
 .fbtn{flex-shrink:0;padding:8px 16px;border-radius:var(--pill);border:1px solid var(--bd);background:var(--sf);color:var(--tx3);font-size:11px;font-weight:700;white-space:nowrap;transition:all .15s var(--ease)}
 .fbtn.on{background:var(--agg2);border-color:var(--ac);color:var(--ac)}
 .shim{background:linear-gradient(90deg,var(--sf) 25%,var(--sf2) 50%,var(--sf) 75%);background-size:200% 100%;animation:shim 1.5s infinite;border-radius:var(--rs);height:60px;margin-bottom:10px}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 @keyframes fup{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fin{from{opacity:0}to{opacity:1}}
@@ -477,7 +560,7 @@ textarea.inp{resize:none}
 .msh{width:100%;max-width:430px;background:var(--bg2);border-radius:var(--rxl) var(--rxl) 0 0;padding:20px 16px 30px;animation:slup .35s var(--ease);max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-l)}
 .mhdl{width:36px;height:4px;background:var(--bd2);border-radius:2px;margin:0 auto 20px}
 .mtit{font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:18px}
-.mbtns{display:flex;gap:9px;margin-top:18px}
+.mbtns{display:flex;gap:8px;margin-top:20px}
 .m-cancel{flex:1;padding:13px;border-radius:var(--pill);background:var(--sf2);color:var(--tx3);font-weight:600;font-size:13px;transition:all .15s var(--ease)}
 .m-cancel:active{transform:scale(.97)}
 .m-ok{flex:2;padding:13px;border-radius:var(--pill);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-weight:700;font-size:13px;box-shadow:0 2px 12px rgba(245,200,66,.2);transition:all .15s var(--ease)}
@@ -787,18 +870,18 @@ textarea.inp{resize:none}
     <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fm);font-weight:700;font-size:36px;color:var(--c-order);letter-spacing:2px" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:10px 24px;border-radius:var(--pill);font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#4ade80);color:#0a1808;box-shadow:0 2px 12px rgba(34,197,94,.2)" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:10px 20px;border-radius:var(--pill);font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd)" onclick="pomoRst()">↺</button></div></div>
     <div class="lbl" style="margin-bottom:8px;margin-top:4px">Check-in du jour</div>
     <div class="card" id="ci-sec">
-      <div style="display:flex;gap:6px;margin-bottom:11px" id="e-row">
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,1)">😴</button>
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,2)">😐</button>
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,3)">💪</button>
-        <button style="flex:1;background:var(--sf2);border:2px solid transparent;border-radius:10px;padding:10px 0;font-size:22px;transition:all .15s" onclick="selE(this,4)">🔥</button>
+      <div class="energy-row" id="e-row">
+        <button class="energy-btn" onclick="selE(this,1)">😴</button>
+        <button class="energy-btn" onclick="selE(this,2)">😐</button>
+        <button class="energy-btn" onclick="selE(this,3)">💪</button>
+        <button class="energy-btn" onclick="selE(this,4)">🔥</button>
       </div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'focus')">🎯 Focus</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'nature')">🌿 Nature</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'sport')">💪 Sport</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'mental')">🧠 Mental</button>
-        <button style="background:var(--sf2);border:1.5px solid var(--bd2);border-radius:20px;padding:6px 12px;font-size:12px;color:var(--tx2);transition:all .15s" onclick="togF(this,'money')">💰 Business</button>
+      <div class="focus-tags">
+        <button class="focus-tag" onclick="togF(this,'focus')">🎯 Focus</button>
+        <button class="focus-tag" onclick="togF(this,'nature')">🌿 Nature</button>
+        <button class="focus-tag" onclick="togF(this,'sport')">💪 Sport</button>
+        <button class="focus-tag" onclick="togF(this,'mental')">🧠 Mental</button>
+        <button class="focus-tag" onclick="togF(this,'money')">💰 Business</button>
       </div>
       <button class="btn btn-ac" id="ci-btn" onclick="doCI()" disabled>Générer mon plan du jour 🌅</button>
     </div>
@@ -1060,27 +1143,27 @@ textarea.inp{resize:none}
     <div id="pomo-c"></div>
   </div>
 </div>
-<div class="more-menu" id="more-menu" style="display:none;position:fixed;bottom:62px;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--bg2);border:1px solid var(--bd);border-radius:16px 16px 0 0;z-index:500;padding:14px">
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('moi',null);hideMore()"><span style="font-size:18px">⚡</span>Moi</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('orga',null);hideMore()"><span style="font-size:18px">📅</span>Orga</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('crm',null);hideMore()"><span style="font-size:18px">👥</span>CRM</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('feat',null);hideMore()"><span style="font-size:18px">🚀</span>Features</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('lang',null);hideMore()"><span style="font-size:18px">🌍</span>Langues</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('nutri',null);hideMore()"><span style="font-size:18px">🥗</span>Nutrition</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('badges',null);hideMore()"><span style="font-size:18px">🏅</span>Badges</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:linear-gradient(135deg,var(--ac),var(--ac2));border:1px solid var(--acm);border-radius:var(--rs);font-size:11px;color:var(--bg);font-weight:700;cursor:pointer" onclick="window.gs('share',null);hideMore()"><span style="font-size:18px">📲</span>Partager</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('journal',null);hideMore()"><span style="font-size:18px">📝</span>Journal</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('mood',null);hideMore()"><span style="font-size:18px">🎭</span>Mood</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('meditate',null);hideMore()"><span style="font-size:18px">🧘</span>Méditer</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('finance',null);hideMore()"><span style="font-size:18px">💰</span>Finances</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('ideas',null);hideMore()"><span style="font-size:18px">💡</span>Idées</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('habits',null);hideMore()"><span style="font-size:18px">⚡</span>Habitudes</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('dashboard',null);hideMore()"><span style="font-size:18px">📊</span>Dashboard</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:linear-gradient(135deg,#FFD96A,#F5C842);border:none;border-radius:var(--rs);font-size:11px;color:var(--bg);font-weight:700;cursor:pointer" onclick="window.gs('wheel',null);hideMore()"><span style="font-size:18px">🎰</span>Fortune</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('shop',null);hideMore()"><span style="font-size:18px">🛒</span>Boutique</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('content',null);hideMore()"><span style="font-size:18px">📱</span>Contenu</button>
-    <button style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:11px;color:var(--tx2);font-weight:700;cursor:pointer" onclick="window.gs('pomo',null);hideMore()"><span style="font-size:18px">⏱️</span>Pomodoro</button>
+<div class="more-menu" id="more-menu" style="display:none">
+  <div class="more-grid">
+    <button class="more-btn" onclick="window.gs('moi',null);hideMore()"><span class="more-ico">⚡</span>Moi</button>
+    <button class="more-btn" onclick="window.gs('orga',null);hideMore()"><span class="more-ico">📅</span>Orga</button>
+    <button class="more-btn" onclick="window.gs('crm',null);hideMore()"><span class="more-ico">👥</span>CRM</button>
+    <button class="more-btn" onclick="window.gs('feat',null);hideMore()"><span class="more-ico">🚀</span>Features</button>
+    <button class="more-btn" onclick="window.gs('lang',null);hideMore()"><span class="more-ico">🌍</span>Langues</button>
+    <button class="more-btn" onclick="window.gs('nutri',null);hideMore()"><span class="more-ico">🥗</span>Nutrition</button>
+    <button class="more-btn" onclick="window.gs('badges',null);hideMore()"><span class="more-ico">🏅</span>Badges</button>
+    <button class="more-btn share" onclick="window.gs('share',null);hideMore()"><span class="more-ico">📲</span>Partager</button>
+    <button class="more-btn" onclick="window.gs('journal',null);hideMore()"><span class="more-ico">📝</span>Journal</button>
+    <button class="more-btn" onclick="window.gs('mood',null);hideMore()"><span class="more-ico">🎭</span>Mood</button>
+    <button class="more-btn" onclick="window.gs('meditate',null);hideMore()"><span class="more-ico">🧘</span>Méditer</button>
+    <button class="more-btn" onclick="window.gs('finance',null);hideMore()"><span class="more-ico">💰</span>Finances</button>
+    <button class="more-btn" onclick="window.gs('ideas',null);hideMore()"><span class="more-ico">💡</span>Idées</button>
+    <button class="more-btn" onclick="window.gs('habits',null);hideMore()"><span class="more-ico">⚡</span>Habitudes</button>
+    <button class="more-btn" onclick="window.gs('dashboard',null);hideMore()"><span class="more-ico">📊</span>Dashboard</button>
+    <button class="more-btn accent" onclick="window.gs('wheel',null);hideMore()"><span class="more-ico">🎰</span>Fortune</button>
+    <button class="more-btn" onclick="window.gs('shop',null);hideMore()"><span class="more-ico">🛒</span>Boutique</button>
+    <button class="more-btn" onclick="window.gs('content',null);hideMore()"><span class="more-ico">📱</span>Contenu</button>
+    <button class="more-btn" onclick="window.gs('pomo',null);hideMore()"><span class="more-ico">⏱️</span>Pomodoro</button>
   </div>
 </div>
 <!-- BOTTOM NAV -->
@@ -1541,7 +1624,7 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="stats-grid">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div class="stat-card"><div class="stat-val" style="color:'+s.c+'">'+s.n+'</div><div class="stat-label">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
 function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}else if(name==='nature'){if(!nTab)nTab='walk';renderNat();}else if(name==='chat')initChat();else if(name==='disc')initDisc();else if(name==='feat')renderFeat();else if(name==='moi')renderMoi();else if(name==='notifs'){markRead();renderNotifs();}
 else if(name==='habits'){renderHabits(document.getElementById('habits-c'));}
