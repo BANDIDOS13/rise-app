@@ -11,20 +11,29 @@ const PLAN_PRICES = {
   elite:   process.env.STRIPE_PRICE_ELITE    || 'price_1TFsfRJK83rBK9aJNd5bziY2',
 };
 
+const ALLOWED_ORIGINS = [/\.vercel\.app$/, /forge-app\.com$/, /localhost/];
+
+function getCorsOrigin(req) {
+  const origin = req.headers.get('origin') || '';
+  return ALLOWED_ORIGINS.some(p => p.test(origin)) ? origin : '';
+}
+
 export default async function handler(req) {
+  const corsOrigin = getCorsOrigin(req);
+
   if (req.method === 'OPTIONS') {
     return new Response(null, {
-      headers: { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
+      headers: { 'Access-Control-Allow-Origin': corsOrigin, 'Access-Control-Allow-Methods': 'POST, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' },
     });
   }
 
   if (req.method !== 'POST') {
-    return jsonResp({ error: 'Method not allowed' }, 405);
+    return resp({ error: 'Method not allowed' }, 405, corsOrigin);
   }
 
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) {
-    return jsonResp({ error: 'Payment not configured' }, 500);
+    return resp({ error: 'Payment not configured' }, 500, corsOrigin);
   }
 
   try {
@@ -32,7 +41,7 @@ export default async function handler(req) {
 
     const priceId = plan && PLAN_PRICES[plan];
     if (!priceId) {
-      return jsonResp({ error: 'Invalid plan' }, 400);
+      return resp({ error: 'Invalid plan' }, 400, corsOrigin);
     }
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2024-12-18.acacia' });
@@ -54,15 +63,15 @@ export default async function handler(req) {
 
     const session = await stripe.checkout.sessions.create(sessionParams);
 
-    return jsonResp({ url: session.url });
+    return resp({ url: session.url }, 200, corsOrigin);
   } catch (err) {
-    return jsonResp({ error: 'Payment error' }, 500);
+    return resp({ error: 'Payment error' }, 500, corsOrigin);
   }
 }
 
-function jsonResp(obj, status = 200) {
+function resp(obj, status = 200, origin = '') {
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': origin || '' },
   });
 }

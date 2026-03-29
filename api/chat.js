@@ -28,11 +28,19 @@ RÈGLES:
 TA SIGNATURE:
 "Je ne te dis pas quoi faire — je t'aide à faire ce que tu as déjà décidé de faire."`;
 
+function getAllowedOrigin(req) {
+  const origin = req.headers.get('origin') || '';
+  const allowed = [/\.vercel\.app$/, /forge-app\.com$/, /localhost/];
+  return allowed.some(p => p.test(origin)) ? origin : '';
+}
+
 export default async function handler(req) {
+  _corsOrigin = getAllowedOrigin(req);
   if (req.method === 'OPTIONS') {
+    const corsOrigin = _corsOrigin;
     return new Response(null, {
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': corsOrigin,
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type',
       },
@@ -73,10 +81,11 @@ export default async function handler(req) {
   }
 }
 
+let _corsOrigin = '*';
 function jsonResp(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
-    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+    headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': _corsOrigin || '*' },
   });
 }
 
