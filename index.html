@@ -525,6 +525,7 @@ textarea.inp{resize:none}
         <span><span style="color:var(--nt)">●</span> Nature</span>
         <span><span style="color:var(--bl)">●</span> Focus</span>
       </div>
+      <button style="margin-top:8px;padding:5px 14px;border-radius:20px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:10px;font-weight:700;cursor:pointer" onclick="openTimeMachine()">🚀 Voir dans 90 jours</button>
       <!-- 7-day sparkline -->
       <div id="rs-sparkline" style="margin-top:10px;display:none">
         <div style="font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px">7 derniers jours</div>
@@ -695,6 +696,7 @@ textarea.inp{resize:none}
       <button class="fbtn" onclick="setFT('progress',this)">📊 Progrès</button>
       <button class="fbtn" onclick="setFT('aff',this)">💸 Affiliation</button>
       <button class="fbtn" onclick="setFT('partner',this)">🤝 Partner</button>
+      <button class="fbtn" onclick="setFT('dna',this)">🧬 DNA</button>
     </div>
     <div id="feat-content"></div>
   </div>
@@ -1109,6 +1111,10 @@ textarea.inp{resize:none}
 
 </div>
 
+<!-- ═══ TIME MACHINE ═══ -->
+<div class="full-ov" id="ov-timemachine" style="z-index:1700;overflow-y:auto">
+  <div style="max-width:380px;width:100%;padding:20px" id="tm-content"></div>
+</div>
 <!-- ═══ RISE REWIND ═══ -->
 <div class="full-ov" id="ov-rewind" style="z-index:1800;overflow-y:auto">
   <div style="max-width:380px;width:100%;padding:20px" id="rewind-content"></div>
@@ -1636,7 +1642,7 @@ function complMod(fid,num){
 function closeFormOv(){document.getElementById('form-ov').classList.remove('show');}
 let fTab='vision';
 function setFT(tab,btn){fTab=tab;document.querySelectorAll('#screen-feat .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderFeat();}
-function renderFeat(){const el=document.getElementById('feat-content');if(!el)return;if(fTab==='vision')rVision(el);else if(fTab==='plan90')rPlan90(el);else if(fTab==='letter')rLetter(el);else if(fTab==='tourn')rTourn(el);else if(fTab==='skills')rSkills(el);else if(fTab==='h21')rH21(el);else if(fTab==='guilds')rGuilds(el);else if(fTab==='wealth')rWealth(el);else if(fTab==='progress')rProgress(el);else if(fTab==='aff')rAff(el);else if(fTab==='avatar')renderAvatar(el);else if(fTab==='rapport')renderRapport(el);else if(fTab==='challenges')renderChallenges(el);else if(fTab==='partner')renderPartner(el);}
+function renderFeat(){const el=document.getElementById('feat-content');if(!el)return;if(fTab==='vision')rVision(el);else if(fTab==='plan90')rPlan90(el);else if(fTab==='letter')rLetter(el);else if(fTab==='tourn')rTourn(el);else if(fTab==='skills')rSkills(el);else if(fTab==='h21')rH21(el);else if(fTab==='guilds')rGuilds(el);else if(fTab==='wealth')rWealth(el);else if(fTab==='progress')rProgress(el);else if(fTab==='aff')rAff(el);else if(fTab==='avatar')renderAvatar(el);else if(fTab==='rapport')renderRapport(el);else if(fTab==='challenges')renderChallenges(el);else if(fTab==='partner')renderPartner(el);else if(fTab==='dna')renderDNA(el);}
 async function rVision(el){if(S.vb&&S.vb.t){el.innerHTML='<div class="vis-c"><div class="lbl" style="color:var(--pu);margin-bottom:10px">🌈 Ta Vision dans 1 an</div><div style="font-size:14px;color:var(--tx);line-height:1.8;font-style:italic">'+S.vb.t+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.vb={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="vis-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">🌈</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Vision Board IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Description cinématographique de ta vie idéale dans 1 an.</div><button class="btn btn-pu" onclick="genVision()">Créer ma vision 🌈</button></div>';}
 function genVision(){const el=document.getElementById('feat-content');el.innerHTML='<div class="shim"></div><div class="shim"></div>';RISE_AI.genVision();save();toast('Vision créée !','🌈',2500);rVision(el);}
 function rPlan90(el){if(S.plan90&&S.plan90.c){el.innerHTML='<div class="plan-c"><div class="lbl" style="color:var(--bl);margin-bottom:12px">📅 Plan 90 jours</div><div style="font-size:13px;color:var(--tx2);line-height:1.75;white-space:pre-wrap">'+S.plan90.c+'</div></div><button class="btn btn-sf" style="margin-top:8px" onclick="S.plan90={};save();renderFeat()">🔄 Régénérer</button>';return;}el.innerHTML='<div class="plan-c" style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px;animation:float 3s ease-in-out infinite">📅</div><div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:8px">Plan 90 jours IA</div><div style="font-size:13px;color:var(--tx2);line-height:1.65;margin-bottom:18px">Plan complet, mois par mois, jalons mesurables.</div><button class="btn btn-ac" onclick="go90()">Générer →</button></div>';}
@@ -5580,7 +5586,8 @@ function renderShareScreen(){
 
     '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\''+achievements+' achievements\',\'J\\\'ai débloqué '+achievements+' achievements sur RISE! 🏅\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">🏅</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Mes achievements</div><div style="font-size:12px;color:var(--tx3)">'+achievements+' badges débloqués</div></div><div style="font-size:18px">➤</div></div></div>'+
 
-    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'RISE App\',\'Je progresse chaque jour avec RISE — AI Life OS! Sport, mental, business, nutrition... tout en une app. 🚀\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">💬</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Recommander RISE</div><div style="font-size:12px;color:var(--tx3)">Partage l\'app avec tes amis</div></div><div style="font-size:18px">➤</div></div></div>';
+    '<div class="wg" style="padding:16px;margin-bottom:10px;cursor:pointer" onclick="shareAchievement(\'RISE App\',\'Je progresse chaque jour avec RISE — AI Life OS! Sport, mental, business, nutrition... tout en une app. 🚀\')"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:28px">💬</div><div style="flex:1"><div style="font-weight:600;font-size:13px">Recommander RISE</div><div style="font-size:12px;color:var(--tx3)">Partage l\'app avec tes amis</div></div><div style="font-size:18px">➤</div></div></div>'+
+    renderInspirationFeed();
 }
 
 // ── SUGGESTION BOX ──
@@ -5807,16 +5814,18 @@ function fmtDW(s){var h=Math.floor(s/3600);var m=Math.floor(s%3600/60);var sec=s
 function setDWTarget(min){dwTarget=min*60;renderPomoPro(document.getElementById('pomo-c'));}
 function startDW(){
   dwSec=dwTarget;dwRunning=true;
+  enterFocusMode(dwTarget,'DEEP WORK');
   renderPomoPro(document.getElementById('pomo-c'));
   dwInt=setInterval(function(){
     dwSec--;
     var el=document.getElementById('dw-timer');if(el)el.textContent=fmtDW(dwSec);
     var pb=document.getElementById('dw-progress');if(pb)pb.style.width=Math.round((dwTarget-dwSec)/dwTarget*100)+'%';
+    updFocusMode(dwSec,dwTarget);
     if(dwSec<=0){stopDW();confetti();}
   },1000);
 }
 function stopDW(){
-  clearInterval(dwInt);dwRunning=false;
+  clearInterval(dwInt);dwRunning=false;exitFocusMode();
   var elapsed=dwTarget-dwSec;var min=Math.round(elapsed/60);
   if(min>=5){
     S.deepWork=S.deepWork||{sessions:[],totalMin:0,bestMin:0};
@@ -5832,7 +5841,42 @@ function stopDW(){
   }
   dwSec=0;renderPomoPro(document.getElementById('pomo-c'));
 }
-function cancelDW(){clearInterval(dwInt);dwRunning=false;dwSec=0;renderPomoPro(document.getElementById('pomo-c'));}
+function cancelDW(){clearInterval(dwInt);dwRunning=false;dwSec=0;exitFocusMode();renderPomoPro(document.getElementById('pomo-c'));}
+// ── FOCUS MODE ──
+function enterFocusMode(targetSec,label){
+  var ov=document.getElementById('focus-mode-ov');
+  if(!ov){
+    ov=document.createElement('div');ov.id='focus-mode-ov';
+    ov.style.cssText='position:fixed;inset:0;background:var(--bg);z-index:8000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;animation:fin .3s ease';
+    document.body.appendChild(ov);
+  }
+  ov.style.display='flex';
+  ov.innerHTML='<div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:20px">'+escHTML(label||'FOCUS MODE')+'</div>'
+    +'<div id="fm-timer" style="font-family:var(--fd);font-weight:700;font-size:72px;color:var(--ac);line-height:1">'+fmtDW(targetSec)+'</div>'
+    +'<div id="fm-msg" style="font-size:14px;color:var(--tx3);margin-top:12px;max-width:260px;line-height:1.6">Respire. Concentre-toi. Une seule chose a la fois.</div>'
+    +'<div style="width:80%;max-width:300px;margin:24px 0"><div style="background:var(--sf3);border-radius:6px;height:6px;overflow:hidden"><div id="fm-bar" style="height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:6px;width:0%;transition:width 1s"></div></div></div>'
+    +'<button style="margin-top:20px;padding:12px 28px;border-radius:22px;background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:13px;font-weight:700;cursor:pointer" onclick="exitFocusMode()">Quitter le Focus Mode</button>';
+  // Hide nav
+  var gbar=document.getElementById('gbar');if(gbar)gbar.style.display='none';
+  var bnav=document.getElementById('bnav');if(bnav)bnav.style.display='none';
+}
+function updFocusMode(remaining,total){
+  var timer=document.getElementById('fm-timer');if(timer)timer.textContent=fmtDW(remaining);
+  var bar=document.getElementById('fm-bar');if(bar)bar.style.width=Math.round((total-remaining)/total*100)+'%';
+  var msg=document.getElementById('fm-msg');
+  if(msg){
+    var pct=Math.round((total-remaining)/total*100);
+    if(pct<25)msg.textContent='Le debut est toujours le plus dur. Tu es lance.';
+    else if(pct<50)msg.textContent='Tu es dans le flow. Continue exactement comme ca.';
+    else if(pct<75)msg.textContent='Plus de la moitie. La fin approche. Pousse.';
+    else msg.textContent='Derniere ligne droite. Tu es un warrior.';
+  }
+}
+function exitFocusMode(){
+  var ov=document.getElementById('focus-mode-ov');if(ov)ov.style.display='none';
+  var gbar=document.getElementById('gbar');if(gbar)gbar.style.display='flex';
+  var bnav=document.getElementById('bnav');if(bnav)bnav.style.display='flex';
+}
 // ── KEYBOARD HELP ──
 function showKbdHelp(){
   var existing=document.getElementById('ov-kbd');if(existing){existing.remove();return;}
@@ -6062,6 +6106,240 @@ function partnerCheckIn(){
   renderFeat();
 }
 function abandonPartner(){S.partner={active:false};save();renderFeat();}
+// ── RISE DNA ──
+function computeDNA(){
+  var traits={discipline:0,focus:0,resilience:0,nature:0,learning:0,social:0,mindfulness:0,consistency:0};
+  var max=100;
+  // Discipline: streak + routine completion + habits
+  var streak=S.loginS?S.loginS.streak||0:0;
+  traits.discipline=Math.min(max,streak*2+(Object.keys(S.checkins||{}).length)*1.5);
+  // Focus: Deep Work + Pomodoros
+  var dwTotal=(S.deepWork&&S.deepWork.totalMin)||0;
+  var pomoTotal=S.pomoTot||0;
+  traits.focus=Math.min(max,dwTotal/5+pomoTotal*3);
+  // Resilience: streak milestones + boss defeats + journal during bad moods
+  var bossWins=Object.keys(S.bossProg||{}).filter(function(k){return S.bossProg[k]&&S.bossProg[k].done;}).length;
+  var sadEntries=(S.journal||[]).filter(function(e){return e.mood==='sad'||e.mood==='stressed';}).length;
+  traits.resilience=Math.min(max,bossWins*15+sadEntries*5+streak);
+  // Nature: walk + sun + breath + cold
+  var walkLogs=(S.nat&&S.nat.walkLogs||[]).length;
+  var sunLogs=(S.nat&&S.nat.sunLogs||[]).length;
+  var breathLogs=(S.nat&&S.nat.breathLogs||[]).length;
+  var coldLogs=(S.nat&&S.nat.coldLogs||[]).length;
+  traits.nature=Math.min(max,(walkLogs+sunLogs+breathLogs+coldLogs)*4);
+  // Learning: formations + books + coach exchanges
+  var formMods=0;for(var f in S.formProg||{}){formMods+=(S.formProg[f].m||0);}
+  var booksRead=(S.books&&S.books.read||[]).length;
+  var coachN=(S.coachMem&&S.coachMem.n)||0;
+  traits.learning=Math.min(max,formMods*8+booksRead*10+coachN*1.5);
+  // Social: partner challenges + guild + sharing
+  var partnerDone=S.partner&&S.partner.completed?20:0;
+  traits.social=Math.min(max,partnerDone+(S.aff&&S.aff.refs?S.aff.refs.length*10:0)+coachN*0.5);
+  // Mindfulness: meditation + journal + breathing + mood tracking
+  var medSessions=(S.medStats&&S.medStats.sessions)||0;
+  var journalCount=(S.journal||[]).length;
+  var moodCount=Object.keys(S.moods||{}).length;
+  traits.mindfulness=Math.min(max,medSessions*8+journalCount*3+breathLogs*5+moodCount*2);
+  // Consistency: avg RISE score over time
+  var scores=S.riseScores||{};var scoreVals=Object.values(scores);
+  var avgScore=scoreVals.length?scoreVals.reduce(function(a,v){return a+v;},0)/scoreVals.length:0;
+  traits.consistency=Math.min(max,avgScore*1.2+scoreVals.length*0.5);
+  // Round all
+  for(var k in traits)traits[k]=Math.round(traits[k]);
+  // Rank traits
+  var ranked=Object.keys(traits).map(function(k){return {id:k,val:traits[k]};}).sort(function(a,b){return b.val-a.val;});
+  return {traits:traits,ranked:ranked,top3:ranked.slice(0,3),weak2:ranked.slice(-2)};
+}
+function renderDNA(el){
+  var dna=computeDNA();
+  var labels={discipline:{ico:'🔥',nm:'Discipline',col:'var(--or)'},focus:{ico:'🎯',nm:'Focus',col:'var(--ac)'},resilience:{ico:'💪',nm:'Resilience',col:'var(--rd)'},nature:{ico:'🌿',nm:'Nature',col:'var(--nt)'},learning:{ico:'📚',nm:'Apprentissage',col:'var(--bl)'},social:{ico:'🤝',nm:'Social',col:'var(--pu)'},mindfulness:{ico:'🧘',nm:'Pleine conscience',col:'var(--tl)'},consistency:{ico:'📈',nm:'Regularite',col:'var(--gr)'}};
+  var h='';
+  // Header
+  h+='<div style="text-align:center;padding:20px 0;background:radial-gradient(ellipse 80% 60% at 50% 35%,var(--agg) 0%,transparent 70%);border:1px solid var(--acm);border-radius:var(--r);margin-bottom:14px">';
+  h+='<div style="font-size:48px;margin-bottom:8px">🧬</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:22px;margin-bottom:4px">RISE DNA</div>';
+  h+='<div style="font-size:12px;color:var(--tx3)">Profil de croissance de '+escHTML(S.name||'Champion')+'</div>';
+  h+='</div>';
+  // Top 3 strengths
+  h+='<div class="lbl" style="margin-bottom:10px">💪 Tes 3 forces</div>';
+  dna.top3.forEach(function(t,i){
+    var l=labels[t.id];
+    h+='<div style="background:var(--sf);border:1px solid '+l.col+';border-radius:var(--rs);padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px">';
+    h+='<div style="font-size:28px;width:40px;text-align:center">'+l.ico+'</div>';
+    h+='<div style="flex:1"><div style="font-size:14px;font-weight:700;color:'+l.col+';margin-bottom:4px">#'+(i+1)+' '+l.nm+'</div>';
+    h+='<div class="pbar" style="height:6px"><div style="height:100%;border-radius:4px;background:'+l.col+';width:'+t.val+'%;transition:width .8s"></div></div></div>';
+    h+='<div style="font-family:var(--fd);font-weight:700;font-size:22px;color:'+l.col+'">'+t.val+'</div>';
+    h+='</div>';
+  });
+  // Weaknesses
+  h+='<div class="lbl" style="margin:14px 0 10px">🎯 Axes d\'amelioration</div>';
+  dna.weak2.forEach(function(t){
+    var l=labels[t.id];
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">';
+    h+='<div style="font-size:22px">'+l.ico+'</div>';
+    h+='<div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--tx2)">'+l.nm+'</div>';
+    h+='<div class="pbar" style="height:4px;margin-top:4px"><div style="height:100%;border-radius:4px;background:var(--tx3);width:'+t.val+'%"></div></div></div>';
+    h+='<div style="font-size:14px;font-weight:700;color:var(--tx3)">'+t.val+'</div>';
+    h+='</div>';
+  });
+  // Full radar (text-based)
+  h+='<div class="lbl" style="margin:14px 0 10px">🧬 Profil complet</div>';
+  h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px">';
+  dna.ranked.forEach(function(t){
+    var l=labels[t.id];
+    h+='<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--bd)">';
+    h+='<div style="font-size:16px;width:24px;text-align:center">'+l.ico+'</div>';
+    h+='<div style="width:90px;font-size:12px;color:var(--tx2)">'+l.nm+'</div>';
+    h+='<div style="flex:1"><div class="pbar" style="height:6px"><div style="height:100%;border-radius:4px;background:'+l.col+';width:'+t.val+'%"></div></div></div>';
+    h+='<div style="width:30px;text-align:right;font-family:var(--fd);font-weight:700;font-size:12px;color:'+l.col+'">'+t.val+'</div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  // Personalized insight
+  var topLabel=labels[dna.top3[0].id];var weakLabel=labels[dna.weak2[0].id];
+  h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:16px;margin-top:12px">';
+  h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="font-size:18px">🤖</div><div style="font-family:var(--fd);font-weight:700;font-size:13px;color:var(--ac)">Analyse JARVIS</div></div>';
+  h+='<div style="font-size:13px;color:var(--tx2);line-height:1.7">';
+  h+='Ta force dominante est <strong style="color:'+topLabel.col+'">'+topLabel.nm+'</strong> ('+dna.top3[0].val+'/100). ';
+  h+='C\'est ton super-pouvoir — utilise-le comme levier. ';
+  h+='Ton axe a travailler : <strong>'+weakLabel.nm+'</strong> ('+dna.weak2[0].val+'/100). ';
+  if(dna.weak2[0].id==='nature')h+='Sors plus souvent ! 20 min de marche par jour change tout.';
+  else if(dna.weak2[0].id==='focus')h+='Lance un Deep Work de 45 min demain matin. Le focus se muscle.';
+  else if(dna.weak2[0].id==='mindfulness')h+='5 min de meditation par jour. C\'est tout ce qu\'il faut pour commencer.';
+  else if(dna.weak2[0].id==='social')h+='Lance un defi Partner cette semaine. L\'evolution est collective.';
+  else if(dna.weak2[0].id==='learning')h+='Ouvre une formation RISE et fais 1 module. L\'apprentissage compound.';
+  else if(dna.weak2[0].id==='resilience')h+='Ecris dans ton journal quand c\'est dur. C\'est la que la resilience se construit.';
+  else h+='Un petit geste par jour dans ce domaine = transformation en 30 jours.';
+  h+='</div></div>';
+  // Share button
+  h+='<button class="btn btn-ac" style="margin-top:12px" onclick="shareDNA()">📤 Partager mon DNA</button>';
+  el.innerHTML=h;
+}
+// ── INSPIRATION FEED ──
+function renderInspirationFeed(){
+  var names=['Emma','Lucas','Lea','Hugo','Camille','Nathan','Jade','Theo','Louise','Noah','Sarah','Adam','Chloe','Maxime','Ines','Tom','Alice','Enzo','Lina','Raphael'];
+  var wins=[
+    {ico:'🔥',tpl:'{name} vient d\'atteindre {n} jours de streak !',gen:function(){return{n:Math.floor(Math.random()*50)+7};}},
+    {ico:'🏆',tpl:'{name} est passe Niveau {n} !',gen:function(){return{n:Math.floor(Math.random()*8)+2};}},
+    {ico:'🎯',tpl:'{name} a complete {n}h de Deep Work cette semaine',gen:function(){return{n:Math.floor(Math.random()*10)+3};}},
+    {ico:'🧘',tpl:'{name} a medite {n} jours d\'affilee',gen:function(){return{n:Math.floor(Math.random()*20)+5};}},
+    {ico:'📚',tpl:'{name} a fini le livre "{b}"',gen:function(){var books=['Atomic Habits','Deep Work','The 5 AM Club','Can\'t Hurt Me','Ikigai','Zero to One'];return{b:books[Math.floor(Math.random()*books.length)]};}},
+    {ico:'💪',tpl:'{name} a complete le Mega Challenge "{c}"',gen:function(){var ch=['30j meditation','30j sans sucre','30j Deep Work','30j lecture'];return{c:ch[Math.floor(Math.random()*ch.length)]};}},
+    {ico:'🌿',tpl:'{name} a marche {n} min dehors aujourd\'hui',gen:function(){return{n:Math.floor(Math.random()*40)+20};}},
+    {ico:'⚡',tpl:'{name} a valide ses 5 quetes du jour',gen:function(){return{};}},
+    {ico:'🧬',tpl:'{name} a debloque son RISE DNA — Force: Focus {n}/100',gen:function(){return{n:Math.floor(Math.random()*30)+60};}},
+    {ico:'🤝',tpl:'{name} a gagne un defi Partner contre {opp}',gen:function(){return{opp:names[Math.floor(Math.random()*names.length)]};}}
+  ];
+  // Generate 5 feed items with deterministic seed based on date
+  var seed=TD.split('').reduce(function(a,c){return a+c.charCodeAt(0);},0);
+  var items=[];
+  for(var i=0;i<6;i++){
+    var win=wins[(seed+i*7)%wins.length];
+    var name=names[(seed+i*3)%names.length];
+    var data=win.gen();
+    var text=win.tpl.replace('{name}',name);
+    for(var k in data)text=text.replace('{'+k+'}',data[k]);
+    var hrs=[1,2,3,5,8,12][(seed+i)%6];
+    items.push({ico:win.ico,text:text,time:'il y a '+hrs+'h'});
+  }
+  var h='<div style="margin-top:20px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🌟 Feed d\'inspiration</div>';
+  h+='<div style="font-size:11px;color:var(--tx3);margin-bottom:10px">Les victoires de la communaute RISE</div>';
+  items.forEach(function(item){
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:6px;display:flex;gap:10px;align-items:flex-start">';
+    h+='<div style="font-size:20px;flex-shrink:0">'+item.ico+'</div>';
+    h+='<div style="flex:1"><div style="font-size:13px;color:var(--tx);line-height:1.5">'+escHTML(item.text)+'</div>';
+    h+='<div style="font-size:10px;color:var(--tx3);margin-top:3px">'+item.time+'</div></div>';
+    h+='</div>';
+  });
+  h+='</div>';
+  return h;
+}
+// ── RISE TIME MACHINE ──
+function openTimeMachine(){
+  var el=document.getElementById('tm-content');if(!el)return;
+  // Current stats
+  var xp=S.xp||0;var lvl=getLvl(xp)+1;var streak=S.loginS?S.loginS.streak||0:0;
+  var scores=S.riseScores||{};var scoreVals=Object.values(scores);
+  var avgScore=scoreVals.length>0?Math.round(scoreVals.reduce(function(a,v){return a+v;},0)/scoreVals.length):40;
+  var activeDays=scoreVals.length;
+  var dwTotal=(S.deepWork&&S.deepWork.totalMin)||0;
+  var pomoTotal=S.pomoTot||0;
+  var journalCount=(S.journal||[]).length;
+  var habitsPerDay=(S.habits&&S.habits.list)?S.habits.list.filter(function(h){return h.lastDone===TD;}).length:0;
+  // Rates per day (average over active period)
+  var daySpan=Math.max(1,activeDays);
+  var xpPerDay=Math.round(xp/daySpan);
+  var dwPerDay=Math.round(dwTotal/daySpan);
+  var pomoPerDay=Math.round(pomoTotal/daySpan*10)/10;
+  // 90-day projections
+  var proj90={
+    xp:xp+xpPerDay*90,
+    lvl:getLvl(xp+xpPerDay*90)+1,
+    streak:streak+90,
+    dwHours:Math.round((dwTotal+dwPerDay*90)/60),
+    pomoSessions:Math.round(pomoTotal+pomoPerDay*90),
+    journalEntries:journalCount+Math.round(journalCount/daySpan*90),
+    avgScore:Math.min(100,avgScore+Math.round(avgScore*0.15)),
+    compound:Math.round((Math.pow(1.01,activeDays+90)-1)*100),
+    habitsCompleted:habitsPerDay*90
+  };
+  var h='';
+  h+='<div style="text-align:center;margin-bottom:20px">';
+  h+='<div style="font-size:48px;margin-bottom:8px;animation:float 3s ease-in-out infinite">🚀</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:24px;margin-bottom:4px">RISE Time Machine</div>';
+  h+='<div style="font-size:12px;color:var(--tx3)">Toi dans 90 jours, si tu gardes ce rythme</div>';
+  h+='</div>';
+  // Current vs Projected comparison
+  var comparisons=[
+    {ico:'⭐',label:'XP',now:xp,future:proj90.xp,unit:''},
+    {ico:'🏆',label:'Niveau',now:lvl,future:proj90.lvl,unit:''},
+    {ico:'🔥',label:'Streak',now:streak,future:proj90.streak,unit:'j'},
+    {ico:'🎯',label:'Deep Work',now:Math.round(dwTotal/60),future:proj90.dwHours,unit:'h'},
+    {ico:'⏱️',label:'Pomodoros',now:pomoTotal,future:proj90.pomoSessions,unit:''},
+    {ico:'📝',label:'Journal',now:journalCount,future:proj90.journalEntries,unit:''},
+    {ico:'📈',label:'Score moyen',now:avgScore,future:proj90.avgScore,unit:'/100'}
+  ];
+  h+='<div style="margin-bottom:14px">';
+  comparisons.forEach(function(c){
+    var growth=c.now>0?'+'+Math.round((c.future-c.now)/c.now*100)+'%':'NEW';
+    h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">';
+    h+='<div style="font-size:18px;width:28px;text-align:center">'+c.ico+'</div>';
+    h+='<div style="flex:1;font-size:12px;color:var(--tx2)">'+c.label+'</div>';
+    h+='<div style="text-align:right;display:flex;align-items:center;gap:8px">';
+    h+='<span style="font-size:12px;color:var(--tx3)">'+c.now+c.unit+'</span>';
+    h+='<span style="color:var(--ac);font-size:11px">→</span>';
+    h+='<span style="font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac)">'+c.future+c.unit+'</span>';
+    h+='<span style="font-size:9px;color:var(--gr);font-weight:700">'+growth+'</span>';
+    h+='</div></div>';
+  });
+  h+='</div>';
+  // Compound effect visualization
+  h+='<div style="background:linear-gradient(135deg,var(--agg2),var(--agg));border:2px solid var(--ac);border-radius:var(--r);padding:18px;text-align:center;margin-bottom:14px">';
+  h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">Effet compose 1%</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:44px;color:var(--ac);line-height:1">+'+proj90.compound+'%</div>';
+  h+='<div style="font-size:12px;color:var(--tx2);margin-top:4px">meilleur dans 90 jours</div>';
+  h+='</div>';
+  // Message from future self
+  h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px">';
+  h+='<div style="font-size:22px;margin-bottom:6px">💌</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:14px;color:var(--ac);margin-bottom:6px">Message de ton futur toi</div>';
+  h+='<div style="font-size:13px;color:var(--tx2);line-height:1.7;font-style:italic">';
+  if(avgScore>=60)h+='"Merci d\'avoir continue. Tu es maintenant Niveau '+proj90.lvl+' avec '+proj90.dwHours+'h de Deep Work. Les gens autour de toi remarquent le changement. Continue, ne lache rien."';
+  else if(avgScore>=30)h+='"Les debuts etaient durs, mais tu as tenu. Chaque jour ou tu as ouvert RISE, meme 5 minutes, m\'a rapproche de ce que je suis maintenant. Merci."';
+  else h+='"Un jour tu as decide de commencer. C\'est tout ce qu\'il fallait. Le reste s\'est construit jour apres jour. Chaque petit geste comptait."';
+  h+='</div></div>';
+  h+='<button class="btn btn-ac" onclick="document.getElementById(\'ov-timemachine\').classList.remove(\'show\')">Revenir au present</button>';
+  el.innerHTML=h;
+  document.getElementById('ov-timemachine').classList.add('show');
+}
+function shareDNA(){
+  var dna=computeDNA();
+  var labels={discipline:'Discipline',focus:'Focus',resilience:'Resilience',nature:'Nature',learning:'Apprentissage',social:'Social',mindfulness:'Pleine conscience',consistency:'Regularite'};
+  var top=dna.top3.map(function(t){return labels[t.id]+' '+t.val+'/100';}).join(', ');
+  var text='Mon RISE DNA : '+top+'. LVL '+(getLvl(S.xp||0)+1)+', '+(S.xp||0)+' XP. #RISE #DNA';
+  if(navigator.share)navigator.share({title:'Mon RISE DNA',text:text}).catch(function(){});
+  else{navigator.clipboard.writeText(text).then(function(){toast('Copie !','📋',2000);}).catch(function(){});}
+}
 function shareRewind(){
   var avgScore=0;var scores=S.riseScores||{};var count=0;
   for(var k in scores){count++;avgScore+=scores[k];}
