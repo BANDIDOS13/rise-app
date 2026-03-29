@@ -3,8 +3,9 @@
     "name": "forge-app",
     "routes": [
         { "src": "/api/create-checkout", "dest": "/api/create-checkout.js" },
-        { "src": "/api/supabase-sync", "dest": "/api/supabase-sync.js" },
+        { "src": "/api/checkout", "dest": "/api/checkout.js" },
         { "src": "/api/chat", "dest": "/api/chat.js" },
+        { "src": "/api/webhook", "dest": "/api/webhook.js" },
         { "src": "/landing", "dest": "/forge-landing.html" },
         { "src": "/(.*)", "dest": "/index.html" }
     ],

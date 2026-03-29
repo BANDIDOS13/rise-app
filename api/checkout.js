@@ -1,4 +1,4 @@
-h// RISE Stripe Checkout — Vercel Serverless Function
+// FORGE Stripe Checkout — Vercel Serverless Function
 import Stripe from 'stripe';
 
 export const config = { runtime: 'nodejs' };
