@@ -2137,7 +2137,7 @@ function rBadges(el) {
         +'<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">'
         +catBadges.map(b => {
           const has = earned.includes(b.id);
-          return '<div class="badge-item '+(has?'earned':'locked')+'" title="'+b.desc+'">'
+          return '<div class="badge-item '+(has?'earned':'locked')+'" title="'+esc(b.desc)+'">'
             +'<div style="font-size:24px;margin-bottom:4px">'+b.ico+'</div>'
             +'<div style="font-size:9px;font-weight:700;color:'+(has?'var(--ac)':'var(--tx3)')+'">'+b.name+'</div>'
             +'</div>';
@@ -2402,7 +2402,7 @@ function renderShare() {
   ];
   el.innerHTML = '<div style="background:radial-gradient(ellipse 80% 50% at 50% 30%,var(--agg) 0%,transparent 70%);border:1px solid var(--bd);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:14px">'
     +'<div style="font-size:44px;margin-bottom:8px">'+(av.ico||'⚡')+'</div>'
-    +'<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px">'+S.name+'</div>'
+    +'<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px">'+esc(S.name)+'</div>'
     +'<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:12px">'
     +'<span style="padding:4px 12px;border-radius:20px;background:var(--agg2);border:1px solid var(--acm);font-size:12px;font-weight:700;color:var(--ac)">⭐ '+xp+' XP</span>'
     +'<span style="padding:4px 12px;border-radius:20px;background:var(--ord);border:1px solid var(--or);font-size:12px;font-weight:700;color:var(--or)">🔥 '+streak+'j streak</span>'
@@ -5652,7 +5652,7 @@ function resetIdle(){
     var tip=document.createElement('div');
     tip.className='idle-tip';
     tip.style.cssText='padding:10px 14px;background:var(--agg);border:1px solid var(--ac);border-radius:var(--rs);margin-top:8px;display:flex;align-items:center;gap:10px;cursor:pointer;animation:fade-in .3s ease';
-    tip.innerHTML='<div style="font-size:18px">💡</div><div style="flex:1;font-size:12px;color:var(--tx2)">'+s.text+'</div><div style="font-size:10px;color:var(--ac);font-weight:700">Go →</div>';
+    tip.innerHTML='<div style="font-size:18px">💡</div><div style="flex:1;font-size:12px;color:var(--tx2)">'+esc(s.text)+'</div><div style="font-size:10px;color:var(--ac);font-weight:700">Go →</div>';
     tip.onclick=function(){s.action();tip.remove();};
     if(el)el.appendChild(tip);
     setTimeout(function(){if(tip.parentNode)tip.remove();},15000);
@@ -6442,7 +6442,7 @@ function toggleZenMode(){
       var sugs=getSmartSuggestions();
       if(sugs.length===0){banner.innerHTML='';return;}
       banner.innerHTML='<div style="margin-bottom:11px">'+sugs.map(function(s){
-        return '<div class="smart-sug" onclick="'+s.action+'" style="margin-bottom:6px"><div class="smart-sug-ico">'+s.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+s.title+'</div><div style="font-size:11px;color:var(--tx3)">'+s.desc+'</div></div><div style="font-size:14px;color:var(--ac)">→</div></div>';
+        return '<div class="smart-sug" onclick="'+s.action+'" style="margin-bottom:6px"><div class="smart-sug-ico">'+esc(s.ico)+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+esc(s.title)+'</div><div style="font-size:11px;color:var(--tx3)">'+esc(s.desc)+'</div></div><div style="font-size:14px;color:var(--ac)">→</div></div>';
       }).join('')+'</div>';
     };
     // Patch initHome to add suggestions
@@ -9264,10 +9264,10 @@ window.render_ideas_biz = function(){
     var scoreColor = score >= 60 ? 'var(--gr)' : score >= 30 ? 'var(--or)' : 'var(--tx3)';
     h += '<div class="wg" style="margin-bottom:8px">';
     h += '<div style="display:flex;justify-content:space-between;align-items:flex-start">';
-    h += '<div style="font-weight:700;font-size:14px;flex:1">'+idea.title+'</div>';
+    h += '<div style="font-weight:700;font-size:14px;flex:1">'+esc(idea.title)+'</div>';
     h += '<div style="font-family:var(--fd);font-weight:700;font-size:16px;color:'+scoreColor+'">'+score+'</div>';
     h += '</div>';
-    h += '<div style="font-size:11px;color:var(--tx2);margin:6px 0">'+idea.desc+'</div>';
+    h += '<div style="font-size:11px;color:var(--tx2);margin:6px 0">'+esc(idea.desc)+'</div>';
     h += '<div style="display:flex;gap:12px;font-size:10px;color:var(--tx3)">';
     h += '<span>Potentiel: '+idea.potential+'/5</span>';
     h += '<span>Faisabilité: '+idea.feasibility+'/5</span>';
@@ -9339,7 +9339,7 @@ window.render_revenue = function(){
   h += '<div style="font-size:11px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Dernières entrées</div>';
   recent.forEach(function(e,ei){
     h += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--bd);font-size:12px">';
-    h += '<div><span style="font-weight:700">'+e.source+'</span> <span style="color:var(--tx3)">· '+e.category+'</span></div>';
+    h += '<div><span style="font-weight:700">'+esc(e.source)+'</span> <span style="color:var(--tx3)">· '+esc(e.category)+'</span></div>';
     h += '<div style="font-weight:700;color:var(--gr)">+'+e.amount+'€</div>';
     h += '</div>';
   });
@@ -11705,8 +11705,8 @@ function renderNoteCard(n){
     +'<span style="font-size:10px;padding:2px 6px;border-radius:10px;background:'+cat.col+'20;color:'+cat.col+';font-weight:700">'+cat.ico+' '+cat.label+'</span>'
     +'<span style="font-size:10px;color:var(--tx3)">'+fmtDate(n.ts)+'</span></div></div>'
     +'<div style="display:flex;gap:4px;flex-shrink:0">'
-    +'<button style="width:28px;height:28px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer" onclick="togglePinNote(\''+n.id+'\')">'+(n.pinned?'📌':'📍')+'</button>'
-    +'<button style="width:28px;height:28px;border-radius:50%;background:var(--rdd);border:1px solid var(--rd);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer" onclick="deleteNote(\''+n.id+'\')">🗑️</button>'
+    +'<button style="width:28px;height:28px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer" onclick="togglePinNote(\''+esc(String(n.id))+'\')">'+(n.pinned?'📌':'📍')+'</button>'
+    +'<button style="width:28px;height:28px;border-radius:50%;background:var(--rdd);border:1px solid var(--rd);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer" onclick="deleteNote(\''+esc(String(n.id))+'\')">🗑️</button>'
     +'</div></div></div>';
 }
 
@@ -11786,7 +11786,7 @@ function renderBizIdeas(){
       h += '<div class="card" style="margin-bottom:10px;border-left:3px solid '+col+'">';
       h += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">';
       h += '<div style="font-family:var(--fd);font-weight:700;font-size:14px">'+esc(idea.title)+'</div>';
-      h += '<button style="font-size:12px;color:var(--rd);padding:2px 6px" onclick="deleteBizIdea(\''+idea.id+'\')">✕</button></div>';
+      h += '<button style="font-size:12px;color:var(--rd);padding:2px 6px" onclick="deleteBizIdea(\''+esc(String(idea.id))+'\')">✕</button></div>';
       h += '<div style="display:flex;gap:6px;margin-bottom:8px">';
       h += '<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--agg);color:var(--ac);font-weight:700">'+esc(idea.cat)+'</span>';
       h += '<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--sf2);color:var(--tx3)">Score: '+idea.scores.total+'/10</span>';
@@ -11797,9 +11797,9 @@ function renderBizIdeas(){
       h += '<div style="flex:1;text-align:center;padding:6px;background:var(--sf2);border-radius:var(--rs)"><div style="font-size:9px;color:var(--tx3)">Passion</div><div style="font-size:14px;font-weight:700;color:var(--or)">'+idea.scores.passion+'</div></div>';
       h += '</div>';
       h += '<div style="display:flex;gap:6px">';
-      h += '<button class="fbtn'+(idea.status==='new'?' on':'')+'" onclick="setBizStatus(\''+idea.id+'\',\'new\')" style="flex:1;text-align:center;font-size:10px">Nouveau</button>';
-      h += '<button class="fbtn'+(idea.status==='active'?' on':'')+'" onclick="setBizStatus(\''+idea.id+'\',\'active\')" style="flex:1;text-align:center;font-size:10px">En cours</button>';
-      h += '<button class="fbtn'+(idea.status==='archived'?' on':'')+'" onclick="setBizStatus(\''+idea.id+'\',\'archived\')" style="flex:1;text-align:center;font-size:10px">Archivé</button>';
+      h += '<button class="fbtn'+(idea.status==='new'?' on':'')+'" onclick="setBizStatus(\''+esc(String(idea.id))+'\',\'new\')" style="flex:1;text-align:center;font-size:10px">Nouveau</button>';
+      h += '<button class="fbtn'+(idea.status==='active'?' on':'')+'" onclick="setBizStatus(\''+esc(String(idea.id))+'\',\'active\')" style="flex:1;text-align:center;font-size:10px">En cours</button>';
+      h += '<button class="fbtn'+(idea.status==='archived'?' on':'')+'" onclick="setBizStatus(\''+esc(String(idea.id))+'\',\'archived\')" style="flex:1;text-align:center;font-size:10px">Archivé</button>';
       h += '</div></div>';
     });
   }
@@ -12427,7 +12427,7 @@ function renderFinanceAdv(){
       h += '<div class="card" style="margin-bottom:6px;padding:10px;display:flex;align-items:center;gap:10px">';
       h += '<div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--rd)">-'+e.amount.toFixed(2)+'€</div>';
       h += '<div style="font-size:11px;color:var(--tx3)">'+esc(e.category)+(e.desc?' · '+esc(e.desc):'')+' · '+fmtDate(e.ts)+'</div></div>';
-      h += '<button style="font-size:12px;color:var(--rd);padding:4px" onclick="deleteExpense(\''+e.id+'\')">✕</button></div>';
+      h += '<button style="font-size:12px;color:var(--rd);padding:4px" onclick="deleteExpense(\''+esc(String(e.id))+'\')">✕</button></div>';
     });
 
   } else if(finTab === 'goals'){
