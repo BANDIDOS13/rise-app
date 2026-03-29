@@ -51,6 +51,10 @@ export default async function handler(req) {
   try {
     const { message, context, history } = await req.json();
 
+    if (!message || typeof message !== 'string' || message.length > 2000) {
+      return new Response(JSON.stringify({ error: 'Invalid message' }), { status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+    }
+
     // Build context string from user data
     const userContext = context
       ? `\n\nPROFIL: ${context.name || 'Forgeur'}, ${context.age || '?'} ans. Objectif: ${context.goal || 'all'}. Niveau: ${context.level || 1}. Streak: ${context.streak || 0} jours. XP: ${context.xp || 0}. Titre: ${context.forgeTitle || 'Forgeur'}.`
@@ -99,7 +103,7 @@ async function callClaude(apiKey, message, userContext, history) {
       'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-sonnet-4-6',
       max_tokens: 800,
       system: SYSTEM_PROMPT + userContext,
       messages,
@@ -128,7 +132,7 @@ async function callGPT(apiKey, message, userContext, history) {
       'Authorization': `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
       max_tokens: 800,
       messages,
     }),

@@ -1,12 +1,13 @@
-h// RISE Stripe Checkout — Vercel Serverless Function
+// FORGE Stripe Checkout — Vercel Serverless Function
 import Stripe from 'stripe';
 
 export const config = { runtime: 'nodejs' };
 
-// Map RISE plan IDs to Stripe Price IDs
 const PLAN_PRICES = {
-  premium: process.env.STRIPE_PRICE_PREMIUM || 'price_1TFsaKJK83rBK9aJcKAax3Be',
-  elite:   process.env.STRIPE_PRICE_ELITE   || 'price_1TFsfRJK83rBK9aJNd5bziY2',
+  starter: process.env.STRIPE_PRICE_STARTER  || '',
+  premium: process.env.STRIPE_PRICE_PREMIUM  || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  pro:     process.env.STRIPE_PRICE_PREMIUM  || 'price_1TFsaKJK83rBK9aJcKAax3Be',
+  elite:   process.env.STRIPE_PRICE_ELITE    || 'price_1TFsfRJK83rBK9aJNd5bziY2',
 };
 
 export default async function handler(req) {
@@ -17,29 +18,24 @@ export default async function handler(req) {
   }
 
   if (req.method !== 'POST') {
-    return jsonResp({ error: 'Method not allowed' }, 405);
+    return resp({ error: 'Method not allowed' }, 405);
   }
 
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeKey) {
-    return jsonResp({ error: 'Paiement non configuré. Contacte le support.' }, 500);
+    return resp({ error: 'Payment not configured' }, 500);
   }
 
   try {
     const { plan, email, name } = await req.json();
 
-    if (!plan || !PLAN_PRICES[plan]) {
-      return jsonResp({ error: 'Plan invalide.' }, 400);
-    }
-
-    const priceId = PLAN_PRICES[plan];
+    const priceId = plan && PLAN_PRICES[plan];
     if (!priceId) {
-      return jsonResp({ error: 'Ce plan n\'est pas encore disponible.' }, 400);
+      return resp({ error: 'Invalid plan' }, 400);
     }
 
     const stripe = new Stripe(stripeKey, { apiVersion: '2024-12-18.acacia' });
-
-    const origin = req.headers.get('origin') || 'https://rise-app-mu.vercel.app';
+    const origin = req.headers.get('origin') || 'https://forge-app.com';
 
     const sessionParams = {
       mode: 'subscription',
@@ -50,19 +46,16 @@ export default async function handler(req) {
       metadata: { plan, name: name || '' },
     };
 
-    if (email) {
-      sessionParams.customer_email = email;
-    }
+    if (email) sessionParams.customer_email = email;
 
     const session = await stripe.checkout.sessions.create(sessionParams);
-
-    return jsonResp({ url: session.url });
+    return resp({ url: session.url });
   } catch (err) {
-    return jsonResp({ error: 'Erreur lors de la création du paiement. Réessaie.' }, 500);
+    return resp({ error: 'Payment error' }, 500);
   }
 }
 
-function jsonResp(obj, status = 200) {
+function resp(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
     status,
     headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
