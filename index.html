@@ -1300,7 +1300,7 @@ function pomoRst(){if(pomoR){clearInterval(pomoInt);pomoR=false;}pomoMode='focus
 let sosInt=null;
 function openSOS(){document.getElementById('ov-sos').classList.add('show');sosCyc();}
 function sosCyc(){clearInterval(sosInt);let ph='inhale',cnt=4;const ring=document.getElementById('sos-ring');const lbl=document.getElementById('sos-lbl');if(ring)ring.style.transform='scale(.4)';setTimeout(()=>{if(ring)ring.style.transform='scale(1)';},100);sosInt=setInterval(()=>{cnt--;if(cnt<=0){if(ph==='inhale'){ph='exhale';cnt=4;if(lbl)lbl.textContent='EXPIRE';if(ring)ring.style.transform='scale(.4)';}else{sosCyc();}}},1000);const tips=['Pose une main sur ton ventre.','Nomme 5 choses que tu vois.','Les émotions passent.','Un seul pas à la fois.'];document.getElementById('sos-tip').textContent=tips[Math.floor(Math.random()*tips.length)];}
-function closeSOS(){clearInterval(sosInt);document.getElementById('ov-sos').classList.remove('show');}
+function closeSOS(){clearInterval(sosInt);document.getElementById('ov-sos').classList.remove('show');gainXP(15,'sos');toast('Tu gères. +15 XP','💜',3000);complQ('breath',1);}
 let nTab='walk';
 function setNT(tab,btn){nTab=tab;document.querySelectorAll('#nat-tabs .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderNat();}
 function renderNat(){const el=document.getElementById('nat-content');if(!el)return;if(nTab==='walk')rWalk(el);else if(nTab==='sun')rSun(el);else if(nTab==='breath')rBreath(el);else if(nTab==='sleep')rSleep(el);else if(nTab==='cold')rCold(el);else if(nTab==='mindful')rMindful(el);else if(nTab==='outdoor')rOutdoor(el);else if(nTab==='journal')rJournal(el);}
@@ -2611,10 +2611,15 @@ function delIdea(idx) {
  */
 
 // ── FORGE AI v2: Smart Coach with API fallback ──
+var _lastChatTs=0;
 async function sendCoach(){
   const ta=document.getElementById('ch-ta');
   const msg=ta.value.trim();
   if(!msg)return;
+  // Client-side rate limit: 1 message per 3 seconds
+  var now2=Date.now();
+  if(now2-_lastChatTs<3000){toast('Attends quelques secondes...','⏳',1500);return;}
+  _lastChatTs=now2;
   const mode=S.chatMode||'coach';
 
   // Add user message to UI

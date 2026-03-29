@@ -46,6 +46,14 @@ export default async function handler(req) {
   try {
     const { message, context, history } = await req.json();
 
+    // Input validation
+    if (!message || typeof message !== 'string' || message.length > 2000) {
+      return jsonResp({ error: 'Invalid message' }, 400);
+    }
+    if (history && history.length > 20) {
+      return jsonResp({ error: 'History too long' }, 400);
+    }
+
     const userContext = context
       ? `\n\nPROFIL: ${context.name || 'Champion'}, ${context.age || '?'} ans. Objectif: ${context.goal || 'all'}. Niveau: ${context.level || 1}. Streak: ${context.streak || 0} jours. XP: ${context.xp || 0}.`
       : '';
