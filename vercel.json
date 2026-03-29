@@ -3,7 +3,13 @@
     "name": "forge-app",
     "routes": [
           { "src": "/api/chat", "dest": "/api/chat.js" },
+          { "src": "/api/auth", "dest": "/api/auth.js" },
+          { "src": "/api/sync", "dest": "/api/sync.js" },
+          { "src": "/api/webhook", "dest": "/api/webhook.js" },
+          { "src": "/api/checkout", "dest": "/api/checkout.js" },
           { "src": "/landing", "dest": "/forge-landing.html" },
+          { "src": "/privacy", "dest": "/privacy.html" },
+          { "src": "/terms", "dest": "/terms.html" },
           { "src": "/(.*)", "dest": "/index.html" }
     ],
     "headers": [

@@ -1031,6 +1031,26 @@ textarea.inp{resize:none}
 <div class="mbk" id="m-h21"><div class="msh"><div class="mhdl"></div><div class="mtit">⚡ Habitude 21 jours</div><div style="display:flex;flex-direction:column;gap:10px"><input class="inp" id="h21-name" placeholder="Ex: Méditer 10 min le matin"><input class="inp" id="h21-time" placeholder="À quelle heure ? (ex: 7h30)"><select class="inp" id="h21-cat"><option value="mental">🧠 Mental</option><option value="sport">💪 Sport</option><option value="nature">🌿 Nature</option><option value="focus">🎯 Focus</option><option value="habit">⚡ Habitude</option></select></div><div class="mbtns"><button class="m-cancel" onclick="closeM('m-h21')">Annuler</button><button class="m-ok" onclick="addH21()">Lancer ⚡</button></div></div></div>
 <div class="mbk" id="m-letter"><div class="msh"><div class="mhdl"></div><div class="mtit">💌 Lettre au futur toi</div><p style="font-size:13px;color:var(--tx3);margin-bottom:14px;line-height:1.6">Scellée 90 jours. Reçue au bon moment.</p><textarea class="inp" id="ltr-txt" rows="8" placeholder="Cher moi dans 90 jours..."></textarea><div class="mbtns"><button class="m-cancel" onclick="closeM('m-letter')">Annuler</button><button class="m-ok" onclick="saveLtr()">Sceller 💌</button></div></div></div>
 <div class="mbk" id="m-nj"><div class="msh"><div class="mhdl"></div><div class="mtit">📓 Journal de Nature</div><textarea class="inp" id="nj-txt" rows="5" placeholder="Le vent, les oiseaux, le soleil..."></textarea><input class="inp" id="nj-dur" type="number" min="5" max="300" placeholder="Minutes dehors" style="margin-top:9px"><div class="mbtns"><button class="m-cancel" onclick="closeM('m-nj')">Annuler</button><button class="m-ok" onclick="saveNJ()">Sauvegarder 🌿</button></div></div></div>
+<!-- AUTH MODAL -->
+<div class="mbk" id="m-auth"><div class="msh" style="max-width:380px">
+<div class="mhdl"></div>
+<div style="text-align:center;padding:4px 0 8px">
+<div style="font-size:36px;margin-bottom:8px">🔐</div>
+<div class="mtit" style="font-size:18px;margin-bottom:4px" id="auth-title">Connexion</div>
+<div style="font-size:13px;color:var(--tx2);line-height:1.5;margin-bottom:16px">Synchronise tes données sur tous tes appareils.</div>
+<div id="auth-form">
+<input class="inp" id="auth-email" type="email" placeholder="Email" style="margin-bottom:8px">
+<input class="inp" id="auth-pass" type="password" placeholder="Mot de passe" style="margin-bottom:12px">
+<button class="btn btn-ac" id="auth-submit" onclick="doAuthSubmit()" style="margin-bottom:8px">Se connecter</button>
+<button class="btn btn-sf" id="auth-toggle" onclick="toggleAuthMode()" style="font-size:12px">Pas encore de compte ? Inscription</button>
+<div style="display:flex;gap:8px;margin-top:12px">
+<button class="btn btn-sf" onclick="forgeOAuth('google')" style="flex:1;font-size:11px">Google</button>
+<button class="btn btn-sf" onclick="forgeOAuth('apple')" style="flex:1;font-size:11px">Apple</button>
+</div>
+</div>
+<button style="font-size:12px;color:var(--tx3);margin-top:10px;text-decoration:underline;cursor:pointer" onclick="closeM('m-auth')">Continuer sans compte</button>
+</div></div></div>
+
 <div class="toast" id="toast"><span id="t-i">🎉</span><span id="t-m">Bravo !</span>
 <!-- WORKOUT TRACKER SCREEN -->
 <div class="screen" id="screen-workout">
@@ -1679,7 +1699,13 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div class="lbl" style="margin:16px 0 10px">☁️ Compte & Sync</div>'
++'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px">'
++(typeof isForgeLoggedIn==='function'&&isForgeLoggedIn()
+  ?'<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="width:36px;height:36px;border-radius:50%;background:var(--agg2);display:flex;align-items:center;justify-content:center;font-size:18px">👤</div><div><div style="font-size:14px;font-weight:600">'+(S.email||'Connecté')+'</div><div style="font-size:11px;color:var(--gr)">☁️ Synchronisé</div></div></div><button class="btn btn-sf" style="margin-bottom:6px" onclick="forgeLogout()">Se déconnecter</button><button class="btn btn-sf" style="border-color:var(--rd);color:var(--rd)" onclick="forgeDeleteAccount()">Supprimer le compte</button>'
+  :'<div style="font-size:14px;font-weight:600;margin-bottom:4px">Pas encore de compte</div><div style="font-size:12px;color:var(--tx3);margin-bottom:10px">Crée un compte pour sauvegarder tes données sur tous tes appareils.</div><button class="btn btn-ac" onclick="showAuthModal()">Créer un compte / Se connecter</button>')
++'</div>'
++'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
 function gs(name,btn){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));const screen=document.getElementById('screen-'+name);if(screen)screen.classList.add('active');if(btn)btn.classList.add('on');if(name==='home')initHome();if(name==='leaderboard')try{initLeaderboard();}catch(e){}if(name==='guilds')try{initGuildScreen();}catch(e){}if(name==='social')try{renderShareScreen();}catch(e){}if(name==='suggestions')try{initSuggestions();}catch(e){}if(name==='weeklych')try{initWeeklyChallenges();}catch(e){}if(name==='workout')try{initWorkout();}catch(e){}if(name==='meal')try{initMealPlan();}catch(e){}if(name==='sleep')try{initSleep();}catch(e){}if(name==='smartjournal')try{initSmartJournal();}catch(e){}if(name==='budget')try{initBudget();}catch(e){}if(name==='achievements')try{renderAchievements();}catch(e){}if(name==='dash')try{initDashboard();}catch(e){}if(name==='recap')try{initRecap();}catch(e){}
 if(name==='nature'){S.nat=S.nat||{walkLogs:[],sunLogs:[],breathLogs:[],coldLogs:[],wDate:'',sDate:'',wMin:0,sMin:0,wStreak:0,lw:'',jEntries:[],sleepLogs:[],odProg:{}};if(!nTab)nTab='walk';try{renderNat();}catch(e){console.log('renderNat error:',e);document.getElementById('nat-content').innerHTML='<div style="text-align:center;padding:40px;color:var(--tx3)">🌿 Chargement...</div>';nTab='walk';try{renderNat();}catch(e2){}}}
@@ -13497,6 +13523,208 @@ try { save(); } catch(e){}
     window.PLUS_ITEMS.push({ico:'🔔',label:'Notifications',fn:showNotifSettings});
   }
 
+})();
+// ── AUTH MODAL UI ──
+var _authMode='login';
+function toggleAuthMode(){
+  _authMode=_authMode==='login'?'signup':'login';
+  document.getElementById('auth-title').textContent=_authMode==='login'?'Connexion':'Inscription';
+  document.getElementById('auth-submit').textContent=_authMode==='login'?'Se connecter':'Créer mon compte';
+  document.getElementById('auth-toggle').textContent=_authMode==='login'?'Pas encore de compte ? Inscription':'Déjà un compte ? Connexion';
+}
+function doAuthSubmit(){
+  var email=document.getElementById('auth-email').value.trim();
+  var pass=document.getElementById('auth-pass').value;
+  if(!email||!pass){toast('Remplis tous les champs','❌',2000);return;}
+  if(_authMode==='signup'){forgeSignup(email,pass,S.name||'Forgeur');}
+  else{forgeLogin(email,pass);}
+}
+function showAuthModal(){openM('m-auth');}
+
+// ══════════════════════════════════════════════════════
+// FORGE AUTH + SUPABASE SYNC MODULE
+// Persists user data server-side. localStorage remains primary (offline-first).
+// Supabase sync runs in background — never blocks UI.
+// ══════════════════════════════════════════════════════
+(function(){
+  var AUTH = {
+    user: null,
+    session: null,
+    syncing: false,
+    lastSync: 0,
+    dirty: false,
+    SYNC_INTERVAL: 30000, // 30 seconds
+  };
+
+  // Restore session from localStorage
+  try {
+    var stored = localStorage.getItem('forge_auth');
+    if (stored) {
+      var parsed = JSON.parse(stored);
+      AUTH.session = parsed.session;
+      AUTH.user = parsed.user;
+    }
+  } catch(e) {}
+
+  function saveAuth() {
+    try { localStorage.setItem('forge_auth', JSON.stringify({ user: AUTH.user, session: AUTH.session })); } catch(e) {}
+  }
+
+  function getToken() { return AUTH.session?.access_token || null; }
+
+  // ── API CALLS ──
+  async function authApi(body) {
+    var res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    return res.json();
+  }
+
+  async function syncApi(action, extra) {
+    var token = getToken();
+    if (!token) return null;
+    var body = Object.assign({ action: action }, extra || {});
+    var res = await fetch('/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify(body),
+    });
+    return res.json();
+  }
+
+  // ── AUTH ACTIONS ──
+  window.forgeSignup = async function(email, password, name) {
+    var data = await authApi({ action: 'signup', email: email, password: password, name: name });
+    if (data.error) { toast(data.error, '❌', 3000); return false; }
+    AUTH.user = data.user; AUTH.session = data.session; saveAuth();
+    S.email = email; S.authId = data.user?.id; save();
+    toast('Compte créé !', '🎉', 3000);
+    closeM('m-auth');
+    syncToServer();
+    return true;
+  };
+
+  window.forgeLogin = async function(email, password) {
+    var data = await authApi({ action: 'login', email: email, password: password });
+    if (data.error) { toast(data.error, '❌', 3000); return false; }
+    AUTH.user = data.user; AUTH.session = data.session; saveAuth();
+    S.email = email; S.authId = data.user?.id; save();
+    toast('Connecté !', '✅', 2000);
+    closeM('m-auth');
+    // Load server data if it's newer
+    loadFromServer();
+    return true;
+  };
+
+  window.forgeOAuth = async function(provider) {
+    var data = await authApi({ action: 'oauth_url', provider: provider });
+    if (data.url) window.location.href = data.url;
+    else toast('Erreur OAuth', '❌', 3000);
+  };
+
+  window.forgeLogout = async function() {
+    await authApi({ action: 'logout' }).catch(function(){});
+    AUTH.user = null; AUTH.session = null;
+    localStorage.removeItem('forge_auth');
+    toast('Déconnecté', '👋', 2000);
+    renderMoi();
+  };
+
+  window.forgeDeleteAccount = async function() {
+    if (!confirm('Supprimer définitivement ton compte et toutes tes données ?')) return;
+    await syncApi('delete').catch(function(){});
+    AUTH.user = null; AUTH.session = null;
+    localStorage.removeItem('forge_auth');
+    localStorage.removeItem('rise_v9');
+    toast('Compte supprimé', '🗑️', 3000);
+    location.reload();
+  };
+
+  window.isForgeLoggedIn = function() { return !!(AUTH.user && AUTH.session); };
+  window.getForgeUser = function() { return AUTH.user; };
+
+  // ── SYNC ENGINE ──
+  async function syncToServer() {
+    if (!AUTH.session || AUTH.syncing) return;
+    AUTH.syncing = true;
+    try {
+      var data = await syncApi('save', { progress: S });
+      if (data && data.ok) { AUTH.lastSync = Date.now(); AUTH.dirty = false; }
+    } catch(e) {}
+    AUTH.syncing = false;
+  }
+
+  async function loadFromServer() {
+    if (!AUTH.session) return;
+    try {
+      var data = await syncApi('load');
+      if (data && data.progress) {
+        // Merge: server wins if newer, client wins otherwise
+        var serverTs = data.server_ts ? new Date(data.server_ts).getTime() : 0;
+        var clientTs = S._lastSave || 0;
+        if (serverTs > clientTs) {
+          // Server has newer data — merge
+          var serverData = data.progress;
+          serverData.ob = true; // Ensure onboarding stays done
+          Object.assign(S, serverData);
+          S._lastSave = serverTs;
+          save();
+          toast('Données synchronisées !', '☁️', 2000);
+          if (typeof launchApp === 'function') launchApp();
+        }
+      }
+    } catch(e) {}
+  }
+
+  // Hook into save — mark dirty on every save
+  var _prevSave = save;
+  save = function() {
+    S._lastSave = Date.now();
+    _prevSave();
+    AUTH.dirty = true;
+  };
+
+  // Background sync every 30 seconds if dirty
+  setInterval(function() {
+    if (AUTH.dirty && AUTH.session) syncToServer();
+  }, AUTH.SYNC_INTERVAL);
+
+  // Sync on page unload
+  window.addEventListener('beforeunload', function() {
+    if (AUTH.dirty && AUTH.session) {
+      navigator.sendBeacon('/api/sync', JSON.stringify({
+        action: 'save',
+        progress: S,
+      }));
+    }
+  });
+
+  // Auto-refresh session
+  setInterval(async function() {
+    if (AUTH.session?.refresh_token) {
+      var data = await authApi({ action: 'refresh', refresh_token: AUTH.session.refresh_token }).catch(function(){ return {}; });
+      if (data.session) { AUTH.session = data.session; saveAuth(); }
+    }
+  }, 50 * 60 * 1000); // Every 50 minutes
+
+  // Handle OAuth callback
+  if (window.location.search.includes('auth=callback')) {
+    // Supabase auth redirects back with hash params
+    var hash = window.location.hash;
+    if (hash && hash.includes('access_token')) {
+      var params = new URLSearchParams(hash.substring(1));
+      AUTH.session = {
+        access_token: params.get('access_token'),
+        refresh_token: params.get('refresh_token'),
+      };
+      saveAuth();
+      window.history.replaceState({}, '', window.location.pathname);
+      loadFromServer();
+      toast('Connecté !', '✅', 2000);
+    }
+  }
 })();
 
 </script>
