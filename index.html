@@ -1460,7 +1460,10 @@ else if(name==='shop'){renderShop(document.getElementById('shop-c'));}
 else if(name==='content'){renderContentPlanner(document.getElementById('content-c'));}
 else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
-document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
+document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}
+/* ── STRIPE PAYMENT RETURN HANDLER ── */
+try{var _sp=new URLSearchParams(window.location.search);var _payResult=_sp.get('payment');var _payPlan=_sp.get('plan');if(_payResult==='success'&&_payPlan&&['starter','pro','premium','elite'].includes(_payPlan)){S.plan=_payPlan;S.planDate=TD;save();setTimeout(function(){toast('Plan '+_payPlan+' activé !','👑',5000);confetti();addN('👑','Plan activé','Ton plan '+_payPlan+' est actif. Bienvenue !');},500);}else if(_payResult==='cancel'){setTimeout(function(){toast('Paiement annulé','ℹ️',3000);},500);}if(_payResult){window.history.replaceState({},'',window.location.pathname);}}catch(e){}
+});
 // ══ V10 FEATURES ══
 // Plus panel
 function togglePlus(btn){
