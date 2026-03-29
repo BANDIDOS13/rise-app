@@ -188,6 +188,18 @@ footer{background:var(--sf);border-top:1px solid var(--bd);padding:40px 20px;mar
 document.addEventListener('scroll',function(){var e=document.querySelectorAll('.fade-in');e.forEach(function(el){var r=el.getBoundingClientRect();r.top<window.innerHeight-100&&el.classList.add('visible')})});
 document.querySelectorAll('.faq-item').forEach(function(i){i.querySelector('.faq-header').addEventListener('click',function(){i.classList.toggle('open')})});
 document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));t&&t.scrollIntoView({behavior:'smooth'})})});
+
+// ── CTA BUTTONS: navigate to app ──
+function goToApp(){window.location.href='/index.html';}
+document.querySelector('.nav-cta').addEventListener('click',goToApp);
+document.querySelectorAll('.btn-primary, .btn-secondary').forEach(function(btn){
+  var txt=(btn.textContent||'').toLowerCase();
+  if(txt.indexOf('demo')!==-1||txt.indexOf('démo')!==-1){
+    btn.addEventListener('click',function(){document.getElementById('jarvis').scrollIntoView({behavior:'smooth'});});
+  } else {
+    btn.addEventListener('click',goToApp);
+  }
+});
 var LANDING_I18N = {
 fr: {
 hero_title: "Deviens 1% meilleur chaque jour.",
