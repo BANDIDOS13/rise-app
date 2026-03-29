@@ -1,7 +1,7 @@
 // Vercel Edge Function — Stripe Webhook Handler
 // Set STRIPE_WEBHOOK_SECRET in Vercel environment variables
 
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'nodejs' };
 
 export default async function handler(req) {
   if (req.method !== 'POST') {
