@@ -1174,9 +1174,9 @@ function rMindful(el){el.innerHTML='<div class="nat-c" style="text-align:center"
 function togMW(){if(mwR){clearInterval(mwInt);mwR=false;gainXP(50,'mindful');toast('Marche conscience ! +50 XP','🧘',3000);save();}else{mwR=true;mwStep=0;mwSec=0;advMW();}const b=document.getElementById('mw-btn');if(b)b.textContent=mwR?'⏹ Terminer':'▶ Commencer';}
 function advMW(){clearInterval(mwInt);if(!mwR)return;const s=MW_STEPS[mwStep];const ico=document.getElementById('mw-ico');if(ico)ico.textContent=s.ico;const tt=document.getElementById('mw-t');if(tt)tt.textContent=t(s.tk);const tx=document.getElementById('mw-d');if(tx)tx.textContent=t(s.tk+'d');for(let i=0;i<MW_STEPS.length;i++){const d=document.getElementById('mw-d'+i);if(d){d.style.background=i<mwStep?'var(--nt)':i===mwStep?'var(--ac)':'var(--sf2)';d.style.borderColor=i<=mwStep?'var(--ac)':'var(--bd2)';}}let rem=s.dur;const tm=document.getElementById('mw-timer');if(tm)tm.textContent=fmtT(rem);mwInt=setInterval(()=>{rem--;if(tm)tm.textContent=fmtT(rem);gainXP(1,'mwt');if(rem<=0){clearInterval(mwInt);mwStep++;if(mwStep<MW_STEPS.length)advMW();else{mwR=false;gainXP(50,'mw_done');gainGems(10);confetti();toast('COMPLET ! +50 XP','🧘',4000);save();}}},1000);}
 function rstMW(){clearInterval(mwInt);mwR=false;mwStep=0;mwSec=0;renderNat();}
-const OD=[{id:'wk7',ico:'🚶',t:'7 jours de marche',d:'15min min 7 jours de suite',target:7,xp:200,g:20},{id:'s5',ico:'☀️',t:'5 jours de soleil',d:'20min/j pendant 5 jours',target:5,xp:150,g:15},{id:'c7',ico:'🧊',t:'7 douches froides',d:'Consécutives',target:7,xp:250,g:25},{id:'n60',ico:'🌿',t:'1h dans la nature',d:'Une sortie d 1h minimum',target:60,xp:180,g:18},{id:'sr',ico:'🌅',t:'Lever de soleil',d:'Dehors avant le lever',target:1,xp:100,g:10}];
-function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+c.t+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+c.d+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
-function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ Nouvelle entrée 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 Sors et reviens écrire !</div>');}
+const OD=[{id:'wk7',ico:'🚶',tk:'od_walk7',target:7,xp:200,g:20},{id:'s5',ico:'☀️',tk:'od_sun5',target:5,xp:150,g:15},{id:'c7',ico:'🧊',tk:'od_cold7',target:7,xp:250,g:25},{id:'n60',ico:'🌿',tk:'od_nature60',target:60,xp:180,g:18},{id:'sr',ico:'🌅',tk:'od_sunrise',target:1,xp:100,g:10}];
+function rOutdoor(el){const prog=S.nat.odProg||{};el.innerHTML='<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6">Défis outdoor exclusifs. Badges impossibles à obtenir autrement.</div>'+OD.map(c=>{const p=prog[c.id]||{progress:0,done:false};const pct=Math.min(100,Math.round((p.progress||0)/c.target*100));return '<div style="background:var(--sf);border:1px solid '+(p.done?'var(--gr)':'var(--bd)')+';border-radius:var(--rs);padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:12px"><div style="width:38px;height:38px;border-radius:50%;background:'+(p.done?'var(--grd)':'var(--ntd)')+';border:2px solid '+(p.done?'var(--gr)':'var(--nt)')+';display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">'+c.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:600;margin-bottom:2px">'+t(c.tk)+(p.done?' ✅':'')+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+t(c.tk+'_d')+'</div><div class="pbar"><div class="pfill pnt" style="width:'+pct+'%"></div></div></div><div style="font-size:11px;font-weight:700;color:var(--ac)">'+c.xp+' XP</div></div>';}).join('');}
+function rJournal(el){const entries=S.nat.jEntries||[];el.innerHTML='<button class="btn btn-nt" style="margin-bottom:11px" onclick="openM(\'m-nj\')">+ '+t('new_entry')+' 📓</button>'+(entries.length?entries.slice(0,10).map(e=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div style="font-size:10px;color:var(--nt);font-weight:700">'+e.date+'</div><div style="font-size:10px;color:var(--tx3)">'+e.dur+'min</div></div><div style="font-size:13px;color:var(--tx2);line-height:1.6">'+e.txt+'</div></div>').join(''):'<div style="text-align:center;padding:48px;color:var(--tx3)">📓 '+t('go_out_write')+'</div>');}
 function saveNJ(){const txt=document.getElementById('nj-txt')?.value.trim();const dur=parseInt(document.getElementById('nj-dur')?.value||0);if(!txt)return;S.nat.jEntries=S.nat.jEntries||[];S.nat.jEntries.unshift({date:TD,txt,dur:dur||0});if(dur>0)finWalk(dur);gainXP(15,'nj');closeM('m-nj');toast(t('entry_saved'),'📓',2000);save();if(nTab==='journal')renderNat();}
 function buildSys(){const nm=S.nat;const tw=nm.wDate===TD?nm.wMin||0:0;const ts=nm.sDate===TD?nm.sMin||0:0;return 'Tu es Coach RISE v9. Tu parles à '+S.name+'. Objectif: '+S.goal+'. Streak: '+S.streak+'j XP: '+S.xp+'. Nature auj: marche '+tw+'min soleil '+ts+'min. Tutoiement. Direct. Action concrète en fin.\n';}
 const CH_M={coach:{sys:'',ph:'Parle à ton coach...'},roleplay:{sys:'MODE ROLEPLAY: simule la situation avec précision.',ph:'Joue le recruteur / client / investisseur...'},debate:{sys:'MODE DÉBAT: avocat du diable bienveillant.',ph:'Convaincs-moi que [X] vaut la peine'},plan90:{sys:'MODE PLAN 90J: plan transformation complet mois par mois.',ph:'Mon objectif pour les 90 prochains jours...'},books:{sys:'MODE LIVRES: recommande les livres parfaits. Titre, auteur, pourquoi ce livre précisément, 3 points clés, action ce soir.',ph:'Recommande-moi des livres pour...'},nature_c:{sys:'MODE NATURE: expert bien-être outdoor, marche, soleil, respiration, vitamine D.',ph:'Parle-moi de nature, soleil, marche...'}};
@@ -1198,8 +1198,8 @@ let dTab='forms';
 function setDT(t,btn){dTab=t;document.querySelectorAll('#screen-disc .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');initDisc();}
 function initDisc(){const el=document.getElementById('disc-content');if(!el)return;if(dTab==='forms')renderForms(el);else renderBooks(el);}
 function renderForms(el){el.innerHTML=FORMS_D.map(f=>{const p=(S.formProg||{})[f.id]||{m:0};const pct=Math.round((p.m||0)/8*100);return '<div class="book-c" onclick="openForm(\''+f.id+'\')"><div class="book-spine"></div><div style="min-width:60px;background:'+f.bg+';display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+f.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;color:'+f.tc+';margin-bottom:2px">'+(f.tk?t(f.tk):f.title)+'</div><div style="font-size:12px;color:var(--tx3);line-height:1.5;margin-bottom:6px">'+(f.tk?t(f.tk+'_d'):f.desc)+'</div>'+(p.m>0?'<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.m+'/8 modules</div>':'<div style="font-size:10px;color:var(--ac)">8 modules · +1600 XP</div>')+'</div></div>';}).join('');}
-function renderBooks(el){el.innerHTML='<button style="width:100%;background:linear-gradient(135deg,var(--pud),var(--bld));border:1px solid var(--pu);border-radius:var(--r);padding:13px;margin-bottom:11px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="askBookReco()"><div style="font-size:24px">✨</div><div style="text-align:left"><div style="font-size:13px;font-weight:700;color:var(--pu)">Recommandations IA personnalisées</div><div style="font-size:11px;color:var(--tx3)">3 livres exactement pour toi maintenant</div></div></button>'+BOOKS.map(b=>{const read=S.books.read.includes(b.t);const reading=S.books.reading===b.t;return '<div class="book-c" onclick="openBook(\''+encodeURIComponent(b.t)+'\')"><div class="book-spine" style="background:linear-gradient(180deg,var(--pu),var(--bl))"></div><div style="min-width:60px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+b.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:1px">'+b.t+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+b.a+' · '+b.p+'p · '+b.lvl+'</div><div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:5px">'+b.sum.slice(0,70)+'...</div><div style="display:flex;gap:4px">'+(read?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">✅ Lu</span>':reading?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--bld);color:var(--bl);border:1px solid var(--bl)">📖 En cours</span>':'')+'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+b.cat+'</span></div></div></div>';}).join('');}
-function openBook(enc){const title=decodeURIComponent(enc);const b=BOOKS.find(x=>x.t===title);if(!b)return;document.getElementById('fov-tit').textContent=b.ico+' '+b.t;document.getElementById('fov-sub').textContent=b.a+' · '+b.p+'p · '+b.lvl;document.getElementById('fov-body').innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px">'+b.sum+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">💡 Point clé</div><div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65">'+b.key+'</div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">✏️ Action ce soir</div><div style="font-size:13px;color:var(--tx2);line-height:1.65">'+b.act+'</div></div><div style="display:flex;gap:8px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'read\')">✅ Marquer lu</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--bld);border:1px solid var(--bl);color:var(--bl);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'reading\')">📖 Je lis ça</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--agg);border:1px solid var(--acm);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer" onclick="askAboutBk(\''+enc+'\')">🤖 Coach</button></div>';document.getElementById('form-ov').classList.add('show');}
+function renderBooks(el){el.innerHTML='<button style="width:100%;background:linear-gradient(135deg,var(--pud),var(--bld));border:1px solid var(--pu);border-radius:var(--r);padding:13px;margin-bottom:11px;display:flex;align-items:center;gap:12px;cursor:pointer" onclick="askBookReco()"><div style="font-size:24px">✨</div><div style="text-align:left"><div style="font-size:13px;font-weight:700;color:var(--pu)">'+t('ai_reco')+'</div><div style="font-size:11px;color:var(--tx3)">'+t('ai_reco_d')+'</div></div></button>'+BOOKS.map(b=>{const read=S.books.read.includes(b.t);const reading=S.books.reading===b.t;return '<div class="book-c" onclick="openBook(\''+encodeURIComponent(b.t)+'\')"><div class="book-spine" style="background:linear-gradient(180deg,var(--pu),var(--bl))"></div><div style="min-width:60px;background:var(--sf2);display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0">'+b.ico+'</div><div style="padding:12px;flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:1px">'+b.t+'</div><div style="font-size:11px;color:var(--tx3);margin-bottom:5px">'+b.a+' · '+b.p+'p · '+b.lvl+'</div><div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:5px">'+b.sum.slice(0,70)+'...</div><div style="display:flex;gap:4px">'+(read?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--grd);color:var(--gr);border:1px solid var(--gr)">✅ Lu</span>':reading?'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--bld);color:var(--bl);border:1px solid var(--bl)">📖 En cours</span>':'')+'<span style="padding:2px 7px;border-radius:12px;font-size:9px;font-weight:700;background:var(--agg);color:var(--ac);border:1px solid var(--acm)">'+b.cat+'</span></div></div></div>';}).join('');}
+function openBook(enc){const title=decodeURIComponent(enc);const b=BOOKS.find(x=>x.t===title);if(!b)return;document.getElementById('fov-tit').textContent=b.ico+' '+b.t;document.getElementById('fov-sub').textContent=b.a+' · '+b.p+'p · '+b.lvl;document.getElementById('fov-body').innerHTML='<div style="font-size:13px;color:var(--tx2);line-height:1.7;margin-bottom:14px">'+b.sum+'</div><div style="background:var(--agg);border:1px solid var(--acm);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">💡 '+t('key_point')+'</div><div style="font-size:13px;color:var(--ac2);font-style:italic;line-height:1.65">'+b.key+'</div></div><div style="background:var(--bld);border:1px solid var(--bl);border-radius:var(--rs);padding:13px;margin-bottom:11px"><div class="lbl" style="margin-bottom:6px">✏️ '+t('action_tonight')+'</div><div style="font-size:13px;color:var(--tx2);line-height:1.65">'+b.act+'</div></div><div style="display:flex;gap:8px"><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--grd);border:1px solid var(--gr);color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'read\')">✅ '+t('mark_read')+'</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--bld);border:1px solid var(--bl);color:var(--bl);font-size:12px;font-weight:700;cursor:pointer" onclick="markBk(\''+enc+'\',\'reading\')">📖 '+t('reading_now')+'</button><button style="flex:1;padding:11px;border-radius:var(--rs);background:var(--agg);border:1px solid var(--acm);color:var(--ac);font-size:12px;font-weight:700;cursor:pointer" onclick="askAboutBk(\''+enc+'\')">🤖 Coach</button></div>';document.getElementById('form-ov').classList.add('show');}
 function markBk(enc,status){const title=decodeURIComponent(enc);if(status==='read'){if(!S.books.read.includes(title)){S.books.read.push(title);gainXP(50,'book');gainGems(5);toast('Livre lu ! +50 XP','📚',2500);}}else{S.books.reading=title;toast('Bonne lecture !','📖',2000);}save();}
 function askAboutBk(enc){const title=decodeURIComponent(enc);document.getElementById('form-ov').classList.remove('show');gs('chat',null);setTimeout(()=>{const ta=document.getElementById('ch-ta');if(ta)ta.value='Parle-moi du livre "'+title+'" — ce que je dois absolument retenir et comment l\'appliquer maintenant.';sendMsg();},200);}
 function askBookReco(){gs('chat',null);setTimeout(()=>{const ta=document.getElementById('ch-ta');if(ta)ta.value='Recommande-moi les 3 livres les plus importants pour moi maintenant, compte tenu de mon objectif ('+S.goal+'). Pour chaque livre: titre, auteur, pourquoi moi spécifiquement, 3 points clés, action ce soir.';sendMsg();},200);}
@@ -9582,22 +9582,41 @@ var TD = (function(){
 function getZodiac(dateStr) {
   var d = new Date(dateStr);
   var day = d.getDate(), month = d.getMonth() + 1;
-  if((month==3 && day>=21)||(month==4 && day<=19)) return {sign:'Bélier',ico:'♈',element:'Feu',dates:'21 mars - 19 avril'};
-  if((month==4 && day>=20)||(month==5 && day<=20)) return {sign:'Taureau',ico:'♉',element:'Terre',dates:'20 avril - 20 mai'};
-  if((month==5 && day>=21)||(month==6 && day<=20)) return {sign:'Gémeaux',ico:'♊',element:'Air',dates:'21 mai - 20 juin'};
-  if((month==6 && day>=21)||(month==7 && day<=22)) return {sign:'Cancer',ico:'♋',element:'Eau',dates:'21 juin - 22 juillet'};
-  if((month==7 && day>=23)||(month==8 && day<=22)) return {sign:'Lion',ico:'♌',element:'Feu',dates:'23 juillet - 22 août'};
-  if((month==8 && day>=23)||(month==9 && day<=22)) return {sign:'Vierge',ico:'♍',element:'Terre',dates:'23 août - 22 septembre'};
-  if((month==9 && day>=23)||(month==10 && day<=22)) return {sign:'Balance',ico:'♎',element:'Air',dates:'23 septembre - 22 octobre'};
-  if((month==10 && day>=23)||(month==11 && day<=21)) return {sign:'Scorpion',ico:'♏',element:'Eau',dates:'23 octobre - 21 novembre'};
-  if((month==11 && day>=22)||(month==12 && day<=21)) return {sign:'Sagittaire',ico:'♐',element:'Feu',dates:'22 novembre - 21 décembre'};
-  if((month==12 && day>=22)||(month==1 && day<=19)) return {sign:'Capricorne',ico:'♑',element:'Terre',dates:'22 décembre - 19 janvier'};
-  if((month==1 && day>=20)||(month==2 && day<=18)) return {sign:'Verseau',ico:'♒',element:'Air',dates:'20 janvier - 18 février'};
-  return {sign:'Poissons',ico:'♓',element:'Eau',dates:'19 février - 20 mars'};
+  var signs = [
+    {m1:3,d1:21,m2:4,d2:19,k:'aries',ico:'♈',ek:'elem_fire'},
+    {m1:4,d1:20,m2:5,d2:20,k:'taurus',ico:'♉',ek:'elem_earth'},
+    {m1:5,d1:21,m2:6,d2:20,k:'gemini',ico:'♊',ek:'elem_air'},
+    {m1:6,d1:21,m2:7,d2:22,k:'cancer',ico:'♋',ek:'elem_water'},
+    {m1:7,d1:23,m2:8,d2:22,k:'leo',ico:'♌',ek:'elem_fire'},
+    {m1:8,d1:23,m2:9,d2:22,k:'virgo',ico:'♍',ek:'elem_earth'},
+    {m1:9,d1:23,m2:10,d2:22,k:'libra',ico:'♎',ek:'elem_air'},
+    {m1:10,d1:23,m2:11,d2:21,k:'scorpio',ico:'♏',ek:'elem_water'},
+    {m1:11,d1:22,m2:12,d2:21,k:'sagittarius',ico:'♐',ek:'elem_fire'},
+    {m1:12,d1:22,m2:1,d2:19,k:'capricorn',ico:'♑',ek:'elem_earth'},
+    {m1:1,d1:20,m2:2,d2:18,k:'aquarius',ico:'♒',ek:'elem_air'}
+  ];
+  for(var i=0;i<signs.length;i++){
+    var s=signs[i];
+    if((month==s.m1&&day>=s.d1)||(month==s.m2&&day<=s.d2))
+      return {sign:t('zodiac_'+s.k),ico:s.ico,element:t(s.ek),dates:s.d1+'/'+s.m1+' - '+s.d2+'/'+s.m2,k:s.k};
+  }
+  return {sign:t('zodiac_pisces'),ico:'♓',element:t('elem_water'),dates:'19/2 - 20/3',k:'pisces'};
+}
+
+// Zodiac key mapping for ZODIAC_DATA lookup
+var ZODIAC_KEY_MAP = {'Bélier':'aries','Taureau':'taurus','Gémeaux':'gemini','Cancer':'cancer','Lion':'leo','Vierge':'virgo','Balance':'libra','Scorpion':'scorpio','Sagittaire':'sagittarius','Capricorne':'capricorn','Verseau':'aquarius','Poissons':'pisces'};
+function getZodiacData(signOrKey) {
+  // Try direct key lookup first, then FR name fallback
+  if(ZODIAC_DATA[signOrKey]) return ZODIAC_DATA[signOrKey];
+  var key = ZODIAC_KEY_MAP[signOrKey];
+  if(key && ZODIAC_DATA[key]) return ZODIAC_DATA[key];
+  // Try reverse lookup: maybe signOrKey is a translated name
+  for(var k in ZODIAC_DATA) { if(t('zodiac_'+k) === signOrKey) return ZODIAC_DATA[k]; }
+  return null;
 }
 
 var ZODIAC_DATA = {
-  'Bélier': {
+  aries: {
     personnalite: 'Courageux, passionné, leader naturel',
     forces: ['Audace', 'Détermination', 'Leadership', 'Énergie'],
     faiblesses: ['Impatience', 'Impulsivité', 'Tendance au conflit'],
@@ -9606,7 +9625,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je suis un leader courageux qui fonce vers ses rêves',
     horoscopes: ['Ton énergie est au maximum, c\'est le moment d\'agir', 'Attention à l\'impatience, chaque romain a besoin de temps', 'Les défis t\'excitent, mais ne brûle pas tes ponts', 'Aujourd\'hui, ta volonté est invincible', 'Ralentis et écoute avant de foncer']
   },
-  'Taureau': {
+  taurus: {
     personnalite: 'Stable, pratique, fiable et sensé',
     forces: ['Stabilité', 'Persévérance', 'Sens pratique', 'Fiabilité'],
     faiblesses: ['Rigidité', 'Résistance au changement', 'Matérialisme'],
@@ -9615,7 +9634,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je construis un empire durable et prospère, pas à pas',
     horoscopes: ['La patience paie aujourd\'hui, continue ton travail', 'Un changement arrive, reste flexible', 'Tes efforts stables portent leurs fruits', 'Valorise ce que tu as construit', 'Le luxe est ta récompense légitime']
   },
-  'Gémeaux': {
+  gemini: {
     personnalite: 'Curieux, communicatif, adaptable et agile mentalement',
     forces: ['Communication', 'Curiosité', 'Adaptabilité', 'Intellect'],
     faiblesses: ['Superficialité', 'Inconsistance', 'Nervosité'],
@@ -9624,7 +9643,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je transforme mes idées géniales en résultats concrets',
     horoscopes: ['Tes connexions t\'ouvrent des portes aujourd\'hui', 'Focalise sur UNE chose au lieu de trois', 'Ton intellect est ton atout, utilise-le', 'Les nouvelles idées fusent, note-les', 'L\'apprentissage est ta passion, continue']
   },
-  'Cancer': {
+  cancer: {
     personnalite: 'Émotionnel, protecteur, intuitif et loyal',
     forces: ['Intuition', 'Empathie', 'Loyauté', 'Instinct protecteur'],
     faiblesses: ['Hypersensibilité', 'Nostalgie excessive', 'Tendance à ruminer'],
@@ -9633,7 +9652,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je crée un empire basé sur la confiance et l\'authenticité',
     horoscopes: ['Écoute ton intuition, elle est juste aujourd\'hui', 'La nostalgie ne sert pas, regarde vers l\'avant', 'Tes liens sont ta force, cultive-les', 'Sois doux avec toi, tu l\'as mérité', 'Ta sensibilité est un don, pas une faiblesse']
   },
-  'Lion': {
+  leo: {
     personnalite: 'Charismatique, généreux, créatif et confiant',
     forces: ['Charisme', 'Créativité', 'Générosité', 'Confiance'],
     faiblesses: ['Orgueil', 'Besoin de validation', 'Arrogance'],
@@ -9642,7 +9661,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je brille authentiquement et inspire mon entourage',
     horoscopes: ['Aujourd\'hui, les projecteurs sont sur toi, profite', 'Partage tes succès sans oublier les autres', 'Ton égo veut du trop, modère ta soif', 'La confiance en toi est ton superpower', 'Sois le héros de ta propre histoire']
   },
-  'Vierge': {
+  virgo: {
     personnalite: 'Analytique, méticuleux, utile et précis',
     forces: ['Analyse', 'Précision', 'Utilité', 'Organisation'],
     faiblesses: ['Perfectionnisme excessif', 'Critique dure', 'Anxiété'],
@@ -9651,7 +9670,7 @@ var ZODIAC_DATA = {
     affirmation: 'J\'aide les autres tout en construisant mon empire intelligent',
     horoscopes: ['Les détails importent, mais n\'oublie pas le tableau global', 'Ton anxiété est basée sur rien, détends-toi', 'L\'ordre que tu crées paie aujourd\'hui', 'Lâche prise sur le contrôle', 'Tes standards élevés t\'élèvent']
   },
-  'Balance': {
+  libra: {
     personnalite: 'Diplomate, équilibré, sociable et juste',
     forces: ['Diplomatie', 'Justice', 'Sociabilité', 'Équilibre'],
     faiblesses: ['Indécision', 'Dépendance aux opinions', 'Superficialité relationnelle'],
@@ -9660,7 +9679,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je crée l\'équilibre et l\'harmonie autour de moi',
     horoscopes: ['La décision attend, prends-la avec confiance', 'Tous ne peuvent pas être contents, accepte-le', 'Tes relations sont ton atout majeur', 'L\'harmonie est ta quête, ne sois pas indécis', 'L\'équilibre paie aujourd\'hui']
   },
-  'Scorpion': {
+  scorpio: {
     personnalite: 'Intense, stratégique, passionné et transformateur',
     forces: ['Intensité', 'Stratégie', 'Passion', 'Capacité de transformation'],
     faiblesses: ['Jalousie', 'Tendance vengeresse', 'Secret excessif'],
@@ -9669,7 +9688,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je transforme les obstacles en opportunités et le plomb en or',
     horoscopes: ['Ton intuition est surnaturelle, fais-lui confiance', 'Ne laisse pas la jalousie te contaminer', 'L\'intensité que tu mets aujourd\'hui paiera demain', 'Tes secrets te pèsent, partage un peu', 'La transformation commence maintenant']
   },
-  'Sagittaire': {
+  sagittarius: {
     personnalite: 'Optimiste, aventurier, philosophe et expansif',
     forces: ['Optimisme', 'Aventure', 'Philosophie', 'Expansion'],
     faiblesses: ['Superficialité', 'Manque de discipline', 'Promesses non tenues'],
@@ -9678,7 +9697,7 @@ var ZODIAC_DATA = {
     affirmation: 'J\'explore les horizons infinis et crée mon empire global',
     horoscopes: ['L\'optimisme te porte loin, cultive-le', 'Les promesses, c\'est serieux, sois fiable', 'L\'expansion est ton chemin', 'Même en optimisme, reste conscient des risques', 'L\'aventure appelle, réponds sans culpabilité']
   },
-  'Capricorne': {
+  capricorn: {
     personnalite: 'Ambitieux, discipliné, responsable et pragmatique',
     forces: ['Ambition', 'Discipline', 'Responsabilité', 'Pragmatisme'],
     faiblesses: ['Pessimisme', 'Rigidité', 'Froids relationnels'],
@@ -9687,7 +9706,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je construis un empire inébranlable par discipline et sagesse',
     horoscopes: ['Ton ambition est juste, avance sans doute', 'La rigueur paie, continue ton chemin', 'Accepte un peu de plaisir, tu l\'as mérité', 'Les obstacles sont des marches', 'Ton pragmatisme te sauve aujourd\'hui']
   },
-  'Verseau': {
+  aquarius: {
     personnalite: 'Innovateur, humanitaire, indépendant et visionnaire',
     forces: ['Innovation', 'Humanitarisme', 'Indépendance', 'Vision future'],
     faiblesses: ['Détachement', 'Rébellion stérile', 'Impersonnalité'],
@@ -9696,7 +9715,7 @@ var ZODIAC_DATA = {
     affirmation: 'Je suis un pionnier qui crée l\'avenir que je rêve',
     horoscopes: ['Ton innovation est en avant, brave', 'L\'humanité a besoin de toi, partage ton don', 'Le détachement est ta force, reste connecté aussi', 'Les conventions ne te définissent pas, vrai', 'Le futur se crée maintenant, par toi']
   },
-  'Poissons': {
+  pisces: {
     personnalite: 'Imaginatif, empathique, mystique et compassionné',
     forces: ['Imagination', 'Empathie', 'Mystique', 'Compassion'],
     faiblesses: ['Évasion réalité', 'Indécision', 'Victimisation'],
@@ -9992,7 +10011,17 @@ var RISE_I18N = {
     added: 'Ajouté !',
     exported: 'Exporté !',
     need_more_xp: 'Gagne plus de XP d\'abord',
-    copied: 'Copié !'
+    copied: 'Copié !',
+    // Outdoor challenges
+    od_walk7: '7 jours de marche', od_walk7_d: '15min min 7 jours de suite',
+    od_sun5: '5 jours de soleil', od_sun5_d: '20min/j pendant 5 jours',
+    od_cold7: '7 douches froides', od_cold7_d: 'Consécutives',
+    od_nature60: '1h dans la nature', od_nature60_d: 'Une sortie d\'1h minimum',
+    od_sunrise: 'Lever de soleil', od_sunrise_d: 'Dehors avant le lever',
+    // Book UI
+    mark_read: 'Marquer lu', reading_now: 'Je lis ça', ai_reco: 'Recommandations IA personnalisées', ai_reco_d: '3 livres exactement pour toi maintenant',
+    key_point: 'Point clé', action_tonight: 'Action ce soir',
+    new_entry: 'Nouvelle entrée', go_out_write: 'Sors et reviens écrire !'
   },
   en: {
     home: 'Home',
@@ -10274,7 +10303,15 @@ var RISE_I18N = {
     added: 'Added!',
     exported: 'Exported!',
     need_more_xp: 'Earn more XP first',
-    copied: 'Copied!'
+    copied: 'Copied!',
+    od_walk7: '7 Days Walking', od_walk7_d: '15min minimum for 7 straight days',
+    od_sun5: '5 Days of Sun', od_sun5_d: '20min/day for 5 days',
+    od_cold7: '7 Cold Showers', od_cold7_d: 'Consecutive',
+    od_nature60: '1h in Nature', od_nature60_d: 'One outing of at least 1 hour',
+    od_sunrise: 'Sunrise', od_sunrise_d: 'Outside before sunrise',
+    mark_read: 'Mark as read', reading_now: 'Reading this', ai_reco: 'Personalized AI recommendations', ai_reco_d: '3 books exactly for you right now',
+    key_point: 'Key point', action_tonight: 'Action tonight',
+    new_entry: 'New entry', go_out_write: 'Go out and come back to write!'
   },
   es: {
     home: 'Inicio',
@@ -10556,7 +10593,15 @@ var RISE_I18N = {
     added: '¡Añadido!',
     exported: '¡Exportado!',
     need_more_xp: 'Gana más XP primero',
-    copied: '¡Copiado!'
+    copied: '¡Copiado!',
+    od_walk7: '7 Días Caminando', od_walk7_d: '15min mínimo durante 7 días seguidos',
+    od_sun5: '5 Días de Sol', od_sun5_d: '20min/día durante 5 días',
+    od_cold7: '7 Duchas Frías', od_cold7_d: 'Consecutivas',
+    od_nature60: '1h en la Naturaleza', od_nature60_d: 'Una salida de al menos 1 hora',
+    od_sunrise: 'Amanecer', od_sunrise_d: 'Fuera antes del amanecer',
+    mark_read: 'Marcar como leído', reading_now: 'Leyendo esto', ai_reco: 'Recomendaciones IA personalizadas', ai_reco_d: '3 libros exactamente para ti ahora',
+    key_point: 'Punto clave', action_tonight: 'Acción esta noche',
+    new_entry: 'Nueva entrada', go_out_write: '¡Sal y vuelve a escribir!'
   },
   pt: {
     home: 'Início',
@@ -10838,7 +10883,15 @@ var RISE_I18N = {
     added: 'Adicionado!',
     exported: 'Exportado!',
     need_more_xp: 'Ganhe mais XP primeiro',
-    copied: 'Copiado!'
+    copied: 'Copiado!',
+    od_walk7: '7 Dias Caminhando', od_walk7_d: '15min mínimo por 7 dias seguidos',
+    od_sun5: '5 Dias de Sol', od_sun5_d: '20min/dia por 5 dias',
+    od_cold7: '7 Banhos Frios', od_cold7_d: 'Consecutivos',
+    od_nature60: '1h na Natureza', od_nature60_d: 'Uma saída de pelo menos 1 hora',
+    od_sunrise: 'Nascer do sol', od_sunrise_d: 'Fora antes do amanhecer',
+    mark_read: 'Marcar como lido', reading_now: 'Lendo isso', ai_reco: 'Recomendações IA personalizadas', ai_reco_d: '3 livros exatamente para você agora',
+    key_point: 'Ponto-chave', action_tonight: 'Ação hoje à noite',
+    new_entry: 'Nova entrada', go_out_write: 'Saia e volte para escrever!'
   },
   it: {
     home: 'Casa',
@@ -11206,7 +11259,15 @@ var RISE_I18N = {
     added: 'Hinzugefügt!',
     exported: 'Exportiert!',
     need_more_xp: 'Sammle zuerst mehr XP',
-    copied: 'Kopiert!'
+    copied: 'Kopiert!',
+    od_walk7: '7 Tage Gehen', od_walk7_d: '15 Min. Minimum für 7 Tage hintereinander',
+    od_sun5: '5 Tage Sonne', od_sun5_d: '20 Min./Tag für 5 Tage',
+    od_cold7: '7 Kalte Duschen', od_cold7_d: 'Aufeinanderfolgend',
+    od_nature60: '1h in der Natur', od_nature60_d: 'Ein Ausflug von mindestens 1 Stunde',
+    od_sunrise: 'Sonnenaufgang', od_sunrise_d: 'Draußen vor Sonnenaufgang',
+    mark_read: 'Als gelesen markieren', reading_now: 'Lese ich', ai_reco: 'Personalisierte KI-Empfehlungen', ai_reco_d: '3 Bücher genau für dich jetzt',
+    key_point: 'Kernpunkt', action_tonight: 'Aktion heute Abend',
+    new_entry: 'Neuer Eintrag', go_out_write: 'Geh raus und komm zurück zum Schreiben!'
   },
   ca: {
     home: 'Inici',
@@ -11488,7 +11549,15 @@ var RISE_I18N = {
     added: 'Afegit!',
     exported: 'Exportat!',
     need_more_xp: 'Guanya més XP primer',
-    copied: 'Copiat!'
+    copied: 'Copiat!',
+    od_walk7: '7 Dies Caminant', od_walk7_d: '15min mínim 7 dies seguits',
+    od_sun5: '5 Dies de Sol', od_sun5_d: '20min/dia durant 5 dies',
+    od_cold7: '7 Dutxes Fredes', od_cold7_d: 'Consecutives',
+    od_nature60: '1h a la Natura', od_nature60_d: 'Una sortida d\'almenys 1 hora',
+    od_sunrise: 'Sortida del sol', od_sunrise_d: 'Fora abans de sortir el sol',
+    mark_read: 'Marcar com a llegit', reading_now: 'Llegint això', ai_reco: 'Recomanacions IA personalitzades', ai_reco_d: '3 llibres exactament per a tu ara',
+    key_point: 'Punt clau', action_tonight: 'Acció aquest vespre',
+    new_entry: 'Nova entrada', go_out_write: 'Surt i torna a escriure!'
   },
   ja: {
     home: 'ホーム',
@@ -11727,9 +11796,11 @@ window.getPersonalizedTip = function(category) {
     advanced: [t('tip_adv_1'), t('tip_adv_2')]
   };
 
-  var zodiacSignToKey = {'Bélier':'aries','Taureau':'taurus','Gémeaux':'gemini','Cancer':'cancer','Lion':'leo','Vierge':'virgo','Balance':'libra','Scorpion':'scorpio','Sagittaire':'sagittarius','Capricorne':'capricorn','Verseau':'aquarius','Poissons':'pisces'};
+  var zodiacTipKeys = ['aries','taurus','gemini','cancer','leo','virgo','libra','scorpio','sagittarius','capricorn','aquarius','pisces'];
   var zodiacTips = {};
-  Object.keys(zodiacSignToKey).forEach(function(sign){zodiacTips[sign]=t('ztip_'+zodiacSignToKey[sign]);});
+  zodiacTipKeys.forEach(function(k){zodiacTips[k]=t('ztip_'+k);zodiacTips[t('zodiac_'+k)]=t('ztip_'+k);});
+  // Also map FR names for backward compat
+  Object.keys(ZODIAC_KEY_MAP).forEach(function(frName){zodiacTips[frName]=t('ztip_'+ZODIAC_KEY_MAP[frName]);});
 
   var baseTip = tips[category] ? tips[category][Math.floor(Math.random() * tips[category].length)] : tips.business[0];
   var levelTip = S.entreprLevel && entrepreneurLevelTips[S.entreprLevel] ? entrepreneurLevelTips[S.entreprLevel][Math.floor(Math.random() * entrepreneurLevelTips[S.entreprLevel].length)] : '';
@@ -11742,9 +11813,8 @@ window.getPersonalizedTip = function(category) {
 // 4. DAILY ASTROLOGY SYSTEM
 // ============================================================================
 function generateDailyHoroscope(sign, dateStr) {
-  if(!sign || !ZODIAC_DATA[sign]) return t('horoscope_unavailable');
-
-  var zodiacInfo = ZODIAC_DATA[sign];
+  var zodiacInfo = getZodiacData(sign);
+  if(!sign || !zodiacInfo) return t('horoscope_unavailable');
   var horoscopes = zodiacInfo.horoscopes || [t('mysterious_day')];
 
   // Simple deterministic seeding based on date + sign
@@ -11773,22 +11843,24 @@ function generateColorOfDay(sign, dateStr) {
   return colors[index];
 }
 
-function getCompatibleSigns(sign) {
+function getCompatibleSigns(signOrKey) {
+  var key = signOrKey;
+  if(ZODIAC_KEY_MAP[signOrKey]) key = ZODIAC_KEY_MAP[signOrKey];
   var compatibilities = {
-    'Bélier': ['Sagittaire', 'Lion'],
-    'Taureau': ['Capricorne', 'Vierge'],
-    'Gémeaux': ['Verseau', 'Balance'],
-    'Cancer': ['Poissons', 'Scorpion'],
-    'Lion': ['Sagittaire', 'Bélier'],
-    'Vierge': ['Capricorne', 'Taureau'],
-    'Balance': ['Verseau', 'Gémeaux'],
-    'Scorpion': ['Poissons', 'Cancer'],
-    'Sagittaire': ['Bélier', 'Lion'],
-    'Capricorne': ['Taureau', 'Vierge'],
-    'Verseau': ['Gémeaux', 'Balance'],
-    'Poissons': ['Cancer', 'Scorpion']
+    aries: ['sagittarius', 'leo'],
+    taurus: ['capricorn', 'virgo'],
+    gemini: ['aquarius', 'libra'],
+    cancer: ['pisces', 'scorpio'],
+    leo: ['sagittarius', 'aries'],
+    virgo: ['capricorn', 'taurus'],
+    libra: ['aquarius', 'gemini'],
+    scorpio: ['pisces', 'cancer'],
+    sagittarius: ['aries', 'leo'],
+    capricorn: ['taurus', 'virgo'],
+    aquarius: ['gemini', 'libra'],
+    pisces: ['cancer', 'scorpio']
   };
-  return compatibilities[sign] || [];
+  return (compatibilities[key] || []).map(function(k){return t('zodiac_'+k);});
 }
 
 // ============================================================================
@@ -12252,7 +12324,7 @@ function render_astro() {
   var energy = generateEnergyOfDay(S.zodiac.sign, TD);
   var color = generateColorOfDay(S.zodiac.sign, TD);
   var compatibleSigns = getCompatibleSigns(S.zodiac.sign);
-  var zodiacInfo = ZODIAC_DATA[S.zodiac.sign] || {};
+  var zodiacInfo = getZodiacData(S.zodiac.k || S.zodiac.sign) || {};
 
   var html = '<div class="screen" id="screen-astro"><div class="screen-header">' +
     '<h1>🔮 ' + t('astrology') + '</h1></div>' +
