@@ -68,7 +68,7 @@ async function callClaude(apiKey, message, userContext, history) {
   ];
 
   const body = {
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 800,
     system: SYSTEM_PROMPT + userContext,
     messages,
@@ -128,4 +128,4 @@ async function callGPT(apiKey, message, userContext, history) {
 
   const reply = data.choices?.[0]?.message?.content || null;
   return jsonResp({ reply, fallback: !reply });
-      }
+}
