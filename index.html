@@ -766,11 +766,11 @@ textarea.inp{resize:none}
   <div class="pad">
     <div class="sct au">📅 Organisation</div>
     <div class="frow au1" id="orga-tabs">
-      <button class="fbtn on" onclick="setOrgaTab('agenda',this)">📅 Agenda</button>
-      <button class="fbtn" onclick="setOrgaTab('kanban',this)">📋 Kanban</button>
-      <button class="fbtn" onclick="setOrgaTab('routines',this)">🔄 Routines</button>
-      <button class="fbtn" onclick="setOrgaTab('okr',this)">🎯 OKR</button>
-      <button class="fbtn" onclick="setOrgaTab('revenus',this)">💰 Revenus</button>
+      <button class="fbtn on" onclick="setOT('agenda',this)">📅 Agenda</button>
+      <button class="fbtn" onclick="setOT('kanban',this)">📋 Kanban</button>
+      <button class="fbtn" onclick="setOT('routines',this)">🔄 Routines</button>
+      <button class="fbtn" onclick="setOT('okr',this)">🎯 OKR</button>
+      <button class="fbtn" onclick="setOT('revenus',this)">💰 Revenus</button>
     </div>
     <div id="orga-content"></div>
   </div>
@@ -7312,6 +7312,28 @@ function toggleZenMode(){
       el.innerHTML = h + (el.innerHTML || '');
     };
   }
+
+  window.toggleMoodTag = function(btn) {
+    var isOn = btn.style.borderColor === 'var(--ac)';
+    btn.style.borderColor = isOn ? 'var(--bd)' : 'var(--ac)';
+    btn.style.background = isOn ? 'var(--sf2)' : 'var(--agg2)';
+    btn.style.color = isOn ? 'var(--tx)' : 'var(--ac)';
+  };
+
+  window.exportJournal = function() {
+    var entries = S.journal || [];
+    if (!entries.length) { toast('Aucune entrée à exporter', '📋', 2000); return; }
+    var txt = entries.map(function(e) {
+      return (e.date || '') + '\n' + (e.mood || '') + '\n' + (e.text || '') + '\n---';
+    }).join('\n');
+    var blob = new Blob([txt], { type: 'text/plain' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'rise-journal-' + TD.replace(/ /g, '-') + '.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('Journal exporté !', '📋', 2000);
+  };
 
   // ── 5. LANGUES ENHANCEMENT ──
   var _origRenderLang = window.renderLang;
