@@ -519,6 +519,17 @@ textarea.inp{resize:none}
 }
 
 </style>
+<!-- FORCE SW PURGE — Remove after users have updated -->
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(function(regs){
+    regs.forEach(function(r){r.unregister();});
+  });
+  caches.keys().then(function(names){
+    names.forEach(function(n){caches.delete(n);});
+  });
+}
+</script>
 </head>
 <body>
 <a href="#screen-home" class="skip-link" tabindex="0">Aller au contenu principal</a>
@@ -13259,13 +13270,16 @@ try { save(); } catch(e){}
   }
   function saveNotifPrefs(p){localStorage.setItem(NOTIF_KEY,JSON.stringify(p));}
 
-  // --- Service Worker Registration ---
+  // --- Service Worker Registration (DISABLED — purge old SW first) ---
   function registerForgeWorker(){
-    if(!('serviceWorker' in navigator))return Promise.reject('No SW support');
-    return navigator.serviceWorker.register('/sw.js').then(function(reg){
-      console.log('[FORGE] Service Worker registered, scope:',reg.scope);
-      return reg;
-    });
+    // TEMPORARILY DISABLED: SW was caching old HTML and blocking updates.
+    // Purge any existing SW instead.
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.getRegistrations().then(function(regs){
+        regs.forEach(function(r){r.unregister();});
+      });
+    }
+    return Promise.resolve(null);
   }
 
   // --- Request Notification Permission ---
