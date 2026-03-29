@@ -1093,6 +1093,25 @@ textarea.inp{resize:none}
 
 </div>
 
+<!-- ═══ RISE REWIND ═══ -->
+<div class="full-ov" id="ov-rewind" style="z-index:1800;overflow-y:auto">
+  <div style="max-width:380px;width:100%;padding:20px" id="rewind-content"></div>
+</div>
+<!-- ═══ QUICK CAPTURE ═══ -->
+<button id="qcap-fab" style="display:none;position:fixed;bottom:74px;left:16px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gr),#7de8a0);z-index:700;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.3);font-size:22px;color:#0a1808;border:none;transition:transform .2s" onclick="openQCap()">✏️</button>
+<div class="mbk" id="m-qcap"><div class="msh" style="padding-bottom:20px">
+  <div class="mhdl"></div>
+  <div style="font-family:var(--fd);font-weight:700;font-size:18px;margin-bottom:4px">Capture rapide</div>
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:14px">Pensee, tache, idee — tout est trie automatiquement</div>
+  <textarea class="inp" id="qcap-txt" rows="3" placeholder="Ecris ce qui te passe par la tete..." style="font-size:15px;margin-bottom:10px" autofocus></textarea>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+    <button class="fbtn on" id="qcap-auto" onclick="setQCapType('auto')">🤖 Auto</button>
+    <button class="fbtn" id="qcap-todo" onclick="setQCapType('todo')">✅ Tache</button>
+    <button class="fbtn" id="qcap-idea" onclick="setQCapType('idea')">💡 Idee</button>
+    <button class="fbtn" id="qcap-note" onclick="setQCapType('note')">📝 Note</button>
+  </div>
+  <button class="btn btn-ac" onclick="saveQCap()">Capturer</button>
+</div></div>
 <!-- ═══ JARVIS AI ASSISTANT ═══ -->
 <div id="jarvis-fab" class="jarvis-fab">
   <span>🤖</span>
@@ -1218,9 +1237,10 @@ function calcRiseScore(){
   var natS=(S.nat&&S.nat.sDate===TD)?Math.min(S.nat.sMin||0,15):0;
   var natPct=Math.min(100,Math.round((natW/30+natS/15)/2*100));
   parts.nature=natPct;score+=Math.round(natPct/100*15);
-  // Focus / Pomodoro (15 points max)
+  // Focus / Pomodoro + Deep Work (15 points max)
   var pomoToday=(S.pomoStats&&S.pomoStats.sessions||[]).filter(function(s){return s&&s.date===TD;}).length;
-  var focusPct=Math.min(100,Math.round(pomoToday/4*100));
+  var dwToday=(S.deepWork&&S.deepWork.sessions||[]).filter(function(s){return s&&s.date===TD;}).reduce(function(a,s){return a+(s.min||0);},0);
+  var focusPct=Math.min(100,Math.round((pomoToday/4+dwToday/60)/1.5*100));
   parts.focus=focusPct;score+=Math.round(focusPct/100*15);
   return {score:Math.min(100,score),parts:parts};
 }
@@ -1519,7 +1539,7 @@ function doneTd(id){S.todos=S.todos.map(t=>t.id===id?{...t,done:!t.done}:t);cons
 function delTd(id){S.todos=S.todos.filter(t=>t.id!==id);save();if(moiTab==='todo')renderMoi();}
 function rPlans(el){el.innerHTML=PLANS_D.map(p=>'<div style="border-radius:var(--r);overflow:hidden;margin-bottom:11px;cursor:pointer" onclick="selPlan(\''+p.id+'\')"><div style="padding:17px;background:var(--sf);border:2px solid '+p.bc+';border-radius:var(--r) var(--r) 0 0;position:relative">'+(p.pop?'<div style="position:absolute;top:10px;right:10px;padding:3px 9px;background:rgba(0,0,0,.4);border-radius:20px;font-size:10px;font-weight:700;color:var(--ac)">⭐ Recommandé</div>':'')+'<span style="display:inline-flex;padding:3px 8px;border-radius:12px;background:var(--sf2);border:1px solid '+p.bc+';color:'+p.tc+';font-size:9px;font-weight:700;margin-bottom:8px">'+p.nm+'</span><div style="font-family:var(--fd);font-weight:700;font-size:36px;line-height:1;color:'+p.tc+'">'+(p.price>0?p.price+'€':'Gratuit')+'<span style="font-size:14px;font-weight:400;color:var(--tx3)">'+(p.price>0?'/mois':'')+'</span></div></div><div style="padding:13px;background:var(--sf2);border:2px solid '+p.bc+';border-top:none;border-radius:0 0 var(--r) var(--r)">'+p.feats.map(f=>'<div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bd);font-size:12px;color:var(--tx2)"><span>'+(f.startsWith('✅')?'✅':'❌')+'</span>'+f.replace(/^✅ |^❌ /,'')+'</div>').join('')+'<button style="width:100%;margin-top:11px;padding:11px;border-radius:var(--rs);background:'+(S.plan===p.id?'linear-gradient(135deg,var(--ac),var(--ac2))':'var(--sf3)')+';color:'+(S.plan===p.id?'var(--bg)':'var(--tx3)')+';font-weight:700;font-size:13px;cursor:pointer">'+(S.plan===p.id?'✓ Plan actuel':p.price===0?'Continuer gratuitement':'Choisir ce plan')+'</button></div></div>').join('')+'<button class="btn btn-sf" onclick="toast(\'24h Premium + 5💎 !\',\'📺\',4000);gainGems(5)">📺 Voir une pub → 24h Premium + 5💎</button>';}
 function selPlan(id){S.plan=id;save();renderMoi();toast(id==='free'?'Plan Free actif':'Plan '+id+' activé !','👑');if(id!=='free')confetti();}
-function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
+function rStats(el){el.innerHTML='<div class="row2" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.aff.refs||[]).length,l:'Filleuls',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:13px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:'+s.c+'">'+s.n+'</div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+s.l+'</div></div>').join('')+'</div>'+'<div class="lbl" style="margin:16px 0 10px">🔊 Sons</div><div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px"><div style="flex:1"><div style="font-size:14px;font-weight:600">🔔 Effets sonores</div><div style="font-size:11px;color:var(--tx3)">Sons pour XP, level up, quêtes</div></div><div class="tog-sw '+(S.soundOff?'':'on')+'" onclick="S.soundOff=!S.soundOff;save();this.classList.toggle(\'on\');toast(S.soundOff?\'Sons désactivés\':\'Sons activés\',\'🔊\',1500)"><div class="tog-knob"></div></div></div>'+'<div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-ac" style="flex:1" onclick="gs(\'dash\',null)">📊 Dashboard</button><button class="btn btn-pu" style="flex:1" onclick="gs(\'recap\',null)">📋 Recap Hebdo</button></div>'+'<div style="margin-bottom:14px"><button class="btn btn-pu" onclick="openRewind()">🎬 RISE Rewind — Mon mois</button></div>'+'<div class="lbl" style="margin:16px 0 10px">💾 Sauvegarde</div><div style="display:flex;gap:8px;margin-bottom:14px"><button class="btn btn-gr" style="flex:1" onclick="exportData()">💾 Exporter mes donnees</button><button class="btn btn-sf" style="flex:1" onclick="importData()">📂 Importer un backup</button></div>'+'<button class="btn btn-sf" onclick="if(confirm(\'Réinitialiser toutes les données ?\'))resetAll()">⚙️ Réinitialiser</button>';}
 function resetAll(){localStorage.removeItem('rise_v9');location.reload();}
 function exportData(){
   var data=JSON.stringify(S,null,2);
@@ -5393,57 +5413,220 @@ function renderContentPlanner(el){
   el.innerHTML=h;
 }
 function updContent(idx,val){S.contentPlan=S.contentPlan||[];S.contentPlan[idx]=val;save();}
+var dwRunning=false,dwInt=null,dwSec=0,dwTarget=5400;
 function renderPomoPro(el){
   if(!el)return;
-  S.pomoStats=S.pomoStats||{total:0,today:0,best:0,date:''};
+  S.pomoStats=S.pomoStats||{total:0,today:0,best:0,date:'',sessions:[]};
+  S.deepWork=S.deepWork||{sessions:[],totalMin:0,bestMin:0};
   if(S.pomoStats.date!==TD){S.pomoStats.today=0;S.pomoStats.date=TD;}
-  var h='<div style="text-align:center;padding:16px 0">';
-  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">';
-  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--ac)">'+S.pomoStats.total+'</div><div style="font-size:10px;color:var(--tx3)">Total sessions</div></div>';
-  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--gr)">'+S.pomoStats.today+'</div><div style="font-size:10px;color:var(--tx3)">Aujourd\'hui</div></div>';
-  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r)"><div style="font-family:var(--fd);font-weight:700;font-size:24px;color:var(--or)">'+S.pomoStats.best+'</div><div style="font-size:10px;color:var(--tx3)">Record / jour</div></div>';
+  var todaySessions=(S.deepWork.sessions||[]).filter(function(s){return s.date===TD;});
+  var todayMin=todaySessions.reduce(function(a,s){return a+(s.min||0);},0);
+  var weekSessions=(S.deepWork.sessions||[]).slice(-30);
+  var h='';
+  // Deep Work Timer
+  h+='<div style="background:linear-gradient(135deg,var(--sf),var(--sf2));border:2px solid var(--acm);border-radius:var(--r);padding:24px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden">';
+  h+='<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),var(--ac2))"></div>';
+  h+='<div style="font-size:10px;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;color:var(--tx3);margin-bottom:8px">Deep Work</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:56px;color:var(--ac);line-height:1;margin-bottom:4px" id="dw-timer">'+fmtDW(dwRunning?dwSec:dwTarget)+'</div>';
+  h+='<div style="font-size:12px;color:var(--tx3);margin-bottom:16px" id="dw-status">'+(dwRunning?'En cours...':'Pret a se concentrer')+'</div>';
+  // Duration selector
+  if(!dwRunning){
+    h+='<div style="display:flex;gap:6px;justify-content:center;margin-bottom:14px">';
+    [45,60,90,120].forEach(function(m){
+      var on=dwTarget===m*60;
+      h+='<button style="padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1.5px solid '+(on?'var(--ac)':'var(--bd2)')+';background:'+(on?'var(--agg)':'var(--sf)')+';color:'+(on?'var(--ac)':'var(--tx3)')+';cursor:pointer" onclick="setDWTarget('+m+')">'+m+'min</button>';
+    });
+    h+='</div>';
+  }
+  // Progress bar
+  h+='<div style="background:var(--sf3);border-radius:6px;height:8px;overflow:hidden;margin-bottom:14px"><div id="dw-progress" style="height:100%;border-radius:6px;background:linear-gradient(90deg,var(--ac),var(--ac2));transition:width 1s;width:'+(dwRunning?Math.round((dwTarget-dwSec)/dwTarget*100):0)+'%"></div></div>';
+  h+='<div style="display:flex;gap:10px;justify-content:center">';
+  if(dwRunning){
+    h+='<button style="padding:12px 28px;border-radius:22px;font-size:14px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808;cursor:pointer" onclick="stopDW()">✓ Terminer</button>';
+    h+='<button style="padding:12px 20px;border-radius:22px;font-size:14px;font-weight:700;background:var(--rdd);border:1px solid var(--rd);color:var(--rd);cursor:pointer" onclick="cancelDW()">✕</button>';
+  }else{
+    h+='<button style="padding:14px 36px;border-radius:22px;font-size:14px;font-weight:700;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);cursor:pointer" onclick="startDW()">Lancer Deep Work</button>';
+  }
+  h+='</div></div>';
+  // Stats
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">';
+  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:22px;color:var(--ac)">'+todayMin+'</div><div style="font-size:10px;color:var(--tx3)">min aujourd\'hui</div></div>';
+  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:22px;color:var(--gr)">'+(S.deepWork.totalMin||0)+'</div><div style="font-size:10px;color:var(--tx3)">min total</div></div>';
+  h+='<div style="padding:14px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:22px;color:var(--or)">'+(S.deepWork.bestMin||0)+'</div><div style="font-size:10px;color:var(--tx3)">record session</div></div>';
   h+='</div>';
-  h+='<div style="font-size:13px;color:var(--tx3);margin-bottom:10px">Utilise le Pomodoro sur l\'accueil pour tes sessions focus.</div>';
-  h+='<button class="btn btn-ac" style="max-width:220px;margin:0 auto" onclick="gs(\'home\',null)">⏱️ Aller au Pomodoro</button>';
+  // 7-day history
+  h+='<div class="lbl" style="margin-bottom:8px">7 derniers jours</div>';
+  h+='<div style="display:flex;gap:6px;align-items:flex-end;height:60px;margin-bottom:14px">';
+  var labels=['D','L','M','M','J','V','S'];
+  for(var i=6;i>=0;i--){
+    var d=new Date();d.setDate(d.getDate()-i);var ds=d.toDateString();
+    var dayMin=(S.deepWork.sessions||[]).filter(function(s){return s.date===ds;}).reduce(function(a,s){return a+(s.min||0);},0);
+    var barH=dayMin>0?Math.max(8,Math.min(52,Math.round(dayMin/120*52))):4;
+    var col=dayMin>=90?'var(--gr)':dayMin>=45?'var(--ac)':dayMin>0?'var(--or)':'var(--sf3)';
+    h+='<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:100%;height:'+barH+'px;background:'+col+';border-radius:3px;transition:height .5s"></div><div style="font-size:8px;color:var(--tx3)">'+labels[d.getDay()]+'</div>'+(dayMin>0?'<div style="font-size:8px;color:var(--tx3)">'+dayMin+'m</div>':'')+'</div>';
+  }
   h+='</div>';
+  // Pomodoro classic stats
+  h+='<div class="lbl" style="margin-bottom:8px">Pomodoro classique</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">';
+  h+='<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--pu)">'+(S.pomoStats.total||0)+'</div><div style="font-size:10px;color:var(--tx3)">Sessions</div></div>';
+  h+='<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--gr)">'+(S.pomoStats.today||0)+'</div><div style="font-size:10px;color:var(--tx3)">Aujourd\'hui</div></div>';
+  h+='<div style="padding:12px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:var(--or)">'+(S.pomoStats.best||0)+'</div><div style="font-size:10px;color:var(--tx3)">Record/j</div></div>';
+  h+='</div>';
+  h+='<button class="btn btn-sf" onclick="gs(\'home\',null)">⏱️ Pomodoro sur l\'accueil</button>';
   el.innerHTML=h;
+}
+function fmtDW(s){var h=Math.floor(s/3600);var m=Math.floor(s%3600/60);var sec=s%60;return (h>0?h+':':'')+String(m).padStart(2,'0')+':'+String(sec).padStart(2,'0');}
+function setDWTarget(min){dwTarget=min*60;renderPomoPro(document.getElementById('pomo-c'));}
+function startDW(){
+  dwSec=dwTarget;dwRunning=true;
+  renderPomoPro(document.getElementById('pomo-c'));
+  dwInt=setInterval(function(){
+    dwSec--;
+    var el=document.getElementById('dw-timer');if(el)el.textContent=fmtDW(dwSec);
+    var pb=document.getElementById('dw-progress');if(pb)pb.style.width=Math.round((dwTarget-dwSec)/dwTarget*100)+'%';
+    if(dwSec<=0){stopDW();confetti();}
+  },1000);
+}
+function stopDW(){
+  clearInterval(dwInt);dwRunning=false;
+  var elapsed=dwTarget-dwSec;var min=Math.round(elapsed/60);
+  if(min>=5){
+    S.deepWork=S.deepWork||{sessions:[],totalMin:0,bestMin:0};
+    S.deepWork.sessions.push({date:TD,min:min,target:Math.round(dwTarget/60),ts:Date.now()});
+    S.deepWork.totalMin=(S.deepWork.totalMin||0)+min;
+    if(min>(S.deepWork.bestMin||0))S.deepWork.bestMin=min;
+    var xpGain=Math.round(min*2);
+    gainXP(xpGain,'deepwork');gainGems(Math.round(min/15));
+    complQ('pomo',Math.round(min/25));dmgBoss(min);
+    toast(min+' min Deep Work ! +'+xpGain+' XP','🎯',3000);
+    addN('🎯','Deep Work',min+' min de focus intense. +'+xpGain+' XP');
+    save();try{updRiseScore();}catch(e){}
+  }
+  dwSec=0;renderPomoPro(document.getElementById('pomo-c'));
+}
+function cancelDW(){clearInterval(dwInt);dwRunning=false;dwSec=0;renderPomoPro(document.getElementById('pomo-c'));}
+// ── QUICK CAPTURE ──
+var qcapType='auto';
+function openQCap(){openM('m-qcap');setTimeout(function(){var t=document.getElementById('qcap-txt');if(t)t.focus();},200);}
+function setQCapType(t){qcapType=t;['auto','todo','idea','note'].forEach(function(x){var b=document.getElementById('qcap-'+x);if(b){b.classList.toggle('on',x===t);}});}
+function saveQCap(){
+  var txt=(document.getElementById('qcap-txt')||{}).value;
+  if(!txt||!txt.trim()){toast('Ecris quelque chose','📝',1500);return;}
+  txt=txt.trim();
+  var type=qcapType;
+  if(type==='auto'){
+    var lower=txt.toLowerCase();
+    if(lower.match(/^(faire|acheter|appeler|envoyer|finir|todo|tache|rappel)/)||lower.match(/^[A-Z].*[.!]$/)||txt.length<40)type='todo';
+    else if(lower.match(/idee|concept|projet|business|startup|et si|pourquoi pas/))type='idea';
+    else type='note';
+  }
+  if(type==='todo'){
+    S.todos=S.todos||[];
+    S.todos.unshift({id:Date.now()+Math.random(),text:txt,done:false,priority:false,cat:'focus',ai:false,date:TD,qcap:true});
+    toast('Tache capturee !','✅',2000);
+  }else if(type==='idea'){
+    S.ideas=S.ideas||[];
+    S.ideas.push({text:txt,cat:'biz',date:TD,ts:Date.now()});
+    toast('Idee capturee !','💡',2000);
+  }else{
+    S.notes=S.notes||[];
+    S.notes.unshift({id:'n'+Date.now(),text:txt,date:TD,ts:Date.now(),pinned:false});
+    toast('Note capturee !','📝',2000);
+  }
+  gainXP(5,'capture');save();
+  document.getElementById('qcap-txt').value='';
+  closeM('m-qcap');
+}
+// ── RISE REWIND ──
+function openRewind(){
+  var el=document.getElementById('rewind-content');if(!el)return;
+  var scores=S.riseScores||{};var reviews=S.eveningReviews||{};
+  var checkins=S.checkins||{};
+  // Gather 30-day data
+  var days30=[];var totalScore=0;var bestDay=null;var bestScore=0;var activeDays=0;
+  for(var i=29;i>=0;i--){
+    var d=new Date();d.setDate(d.getDate()-i);var ds=d.toDateString();
+    var sc=scores[ds];
+    if(sc!==undefined){activeDays++;totalScore+=sc;if(sc>bestScore){bestScore=sc;bestDay=ds;}}
+    days30.push({date:ds,score:sc,day:d.getDate()});
+  }
+  var avgScore=activeDays>0?Math.round(totalScore/activeDays):0;
+  var streak=S.loginS?S.loginS.streak||0:0;
+  var dwMin=(S.deepWork&&S.deepWork.totalMin)||0;
+  var pomoTotal=(S.pomoStats&&S.pomoStats.total)||0;
+  var habitsCount=(S.habits&&S.habits.list)?S.habits.list.length:0;
+  var journalCount=(S.journal||[]).length+(S.nat&&S.nat.jEntries?S.nat.jEntries.length:0);
+  var compound=Math.round((Math.pow(1.01,activeDays)-1)*100);
+  // Find top topic from coach
+  var topics=S.coachMem&&S.coachMem.topics||{};var topTopic='';var topCount=0;
+  for(var t in topics){if(topics[t]>topCount){topCount=topics[t];topTopic=t;}}
+  // Build the rewind
+  var h='';
+  h+='<div style="text-align:center;margin-bottom:20px">';
+  h+='<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:3px;font-weight:700;margin-bottom:6px">RISE REWIND</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:28px;margin-bottom:4px">Tes 30 derniers jours</div>';
+  h+='<div style="font-size:12px;color:var(--tx3)">'+escHTML(S.name||'Champion')+' · LVL '+(getLvl(S.xp||0)+1)+'</div>';
+  h+='</div>';
+  // Score heatmap
+  h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:12px">';
+  h+='<div class="lbl" style="margin-bottom:8px">Heatmap des scores</div>';
+  h+='<div style="display:grid;grid-template-columns:repeat(10,1fr);gap:3px">';
+  days30.forEach(function(d){
+    var col=d.score===undefined?'var(--sf3)':d.score>=70?'var(--gr)':d.score>=40?'var(--ac)':'var(--or)';
+    h+='<div style="aspect-ratio:1;border-radius:3px;background:'+col+';display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--bg);font-weight:700">'+(d.score!==undefined?d.score:'')+'</div>';
+  });
+  h+='</div></div>';
+  // Big stats
+  h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px">';
+  h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:16px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)">'+avgScore+'</div><div style="font-size:10px;color:var(--tx3)">Score moyen</div></div>';
+  h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:16px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--gr)">'+activeDays+'</div><div style="font-size:10px;color:var(--tx3)">Jours actifs / 30</div></div>';
+  h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:16px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--or)">'+bestScore+'</div><div style="font-size:10px;color:var(--tx3)">Meilleur score</div></div>';
+  h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:16px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--pu)">+'+compound+'%</div><div style="font-size:10px;color:var(--tx3)">Progression 1%</div></div>';
+  h+='</div>';
+  // Detailed stats
+  h+='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:12px">';
+  h+='<div class="lbl" style="margin-bottom:10px">Ton mois en chiffres</div>';
+  var stats=[
+    {ico:'⭐',n:S.xp||0,l:'XP total'},
+    {ico:'🔥',n:streak,l:'Streak actuel'},
+    {ico:'🎯',n:dwMin,l:'min Deep Work'},
+    {ico:'⏱️',n:pomoTotal,l:'Pomodoros'},
+    {ico:'📝',n:journalCount,l:'Entrees journal'},
+    {ico:'🤖',n:(S.coachMem&&S.coachMem.n)||0,l:'Echanges JARVIS'}
+  ];
+  stats.forEach(function(s){
+    h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)"><div style="font-size:18px;width:28px;text-align:center">'+s.ico+'</div><div style="flex:1;font-size:13px;color:var(--tx2)">'+escHTML(s.l)+'</div><div style="font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac)">'+s.n+'</div></div>';
+  });
+  if(topTopic)h+='<div style="margin-top:10px;font-size:12px;color:var(--tx3)">Ton sujet prefere avec JARVIS : <strong style="color:var(--ac)">'+escHTML(topTopic)+'</strong></div>';
+  h+='</div>';
+  // Personalized message
+  h+='<div style="background:linear-gradient(135deg,var(--agg2),var(--agg));border:2px solid var(--ac);border-radius:var(--r);padding:18px;text-align:center;margin-bottom:12px">';
+  h+='<div style="font-size:24px;margin-bottom:6px">'+(avgScore>=70?'🏆':avgScore>=50?'💪':avgScore>=30?'🌱':'🚀')+'</div>';
+  if(avgScore>=70)h+='<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">Machine de guerre.</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">Tu es dans le top tier. '+activeDays+' jours actifs, score moyen '+avgScore+'. Continue comme ca et rien ne peut t\'arreter.</div>';
+  else if(avgScore>=50)h+='<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">Belle progression.</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">Tu construis des fondations solides. Le mois prochain, vise un score moyen de '+(avgScore+10)+'. Tu peux le faire.</div>';
+  else if(avgScore>=30)h+='<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">Le debut du voyage.</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">Chaque jour actif compte. Focus sur la regularite : ouvre RISE chaque matin, fais ton check-in, et le reste suivra.</div>';
+  else h+='<div style="font-size:14px;font-weight:700;color:var(--ac);margin-bottom:4px">RISE t\'attend.</div><div style="font-size:12px;color:var(--tx2);line-height:1.6">Le meilleur moment pour commencer c\'est maintenant. Un check-in par jour suffit pour demarrer.</div>';
+  h+='</div>';
+  h+='<div style="display:flex;gap:8px"><button class="btn btn-ac" style="flex:2" onclick="document.getElementById(\'ov-rewind\').classList.remove(\'show\')">Continuer</button><button class="btn btn-sf" style="flex:1" onclick="shareRewind()">Partager</button></div>';
+  el.innerHTML=h;
+  document.getElementById('ov-rewind').classList.add('show');
+  gainXP(20,'rewind');save();
+}
+function shareRewind(){
+  var avgScore=0;var scores=S.riseScores||{};var count=0;
+  for(var k in scores){count++;avgScore+=scores[k];}
+  avgScore=count>0?Math.round(avgScore/count):0;
+  var text='Mon RISE Rewind du mois : Score moyen '+avgScore+'/100, '+(S.xp||0)+' XP, '+(S.loginS?S.loginS.streak:0)+' jours de streak. 1% meilleur chaque jour. #RISE';
+  if(navigator.share)navigator.share({title:'RISE Rewind',text:text}).catch(function(){});
+  else{navigator.clipboard.writeText(text).then(function(){toast('Copie dans le presse-papier !','📋',2000);}).catch(function(){});}
 }
 // ══ END V24 FIXES ══
 
 
 // ══ V24 ENHANCEMENTS ══
 
-// ── 1. DATA EXPORT/IMPORT SYSTEM ──
-function exportData(){
-  var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
-  var a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='rise-backup-'+TD.replace(/\s/g,'-')+'.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-  toast('Backup sauvegarde !','💾',2000);
-  gainXP(5,'backup');
-}
-function importData(){
-  var inp=document.createElement('input');
-  inp.type='file';inp.accept='.json';
-  inp.onchange=function(e){
-    var f=e.target.files[0];if(!f)return;
-    var r=new FileReader();
-    r.onload=function(ev){
-      try{
-        var d=JSON.parse(ev.target.result);
-        if(!d.ob||!d.name){toast('Fichier invalide','❌',2500);return;}
-        if(!confirm('Remplacer toutes tes donnees par ce backup ? ('+d.name+', '+((d.xp||0))+' XP)'))return;
-        Object.assign(S,d);save();
-        toast('Donnees restaurees ! Rechargement...','✅',2000);
-        setTimeout(function(){location.reload();},2000);
-      }catch(ex){toast('Erreur de lecture','❌',2500);}
-    };
-    r.readAsText(f);
-  };
-  inp.click();
-}
+// ── 1. DATA EXPORT/IMPORT SYSTEM ── (moved to main script block)
 
 // ── 2. ENHANCED LANGUAGE DB ── (20 more words per language)
 var LANG_EXTRA={
@@ -9782,6 +9965,8 @@ try {
         var fab = document.getElementById('jarvis-fab');
         if(fab && S && S.ob){
           fab.style.display = 'flex';
+        var qfab = document.getElementById('qcap-fab');
+        if(qfab) qfab.style.display = 'block';
         }
       } catch(e){}
     };
