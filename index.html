@@ -1427,8 +1427,8 @@ const wV={wI:0,wS:5,wR:7,wY:10};
 function updW(inp,id){wV[id]=parseFloat(inp.value);const sv=document.getElementById('sv-'+id);if(sv)sv.textContent=inp.value+(id==='wI'?'€':id==='wY'?'ans':'%');const m=wV.wI*(wV.wS/100);const r=wV.wR/100;const n=wV.wY;const f=m*((Math.pow(1+r/12,n*12)-1)/(r/12));const fmt=v=>v>=1000000?Math.round(v/100000)/10+'M€':v>=1000?Math.round(v/100)/10+'k€':Math.round(v)+'€';const wr=document.getElementById('w-res');if(wr)wr.textContent=fmt(f);const wt=document.getElementById('w-tl');if(wt)wt.textContent='En '+n+' ans · Épargne: '+fmt(m*12)+'/an';}
 function rProgress(el){el.innerHTML='<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:11px"><div class="lbl" style="margin-bottom:12px">📈 Activité 7 jours</div><div style="display:flex;align-items:flex-end;gap:4px;height:70px;margin-bottom:8px">'+Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-6+i);const ci=(S.checkins||{})[d.toDateString()];const h=ci?Math.floor(Math.random()*60+25):8;return '<div style="flex:1;background:'+(ci?'var(--ac)':'var(--sf3)')+';border-radius:3px 3px 0 0;height:'+h+'%;opacity:'+(i===6?'1':'.6')+';transition:height .6s"></div>';}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3)">'+['L','M','M','J','V','S','D'].map(d=>'<span>'+d+'</span>').join('')+'</div></div><div class="row3" style="margin-bottom:11px">'+[{n:S.xp||0,l:'XP Total',c:'var(--ac)'},{n:S.gems||0,l:'💎 Gemmes',c:'var(--bl)'},{n:S.streak||0,l:'Streak 🔥',c:'var(--or)'},{n:Object.keys(S.checkins||{}).length,l:'Check-ins',c:'var(--gr)'},{n:S.pomoTot||0,l:'Pomodoros',c:'var(--pu)'},{n:(S.nat.walkLogs||[]).length,l:'Marches',c:'var(--nt)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:10px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><button class="btn btn-ac" onclick="toast(\'Carte générée ! Partage ton succès 🔥\',\'🎴\',3000)">🎴 Générer carte de victoire</button>';}
 function rAff(el){if(!S.aff.code)S.aff.code=genCode('AFF');if(!S.aff.refs.length&&S.streak>0){S.aff.refs=[{nm:'Alex M.',plan:'Pro',date:'2026-03-20',earn:2.49},{nm:'Sarah L.',plan:'Starter',date:'2026-03-22',earn:1.0}];S.aff.earn=3.49;S.aff.pend=3.49;S.aff.clicks=47;save();}const refs=S.aff.refs||[];const curT=AFF_T.reduce((acc,t)=>refs.length>=t.refs?t:acc,AFF_T[0]);el.innerHTML='<div style="background:var(--grd);border:1px solid var(--gr);border-radius:var(--r);padding:20px;text-align:center;margin-bottom:11px"><div class="lbl" style="color:var(--gr);margin-bottom:8px">💸 Ton code affiliation</div><div style="font-family:var(--fd);font-weight:700;font-size:28px;letter-spacing:4px;color:var(--gr);margin:10px 0">'+S.aff.code+'</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:8px 18px;background:linear-gradient(135deg,var(--gr),#7de8a0);border-radius:20px;color:#0a1808;font-size:12px;font-weight:700;cursor:pointer" onclick="cpAff()">📋 Copier</button><button style="padding:8px 18px;background:rgba(0,0,0,.3);border:1px solid var(--gr);border-radius:20px;color:var(--gr);font-size:12px;font-weight:700;cursor:pointer" onclick="shAff()">📤 Partager</button></div></div><div class="row2" style="margin-bottom:11px">'+[{n:refs.length,l:'Filleuls',c:'var(--gr)'},{n:S.aff.clicks||0,l:'Clics',c:'var(--bl)'},{n:(S.aff.earn||0).toFixed(2)+'€',l:'Total gagné',c:'var(--ac)'},{n:(S.aff.pend||0).toFixed(2)+'€',l:'En attente',c:'var(--or)'}].map(s=>'<div style="background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);padding:11px;text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:18px;color:'+s.c+'">'+s.n+'</div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+s.l+'</div></div>').join('')+'</div><div class="lbl" style="margin-bottom:9px">Palier actuel: <span style="color:'+curT.col+'">'+curT.ico+' '+t(curT.tk)+' — '+curT.pct+'%</span></div>'+AFF_T.map(a=>'<div style="background:var(--sf);border:1px solid '+(a===curT?'var(--ac)':'var(--bd)')+';border-radius:var(--rs);padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px"><div style="font-size:22px">'+a.ico+'</div><div style="flex:1"><div style="font-size:13px;font-weight:700">'+t(a.tk)+' — '+a.refs+'+</div></div><div style="font-family:var(--fd);font-weight:700;font-size:20px;color:'+a.col+'">'+a.pct+'%</div></div>').join('');}
-function cpAff(){navigator.clipboard.writeText('https://rise.app/?ref='+S.aff.code).then(()=>toast(t('link_copied'),'📋',2000));}
-function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec FORGE v9 ! Coach IA + Nature + Livres + 100% perso. Essaie: https://rise.app/?ref='+S.aff.code).then(()=>toast(t('message_copied'),'📤',2000));}
+function cpAff(){navigator.clipboard.writeText('https://forge-app.com/?ref='+S.aff.code).then(()=>toast(t('link_copied'),'📋',2000));}
+function shAff(){navigator.clipboard.writeText('Je transforme ma vie avec FORGE v9 ! Coach IA + Nature + Livres + 100% perso. Essaie: https://forge-app.com/?ref='+S.aff.code).then(()=>toast(t('message_copied'),'📤',2000));}
 let moiTab='perso';
 function setMoiT(tab,btn){moiTab=tab;document.querySelectorAll('#screen-moi .fbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderMoi();}
 function renderMoi(){const el=document.getElementById('moi-content');if(!el)return;if(moiTab==='perso')rPerso(el);else if(moiTab==='widgets')rWidgets(el);else if(moiTab==='todo')rTodo(el);else if(moiTab==='plans')rPlans(el);else if(moiTab==='stats')rStats(el);}
@@ -1615,7 +1615,7 @@ function startCh(type){
   S.friendChs=S.friendChs||[];
   S.friendChs.push({id,type,status:'active',prog:0,opp:'Ami',xp:fc.xp});
   save();
-  const lnk='https://rise.app/c/'+id;
+  const lnk='https://forge-app.com/c/'+id;
   navigator.clipboard.writeText('⚔️ FORGE: '+t(fc.tk)+'\n'+S.name+'\n'+lnk).then(()=>{toast('Defi lance ! Lien copie','⚔️',4000);renderFeat();});
 }
 function progressCh(id){
@@ -1625,7 +1625,7 @@ function progressCh(id){
   if(c.prog>=fc.dur){c.status='won';gainXP(fc.xp,'ch');gainGems(15);confetti();toast('DEFI GAGNE ! +'+fc.xp+' XP','⚔️',5000);}
   save();renderFeat();
 }
-function shareCh(id){navigator.clipboard.writeText('Suis mon avancement FORGE ! https://rise.app/c/'+id).then(()=>toast('Lien copie !','📤',2000));}
+function shareCh(id){navigator.clipboard.writeText('Suis mon avancement FORGE ! https://forge-app.com/c/'+id).then(()=>toast('Lien copie !','📤',2000));}
 // ══ LANGUES ══
 const LANG_DB={
   en:{name:'English',flag:'🇬🇧',words:[
@@ -2174,7 +2174,7 @@ function shareOn(network, msg) {
   var encoded = encodeURIComponent(msg);
   var urls = {
     twitter: 'https://twitter.com/intent/tweet?text=' + encoded,
-    linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=https://rise.app&summary=' + encoded,
+    linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=https://forge-app.com&summary=' + encoded,
     whatsapp: 'https://wa.me/?text=' + encoded,
   };
   if (urls[network]) window.open(urls[network], '_blank');
@@ -2212,10 +2212,10 @@ function genShareImg() {
   // Date
   ctx.fillStyle = '#424b57';
   ctx.font = '14px sans-serif';
-  ctx.fillText('rise.app · ' + new Date().toLocaleDateString('fr'), 40, 370);
+  ctx.fillText('forge-app.com · ' + new Date().toLocaleDateString('fr'), 40, 370);
   // Download
   var link = document.createElement('a');
-  link.download = 'rise-card-'+S.name+'.png';
+  link.download = 'forge-card-'+S.name+'.png';
   link.href = canvas.toDataURL();
   link.click();
   toast('Carte téléchargée !','🎴',3000);
@@ -5926,13 +5926,13 @@ function toggleZenMode(){
     
     // Footer
     ctx.fillStyle='#424b57';ctx.font='12px sans-serif';
-    ctx.fillText('rise.app · '+new Date().toLocaleDateString('fr-FR')+' · Généré avec FORGE AI Life OS',50,440);
+    ctx.fillText('forge-app.com · '+new Date().toLocaleDateString('fr-FR')+' · Généré avec FORGE',50,440);
     ctx.fillStyle='#d4aa4a';ctx.font='bold 14px sans-serif';
     ctx.fillText('#FORGE #Growth #Discipline',50,465);
     
     // Download
     var link=document.createElement('a');
-    link.download='rise-7days-'+S.name+'.png';
+    link.download='forge-7days-'+S.name+'.png';
     link.href=canvas.toDataURL('image/png');
     link.click();
     toast('Carte "Mon FORGE en 7 jours" téléchargée !','🎴',4000);
@@ -6626,8 +6626,8 @@ function toggleZenMode(){
     {property:'og:title',content:'FORGE — AI Life OS'},
     {property:'og:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec FORGE.'},
     {property:'og:type',content:'website'},
-    {property:'og:image',content:'https://rise.app/og-image.png'},
-    {property:'og:url',content:'https://rise.app'},
+    {property:'og:image',content:'https://forge-app.com/og-image.png'},
+    {property:'og:url',content:'https://forge-app.com'},
     {name:'twitter:card',content:'summary_large_image'},
     {name:'twitter:title',content:'FORGE — AI Life OS'},
     {name:'twitter:description',content:'Coach IA, habitudes, nature, fitness, business, langues. Transforme ta vie avec FORGE.'},
@@ -6884,10 +6884,10 @@ function toggleZenMode(){
   // Enhanced share with Web Share API
   window.nativeShare=function(title,text,url){
     if(navigator.share){
-      navigator.share({title:title,text:text,url:url||'https://rise.app'}).catch(function(){});
+      navigator.share({title:title,text:text,url:url||'https://forge-app.com'}).catch(function(){});
     }else{
       // Fallback to clipboard
-      navigator.clipboard.writeText(text+' '+( url||'https://rise.app')).then(function(){
+      navigator.clipboard.writeText(text+' '+( url||'https://forge-app.com')).then(function(){
         toast('Copié dans le presse-papier !','📋',2000);
       });
     }
@@ -7340,7 +7340,7 @@ function toggleZenMode(){
     var blob = new Blob([txt], { type: 'text/plain' });
     var a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'rise-journal-' + TD.replace(/ /g, '-') + '.txt';
+    a.download = 'forge-journal-' + TD.replace(/ /g, '-') + '.txt';
     a.click();
     URL.revokeObjectURL(a.href);
     toast('Journal exporté !', '📋', 2000);
