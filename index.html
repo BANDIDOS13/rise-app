@@ -4949,7 +4949,7 @@ function exportData(){
   var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   var a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download='rise-backup-'+TD.replace(/\s/g,'-')+'.json';
+  a.download='forge-backup-'+TD.replace(/\s/g,'-')+'.json';
   a.click();
   URL.revokeObjectURL(a.href);
   toast('Backup sauvegarde !','💾',2000);
@@ -5469,7 +5469,7 @@ function initRecap(){
 }
 
 // ── SONS (Web Audio API) ──
-var RiseSounds=(function(){
+var ForgeSounds=(function(){
   var ctx=null;
   function getCtx(){if(!ctx)try{ctx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}return ctx;}
   function play(freq,dur,type,vol){
@@ -5500,8 +5500,8 @@ var RiseSounds=(function(){
     var prevLvl=getLvl(S.xp||0);
     _origGainXP(n,src);
     var newLvl=getLvl(S.xp||0);
-    if(newLvl>prevLvl){try{RiseSounds.levelUp();}catch(e){}}
-    else{try{RiseSounds.xp();}catch(e){}}
+    if(newLvl>prevLvl){try{ForgeSounds.levelUp();}catch(e){}}
+    else{try{ForgeSounds.xp();}catch(e){}}
   };
 })();
 
@@ -5510,7 +5510,7 @@ var RiseSounds=(function(){
   var _origComplQ=complQ;
   complQ=function(type,amt){
     _origComplQ(type,amt);
-    try{RiseSounds.complete();}catch(e){}
+    try{ForgeSounds.complete();}catch(e){}
   };
 })();
 
@@ -5853,7 +5853,7 @@ function toggleZenMode(){
 
 // ── 7. SOCIAL FEATURES — Enhanced share card with Canvas ──
 (function(){
-  window.generateRiseCard=function(){
+  window.generateForgeCard=function(){
     var canvas=document.createElement('canvas');
     canvas.width=800;canvas.height=500;
     var ctx=canvas.getContext('2d');
@@ -6243,7 +6243,7 @@ function toggleZenMode(){
     {ico:'👥',name:'CRM',hint:'Contacts & deals',action:function(){gs('crm',null);}},
     {ico:'🎨',name:'Mon Espace',hint:'Style, widgets, tâches',action:function(){gs('moi',null);}},
     {ico:'🔔',name:'Notifications',hint:'Voir les notifications',action:function(){gs('notifs',null);}},
-    {ico:'🎴',name:'Générer carte FORGE',hint:'Télécharger une carte image',action:function(){generateRiseCard();}},
+    {ico:'🎴',name:'Générer carte FORGE',hint:'Télécharger une carte image',action:function(){generateForgeCard();}},
     {ico:'🧘',name:'Méditation',hint:'Respiration & calme',action:function(){gs('meditate',null);}},
     {ico:'🚀',name:'Features',hint:'Toutes les features',action:function(){gs('feat',null);}}
   ];
@@ -6380,7 +6380,7 @@ function toggleZenMode(){
       var btn3=document.createElement('button');
       btn3.style.cssText='display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:linear-gradient(135deg,var(--ac),var(--ac2));border:1px solid var(--acm);border-radius:var(--rs);font-size:10px;color:var(--bg);font-weight:700;cursor:pointer';
       btn3.innerHTML='<span style="font-size:18px">🎴</span>Carte 7j';
-      btn3.onclick=function(){generateRiseCard();closePlus();};
+      btn3.onclick=function(){generateForgeCard();closePlus();};
       lastGrid.appendChild(btn3);
     }
   }
@@ -6438,14 +6438,14 @@ function toggleZenMode(){
 
 // ── 3. DATA EXPORT / BACKUP / IMPORT ──
 (function(){
-  window.exportRiseData=function(){
+  window.exportForgeData=function(){
     try{
       var data=localStorage.getItem('rise_v9')||'{}';
       var blob=new Blob([data],{type:'application/json'});
       var url=URL.createObjectURL(blob);
       var a=document.createElement('a');
       a.href=url;
-      a.download='rise-backup-'+(S.name||'user')+'-'+new Date().toISOString().split('T')[0]+'.json';
+      a.download='forge-backup-'+(S.name||'user')+'-'+new Date().toISOString().split('T')[0]+'.json';
       a.click();
       URL.revokeObjectURL(url);
       toast('Backup téléchargé !','💾',3000);
@@ -6454,7 +6454,7 @@ function toggleZenMode(){
     }
   };
   
-  window.importRiseData=function(){
+  window.importForgeData=function(){
     var input=document.createElement('input');
     input.type='file';
     input.accept='.json';
@@ -6750,8 +6750,8 @@ function toggleZenMode(){
     var extra='';
     extra+='<div style="margin-top:20px">';
     extra+='<div class="lbl" style="margin-bottom:10px">Données & Sécurité</div>';
-    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="exportRiseData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">💾</div><div><div style="font-size:13px;font-weight:700">Exporter mes données</div><div style="font-size:11px;color:var(--tx3)">Télécharger un backup JSON</div></div></div></div>';
-    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="importRiseData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">📥</div><div><div style="font-size:13px;font-weight:700">Importer des données</div><div style="font-size:11px;color:var(--tx3)">Restaurer depuis un backup</div></div></div></div>';
+    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="exportForgeData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">💾</div><div><div style="font-size:13px;font-weight:700">Exporter mes données</div><div style="font-size:11px;color:var(--tx3)">Télécharger un backup JSON</div></div></div></div>';
+    extra+='<div class="wg" style="padding:14px;margin-bottom:8px;cursor:pointer" onclick="importForgeData()"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">📥</div><div><div style="font-size:13px;font-weight:700">Importer des données</div><div style="font-size:11px;color:var(--tx3)">Restaurer depuis un backup</div></div></div></div>';
     extra+='<div class="wg" style="padding:14px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:12px"><div style="font-size:22px">📊</div><div><div style="font-size:13px;font-weight:700">Utilisation stockage</div><div style="font-size:11px;color:var(--tx3)">'+(localStorage.getItem('rise_v9')||'').length+' octets / ~5 MB</div></div></div></div>';
     extra+='</div>';
     
@@ -6781,7 +6781,7 @@ function toggleZenMode(){
   
   window.sendLocalNotif=function(title,body,ico){
     if('Notification' in window && Notification.permission==='granted'){
-      try{new Notification(title,{body:body,icon:ico||'🚀',badge:'🚀',tag:'rise-'+Date.now()});}catch(e){}
+      try{new Notification(title,{body:body,icon:ico||'🚀',badge:'🚀',tag:'forge-'+Date.now()});}catch(e){}
     }
   };
 })();
@@ -6789,14 +6789,14 @@ function toggleZenMode(){
 // ── 14. INTERVAL CLEANUP ON SCREEN CHANGE ──
 (function(){
   // Track active intervals
-  window._riseIntervals=[];
+  window._forgeIntervals=[];
   var _origSetInterval=window.setInterval;
   window.setInterval=function(fn,ms){
     var id=_origSetInterval(fn,ms);
-    window._riseIntervals.push(id);
+    window._forgeIntervals.push(id);
     // Limit max intervals
-    if(window._riseIntervals.length>20){
-      var old=window._riseIntervals.shift();
+    if(window._forgeIntervals.length>20){
+      var old=window._forgeIntervals.shift();
       clearInterval(old);
     }
     return id;
@@ -12888,7 +12888,7 @@ function genSocialHook(){
 
 function genSocialCaption(platform){
   var hook = genSocialHook();
-  var hashtags = '#rise #mindset #growth #entrepreneur #motivation';
+  var hashtags = '#forge #mindset #growth #entrepreneur #motivation';
   if(platform === 'LinkedIn') return hook + '\n\nDéveloppe cette idée en 3 points...\n\n' + hashtags;
   if(platform === 'Instagram') return hook + '\n\n.\n.\n.\n\nSauvegarde ce post si ça t\'a aidé 🔖\n\n' + hashtags;
   if(platform === 'TikTok') return hook + ' #fyp #pourtoi #viral';
@@ -13868,7 +13868,7 @@ function confirmDeleteAccount(){
   if(!confirm('Es-tu sûr de vouloir supprimer ton compte ? Cette action est irréversible.'))return;
   if(!confirm('Dernière chance. Confirmer la suppression définitive ?'))return;
   localStorage.removeItem('FORGE');localStorage.removeItem('rise_cookies_consent');localStorage.removeItem('rise_pwa_dismissed');localStorage.removeItem('rise_errors');
-  alert('Ton compte a été supprimé.');window.location.href='/rise-landing.html';
+  alert('Ton compte a été supprimé.');window.location.href='/forge-landing.html';
 }
 
 // Error tracking
