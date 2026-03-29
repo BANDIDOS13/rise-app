@@ -1106,7 +1106,7 @@ function gainGems(n2){S.gems=(S.gems||0)+n2;save();updGB();}
 function updXP(){const xp=S.xp||0,lvl=getLvl(xp);const nxt=LVL_X[Math.min(lvl+1,9)],prv=LVL_X[lvl];const pct=lvl>=9?100:Math.round((xp-prv)/(nxt-prv)*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('xp-lvl','LVL '+(lvl+1));set('xp-name',LVL_T[lvl]);set('xp-cur',xp);set('xp-nxt',nxt);const b=document.getElementById('xp-fill');if(b)b.style.width=pct+'%';set('xp-next-lbl',(nxt-xp)+' XP pour '+LVL_T[Math.min(lvl+1,9)]);}
 function initBoss(){if(S.bossW!==WK){S.bossW=WK;S.bossProg[WK]={hp:BOSSES[S.curBoss||0].hp,done:false};save();}renderBoss();}
 function renderBoss(){const boss=BOSSES[S.curBoss||0];const prog=S.bossProg[WK]||{hp:boss.hp};const pct=Math.round((prog.hp||0)/boss.hp*100);const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};set('boss-nm',boss.name);set('boss-hp-txt',prog.hp+'/'+boss.hp);const b=document.getElementById('boss-hp-fill');if(b)b.style.width=pct+'%';}
-function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);toast('Boss vaincu. +'+boss.r.xp+' XP. Au suivant.','⚔️',5000);confetti();S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
+function dmgBoss(a){const prog=S.bossProg[WK];if(!prog||prog.done)return;prog.hp=Math.max(0,(prog.hp||0)-a);if(prog.hp<=0){prog.done=true;const boss=BOSSES[S.curBoss||0];gainXP(boss.r.xp,'boss');gainGems(boss.r.g);var nextBoss=BOSSES[((S.curBoss||0)+1)%BOSSES.length];toast('Boss vaincu. +'+boss.r.xp+' XP','⚔️',5000);confetti();if(typeof JARVIS_CTX!=='undefined')addN('⚔️','Boss vaincu : '+boss.name,JARVIS_CTX.bossDefeated(boss.name,nextBoss.name));S.curBoss=((S.curBoss||0)+1)%BOSSES.length;}save();renderBoss();}
 function initDQ(){if(S.dq.date!==TD){const sh=[...QPOOL].sort(()=>Math.random()-.5);const qs=sh.slice(0,5).map(q=>({...q,progress:0,done:false}));
 // Add a bonus quest from QUEST_BANK if available
 if(typeof QUEST_BANK!=='undefined'){const domains=Object.keys(QUEST_BANK);const dom=domains[Math.floor(Math.random()*domains.length)];const pool=QUEST_BANK[dom];const bq=pool[Math.floor(Math.random()*pool.length)];qs.push({id:'bq_'+dom.toLowerCase(),ico:'🎯',nm:bq.t,target:1,type:'bonus',xp:bq.xp,g:Math.floor(bq.xp/10),progress:0,done:false,desc:bq.d,domain:dom});}
@@ -4697,7 +4697,51 @@ const ACHIEVEMENTS=[
   {id:'polymath',nm:'Polymathes',desc:'Au moins 5 types d\'activités différentes dans la semaine.',flavor:'Corps, esprit, business, nature, social — tu ne choisis pas. Tu fais tout.',ico:'🌟',rarity:'epic',cond:()=>{let cats=new Set();if((S.workouts?.length||0)>0)cats.add('body');if((S.journal?.length||0)>0)cats.add('mind');if(Object.keys(S.checkins||{}).length>0)cats.add('ci');if((S.nat?.walkLogs?.length||0)>0)cats.add('nature');if((S.coachMem?.n||0)>0)cats.add('coach');if((S.pomoStats?.sessions?.length||0)>0)cats.add('focus');if((S.budget?.expenses?.length||0)>0)cats.add('money');return cats.size>=5;},xp:200},
   // ── WEEKEND WARRIOR ──
   {id:'weekend',nm:'Weekend Warrior',desc:'Active RISE un samedi ET un dimanche.',flavor:'Pas de pause le weekend. Les résultats non plus ne prennent pas de pause.',ico:'💪',rarity:'uncommon',cond:()=>{const d=new Date().getDay();return d===0&&S.loginS?.streak>=2;},xp:50},
-  // ── TOTAL ACHIEVEMENTS ──
+  // ── KANBAN ──
+  {id:'kanban1',nm:'Première Carte',desc:'Crée ta première tâche Kanban.',flavor:'Un projet commence par une carte. La tienne est posée.',ico:'📋',rarity:'common',cond:()=>(S.kanban?.cards?.length||0)>=1,xp:15},
+  {id:'kanban10',nm:'Flux Tendu',desc:'10 tâches créées dans le Kanban.',flavor:'10 cartes en mouvement. Tu gères comme un pro.',ico:'📋',rarity:'uncommon',cond:()=>(S.kanban?.cards?.length||0)>=10,xp:60},
+  {id:'kanban_done5',nm:'Exécuteur',desc:'5 tâches terminées dans le Kanban.',flavor:'5 tâches bouclées. L\'exécution bat la planification. Toujours.',ico:'✅',rarity:'uncommon',cond:()=>(S.kanban?.cards||[]).filter(c=>c.col==='done').length>=5,xp:60},
+  {id:'kanban_done25',nm:'Machine à Livrer',desc:'25 tâches terminées.',flavor:'25 livrables. Tu ne planifies plus — tu exécutes.',ico:'✅',rarity:'rare',cond:()=>(S.kanban?.cards||[]).filter(c=>c.col==='done').length>=25,xp:150},
+  // ── ROUTINES ──
+  {id:'routine1',nm:'Rituel',desc:'Complète une routine matin ou soir.',flavor:'Un rituel, c\'est un engagement envers toi-même. Chaque jour.',ico:'🔄',rarity:'common',cond:()=>{const r=S.routines;if(!r)return false;const today=TD;return (r.matin||[]).some(s=>s.doneDates?.includes(today))||(r.soir||[]).some(s=>s.doneDates?.includes(today));},xp:20},
+  {id:'routine_full',nm:'Routine Complète',desc:'Complète toute ta routine matin OU soir en un jour.',flavor:'Chaque étape cochée. Zéro raccourci. C\'est ça, la discipline.',ico:'🔄',rarity:'uncommon',cond:()=>{const r=S.routines;if(!r)return false;const today=TD;const mD=(r.matin||[]).filter(s=>s.active);const sD=(r.soir||[]).filter(s=>s.active);return (mD.length>0&&mD.every(s=>s.doneDates?.includes(today)))||(sD.length>0&&sD.every(s=>s.doneDates?.includes(today)));},xp:60},
+  {id:'routine_both',nm:'Aube et Crépuscule',desc:'Complète routine matin ET soir le même jour.',flavor:'Du lever au coucher, ta journée est architecturée. Les meilleurs vivent ainsi.',ico:'🌅',rarity:'epic',cond:()=>{const r=S.routines;if(!r)return false;const today=TD;const mD=(r.matin||[]).filter(s=>s.active);const sD=(r.soir||[]).filter(s=>s.active);return mD.length>0&&sD.length>0&&mD.every(s=>s.doneDates?.includes(today))&&sD.every(s=>s.doneDates?.includes(today));},xp:150},
+  // (OKR, plan90, vb, letter — see below)
+  // ── TOURNOI ──
+  {id:'tourn_top',nm:'Podium',desc:'Top 3 du tournoi hebdo.',flavor:'Tu t\'es mesuré aux autres. Et tu as tenu.',ico:'🏅',rarity:'rare',cond:()=>{const sc=S.tourn?.sc||{};const entries=Object.entries(sc).sort((a,b)=>b[1]-a[1]);const pos=entries.findIndex(e=>e[0]==='Toi');return pos>=0&&pos<3;},xp:150},
+  // ── LANGUES ──
+  {id:'lang1',nm:'Premier Mot',desc:'Apprends ton premier mot.',flavor:'Un mot. Le début d\'un nouveau monde.',ico:'🌍',rarity:'common',cond:()=>{const lp=S.langProg||{};return Object.values(lp).some(l=>(l.done?.length||0)>=1);},xp:15},
+  {id:'lang10',nm:'Polyglotte',desc:'10 mots appris.',flavor:'10 mots. Tu peux déjà impressionner dans un aéroport.',ico:'🌍',rarity:'uncommon',cond:()=>{const lp=S.langProg||{};return Object.values(lp).some(l=>(l.done?.length||0)>=10);},xp:50},
+  {id:'lang2',nm:'Bilingue',desc:'Mots appris dans 2 langues.',flavor:'Deux langues. Deux façons de voir le monde.',ico:'🌍',rarity:'uncommon',cond:()=>{const lp=S.langProg||{};return Object.keys(lp).filter(k=>(lp[k].done?.length||0)>=1).length>=2;},xp:60},
+  // ── STOÏCISME ──
+  {id:'stoic1',nm:'Apprenti Stoïque',desc:'Première leçon de stoïcisme.',flavor:'"Ce qui trouble les hommes, ce ne sont pas les choses, mais les jugements."',ico:'🏛️',rarity:'common',cond:()=>(S.stoicProg?.completed?.length||0)>=1||(S.stoicDone?.length||0)>=1,xp:25},
+  {id:'stoic5',nm:'Philosophe Pratique',desc:'5 exercices stoïques.',flavor:'Tu ne lis plus le stoïcisme — tu le vis.',ico:'🏛️',rarity:'uncommon',cond:()=>(S.stoicProg?.completed?.length||0)>=5||(S.stoicDone?.length||0)>=5,xp:80},
+  // ── NUTRITION ──
+  {id:'fast1',nm:'Jeûneur',desc:'Première session de jeûne.',flavor:'Le jeûne n\'est pas une privation. C\'est une régénération.',ico:'⏳',rarity:'uncommon',cond:()=>(S.nutri?.fastLog?.length||0)>=1,xp:40},
+  {id:'water_goal',nm:'8 Verres',desc:'8 verres d\'eau en un jour.',flavor:'Ton corps fonctionne enfin à plein régime.',ico:'💧',rarity:'common',cond:()=>(S.nutri?.water?.[TD]||0)>=8,xp:25},
+  // ── OUTILS AVANCÉS ──
+  {id:'compta1',nm:'Premier Bilan Pro',desc:'Première entrée en comptabilité.',flavor:'La comptabilité, c\'est la vérité financière.',ico:'💼',rarity:'common',cond:()=>{const c=S.compta||{};return Object.keys(c.revenues||{}).length>0||Object.keys(c.expenses||{}).length>0;},xp:20},
+  {id:'visionboard3',nm:'Architecte de Vision',desc:'3 objectifs sur ton vision board.',flavor:'Le cerveau ne différencie pas le réel du vividement imaginé.',ico:'🎨',rarity:'rare',cond:()=>(S.visionboard?.objectives?.length||0)>=3,xp:100},
+  {id:'process1',nm:'Systémisé',desc:'Premier processus documenté.',flavor:'Un processus documenté = du temps futur économisé.',ico:'⚙️',rarity:'uncommon',cond:()=>(S.processes?.length||0)>=1,xp:40},
+  {id:'lifescore1',nm:'Radar Activé',desc:'Premier Life Score rempli.',flavor:'8 dimensions. Un snapshot de ta vie.',ico:'📊',rarity:'uncommon',cond:()=>Object.keys(S.lifescores||{}).length>=1,xp:40},
+  {id:'book_reading',nm:'En Cours',desc:'Commence un livre.',flavor:'La première page est la plus dure. Tu l\'as tournée.',ico:'📖',rarity:'common',cond:()=>!!(S.books?.reading),xp:10},
+  {id:'wheel1',nm:'Chanceux',desc:'Tourne la roue.',flavor:'La chance sourit aux réguliers.',ico:'🎰',rarity:'common',cond:()=>!!(S.wheelDate),xp:15},
+  {id:'shop1',nm:'Premier Achat',desc:'Débloque un item boutique.',flavor:'Tes gemmes au travail.',ico:'🛒',rarity:'common',cond:()=>(S.shopUnlocked?.length||0)>=1,xp:20},
+  {id:'shop5',nm:'VIP',desc:'5 items boutique débloqués.',flavor:'La patience paie en gemmes.',ico:'🛒',rarity:'uncommon',cond:()=>(S.shopUnlocked?.length||0)>=5,xp:60},
+  {id:'med1',nm:'Premier Silence',desc:'Première méditation.',flavor:'Le silence est un super-pouvoir.',ico:'🧘',rarity:'common',cond:()=>(S.nat?.breathLogs?.length||0)>=1,xp:15},
+  {id:'todo100',nm:'Implacable',desc:'100 tâches complétées.',flavor:'100 actions. Chacune t\'a rapproché.',ico:'✅',rarity:'epic',cond:()=>(S.todos||[]).filter(t=>t.done).length>=100,xp:300},
+  {id:'season2',nm:'Saison 2',desc:'Atteins la Saison 2 — Momentum.',flavor:'Les fondations posées. Le momentum commence.',ico:'🌿',rarity:'rare',cond:()=>(S.season||1)>=2,xp:150},
+  {id:'season3',nm:'Saison 3',desc:'Atteins la Saison 3 — Maîtrise.',flavor:'Tu ne suis plus le chemin. Tu le traces.',ico:'💎',rarity:'epic',cond:()=>(S.season||1)>=3,xp:300},
+  {id:'season4',nm:'Saison 4',desc:'Atteins la Saison 4 — Ascension.',flavor:'Le sommet approche. Le voyage continue.',ico:'👑',rarity:'legendary',cond:()=>(S.season||1)>=4,xp:500},
+  {id:'screens20',nm:'Explorateur Total',desc:'20 écrans visités.',flavor:'Tu connais RISE mieux que quiconque.',ico:'🧭',rarity:'rare',cond:()=>Object.keys(S.screenVisits||{}).length>=20,xp:100},
+  {id:'screens30',nm:'Maître des Lieux',desc:'30 écrans visités.',flavor:'Tu utilises RISE à son plein potentiel.',ico:'🧭',rarity:'epic',cond:()=>Object.keys(S.screenVisits||{}).length>=30,xp:200},
+  // ── COMBOS ──
+  {id:'morning_combo',nm:'Routine Aurore',desc:'Check-in + méditation + marche avant 9h.',flavor:'Les 3 premières heures décident de ta journée.',ico:'🌅',rarity:'epic',cond:()=>{const h=new Date().getHours();return h<9&&S.checkins?.[TD]&&(S.nat?.breathLogs?.length||0)>0&&(S.nat?.walkLogs?.length||0)>0;},xp:200},
+  {id:'night_ritual',nm:'Rituel Nocturne',desc:'Journal + sleep + respiration après 20h.',flavor:'La nuit prépare demain.',ico:'🌙',rarity:'rare',cond:()=>{const h=new Date().getHours();return h>=20&&(S.journal?.length||0)>0&&(S.nat?.sleepLogs?.length||0)>0;},xp:120},
+  {id:'triple_streak',nm:'Triple Flamme',desc:'Streak app + habitude + langue simultanés.',flavor:'3 streaks. La constance au carré.',ico:'🔥',rarity:'epic',cond:()=>(S.loginS?.streak||0)>=3&&(S.habits?.list||[]).some(h=>(h.streak||0)>=3)&&Object.values(S.langProg||{}).some(l=>(l.streak||0)>=3),xp:200},
+  {id:'xp_day200',nm:'Jour Explosif',desc:'200 XP en une journée.',flavor:'Certains jours comptent double.',ico:'💥',rarity:'rare',cond:()=>(S._todayXP||0)>=200,xp:100},
+  {id:'xp_day500',nm:'Jour Légendaire',desc:'500 XP en une journée.',flavor:'Ce jour sera marqué dans tes données.',ico:'💥',rarity:'legendary',cond:()=>(S._todayXP||0)>=500,xp:300},
+  // ── TOTAL ACHIEVEMENTS (SUITE) ──
   {id:'ach10',nm:'Collectionneur',desc:'10 succès débloqués.',flavor:'10 badges. Tu commences une belle collection.',ico:'🏅',rarity:'uncommon',cond:()=>(S.achievements?.length||0)>=10,xp:60},
   {id:'ach25',nm:'Chasseur de Badges',desc:'25 succès débloqués.',flavor:'25 badges. La moitié du chemin. Continue.',ico:'🏅',rarity:'rare',cond:()=>(S.achievements?.length||0)>=25,xp:150},
   {id:'ach50',nm:'Légende Vivante',desc:'50 succès débloqués.',flavor:'50 succès. Tu es une légende dans ce jeu. Et le jeu, c\'est ta vie.',ico:'🏅',rarity:'epic',cond:()=>(S.achievements?.length||0)>=50,xp:400},
@@ -8300,15 +8344,47 @@ window.EMAIL_SEQUENCE=[
     var hour = new Date().getHours();
     var habits = S.habits && S.habits.list || [];
     var undone = habits.filter(function(h){ return h.lastDone !== new Date().toDateString(); });
+    var streak = S.loginS?.streak || 0;
+    var questsLeft = (S.dq?.qs||[]).filter(function(q){return !q.done;}).length;
 
     // Show notification dot if there are proactive suggestions
+    var shouldNotify = false;
     var dot = fab.querySelector('.jarvis-dot');
-    if(undone.length > 0 && hour >= 8 && hour <= 22){
-      if(!dot){
-        dot = document.createElement('span');
-        dot.className = 'jarvis-dot';
-        fab.appendChild(dot);
+
+    // Streak danger: after 21h with no activity
+    if(hour >= 21 && questsLeft > 0 && streak >= 3){
+      shouldNotify = true;
+      if(typeof JARVIS_CTX !== 'undefined' && !S._streakWarned){
+        var mid = new Date(); mid.setHours(23,59,0,0);
+        var hoursLeft = (mid - Date.now()) / 3600000;
+        addN('🔥', 'Streak en danger', JARVIS_CTX.streakDanger(streak, hoursLeft));
+        S._streakWarned = TD; save();
       }
+    }
+
+    // Undone habits after 18h
+    if(undone.length > 0 && hour >= 18 && hour <= 22) shouldNotify = true;
+
+    // Morning: quests available
+    if(hour >= 7 && hour <= 10 && questsLeft > 0) shouldNotify = true;
+
+    // Stagnation check (weekly)
+    if(hour === 12 && typeof JARVIS_CTX !== 'undefined' && !S._stagnationChecked){
+      var domains = {MIND:'journal',BODY:'workouts',HUSTLE:'pomoStats'};
+      Object.keys(domains).forEach(function(d){
+        var key = domains[d];
+        var val = key === 'journal' ? (S.journal?.length||0) : key === 'workouts' ? (S.workouts?.length||0) : (S.pomoStats?.sessions?.length||0);
+        if(val === (S._lastActivity?.[d]||0) && val > 0){
+          addN('📊', d + ' — activité stable', JARVIS_CTX.stagnation(d, 5));
+        }
+        S._lastActivity = S._lastActivity || {};
+        S._lastActivity[d] = val;
+      });
+      S._stagnationChecked = TD; save();
+    }
+
+    if(shouldNotify){
+      if(!dot){ dot = document.createElement('span'); dot.className = 'jarvis-dot'; fab.appendChild(dot); }
     } else {
       if(dot) dot.remove();
     }
@@ -10186,7 +10262,7 @@ var RISE_I18N = {
   fr: {
     home: 'Accueil',
     discover: 'Découvrir',
-    coach: 'Coach',
+    coach: 'JARVIS',
     nature: 'Nature',
     more: 'Plus',
     dashboard: 'Tableau de bord',
@@ -10272,7 +10348,7 @@ var RISE_I18N = {
   en: {
     home: 'Home',
     discover: 'Discover',
-    coach: 'Coach',
+    coach: 'JARVIS',
     nature: 'Nature',
     more: 'More',
     dashboard: 'Dashboard',
@@ -10358,7 +10434,7 @@ var RISE_I18N = {
   es: {
     home: 'Inicio',
     discover: 'Descubrir',
-    coach: 'Coach',
+    coach: 'JARVIS',
     nature: 'Naturaleza',
     more: 'Más',
     dashboard: 'Cuadro de mandos',
@@ -10444,7 +10520,7 @@ var RISE_I18N = {
   pt: {
     home: 'Casa',
     discover: 'Descobrir',
-    coach: 'Coach',
+    coach: 'JARVIS',
     nature: 'Natureza',
     more: 'Mais',
     dashboard: 'Painel',
@@ -10530,7 +10606,7 @@ var RISE_I18N = {
   it: {
     home: 'Casa',
     discover: 'Scopri',
-    coach: 'Coach',
+    coach: 'JARVIS',
     nature: 'Natura',
     more: 'Più',
     dashboard: 'Cruscotto',
@@ -10616,7 +10692,7 @@ var RISE_I18N = {
   de: {
     home: 'Startseite',
     discover: 'Entdecken',
-    coach: 'Coach',
+    coach: 'JARVIS',
     nature: 'Natur',
     more: 'Mehr',
     dashboard: 'Armaturenbrett',
