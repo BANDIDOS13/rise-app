@@ -625,6 +625,15 @@ textarea.inp{resize:none}
     <div id="w-flash"></div>
     <div id="w-defi7"></div>
     <div id="w-pomo" class="wg" style="text-align:center"><div style="font-family:var(--fd);font-weight:700;font-size:32px;color:var(--ac)" id="pomo-d">25:00</div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px" id="pomo-ph">FOCUS</div><div style="display:flex;gap:8px;justify-content:center"><button style="padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--gr),#7de8a0);color:#0a1808" id="pomo-btn" onclick="pomoTog()">▶ Start</button><button style="padding:9px 18px;border-radius:20px;font-size:13px;font-weight:700;background:var(--sf2);color:var(--tx2);border:1px solid var(--bd2)" onclick="pomoRst()">↺</button></div></div>
+    <!-- ENERGY TRACKER -->
+    <div id="w-energy" class="wg au2">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:700;font-family:var(--fd)">⚡ Energie</div>
+        <div style="font-size:10px;color:var(--tx3)" id="energy-avg">Moy: --</div>
+      </div>
+      <div style="display:flex;gap:5px;margin-bottom:6px" id="energy-btns"></div>
+      <div style="display:flex;gap:3px;align-items:flex-end;height:24px" id="energy-chart"></div>
+    </div>
     <div class="lbl" style="margin-bottom:8px;margin-top:4px">Check-in du jour</div>
     <div class="card" id="ci-sec">
       <div style="display:flex;gap:6px;margin-bottom:11px" id="e-row">
@@ -655,7 +664,7 @@ textarea.inp{resize:none}
         <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('sleep',null)"><span style="font-size:20px">😴</span>Sommeil</button>
         <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('leaderboard',null)"><span style="font-size:20px">🏆</span>Classement</button>
         <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('dash',null)" aria-label="Dashboard"><span style="font-size:20px">📊</span>Dashboard</button>
-        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="gs('guilds',null)"><span style="font-size:20px">🤝</span>Guildes</button>
+        <button style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700" onclick="openWeekPlan()"><span style="font-size:20px">📅</span>Semaine</button>
       </div>
     </div>
     <button style="width:100%;background:var(--rdd);border:1px solid var(--rd);border-radius:var(--r);padding:13px;display:flex;align-items:center;gap:12px;text-align:left;margin-top:11px;margin-bottom:11px" onclick="openSOS()"><div style="font-size:22px">🆘</div><div><div style="font-size:13px;font-weight:700;color:var(--rd)">Mode Urgence Mentale</div><div style="font-size:11px;color:var(--tx3);margin-top:1px">Tu te sens dépassé ? Appuie ici.</div></div></button>
@@ -1156,6 +1165,10 @@ textarea.inp{resize:none}
     <div style="display:flex;gap:8px"><button class="btn btn-ac" style="flex:2" onclick="downloadProfileCard()">Telecharger</button><button class="btn btn-sf" style="flex:1" onclick="document.getElementById('ov-profilecard').classList.remove('show')">Fermer</button></div>
   </div>
 </div>
+<!-- ═══ WEEKLY PLAN ═══ -->
+<div class="full-ov" id="ov-weekplan" style="z-index:1640;overflow-y:auto">
+  <div style="max-width:400px;width:100%;padding:20px" id="wp-content"></div>
+</div>
 <!-- ═══ WEEKLY NEWSLETTER ═══ -->
 <div class="full-ov" id="ov-newsletter" style="z-index:1650;overflow-y:auto">
   <div style="max-width:400px;width:100%;padding:20px" id="nl-content"></div>
@@ -1277,7 +1290,7 @@ function finishOb(){
   }
   S.ob=true;S.name=document.getElementById('ob-name').value.trim()||'Champion';S.age=parseInt(document.getElementById('ob-age').value)||0;S.goal=(_goals.length>0?(_goals.includes('all')||_goals.length>=4?'all':_goals[0]):_goal);S.theme=_theme;S.mode=_mode;S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.aff.code=genCode('AFF');S.chests={av:0,nx:3};S.activeWg=_mode==='zen'?['w-quests','w-pomo']:GOAL_WG[S.goal]||GOAL_WG.all;addN('🚀','Bienvenue '+S.name+' !','RISE v9 configuré pour toi. +50 XP de bienvenue !');save();launchApp();}
 function loadEx(){if(!S.ob){S.ob=true;S.name='Champion';S.aff.code=genCode('AFF');S.xp=50;S.gems=10;S.season=1;S.ss=TD;S.chests={av:0,nx:3};}save();launchApp();}
-var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
+var _launchAppRunning=false;function launchApp(){if(_launchAppRunning)return;_launchAppRunning=true;try{document.getElementById('screen-ob').classList.remove('active');document.getElementById('gbar').style.display='flex';document.getElementById('bnav').style.display='flex';applyTheme(S.theme||'default');chkLoginStreak();genQuote();initFlash();updGB();gs('home',document.querySelector('.nb'));initDisc();renderNotifs();updPomoUI();['screen-lang','screen-nutri','screen-journal','screen-mood','screen-meditate','screen-finance','screen-ideas','screen-habits','screen-dashboard','screen-wheel','screen-shop','screen-content','screen-pomo','screen-workout','screen-meal','screen-sleep','screen-smartjournal','screen-budget','screen-achievements','screen-dash','screen-leaderboard','screen-guilds','screen-social','screen-suggestions','screen-weeklych','screen-recap'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='';});try{initWorkout();initMealPlan();initSleep();initSmartJournal();initBudget();initDashboard();renderAchievements();chkAchievements('login');initLeaderboard();initGuildScreen();renderShareScreen();initSuggestions();initWeeklyChallenges();}catch(e){console.log('Init extra:',e);}try{chkTour();}catch(e){}}catch(ex){console.log('launchApp error:',ex);}finally{_launchAppRunning=false;}}
 function updGB(){document.getElementById('gb-xp').textContent=S.xp||0;document.getElementById('gb-gem').textContent=S.gems||0;document.getElementById('gb-lvl').textContent=getLvl(S.xp||0)+1;const ss=SEASONS[(S.season||1)-1]||SEASONS[0];const el=document.getElementById('gbar-s');if(el){el.textContent='S'+ss.n+' '+ss.name;el.style.color=ss.col;}updNDot();}
 function chkLoginStreak(){const ls=S.loginS||{last:'',streak:0};const y=new Date(now);y.setDate(y.getDate()-1);if(ls.last!==TD){ls.streak=ls.last===y.toDateString()?(ls.streak||0)+1:1;ls.last=TD;const rw=Math.min(50,5+ls.streak*3);gainXP(rw,'login');gainGems(Math.floor(rw/10));S.loginS=ls;save();addN('🎁','Connexion J'+ls.streak,'Bonus +'+rw+' XP quotidien !');chkStreakMilestone(ls.streak);}}
 function chkStreakMilestone(streak){
@@ -1639,7 +1652,7 @@ function saveEveningReview(){
   toast('Review sauvegardee ! +50 XP','🌙',3000);
   addN('🌙','Bilan du soir','Review completee. Score: '+calcRiseScore().score+'/100');
 }
-function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updRadar();updMultiStreak();updOnePct();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();triggerCoachCall();triggerNewsletter();genDailyMicroChallenge();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
+function initHome(){updXP();updNDot();initBoss();initDQ();renderStreakDots();renderWgVisibility();genQuote();renderCtxBanner();updNatMini();updRiseScore();updRadar();updMultiStreak();updOnePct();updEnergyWidget();updNextObjective();genMorningBrief();genJarvisSug();chkEveningReview();triggerCoachCall();triggerNewsletter();genDailyMicroChallenge();if(S.lck===TD&&S.todayPlan)renderPlan(S.todayPlan);}
 function renderStreakDots(){const sn=document.getElementById('stk-n');if(sn)sn.textContent=S.streak||0;const td=now.getDay();const days=['L','M','M','J','V','S','D'];const sd=document.getElementById('stk-dots');if(!sd)return;sd.innerHTML=Array.from({length:7},(_,i)=>{const d=new Date(now);d.setDate(now.getDate()-(td===0?6:td-1)+i);const done=(S.checkins||{})[d.toDateString()];const isT=d.toDateString()===TD;return '<div style="width:22px;height:22px;border-radius:50%;border:2px solid '+(done?'var(--or)':isT?'var(--ac)':'var(--bd2)')+';background:'+(done?'var(--ord)':isT?'var(--agg)':'var(--sf2)')+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:'+(done?'var(--or)':isT?'var(--ac)':'var(--tx3)')+'">'+days[i]+'</div>';}).join('');}
 function renderWgVisibility(){const aw=S.activeWg||[];['w-streak','w-boss','w-quests','w-nat','w-pomo'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=aw.includes(id)?'':'none';});}
 function updNatMini(){const nm=S.nat;const w=nm.wDate===TD?nm.wMin||0:0;const s=nm.sDate===TD?nm.sMin||0:0;const el=document.getElementById('nat-mini');if(el)el.textContent=w||s?'Marche: '+w+'min · Soleil: '+s+'min':'Marche · Soleil · Respiration';}
@@ -1888,6 +1901,58 @@ else if(name==='content'){renderContentPlanner(document.getElementById('content-
 else if(name==='pomo'){renderPomoPro(document.getElementById('pomo-c'));}
 }
 document.addEventListener('DOMContentLoaded',function(){if(S.ob){launchApp();}else{document.getElementById('gbar').style.display='none';document.getElementById('bnav').style.display='none';}});
+// ── FIRST-TIME TOUR ──
+var TOUR_STEPS=[
+  {target:'w-risescore',title:'Ton Score RISE',desc:'Ce chiffre resume ta journee. 5 axes: check-in, quetes, habitudes, nature, focus. Vise 70+.',pos:'below'},
+  {target:'w-radar',title:'RISE Radar',desc:'Ton equilibre de vie en temps reel. 5 dimensions. Un seul regard pour savoir ou agir.',pos:'below'},
+  {target:'w-multistreak',title:'Tes Streaks',desc:'Tous tes streaks actifs. Ne casse pas la chaine !',pos:'below'},
+  {target:'w-quests',title:'Quetes du jour',desc:'5 quetes generees chaque jour. Complete-les pour gagner XP et battre le Boss.',pos:'below'},
+  {target:'ci-sec',title:'Check-in quotidien',desc:'Ton rituel du matin. Choisis ton energie + focus, et JARVIS genere ton plan du jour.',pos:'above'},
+  {target:'qcap-fab',title:'Capture Rapide',desc:'Bouton vert en bas a gauche. Capture une idee en 3 secondes. Auto-trie en tache, idee ou note.',pos:'above'},
+  {target:'jarvis-fab',title:'JARVIS',desc:'Ton coach IA personnel. Il connait ton score, tes habitudes, ton humeur. Parle-lui.',pos:'above'}
+];
+var tourStep=0;
+function startTour(){
+  tourStep=0;showTourStep();
+}
+function showTourStep(){
+  // Remove previous
+  var prev=document.getElementById('tour-overlay');if(prev)prev.remove();
+  if(tourStep>=TOUR_STEPS.length){
+    S.tourDone=true;save();
+    toast('Tour termine ! Tu es pret.','🚀',3000);
+    gainXP(50,'tour');
+    return;
+  }
+  var step=TOUR_STEPS[tourStep];
+  var targetEl=document.getElementById(step.target);
+  // Scroll to target
+  if(targetEl)targetEl.scrollIntoView({behavior:'smooth',block:'center'});
+
+  var h='<div id="tour-overlay" style="position:fixed;inset:0;z-index:9800;pointer-events:none">';
+  // Semi-transparent backdrop
+  h+='<div style="position:absolute;inset:0;background:rgba(0,0,0,.7);pointer-events:auto" onclick="nextTourStep()"></div>';
+  // Tooltip
+  var bottom=step.pos==='above';
+  h+='<div style="position:fixed;'+(bottom?'bottom:140px':'top:50%')+';left:50%;transform:translateX(-50%);width:85%;max-width:320px;background:var(--sf);border:2px solid var(--ac);border-radius:16px;padding:18px;z-index:9801;pointer-events:auto;animation:fup .3s ease">';
+  h+='<div style="font-size:10px;color:var(--tx3);margin-bottom:4px">'+( tourStep+1)+'/'+TOUR_STEPS.length+'</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:16px;color:var(--ac);margin-bottom:6px">'+step.title+'</div>';
+  h+='<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:14px">'+step.desc+'</div>';
+  h+='<div style="display:flex;gap:8px">';
+  if(tourStep>0)h+='<button style="flex:1;padding:10px;border-radius:var(--rs);background:var(--sf2);border:1px solid var(--bd2);color:var(--tx3);font-size:12px;font-weight:700;cursor:pointer" onclick="prevTourStep()">← Retour</button>';
+  h+='<button style="flex:2;padding:10px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:12px;font-weight:700;cursor:pointer" onclick="nextTourStep()">'+(tourStep===TOUR_STEPS.length-1?'Terminer':'Suivant →')+'</button>';
+  h+='</div>';
+  h+='<button style="position:absolute;top:8px;right:12px;background:none;border:none;color:var(--tx3);font-size:16px;cursor:pointer" onclick="skipTour()">✕</button>';
+  h+='</div></div>';
+  document.body.insertAdjacentHTML('beforeend',h);
+}
+function nextTourStep(){tourStep++;showTourStep();}
+function prevTourStep(){tourStep=Math.max(0,tourStep-1);showTourStep();}
+function skipTour(){var ov=document.getElementById('tour-overlay');if(ov)ov.remove();S.tourDone=true;save();}
+// Auto-trigger tour after first onboarding
+function chkTour(){
+  if(S.ob&&!S.tourDone){setTimeout(startTour,2000);}
+}
 // ── RISE WHISPER: Re-engagement ──
 (function(){
   if(!S||!S.ob)return;
@@ -6743,6 +6808,110 @@ function openTimeMachine(){
   el.innerHTML=h;
   document.getElementById('ov-timemachine').classList.add('show');
 }
+// ── ENERGY TRACKING ──
+function updEnergyWidget(){
+  S.energy=S.energy||{};
+  var btnsEl=document.getElementById('energy-btns');
+  var chartEl=document.getElementById('energy-chart');
+  var avgEl=document.getElementById('energy-avg');
+  if(!btnsEl)return;
+  var todayVal=S.energy[TD]||0;
+  var levels=[{v:1,ico:'😴',c:'var(--rd)'},{v:2,ico:'😐',c:'var(--or)'},{v:3,ico:'🙂',c:'var(--ac)'},{v:4,ico:'💪',c:'var(--gr)'},{v:5,ico:'🔥',c:'var(--ac2)'}];
+  btnsEl.innerHTML=levels.map(function(l){
+    var on=todayVal===l.v;
+    return '<button style="flex:1;padding:6px 0;border-radius:8px;border:2px solid '+(on?l.c:'transparent')+';background:'+(on?'var(--agg)':'var(--sf2)')+';font-size:16px;cursor:pointer;transition:all .15s" onclick="logEnergy('+l.v+')">'+l.ico+'</button>';
+  }).join('');
+  // 7-day chart
+  var vals7=[];
+  for(var i=6;i>=0;i--){var d=new Date();d.setDate(d.getDate()-i);var v=S.energy[d.toDateString()]||0;vals7.push(v);}
+  var validVals=vals7.filter(function(v){return v>0;});
+  var avg=validVals.length?Math.round(validVals.reduce(function(a,v){return a+v;},0)/validVals.length*10)/10:0;
+  if(avgEl)avgEl.textContent='Moy: '+(avg||'--')+'/5';
+  if(chartEl){
+    chartEl.innerHTML=vals7.map(function(v,idx){
+      var h2=v>0?Math.max(4,v*4):3;
+      var c=v>=4?'var(--gr)':v>=3?'var(--ac)':v>=2?'var(--or)':v>0?'var(--rd)':'var(--sf3)';
+      return '<div style="flex:1;height:'+h2+'px;background:'+c+';border-radius:2px;opacity:'+(idx===6?'1':'0.6')+'"></div>';
+    }).join('');
+  }
+}
+function logEnergy(val){
+  S.energy=S.energy||{};
+  S.energy[TD]=val;save();
+  updEnergyWidget();
+  if(val<=2)toast('Prends soin de toi aujourd\'hui','💛',2000);
+  else if(val>=4)toast('Belle energie ! Profites-en','⚡',2000);
+  gainXP(5,'energy');
+}
+// ── WEEKLY PLANNING MODE ──
+function openWeekPlan(){
+  var el=document.getElementById('wp-content');if(!el)return;
+  S.weekPlan=S.weekPlan||{week:'',goals:[],topFocus:''};
+  var thisWeek=getWK();
+  var dna=computeDNA();var weak=dna.weak2[0];
+  var labels5={discipline:'Discipline',focus:'Focus',resilience:'Resilience',nature:'Nature',learning:'Apprentissage',social:'Social',mindfulness:'Pleine conscience',consistency:'Regularite'};
+  var existing=S.weekPlan.week===thisWeek;
+  var h='';
+  h+='<div style="text-align:center;margin-bottom:16px">';
+  h+='<div style="font-size:36px;margin-bottom:6px">📅</div>';
+  h+='<div style="font-family:var(--fd);font-weight:700;font-size:20px;margin-bottom:4px">Plan de la semaine</div>';
+  h+='<div style="font-size:12px;color:var(--tx3)">Definis tes 3 priorites + 1 focus special</div>';
+  h+='</div>';
+  if(existing&&S.weekPlan.goals.length>0){
+    // Show existing plan with progress
+    h+='<div style="background:linear-gradient(135deg,var(--agg),transparent);border:1px solid var(--acm);border-radius:var(--r);padding:16px;margin-bottom:14px">';
+    h+='<div class="lbl" style="margin-bottom:10px">Tes 3 priorites cette semaine</div>';
+    S.weekPlan.goals.forEach(function(g,i){
+      h+='<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd)">';
+      h+='<div style="width:24px;height:24px;border-radius:50%;border:2px solid '+(g.done?'var(--gr)':'var(--bd2)')+';background:'+(g.done?'var(--gr)':'transparent')+';display:flex;align-items:center;justify-content:center;font-size:11px;color:'+(g.done?'#000':'transparent')+';cursor:pointer;flex-shrink:0" onclick="toggleWeekGoal('+i+')">'+(g.done?'✓':'')+'</div>';
+      h+='<div style="font-size:13px;'+(g.done?'text-decoration:line-through;opacity:.5':'')+'">'+escHTML(g.text)+'</div>';
+      h+='</div>';
+    });
+    h+='</div>';
+    if(S.weekPlan.topFocus){
+      h+='<div style="background:var(--sf);border:1px solid var(--pu);border-radius:var(--rs);padding:12px;margin-bottom:14px;display:flex;align-items:center;gap:10px">';
+      h+='<div style="font-size:18px">🎯</div><div style="flex:1"><div style="font-size:10px;color:var(--pu);font-weight:700;text-transform:uppercase;letter-spacing:1px">Focus special DNA</div><div style="font-size:13px">'+escHTML(S.weekPlan.topFocus)+'</div></div></div>';
+    }
+    h+='<button class="btn btn-sf" onclick="resetWeekPlan()">Refaire mon plan</button>';
+  }else{
+    // Create plan
+    h+='<div style="margin-bottom:14px">';
+    h+='<div class="lbl" style="margin-bottom:8px">3 priorites pour cette semaine</div>';
+    for(var i=1;i<=3;i++){
+      h+='<input class="inp" id="wp-g'+i+'" placeholder="Priorite '+i+'..." style="margin-bottom:8px">';
+    }
+    h+='</div>';
+    // DNA suggestion
+    h+='<div style="background:var(--pud);border:1px solid var(--pu);border-radius:var(--rs);padding:12px;margin-bottom:14px">';
+    h+='<div style="font-size:12px;font-weight:700;color:var(--pu);margin-bottom:4px">🧬 Suggestion DNA</div>';
+    h+='<div style="font-size:12px;color:var(--tx2)">Ton axe le plus faible est <strong>'+(labels5[weak.id]||'')+'</strong> ('+weak.val+'/100). Ajoute un objectif lie a ce domaine.</div>';
+    h+='</div>';
+    h+='<div class="lbl" style="margin-bottom:8px">Focus special (optionnel)</div>';
+    h+='<input class="inp" id="wp-focus" placeholder="Ex: Mediter 10 min chaque matin" style="margin-bottom:14px">';
+    h+='<button class="btn btn-ac" onclick="saveWeekPlan()">Valider mon plan +50 XP</button>';
+  }
+  h+='<button class="btn btn-sf" style="margin-top:8px" onclick="document.getElementById(\'ov-weekplan\').classList.remove(\'show\')">Fermer</button>';
+  el.innerHTML=h;
+  document.getElementById('ov-weekplan').classList.add('show');
+}
+function saveWeekPlan(){
+  var goals=[];
+  for(var i=1;i<=3;i++){var v=(document.getElementById('wp-g'+i)||{}).value;if(v&&v.trim())goals.push({text:v.trim(),done:false});}
+  if(goals.length===0){toast('Ajoute au moins 1 priorite','⚠️',2000);return;}
+  var focus=(document.getElementById('wp-focus')||{}).value||'';
+  S.weekPlan={week:getWK(),goals:goals,topFocus:focus.trim()};
+  save();gainXP(50,'weekplan');confetti();
+  toast('Plan de la semaine valide ! +50 XP','📅',3000);
+  addN('📅','Plan hebdo','Tes '+goals.length+' priorites sont definies !');
+  openWeekPlan();// re-render to show plan
+}
+function toggleWeekGoal(idx){
+  if(!S.weekPlan||!S.weekPlan.goals[idx])return;
+  S.weekPlan.goals[idx].done=!S.weekPlan.goals[idx].done;
+  if(S.weekPlan.goals[idx].done){gainXP(20,'weekgoal');toast('Objectif complete !','✓',2000);}
+  save();openWeekPlan();
+}
+function resetWeekPlan(){S.weekPlan={week:'',goals:[],topFocus:''};save();openWeekPlan();}
 // ── DAILY MICRO-CHALLENGE ──
 var MICRO_CHALLENGES={
   mental:[
@@ -14657,8 +14826,20 @@ try {
         jarvisRemember('conversation', { q: txt, mode: mode, ts: Date.now() });
       } catch(e){}
 
-      // Fallback to original
-      return _origProcess.call(this, txt, mode);
+      // Fallback to original with feature tips
+      var reply = _origProcess.call(this, txt, mode);
+      // Append contextual feature tip
+      try {
+        var lower = txt.toLowerCase();
+        var tip = '';
+        if(lower.match(/stress|anxie|panique|peur/)&&!S.eveningReviews)tip='\n\n💡 **Astuce RISE:** L\'Evening Review (chaque soir) t\'aide a gerer le stress en ancrant tes apprentissages.';
+        else if(lower.match(/focus|concentr|distract/)&&!(S.deepWork&&S.deepWork.sessions&&S.deepWork.sessions.length))tip='\n\n💡 **Astuce RISE:** Lance un Deep Work (menu Pomodoro Pro) pour un focus intense de 45-120 min avec Focus Mode plein ecran.';
+        else if(lower.match(/habitude|routine|discipl/)&&!(S.habitChains&&S.habitChains.length))tip='\n\n💡 **Astuce RISE:** Cree une Chaine d\'habitudes (ecran Habitudes) pour lier tes routines en sequence.';
+        else if(lower.match(/objectif|goal|plan/)&&!(S.partner&&S.partner.active))tip='\n\n💡 **Astuce RISE:** Lance un defi Accountability Partner (Features → Partner) pour 7 jours de motivation mutuelle.';
+        else if(lower.match(/progres|evolution|bilan/)&&!S.tourDone)tip='\n\n💡 **Astuce RISE:** Decouvre ton RISE DNA (Features → DNA) pour connaitre tes forces et axes d\'amelioration.';
+        if(tip)reply+=tip;
+      } catch(e){}
+      return reply;
     };
   }
 } catch(e){ console.log('JARVIS enhance error:', e); }
