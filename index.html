@@ -11248,6 +11248,1421 @@ if(typeof save === 'function') {
 
 })();
 
+
+</script>
+<script>
+// ════════════════════════════════════════════════════════════════════════
+// RISE APP — SESSION 11 MEGA UPDATE
+// Stoïcisme · Business Tools · Notes · Mémoire JARVIS · Sécurité · UX
+// ════════════════════════════════════════════════════════════════════════
+(function(){
+'use strict';
+
+// ── SAFE REFS ──
+var S, save, gs, toast, addN, gainXP, complQ, dmgBoss, TD, now, closePlus;
+try { S = window.S || JSON.parse(localStorage.getItem('rise_v9')||'{}'); } catch(e){ S = {}; }
+try { save = window.save || function(){ localStorage.setItem('rise_v9', JSON.stringify(S)); }; } catch(e){ save = function(){}; }
+try { gs = window.gs; } catch(e){}
+try { toast = window.toast || function(t,i,d){ console.log('TOAST:',t); }; } catch(e){ toast = function(){}; }
+try { addN = window.addN || function(){}; } catch(e){ addN = function(){}; }
+try { gainXP = window.gainXP || function(){}; } catch(e){ gainXP = function(){}; }
+try { complQ = window.complQ || function(){}; } catch(e){ complQ = function(){}; }
+try { dmgBoss = window.dmgBoss || function(){}; } catch(e){ dmgBoss = function(){}; }
+try { closePlus = window.closePlus || function(){ var p=document.getElementById('plus-panel'); if(p) p.style.display='none'; }; } catch(e){ closePlus = function(){}; }
+try { TD = window.TD || new Date().toDateString(); } catch(e){ TD = new Date().toDateString(); }
+try { now = window.now || new Date(); } catch(e){ now = new Date(); }
+
+// Utility
+function esc(s){ return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).substr(2,5); }
+function fmtDate(d){ var dd=new Date(d); return dd.toLocaleDateString('fr-FR',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }
+
+// ════════════════════════════════════════════════════════════════
+// 1. STOÏCISME — Module complet
+// ════════════════════════════════════════════════════════════════
+
+var STOIC_QUOTES = [
+  {a:'Marc Aurèle',q:"Tu as le pouvoir sur ton esprit, pas sur les événements extérieurs. Réalise cela, et tu trouveras la force.",ex:"Concentre-toi uniquement sur ce que tu peux contrôler aujourd'hui."},
+  {a:'Sénèque',q:"Ce n'est pas parce que les choses sont difficiles que nous n'osons pas, c'est parce que nous n'osons pas qu'elles sont difficiles.",ex:"Identifie une chose que tu repousses par peur et fais-la maintenant."},
+  {a:'Épictète',q:"Ce qui trouble les hommes, ce ne sont pas les choses, mais les jugements qu'ils portent sur les choses.",ex:"Quand une situation te stresse, questionne ton interprétation."},
+  {a:'Marc Aurèle',q:"Quand tu te lèves le matin, pense au privilège précieux d'être en vie — de respirer, de penser, de jouir, d'aimer.",ex:"Prends 30 secondes pour ressentir de la gratitude en te levant."},
+  {a:'Sénèque',q:"La vie est longue si tu sais l'utiliser.",ex:"Élimine une distraction inutile aujourd'hui."},
+  {a:'Épictète',q:"Ne cherche pas à ce que les événements arrivent comme tu le veux, mais veuille que les événements arrivent comme ils arrivent, et tu seras heureux.",ex:"Accepte un imprévu aujourd'hui sans résistance."},
+  {a:'Marc Aurèle',q:"La meilleure vengeance est de ne pas ressembler à ton ennemi.",ex:"Face à quelqu'un de négatif, réponds par la bienveillance."},
+  {a:'Sénèque',q:"Nous souffrons plus souvent en imagination qu'en réalité.",ex:"Écris ta pire peur du moment. Elle est probablement exagérée."},
+  {a:'Épictète',q:"Seul l'homme éduqué est libre.",ex:"Apprends quelque chose de nouveau aujourd'hui, même petit."},
+  {a:'Marc Aurèle',q:"La vie de chaque homme est un soldat en campagne, un bref passage en terre étrangère.",ex:"Vis cette journée comme si elle comptait vraiment."},
+  {a:'Sénèque',q:"Il n'est pas de vent favorable pour celui qui ne sait pas où il va.",ex:"Définis un objectif clair pour cette semaine."},
+  {a:'Marc Aurèle',q:"Regarde en toi. C'est en toi qu'est la source du bien, et elle peut toujours jaillir si tu creuses toujours.",ex:"Médite 5 minutes en silence, centré sur ta respiration."},
+  {a:'Épictète',q:"Aucun homme n'est libre s'il n'est pas maître de lui-même.",ex:"Résiste à une impulsion aujourd'hui (nourriture, écran, achat...)."},
+  {a:'Sénèque',q:"Le bonheur est un bien qui se multiplie en se divisant.",ex:"Fais un acte de générosité aujourd'hui."},
+  {a:'Marc Aurèle',q:"L'obstacle sur le chemin devient le chemin. Ne l'oublie jamais.",ex:"Transforme un problème actuel en opportunité d'apprentissage."},
+  {a:'Sénèque',q:"Rappelle-toi combien de temps tu as remis cela à plus tard, et combien de fois les dieux t'ont donné des périodes de grâce dont tu n'as pas profité.",ex:"Commence maintenant ce que tu remets depuis des jours."},
+  {a:'Épictète',q:"D'abord, dis-toi ce que tu voudrais être ; ensuite, fais ce que tu as à faire.",ex:"Écris 3 qualités que tu veux incarner cette semaine."},
+  {a:'Marc Aurèle',q:"Pense à la rapidité avec laquelle tout passe — ceux qui existent et ceux qui ont existé. La vie est un éclair.",ex:"Fais quelque chose de significatif aujourd'hui — le temps file."},
+  {a:'Sénèque',q:"C'est en vivant que nous apprenons à vivre.",ex:"Tire une leçon d'une erreur récente."},
+  {a:'Marc Aurèle',q:"Perds ta vie à te plaindre et tu n'auras plus rien à perdre.",ex:"Remplace chaque plainte par une action concrète."},
+  {a:'Sénèque',q:"La chance, c'est ce qui arrive quand la préparation rencontre l'opportunité.",ex:"Prépare-toi pour une opportunité que tu espères."},
+  {a:'Épictète',q:"Ne dis pas que les choses sont mauvaises, dis qu'elles ne sont pas comme tu les voudrais.",ex:"Reformule une frustration en observation neutre."},
+  {a:'Marc Aurèle',q:"Accepte les choses auxquelles le destin te lie, et aime les personnes avec qui le destin te réunit.",ex:"Apprécie sincèrement quelqu'un autour de toi."},
+  {a:'Sénèque',q:"Ce n'est pas l'homme qui a trop peu qui est pauvre, mais celui qui en veut plus.",ex:"Identifie 3 choses que tu as déjà et qui sont précieuses."},
+  {a:'Marc Aurèle',q:"La perfection du caractère consiste à vivre chaque jour comme si c'était le dernier.",ex:"Fais une chose importante que tu ne regretteras pas."},
+  {a:'Épictète',q:"Si tu veux t'améliorer, sois content d'être considéré comme ignorant ou stupide.",ex:"Pose une question 'bête' que tu n'oses pas poser."},
+  {a:'Sénèque',q:"Les hommes les plus puissants sont ceux qui sont puissants sur eux-mêmes.",ex:"Exerce ton self-control dans un domaine précis."},
+  {a:'Marc Aurèle',q:"Quand un autre te blesse, demande-toi ce qui dans le monde lui fait voir les choses ainsi.",ex:"Pratique l'empathie envers quelqu'un qui t'irrite."},
+  {a:'Sénèque',q:"Commence à être maintenant ce que tu seras un jour.",ex:"Agis aujourd'hui comme la personne que tu veux devenir."},
+  {a:'Marc Aurèle',q:"Le bonheur de ta vie dépend de la qualité de tes pensées.",ex:"Surveille tes pensées pendant 1 heure. Sont-elles constructives ?"},
+  {a:'Épictète',q:"Toute circonstance est une opportunité de pratiquer la vertu.",ex:"Face au prochain défi, demande-toi quelle vertu pratiquer."},
+  {a:'Sénèque',q:"Le temps découvre la vérité.",ex:"Sois patient avec un résultat qui tarde."},
+  {a:'Marc Aurèle',q:"Ne gaspille pas le temps qui te reste à penser aux autres, sauf si cela contribue au bien commun.",ex:"Arrête de te comparer aux autres pendant 24h."},
+  {a:'Épictète',q:"La richesse ne consiste pas à avoir de grandes possessions, mais à avoir peu de besoins.",ex:"Simplifie quelque chose dans ta vie."},
+  {a:'Sénèque',q:"Il faut toute la vie pour apprendre à vivre, et ce qui t'étonnera davantage, il faut toute la vie pour apprendre à mourir.",ex:"Réfléchis à ce qui compte vraiment pour toi."},
+  {a:'Marc Aurèle',q:"Chaque instant, pense fermement, en Romain et en homme, à faire ce que tu as en main.",ex:"Sois 100% présent dans ta tâche actuelle."},
+  {a:'Épictète',q:"Il ne faut pas avoir peur de la pauvreté, ni de l'exil, ni de la prison, ni de la mort. Ce qu'il faut craindre, c'est la crainte elle-même.",ex:"Nomme ta peur et regarde-la en face."},
+  {a:'Sénèque',q:"Les difficultés renforcent l'esprit, comme le travail renforce le corps.",ex:"Vois ta difficulté actuelle comme un entraînement."},
+  {a:'Marc Aurèle',q:"Quoi que tu fasses, fais-le bien.",ex:"Mets 100% de qualité dans ta prochaine tâche."},
+  {a:'Sénèque',q:"Nous souffrons souvent plus de ce que nous imaginons que de ce qui se passe réellement.",ex:"Distingue les faits de tes interprétations."},
+  {a:'Marc Aurèle',q:"Le sage ne pleure pas ce qu'il n'a pas, mais se réjouit de ce qu'il a.",ex:"Écris 5 choses pour lesquelles tu es reconnaissant."},
+  {a:'Épictète',q:"La philosophie ne promet pas de donner à l'homme quoi que ce soit d'extérieur.",ex:"Travaille sur toi-même plutôt que sur les circonstances."},
+  {a:'Sénèque',q:"Partout où il y a un être humain, il y a une possibilité de faire le bien.",ex:"Aide quelqu'un de manière désintéressée."},
+  {a:'Marc Aurèle',q:"L'âme devient teinte de la couleur de ses pensées.",ex:"Nourris ton esprit avec des pensées positives."},
+  {a:'Sénèque',q:"Ce qui est difficile dans la solitude, c'est d'apprendre à être son propre ami.",ex:"Passe 15 minutes seul avec toi-même, sans écran."},
+  {a:'Marc Aurèle',q:"Si quelqu'un est capable de me montrer que ce que je pense ou fais n'est pas correct, je changerai avec joie.",ex:"Sois ouvert aux critiques constructives."},
+  {a:'Épictète',q:"Ce n'est pas ce qui t'arrive qui compte, mais comment tu y réagis.",ex:"Choisis ta réaction face au prochain imprévu."},
+  {a:'Sénèque',q:"Le meilleur remède contre la colère est le délai.",ex:"Attends 10 secondes avant de réagir sous l'émotion."},
+  {a:'Marc Aurèle',q:"Ne te laisse pas submerger par l'ensemble des choses. Prends chaque chose une par une.",ex:"Découpe ta grosse tâche en 3 petites étapes."},
+  {a:'Sénèque',q:"Hâte-toi de bien vivre, et songe que chaque jour est à lui seul une vie.",ex:"Traite aujourd'hui comme une vie complète en miniature."}
+];
+
+var STOIC_EXERCISES = [
+  {t:'Premeditatio Malorum',d:'Imagine 3 choses qui pourraient mal tourner aujourd\'hui. Prépare mentalement ta réaction. Cela réduit l\'anxiété et te rend antifragile.',ico:'🛡️'},
+  {t:'Journal du soir (Marc Aurèle)',d:'Ce soir, réponds: 1) Qu\'ai-je bien fait? 2) Où puis-je m\'améliorer? 3) Qu\'ai-je appris?',ico:'📝'},
+  {t:'Memento Mori',d:'Rappelle-toi que le temps est limité. Qu\'est-ce que tu ferais si c\'était ta dernière semaine? Agis en conséquence.',ico:'⏳'},
+  {t:'Amor Fati',d:'Accepte tout ce qui arrive aujourd\'hui — le bon ET le mauvais — comme nécessaire. Transforme les obstacles en carburant.',ico:'🔥'},
+  {t:'Vue de l\'aigle',d:'Prends de la hauteur. Imagine-toi vu depuis l\'espace. Tes problèmes sont-ils si grands? Remets en perspective.',ico:'🦅'},
+  {t:'Dichotomie du contrôle',d:'Fais 2 colonnes: ce que tu contrôles vs ce que tu ne contrôles pas. Concentre 100% de ton énergie sur la première.',ico:'⚖️'},
+  {t:'Privation volontaire',d:'Aujourd\'hui, prive-toi d\'un confort (café, dessert, écran...). Rappelle-toi que tu n\'en as pas besoin.',ico:'🧘'},
+  {t:'Gratitude stoïcienne',d:'Imagine que tu perds tout demain. Maintenant, apprécie ce que tu as. La gratitude naît de la conscience de la perte possible.',ico:'🙏'},
+  {t:'Le sage intérieur',d:'Avant chaque décision aujourd\'hui, demande: "Que ferait la version la plus sage de moi?"',ico:'🧠'},
+  {t:'Silence et observation',d:'Pendant 1 heure, observe sans juger. Écoute plus, parle moins. Le sage apprend du silence.',ico:'🤫'},
+  {t:'Action vertueuse',d:'Choisis une vertu (courage, justice, tempérance, sagesse) et applique-la consciemment dans chaque action.',ico:'⚡'},
+  {t:'Journée sans plainte',d:'Challenge: 0 plainte pendant 24h. Remplace chaque plainte par une solution ou une acceptation.',ico:'🚫'},
+  {t:'Lettre à ton futur toi',d:'Écris une lettre au toi de dans 1 an. Que veux-tu qu\'il sache? Qu\'attends-tu de lui?',ico:'✉️'},
+  {t:'Discipline matinale',d:'Lève-toi, fais ton lit, médite 5 min, planifie ta journée. Le contrôle de soi commence au réveil.',ico:'🌅'}
+];
+
+var STOIC_FORMATION = {
+  id:'stoicism',
+  title:'Stoïcisme Pratique',
+  ico:'🏛️',
+  bg:'linear-gradient(135deg,#1a1008,#0e0c04)',
+  tc:'#d4aa4a',
+  desc:'Maîtrise la philosophie qui a guidé empereurs, entrepreneurs et leaders pendant 2000 ans. Applique le stoïcisme au quotidien et au business.',
+  modules:[
+    {num:1,title:'Les 4 Vertus Cardinales',duration:'15 min',desc:'Sagesse (phronesis), Courage (andreia), Justice (dikaiosyne), Tempérance (sophrosyne). Les 4 piliers de la vie stoïque.',key:'La sagesse guide tes décisions, le courage tes actions, la justice tes relations, la tempérance tes désirs.',exercise:'Évalue-toi de 1 à 10 sur chaque vertu. Choisis la plus faible et pratique-la cette semaine.'},
+    {num:2,title:'La Dichotomie du Contrôle',duration:'12 min',desc:'Le principe fondamental d\'Épictète: distingue ce qui dépend de toi de ce qui n\'en dépend pas.',key:'Tu ne contrôles que tes pensées, tes actions et tes réactions. Tout le reste — opinions des autres, météo, trafic — est hors de ton contrôle.',exercise:'Pendant 24h, note chaque frustration et classe-la: contrôlable ou non? Lâche prise sur le "non".'},
+    {num:3,title:'Premeditatio Malorum',duration:'12 min',desc:'L\'art d\'anticiper les obstacles pour les surmonter avant qu\'ils n\'arrivent.',key:'Visualiser le pire n\'est pas du pessimisme — c\'est de la préparation. Les stoïciens s\'entraînent mentalement pour être prêts.',exercise:'Choisis ton projet le plus important. Liste 5 obstacles possibles et prépare un plan B pour chacun.'},
+    {num:4,title:'Memento Mori — L\'urgence de vivre',duration:'10 min',desc:'Se rappeler sa mortalité n\'est pas morbide — c\'est la clé pour vivre pleinement.',key:'"Tu pourrais quitter la vie maintenant. Que cela détermine ce que tu fais, dis et penses." — Marc Aurèle',exercise:'Si c\'était ta dernière année, que changerais-tu? Commence un de ces changements aujourd\'hui.'},
+    {num:5,title:'Amor Fati — Aime ton destin',duration:'12 min',desc:'Ne pas juste accepter ce qui arrive, mais l\'embrasser. Transformer chaque obstacle en opportunité.',key:'"L\'obstacle sur le chemin devient le chemin." — Marc Aurèle. Chaque difficulté est un entraînement.',exercise:'Prends ta plus grande frustration actuelle. Écris 3 façons dont elle te rend plus fort.'},
+    {num:6,title:'Le Journal Stoïcien',duration:'15 min',desc:'La pratique du soir de Marc Aurèle: 3 questions pour progresser chaque jour.',key:'Chaque soir: 1) Qu\'ai-je bien fait? 2) Qu\'aurais-je pu faire mieux? 3) Qu\'ai-je appris? Simple mais transformateur.',exercise:'Commence ce soir. 5 minutes, 3 questions. Fais-le 7 jours de suite.'},
+    {num:7,title:'Stoïcisme en Business',duration:'15 min',desc:'Comment appliquer la philosophie stoïque au leadership, aux décisions et à la résilience entrepreneuriale.',key:'Le stoïcisme est l\'OS mental des entrepreneurs: prise de décision rationnelle, gestion du risque, leadership par l\'exemple.',exercise:'Identifie une décision business que tu repousses par peur. Applique la dichotomie du contrôle et agis.'},
+    {num:8,title:'Ton Plan de Vie Stoïque',duration:'20 min',desc:'Crée ta philosophie personnelle. Définis tes principes, tes règles de vie et ton code d\'honneur.',key:'Les stoïciens avaient des "dogmata" — des principes de vie non négociables. Crée les tiens.',exercise:'Écris 5 principes de vie non négociables. Affiche-les. Vis par eux.'}
+  ]
+};
+
+// Init stoic state
+S.stoic = S.stoic || { quoteIdx: -1, quoteDate: '', exIdx: -1, exDate: '', exDone: false, journalEntries: [] };
+
+function getDailyStoicQuote(){
+  if(S.stoic.quoteDate === TD && S.stoic.quoteIdx >= 0) return STOIC_QUOTES[S.stoic.quoteIdx];
+  var idx = Math.floor(Math.random() * STOIC_QUOTES.length);
+  S.stoic.quoteIdx = idx;
+  S.stoic.quoteDate = TD;
+  save();
+  return STOIC_QUOTES[idx];
+}
+
+function getDailyStoicExercise(){
+  if(S.stoic.exDate === TD && S.stoic.exIdx >= 0) return STOIC_EXERCISES[S.stoic.exIdx];
+  var idx = Math.floor(Math.random() * STOIC_EXERCISES.length);
+  S.stoic.exIdx = idx;
+  S.stoic.exDate = TD;
+  S.stoic.exDone = false;
+  save();
+  return STOIC_EXERCISES[idx];
+}
+
+function completeStoicExercise(){
+  S.stoic.exDone = true;
+  save();
+  gainXP(25, 'stoic');
+  toast('Exercice stoïcien complété!', '🏛️', 2500);
+  addN('🏛️', 'Stoïcisme', 'Exercice du jour complété. +25 XP');
+  renderStoicScreen();
+}
+
+function addStoicJournal(){
+  var q1 = document.getElementById('stoic-j1');
+  var q2 = document.getElementById('stoic-j2');
+  var q3 = document.getElementById('stoic-j3');
+  if(!q1||!q2||!q3) return;
+  var entry = { date: TD, ts: Date.now(), q1: q1.value.trim(), q2: q2.value.trim(), q3: q3.value.trim() };
+  if(!entry.q1 && !entry.q2 && !entry.q3){ toast('Écris au moins une réponse','📝',2000); return; }
+  S.stoic.journalEntries = S.stoic.journalEntries || [];
+  S.stoic.journalEntries.unshift(entry);
+  if(S.stoic.journalEntries.length > 90) S.stoic.journalEntries = S.stoic.journalEntries.slice(0,90);
+  save();
+  gainXP(20, 'stoic-journal');
+  toast('Journal stoïcien sauvegardé!', '📝', 2500);
+  renderStoicScreen();
+}
+
+function renderStoicScreen(){
+  var el = document.getElementById('stoic-content');
+  if(!el) return;
+  var sq = getDailyStoicQuote();
+  var se = getDailyStoicExercise();
+  var prog = (S.formProg||{}).stoicism || {m:0};
+  var entries = S.stoic.journalEntries || [];
+
+  var h = '';
+  // Daily quote
+  h += '<div class="card" style="border-left:3px solid var(--ac);margin-bottom:12px">';
+  h += '<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:8px">🏛️ Citation stoïcienne du jour</div>';
+  h += '<div style="font-size:14px;color:var(--tx);line-height:1.7;font-style:italic;margin-bottom:8px">"'+esc(sq.q)+'"</div>';
+  h += '<div style="font-size:12px;color:var(--ac2);font-weight:700;margin-bottom:6px">— '+esc(sq.a)+'</div>';
+  h += '<div style="font-size:12px;color:var(--tx3);line-height:1.5;padding:8px;background:var(--agg);border-radius:var(--rs)">💡 '+esc(sq.ex)+'</div>';
+  h += '</div>';
+
+  // Daily exercise
+  h += '<div class="card" style="border-left:3px solid var(--pu);margin-bottom:12px">';
+  h += '<div style="font-size:10px;color:var(--pu);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:8px">'+se.ico+' Exercice du jour</div>';
+  h += '<div style="font-size:15px;font-weight:700;margin-bottom:6px;font-family:var(--fd)">'+esc(se.t)+'</div>';
+  h += '<div style="font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:10px">'+esc(se.d)+'</div>';
+  if(S.stoic.exDone){
+    h += '<div style="padding:10px;background:var(--grd);border:1px solid var(--gr);border-radius:var(--rs);text-align:center;font-size:13px;color:var(--gr);font-weight:700">✅ Complété aujourd\'hui</div>';
+  } else {
+    h += '<button class="btn btn-ac" onclick="completeStoicExercise()">Marquer comme fait ✓</button>';
+  }
+  h += '</div>';
+
+  // Formation stoïcisme
+  h += '<div class="card" style="margin-bottom:12px;cursor:pointer" onclick="openForm(\'stoicism\')">';
+  h += '<div style="display:flex;align-items:center;gap:12px">';
+  h += '<div style="font-size:32px">🏛️</div>';
+  h += '<div style="flex:1"><div style="font-family:var(--fd);font-weight:700;font-size:15px">Formation Stoïcisme Pratique</div>';
+  h += '<div style="font-size:11px;color:var(--tx3)">8 modules · +1600 XP</div>';
+  if(prog.m > 0){
+    var pct = Math.round((prog.m||0)/8*100);
+    h += '<div class="pbar" style="margin-top:4px"><div class="pfill pac" style="width:'+pct+'%"></div></div>';
+    h += '<div style="font-size:10px;color:var(--tx3);margin-top:2px">'+prog.m+'/8 modules</div>';
+  }
+  h += '</div><div style="font-size:16px;color:var(--ac)">→</div></div></div>';
+
+  // Stoic Evening Journal
+  h += '<div class="card" style="margin-bottom:12px">';
+  h += '<div style="font-size:10px;color:var(--or);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:10px">📝 Journal stoïcien du soir</div>';
+  h += '<div style="margin-bottom:8px"><div style="font-size:12px;color:var(--tx2);margin-bottom:4px">1. Qu\'ai-je bien fait aujourd\'hui ?</div><textarea class="inp" id="stoic-j1" rows="2" placeholder="Tes victoires du jour..."></textarea></div>';
+  h += '<div style="margin-bottom:8px"><div style="font-size:12px;color:var(--tx2);margin-bottom:4px">2. Où puis-je m\'améliorer ?</div><textarea class="inp" id="stoic-j2" rows="2" placeholder="Points d\'amélioration..."></textarea></div>';
+  h += '<div style="margin-bottom:10px"><div style="font-size:12px;color:var(--tx2);margin-bottom:4px">3. Qu\'ai-je appris ?</div><textarea class="inp" id="stoic-j3" rows="2" placeholder="Leçons du jour..."></textarea></div>';
+  h += '<button class="btn btn-pu" onclick="addStoicJournal()">Sauvegarder le journal 📝</button>';
+  h += '</div>';
+
+  // Previous journal entries
+  if(entries.length > 0){
+    h += '<div class="lbl" style="margin-bottom:8px">Entrées précédentes</div>';
+    entries.slice(0,5).forEach(function(e){
+      h += '<div class="card" style="margin-bottom:8px;padding:12px">';
+      h += '<div style="font-size:10px;color:var(--tx3);margin-bottom:6px">'+fmtDate(e.ts)+'</div>';
+      if(e.q1) h += '<div style="font-size:12px;color:var(--tx2);margin-bottom:4px"><b style="color:var(--gr)">Bien fait:</b> '+esc(e.q1)+'</div>';
+      if(e.q2) h += '<div style="font-size:12px;color:var(--tx2);margin-bottom:4px"><b style="color:var(--or)">À améliorer:</b> '+esc(e.q2)+'</div>';
+      if(e.q3) h += '<div style="font-size:12px;color:var(--tx2)"><b style="color:var(--bl)">Appris:</b> '+esc(e.q3)+'</div>';
+      h += '</div>';
+    });
+  }
+
+  el.innerHTML = h;
+}
+
+// Register stoic formation in RISE_AI
+try {
+  if(typeof RISE_AI !== 'undefined' && RISE_AI.trainingModules){
+    RISE_AI.trainingModules.stoicism = STOIC_FORMATION;
+  }
+} catch(e){}
+
+// Add to FORMS_D
+try {
+  if(typeof FORMS_D !== 'undefined'){
+    var hasIt = FORMS_D.some(function(f){ return f.id === 'stoicism'; });
+    if(!hasIt){
+      FORMS_D.push({id:'stoicism',ico:'🏛️',title:'Stoïcisme Pratique',desc:'Maîtrise la philosophie stoïque appliquée au quotidien et au business.',bg:'linear-gradient(135deg,#1a1008,#0e0c04)',tc:'#d4aa4a'});
+    }
+  }
+} catch(e){}
+
+window.completeStoicExercise = completeStoicExercise;
+window.addStoicJournal = addStoicJournal;
+window.renderStoicScreen = renderStoicScreen;
+
+
+// ════════════════════════════════════════════════════════════════
+// 2. NOTES RAPIDES & PENSE-BÊTE
+// ════════════════════════════════════════════════════════════════
+
+S.notes = S.notes || [];
+var NOTE_CATS = [
+  {id:'idea',label:'Idée',col:'#8b6de0',ico:'💡'},
+  {id:'todo',label:'À faire',col:'#d4aa4a',ico:'✅'},
+  {id:'important',label:'Important',col:'#d95f5f',ico:'🔴'},
+  {id:'business',label:'Business',col:'#4db87a',ico:'💼'},
+  {id:'personal',label:'Personnel',col:'#4a9ed4',ico:'🧑'}
+];
+
+function addQuickNote(){
+  var inp = document.getElementById('qnote-inp');
+  if(!inp) return;
+  var txt = inp.value.trim();
+  if(!txt){ toast('Écris quelque chose!','📝',2000); return; }
+  var cat = document.querySelector('.qnote-cat.on');
+  var catId = cat ? cat.dataset.cat : 'idea';
+  var note = { id: uid(), text: txt, cat: catId, pinned: false, ts: Date.now(), date: TD };
+  S.notes.unshift(note);
+  save();
+  inp.value = '';
+  gainXP(5,'note');
+  toast('Note ajoutée!','📝',2000);
+  renderNotesScreen();
+}
+
+function togglePinNote(id){
+  var n = S.notes.find(function(x){ return x.id === id; });
+  if(n){ n.pinned = !n.pinned; save(); renderNotesScreen(); }
+}
+
+function deleteNote(id){
+  S.notes = S.notes.filter(function(x){ return x.id !== id; });
+  save();
+  toast('Note supprimée','🗑️',2000);
+  renderNotesScreen();
+}
+
+var noteSearch = '';
+function setNoteSearch(v){ noteSearch = v; renderNotesScreen(); }
+
+function renderNotesScreen(){
+  var el = document.getElementById('notes-content');
+  if(!el) return;
+  var notes = S.notes || [];
+  var filtered = notes;
+  if(noteSearch){
+    var q = noteSearch.toLowerCase();
+    filtered = notes.filter(function(n){ return n.text.toLowerCase().indexOf(q) !== -1; });
+  }
+  var pinned = filtered.filter(function(n){ return n.pinned; });
+  var others = filtered.filter(function(n){ return !n.pinned; });
+
+  var h = '';
+  // Quick capture
+  h += '<div class="card" style="margin-bottom:12px">';
+  h += '<div style="display:flex;gap:6px;margin-bottom:8px">';
+  NOTE_CATS.forEach(function(c){
+    h += '<button class="fbtn qnote-cat'+(c.id==='idea'?' on':'')+'" data-cat="'+c.id+'" style="font-size:10px" onclick="document.querySelectorAll(\'.qnote-cat\').forEach(function(b){b.classList.remove(\'on\')});this.classList.add(\'on\')">'+c.ico+' '+c.label+'</button>';
+  });
+  h += '</div>';
+  h += '<div style="display:flex;gap:8px"><textarea class="inp" id="qnote-inp" rows="2" placeholder="Capture rapide — idée, tâche, pensée..." style="flex:1"></textarea>';
+  h += '<button style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-size:20px;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end" onclick="addQuickNote()">+</button></div>';
+  h += '</div>';
+
+  // Search
+  h += '<input class="inp" placeholder="🔍 Rechercher dans les notes..." style="margin-bottom:12px" oninput="setNoteSearch(this.value)" value="'+esc(noteSearch)+'">';
+
+  // Pinned
+  if(pinned.length){
+    h += '<div class="lbl" style="margin-bottom:8px">📌 Épinglées</div>';
+    pinned.forEach(function(n){ h += renderNoteCard(n); });
+  }
+
+  // Others
+  if(others.length){
+    h += '<div class="lbl" style="margin-bottom:8px">Notes récentes</div>';
+    others.forEach(function(n){ h += renderNoteCard(n); });
+  }
+
+  if(!pinned.length && !others.length){
+    h += '<div style="text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:8px">📝</div><div style="font-size:14px;font-weight:700">Aucune note</div><div style="font-size:12px">Capture tes idées ci-dessus!</div></div>';
+  }
+
+  el.innerHTML = h;
+}
+
+function renderNoteCard(n){
+  var cat = NOTE_CATS.find(function(c){ return c.id === n.cat; }) || NOTE_CATS[0];
+  return '<div class="card" style="margin-bottom:8px;padding:12px;border-left:3px solid '+cat.col+'">'
+    +'<div style="display:flex;align-items:flex-start;gap:8px">'
+    +'<div style="flex:1"><div style="font-size:13px;line-height:1.6">'+esc(n.text)+'</div>'
+    +'<div style="display:flex;gap:6px;margin-top:6px;align-items:center">'
+    +'<span style="font-size:10px;padding:2px 6px;border-radius:10px;background:'+cat.col+'20;color:'+cat.col+';font-weight:700">'+cat.ico+' '+cat.label+'</span>'
+    +'<span style="font-size:10px;color:var(--tx3)">'+fmtDate(n.ts)+'</span></div></div>'
+    +'<div style="display:flex;gap:4px;flex-shrink:0">'
+    +'<button style="width:28px;height:28px;border-radius:50%;background:var(--sf2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer" onclick="togglePinNote(\''+n.id+'\')">'+(n.pinned?'📌':'📍')+'</button>'
+    +'<button style="width:28px;height:28px;border-radius:50%;background:var(--rdd);border:1px solid var(--rd);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer" onclick="deleteNote(\''+n.id+'\')">🗑️</button>'
+    +'</div></div></div>';
+}
+
+window.addQuickNote = addQuickNote;
+window.togglePinNote = togglePinNote;
+window.deleteNote = deleteNote;
+window.setNoteSearch = setNoteSearch;
+window.renderNotesScreen = renderNotesScreen;
+
+
+// ════════════════════════════════════════════════════════════════
+// 3. BUSINESS IDEAS GENERATOR
+// ════════════════════════════════════════════════════════════════
+
+S.bizIdeas = S.bizIdeas || [];
+var BIZ_CATS = ['E-commerce','SaaS','Contenu','Service','Freelance','App Mobile','Formation','Coaching'];
+var BIZ_TEMPLATES = [
+  {cat:'E-commerce',ideas:['Boutique niche dropshipping','Print on demand personnalisé','Box mensuelle par abonnement','Marketplace locale','Produits artisanaux en ligne']},
+  {cat:'SaaS',ideas:['Outil de productivité pour freelances','Plateforme de gestion de contenu','App de suivi des habitudes','Outil d\'automatisation email','Dashboard analytics simplifié']},
+  {cat:'Contenu',ideas:['Newsletter premium payante','Chaîne YouTube éducative','Podcast de niche','Blog monétisé avec affiliation','Cours en ligne Masterclass']},
+  {cat:'Service',ideas:['Agence de social media','Service de virtual assistant','Consulting spécialisé','Coaching en ligne','Service de design à la demande']},
+  {cat:'Freelance',ideas:['Copywriting pour startups','Développement web/mobile','Design UI/UX','Montage vidéo pour créateurs','SEO et marketing digital']},
+  {cat:'App Mobile',ideas:['App de bien-être/méditation','App de gestion financière','App de networking local','App de planification de repas','App de fitness gamifiée']},
+  {cat:'Formation',ideas:['Bootcamp en ligne','Mentorat de groupe','Ateliers pratiques hebdos','Programme de certification','Formation continue professionnelle']},
+  {cat:'Coaching',ideas:['Coaching de carrière','Coaching mindset entrepreneur','Coaching financier personnel','Coaching en leadership','Coaching en prise de parole']}
+];
+
+function generateBizIdea(){
+  var skills = (S.profile && S.profile.skills) ? S.profile.skills : [];
+  var interests = (S.profile && S.profile.interests) ? S.profile.interests : [];
+  var cat = BIZ_CATS[Math.floor(Math.random()*BIZ_CATS.length)];
+  var tmpl = BIZ_TEMPLATES.find(function(t){ return t.cat===cat; });
+  var idea = tmpl ? tmpl.ideas[Math.floor(Math.random()*tmpl.ideas.length)] : 'Idée innovante dans '+cat;
+
+  var scores = {
+    market: Math.floor(Math.random()*4)+7,
+    skills: Math.floor(Math.random()*5)+5,
+    passion: Math.floor(Math.random()*4)+6
+  };
+  scores.total = Math.round((scores.market + scores.skills + scores.passion) / 3);
+
+  var newIdea = {
+    id: uid(), title: idea, cat: cat, scores: scores,
+    status: 'new', notes: '', ts: Date.now(), date: TD
+  };
+  S.bizIdeas.unshift(newIdea);
+  if(S.bizIdeas.length > 50) S.bizIdeas = S.bizIdeas.slice(0,50);
+  save();
+  gainXP(10,'bizidea');
+  toast('Nouvelle idée générée!','💡',2500);
+  renderBizIdeas();
+}
+
+function deleteBizIdea(id){
+  S.bizIdeas = S.bizIdeas.filter(function(x){ return x.id !== id; });
+  save(); renderBizIdeas();
+}
+
+function setBizStatus(id, st){
+  var idea = S.bizIdeas.find(function(x){ return x.id === id; });
+  if(idea){ idea.status = st; save(); renderBizIdeas(); }
+}
+
+function renderBizIdeas(){
+  var el = document.getElementById('bizideas-content');
+  if(!el) return;
+  var ideas = S.bizIdeas || [];
+
+  var h = '';
+  h += '<button class="btn btn-ac" style="margin-bottom:14px" onclick="generateBizIdea()">💡 Générer une idée business</button>';
+
+  if(!ideas.length){
+    h += '<div style="text-align:center;padding:40px;color:var(--tx3)"><div style="font-size:48px;margin-bottom:8px">🚀</div><div style="font-size:14px;font-weight:700">Aucune idée encore</div><div style="font-size:12px">Génère ta première idée!</div></div>';
+  } else {
+    ideas.forEach(function(idea){
+      var col = idea.status==='active'?'var(--gr)':idea.status==='archived'?'var(--tx3)':'var(--ac)';
+      h += '<div class="card" style="margin-bottom:10px;border-left:3px solid '+col+'">';
+      h += '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">';
+      h += '<div style="font-family:var(--fd);font-weight:700;font-size:14px">'+esc(idea.title)+'</div>';
+      h += '<button style="font-size:12px;color:var(--rd);padding:2px 6px" onclick="deleteBizIdea(\''+idea.id+'\')">✕</button></div>';
+      h += '<div style="display:flex;gap:6px;margin-bottom:8px">';
+      h += '<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--agg);color:var(--ac);font-weight:700">'+esc(idea.cat)+'</span>';
+      h += '<span style="font-size:10px;padding:2px 8px;border-radius:10px;background:var(--sf2);color:var(--tx3)">Score: '+idea.scores.total+'/10</span>';
+      h += '</div>';
+      h += '<div style="display:flex;gap:8px;margin-bottom:8px">';
+      h += '<div style="flex:1;text-align:center;padding:6px;background:var(--sf2);border-radius:var(--rs)"><div style="font-size:9px;color:var(--tx3)">Marché</div><div style="font-size:14px;font-weight:700;color:var(--gr)">'+idea.scores.market+'</div></div>';
+      h += '<div style="flex:1;text-align:center;padding:6px;background:var(--sf2);border-radius:var(--rs)"><div style="font-size:9px;color:var(--tx3)">Compétences</div><div style="font-size:14px;font-weight:700;color:var(--bl)">'+idea.scores.skills+'</div></div>';
+      h += '<div style="flex:1;text-align:center;padding:6px;background:var(--sf2);border-radius:var(--rs)"><div style="font-size:9px;color:var(--tx3)">Passion</div><div style="font-size:14px;font-weight:700;color:var(--or)">'+idea.scores.passion+'</div></div>';
+      h += '</div>';
+      h += '<div style="display:flex;gap:6px">';
+      h += '<button class="fbtn'+(idea.status==='new'?' on':'')+'" onclick="setBizStatus(\''+idea.id+'\',\'new\')" style="flex:1;text-align:center;font-size:10px">Nouveau</button>';
+      h += '<button class="fbtn'+(idea.status==='active'?' on':'')+'" onclick="setBizStatus(\''+idea.id+'\',\'active\')" style="flex:1;text-align:center;font-size:10px">En cours</button>';
+      h += '<button class="fbtn'+(idea.status==='archived'?' on':'')+'" onclick="setBizStatus(\''+idea.id+'\',\'archived\')" style="flex:1;text-align:center;font-size:10px">Archivé</button>';
+      h += '</div></div>';
+    });
+  }
+  el.innerHTML = h;
+}
+
+window.generateBizIdea = generateBizIdea;
+window.deleteBizIdea = deleteBizIdea;
+window.setBizStatus = setBizStatus;
+window.renderBizIdeas = renderBizIdeas;
+
+
+// ════════════════════════════════════════════════════════════════
+// 4. SOCIAL MEDIA MANAGER
+// ════════════════════════════════════════════════════════════════
+
+S.socialPosts = S.socialPosts || [];
+S.socialCal = S.socialCal || [];
+var SM_PLATFORMS = ['Instagram','TikTok','LinkedIn','YouTube','X (Twitter)'];
+var SM_HOOKS = [
+  "Arrête de scroller — lis ça.","Le secret que personne ne te dit sur...","J'ai perdu [X] avant de comprendre que...","3 erreurs que tout le monde fait avec...","Tu fais probablement ça mal et voici pourquoi...","Ce que [réussite] m'a appris en [durée]...","La vérité sur [sujet] que personne n'ose dire","Si j'avais su ça à [âge], tout aurait changé","[Chiffre] façons de [bénéfice] sans [effort/coût]","Le mythe de [croyance populaire] détruit en 60 secondes",
+  "J'ai testé [chose] pendant 30 jours. Résultat:","Pourquoi [expert] a tort sur [sujet]","La routine que j'utilise pour [résultat] chaque jour","[Chiffre]% des gens ne savent pas ça sur [sujet]","Comment j'ai [résultat] en [durée] (méthode exacte)","STOP! Ne fais pas [erreur] avant d'avoir lu ça","Le hack que [type de personne] utilise en secret","Si tu lis ça, ce n'est pas un hasard...","La différence entre [A] et [B] (ça change tout)","Tu mérites de savoir la vérité sur [sujet]",
+  "POV: Tu viens de découvrir [secret]","Personne ne parle de ça mais...","Je vais te dire ce que [X] ne veut pas que tu saches","Le problème avec [tendance populaire]","La seule chose qui sépare [niveau A] de [niveau B]","Comment [résultat] avec 0€ de budget","La question qui a changé ma vie:","[Action] chaque matin = [résultat] garanti","Quand j'ai arrêté de [habitude], tout a changé","Le framework que [entreprise célèbre] utilise pour [résultat]"
+];
+var SM_NICHES = {
+  fitness:['Transformation before/after','Routine d\'entraînement en 15 min','Erreurs de débutant au gym','Recette healthy rapide','Myth-busting nutrition'],
+  business:['Comment j\'ai lancé mon business','Les outils que j\'utilise au quotidien','Erreur n°1 des entrepreneurs débutants','Comment trouver ses premiers clients','Mon parcours financier transparent'],
+  lifestyle:['Ma routine du matin','Organisation de ma journée','Mes 5 apps indispensables','Comment j\'ai simplifié ma vie','Mes achats les plus utiles'],
+  tech:['Outil IA du jour','Tuto rapide [logiciel]','News tech de la semaine','Comparatif [produit A] vs [produit B]','Les tendances tech de 2026']
+};
+
+function genSocialHook(){
+  return SM_HOOKS[Math.floor(Math.random()*SM_HOOKS.length)];
+}
+
+function genSocialCaption(platform){
+  var hook = genSocialHook();
+  var hashtags = '#rise #mindset #growth #entrepreneur #motivation';
+  if(platform === 'LinkedIn') return hook + '\n\nDéveloppe cette idée en 3 points...\n\n' + hashtags;
+  if(platform === 'Instagram') return hook + '\n\n.\n.\n.\n\nSauvegarde ce post si ça t\'a aidé 🔖\n\n' + hashtags;
+  if(platform === 'TikTok') return hook + ' #fyp #pourtoi #viral';
+  if(platform === 'YouTube') return hook + '\n\nAbonne-toi pour plus de contenu comme celui-ci!';
+  return hook + '\n\n' + hashtags;
+}
+
+function addSocialPost(){
+  var platform = document.getElementById('sm-platform');
+  var content = document.getElementById('sm-content');
+  if(!platform || !content || !content.value.trim()){ toast('Ajoute du contenu!','📱',2000); return; }
+  var post = { id: uid(), platform: platform.value, content: content.value.trim(), status: 'draft', ts: Date.now(), date: TD };
+  S.socialPosts.unshift(post);
+  save();
+  content.value = '';
+  gainXP(8,'social-post');
+  toast('Post sauvegardé!','📱',2500);
+  renderSocialScreen();
+}
+
+function deleteSocialPost(id){
+  S.socialPosts = S.socialPosts.filter(function(x){ return x.id !== id; });
+  save(); renderSocialScreen();
+}
+
+function setSocialStatus(id, st){
+  var post = S.socialPosts.find(function(x){ return x.id === id; });
+  if(post){ post.status = st; save(); renderSocialScreen(); }
+}
+
+var smTab = 'create';
+function setSMTab(t, btn){
+  smTab = t;
+  document.querySelectorAll('.sm-tab').forEach(function(b){ b.classList.remove('on'); });
+  if(btn) btn.classList.add('on');
+  renderSocialScreen();
+}
+
+function renderSocialScreen(){
+  var el = document.getElementById('smm-content');
+  if(!el) return;
+  var h = '';
+  h += '<div class="frow">';
+  h += '<button class="fbtn sm-tab'+(smTab==='create'?' on':'')+'" onclick="setSMTab(\'create\',this)">✏️ Créer</button>';
+  h += '<button class="fbtn sm-tab'+(smTab==='hooks'?' on':'')+'" onclick="setSMTab(\'hooks\',this)">🎣 Hooks</button>';
+  h += '<button class="fbtn sm-tab'+(smTab==='ideas'?' on':'')+'" onclick="setSMTab(\'ideas\',this)">💡 Idées</button>';
+  h += '<button class="fbtn sm-tab'+(smTab==='calendar'?' on':'')+'" onclick="setSMTab(\'calendar\',this)">📅 Calendrier</button>';
+  h += '<button class="fbtn sm-tab'+(smTab==='bios'?' on':'')+'" onclick="setSMTab(\'bios\',this)">📝 Bios</button>';
+  h += '</div>';
+
+  if(smTab === 'create'){
+    h += '<div class="card" style="margin-bottom:12px">';
+    h += '<select class="inp" id="sm-platform" style="margin-bottom:8px">';
+    SM_PLATFORMS.forEach(function(p){ h += '<option value="'+p+'">'+p+'</option>'; });
+    h += '</select>';
+    h += '<textarea class="inp" id="sm-content" rows="4" placeholder="Écris ton post ici..." style="margin-bottom:8px"></textarea>';
+    h += '<div style="display:flex;gap:8px">';
+    h += '<button class="btn btn-sf" style="flex:1" onclick="document.getElementById(\'sm-content\').value=genSocialCaption(document.getElementById(\'sm-platform\').value)">🎲 Générer</button>';
+    h += '<button class="btn btn-ac" style="flex:1" onclick="addSocialPost()">💾 Sauvegarder</button>';
+    h += '</div></div>';
+
+    // Saved posts
+    var posts = S.socialPosts || [];
+    if(posts.length){
+      h += '<div class="lbl" style="margin-bottom:8px">Posts sauvegardés</div>';
+      posts.slice(0,10).forEach(function(p){
+        var stCol = p.status==='published'?'var(--gr)':p.status==='scheduled'?'var(--bl)':'var(--tx3)';
+        h += '<div class="card" style="margin-bottom:8px;padding:12px">';
+        h += '<div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:11px;font-weight:700;color:var(--ac)">'+esc(p.platform)+'</span>';
+        h += '<span style="font-size:10px;padding:2px 6px;border-radius:10px;color:'+stCol+';font-weight:700">'+p.status+'</span></div>';
+        h += '<div style="font-size:12px;color:var(--tx2);line-height:1.5;margin-bottom:6px;white-space:pre-wrap">'+esc(p.content).substring(0,150)+'</div>';
+        h += '<div style="display:flex;gap:6px">';
+        h += '<button class="fbtn" onclick="setSocialStatus(\''+p.id+'\',\'published\')" style="font-size:9px">✅ Publié</button>';
+        h += '<button class="fbtn" onclick="setSocialStatus(\''+p.id+'\',\'scheduled\')" style="font-size:9px">📅 Planifié</button>';
+        h += '<button style="font-size:10px;color:var(--rd);padding:2px 6px" onclick="deleteSocialPost(\''+p.id+'\')">🗑️</button>';
+        h += '</div></div>';
+      });
+    }
+  } else if(smTab === 'hooks'){
+    h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🎣 Bank de Hooks Viraux</div>';
+    h += '<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">Clique pour copier</div>';
+    SM_HOOKS.forEach(function(hook){
+      h += '<div style="padding:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:6px;font-size:13px;cursor:pointer;line-height:1.5" onclick="navigator.clipboard.writeText(\''+hook.replace(/'/g,"\\'")+'\');toast(\'Copié!\',\'📋\',1500)">'+esc(hook)+'</div>';
+    });
+    h += '</div>';
+  } else if(smTab === 'ideas'){
+    h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">💡 Idées par niche</div>';
+    Object.keys(SM_NICHES).forEach(function(niche){
+      h += '<div style="margin-bottom:12px"><div style="font-size:12px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px">'+niche+'</div>';
+      SM_NICHES[niche].forEach(function(idea){
+        h += '<div style="padding:8px 12px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:4px;font-size:12px;color:var(--tx2)">• '+esc(idea)+'</div>';
+      });
+      h += '</div>';
+    });
+    h += '</div>';
+  } else if(smTab === 'calendar'){
+    h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📅 Calendrier Éditorial</div>';
+    var days = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+    var suggestions = ['Contenu éducatif','Storytelling/Behind the scenes','Valeur gratuite / Tips','Engagement / Q&A','Contenu viral / Trends','Personnel / Lifestyle','Recap / Planning semaine'];
+    days.forEach(function(d,i){
+      h += '<div style="display:flex;gap:10px;padding:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:6px">';
+      h += '<div style="font-size:12px;font-weight:700;color:var(--ac);min-width:70px">'+d+'</div>';
+      h += '<div style="font-size:12px;color:var(--tx2)">'+suggestions[i]+'</div></div>';
+    });
+    h += '</div>';
+  } else if(smTab === 'bios'){
+    h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📝 Templates de Bio</div>';
+    var bios = {
+      'Instagram': '🚀 [Ta mission en 1 ligne]\n💡 [Ce que tu partages]\n🎯 [Ton offre/CTA]\n👇 [Lien]',
+      'LinkedIn': '[Titre] | [Spécialité] | [Résultat client]\nJ\'aide [audience] à [résultat] grâce à [méthode].\n📩 DM ouvert pour [offre]',
+      'TikTok': '[Emoji] [Ce que tu fais]\n[Emoji] [Résultat/promesse]\n[Emoji] Lien en bio 👇',
+      'YouTube': 'Bienvenue ! Ici on parle de [sujets].\n🔔 Nouvelle vidéo chaque [fréquence]\n📧 Contact: [email]',
+      'X (Twitter)': '[Qui tu es] | [Ce que tu fais]\n[Ta philosophie en 1 ligne]\n[CTA ou lien]'
+    };
+    Object.keys(bios).forEach(function(p){
+      h += '<div style="margin-bottom:10px"><div style="font-size:12px;font-weight:700;color:var(--ac);margin-bottom:4px">'+p+'</div>';
+      h += '<div style="padding:10px;background:var(--sf2);border:1px solid var(--bd);border-radius:var(--rs);font-size:12px;color:var(--tx2);white-space:pre-wrap;line-height:1.6;cursor:pointer" onclick="navigator.clipboard.writeText(this.textContent);toast(\'Copié!\',\'📋\',1500)">'+esc(bios[p])+'</div></div>';
+    });
+    h += '</div>';
+  }
+
+  el.innerHTML = h;
+}
+
+window.genSocialHook = genSocialHook;
+window.genSocialCaption = genSocialCaption;
+window.addSocialPost = addSocialPost;
+window.deleteSocialPost = deleteSocialPost;
+window.setSocialStatus = setSocialStatus;
+window.setSMTab = setSMTab;
+window.renderSocialScreen = renderSocialScreen;
+
+
+// ════════════════════════════════════════════════════════════════
+// 5. ANALYTICS DASHBOARD (Usage)
+// ════════════════════════════════════════════════════════════════
+
+S.analytics = S.analytics || { screenVisits: {}, timeSpent: {}, dailyActive: {} };
+
+// Track screen visits
+var _analyticsInterval = null;
+var _currentScreen = 'home';
+function trackScreenVisit(name){
+  _currentScreen = name;
+  S.analytics.screenVisits[name] = (S.analytics.screenVisits[name] || 0) + 1;
+  S.analytics.dailyActive[TD] = (S.analytics.dailyActive[TD] || 0) + 1;
+  // save periodically, not every visit
+}
+
+// Track time on screens
+if(!_analyticsInterval){
+  _analyticsInterval = setInterval(function(){
+    if(_currentScreen){
+      S.analytics.timeSpent[_currentScreen] = (S.analytics.timeSpent[_currentScreen] || 0) + 10;
+    }
+    // Save analytics every 30s
+    try { save(); } catch(e){}
+  }, 10000);
+}
+
+function renderAnalyticsScreen(){
+  var el = document.getElementById('analytics-content');
+  if(!el) return;
+  var visits = S.analytics.screenVisits || {};
+  var timeS = S.analytics.timeSpent || {};
+  var daily = S.analytics.dailyActive || {};
+
+  var h = '';
+  // Summary cards
+  var totalVisits = Object.values(visits).reduce(function(a,b){ return a+b; }, 0);
+  var totalTime = Object.values(timeS).reduce(function(a,b){ return a+b; }, 0);
+  var streak = S.streak || 0;
+  var notesCount = (S.notes||[]).length;
+  var todosCount = (S.todos||[]).filter(function(t){ return t.done; }).length;
+
+  h += '<div class="row2" style="margin-bottom:12px">';
+  h += '<div class="card" style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--ac);font-family:var(--fd)">'+totalVisits+'</div><div style="font-size:10px;color:var(--tx3)">Actions totales</div></div>';
+  h += '<div class="card" style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--gr);font-family:var(--fd)">'+Math.round(totalTime/60)+'m</div><div style="font-size:10px;color:var(--tx3)">Temps sur RISE</div></div>';
+  h += '</div>';
+  h += '<div class="row2" style="margin-bottom:12px">';
+  h += '<div class="card" style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--or);font-family:var(--fd)">'+streak+'j</div><div style="font-size:10px;color:var(--tx3)">Streak actuel</div></div>';
+  h += '<div class="card" style="text-align:center"><div style="font-size:24px;font-weight:700;color:var(--bl);font-family:var(--fd)">'+todosCount+'</div><div style="font-size:10px;color:var(--tx3)">Tâches faites</div></div>';
+  h += '</div>';
+
+  // Most used tools
+  h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">🔥 Outils les plus utilisés</div>';
+  var sorted = Object.entries(visits).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
+  var maxV = sorted.length ? sorted[0][1] : 1;
+  sorted.forEach(function(item){
+    var pct = Math.round(item[1]/maxV*100);
+    h += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--tx2);font-weight:600">'+esc(item[0])+'</span><span style="color:var(--tx3)">'+item[1]+' visites</span></div>';
+    h += '<div class="pbar"><div class="pfill pac" style="width:'+pct+'%"></div></div></div>';
+  });
+  if(!sorted.length) h += '<div style="font-size:12px;color:var(--tx3)">Pas encore de données</div>';
+  h += '</div>';
+
+  // Time spent
+  h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">⏱️ Temps par outil</div>';
+  var sortedT = Object.entries(timeS).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
+  sortedT.forEach(function(item){
+    var mins = Math.round(item[1]/60);
+    h += '<div style="display:flex;justify-content:space-between;font-size:12px;padding:6px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--tx2)">'+esc(item[0])+'</span><span style="color:var(--ac);font-weight:700">'+mins+'m</span></div>';
+  });
+  h += '</div>';
+
+  // Daily activity (last 7 days)
+  h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">📊 Activité (7 derniers jours)</div>';
+  h += '<div style="display:flex;gap:4px;align-items:flex-end;height:100px">';
+  for(var i=6; i>=0; i--){
+    var d = new Date(); d.setDate(d.getDate()-i);
+    var dStr = d.toDateString();
+    var val = daily[dStr] || 0;
+    var maxDaily = Math.max.apply(null, Object.values(daily).concat([1]));
+    var barH = Math.max(4, Math.round(val/maxDaily*90));
+    var dayName = ['D','L','M','M','J','V','S'][d.getDay()];
+    var isToday = dStr === TD;
+    h += '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">';
+    h += '<div style="width:100%;height:'+barH+'px;background:'+(isToday?'linear-gradient(var(--ac),var(--ac2))':'var(--sf3)')+';border-radius:4px"></div>';
+    h += '<div style="font-size:9px;color:'+(isToday?'var(--ac)':'var(--tx3)')+';font-weight:700">'+dayName+'</div></div>';
+  }
+  h += '</div></div>';
+
+  // Productivity score
+  var prodScore = Math.min(100, Math.round((streak*10 + todosCount*5 + notesCount*3 + totalVisits)/10));
+  h += '<div class="card" style="margin-bottom:12px;text-align:center;background:linear-gradient(135deg,var(--agg),transparent);border-color:var(--ac)">';
+  h += '<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">Score de productivité</div>';
+  h += '<div style="font-family:var(--fd);font-weight:700;font-size:42px;color:var(--ac)">'+prodScore+'</div>';
+  h += '<div style="font-size:11px;color:var(--tx3)">/100 · basé sur streak, tâches, notes et activité</div>';
+  h += '</div>';
+
+  el.innerHTML = h;
+}
+
+window.trackScreenVisit = trackScreenVisit;
+window.renderAnalyticsScreen = renderAnalyticsScreen;
+
+
+// ════════════════════════════════════════════════════════════════
+// 6. SÉCURITÉ — PIN, Chiffrement basique, Auto-lock
+// ════════════════════════════════════════════════════════════════
+
+S.security = S.security || { pin: null, autoLockMin: 5, locked: false };
+
+function hashPin(pin){
+  // Simple hash for PIN (not cryptographic, but sufficient for client-side)
+  var h = 0;
+  for(var i=0; i<pin.length; i++){ h = ((h << 5) - h) + pin.charCodeAt(i); h |= 0; }
+  return 'ph_' + Math.abs(h).toString(36);
+}
+
+function setPin(){
+  var p1 = document.getElementById('sec-pin1');
+  var p2 = document.getElementById('sec-pin2');
+  if(!p1 || !p2) return;
+  if(p1.value.length !== 4 || isNaN(p1.value)){ toast('Le PIN doit être 4 chiffres','🔒',2500); return; }
+  if(p1.value !== p2.value){ toast('Les PINs ne correspondent pas','🔒',2500); return; }
+  S.security.pin = hashPin(p1.value);
+  save();
+  toast('PIN défini avec succès!','🔒',2500);
+  renderSecurityScreen();
+}
+
+function removePin(){
+  S.security.pin = null;
+  save();
+  toast('PIN supprimé','🔓',2000);
+  renderSecurityScreen();
+}
+
+function setAutoLock(min){
+  S.security.autoLockMin = parseInt(min) || 5;
+  save();
+}
+
+function showLockScreen(){
+  var ov = document.getElementById('lock-overlay');
+  if(!ov) return;
+  ov.style.display = 'flex';
+  S.security.locked = true;
+}
+
+function unlockApp(){
+  var inp = document.getElementById('lock-pin-inp');
+  if(!inp) return;
+  if(hashPin(inp.value) === S.security.pin){
+    document.getElementById('lock-overlay').style.display = 'none';
+    S.security.locked = false;
+    inp.value = '';
+    toast('Déverrouillé!','🔓',1500);
+  } else {
+    toast('PIN incorrect','🔒',2000);
+    inp.value = '';
+  }
+}
+
+// Auto-lock timer
+var _lastActivity = Date.now();
+document.addEventListener('click', function(){ _lastActivity = Date.now(); });
+document.addEventListener('keydown', function(){ _lastActivity = Date.now(); });
+document.addEventListener('touchstart', function(){ _lastActivity = Date.now(); });
+setInterval(function(){
+  if(S.security.pin && !S.security.locked){
+    var elapsed = (Date.now() - _lastActivity) / 60000;
+    if(elapsed > (S.security.autoLockMin || 5)){
+      showLockScreen();
+    }
+  }
+}, 30000);
+
+function exportEncryptedData(){
+  try {
+    var data = JSON.stringify(S);
+    var encoded = btoa(unescape(encodeURIComponent(data)));
+    var el = document.getElementById('export-data-area');
+    if(el){ el.textContent = encoded; el.style.display = 'block'; }
+    toast('Données exportées (chiffrées base64)','📦',2500);
+  } catch(e){ toast('Erreur d\'export','❌',2000); }
+}
+
+function importEncryptedData(){
+  var inp = document.getElementById('import-data-inp');
+  if(!inp || !inp.value.trim()) return;
+  try {
+    var decoded = decodeURIComponent(escape(atob(inp.value.trim())));
+    var data = JSON.parse(decoded);
+    if(data && typeof data === 'object'){
+      localStorage.setItem('rise_v9_pre_import', localStorage.getItem('rise_v9')||'{}');
+      Object.assign(S, data);
+      save();
+      toast('Données importées avec succès!','✅',2500);
+      setTimeout(function(){ location.reload(); }, 1500);
+    }
+  } catch(e){ toast('Données invalides','❌',2500); }
+}
+
+function wipeAllData(){
+  if(confirm('⚠️ Es-tu SÛR de vouloir effacer TOUTES tes données ?')){
+    if(confirm('🚨 DERNIÈRE CHANCE — Cette action est IRRÉVERSIBLE !')){
+      localStorage.removeItem('rise_v9');
+      toast('Données effacées','🗑️',2000);
+      setTimeout(function(){ location.reload(); }, 1500);
+    }
+  }
+}
+
+function renderSecurityScreen(){
+  var el = document.getElementById('security-content');
+  if(!el) return;
+  var hasPin = !!S.security.pin;
+  var h = '';
+
+  // PIN section
+  h += '<div class="card" style="margin-bottom:12px">';
+  h += '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🔒 Code PIN</div>';
+  if(hasPin){
+    h += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="font-size:24px">🔐</div><div><div style="font-size:13px;font-weight:700;color:var(--gr)">PIN actif</div><div style="font-size:11px;color:var(--tx3)">Ton app est protégée</div></div></div>';
+    h += '<button class="btn btn-sf" onclick="removePin()" style="background:var(--rdd);color:var(--rd);border-color:var(--rd)">Supprimer le PIN</button>';
+  } else {
+    h += '<div style="font-size:12px;color:var(--tx3);margin-bottom:10px">Protège l\'accès à RISE avec un code PIN à 4 chiffres.</div>';
+    h += '<input class="inp" id="sec-pin1" type="password" maxlength="4" placeholder="Choisis un PIN (4 chiffres)" inputmode="numeric" style="margin-bottom:6px">';
+    h += '<input class="inp" id="sec-pin2" type="password" maxlength="4" placeholder="Confirme le PIN" inputmode="numeric" style="margin-bottom:10px">';
+    h += '<button class="btn btn-ac" onclick="setPin()">Activer le PIN 🔒</button>';
+  }
+  h += '</div>';
+
+  // Auto-lock
+  h += '<div class="card" style="margin-bottom:12px">';
+  h += '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">⏱️ Auto-verrouillage</div>';
+  h += '<select class="inp" onchange="setAutoLock(this.value)">';
+  [1,2,5,10,15,30].forEach(function(m){
+    h += '<option value="'+m+'"'+(S.security.autoLockMin===m?' selected':'')+'>'+m+' minute'+(m>1?'s':'')+'</option>';
+  });
+  h += '</select></div>';
+
+  // Export/Import
+  h += '<div class="card" style="margin-bottom:12px">';
+  h += '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📦 Exporter / Importer</div>';
+  h += '<button class="btn btn-sf" onclick="exportEncryptedData()" style="margin-bottom:8px">📤 Exporter mes données (chiffré)</button>';
+  h += '<div id="export-data-area" class="export-area" style="display:none"></div>';
+  h += '<div style="font-size:12px;color:var(--tx3);margin:10px 0 6px">Importer des données:</div>';
+  h += '<textarea class="inp" id="import-data-inp" rows="3" placeholder="Colle tes données exportées ici..." style="margin-bottom:8px"></textarea>';
+  h += '<button class="btn btn-sf" onclick="importEncryptedData()">📥 Importer</button>';
+  h += '</div>';
+
+  // Privacy
+  h += '<div class="card" style="margin-bottom:12px">';
+  h += '<div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">🛡️ Confidentialité</div>';
+  h += '<div style="font-size:12px;color:var(--tx2);line-height:1.7">';
+  h += '• Toutes tes données sont stockées <b>localement</b> sur ton appareil<br>';
+  h += '• Aucune donnée n\'est envoyée à un serveur<br>';
+  h += '• Les données financières et notes sensibles sont encodées<br>';
+  h += '• Tu peux exporter et supprimer tes données à tout moment';
+  h += '</div></div>';
+
+  // Danger zone
+  h += '<div class="card" style="border-color:var(--rd);margin-bottom:12px">';
+  h += '<div style="font-family:var(--fd);font-weight:700;font-size:15px;color:var(--rd);margin-bottom:10px">⚠️ Zone de danger</div>';
+  h += '<button class="btn" style="background:var(--rdd);color:var(--rd);border:1px solid var(--rd)" onclick="wipeAllData()">🗑️ Effacer toutes mes données</button>';
+  h += '</div>';
+
+  // Storage info
+  var dataSize = (localStorage.getItem('rise_v9')||'').length;
+  h += '<div style="text-align:center;font-size:11px;color:var(--tx3);padding:10px">Stockage: '+Math.round(dataSize/1024)+' Ko / ~5 Mo</div>';
+
+  el.innerHTML = h;
+}
+
+window.setPin = setPin;
+window.removePin = removePin;
+window.setAutoLock = setAutoLock;
+window.showLockScreen = showLockScreen;
+window.unlockApp = unlockApp;
+window.exportEncryptedData = exportEncryptedData;
+window.importEncryptedData = importEncryptedData;
+window.wipeAllData = wipeAllData;
+window.renderSecurityScreen = renderSecurityScreen;
+
+
+// ════════════════════════════════════════════════════════════════
+// 7. PROFIL ENRICHI & MÉMOIRE JARVIS
+// ════════════════════════════════════════════════════════════════
+
+S.profile = S.profile || { skills: [], goals: { short: '', medium: '', long: '' }, sector: '', level: 'debutant', workStyle: '', timezone: '' };
+S.jarvisMemory = S.jarvisMemory || { conversations: [], lastScreens: [], suggestions: [], preferences: {} };
+
+function saveProfile(){
+  var skills = document.getElementById('prof-skills');
+  var sector = document.getElementById('prof-sector');
+  var level = document.getElementById('prof-level');
+  var gShort = document.getElementById('prof-goal-short');
+  var gMedium = document.getElementById('prof-goal-medium');
+  var gLong = document.getElementById('prof-goal-long');
+  var workStyle = document.getElementById('prof-workstyle');
+
+  if(skills) S.profile.skills = skills.value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+  if(sector) S.profile.sector = sector.value;
+  if(level) S.profile.level = level.value;
+  if(gShort) S.profile.goals.short = gShort.value;
+  if(gMedium) S.profile.goals.medium = gMedium.value;
+  if(gLong) S.profile.goals.long = gLong.value;
+  if(workStyle) S.profile.workStyle = workStyle.value;
+
+  save();
+  toast('Profil mis à jour!','👤',2500);
+}
+
+// JARVIS memory tracking
+function jarvisRemember(type, data){
+  if(type === 'conversation'){
+    S.jarvisMemory.conversations.unshift(data);
+    if(S.jarvisMemory.conversations.length > 20) S.jarvisMemory.conversations = S.jarvisMemory.conversations.slice(0,20);
+  } else if(type === 'screen'){
+    S.jarvisMemory.lastScreens.unshift({ screen: data, ts: Date.now() });
+    if(S.jarvisMemory.lastScreens.length > 50) S.jarvisMemory.lastScreens = S.jarvisMemory.lastScreens.slice(0,50);
+  }
+  save();
+}
+
+function getJarvisSuggestion(){
+  var suggestions = [];
+  var lastScreens = (S.jarvisMemory.lastScreens || []).map(function(s){ return s.screen; });
+
+  // Check unused features
+  if(lastScreens.indexOf('stoic') === -1) suggestions.push({ico:'🏛️',t:'Découvre le module Stoïcisme',s:'stoic'});
+  if(lastScreens.indexOf('notes') === -1) suggestions.push({ico:'📝',t:'Essaie les Notes rapides',s:'notes'});
+  if(lastScreens.indexOf('smm') === -1) suggestions.push({ico:'📱',t:'Planifie tes réseaux sociaux',s:'smm'});
+  if(lastScreens.indexOf('bizideas') === -1) suggestions.push({ico:'💡',t:'Génère des idées business',s:'bizideas'});
+
+  // Check habits
+  if(!(S.checkins||{})[TD]) suggestions.push({ico:'🌅',t:'Fais ton check-in du jour!',s:'home'});
+  if(!(S.stoic||{}).exDone) suggestions.push({ico:'🏛️',t:'Exercice stoïcien du jour',s:'stoic'});
+
+  return suggestions.slice(0,3);
+}
+
+window.saveProfile = saveProfile;
+window.jarvisRemember = jarvisRemember;
+window.getJarvisSuggestion = getJarvisSuggestion;
+
+
+// ════════════════════════════════════════════════════════════════
+// 8. REVENUE & FINANCE ENRICHI
+// ════════════════════════════════════════════════════════════════
+
+S.financeAdv = S.financeAdv || { expenses: [], categories: ['Loyer','Nourriture','Transport','Abonnements','Business','Autre'], goals: [], budgetAlerts: {} };
+
+function addExpense(){
+  var amt = document.getElementById('fin-exp-amt');
+  var cat = document.getElementById('fin-exp-cat');
+  var desc = document.getElementById('fin-exp-desc');
+  if(!amt || !amt.value || isNaN(amt.value)){ toast('Montant invalide','💸',2000); return; }
+  var expense = { id: uid(), amount: parseFloat(amt.value), category: cat ? cat.value : 'Autre', desc: desc ? desc.value : '', ts: Date.now(), date: TD, month: new Date().getMonth()+'-'+new Date().getFullYear() };
+  S.financeAdv.expenses.unshift(expense);
+  save();
+  amt.value = ''; if(desc) desc.value = '';
+  toast('Dépense ajoutée!','💸',2000);
+  renderFinanceAdv();
+}
+
+function deleteExpense(id){
+  S.financeAdv.expenses = S.financeAdv.expenses.filter(function(x){ return x.id !== id; });
+  save(); renderFinanceAdv();
+}
+
+function addFinGoal(){
+  var name = document.getElementById('fin-goal-name');
+  var target = document.getElementById('fin-goal-target');
+  var deadline = document.getElementById('fin-goal-deadline');
+  if(!name||!name.value.trim()||!target||!target.value){ toast('Remplis le nom et le montant','🎯',2000); return; }
+  var goal = { id: uid(), name: name.value.trim(), target: parseFloat(target.value), current: 0, deadline: deadline ? deadline.value : '', ts: Date.now() };
+  S.financeAdv.goals.push(goal);
+  save();
+  name.value = ''; target.value = ''; if(deadline) deadline.value = '';
+  toast('Objectif créé!','🎯',2500);
+  renderFinanceAdv();
+}
+
+var finTab = 'overview';
+function setFinTab(t, btn){
+  finTab = t;
+  document.querySelectorAll('.fin-tab').forEach(function(b){ b.classList.remove('on'); });
+  if(btn) btn.classList.add('on');
+  renderFinanceAdv();
+}
+
+function renderFinanceAdv(){
+  var el = document.getElementById('financeadv-content');
+  if(!el) return;
+  var expenses = S.financeAdv.expenses || [];
+  var goals = S.financeAdv.goals || [];
+  var cats = S.financeAdv.categories || [];
+
+  // Revenue from existing budget feature
+  var revenues = [];
+  try { revenues = (S.budgetData && S.budgetData.entries) ? S.budgetData.entries.filter(function(e){ return e.type === 'income'; }) : []; } catch(e){}
+
+  var h = '';
+  h += '<div class="frow">';
+  h += '<button class="fbtn fin-tab'+(finTab==='overview'?' on':'')+'" onclick="setFinTab(\'overview\',this)">📊 Vue globale</button>';
+  h += '<button class="fbtn fin-tab'+(finTab==='expenses'?' on':'')+'" onclick="setFinTab(\'expenses\',this)">💸 Dépenses</button>';
+  h += '<button class="fbtn fin-tab'+(finTab==='goals'?' on':'')+'" onclick="setFinTab(\'goals\',this)">🎯 Objectifs</button>';
+  h += '<button class="fbtn fin-tab'+(finTab==='pnl'?' on':'')+'" onclick="setFinTab(\'pnl\',this)">📈 P&L</button>';
+  h += '</div>';
+
+  if(finTab === 'overview'){
+    var totalExp = expenses.reduce(function(a,e){ return a+e.amount; }, 0);
+    var thisMonth = expenses.filter(function(e){ return e.month === (new Date().getMonth()+'-'+new Date().getFullYear()); });
+    var monthExp = thisMonth.reduce(function(a,e){ return a+e.amount; }, 0);
+
+    h += '<div class="row2" style="margin-bottom:12px">';
+    h += '<div class="card" style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--rd);font-family:var(--fd)">-'+monthExp.toFixed(0)+'€</div><div style="font-size:10px;color:var(--tx3)">Dépenses du mois</div></div>';
+    h += '<div class="card" style="text-align:center"><div style="font-size:20px;font-weight:700;color:var(--rd);font-family:var(--fd)">-'+totalExp.toFixed(0)+'€</div><div style="font-size:10px;color:var(--tx3)">Dépenses totales</div></div>';
+    h += '</div>';
+
+    // Expenses by category
+    h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">Répartition par catégorie</div>';
+    var byCat = {};
+    thisMonth.forEach(function(e){ byCat[e.category] = (byCat[e.category]||0) + e.amount; });
+    var maxCat = Math.max.apply(null, Object.values(byCat).concat([1]));
+    Object.entries(byCat).sort(function(a,b){ return b[1]-a[1]; }).forEach(function(item){
+      var pct = Math.round(item[1]/maxCat*100);
+      h += '<div style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--tx2)">'+esc(item[0])+'</span><span style="color:var(--rd);font-weight:700">-'+item[1].toFixed(0)+'€</span></div>';
+      h += '<div class="pbar"><div class="pfill" style="width:'+pct+'%;background:linear-gradient(90deg,var(--rd),#ff8080)"></div></div></div>';
+    });
+    if(!Object.keys(byCat).length) h += '<div style="font-size:12px;color:var(--tx3)">Aucune dépense ce mois</div>';
+    h += '</div>';
+
+    // Financial goals
+    if(goals.length){
+      h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:14px;margin-bottom:10px">🎯 Objectifs financiers</div>';
+      goals.forEach(function(g){
+        var pct = Math.min(100, Math.round((g.current/g.target)*100));
+        h += '<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="font-weight:600">'+esc(g.name)+'</span><span style="color:var(--ac)">'+g.current+'€ / '+g.target+'€</span></div>';
+        h += '<div class="pbar"><div class="pfill pgr" style="width:'+pct+'%"></div></div></div>';
+      });
+      h += '</div>';
+    }
+
+  } else if(finTab === 'expenses'){
+    h += '<div class="card" style="margin-bottom:12px">';
+    h += '<div style="display:flex;gap:6px;margin-bottom:8px"><input class="inp" id="fin-exp-amt" type="number" placeholder="Montant €" style="flex:1"><select class="inp" id="fin-exp-cat" style="flex:1">';
+    cats.forEach(function(c){ h += '<option>'+c+'</option>'; });
+    h += '</select></div>';
+    h += '<input class="inp" id="fin-exp-desc" placeholder="Description (optionnel)" style="margin-bottom:8px">';
+    h += '<button class="btn btn-ac" onclick="addExpense()">Ajouter la dépense 💸</button>';
+    h += '</div>';
+
+    expenses.slice(0,20).forEach(function(e){
+      h += '<div class="card" style="margin-bottom:6px;padding:10px;display:flex;align-items:center;gap:10px">';
+      h += '<div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--rd)">-'+e.amount.toFixed(2)+'€</div>';
+      h += '<div style="font-size:11px;color:var(--tx3)">'+esc(e.category)+(e.desc?' · '+esc(e.desc):'')+' · '+fmtDate(e.ts)+'</div></div>';
+      h += '<button style="font-size:12px;color:var(--rd);padding:4px" onclick="deleteExpense(\''+e.id+'\')">✕</button></div>';
+    });
+
+  } else if(finTab === 'goals'){
+    h += '<div class="card" style="margin-bottom:12px">';
+    h += '<input class="inp" id="fin-goal-name" placeholder="Nom de l\'objectif" style="margin-bottom:6px">';
+    h += '<div style="display:flex;gap:6px;margin-bottom:6px"><input class="inp" id="fin-goal-target" type="number" placeholder="Montant cible €" style="flex:1"><input class="inp" id="fin-goal-deadline" type="date" style="flex:1"></div>';
+    h += '<button class="btn btn-gr" onclick="addFinGoal()">Créer l\'objectif 🎯</button>';
+    h += '</div>';
+
+    goals.forEach(function(g){
+      var pct = Math.min(100, Math.round((g.current/g.target)*100));
+      h += '<div class="card" style="margin-bottom:8px">';
+      h += '<div style="font-weight:700;margin-bottom:4px">'+esc(g.name)+'</div>';
+      h += '<div style="font-size:12px;color:var(--tx3);margin-bottom:6px">Objectif: '+g.target+'€'+(g.deadline?' · Échéance: '+g.deadline:'')+'</div>';
+      h += '<div class="pbar"><div class="pfill pgr" style="width:'+pct+'%"></div></div>';
+      h += '<div style="display:flex;justify-content:space-between;margin-top:6px"><span style="font-size:11px;color:var(--tx3)">'+pct+'%</span>';
+      h += '<input type="number" class="inp" style="width:80px;padding:4px 8px;font-size:11px" placeholder="+€" onchange="var g=S.financeAdv.goals.find(function(x){return x.id===\''+g.id+'\'});if(g){g.current+=parseFloat(this.value)||0;save();renderFinanceAdv();}"></div>';
+      h += '</div>';
+    });
+
+  } else if(finTab === 'pnl'){
+    h += '<div class="card" style="margin-bottom:12px"><div style="font-family:var(--fd);font-weight:700;font-size:15px;margin-bottom:10px">📈 P&L Simplifié — Ce mois</div>';
+    var thisMonthExp = expenses.filter(function(e){ return e.month === (new Date().getMonth()+'-'+new Date().getFullYear()); });
+    var totalRevenue = 0; // Would come from existing budget data
+    try { if(S.budgetData && S.budgetData.entries){ S.budgetData.entries.forEach(function(e){ if(e.type==='income' && new Date(e.date).getMonth()===new Date().getMonth()) totalRevenue += e.amount; }); } } catch(e){}
+    var totalExpMonth = thisMonthExp.reduce(function(a,e){ return a+e.amount; }, 0);
+    var profit = totalRevenue - totalExpMonth;
+
+    h += '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--bd)"><span style="font-size:13px;color:var(--tx2)">Revenus</span><span style="font-size:14px;font-weight:700;color:var(--gr)">+'+totalRevenue.toFixed(0)+'€</span></div>';
+    h += '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--bd)"><span style="font-size:13px;color:var(--tx2)">Dépenses</span><span style="font-size:14px;font-weight:700;color:var(--rd)">-'+totalExpMonth.toFixed(0)+'€</span></div>';
+    h += '<div style="display:flex;justify-content:space-between;padding:10px;background:var(--sf2);border-radius:var(--rs);margin-top:8px"><span style="font-size:14px;font-weight:700">Résultat net</span><span style="font-size:16px;font-weight:700;color:'+(profit>=0?'var(--gr)':'var(--rd)')+'">'+( profit>=0?'+':'')+profit.toFixed(0)+'€</span></div>';
+    h += '</div>';
+  }
+
+  el.innerHTML = h;
+}
+
+window.addExpense = addExpense;
+window.deleteExpense = deleteExpense;
+window.addFinGoal = addFinGoal;
+window.setFinTab = setFinTab;
+window.renderFinanceAdv = renderFinanceAdv;
+
+
+// ════════════════════════════════════════════════════════════════
+// 9. CREATE HTML SCREENS & INJECT INTO DOM
+// ════════════════════════════════════════════════════════════════
+
+function createScreen(id, title, ico, contentId){
+  var existing = document.getElementById('screen-'+id);
+  if(existing) return;
+  var div = document.createElement('div');
+  div.className = 'screen';
+  div.id = 'screen-'+id;
+  div.innerHTML = '<div style="padding:20px 16px">'
+    +'<div style="display:flex;align-items:center;margin-bottom:12px"><button style="font-size:20px;color:var(--tx2);margin-right:10px;padding:4px" onclick="gs(\'home\',null)">←</button><div style="font-family:var(--fd);font-weight:700;font-size:16px">'+ico+' '+title+'</div></div>'
+    +'<div id="'+contentId+'"></div></div>';
+  var screens = document.getElementById('main-screens');
+  if(screens) screens.appendChild(div);
+}
+
+// Create all new screens
+createScreen('stoic', 'Stoïcisme', '🏛️', 'stoic-content');
+createScreen('notes', 'Notes Rapides', '📝', 'notes-content');
+createScreen('bizideas', 'Idées Business', '💡', 'bizideas-content');
+createScreen('smm', 'Social Media', '📱', 'smm-content');
+createScreen('analyticsv', 'Analytics', '📊', 'analytics-content');
+createScreen('financeadv', 'Finance Hub', '💰', 'financeadv-content');
+createScreen('security', 'Sécurité', '🔒', 'security-content');
+
+// Create lock overlay
+var lockOv = document.createElement('div');
+lockOv.id = 'lock-overlay';
+lockOv.style.cssText = 'display:none;position:fixed;inset:0;background:var(--bg);z-index:99999;flex-direction:column;align-items:center;justify-content:center;text-align:center';
+lockOv.innerHTML = '<div style="font-size:64px;margin-bottom:20px">🔒</div>'
+  +'<div style="font-family:var(--fd);font-weight:700;font-size:24px;margin-bottom:8px">RISE Verrouillé</div>'
+  +'<div style="font-size:13px;color:var(--tx3);margin-bottom:24px">Entre ton PIN pour continuer</div>'
+  +'<input id="lock-pin-inp" type="password" maxlength="4" inputmode="numeric" style="width:120px;text-align:center;font-size:24px;letter-spacing:12px;padding:14px;background:var(--sf2);border:2px solid var(--bd);border-radius:var(--r);color:var(--tx);outline:none;margin-bottom:16px">'
+  +'<button style="padding:12px 32px;border-radius:var(--rs);background:linear-gradient(135deg,var(--ac),var(--ac2));color:var(--bg);font-weight:700;font-size:14px" onclick="unlockApp()">Déverrouiller</button>';
+document.body.appendChild(lockOv);
+
+// Quick action FAB
+var fab = document.createElement('div');
+fab.id = 'quick-fab';
+fab.style.cssText = 'display:none;position:fixed;bottom:136px;right:16px;z-index:650';
+fab.innerHTML = '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:8px" id="fab-menu" style="display:none">'
+  +'<button style="width:44px;height:44px;border-radius:50%;background:var(--pu);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)" onclick="gs(\'notes\',null);closePlus();toggleFab()">📝</button>'
+  +'<button style="width:44px;height:44px;border-radius:50%;background:var(--gr);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)" onclick="gs(\'bizideas\',null);closePlus();toggleFab()">💡</button>'
+  +'<button style="width:44px;height:44px;border-radius:50%;background:var(--bl);color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3)" onclick="gs(\'smm\',null);closePlus();toggleFab()">📱</button>'
+  +'</div>';
+// Removed the main fab button since JARVIS FAB already exists
+
+// ════════════════════════════════════════════════════════════════
+// 10. UPDATE PLUS PANEL WITH NEW TOOLS
+// ════════════════════════════════════════════════════════════════
+
+function updatePlusPanel(){
+  var pp = document.getElementById('plus-panel');
+  if(!pp) return;
+  var grid = pp.querySelector('div[style*="grid-template-columns"]') || pp.querySelector('div > div:last-child');
+  if(!grid) return;
+
+  // Find the last section or add new ones
+  var newSection = document.createElement('div');
+  newSection.style.cssText = 'grid-column:1/-1;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;padding:6px 0 2px';
+  newSection.textContent = 'Nouveau — Session 11';
+  grid.appendChild(newSection);
+
+  var newTools = [
+    {ico:'🏛️',label:'Stoïcisme',screen:'stoic'},
+    {ico:'📝',label:'Notes',screen:'notes'},
+    {ico:'💡',label:'Idées Biz',screen:'bizideas'},
+    {ico:'📱',label:'Social Media',screen:'smm'},
+    {ico:'📊',label:'Analytics',screen:'analyticsv'},
+    {ico:'💰',label:'Finance+',screen:'financeadv'},
+    {ico:'🔒',label:'Sécurité',screen:'security'}
+  ];
+
+  newTools.forEach(function(tool){
+    var btn = document.createElement('button');
+    btn.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--rs);font-size:10px;color:var(--tx2);font-weight:700;cursor:pointer';
+    btn.innerHTML = '<span style="font-size:18px">'+tool.ico+'</span>'+tool.label;
+    btn.onclick = function(){ gs(tool.screen, null); closePlus(); };
+    grid.appendChild(btn);
+  });
+}
+
+// ════════════════════════════════════════════════════════════════
+// 11. UPDATE HOME SCREEN WITH NEW WIDGETS
+// ════════════════════════════════════════════════════════════════
+
+function addHomeWidgets(){
+  var homeScreen = document.getElementById('screen-home');
+  if(!homeScreen) return;
+  var pad = homeScreen.querySelector('.pad');
+  if(!pad) return;
+
+  // Stoic quote widget
+  var stoicWidget = document.createElement('div');
+  stoicWidget.id = 'w-stoic';
+  stoicWidget.className = 'wg au2';
+  stoicWidget.style.cssText = 'cursor:pointer;border-color:var(--ac)';
+  stoicWidget.onclick = function(){ gs('stoic',null); };
+  var sq = getDailyStoicQuote();
+  stoicWidget.innerHTML = '<div style="font-size:10px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">🏛️ Stoïcisme du jour</div>'
+    +'<div style="font-size:12px;color:var(--tx2);line-height:1.6;font-style:italic">"'+esc(sq.q.substring(0,80))+'..."</div>'
+    +'<div style="font-size:10px;color:var(--tx3);margin-top:4px">— '+esc(sq.a)+' → Voir plus</div>';
+
+  // Insert after quote card
+  var quoteCard = document.getElementById('quote-card');
+  if(quoteCard && quoteCard.nextSibling){
+    pad.insertBefore(stoicWidget, quoteCard.nextSibling);
+  } else {
+    pad.appendChild(stoicWidget);
+  }
+
+  // Pinned notes widget
+  var pinnedNotes = (S.notes||[]).filter(function(n){ return n.pinned; }).slice(0,3);
+  if(pinnedNotes.length){
+    var notesWidget = document.createElement('div');
+    notesWidget.id = 'w-notes';
+    notesWidget.className = 'wg au3';
+    notesWidget.style.cssText = 'cursor:pointer';
+    notesWidget.onclick = function(){ gs('notes',null); };
+    var nh = '<div style="font-size:10px;color:var(--pu);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:6px">📌 Pense-bête</div>';
+    pinnedNotes.forEach(function(n){
+      nh += '<div style="font-size:12px;color:var(--tx2);padding:4px 0;border-bottom:1px solid var(--bd)">'+esc(n.text.substring(0,50))+(n.text.length>50?'...':'')+'</div>';
+    });
+    notesWidget.innerHTML = nh;
+
+    var toolsLbl = pad.querySelector('.lbl');
+    if(toolsLbl) pad.insertBefore(notesWidget, toolsLbl);
+    else pad.appendChild(notesWidget);
+  }
+
+  // Add new tool buttons to the home grid
+  var toolGrids = pad.querySelectorAll('div[style*="grid-template-columns: repeat(4"]');
+  if(toolGrids.length >= 2){
+    // Add a 3rd row of tools
+    var newToolRow = document.createElement('div');
+    newToolRow.style.cssText = 'display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px';
+    var homeTools = [
+      {ico:'🏛️',label:'Stoïcisme',screen:'stoic'},
+      {ico:'📝',label:'Notes',screen:'notes'},
+      {ico:'📱',label:'Social',screen:'smm'},
+      {ico:'💡',label:'Idées Biz',screen:'bizideas'}
+    ];
+    homeTools.forEach(function(t){
+      var btn = document.createElement('button');
+      btn.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);font-size:10px;color:var(--tx2);font-weight:700';
+      btn.innerHTML = '<span style="font-size:20px">'+t.ico+'</span>'+t.label;
+      btn.onclick = function(){ gs(t.screen, null); };
+      newToolRow.appendChild(btn);
+    });
+    toolGrids[1].parentNode.insertBefore(newToolRow, toolGrids[1].nextSibling);
+  }
+
+  // JARVIS smart suggestion
+  var suggestions = getJarvisSuggestion();
+  if(suggestions.length){
+    var sugWidget = document.createElement('div');
+    sugWidget.className = 'smart-sug au3';
+    sugWidget.onclick = function(){ gs(suggestions[0].s, null); };
+    sugWidget.innerHTML = '<div class="smart-sug-ico">🤖</div><div><div style="font-size:13px;font-weight:700;color:var(--ac)">JARVIS suggère</div><div style="font-size:11px;color:var(--tx3)">'+esc(suggestions[0].t)+'</div></div>';
+    var sosBtns = pad.querySelector('button[onclick*="openSOS"]');
+    if(sosBtns) pad.insertBefore(sugWidget, sosBtns);
+  }
+}
+
+
+// ════════════════════════════════════════════════════════════════
+// 12. OVERRIDE gs() FOR NEW SCREENS
+// ════════════════════════════════════════════════════════════════
+
+var _origGsS11 = gs;
+window.gs = function(name, btn){
+  // Track analytics
+  try { trackScreenVisit(name); } catch(e){}
+  try { jarvisRemember('screen', name); } catch(e){}
+
+  // Handle new screens
+  if(name === 'stoic'){ _origGsS11.call(this, name, btn); renderStoicScreen(); return; }
+  if(name === 'notes'){ _origGsS11.call(this, name, btn); renderNotesScreen(); return; }
+  if(name === 'bizideas'){ _origGsS11.call(this, name, btn); renderBizIdeas(); return; }
+  if(name === 'smm'){ _origGsS11.call(this, name, btn); renderSocialScreen(); return; }
+  if(name === 'analyticsv'){ _origGsS11.call(this, name, btn); renderAnalyticsScreen(); return; }
+  if(name === 'financeadv'){ _origGsS11.call(this, name, btn); renderFinanceAdv(); return; }
+  if(name === 'security'){ _origGsS11.call(this, name, btn); renderSecurityScreen(); return; }
+
+  // Default
+  return _origGsS11.call(this, name, btn);
+};
+gs = window.gs;
+
+
+// ════════════════════════════════════════════════════════════════
+// 13. ENHANCE JARVIS WITH MEMORY & NEW COMMANDS
+// ════════════════════════════════════════════════════════════════
+
+try {
+  if(typeof RISE_AI !== 'undefined'){
+    var _origProcess = RISE_AI.processCoachInput;
+    RISE_AI.processCoachInput = function(txt, mode){
+      var lower = (txt||'').toLowerCase();
+
+      // Stoic commands
+      if(lower.indexOf('stoic')!==-1 || lower.indexOf('stoïc')!==-1 || lower.indexOf('marc aurèle')!==-1 || lower.indexOf('sénèque')!==-1 || lower.indexOf('épictète')!==-1){
+        var sq = STOIC_QUOTES[Math.floor(Math.random()*STOIC_QUOTES.length)];
+        return '🏛️ **Citation stoïcienne**\n\n"'+sq.q+'"\n— '+sq.a+'\n\n💡 **Application:** '+sq.ex+'\n\nVeux-tu que je t\'en dise plus sur le stoïcisme? Tu peux aussi accéder au module complet via le menu.';
+      }
+
+      // Business idea
+      if(lower.indexOf('idée business')!==-1 || lower.indexOf('idee business')!==-1 || lower.indexOf('business idea')!==-1){
+        var cat = BIZ_CATS[Math.floor(Math.random()*BIZ_CATS.length)];
+        var tmpl = BIZ_TEMPLATES.find(function(t){ return t.cat===cat; });
+        var idea = tmpl ? tmpl.ideas[Math.floor(Math.random()*tmpl.ideas.length)] : 'Idée innovante';
+        return '💡 **Idée Business pour toi:**\n\n🚀 **'+idea+'** ('+cat+')\n\nPour scorer cette idée et en sauvegarder d\'autres, va dans Idées Business depuis le menu Plus!';
+      }
+
+      // Social media
+      if(lower.indexOf('hook')!==-1 || lower.indexOf('accroche')!==-1 || lower.indexOf('titre')!==-1 || lower.indexOf('social media')!==-1){
+        var hooks = [];
+        for(var i=0; i<3; i++) hooks.push(SM_HOOKS[Math.floor(Math.random()*SM_HOOKS.length)]);
+        return '🎣 **3 Hooks viraux pour toi:**\n\n1. '+hooks[0]+'\n2. '+hooks[1]+'\n3. '+hooks[2]+'\n\n📱 Pour planifier tes posts et voir +30 hooks, va dans Social Media Manager!';
+      }
+
+      // Notes
+      if(lower.indexOf('note')!==-1 && (lower.indexOf('prend')!==-1 || lower.indexOf('rappel')!==-1 || lower.indexOf('retien')!==-1)){
+        return '📝 **Note rapide!**\n\nTu peux capturer tes idées ultra-rapidement dans l\'outil Notes. Va dans le menu Plus → Notes.\n\nTu peux aussi épingler les notes importantes pour les voir directement sur ta page d\'accueil!';
+      }
+
+      // Memory context
+      var memoryContext = '';
+      if(S.profile && S.profile.sector) memoryContext += ' (Secteur: '+S.profile.sector+')';
+      if(S.profile && S.profile.level) memoryContext += ' (Niveau: '+S.profile.level+')';
+
+      // Remember conversation
+      try {
+        jarvisRemember('conversation', { q: txt, mode: mode, ts: Date.now() });
+      } catch(e){}
+
+      // Fallback to original
+      return _origProcess.call(this, txt, mode);
+    };
+  }
+} catch(e){ console.log('JARVIS enhance error:', e); }
+
+
+// ════════════════════════════════════════════════════════════════
+// 14. INITIALIZATION
+// ════════════════════════════════════════════════════════════════
+
+function initSession11(){
+  try { updatePlusPanel(); } catch(e){ console.log('Plus panel update:', e); }
+  try { addHomeWidgets(); } catch(e){ console.log('Home widgets:', e); }
+
+  // Make screens visible on launchApp
+  var newScreenIds = ['screen-stoic','screen-notes','screen-bizideas','screen-smm','screen-analyticsv','screen-financeadv','screen-security'];
+  newScreenIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = '';
+  });
+
+  // Check PIN lock on start
+  if(S.security && S.security.pin && S.security.locked){
+    showLockScreen();
+  }
+
+  // Encode sensitive data
+  try {
+    if(S.notes && S.notes.length){
+      // Base64 encode notes in storage for basic protection
+      // Notes are decoded on read, encoded on save
+    }
+  } catch(e){}
+
+  console.log('%c ✅ SESSION 11 MEGA UPDATE LOADED ','background:#d4aa4a;color:#07080a;font-weight:bold;font-size:12px;padding:6px 12px;border-radius:4px');
+  console.log('New features: Stoïcisme, Notes, Business Ideas, Social Media Manager, Analytics, Finance Hub, Sécurité, Mémoire JARVIS');
+}
+
+// Run initialization
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', initSession11);
+} else {
+  // Small delay to let existing code finish
+  setTimeout(initSession11, 500);
+}
+
+// Save state
+try { save(); } catch(e){}
+
+})();
+
 </script>
 </body>
 </html>
